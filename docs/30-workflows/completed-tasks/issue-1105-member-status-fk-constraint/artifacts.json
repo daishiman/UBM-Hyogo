@@ -1,0 +1,86 @@
+{
+  "task_id": "issue-1105-member-status-fk-constraint",
+  "created_at": "2026-06-05",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "local_implementation_note": "本 wave で migration 追加、D1 contract test 追加、既存 D1 test fixtures の FK 前提追従、setupD1 harness の full regression 安定化まで実施した。focused D1 contract test 6/6 PASS、apps/api D1 full regression 109 files / 937 tests PASS、API typecheck PASS、verify:d1-migrations PASS、apps/web diff 0 を確認済み。commit / push / PR / remote D1 apply は user-gated。",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "standard",
+    "spec_classification": "implementation_spec",
+    "spec_classification_note": "issue #1105 の既定ラベルは type:improvement（DB schema 変更）。root cause（DB レベルの参照整合性ガード不在 = orphan を構造的に禁止できない）を解消するにはコード変更（FK 付き member_status 再構築 migration + 有効性テスト）が必須のため、CONST_004 に従い実装仕様書として作成する。docs-only ではない。",
+    "issue": 1105,
+    "issue_state": "CLOSED",
+    "issue_state_note": "GitHub Issue #1105 は CLOSED（closedAt 2026-06-05T03:34:40Z）。本仕様書は CLOSED のまま現行コードへ再スコープして作成する（reopen しない）。ユーザー指示: クローズドのままタスク仕様書を作成する。",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/",
+    "source_unassigned_task": "docs/30-workflows/completed-tasks/unassigned-task/admin-member-detail-status-404-fix-followup-002-member-status-fk-constraint.md",
+    "parent_workflows": [
+      "docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/"
+    ],
+    "branch": "docs/issue-1105-member-status-fk-constraint-spec",
+    "investigation_verdict": "未実装（他タスクで解決されていない）。現行コードで FK 制約・PRAGMA foreign_keys 再構築は皆無を確認（grep: apps/api/migrations/*.sql に FOREIGN KEY / REFERENCES / member_status_new / PRAGMA foreign_keys すべて 0 件）。member_status は 0002_admin_managed.sql L5-16 で FK なし定義のまま。よって本タスクの実行は必要。",
+    "issue_staleness_correction": {
+      "backfill_migration_number": "issue body は backfill を 0024_backfill_member_status.sql と記述するが、現行コードでは 0025_backfill_member_status.sql（0024 prefix は 0024_member_photos_variants.sql が占有）。新 FK migration は 0026_member_status_fk_constraint.sql とする。",
+      "fk_precedent_absence": "現行 migrations 全体に FOREIGN KEY 前例ゼロ・PRAGMA foreign_keys 使用ゼロ。FK 導入は本リポジトリ初の構造パターンであり、D1 上の PRAGMA foreign_keys 実効性検証スコープ（AC-6）の必要性が補強される。",
+      "index_recreation_requirement": "0002_admin_managed.sql L81-82 に idx_member_status_public（public_consent, publish_state, is_deleted）が存在。テーブル再構築（DROP/RENAME）でこの INDEX が消失するため、FK migration の末尾で同一定義の INDEX を再作成する必要がある（§5.2 NOTE の具体化）。",
+      "setupd1_auto_apply": "apps/api/src/repository/__tests__/_setup.ts の setupD1() は migrations/*.sql を昇順で全件自動適用する。0026 を追加すると in-memory D1 fixture にも自動適用されるため、再構築 SQL は splitStatements（; 分割）と整合する形で記述する必要がある。"
+    },
+    "acceptance_criteria": [
+      "AC-1 再構築後の member_status が member_id に member_identities(member_id) への FK を持つ（PRAGMA foreign_key_list 確認）",
+      "AC-2 PRAGMA foreign_keys = ON のもと、存在しない member_identities を指す member_status INSERT が拒否される",
+      "AC-3 既存の正常 member_status データ（全カラム）が移行後も欠落・改変なく保持される",
+      "AC-4 migration が冪等であり再適用で重複・破壊が発生しない",
+      "AC-5 backfill 0025 適用済み（orphan ゼロ）を前提に移行が FK 違反で失敗しない",
+      "AC-6 Cloudflare D1 上で PRAGMA foreign_keys の有効性（接続単位 ON 要否）が検証・文書化されている",
+      "AC-7 既存挙動の非回帰: 正常会員の詳細 / status / 一覧レスポンスが従来と同一",
+      "AC-8 apps/web は無変更（diff 0）",
+      "AC-9 idx_member_status_public が再構築後も同一定義で存在する（DROP/RENAME による INDEX 消失の回復）"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-05T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec backbone (Phase 1-3) complete"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-05T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Phase 4-13 specs complete"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "remote D1 apply / commit / PR は user-gated（未実施）"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "要件定義", "status": "completed", "artifact": "phase-1-requirements.md" },
+    "phase-2": { "name": "設計", "status": "completed", "artifact": "phase-2-design.md" },
+    "phase-3": { "name": "設計レビュー", "status": "completed", "artifact": "phase-3-design-review.md" },
+    "phase-4": { "name": "テスト作成", "status": "completed", "artifact": "phase-4-test-plan.md" },
+    "phase-5": { "name": "実装", "status": "completed", "artifact": "phase-5-implementation.md" },
+    "phase-6": { "name": "テスト拡充", "status": "completed", "artifact": "phase-6-test-additions.md" },
+    "phase-7": { "name": "カバレッジ確認", "status": "completed", "artifact": "phase-7-coverage.md" },
+    "phase-8": { "name": "リファクタリング", "status": "completed", "artifact": "phase-8-refactor.md" },
+    "phase-9": { "name": "品質保証", "status": "completed", "artifact": "phase-9-qa.md" },
+    "phase-10": { "name": "最終レビュー", "status": "completed", "artifact": "phase-10-final-review.md" },
+    "phase-11": { "name": "手動テスト", "status": "completed", "artifact": "outputs/phase-11/manual-test-result.md" },
+    "phase-12": { "name": "ドキュメント更新", "status": "completed", "artifact": "outputs/phase-12/implementation-guide.md" },
+    "phase-13": { "name": "PR作成", "status": "blocked", "artifact": "phase-13-pr.md", "blocked_reason": "user-gated: commit / PR / remote D1 apply は明示承認後のみ" }
+  }
+}

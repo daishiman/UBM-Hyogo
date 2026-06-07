@@ -2240,6 +2240,7 @@
       "ui-ux-atoms-patterns-core.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-870-apps-api-security-headers-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -2265,6 +2266,7 @@
       "quality-e2e-testing.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
@@ -2480,6 +2482,7 @@
       "ui-ux-feature-components-reference.md",
       "workflow-google-form-reflection-diagnostics-artifact-inventory.md",
       "workflow-google-form-reflection-diagnostics-fu-002-h2-identity-rebuild-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
@@ -3374,6 +3377,8 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -3908,6 +3913,8 @@
       "architecture-admin-api-client.md",
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md"
     ],
     "app": [
@@ -4952,6 +4959,7 @@
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5354,6 +5362,9 @@
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -5597,7 +5608,8 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-gitattributes-policy.md",
-      "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md"
+      "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
     ],
     "endpoint": [
       "auth-google-oauth-cf-integration.md",
@@ -6112,6 +6124,7 @@
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -6505,6 +6518,7 @@
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
@@ -6521,6 +6535,7 @@
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -7008,6 +7023,7 @@
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
@@ -7530,6 +7546,8 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7668,6 +7686,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
@@ -7909,6 +7928,7 @@
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -8332,6 +8352,10 @@
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8949,7 +8973,8 @@
     "analytics": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-admin-attendance-analytics-redesign-2026-05.md",
-      "workflow-admin-attendance-analytics-redesign-artifact-inventory.md"
+      "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md"
     ],
     "token": [
       "deployment-cloudflare-opennext-workers.md",
@@ -10318,6 +10343,7 @@
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11565,6 +11591,8 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -11809,6 +11837,9 @@
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -11903,7 +11934,9 @@
     ],
     "transport": [
       "lessons-fetch-service-binding-testing.md",
-      "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md"
+      "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "task-workflow-active.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
     ],
     "label": [
       "lessons-fetch-service-binding-testing.md",
@@ -12737,6 +12770,7 @@
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
@@ -13140,6 +13174,7 @@
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-step-06-meetings-attendance-implementation-artifact-inventory.md",
@@ -13767,6 +13802,7 @@
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
@@ -14150,6 +14186,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -16789,6 +16826,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
@@ -17433,6 +17471,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -17614,6 +17653,7 @@
     "consolidation": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "expand": [
@@ -19081,6 +19121,9 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -19600,7 +19643,8 @@
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md"
     ],
     "block": [
-      "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md"
+      "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md"
     ],
     "は実コンポーネントの": [
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md"
@@ -20542,7 +20586,8 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "css": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md"
     ],
     "の境界": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
@@ -25828,6 +25873,16 @@
       "task-workflow-active.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md"
     ],
+    "util": [
+      "task-workflow-active.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
+    ],
+    "unify": [
+      "task-workflow-active.md",
+      "workflow-i02-admin-error-type-unify-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -27193,6 +27248,9 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -27434,6 +27492,9 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27543,6 +27604,8 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -27680,6 +27743,8 @@
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -27786,6 +27851,7 @@
       "workflow-issue-1029-public-member-photo-display-artifact-inventory.md",
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -27800,6 +27866,7 @@
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
@@ -28177,10 +28244,6 @@
     "toastprovider": [
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md"
     ],
-    "unify": [
-      "workflow-i02-admin-error-type-unify-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
-    ],
     "filters": [
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md"
     ],
@@ -28295,6 +28358,25 @@
     ],
     "announcement": [
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md"
+    ],
+    "calc": [
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md"
+    ],
+    "correction": [
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md"
+    ],
+    "Feedback": [
+      "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "globals": [
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md"
+    ],
+    "fk": [
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md"
+    ],
+    "constraint": [
+      "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -29160,9 +29242,6 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "本タスクで実行しないこと": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "Feedback": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "memberTags": [

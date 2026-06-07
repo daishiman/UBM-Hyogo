@@ -2868,6 +2868,46 @@ node scripts/list-specs.js --topics
 | Invariants | L34 |
 | Lessons Learned | L42 |
 
+### references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L13 |
+| Contract | L25 |
+| Evidence | L33 |
+| Invariants | L43 |
+| Skill Feedback | L50 |
+| Lessons Learned | L54 |
+
+### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L19 |
+| Evidence | L23 |
+| Boundary | L33 |
+
+### references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase Artifacts | L15 |
+| Implementation Notes | L26 |
+| Lessons Learned | L32 |
+
+### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L18 |
+| Implemented files (apps/web only) | L33 |
+| Boundaries | L43 |
+| Lessons Learned | L51 |
+
 ### references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md
 
 | セクション | 行 |
@@ -8861,21 +8901,22 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3816 |
-| フェーズ構造（概要） | L3825 |
-| 品質ゲート（概要） | L3856 |
-| 出力テンプレート | L3867 |
-| 実行時のコマンド・エージェント・スキル | L3890 |
-| 昇格パターン集 | L3914 |
-| Current Active / Spec Created Tasks | L3916 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4082 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4150 |
-| issue-1007-density-toggle-help-hint-hardening | L4174 |
-| issue-1079-bulk-tag-audit-batch-filter | L4187 |
-| issue-1128-audit-batchid-index-optimization | L4200 |
-| issue-998-members-publish-state-production-rollout | L4214 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4273 |
-| issue-1068-admin-tag-inline-create-ui | L4287 |
+| ドキュメント構成 | L3858 |
+| フェーズ構造（概要） | L3867 |
+| 品質ゲート（概要） | L3898 |
+| 出力テンプレート | L3909 |
+| 実行時のコマンド・エージェント・スキル | L3932 |
+| 昇格パターン集 | L3956 |
+| Current Active / Spec Created Tasks | L3958 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4124 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4192 |
+| issue-1007-density-toggle-help-hint-hardening | L4216 |
+| issue-1079-bulk-tag-audit-batch-filter | L4229 |
+| issue-1128-audit-batchid-index-optimization | L4242 |
+| issue-998-members-publish-state-production-rollout | L4256 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4315 |
+| issue-1068-admin-tag-inline-create-ui | L4329 |
+| issue-1111-proxy-transport-util-unify | L4347 |
 
 ### references/task-workflow-backlog-part2.md
 

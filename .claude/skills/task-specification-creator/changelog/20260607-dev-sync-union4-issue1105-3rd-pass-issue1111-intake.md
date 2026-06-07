@@ -1,0 +1,8 @@
+# dev sync: 同一ブランチ 3rd pass・1 コミット取込（#1156 issue-1111）で union 4・task-workflow-active も今回 Auto-merge・「連続 pass で union 単調縮約 6→5→4・純 refactor 取込は最小コアへ収束」を sync-merge 節へ補強（2026-06-07 issue-1105 3rd pass）
+
+- 日時: 2026-06-07（`docs/issue-1105-member-status-fk-constraint-spec` への 3 回目 dev 取込）
+- ブランチ: `docs/issue-1105-member-status-fk-constraint-spec` ← `dev`（sub-worktree wt-6・**1 behind / 6 ahead**・dev 同期 no-op・独自 0）
+- 取込: dev 新規 1 コミット = #1156（transport 選択 util を集約・issue-1111・web refactor）
+- 事象 / 解消: content CONFLICT 4 file（aiworkflow `SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md`・全 union）+ `indexes/keywords.json`（`--ours`）。2nd pass（union 5）からさらに **`references/task-workflow-active.md` も今回 Auto-merge** で member 離脱し union 4（L-DEVSYNC-098 最小構成）に収束。`pnpm sync:resolve` 単発収束（`union-resolving 4 files` + `taking --ours for 1 derived files` + rebuild）→ merge commit `19bf823cd`。
+- Phase 11/12 sync-merge 節への補強（SP-DEVSYNC-089/091/098 の再確認）: 「**連続 pass で union member は単調縮約しうる**（1st 8 コミット横断→6 / 2nd web refactor→5 / 3rd web refactor→4）。task-workflow-active は『タスク台帳に新行が載る回』のみ member 入りし純 refactor 取込では離脱、union 4 コア（aiworkflow SKILL.md + index 3 map）が最小構成。前回構成を当て込まず毎回 `git diff --name-only --diff-filter=U` と `union-resolving N files` の N を実確認。取込が `apps/web`・`apps/api` コード変更を含む回は typecheck/lint 必須・依存変更なしなら install 不要」を再確認。union 推移: 6→5→4。
+- 検証 = `git rev-list --count` で 1 behind / 6 ahead → `git merge dev --no-edit` CONFLICT 4 union + keywords → `pnpm sync:resolve` 単発 → `--diff-filter=U` 0 / マーカー 0 → `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（drift 0）。CI コード修正なしで全緑。詳細は aiworkflow-requirements `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-098/107。

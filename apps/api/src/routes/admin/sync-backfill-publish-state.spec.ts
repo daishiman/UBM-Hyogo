@@ -22,6 +22,16 @@ const seed = async (env: InMemoryD1) => {
     ["m-deleted", "consented", "member_only", null, 1],
   ];
   for (const [memberId, consent, publish, updatedBy, isDeleted] of cases) {
+    // member_status.member_id は member_identities(member_id) への FK（0026）を持つため、
+    // 親 identity 行を先に挿入してから member_status を seed する。
+    await env.db
+      .prepare(
+        `INSERT INTO member_identities
+          (member_id, response_email, current_response_id, first_response_id, last_submitted_at)
+         VALUES (?1, ?2, ?3, ?3, '2026-06-05T00:00:00Z')`,
+      )
+      .bind(memberId, `${memberId}@example.com`, `response-${memberId}`)
+      .run();
     await env.db
       .prepare(
         `INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, updated_by, is_deleted)

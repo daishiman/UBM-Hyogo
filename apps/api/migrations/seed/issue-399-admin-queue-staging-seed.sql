@@ -1,10 +1,21 @@
 -- issue-399-admin-queue-staging-seed.sql
 -- Staging-only synthetic seed for /admin/requests visual evidence capture.
 -- All rows use the synthetic prefix `ISSUE399-` so cleanup can target them safely.
--- Tables touched (no ALTER): member_status, admin_member_notes
+-- Tables touched (no ALTER): member_identities, member_status, admin_member_notes
 -- Invariant: never seed real PII; never run outside staging (see scripts/staging/seed-issue-399.sh).
 
 BEGIN TRANSACTION;
+
+-- 5 synthetic identities. member_status.member_id -> member_identities(member_id) の FK（0026）
+-- を満たすため、status より先に親 identity 行を挿入する。email は合成 (.invalid) で PII なし。
+INSERT OR REPLACE INTO member_identities
+  (member_id, response_email, current_response_id, first_response_id, last_submitted_at)
+VALUES
+  ('ISSUE399-MEM-V1', 'issue399-v1@example.invalid', 'ISSUE399-RESP-V1', 'ISSUE399-RESP-V1', datetime('now')),
+  ('ISSUE399-MEM-V2', 'issue399-v2@example.invalid', 'ISSUE399-RESP-V2', 'ISSUE399-RESP-V2', datetime('now')),
+  ('ISSUE399-MEM-V3', 'issue399-v3@example.invalid', 'ISSUE399-RESP-V3', 'ISSUE399-RESP-V3', datetime('now')),
+  ('ISSUE399-MEM-D1', 'issue399-d1@example.invalid', 'ISSUE399-RESP-D1', 'ISSUE399-RESP-D1', datetime('now')),
+  ('ISSUE399-MEM-D2', 'issue399-d2@example.invalid', 'ISSUE399-RESP-D2', 'ISSUE399-RESP-D2', datetime('now'));
 
 -- 5 synthetic members (3 visibility-request, 2 delete-request).
 INSERT OR REPLACE INTO member_status
