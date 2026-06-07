@@ -18,6 +18,32 @@
     "workflow_state": "implemented_local_visual_present_staging_pending",
     "implementation_status": "implemented_local",
     "relatedIssue": null,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + same-cycle local implementation completed (adapter section reconstruction + prototype components + test-accounts seed richness)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web public member detail rich sections + apps/api test-accounts seed; typecheck/lint/contract tests green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/outputs/phase-11/screenshots/member-detail-full.png",
+        "approver": "daishiman",
+        "notes": "delivery: staging seed apply + authenticated staging capture + merge remain user-gated"
+      }
+    ],
     "scope": "Same-cycle local implementation completed for apps/web public member detail rich sections and apps/api test-accounts seed richness. Runtime screenshots, staging seed apply, commit, push, and PR remain user-gated.",
     "investigationConclusion": "API GET /public/members/:memberId already returns all visibility=public fields via publicSections; no API/D1/Form schema change is needed. The 'thin' symptom is caused by (A) apps/web adapter+components rendering publicSections as a flat KV list instead of the prototype's structured sections, and (B) the TEST-MEM-01 seed carrying only 3 fields. Both are fixed in apps/web (adapter/components) and apps/api (test-accounts seed) within one cycle.",
     "lanes": [
