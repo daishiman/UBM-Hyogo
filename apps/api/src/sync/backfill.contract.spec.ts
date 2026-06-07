@@ -13,6 +13,13 @@ describe("u-04 backfill", () => {
     await env.reset();
     await env.db
       .prepare(
+        `INSERT INTO member_identities
+           (member_id, response_email, current_response_id, first_response_id, last_submitted_at, created_at, updated_at)
+         VALUES ('m-1', 'a@example.com', 'resp-1', 'resp-1', '2026-04-29T00:00:00.000Z', '2026-04-29T00:00:00.000Z', '2026-04-29T00:00:00.000Z')`,
+      )
+      .run();
+    await env.db
+      .prepare(
         `INSERT INTO member_status (member_id, publish_state, is_deleted)
          VALUES ('m-1', 'published', 0)`,
       )

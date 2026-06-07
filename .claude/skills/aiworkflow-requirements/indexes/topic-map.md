@@ -2879,6 +2879,17 @@ node scripts/list-specs.js --topics
 | Skill Feedback | L50 |
 | Lessons Learned | L54 |
 
+### references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L13 |
+| Evidence | L24 |
+| Invariants | L32 |
+| User Gate | L39 |
+| Lessons Learned | L43 |
+
 ### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
 
 | セクション | 行 |
@@ -2889,6 +2900,14 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | Boundary | L33 |
 
+### references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase Artifacts | L15 |
+| Implementation Notes | L26 |
+| Lessons Learned | L32 |
+
 ### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
 
 | セクション | 行 |
@@ -2898,6 +2917,12 @@ node scripts/list-specs.js --topics
 | Implemented files (apps/web only) | L33 |
 | Boundaries | L43 |
 | Lessons Learned | L51 |
+
+### references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L14 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -5946,15 +5971,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L27 |
-| 使い方 | L35 |
-| Current Alias Overrides（個別互換行） | L42 |
-| Family Summary | L88 |
-| Detailed Register | L109 |
-| Section Extract Register (2026-03-17) | L290 |
-| 500-Line Split Register (2026-03-16) | L301 |
-| Fragment Migration Register (2026-04-28) | L323 |
-| Task Root Path Drift Register (2026-04-30 追記) | L350 |
+| 概要 | L28 |
+| 使い方 | L36 |
+| Current Alias Overrides（個別互換行） | L43 |
+| Family Summary | L89 |
+| Detailed Register | L110 |
+| Section Extract Register (2026-03-17) | L291 |
+| 500-Line Split Register (2026-03-16) | L302 |
+| Fragment Migration Register (2026-04-28) | L324 |
+| Task Root Path Drift Register (2026-04-30 追記) | L351 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -8893,19 +8918,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3856 |
-| フェーズ構造（概要） | L3865 |
-| 品質ゲート（概要） | L3896 |
-| 出力テンプレート | L3907 |
-| 実行時のコマンド・エージェント・スキル | L3930 |
-| 昇格パターン集 | L3954 |
-| Current Active / Spec Created Tasks | L3956 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4122 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4190 |
-| issue-998-members-publish-state-production-rollout | L4216 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4275 |
-| issue-1068-admin-tag-inline-create-ui | L4289 |
-| issue-1111-proxy-transport-util-unify | L4307 |
+| ドキュメント構成 | L3885 |
+| フェーズ構造（概要） | L3894 |
+| 品質ゲート（概要） | L3925 |
+| 出力テンプレート | L3936 |
+| 実行時のコマンド・エージェント・スキル | L3959 |
+| 昇格パターン集 | L3983 |
+| Current Active / Spec Created Tasks | L3985 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4151 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4219 |
+| issue-998-members-publish-state-production-rollout | L4245 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4304 |
+| issue-1068-admin-tag-inline-create-ui | L4318 |
+| issue-1111-proxy-transport-util-unify | L4336 |
 
 ### references/task-workflow-backlog-part2.md
 
