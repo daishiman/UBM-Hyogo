@@ -13,6 +13,11 @@ const item: MeetingItem = {
   createdAt: "2025-01-01T00:00:00Z",
 };
 
+const withAttendees = (attendees: number): MeetingItem => ({
+  ...item,
+  attendance: Array.from({ length: attendees }, (_, i) => ({ memberId: `m_${i + 1}` })),
+});
+
 describe("MeetingTimeline", () => {
   it("0 件で AdminEmptyState を表示", () => {
     render(<MeetingTimeline items={[]} selectedId={null} onSelect={() => {}} />);
@@ -59,5 +64,23 @@ describe("MeetingTimeline", () => {
       />,
     );
     expect(screen.getByTestId("meeting-attendance-count-sess-1").textContent).toContain("3 名出席");
+  });
+
+  it.each([
+    [0, "none"],
+    [5, "normal"],
+    [12, "high"],
+  ] as const)("出席 %s 名で data-attendance-level=%s を付与する", (attendees, expected) => {
+    render(
+      <MeetingTimeline
+        items={[withAttendees(attendees)]}
+        selectedId={null}
+        onSelect={() => {}}
+      />,
+    );
+
+    expect(screen.getByTestId("meeting-attendance-count-sess-1").getAttribute("data-attendance-level")).toBe(
+      expected,
+    );
   });
 });

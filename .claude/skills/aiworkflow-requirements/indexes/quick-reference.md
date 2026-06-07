@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1112 CLOSED（Issue mutation は未実行） |
+| purpose | admin `/admin/meetings` 開催日タイムラインの出席人数バッジを none / normal / high の 3 段階で色強調する |
+| implementation | `attendanceLevel(count)` pure helper、`data-attendance-level` 属性、`.admin-timeline__heading` scoped CSS、focused tests |
+| evidence | focused Vitest 2 files / 20 tests PASS; web typecheck PASS; web verify-design-tokens PASS; local Playwright screenshot 3 PNG PASS |
+| invariant | apps/api / D1 / Google Form / attendance aggregation / tokens.css / design-tokens.md unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
 ## issue-1102-usedismissable-hook-extraction（2026-06-06）
 
 | 項目 | 値 |
