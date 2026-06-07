@@ -138,6 +138,42 @@ export const setupD1 = async (): Promise<InMemoryD1> => {
   };
 };
 
+// member_status の legacy（FK なし）定義。0026 で導入する FK 制約より前の状態。
+const MEMBER_STATUS_LEGACY_DDL =
+  "CREATE TABLE member_status (member_id TEXT PRIMARY KEY, public_consent TEXT NOT NULL DEFAULT 'unknown', rules_consent TEXT NOT NULL DEFAULT 'unknown', publish_state TEXT NOT NULL DEFAULT 'member_only', is_deleted INTEGER NOT NULL DEFAULT 0, hidden_reason TEXT, last_notified_at TEXT, updated_by TEXT, updated_at TEXT NOT NULL DEFAULT (datetime('now')), notification_opt_out INTEGER NOT NULL DEFAULT 0)";
+
+/**
+ * 0026 の FK（member_status.member_id -> member_identities）導入後、orphan な
+ * member_status 行は構造的に作れない。だが H2 系の診断は「FK 導入前から残る legacy
+ * orphan」を検出する用途で残っているため、その状態をテストで再現する必要がある。
+ *
+ * Miniflare D1 は `PRAGMA foreign_keys = OFF` を honored しない（FK は既定で強制される）。
+ * そこで member_status を一旦 FK なしの legacy schema に作り替えて callback を実行し、
+ * 終了後に 0026 migration を再適用して FK 制約を必ず復元する（共有 connection 保護）。
+ */
+export const withLegacyMemberStatus = async (
+  db: D1Database,
+  fn: () => Promise<void>,
+): Promise<void> => {
+  await db.exec("DROP TABLE IF EXISTS member_status_new");
+  await db.exec("DROP TABLE IF EXISTS member_status");
+  await db.exec(MEMBER_STATUS_LEGACY_DDL);
+  try {
+    await fn();
+  } finally {
+    await db.exec("DROP TABLE IF EXISTS member_status_new");
+    await db.exec("DROP TABLE IF EXISTS member_status");
+    await db.exec(MEMBER_STATUS_LEGACY_DDL);
+    const migration = readFileSync(
+      join(MIGRATIONS_DIR, "0026_member_status_fk_constraint.sql"),
+      "utf8",
+    );
+    for (const stmt of splitStatements(migration)) {
+      await db.exec(stmt.replace(/\n/g, " "));
+    }
+  }
+};
+
 const truncateAll = async (db: D1Database): Promise<void> => {
   for (const t of TABLES) {
     try {
