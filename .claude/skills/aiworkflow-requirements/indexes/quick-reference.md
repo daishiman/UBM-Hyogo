@@ -14,6 +14,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
 | user gate | staging screenshots, commit, push, PR, Issue mutation |
 
+## issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| issue | #1105 CLOSED（reopen / mutation なし） |
+| purpose | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、DB レベルで orphan status を禁止する |
+| implementation | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS; apps/api D1 full regression 109 files / 937 tests PASS; API typecheck PASS; `verify:d1-migrations` PASS; `apps/web` diff 0 |
+| invariant | `notification_opt_out` を含む現行 `member_status` カラム保持、`idx_member_status_public` 再作成、apps/web diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply, commit, push, PR |
+
 ## issue-1101-attendance-analytics-calc-correction（2026-06-05）
 
 | 項目 | 値 |

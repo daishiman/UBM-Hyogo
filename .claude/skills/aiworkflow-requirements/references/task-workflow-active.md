@@ -22,6 +22,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
 | user gate | staging screenshots, commit, push, PR, Issue mutation |
 
+### issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| Issue | #1105 CLOSED（reopen / mutation なし） |
+| 親 workflow | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、orphan status をDBレベルで禁止する |
+| implementation targets | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| invariant | endpoint surface / apps web / public response shape unchanged. `notification_opt_out` を含む現行カラムを保持し、`idx_member_status_public` を再作成 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS、apps/api D1 full regression 109 files / 937 tests PASS、API typecheck PASS、`verify:d1-migrations` PASS、`apps/web` diff 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply、commit、push、PR |
+
 ### issue-1101-attendance-analytics-calc-correction（2026-06-05）
 
 | 項目 | 値 |
