@@ -1,0 +1,18 @@
+{
+  "workflow": "issue-1088-manual-form-resync-sync-duration-display",
+  "phase": 11,
+  "taskId": "issue-1088-manual-form-resync-sync-duration-display",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "status": "implemented_local_evidence_captured_runtime_visual_pending_user_gate",
+  "localEvidence": {
+    "focusedVitest": "command output: api job/route contract + web schema/panel specs",
+    "typecheck": "command output: @ubm-hyogo/api and @ubm-hyogo/web typecheck",
+    "lint": "command output: pnpm lint",
+    "note": "local implementation evidence captured; runtime PNG remains user-gated"
+  },
+  "runtimeEvidence": {
+    "screenshots": [],
+    "pending": true,
+    "reason": "admin authentication, SYNC_ADMIN_TOKEN runtime provisioning and live resync execution are user-gated"
+  }
+}

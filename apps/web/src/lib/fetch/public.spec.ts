@@ -3,7 +3,12 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const cloudflareEnv: { API_SERVICE?: { fetch: typeof fetch }; PUBLIC_API_BASE_URL?: string } = {};
+const cloudflareEnv: {
+  API_SERVICE?: { fetch: typeof fetch };
+  NEXT_PUBLIC_API_BASE_URL?: string;
+  PUBLIC_API_BASE_URL?: string;
+  ENVIRONMENT?: string;
+} = {};
 const cloudflareContext = vi.fn(() => ({ env: cloudflareEnv }));
 
 vi.mock("@opennextjs/cloudflare", () => ({
@@ -23,9 +28,13 @@ import {
 
 const reset = () => {
   delete cloudflareEnv.API_SERVICE;
+  delete cloudflareEnv.NEXT_PUBLIC_API_BASE_URL;
   delete cloudflareEnv.PUBLIC_API_BASE_URL;
+  delete cloudflareEnv.ENVIRONMENT;
   cloudflareContext.mockImplementation(() => ({ env: cloudflareEnv }));
+  delete process.env.NEXT_PUBLIC_API_BASE_URL;
   delete process.env.PUBLIC_API_BASE_URL;
+  delete process.env.ENVIRONMENT;
 };
 
 describe("fetchPublic", () => {
@@ -55,8 +64,9 @@ describe("fetchPublic", () => {
     });
   });
 
-  it("PUBLIC_API_BASE_URL を使った外向き fetch", async () => {
-    cloudflareEnv.PUBLIC_API_BASE_URL = "https://api.example.com";
+  it("NEXT_PUBLIC_API_BASE_URL を優先した外向き fetch", async () => {
+    cloudflareEnv.NEXT_PUBLIC_API_BASE_URL = "https://api.example.com";
+    cloudflareEnv.PUBLIC_API_BASE_URL = "https://legacy.example.com";
     const spy = mockFetchOnce({ status: 200, body: { ok: 1 } });
     const r = await fetchPublic<{ ok: number }>("/v1/foo");
     expect(r).toEqual({ ok: 1 });
@@ -68,33 +78,38 @@ describe("fetchPublic", () => {
     );
   });
 
-  it("getCloudflareContext throw 時 process.env を fallback として使う", async () => {
+  it("getCloudflareContext throw 時 process.env NEXT_PUBLIC を fallback として使う", async () => {
     cloudflareContext.mockImplementation(() => {
       throw new Error("not in CF");
     });
-    process.env.PUBLIC_API_BASE_URL = "https://process.example.com";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "https://process.example.com";
     const spy = mockFetchOnce({ status: 200, body: { ok: 2 } });
     const r = await fetchPublic<{ ok: number }>("/v1/bar");
     expect(r).toEqual({ ok: 2 });
     expect(spy.mock.calls[0]?.[0]).toBe("https://process.example.com/v1/bar");
   });
 
-  it("process.env.PUBLIC_API_BASE_URL があれば Cloudflare env より優先する", async () => {
-    cloudflareEnv.PUBLIC_API_BASE_URL = "https://cloudflare.example.com";
-    process.env.PUBLIC_API_BASE_URL = "https://process.example.com";
+  it("process.env.NEXT_PUBLIC_API_BASE_URL があれば Cloudflare env より優先する", async () => {
+    cloudflareEnv.NEXT_PUBLIC_API_BASE_URL = "https://cloudflare.example.com";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "https://process.example.com";
     const spy = mockFetchOnce({ status: 200, body: { ok: 3 } });
     const r = await fetchPublic<{ ok: number }>("/v1/baz");
     expect(r).toEqual({ ok: 3 });
     expect(spy.mock.calls[0]?.[0]).toBe("https://process.example.com/v1/baz");
   });
 
-  it("PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL", async () => {
+  it("local では API base URL 未指定なら local fallback", async () => {
     cloudflareContext.mockImplementation(() => {
       throw new Error("not in CF");
     });
     const spy = mockFetchOnce({ status: 200, body: {} });
     await fetchPublic("/x");
     expect(spy.mock.calls[0]?.[0]).toBe("http://localhost:8787/x");
+  });
+
+  it("staging では API base URL 未指定なら fail-closed", async () => {
+    cloudflareContext.mockImplementation(() => ({ env: { ENVIRONMENT: "staging" } }));
+    await expect(fetchPublic("/x")).rejects.toThrow(/API base URL unresolved/);
   });
 
   it("revalidate と headers を上書きできる", async () => {
@@ -191,7 +206,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("CI", "");
     vi.stubEnv("PLAYWRIGHT_TEST", "");
-    process.env.PUBLIC_API_BASE_URL = "https://wrong-fallback.example.com";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "https://wrong-fallback.example.com";
 
     const bindingFetch = vi.fn(
       async () =>
@@ -217,7 +232,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("CI", "true");
     vi.stubEnv("PLAYWRIGHT_TEST", "");
-    process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
 
     const bindingFetch = vi.fn(
       async () =>
@@ -239,7 +254,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
 
   it("[AC-R-01] NODE_ENV=test: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
     vi.stubEnv("NODE_ENV", "test");
-    process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
 
     const bindingFetch = vi.fn();
     cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
@@ -272,7 +287,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
 
   it("[edge-2] local dev: service binding 不在で global.fetch が呼ばれる", async () => {
     vi.stubEnv("NODE_ENV", "development");
-    process.env.PUBLIC_API_BASE_URL = "http://localhost:8787";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost:8787";
 
     const globalFetchSpy = mockFetchOnce({ status: 200, body: { ok: 1 } });
 
@@ -285,7 +300,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
 
   it("[edge-3] PLAYWRIGHT_TEST=1: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
     vi.stubEnv("PLAYWRIGHT_TEST", "1");
-    process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
+    process.env.NEXT_PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
 
     const bindingFetch = vi.fn();
     cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };

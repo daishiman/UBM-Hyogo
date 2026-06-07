@@ -1,0 +1,108 @@
+{
+  "task_id": "issue-1101-attendance-analytics-calc-correction",
+  "created_at": "2026-06-05",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "admin_attendance_analytics_semantics",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/1101",
+    "source_issue_state": "CLOSED",
+    "parent_workflow": "docs/30-workflows/admin-attendance-dashboard-ux/",
+    "scope_routes": [
+      "/(admin)/admin/dashboard/attendance"
+    ],
+    "depends_on": [
+      "admin-attendance-dashboard-ux"
+    ],
+    "implementation_files": [
+      "apps/api/src/repository/attendance-analytics.ts",
+      "apps/api/src/lib/parse-attendance-filter.ts",
+      "packages/shared/src/zod/admin-attendance.ts",
+      "apps/api/src/repository/__tests__/attendance-analytics-internals.spec.ts",
+      "apps/api/src/repository/__tests__/attendance-analytics.repository.spec.ts",
+      "apps/api/src/lib/__tests__/parse-attendance-filter.spec.ts",
+      "apps/web/src/features/admin/attendance/lib/format-attendance.ts",
+      "apps/web/src/features/admin/attendance/lib/read-attendance-filter.ts",
+      "apps/web/src/features/admin/attendance/__tests__/format-attendance.spec.ts",
+      "apps/web/src/features/admin/attendance/components/KpiPanel.tsx",
+      "apps/web/src/features/admin/attendance/__tests__/KpiPanel.spec.tsx",
+      "apps/web/playwright/fixtures/auth.ts",
+      "apps/web/playwright/tests/issue-1101-attendance-analytics-calc-correction.spec.ts",
+      "docs/00-getting-started-manual/specs/01-api-schema.md"
+    ],
+    "out_of_scope_domains": [
+      "apps/api/src/routes/admin/_shared/byZone.ts",
+      "apps/web/src/components/public/AboutUbm.tsx",
+      "apps/web/src/components/public/MemberFilters.client.tsx",
+      "apps/web/src/components/public/SelectedFiltersBar.client.tsx"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm exec vitest run --root=. apps/api/src/repository/__tests__/attendance-analytics-internals.spec.ts apps/api/src/lib/__tests__/parse-attendance-filter.spec.ts apps/web/src/features/admin/attendance/__tests__/format-attendance.spec.ts apps/web/src/features/admin/attendance/__tests__/KpiPanel.spec.tsx apps/web/src/features/admin/attendance/__tests__/AttendanceZoneDistributionChart.spec.tsx apps/web/src/features/admin/attendance/__tests__/buildExportUrl.spec.ts",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/repository/__tests__/attendance-analytics.repository.spec.ts",
+      "PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/outputs/phase-11 pnpm --filter @ubm-hyogo/web exec playwright test --project=desktop-chromium playwright/tests/issue-1101-attendance-analytics-calc-correction.spec.ts",
+      "git diff --name-only -- apps/api/migrations apps/api/src/routes",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/artifacts.json docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-05T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored for issue #1101 and promoted in-cycle to local implementation. Root cause (zoneFromCount 100+ falling into unknown + AttendanceZone arrow-string overload) fixed on 2026-06-05. Implemented: machine-readable zone keys (zone_0/zone_1_9/zone_10_99/zone_100_plus/unknown), legacy arrow query compatibility, additive uniqueAttendeeCount/uniqueAttendanceRate, web KPI/labels, and 01-api-schema sync. D1 migration / endpoint / Form schema unchanged. Issue kept CLOSED per user instruction."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-05T09:32:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local code implementation and focused tests completed. Evidence: root Vitest focused 6 files / 21 tests PASS plus D1 repository Vitest 1 file / 13 tests PASS. Typecheck/lint recorded separately in Phase 11/12 evidence."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and staging visual baseline are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ]
+}
