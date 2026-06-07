@@ -1,0 +1,21 @@
+# dev sync: 6 コミット取込で union 6 file（SKILL.md 本文衝突含む）+ keywords `--ours` 構成・task-specification-creator 側は衝突 0 で union member が skill 単位で非対称になることを再確認（2026-06-07 issue-1116）
+
+- 日時: 2026-06-07（`docs/issue-1116-admin-tag-master-code-edit-ui-spec` への dev 取込）
+- ブランチ: `docs/issue-1116-admin-tag-master-code-edit-ui-spec` ← `dev`（sub-worktree wt-13・**3 ahead / 6 behind**・ローカル dev = origin/dev 一致（`a7fdfb5fc`）で dev 同期は no-op・独自コミット 0）
+- 関連: 同型先行例 [[20260607-dev-sync-union6-issue1105-skillmd-content-conflict]]（8 取込で両 SKILL.md 本文衝突）/ `aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-098/107/117**（本 changelog の lesson ID）/ 対の task-spec 版 [[20260607-dev-sync-union6-issue1116-skillmd-keywords-ours]]（SP-DEVSYNC-109）
+- 取込: dev 新規 6 コミット = `a7fdfb5fc`(#1154/#1105 member_status.member_id FK 制約で orphan を DB レベル禁止) / `c53a275df`(#1152/issue-1101 出席分析 zone 境界・延べ/unique 指標是正) / `ec22db916`(#1156 transport 選択 util 集約) / `d34ce8131`(#1153/issue-1103 globals.css 重複 shell ブロック 1 本化) / `8ed2e222d`(#1151/issue-1094 identity-conflicts optimistic 消失アナウンス単一 aria-live region 化) / `7922d38bf`(#1150/issue-1089 全件 backfill 確定前の実 response 件数プレビュー)
+- 事象: content CONFLICT は **aiworkflow-requirements 配下 6 file（union 5 + keywords `--ours` 1）に限局**:
+  - `.claude/skills/aiworkflow-requirements/SKILL.md`（**union・本文衝突**）
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/keywords.json`（`--ours` 発火・1 derived file）
+  - `task-specification-creator` 配下は SKILL.md / SKILL-changelog.md とも **全て Auto-merging（衝突 0）**で本 skill 固有の手解消は不要。`apps/web/src/styles/globals.css`（#1153 が dev 側で 1 本化）と `apps/web/playwright/fixtures/auth.ts` も path 非交差で auto-merge 成立。
+- 解消: `pnpm sync:resolve` exit 0（**`union-resolving 5 files`**（SKILL.md + 3 index map + task-workflow-active）+ **`taking --ours for 1 derived files`**（keywords.json）+ 内部 `pnpm indexes:rebuild`（5483kw）+ `all skill / index conflicts resolved`）。`git diff --diff-filter=U` 0 / 実マーカー grep 0。
+- 核心データポイント（union member の skill 非対称性）:
+  - **union member 集合は skill 単位で非対称になりうる**: 同一取込デルタ（6 コミット）でも、aiworkflow-requirements は SKILL.md 本文まで衝突（最新規約行・変更履歴 table が両側 touch）だが task-specification-creator は衝突 0。確定則「**union member = 取込デルタが実 touch する skill ファイル集合**」は skill ごとに独立評価され、片側 0・片側 6 の非対称が正常成立する。resolver は両 skill を一括スキャンするため member 非対称でも単一パスで収束。
+  - **keywords.json は aiworkflow-requirements にのみ存在**: task-specification-creator に `indexes/` ディレクトリが無いため `--ours` + rebuild は aiworkflow 側のみ発火。
+  - **behind 6 でも単一 `pnpm sync:resolve` で収束**: behind 距離を見て手分割マージへ走らない（L-DEVSYNC-107 / SP-DEVSYNC-104 の再確認）。#1105/#1101/#1156/#1103/#1094/#1089 が `apps/api`/`apps/web` コード変更を含むため merge 後 `pnpm install`（lockfile drift 0 の no-op）→ typecheck/lint を挟む。
+- 検証順: `git fetch --prune origin`（dev = origin/dev 一致・local dev vs origin/dev = 0/0・独自 0）→ `git rev-list --count` で 6 behind / 3 ahead → `git merge origin/dev --no-edit` CONFLICT 6 → `pnpm sync:resolve`（`union-resolving 5 files` + `--ours` keywords + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → merge commit `b3977a5d5`（lefthook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）→ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（未ステージ drift 0・5483kw）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（union member の skill 非対称性データ点）+ 対の task-spec changelog + 両 SKILL-changelog.md 1 行。L-DEVSYNC-117 として lesson 採番（現行最大 116 の次番号）。
