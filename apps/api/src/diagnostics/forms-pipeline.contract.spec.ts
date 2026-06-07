@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it } from "vitest";
-import { setupD1, type InMemoryD1 } from "../repository/__tests__/_setup";
+import { setupD1, withLegacyMemberStatus, type InMemoryD1 } from "../repository/__tests__/_setup";
 import { adminAuthHeader, TEST_AUTH_SECRET } from "../routes/admin/_test-auth";
 import { createDiagnosticsRouter } from "./forms-pipeline";
 
@@ -80,25 +80,30 @@ describe("GET /admin/diagnostics/forms-pipeline", () => {
   });
 
   it("counts status rows without identity as H2 mismatch candidates", async () => {
-    await env.db
-      .prepare(
-        "INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted) VALUES ('m-without-identity','consented','consented','public',0)",
-      )
-      .run();
+    // 0026 の FK 導入後、orphan な member_status は構造的に作れない。H2 診断は
+    // FK 導入前から残る legacy orphan を検出する用途なので、FK なしの legacy schema で
+    // その状態を再現してから検証する（callback 終了時に 0026 が再適用され FK 復元）。
+    await withLegacyMemberStatus(env.db, async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted) VALUES ('m-without-identity','consented','consented','public',0)",
+        )
+        .run();
 
-    const app = createDiagnosticsRouter();
-    const res = await app.request(
-      "/forms-pipeline",
-      { headers: await adminAuthHeader() },
-      makeEnv(env),
-    );
+      const app = createDiagnosticsRouter();
+      const res = await app.request(
+        "/forms-pipeline",
+        { headers: await adminAuthHeader() },
+        makeEnv(env),
+      );
 
-    expect(res.status).toBe(200);
-    const body = (await res.json()) as {
-      identityHealth: { membersWithoutIdentity: number };
-      hypothesisFlags: { H2_identityMismatchSuspected: boolean };
-    };
-    expect(body.identityHealth.membersWithoutIdentity).toBe(1);
-    expect(body.hypothesisFlags.H2_identityMismatchSuspected).toBe(true);
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as {
+        identityHealth: { membersWithoutIdentity: number };
+        hypothesisFlags: { H2_identityMismatchSuspected: boolean };
+      };
+      expect(body.identityHealth.membersWithoutIdentity).toBe(1);
+      expect(body.hypothesisFlags.H2_identityMismatchSuspected).toBe(true);
+    });
   });
 });
