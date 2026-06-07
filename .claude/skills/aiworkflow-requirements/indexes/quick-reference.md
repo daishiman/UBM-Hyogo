@@ -13,6 +13,74 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
 | user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
 
+## issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| issue | #1105 CLOSED（reopen / mutation なし） |
+| purpose | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、DB レベルで orphan status を禁止する |
+| implementation | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS; apps/api D1 full regression 109 files / 937 tests PASS; API typecheck PASS; `verify:d1-migrations` PASS; `apps/web` diff 0 |
+| invariant | `notification_opt_out` を含む現行 `member_status` カラム保持、`idx_member_status_public` 再作成、apps/web diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply, commit, push, PR |
+
+## issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 出席分析の 100 回以上 zone 誤分類を `zone_100_plus` へ修正し、延べ率と unique 出席率を分離する |
+| implementation | `attendance-analytics.ts`, `parse-attendance-filter.ts`, `admin-attendance.ts`, attendance web labels/filter/KPI, `01-api-schema.md` |
+| evidence | focused Vitest root 6 files / 21 tests PASS; D1 repository 1 file / 13 tests PASS; routes/migrations diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
+## issue-1111-proxy-transport-util-unify（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #1111 CLOSED（未実施のまま close。本 WF は closed のまま実装仕様作成・mutation なし）。PR 文脈は `Refs #1111` のみ |
+| parent | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/`（FU-AMA-002・route.ts transport 統一を landed 済み） |
+| purpose | admin/public の transport 選択（service-binding 優先 → HTTP fallback）を新規 pure util `apps/web/src/lib/fetch/transport-select.ts` へ集約する pure refactor |
+| implementation | `apps/web/src/lib/fetch/transport-select.ts`（new）, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`（new・9）, `route.spec.ts`, `server-fetch.{binding,http-fallback,env}.spec.ts`, `public.spec.ts` |
+| evidence | focused Vitest 6 files / 44 tests PASS, web typecheck PASS, web lint PASS, verify:phase12-compliance ok:true, gate-metadata ERROR 0 |
+| invariant | pure refactor（分岐結果 / fallback base 解決 / binding 無効化条件 / transport ログ出力が完全不変）。per-caller 真理値（`disableBinding` / `resolveBase: () => string \| null` / opt-in `log`）を呼び出し側に保持。`base-unavailable` 分岐は route.ts のみ到達（500）。`LOCAL_DEV_FALLBACK`（127.0.0.1:8787）は route.ts に残し util へ移送しない（task-18 gate） |
+| scope out | `auth.ts` session-resolve（`service ?? { fetch }` 軽量変種）は同型 4 値 idiom でない別形状ゆえスコープ外（baseline 境界・起票しない） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md`（Lessons L-I1111-001..007） |
+| user gate | commit, push, PR, staging smoke, Issue state change |
+
+## issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation | 後発重複ブロック（132 行）を削除のみ。先発 `parallel-01 P1-1〜P1-5` ブロックと admin scoped responsive override を保持。byte-identical diff + cascade 文脈同一で computed style 不変を二重証明 |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
+## issue-1094-identity-conflicts-optimistic-aria-live-announcement（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `/admin/identity-conflicts` optimistic merge/dismiss 消失時の screen reader announcement を page-level single live region へ集約し、focus stealing と文言 drift を解消する |
+| implementation | `IdentityConflictAnnouncer`, `identityConflictAnnouncements.ts`, `IdentityConflictRow` context announce wiring, server page wrapper |
+| evidence | focused Vitest 2 files / 26 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; grep 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation, staging manual SR |
+
 ## issue-1089-backfill-impact-preview（2026-06-05）
 
 | 項目 | 値 |

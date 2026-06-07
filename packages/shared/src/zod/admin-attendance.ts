@@ -6,7 +6,13 @@ import {
   MemberAttendanceRankingZ,
 } from "./viewmodel";
 
-export const AttendanceZoneZ = z.enum(["0→1", "1→10", "10→100", "unknown"]);
+export const AttendanceZoneZ = z.enum([
+  "zone_0",
+  "zone_1_9",
+  "zone_10_99",
+  "zone_100_plus",
+  "unknown",
+]);
 export type AttendanceZone = z.infer<typeof AttendanceZoneZ>;
 
 export const AttendanceFilterEchoZ = z
@@ -20,6 +26,8 @@ export const AttendanceFilterEchoZ = z
 export const AttendanceOverviewExtZ = AttendanceOverviewZ.extend({
   filter: AttendanceFilterEchoZ,
   previousPeriodRate: z.number().nullable(),
+  uniqueAttendeeCount: z.number().int().nonnegative(),
+  uniqueAttendanceRate: z.number().min(0).max(1),
 }).strict();
 
 export const AttendanceSessionRowExtZ = SessionAttendanceRowZ.extend({

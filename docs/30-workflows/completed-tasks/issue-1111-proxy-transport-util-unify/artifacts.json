@@ -1,0 +1,172 @@
+{
+  "task_name": "issue-1111-proxy-transport-util-unify",
+  "task_path": "docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify",
+  "wave": null,
+  "execution_mode": "implementation",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/"
+  ],
+  "blocks": [],
+  "created_at": "2026-06-06T00:00:00+09:00",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "taskType": "refactoring",
+    "visualEvidence": "NON_VISUAL",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + phase12 strict 7 完了"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: transport-select.ts 新規作成 + 3 呼び出し側切替 + focused evidence PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/phase-13-pr-creation.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR は user-gated"
+      }
+    ],
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "IMPLEMENTED_LOCAL_EVIDENCE_CAPTURED",
+    "implementation_mode": "new",
+    "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/1111",
+    "source_issue_state": "CLOSED",
+    "parent_workflow": "docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/",
+    "pr_base": "dev",
+    "governance_mutation_user_gate": false,
+    "artifact_mirror": "root artifacts.json and outputs/artifacts.json are byte-identical",
+    "visual_runtime_status": "n_a_non_visual",
+    "yagni_gate": "released (3rd structural copy exists in apps/web/src/lib/fetch/public.ts — Rule of Three)",
+    "scope_decision": "admin+public generic util implemented; auth.ts out of scope"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Requirements",
+      "file": "phase-01-requirements.md",
+      "status": "completed",
+      "outputs": ["phase-01-requirements.md"]
+    },
+    {
+      "phase": 2,
+      "name": "Design",
+      "file": "phase-02-design.md",
+      "status": "completed",
+      "outputs": ["phase-02-design.md"]
+    },
+    {
+      "phase": 3,
+      "name": "Design Review",
+      "file": "phase-03-design-review.md",
+      "status": "completed",
+      "outputs": ["phase-03-design-review.md"]
+    },
+    {
+      "phase": 4,
+      "name": "Test Creation",
+      "file": "phase-04-test-creation.md",
+      "status": "completed",
+      "outputs": ["phase-04-test-creation.md"]
+    },
+    {
+      "phase": 5,
+      "name": "Implementation Plan",
+      "file": "phase-05-implementation.md",
+      "status": "completed",
+      "outputs": ["phase-05-implementation.md"]
+    },
+    {
+      "phase": 6,
+      "name": "Test Expansion",
+      "file": "phase-06-test-expansion.md",
+      "status": "completed",
+      "outputs": ["phase-06-test-expansion.md"]
+    },
+    {
+      "phase": 7,
+      "name": "Coverage Check",
+      "file": "phase-07-coverage-check.md",
+      "status": "completed",
+      "outputs": ["phase-07-coverage-check.md"]
+    },
+    {
+      "phase": 8,
+      "name": "Refactoring",
+      "file": "phase-08-refactoring.md",
+      "status": "completed",
+      "outputs": ["phase-08-refactoring.md"]
+    },
+    {
+      "phase": 9,
+      "name": "Quality Assurance",
+      "file": "phase-09-quality-assurance.md",
+      "status": "completed",
+      "outputs": ["phase-09-quality-assurance.md"]
+    },
+    {
+      "phase": 10,
+      "name": "Final Review",
+      "file": "phase-10-final-review.md",
+      "status": "completed",
+      "outputs": ["phase-10-final-review.md"]
+    },
+    {
+      "phase": 11,
+      "name": "Manual Test / Evidence Plan",
+      "file": "phase-11-manual-test.md",
+      "status": "completed",
+      "outputs": ["phase-11-manual-test.md"]
+    },
+    {
+      "phase": 12,
+      "name": "Phase 12 strict 7",
+      "file": "outputs/phase-12/main.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR Creation",
+      "file": "phase-13-pr-creation.md",
+      "status": "pending_user_approval",
+      "outputs": ["phase-13-pr-creation.md"],
+      "user_approval_required": true
+    }
+  ],
+  "mutation_commands": {
+    "typecheck": "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+    "lint": "mise exec -- pnpm --filter @ubm-hyogo/web lint",
+    "test": "mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/fetch/__tests__/transport-select.spec.ts apps/web/app/api/admin/[...path]/route.spec.ts apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts apps/web/src/lib/admin/__tests__/server-fetch.http-fallback.spec.ts apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts apps/web/src/lib/fetch/public.spec.ts",
+    "build": "mise exec -- pnpm --filter @ubm-hyogo/web build",
+    "phase12_compliance": "mise exec -- pnpm verify:phase12-compliance",
+    "static_check": "rg -n \"process\\.env\\[\" apps/web/src/lib/fetch/transport-select.ts; rg -n \"127\\.0\\.0\\.1:8888\" apps/web/src || echo 'OK: no forbidden local endpoint'"
+  },
+  "invariants": [
+    "pure refactor: binding 優先→HTTP fallback の分岐結果・fallback base 解決・binding 無効化条件・transport ログ出力が抽出前後で完全不変",
+    "env access は getAdminFetchEnv()/getPublicFetchEnv()/getEnv()/getAuthEnv() 経由・process.env 直接参照を新規追加しない",
+    "LOCAL_DEV_FALLBACK(127.0.0.1:8787) を route.ts に残し util へ移送しない・127.0.0.1:8888 を新規焼き込みしない(task-18 gate)",
+    "D1 直接アクセス禁止(apps/web から apps/api 経由のみ)",
+    "*.spec.ts のみ・*.test.* 禁止",
+    "既存 route.spec.ts / server-fetch 系 spec / public.spec.ts の回帰を緑のまま維持"
+  ]
+}

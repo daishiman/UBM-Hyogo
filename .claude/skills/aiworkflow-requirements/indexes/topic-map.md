@@ -2857,6 +2857,56 @@ node scripts/list-specs.js --topics
 | Notes | L15 |
 | Lessons Learned | L21 |
 
+### references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L23 |
+| Invariants | L34 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L13 |
+| Contract | L25 |
+| Evidence | L33 |
+| Invariants | L43 |
+| Skill Feedback | L50 |
+| Lessons Learned | L54 |
+
+### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L19 |
+| Evidence | L23 |
+| Boundary | L33 |
+
+### references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase Artifacts | L15 |
+| Implementation Notes | L26 |
+| Lessons Learned | L32 |
+
+### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L18 |
+| Implemented files (apps/web only) | L33 |
+| Boundaries | L43 |
+| Lessons Learned | L51 |
+
 ### references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md
 
 | セクション | 行 |
@@ -8855,18 +8905,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3816 |
-| フェーズ構造（概要） | L3825 |
-| 品質ゲート（概要） | L3856 |
-| 出力テンプレート | L3867 |
-| 実行時のコマンド・エージェント・スキル | L3890 |
-| 昇格パターン集 | L3914 |
-| Current Active / Spec Created Tasks | L3916 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4082 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4150 |
-| issue-998-members-publish-state-production-rollout | L4176 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4235 |
-| issue-1068-admin-tag-inline-create-ui | L4249 |
+| ドキュメント構成 | L3871 |
+| フェーズ構造（概要） | L3880 |
+| 品質ゲート（概要） | L3911 |
+| 出力テンプレート | L3922 |
+| 実行時のコマンド・エージェント・スキル | L3945 |
+| 昇格パターン集 | L3969 |
+| Current Active / Spec Created Tasks | L3971 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4137 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4205 |
+| issue-998-members-publish-state-production-rollout | L4231 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4290 |
+| issue-1068-admin-tag-inline-create-ui | L4304 |
+| issue-1111-proxy-transport-util-unify | L4322 |
 
 ### references/task-workflow-backlog-part2.md
 
