@@ -4,21 +4,11 @@
 
 import { cookies } from "next/headers";
 
-import { getApiBaseEnv } from "@/lib/env";
+import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "@/lib/env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
+import { fetchViaApiTransport, resolveApiFetch } from "./transport";
 
 export { AuthRequiredError, FetchAuthedError };
-
-const resolveApiBase = (): string => {
-  const env = getApiBaseEnv();
-  const internal = env.INTERNAL_API_BASE_URL;
-  if (internal && internal.length > 0) return internal.replace(/\/$/, "");
-  const pub = env.PUBLIC_API_BASE_URL;
-  if (pub && pub.length > 0) return pub.replace(/\/$/, "");
-  throw new Error(
-    "fetchAuthed: neither INTERNAL_API_BASE_URL nor PUBLIC_API_BASE_URL is configured",
-  );
-};
 
 const buildCookieHeader = async (): Promise<string> => {
   const store = await cookies();
@@ -37,14 +27,19 @@ export const fetchAuthed = async <T>(
   if (!path.startsWith("/")) {
     throw new Error(`fetchAuthed: path must start with '/': ${path}`);
   }
-  const base = resolveApiBase();
-  const url = `${base}${path}`;
+  const env = getAuthEnv();
+  const transport = resolveApiFetch({
+    API_SERVICE: env.API_SERVICE,
+    baseUrl: env.INTERNAL_API_BASE_URL,
+    environment: getEnvironment(),
+    isTest: getTransportRuntimeIsTest(),
+  });
   const cookieHeader = await buildCookieHeader();
   const headers = new Headers(init?.headers);
   if (cookieHeader.length > 0) headers.set("cookie", cookieHeader);
   if (!headers.has("accept")) headers.set("accept", "application/json");
 
-  const res = await fetch(url, {
+  const res = await fetchViaApiTransport(transport, path, {
     ...init,
     headers,
     cache: "no-store",

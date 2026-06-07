@@ -16,13 +16,20 @@
 // (env 参照は env.ts 経由) に従い getPublicFetchEnv() 側に閉じる。
 // 関連先行: task-05a-fetchpublic-service-binding-001 (逆方向 fallback 設計)
 
-import { getPublicFetchEnv } from "../env";
+import { getEnvironment, getPublicFetchEnv } from "../env";
 import { resolveServiceBinding, selectAndFetch } from "./transport-select";
 
-const DEFAULT_BASE_URL = "http://localhost:8787";
-
 function getBaseUrl(): string {
-  return getPublicFetchEnv().PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
+  const env = getPublicFetchEnv();
+  const baseUrl = env.NEXT_PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL;
+  if (baseUrl) return baseUrl;
+  if (getEnvironment() === "local") {
+    // localhost-allow:local-fallback
+    return "http://localhost:8787";
+  }
+  throw new Error(
+    "fetchPublic: API base URL unresolved in non-local runtime (NEXT_PUBLIC_API_BASE_URL must be set)",
+  );
 }
 
 function isTestOrPlaywright(): boolean {
@@ -36,7 +43,9 @@ function isTestOrPlaywright(): boolean {
 function getServiceBinding(): { fetch: typeof fetch } | undefined {
   const env = getPublicFetchEnv();
   // test/CI 限定: PUBLIC_API_BASE_URL 明示時に HTTP fallback を優先(mock API 差し替えのため)
-  const disableBinding = isTestOrPlaywright() && Boolean(env.PUBLIC_API_BASE_URL);
+  const disableBinding =
+    isTestOrPlaywright() &&
+    Boolean(env.NEXT_PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL);
   // production / staging: PUBLIC_API_BASE_URL の有無に関わらず service binding を最優先
   return resolveServiceBinding({ binding: env.API_SERVICE, disableBinding });
 }
