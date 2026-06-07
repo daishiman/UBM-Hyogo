@@ -19,3 +19,16 @@
   - **behind 6 でも単一 `pnpm sync:resolve` で収束**: behind 距離を見て手分割マージへ走らない（L-DEVSYNC-107 / SP-DEVSYNC-104 の再確認）。#1105/#1101/#1156/#1103/#1094/#1089 が `apps/api`/`apps/web` コード変更を含むため merge 後 `pnpm install`（lockfile drift 0 の no-op）→ typecheck/lint を挟む。
 - 検証順: `git fetch --prune origin`（dev = origin/dev 一致・local dev vs origin/dev = 0/0・独自 0）→ `git rev-list --count` で 6 behind / 3 ahead → `git merge origin/dev --no-edit` CONFLICT 6 → `pnpm sync:resolve`（`union-resolving 5 files` + `--ours` keywords + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → merge commit `b3977a5d5`（lefthook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）→ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（未ステージ drift 0・5483kw）。CI コード修正なしで全緑。
 - 反映先: 本 changelog（union member の skill 非対称性データ点）+ 対の task-spec changelog + 両 SKILL-changelog.md 1 行。L-DEVSYNC-117 として lesson 採番（現行最大 116 の次番号）。
+
+## 後日談: dev 取込後に CI が赤化（merge は緑でも取込デルタが test 表明と衝突）— L-DEVSYNC-118
+
+merge commit 自体は typecheck/lint/indexes 全緑だったが、PR の `gh pr checks` で **5 job fail**（coverage-gate-shard (web) / coverage-gate / e2e (desktop-chromium) / e2e-tests-coverage-gate / smoke (chromium)）が出た。原因 2 系統で、いずれも「**dev 取込が増やした nav item と、feature ブランチ側 test の固定カウント表明の衝突**」という sync-merge 特有の semantic drift:
+
+1. **admin sidebar nav カウント drift（14→15）**: 本 feature(issue-1116) が `shell-config.ts` の admin group に `tag-master` を追加し admin nav が 11 項目化（合計 15）したが、`SidebarShell.spec.tsx` / `SidebarShell.server.spec.tsx`（unit）と `sidebar-shell-smoke.spec.ts`（Playwright `toHaveCount(14)`）の固定表明が 14 のまま。**git auto-merge は両側の nav 追加を行衝突なく結合するため、カウント表明の drift は merge では検出されず CI で初めて顕在化**する。dev 側 nav は 10 のままで dev の test 14 は正しい→ feature 側追加分 +1 を test に反映するのが正（14→15、3+1+10→3+1+11）。
+2. **SSR list の mock port 競合 404（full e2e 並列特有）**: `/admin/tag-master` の Server Component は `safeServerFetch("/admin/tags?page=1&pageSize=100")` を実行。**単体 e2e 実行ではローカル mock API(127.0.0.1:8787) が応答し緑だが、full e2e の複数 spec 並列実行では port 8787 の owner worker 切替/EADDRINUSE reuse タイミングで稀に 404 化**し、page が list の代わりに `AdminSectionErrorClient` を render → `getByTestId('admin-tag-master-list')` 不可視で fail（retry も同様 = flaky でなく並列構造依存）。**確立パターン = `fetchAdmin` に `PLAYWRIGHT_TEST=1` gated SSR fixture を足す**（`/admin/schema/diff` が mock route を持つのに重ねて PLAYWRIGHT_TEST fixture を持つ先例 server-fetch.ts:536-543 と同型）。GET `path === "/admin/tags" || startsWith("/admin/tags?")` のみ捕捉し `/admin/tags/queue`（tag-queue page）と PATCH（browser-side route mock）は非該当に設計。
+
+- 核心教訓:
+  - **merge 緑 ≠ CI 緑**: sync-merge 後は merge の typecheck/lint だけでなく `gh pr checks` を必ず確認。固定カウント test（nav 個数 / 件数 assertion）は両側追加の auto-merge で静かに drift する。
+  - **「単体で緑な e2e が full run で 404」は mock SSR を fetchAdmin fixture へ移すサイン**: 並列実行で port 共有 mock に依存する SSR page は非決定。schema/diff 先例どおり `PLAYWRIGHT_TEST=1` gated fixture で決定化。
+- 検証: `SidebarShell.spec` / `SidebarShell.server.spec` / `tag-master/page.spec` 18 tests PASS（root=../..）→ `admin-tag-master-code-edit-ui` e2e desktop-chromium 1 passed（fixture 経由・404 消失）→ web typecheck / lint exit 0 → commit `d4b431570` push。CI 再実行で確認。
+- 反映先: 本節 + 対の task-spec changelog 同節（SP-DEVSYNC-110）+ 両 SKILL-changelog.md。L-DEVSYNC-118 採番。
