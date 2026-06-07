@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it } from "vitest";
-import { setupD1, type InMemoryD1 } from "../repository/__tests__/_setup";
+import { setupD1, withLegacyMemberStatus, type InMemoryD1 } from "../repository/__tests__/_setup";
 import { adminAuthHeader, TEST_AUTH_SECRET } from "../routes/admin/_test-auth";
 import { createDiagnosticsRouter } from "./forms-pipeline";
 
@@ -52,29 +52,34 @@ describe("GET /admin/diagnostics/member/:memberId", () => {
   });
 
   it("returns H2 identity missing for a member status row without identity", async () => {
-    await env.db
-      .prepare(
-        "INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted) VALUES ('m2','consented','consented','public',0)",
-      )
-      .run();
+    // 0026 の FK 導入後、orphan な member_status は構造的に作れない。H2 診断は
+    // FK 導入前から残る legacy orphan を検出する用途なので、FK なしの legacy schema で
+    // その状態を再現してから検証する（callback 終了時に 0026 が再適用され FK 復元）。
+    await withLegacyMemberStatus(env.db, async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted) VALUES ('m2','consented','consented','public',0)",
+        )
+        .run();
 
-    const app = createDiagnosticsRouter();
-    const res = await app.request(
-      "/member/m2",
-      { headers: await adminAuthHeader() },
-      makeEnv(env),
-    );
+      const app = createDiagnosticsRouter();
+      const res = await app.request(
+        "/member/m2",
+        { headers: await adminAuthHeader() },
+        makeEnv(env),
+      );
 
-    expect(res.status).toBe(200);
-    const body = (await res.json()) as Record<string, unknown>;
-    expect(body["identityMatches"]).toMatchObject({
-      byEmail: false,
-      byExternalId: false,
-      matchedFormResponseId: null,
-    });
-    expect(body["hypothesisFlags"]).toMatchObject({
-      H2_identityMissing: true,
-      H4_missingFieldsNonEmpty: false,
+      expect(res.status).toBe(200);
+      const body = (await res.json()) as Record<string, unknown>;
+      expect(body["identityMatches"]).toMatchObject({
+        byEmail: false,
+        byExternalId: false,
+        matchedFormResponseId: null,
+      });
+      expect(body["hypothesisFlags"]).toMatchObject({
+        H2_identityMissing: true,
+        H4_missingFieldsNonEmpty: false,
+      });
     });
   });
 });
