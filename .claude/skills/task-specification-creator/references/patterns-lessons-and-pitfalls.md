@@ -2158,6 +2158,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-I1070-C (削除系 audit の before は repository が返す削除前 snapshot を使う)**: physical delete は row 消失後に before 値が取れない。repository の delete 関数を「成功時に削除前 row を返す」signature にし、route が `before: <snapshot>, after: null` で audit する。audit は state 変化時のみ append（delete 成功時 / reactivate `changed===true` 時）。
 - 参照: [[lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06]]（正本）, SP-I1035-D（prefix route 追加は既存 route regression 必須・本タスクの `/tags/:tagId/physical` vs `/tags/:tagId` 静的優先解決と同型）, [[non-visual-irreversible-task-rules]]（不可逆 mutation の 2-stage user-gate 境界）。
 
+## SP-I1126 VISUAL_ON_EXECUTION の実装対象物理 gate と runtime pending 境界（2026-06-06 issue-1126）
+
+`taskType=implementation` / `visualEvidence=VISUAL_ON_EXECUTION` の workflow で、Phase 5 が `apps/` の具体ファイルを実装対象に列挙し、同一 cycle で安全に編集できる場合の close-out rule。
+
+- **SP-I1126-A (物理実装 gate を `spec_created` 誠実性より優先)**: 実装対象が `apps/` / `packages/` / `scripts/` / workflow 実ファイルとして明示され、外部承認なしにローカル編集・focused test まで進められる場合は、仕様書作成のみで閉じない。実コードを同一 wave で編集し、root/output artifacts、Phase 11 pending evidence、Phase 12 strict 7、aiworkflow ledgers を `implemented_local_runtime_pending` へ同期する。
+- **SP-I1126-B (runtime visual と local implementation を二段に分ける)**: staging 認証・storageState・baseline `--update-snapshots`・比較実行が user-gated でも、ローカル実コード変更と型/単体検証は pending にしない。Phase 10/12 の AC は `LOCAL PASS / RUNTIME_PENDING` とし、runtime PASS は Phase 11 の実 PNG / capture metadata が `present` になった後だけ主張する。
+- **SP-I1126-C (擬似コードは実装後に物理コードへ再同期)**: Phase 2/5/6 が設計時の helper 名や loop 形を持つ場合、実装後の final code（例: `VIEWPORTS` import、`prepareBulkRegion(page)`、`switchToUnassignMode(page)`、viewport 別 `test(...)`）へ同 wave で直す。旧 helper 名・直接 viewport 数値・同一 test loop が残ると skill 準拠は FAIL。
+- **Anti-pattern**: `VISUAL_ON_EXECUTION` の screenshot 未取得を理由に、実コード差分のある workflow を `spec_created` のまま Phase 12 PASS にする。
+
 ### 衝突集合に aiworkflow `SKILL.md` 本体 + `resource-map.md` が入り keywords.json は非衝突の 5 file セット（task-spec 側ゼロ）も resolver 単一パスで完結（SP-DEVSYNC-086）
 
 `feat/admin-attendance-dashboard-ux ← origin/dev`（sub-worktree wt-10・**3 ahead / 6 behind**・ローカル dev = origin/dev 一致 `4f7fd80fb`・独自コミット 0・dev 同期は冪等スキップ）の sync-merge で確立（[[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-092）。`git merge origin/dev --no-edit` の content conflict は **aiworkflow-requirements のみ 5 file**＝`SKILL.md` + `indexes/{quick-reference.md, resource-map.md, topic-map.md}` + `references/task-workflow-active.md`（source conflict 0・**task-specification-creator 側ゼロ**）。**`indexes/keywords.json` は Auto-merging（非衝突）**。`pnpm sync:resolve` 単独収束（resolver ログ `union-resolving 5 files`・keywords 非衝突で `--ours` 段 0 件 → `indexes:rebuild`）→ `git diff --name-only --diff-filter=U` 0 → merge commit `99682a85c`（pre-commit 5 hook pass）→ install なしで `pnpm typecheck` / `pnpm lint` 即緑 → `pnpm indexes:rebuild` 冪等（drift 0・5340 キーワード）。
