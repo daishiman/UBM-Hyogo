@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## sentry-extension-noise-filter-spec（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/sentry-extension-noise-filter-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | browser extension由来のmain-world漏れerror eventをclient Sentry送信前に除外し、app errorはfail-openで保持する |
+| implementation | `apps/web/src/lib/sentry/extension-noise-filter.ts`, `apps/web/src/instrumentation-client.ts`, `apps/web/src/lib/sentry/index.ts` |
+| tests | `apps/web/src/lib/sentry/extension-noise-filter.spec.ts`, `apps/web/src/__tests__/instrumentation-client.runtime.spec.ts` |
+| evidence | focused Vitest 2 files / 12 tests PASS; web typecheck PASS; web lint PASS |
+| invariant | mixed app/extension frames are retained; unreachable extension/Chrome console noise is out of code scope; API/D1/UI unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
+| user gate | external Sentry dashboard confirmation, commit, push, PR |
+
 ## test-accounts-seed-spec（2026-06-03）
 
 | 項目 | 値 |

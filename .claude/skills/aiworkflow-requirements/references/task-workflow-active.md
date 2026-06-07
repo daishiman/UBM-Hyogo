@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### sentry-extension-noise-filter-spec（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/sentry-extension-noise-filter-spec/` |
+| 目的 | browser extension由来のmain-world漏れerror eventを、client `Sentry.init` の `beforeSend` / `denyUrls` / `ignoreErrors` で自分たちのSentry監視から除外する |
+| implementation targets | `apps/web/src/lib/sentry/extension-noise-filter.ts`, `apps/web/src/instrumentation-client.ts`, `apps/web/src/lib/sentry/index.ts` |
+| tests | `apps/web/src/lib/sentry/extension-noise-filter.spec.ts`, `apps/web/src/__tests__/instrumentation-client.runtime.spec.ts` |
+| evidence | focused Vitest 2 files / 12 tests PASS、web typecheck PASS、web lint PASS |
+| invariant | app errorはfail-openで保持。混在app/extension frameは保持。`apps/api` / D1 / Google Form / UI / server Sentry境界は変更なし。到達不能console noiseはコードで除去不能 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
+| user gate | external Sentry dashboard confirmation, commit, push, PR |
+
 ### test-accounts-seed-spec（2026-06-03）
 
 | 項目 | 値 |
