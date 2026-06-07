@@ -16,9 +16,17 @@ task_name: member_status.member_id への FK 制約導入
 | 対象機能     | D1 schema（`apps/api/migrations/` — `member_status` テーブル定義 / FK 不在の現状）                   |
 | 優先度       | 低                                                                                                  |
 | 見積もり規模 | 中規模                                                                                              |
-| ステータス   | 未実施                                                                                              |
+| ステータス   | 完了（Issue #1105 workflow で formalized / consumed）                                                |
 | 発見元       | workflow admin-member-detail-status-404-fix / Phase 10 §10.3 MINOR / Phase 12 unassigned-task-detection MINOR-FUT-2 |
 | 発見日       | 2026-06-02                                                                                          |
+
+---
+
+## 0. 完了・consume 記録
+
+この未タスクは `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` として formalize され、local 実装・Phase 11 evidence・Phase 12 strict 7 まで完了した。実装時に、親タスク文脈の古い migration 番号（0024）を現行の `0025_backfill_member_status.sql` 前提へ補正し、`notification_opt_out` を含む現行10カラム保持、`idx_member_status_public` 再作成、D1 fixture の FK 前提追従を反映した。
+
+commit / push / PR / remote D1 apply は user-gated のまま残すが、本未タスク自体は Issue #1105 workflow に consume 済みであり、open unassigned task としては扱わない。
 
 ---
 
@@ -247,8 +255,9 @@ binding 経由でこの pragma を尊重するか（接続単位での ON 要否
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 症状     | `member_identities` 行はあるが `member_status` 行が欠落した orphan 会員が staging に存在し、admin 会員詳細 / status が 404 になった。DB レベルでこの orphan を禁止する制約が無かった |
 | 原因     | `member_status.member_id` に `member_identities` への FK 制約が無く（`0001_init.sql` / `0002_admin_managed.sql`）、DB レベルの整合性保証が存在しないため、アプリ層のバグや経路漏れがそのまま orphan として残った |
-| 対応     | 親タスク(404-fix)では migration 0024 で既存 orphan を backfill（INSERT OR IGNORE）し、`ensureMemberStatusRow` で予防。FK 制約導入は SQLite のテーブル再構築リスク・D1 PRAGMA 運用検討を伴う独立スコープのため本 followup に分離した |
-| 再発防止 | backfill で orphan を解消した上で FK 制約を導入すれば、DB レベルで orphan の発生を構造的に禁止できる。導入前提として backfill 0024 適用済みであることを migration の順序依存として明記する |
+| 対応     | 親タスク(404-fix)では backfill と `ensureMemberStatusRow` で予防。本 Issue #1105 workflow では現行 migration 番号を `0025_backfill_member_status.sql` 前提へ補正し、`0026_member_status_fk_constraint.sql` と D1 contract test を追加した |
+| 再発防止 | backfill で orphan を解消した上で FK 制約を導入し、DB レベルで orphan の発生を構造的に禁止する。導入前提として 0025 -> 0026 の順序依存、現行10カラム保持、INDEX再作成を Phase 12 implementation guide に記録した |
+| 実装時の苦戦 | SQLite/D1 の FK 後付けは `ALTER TABLE ... ADD CONSTRAINT` ではなくテーブル再構築が必要だった。さらに `notification_opt_out` 追加済みの現行10カラム、再構築で消える `idx_member_status_public`、既存 D1 tests の orphan fixture、Miniflare D1 full regression の socket exhaustion が連鎖したため、source evidence: `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/outputs/phase-12/implementation-guide.md`, `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/outputs/phase-12/phase12-task-spec-compliance-check.md` に判断を集約した |
 
 ### 補足事項
 
@@ -263,5 +272,5 @@ FK 制約は「予防の予防」（多層防御の最下層 = DB 自身によ�
 `PRAGMA foreign_keys` 運用検証という、backfill とは独立した移行リスク評価を要する。
 このため親タスクの止血スコープからは意図的に分離し、独立の中規模タスクとした。
 
-実装着手・migration 追加・D1 適用・commit / push / PR はすべてユーザー承認後に行う。
+local 実装・migration 追加・D1 contract test・Phase 12 documentation は Issue #1105 workflow で完了済み。remote D1 apply・commit / push / PR はすべてユーザー承認後に行う。
 member 作成経路の統一は本タスクではなく followup-001 の責務として明確に分離する。

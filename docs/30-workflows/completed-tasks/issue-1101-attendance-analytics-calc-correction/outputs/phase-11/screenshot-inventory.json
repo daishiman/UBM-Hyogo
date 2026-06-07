@@ -1,0 +1,21 @@
+{
+  "taskId": "issue-1101-attendance-analytics-calc-correction",
+  "mode": "local-playwright-fixture",
+  "route": "/admin/dashboard/attendance",
+  "status": "captured_local_fixture",
+  "screenshots": [
+    {
+      "tc": "TC-11-issue1101-desktop",
+      "file": "screenshots/TC-11-issue1101-attendance-analytics-desktop.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-issue1101-mobile",
+      "file": "screenshots/TC-11-issue1101-attendance-analytics-mobile.png",
+      "viewport": "390x844",
+      "status": "present"
+    }
+  ],
+  "runtimeBoundary": "staging authenticated screenshots remain user-gated"
+}

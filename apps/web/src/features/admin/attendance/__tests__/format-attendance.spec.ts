@@ -5,6 +5,7 @@ import {
   presetToPeriod,
   ZONE_LABEL,
   ZONE_HELP,
+  SELECTABLE_ZONES,
 } from "../lib/format-attendance";
 
 describe("format-attendance", () => {
@@ -34,10 +35,17 @@ describe("format-attendance", () => {
   });
 
   it("ZONE_LABEL covers known zones", () => {
-    expect(ZONE_LABEL["0→1"]).toBe("0 回（未出席）");
-    expect(ZONE_LABEL["1→10"]).toBe("1〜9 回");
-    expect(ZONE_LABEL["10→100"]).toBe("10〜99 回");
-    expect(ZONE_LABEL.unknown).toBe("100 回以上");
-    expect(ZONE_HELP).toContain("累計出席回数");
+    expect(ZONE_LABEL.zone_0).toBe("0 回（未出席）");
+    expect(ZONE_LABEL.zone_1_9).toBe("1〜9 回");
+    expect(ZONE_LABEL.zone_10_99).toBe("10〜99 回");
+    expect(ZONE_LABEL.zone_100_plus).toBe("100 回以上");
+    expect(ZONE_LABEL.unknown).toBe("分類不能");
+    expect(SELECTABLE_ZONES).toEqual([
+      "zone_0",
+      "zone_1_9",
+      "zone_10_99",
+      "zone_100_plus",
+    ]);
+    expect(ZONE_HELP).toContain("100 回以上");
   });
 });

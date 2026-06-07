@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeMeetingStats, type MeetingItem } from "../meetingStats";
+import { attendanceLevel, computeMeetingStats, type MeetingItem } from "../meetingStats";
 
 const mk = (
   sessionId: string,
@@ -54,5 +54,19 @@ describe("computeMeetingStats", () => {
     const s = computeMeetingStats(items);
     expect(s.totalAttendees).toBe(0);
     expect(s.avgAttendees).toBe(0);
+  });
+});
+
+describe("attendanceLevel", () => {
+  it.each([
+    [0, "none"],
+    [-3, "none"],
+    [Number.NaN, "none"],
+    [1, "normal"],
+    [9, "normal"],
+    [10, "high"],
+    [25, "high"],
+  ] as const)("%s 名を %s に分類する", (count, expected) => {
+    expect(attendanceLevel(count)).toBe(expected);
   });
 });

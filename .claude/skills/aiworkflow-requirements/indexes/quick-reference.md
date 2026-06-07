@@ -1,5 +1,59 @@
 # クイックリファレンス
 
+## issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1112 CLOSED（Issue mutation は未実行） |
+| purpose | admin `/admin/meetings` 開催日タイムラインの出席人数バッジを none / normal / high の 3 段階で色強調する |
+| implementation | `attendanceLevel(count)` pure helper、`data-attendance-level` 属性、`.admin-timeline__heading` scoped CSS、focused tests |
+| evidence | focused Vitest 2 files / 20 tests PASS; web typecheck PASS; web verify-design-tokens PASS; local Playwright screenshot 3 PNG PASS |
+| invariant | apps/api / D1 / Google Form / attendance aggregation / tokens.css / design-tokens.md unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
+## issue-1102-usedismissable-hook-extraction（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1102-usedismissable-hook-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #1102 CLOSED 維持（mutation は user-gated） |
+| parent | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| purpose | `<details>` popover の outside pointerdown / Escape dismiss 重複ロジックを `useDismissable` hook に抽出し、`SidebarUserMenu` と `DensityToggle` を挙動不変で移行 |
+| implementation | `apps/web/src/hooks/useDismissable.ts`, `apps/web/src/hooks/__tests__/useDismissable.spec.tsx`, `apps/web/src/components/shell/SidebarUserMenu.tsx`, `apps/web/src/components/public/DensityToggle.client.tsx` |
+| evidence | focused vitest 3 files / 35 tests PASS; consumer regression specs unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+## issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| issue | #1105 CLOSED（reopen / mutation なし） |
+| purpose | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、DB レベルで orphan status を禁止する |
+| implementation | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS; apps/api D1 full regression 109 files / 937 tests PASS; API typecheck PASS; `verify:d1-migrations` PASS; `apps/web` diff 0 |
+| invariant | `notification_opt_out` を含む現行 `member_status` カラム保持、`idx_member_status_public` 再作成、apps/web diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply, commit, push, PR |
+
+## issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 出席分析の 100 回以上 zone 誤分類を `zone_100_plus` へ修正し、延べ率と unique 出席率を分離する |
+| implementation | `attendance-analytics.ts`, `parse-attendance-filter.ts`, `admin-attendance.ts`, attendance web labels/filter/KPI, `01-api-schema.md` |
+| evidence | focused Vitest root 6 files / 21 tests PASS; D1 repository 1 file / 13 tests PASS; routes/migrations diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR |
+
 ## issue-1111-proxy-transport-util-unify（2026-06-06）
 
 | 項目 | 値 |
