@@ -79,9 +79,11 @@ P50 で対象機能が既に dev / current branch に landed 済みと確認で�
 - 対象の型定義（SkillExecutionStatus 等）の現在の値セットを確認し、設計で前提とする値が実在するか検証する
 - 存在しない場合は「新規追加」として Phase 2 で変更先ファイルパスを明記する（P32 準拠）
 
-#### Helper / 型シグネチャ verbatim 確認（Issue #224 対策）
+#### Helper / 型シグネチャ verbatim 確認（Issue #224 / #1088 対策）
 
 既存 helper / shared schema / viewmodel type を再利用するタスクでは、Phase 1 で実コードのシグネチャを verbatim に確認し、Map / 配列 / optional / strict などの return shape を誤読しない。
+
+**未実装フィールドを既存 producer に足すタスク**（例: 戻り値型へ 1 フィールド追加）では、issue 本文の抽象的な producer 名（「sync use-case」等）を鵜呑みにせず、実体の戻り値型・関数を**行番号レベルで pin** する。似た名前のラッパー（route 層 / 別 use-case の同名処理）へ誤着地すると、本来の producer を素通りして無効な diff になる。
 
 Phase 1 outputs には以下の表を必ず含める:
 
@@ -90,6 +92,7 @@ Phase 1 outputs には以下の表を必ず含める:
 | helper | `apps/api/src/repository/...` | 例: `Promise<MemberTagWithDefinition[]>`（フラット配列） | use-case 層で groupBy |
 | shared zod | `packages/shared/src/zod/...` | optional / strict / nullable の実値 | response contract |
 | shared type | `packages/shared/src/types/...` | public export の有無 | consumer 影響 |
+| producer | `apps/api/src/jobs/...`（行番号付き） | 例: `ResponseSyncResult` + `runResponseSync()` の全 return path | 新規 field 追加先を verbatim に pin（似た名前のラッパーへ誤着地しない） |
 
 誤読が見つかった場合は Phase 2 以降の設計例を実コードに合わせて補正し、Phase 12 の skill feedback に再発防止を記録する。
 
@@ -101,6 +104,30 @@ Issue / unassigned-task が記述する「現状の挙動・契約・コード�
 - 前提誤りを鵜呑みにすると、存在しない契約差を前提に過剰スコープな設計を生む。
 - 検証で前提誤りを見つけたら、`implementation-guide.md` / `phase-1-requirements.md` に **訂正注記**として残し、次の人が再び drift と誤認しないようにする。Phase 2 以降の設計例も実コードに合わせて補正する。
 - GitHub Issue ラベルが `docs-only` でも、root cause（SSOT 違反 = dead alias / dead code 残存）の解消にコード変更が必要なら、CONST_004（ラベルより実態優先）で **実装仕様書**として分類する。昇格判断は `artifacts.json` の `spec_classification_note` に残し、後続レビューで分類根拠を追えるようにする（[phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) Applied Examples 参照）。
+
+#### D1 migration 前提の現行再スコープ（Issue #1105 対策）
+
+D1 migration / table rebuild / FK 制約追加を含むタスクでは、Issue 本文や古い未タスクに書かれた migration 番号・既存 schema をそのまま採用しない。Phase 1 で現行 `apps/api/migrations/` を実測し、番号占有・後続 ALTER・消失する dependent object を表に固定する。
+
+必須確認:
+
+```bash
+ls apps/api/migrations/*.sql | sort | tail -10
+rg -n "CREATE TABLE|ALTER TABLE|CREATE INDEX|CREATE TRIGGER|CREATE VIEW|FOREIGN KEY|REFERENCES|PRAGMA foreign_keys" apps/api/migrations
+```
+
+Phase 1 outputs には以下を記録する:
+
+| 項目 | 内容 |
+| --- | --- |
+| issue 記載 migration 番号 | Issue / source task が主張する番号・ファイル名 |
+| current occupied prefix | 現行 migration directory で実際に占有済みの番号 |
+| canonical new prefix | 本タスクで採用する新規番号。重複時は現行 directory を優先 |
+| current table columns | baseline `CREATE TABLE` と後続 `ALTER TABLE` を合成した現行列 |
+| rebuild dependent objects | DROP/RENAME で消失する INDEX / VIEW / TRIGGER と再作成方針 |
+| repository precedent | FK / PRAGMA / rebuild 前例の有無。前例ゼロなら local D1 test と user-gated remote D1 検証境界を分ける |
+
+テーブル再構築 migration では、抽象 NOTE（例: "INDEX/VIEW 棚卸し"）を現行 schema の具体識別子へ落とし込み、消失する INDEX / VIEW / TRIGGER の再作成を AC に昇格する。後続 `ALTER TABLE` で追加された列（例: `notification_opt_out`）をコピー対象から漏らした仕様は Phase 2 へ進めない。
 
 ## 統合テスト連携【必須】
 

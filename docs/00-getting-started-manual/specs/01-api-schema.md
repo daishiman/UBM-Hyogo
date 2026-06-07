@@ -258,7 +258,7 @@ tag master CRUD でも state 変化時のみ audit を append する。同値 PA
 |-----|----|--------|
 | `periodFrom` | `YYYY-MM-DD`（半開区間 inclusive） | null fallback (no period filter) |
 | `periodTo` | `YYYY-MM-DD`（半開区間 exclusive） | null fallback |
-| `zone` | カンマ区切り `0→1` / `1→10` / `10→100` | 不明値は drop、全 drop なら null |
+| `zone` | カンマ区切り `zone_0` / `zone_1_9` / `zone_10_99` / `zone_100_plus`（旧 `0→1` / `1→10` / `10→100` は互換入力として新キーへ正規化） | 不明値は drop、全 drop なら null |
 | `limit` | 1..200 整数 (default 50) | clamp |
 | `lastN` | 1..10 整数 (default 3) | clamp |
 
@@ -268,7 +268,7 @@ tag master CRUD でも state 変化時のみ audit を append する。同値 PA
 
 | Method | Path | Query | Response |
 |--------|------|-------|----------|
-| GET | `/admin/dashboard/attendance/overview` | `periodFrom?`, `periodTo?`, `zone?` | `AttendanceOverviewExt`: `{ totalSessions, totalMembers, overallRate, previousPeriodRate \| null, filter: AttendanceFilterEcho }` |
+| GET | `/admin/dashboard/attendance/overview` | `periodFrom?`, `periodTo?`, `zone?` | `AttendanceOverviewExt`: `{ totalSessions, totalMembers, overallRate, uniqueAttendeeCount, uniqueAttendanceRate, previousPeriodRate \| null, filter: AttendanceFilterEcho }` |
 | GET | `/admin/dashboard/attendance/by-session` | `limit?`, `periodFrom?`, `periodTo?`, `zone?` | `Array<SessionAttendanceRow>` (既存) |
 | GET | `/admin/dashboard/attendance/ranking` | `limit?`, `periodFrom?`, `periodTo?`, `zone?` | `Array<MemberAttendanceRanking>` (既存) |
 | GET | `/admin/dashboard/attendance/trend` | `periodFrom?`, `periodTo?`, `zone?` | `AttendanceTrend`: `{ granularity: 'month', buckets: AttendanceTrendBucket[], filter }` |
@@ -279,11 +279,11 @@ tag master CRUD でも state 変化時のみ audit を append する。同値 PA
 
 ### Zone 派生
 
-メンバー単位の `attendedCount` から SQL 側で `0` → `'0→1'`、`1..9` → `'1→10'`、`10..99` → `'10→100'`、`>=100` → `'unknown'` に正規化する。`zone` クエリ未指定時は全 zone 集計。
+メンバー単位の `attendedCount` から SQL 側で `0` → `zone_0`、`1..9` → `zone_1_9`、`10..99` → `zone_10_99`、`>=100` → `zone_100_plus` に正規化する。`unknown` は負値・非有限値など分類不能フォールバック専用で、正常な 100 回以上の出席者には使わない。`zone` クエリ未指定時は全 zone 集計。
 
 ### 集計母数
 
-`meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。`overallRate` は `attendCount / (totalSessions * totalMembers)` で 0..1 clamp。`previousPeriodRate` は指定期間と同じ長さ分だけ直前期間を再集計する（period 未指定時は null）。
+`meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。`overallRate` は延べ率として `attendCount / (totalSessions * totalMembers)` で 0..1 clamp。`uniqueAttendeeCount` は期間内に 1 回以上出席した active member 数、`uniqueAttendanceRate` は `uniqueAttendeeCount / totalMembers` で 0..1 clamp。`previousPeriodRate` は指定期間と同じ長さ分だけ直前期間を再集計する（period 未指定時は null）。
 
 ### Zod スキーマ
 
