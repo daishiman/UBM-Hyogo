@@ -15,9 +15,19 @@ describe("parse-attendance-filter", () => {
     expect(parseIsoDateOrNull(undefined)).toBeNull();
   });
 
-  it("parseZones filters unknown and dedupes", () => {
-    expect(parseZones("0→1,1→10,10→100,bogus")).toEqual(["0→1", "1→10", "10→100"]);
-    expect(parseZones("0→1,0→1")).toEqual(["0→1"]);
+  it("parseZones filters unknown, dedupes, and accepts legacy arrow values", () => {
+    expect(parseZones("zone_0,zone_1_9,zone_10_99,zone_100_plus,bogus")).toEqual([
+      "zone_0",
+      "zone_1_9",
+      "zone_10_99",
+      "zone_100_plus",
+    ]);
+    expect(parseZones("0→1,1→10,10→100")).toEqual([
+      "zone_0",
+      "zone_1_9",
+      "zone_10_99",
+    ]);
+    expect(parseZones("zone_0,0→1")).toEqual(["zone_0"]);
     expect(parseZones("bogus")).toBeNull();
     expect(parseZones(undefined)).toBeNull();
   });
@@ -26,12 +36,12 @@ describe("parse-attendance-filter", () => {
     const f = parseAttendanceFilter({
       periodFrom: "2026-01-01",
       periodTo: "2026-06-01",
-      zone: "1→10",
+      zone: "zone_1_9",
     });
     expect(f).toEqual({
       periodFrom: "2026-01-01",
       periodTo: "2026-06-01",
-      zone: ["1→10"],
+      zone: ["zone_1_9"],
     });
   });
 

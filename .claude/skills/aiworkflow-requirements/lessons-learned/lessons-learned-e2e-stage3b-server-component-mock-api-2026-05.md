@@ -150,6 +150,47 @@ negative-query（空結果トリガ語）の規約が **test / auth.ts / e2e-moc
 
 ---
 
+## L-E2EQU3B-007: 二重 mock の body 契約 drift — endpoint 追加・field 追加・enum 値変更でも CI だけ FAIL（2026-06-07 / issue-1101 attendance analytics calc correction 由来）
+
+### What
+
+issue-1101 で attendance dashboard の KPI / zone 契約を変更したが、`apps/web/playwright/fixtures/auth.ts`（client-side / in-process mock）だけ更新し `scripts/e2e-mock-api.mjs`（CI deterministic server-side mock）への反映を忘れた。結果、`e2e (desktop-chromium / desktop-firefox / mobile-webkit)` と `e2e-tests-coverage-gate` の 4 check が **CI でのみ** FAIL（ローカル vitest / unit test は green）:
+
+- `/admin/dashboard/attendance/absentees?lastN=3` が 404（e2e-mock-api.mjs に route 未定義）→ admin attendance dashboard が `ADMIN_FETCH_404` で degrade
+- `getByTestId('attendance-kpi-unique')` が `期間内出席者数` / `24` / `80.0%` を含まず not found（overview body に `uniqueAttendeeCount` / `uniqueAttendanceRate` 欠落）
+- zone-distribution の `100 回以上` ラベル欠落（zone enum 値が旧 `0→1` のまま、`zone_100_plus` 未追加）
+
+L-E2EQU3B-006 は negative-query 規約 drift だったが、今回は **endpoint 追加・body field 追加・enum 値変更**という別パターンで同型の drift が再発した。
+
+### Why
+
+admin dashboard は Server Component が `INTERNAL_API_BASE_URL`（CI では `http://127.0.0.1:8787`）へ server-side fetch する。L-E2EQU3B-001 / 006 と同じく mock は 2 系統（auth.ts in-process / e2e-mock-api.mjs deterministic）で、SSR fetch は `page.route()` で捕捉できず deterministic 側を叩く。auth.ts に「e2e-mock-api.mjs と同一契約」コメントがあっても機械同期はないため、片方だけ更新すると drift する。negative-query に限らず、契約のあらゆる変更（route / field / enum）が drift 源になる。
+
+### How to apply
+
+- admin/public dashboard 系の mock body（overview / by-session / ranking / trend / zone-distribution / absentees 等）を変更する時は、必ず **2 ファイルを同一 wave で揃える**:
+  1. `apps/web/playwright/fixtures/auth.ts`（client-side `page.route` / in-process mock）
+  2. `scripts/e2e-mock-api.mjs`（CI deterministic server-side mock for `127.0.0.1:8787`）
+- 画面が **新規 endpoint** を server-side fetch する場合、e2e-mock-api.mjs に **route handler 追加も必須**（body 関数の追加だけでは route 分岐に到達せず 404 のまま）。
+- mock 契約変更後は両系統を grep 突合してから push:
+  ```bash
+  grep -n "uniqueAttendeeCount\|zone_100_plus\|attendance/absentees" \
+    apps/web/playwright/fixtures/auth.ts scripts/e2e-mock-api.mjs
+  ```
+- push 前に CI serving-path を再現し、新 endpoint が 200 を返すか確認:
+  ```bash
+  E2E_MOCK_API_PORT=8799 node scripts/e2e-mock-api.mjs &
+  node -e "fetch('http://127.0.0.1:8799/admin/dashboard/attendance/absentees?lastN=3').then(r=>r.status).then(console.log)"
+  ```
+
+### Evidence
+
+- `scripts/e2e-mock-api.mjs`: `attendanceOverviewBody` に `uniqueAttendeeCount: 24` / `uniqueAttendanceRate: 0.8` 追加、`attendanceZoneDistributionBody` の zone を `zone_0` / `zone_1_9` / `zone_10_99` / `zone_100_plus` / `unknown` へ更新、`attendanceAbsenteesBody` 関数 + `/admin/dashboard/attendance/absentees` route 追加
+- `apps/web/playwright/fixtures/auth.ts:225-311`: 同契約（issue-1101 で既更新済の正本）
+- 失敗 CI: PR #1152 `e2e (desktop-chromium)` job 79937634544 — `[admin/server-fetch] 404 /admin/dashboard/attendance/absentees?lastN=3`
+
+---
+
 ## 関連
 
 - canonical workflow root: `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/`
