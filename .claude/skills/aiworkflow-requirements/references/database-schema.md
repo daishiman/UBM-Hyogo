@@ -25,7 +25,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | user_settings | ユーザー設定 | 設計済み |
 | user_profiles | ユーザープロフィール（Supabase） | ✅ 実装済み |
 | api_keys | APIキー管理 | 設計済み |
-| audit_logs | 監査ログ | 設計済み |
+| audit_log | application 監査ログ（単数形・D1 実テーブル） | ✅ 実装済み |
 | sync_metadata | 同期メタデータ | 設計済み |
 | system_prompt_templates | システムプロンプトテンプレート | ✅ 実装済み |
 | chat_sessions | チャットセッション | ✅ 実装済み |
@@ -56,6 +56,24 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する |
 
 `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。
+
+## Application audit_log（issue-1128 batchId index）
+
+`audit_log` は UBM-Hyogo application audit の D1 実テーブルであり、単数形を正本名とする。初期定義は `apps/api/migrations/0003_auth_support.sql`、cold storage manifest は `0018_add_audit_log_export_manifest.sql`、batchId 相関 index は `0026_audit_log_batchid_index.sql` が所有する。
+
+実 migration `apps/api/migrations/0026_audit_log_batchid_index.sql` の正本 DDL:
+
+- `audit_log.batch_id`: `TEXT GENERATED ALWAYS AS (...) VIRTUAL`
+- generated expression: `COALESCE(CASE WHEN json_valid(after_json) THEN json_extract(after_json, '$.batchId') END, CASE WHEN json_valid(before_json) THEN json_extract(before_json, '$.batchId') END)`
+- `idx_audit_log_batch_id`: `ON audit_log(batch_id, created_at DESC, audit_id DESC) WHERE batch_id IS NOT NULL`
+
+設計境界:
+
+- `GET /admin/audit?batchId=` の public query surface と response shape は issue-1079 の正本を維持し、今回変更しない。
+- bulk tag assign は `after_json.$.batchId`、unassign は `before_json.$.batchId` に保存されるため、generated column が両 path を 1 列へ畳み込む。
+- `auditLog.listFiltered` は `batch_id = ?` を使い、JSON full scan を行わない。
+- `audit_log` は append-only。アプリ repository に UPDATE / DELETE API を追加しない。rollback は `DROP INDEX IF EXISTS idx_audit_log_batch_id; ALTER TABLE audit_log DROP COLUMN batch_id;` を Phase 13 user approval gate で扱う。
+- local evidence: focused D1 Vitest 3 files / 28 tests PASS、`EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用かつ `SCAN audit_log` 不在を assert。
 
 ## Schema aliases write target（issue-191 / UT-07B）
 

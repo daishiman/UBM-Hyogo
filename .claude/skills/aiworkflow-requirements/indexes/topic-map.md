@@ -1072,19 +1072,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L45 |
-| Schema aliases write target（issue-191 / UT-07B） | L60 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L92 |
-| Legacy Sheets sync transition note（U-UT01-09） | L104 |
-| Schema alias assignment workflow（07b） | L116 |
-| ワークフロー関連テーブル | L120 |
-| ユーザー関連テーブル | L159 |
-| システムプロンプト関連テーブル | L193 |
-| チャット関連テーブル | L228 |
-| RAG関連テーブル | L264 |
-| Knowledge Graph関連テーブル | L306 |
-| 変換処理関連テーブル | L440 |
-| インデックス設計 | L499 |
-| 関連ドキュメント / 変更履歴 / DDL テンプレ | L503 |
+| Application audit_log（issue-1128 batchId index） | L60 |
+| Schema aliases write target（issue-191 / UT-07B） | L78 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L110 |
+| Legacy Sheets sync transition note（U-UT01-09） | L122 |
+| Schema alias assignment workflow（07b） | L134 |
+| ワークフロー関連テーブル | L138 |
+| ユーザー関連テーブル | L177 |
+| システムプロンプト関連テーブル | L211 |
+| チャット関連テーブル | L246 |
+| RAG関連テーブル | L282 |
+| Knowledge Graph関連テーブル | L324 |
+| 変換処理関連テーブル | L458 |
+| インデックス設計 | L517 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L521 |
 
 ---
 
@@ -2866,6 +2867,15 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | Invariants | L34 |
 | Lessons Learned | L42 |
+
+### references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Evidence | L25 |
+| Contract Notes | L31 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -8860,9 +8870,12 @@ node scripts/list-specs.js --topics
 | Current Active / Spec Created Tasks | L3916 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L4082 |
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4150 |
-| issue-998-members-publish-state-production-rollout | L4176 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4235 |
-| issue-1068-admin-tag-inline-create-ui | L4249 |
+| issue-1007-density-toggle-help-hint-hardening | L4174 |
+| issue-1079-bulk-tag-audit-batch-filter | L4187 |
+| issue-1128-audit-batchid-index-optimization | L4200 |
+| issue-998-members-publish-state-production-rollout | L4214 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4273 |
+| issue-1068-admin-tag-inline-create-ui | L4287 |
 
 ### references/task-workflow-backlog-part2.md
 

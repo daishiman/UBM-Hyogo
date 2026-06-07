@@ -34,9 +34,10 @@
   | JSON validity | 既存 row に破損 JSON が混在し得る場合は `json_valid(column)` guard を入れること |
   | full scan | JSON index 不在時の scan 特性、keyset cursor + LIMIT、sparse key、plain 列併用誘導 |
   | schema 化境界 | generated column / dedicated column / index migration を今回 scope に入れるか、運用トリガ付き別関心にするか |
+- **D1 generated column index 化の注意**: SQLite / D1 で `ALTER TABLE ... ADD COLUMN` により generated column を追加する場合、`STORED` は追加できず `VIRTUAL` のみ許可される。append-only 大テーブルで既存行を消さずに JSON payload 由来の検索キーを index 化する場合は、`VIRTUAL generated column + partial index` を第一候補にし、`EXPLAIN QUERY PLAN` で index 使用を実測する。`STORED` が必要な場合はテーブル再構築を伴う別タスクとして扱う。
 - **検証**: repository test で両 JSON path の hit、破損 JSON row 混在時に落ちないこと、他 filter との AND 合成、cursor pagination 併用、不一致時 empty 200 を固定する。API/UI がある場合は `appliedFilters` echo と pagination href の query 保持も contract/component test に含める。
 - **発見日**: 2026-06-03
-- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`
+- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`, `issue-1128-audit-batchid-index-optimization`
 
 ### カバレッジ閾値免除判定パターン
 

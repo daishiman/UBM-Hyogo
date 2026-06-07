@@ -4170,8 +4170,46 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
-| issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
-| issue-1079-bulk-tag-audit-batch-filter | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` | Issue #1079. Existing `/admin/audit` now accepts `batchId` query, searches bulk tag audit `after_json.$.batchId` and `before_json.$.batchId` with `json_valid` guard, preserves `batchId` through Web filter/pagination, and displays/copies row batchId via a client-only button. No new endpoint, D1 schema, or write-side change. API D1 targeted PASS 2 files / 26 tests; Web targeted PASS 3 files / 54 tests; API/Web typecheck PASS. Authenticated runtime screenshots, commit, push, PR, Issue mutation are user-gated. Inventory: `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md`. |
+
+## issue-1007-density-toggle-help-hint-hardening
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / runtime visual pending_user_approval` |
+| Issue | `#1007` |
+| purpose | `/members` `DensityToggle` HelpHint hardening |
+| implementation | `useId` description ids、non-controlled `<details>` Escape/outside close、`IconName` `help` glyph、pointer target guard |
+| evidence | focused component tests 15 PASS。System specs `09-ui-ux.md` / `09d-icons.md`、Phase 11 local evidence、Phase 12 strict 7、quick-reference/resource-map/artifact inventory synchronized |
+| user gate | runtime screenshots、staging deploy、commit、push、PR |
+| inventory | `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
+
+## issue-1079-bulk-tag-audit-batch-filter
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| Issue | `#1079` |
+| purpose | `/admin/audit` に bulk tag audit 相関用の `batchId` query/filter/pagination/UI 表示を追加 |
+| implementation | `GET /admin/audit` が `batchId` query を受け、bulk tag audit の `after_json.$.batchId` / `before_json.$.batchId` を検索し、Web filter/pagination と row batchId copy 表示を維持 |
+| evidence | API D1 targeted PASS 2 files / 26 tests、Web targeted PASS 3 files / 54 tests、API/Web typecheck PASS |
+| user gate | authenticated runtime screenshots、commit、push、PR、Issue mutation |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+
+## issue-1128-audit-batchid-index-optimization
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| Issue | `#1128`（CLOSED。PR 文脈は `Refs #1128` のみ） |
+| purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
+| implementation | `apps/api/migrations/0026_audit_log_batchid_index.sql` で `audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id` を追加し、`apps/api/src/repository/auditLog.ts` の `listFiltered` batchId predicate を `batch_id = ?` へ切替 |
+| evidence | focused D1 Vitest PASS 3 files / 28 tests。`EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用かつ `SCAN audit_log` 不在を assert |
+| invariant | public query / response shape unchanged。`audit_log` append-only repository boundary unchanged |
+| user gate | staging / production D1 migration apply、deploy、commit、push、PR |
+| inventory | `references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md` |
 
 ## issue-998-members-publish-state-production-rollout
 

@@ -3374,6 +3374,7 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4277,7 +4278,8 @@
       "ui-ux-feature-components-reference-organisms-history-surfaces.md"
     ],
     "Application": [
-      "architecture-chat-history.md"
+      "architecture-chat-history.md",
+      "database-schema.md"
     ],
     "Infrastructure": [
       "architecture-chat-history.md"
@@ -7043,6 +7045,7 @@
     ],
     "index": [
       "claude-code-settings-hierarchy.md",
+      "database-schema.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
       "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
@@ -7052,7 +7055,9 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-index.md",
+      "task-workflow-active.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "zsh": [
@@ -7525,6 +7530,7 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -7817,6 +7823,7 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "pattern-d1-soft-delete-optimistic-lock-batch.md",
+      "task-workflow-active.md",
       "workflow-issue-1059-public-members-fields-batch-fetch-n1-prevention-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md"
@@ -7902,6 +7909,7 @@
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -8217,18 +8225,58 @@
     "同期テーブル": [
       "database-schema.md"
     ],
-    "write": [
+    "audit": [
       "database-schema.md",
       "deployment-cloudflare.md",
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
-      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
-      "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
-      "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
+      "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
+      "lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md",
+      "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
+      "lessons-learned-task-24.md",
+      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
+      "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
+      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
+      "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
+      "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
+      "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
+      "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
+      "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
+      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
+      "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
+      "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
+    ],
+    "log": [
+      "database-schema.md",
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
+      "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "logging-migration-guide.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
     "issue": [
@@ -8284,6 +8332,7 @@
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -8356,6 +8405,24 @@
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
+    "batchId": [
+      "database-schema.md",
+      "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md"
+    ],
+    "write": [
+      "database-schema.md",
+      "deployment-cloudflare.md",
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
+      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
     "Sheets": [
       "database-schema.md",
@@ -9299,41 +9366,6 @@
     ],
     "Engine": [
       "deployment-cloudflare.md"
-    ],
-    "audit": [
-      "deployment-cloudflare.md",
-      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
-      "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
-      "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
-      "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
-      "lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06.md",
-      "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md",
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
-      "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
-      "lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md",
-      "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
-      "lessons-learned-task-24.md",
-      "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
-      "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
-      "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
-      "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
-      "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
-      "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md",
-      "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
-      "workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md",
-      "workflow-issue-900-workflow-permissions-least-privilege-audit-artifact-inventory.md",
-      "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
-      "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
-      "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
-      "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
     ],
     "cold": [
       "deployment-cloudflare.md"
@@ -11887,21 +11919,6 @@
       "logging-migration-guide.md",
       "logs-archive-2026-02-console-migration-patterns.md"
     ],
-    "log": [
-      "lessons-fetch-service-binding-testing.md",
-      "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-d1-batch-atomicity-and-soft-delete-2026-05.md",
-      "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
-      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
-      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
-      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
-      "logging-migration-guide.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
-      "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
     "verification": [
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -13846,6 +13863,7 @@
     ],
     "density": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "task-workflow-active.md",
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
     ],
     "用語の表記揺れと": [
@@ -14357,6 +14375,7 @@
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "task-workflow-active.md",
       "ui-ux-atoms-patterns-core.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
@@ -17204,9 +17223,6 @@
     "列が無く": [
       "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md"
     ],
-    "batchId": [
-      "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md"
-    ],
     "extract": [
       "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md"
     ],
@@ -19065,6 +19081,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -19938,6 +19955,7 @@
       "lessons-learned-issue-900-workflow-permissions-least-privilege-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "task-workflow-active.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
@@ -25773,6 +25791,26 @@
       "task-workflow-active.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md"
     ],
+    "toggle": [
+      "task-workflow-active.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
+    ],
+    "help": [
+      "task-workflow-active.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
+    ],
+    "hint": [
+      "task-workflow-active.md",
+      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
+    ],
+    "batchid": [
+      "task-workflow-active.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md"
+    ],
+    "optimization": [
+      "task-workflow-active.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md"
+    ],
     "rollout": [
       "task-workflow-active.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md"
@@ -27155,6 +27193,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27395,6 +27434,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -27503,6 +27543,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -27759,6 +27800,7 @@
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -28148,15 +28190,6 @@
     "Surface": [
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md"
-    ],
-    "toggle": [
-      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
-    ],
-    "help": [
-      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
-    ],
-    "hint": [
-      "workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md"
     ],
     "responsive": [
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
