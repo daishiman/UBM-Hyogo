@@ -22,6 +22,62 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
 | user gate | external Sentry dashboard confirmation, commit, push, PR |
 
+### issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| issue | #1103 CLOSED（reopen しない / PR 文脈は Refs のみ） |
+| 目的 | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation target | `apps/web/src/styles/globals.css` |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged。admin scoped responsive override is retained |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
+### issue-1094-identity-conflicts-optimistic-aria-live-announcement（30種思考法改善反映 / 2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| 目的 | `/admin/identity-conflicts` の optimistic merge/dismiss 消失時 announcement を focus stealing 非依存・連続処理非競合・文言単一導出へ改善 |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictAnnouncer.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/__tests__/IdentityConflict{Announcer,Row}.spec.tsx` |
+| invariant | API / D1 / `useAdminMutation` / rollback `role="alert"` / visual pixels unchanged |
+| evidence | focused Vitest 2 files / 26 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、撤去 grep 0 件 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit / push / PR / Issue mutation / staging manual SR |
+
+### issue-1089-backfill-impact-preview（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/issue-1089-backfill-impact-preview/` |
+| 目的 | 全件 backfill（手動再取込）確定前に実 response 件数を提示し、破壊的書き込みの影響を先に見せる。`POST /admin/sync/responses?dryRun=true&fullSync=true` の read-only count-only 経路と `ManualFormResyncPanel` の staged preview → confirm UI を追加する |
+| implementation targets | `apps/api/src/jobs/sync-forms-responses.ts`（`ResponseSyncPreview` + `previewResponseSync`）, `apps/api/src/routes/admin/responses-sync.ts`（`?dryRun=true` preview 分岐）, `apps/web/src/features/admin/diagnostics/manual-sync.ts`（`SyncPreviewResultSchema` + `SyncPreviewRunResponseSchema`）, `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx`（staged dry-run preview UI + `canBackfill` gate）, focused tests `apps/api/src/jobs/sync-forms-responses.contract.spec.ts`, `apps/api/src/routes/admin/responses-sync.contract.spec.ts`, `apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts` |
+| invariant | 既存 `?fullSync` run 経路と `SyncResultSchema` 不変。dry-run は read-only（sync lock / `sync_jobs` ledger / D1 write / `processResponse` を実行しない）。apps/web は zod 再宣言のみで apps/api 直接 import なし。新 endpoint / D1 schema / Google Form schema 変更なし |
+| contract | dry-run 応答 `{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }`。`responseCount` は `forms.responses.list` 実数（AC-2）、`estimatedWrites` は推定ラベル |
+| reference pattern | `BackfillPublishStatePanel.client.tsx` + `diagnostics/backfill.ts` + `sync-backfill-publish-state.ts` の `?dryRun=true|false` staged dry-run pattern |
+| evidence | focused tests 4 files / 71 tests PASS（apps/api 40: sync-forms-responses.contract 30 + responses-sync.contract 10; apps/web 31: ManualFormResyncPanel 13 + sync-schemas 18）、web/api typecheck PASS、lint PASS、HEX なし、verify:phase12-compliance PASS、gate-metadata ERROR 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` Cloudflare Secrets 投入、authenticated runtime screenshot、staging deploy、commit、push、PR。Issue #1089 は CLOSED 維持 |
+
+### issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| 目的 | 手動 Google Form 再取込結果に `durationMs` を表示し、運用者が処理時間を把握できるようにする |
+| implemented targets | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/web/src/features/admin/diagnostics/manual-sync.ts`, `apps/web/src/features/admin/components/_sync/ManualFormResyncPanel.client.tsx` |
+| tests | `apps/api/src/jobs/sync-forms-responses.contract.spec.ts`, `apps/api/src/routes/admin/responses-sync.contract.spec.ts`, `apps/web/src/features/admin/diagnostics/__tests__/sync-schemas.spec.ts`, `apps/web/src/features/admin/components/_sync/__tests__/ManualFormResyncPanel.spec.tsx` |
+| invariant | route は pass-through のまま。endpoint path / admin auth boundary / D1 schema / Google Form schema は変更なし。UI schema は `.strict()` 維持で `durationMs` optional |
+| Phase 11/12 | local focused tests・typecheck・lint PASS。Phase 12 strict 7 present。runtime screenshot は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot、staging deploy、commit、push、PR、Issue #1088 mutation |
+
 ### test-accounts-seed-spec（2026-06-03）
 
 | 項目 | 値 |

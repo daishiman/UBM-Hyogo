@@ -14,6 +14,56 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
 | user gate | external Sentry dashboard confirmation, commit, push, PR |
 
+## issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation | 後発重複ブロック（132 行）を削除のみ。先発 `parallel-01 P1-1〜P1-5` ブロックと admin scoped responsive override を保持。byte-identical diff + cascade 文脈同一で computed style 不変を二重証明 |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
+## issue-1094-identity-conflicts-optimistic-aria-live-announcement（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1094-identity-conflicts-optimistic-aria-live-announcement/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | `/admin/identity-conflicts` optimistic merge/dismiss 消失時の screen reader announcement を page-level single live region へ集約し、focus stealing と文言 drift を解消する |
+| implementation | `IdentityConflictAnnouncer`, `identityConflictAnnouncements.ts`, `IdentityConflictRow` context announce wiring, server page wrapper |
+| evidence | focused Vitest 2 files / 26 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; grep 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation, staging manual SR |
+
+## issue-1089-backfill-impact-preview（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1089-backfill-impact-preview/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 全件 backfill（手動再取込）確定前に実 response 件数を提示し、破壊的書き込みの影響を先に見せる |
+| implementation | `POST /admin/sync/responses?dryRun=true&fullSync=true` の read-only count-only 経路（`ResponseSyncPreview` / `previewResponseSync`）、frontend `SyncPreviewResultSchema` / `SyncPreviewRunResponseSchema`、`ManualFormResyncPanel` の preview → count panel → `canBackfill` gate → destructive confirm staged flow |
+| contract | dry-run 応答 `{ ok:true, preview:{ status:"preview", dryRun:true, responseCount, estimatedWrites, pagesScanned, capped } }`。`responseCount` = 実数（AC-2）/ `estimatedWrites` = 推定。dry-run は read-only（lock / `sync_jobs` ledger / D1 write / `processResponse` なし） |
+| evidence | focused tests 4 files / 71 tests PASS（apps/api 40 + apps/web 31）; web/api typecheck PASS; lint PASS; HEX なし; verify:phase12-compliance PASS; gate-metadata ERROR 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md` |
+| user gate | `SYNC_ADMIN_TOKEN` 投入, staging deploy, authenticated runtime screenshot, commit, push, PR。Issue #1089 は CLOSED 維持 |
+
+## issue-1088-manual-form-resync-sync-duration-display（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1088-manual-form-resync-sync-duration-display/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime_visual_pending_user_gate` |
+| purpose | 管理画面「フォーム回答の再取込」結果 `<dl>` に取込所要時間 `durationMs` を表示し、backend producer から UI consumer まで同一サイクルで通す |
+| implementation | `apps/api/src/jobs/sync-forms-responses.ts` `ResponseSyncResult.durationMs` + `runResponseSync()` succeeded/failed/skipped 3 経路、`apps/web/src/features/admin/diagnostics/manual-sync.ts` optional schema、`ManualFormResyncPanel.client.tsx` result row |
+| evidence | API job/route contract focused PASS、web schema/panel focused PASS、api/web typecheck PASS、repo lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md` |
+| user gate | authenticated runtime screenshot, staging deploy, commit, push, PR, Issue #1088 mutation |
+
 ## test-accounts-seed-spec（2026-06-03）
 
 | 項目 | 値 |
