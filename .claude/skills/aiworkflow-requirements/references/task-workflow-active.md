@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1104-member-creation-path-unification（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-1104-member-creation-path-unification/` |
+| Issue | #1104 CLOSED（reopen しない。commit/PR/staging は user-gated） |
+| 目的 | member 作成経路を単一 helper / status 連結へ統一し、`member_status` orphan を ingest / auto-link の両経路で発生不能にする |
+| implementation targets | `apps/api/src/repository/members.ts`, `apps/api/src/repository/identities.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, focused tests |
+| invariant | `apps/web` / endpoint surface / D1 schema / migrations / FK 制約は変更なし。route mutation の `ensureMemberStatusRow` は legacy backstop として保持 |
+| evidence | focused D1 Vitest 5 files / 51 tests PASS、API typecheck PASS、API lint PASS、grep gate PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging authenticated smoke, Issue mutation |
+
 ### issue-1076-member-og-design-token-alignment（2026-06-03）
 
 | 項目 | 値 |

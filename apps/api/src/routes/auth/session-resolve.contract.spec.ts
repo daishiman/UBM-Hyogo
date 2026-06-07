@@ -233,4 +233,27 @@ describe("GET /auth/session-resolve", () => {
     expect(body.memberId).toBeNull();
     expect(body.gateReason).toBe("rules_declined");
   });
+
+  it("auto-link: 既存 identity に status が欠けていても session resolve で既定行を補完する", async () => {
+    await seedIdentity(env, "m_legacy", "legacy@example.com");
+
+    const app = createSessionResolveRoute();
+    const res = await app.request(
+      "/session-resolve?email=legacy@example.com",
+      { headers: { "x-internal-auth": INTERNAL } },
+      makeEnv(env),
+    );
+    const status = await env.db
+      .prepare("SELECT * FROM member_status WHERE member_id = 'm_legacy'")
+      .first<{ member_id: string; rules_consent: string }>();
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body.memberId).toBeNull();
+    expect(body.gateReason).toBe("rules_declined");
+    expect(status).toMatchObject({
+      member_id: "m_legacy",
+      rules_consent: "unknown",
+    });
+  });
 });
