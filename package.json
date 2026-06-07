@@ -16,6 +16,8 @@
     "build": "bash scripts/with-env.sh pnpm -r build",
     "dev:web": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/web dev",
     "dev:api": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/api dev",
+    "seed:test-accounts": "bash scripts/seed-test-accounts.sh",
+    "seed:test-accounts:gen": "node --import tsx scripts/gen-test-accounts-seed.mjs",
     "lint": "node scripts/lint-boundaries.mjs && pnpm run lint:deps && node scripts/lint-stablekey-literal.mjs && node scripts/lint-stable-key-update.mjs --strict && pnpm verify:no-inline-style && pnpm -r lint",
     "lint:deps": "rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs",
     "lint:stablekey": "node scripts/lint-stablekey-literal.mjs",

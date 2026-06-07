@@ -2842,6 +2842,41 @@ node scripts/list-specs.js --topics
 | Boundary | L39 |
 | Lessons | L43 |
 
+### references/workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Code Artifacts | L15 |
+| Evidence Boundary | L27 |
+| Lessons Learned | L31 |
+
+### references/workflow-issue-1089-backfill-impact-preview-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L15 |
+| Lessons Learned | L21 |
+
+### references/workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L23 |
+| Invariants | L34 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L9 |
+| Implementation Targets | L19 |
+| Evidence | L23 |
+| Boundary | L33 |
+
 ### references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md
 
 | セクション | 行 |
@@ -4232,6 +4267,14 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-staging-api-url-and-session-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation artifacts | L10 |
+| Local evidence | L19 |
+| Lessons | L27 |
+
 ### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
 
 | セクション | 行 |
@@ -4872,6 +4915,17 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L74 |
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
+
+### references/workflow-test-accounts-seed-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow | L8 |
+| Implementation Artifacts | L18 |
+| Evidence | L33 |
+| User-Gated Boundary | L45 |
+| Lessons Learned | L49 |
 
 ### references/workflow-ui-prototype-design-system-foundation-artifact-inventory.md
 
@@ -7342,6 +7396,8 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L10 |
 | 関連教訓 | L42 |
 
+### references/lessons-learned-test-accounts-seed-spec-2026-06.md
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -8815,18 +8871,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3761 |
-| フェーズ構造（概要） | L3770 |
-| 品質ゲート（概要） | L3801 |
-| 出力テンプレート | L3812 |
-| 実行時のコマンド・エージェント・スキル | L3835 |
-| 昇格パターン集 | L3859 |
-| Current Active / Spec Created Tasks | L3861 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4027 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4095 |
-| issue-998-members-publish-state-production-rollout | L4122 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4169 |
-| issue-1068-admin-tag-inline-create-ui | L4183 |
+| ドキュメント構成 | L3830 |
+| フェーズ構造（概要） | L3839 |
+| 品質ゲート（概要） | L3870 |
+| 出力テンプレート | L3881 |
+| 実行時のコマンド・エージェント・スキル | L3904 |
+| 昇格パターン集 | L3928 |
+| Current Active / Spec Created Tasks | L3930 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4096 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4164 |
+| issue-998-members-publish-state-production-rollout | L4191 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4250 |
+| issue-1068-admin-tag-inline-create-ui | L4264 |
 
 ### references/task-workflow-backlog-part2.md
 

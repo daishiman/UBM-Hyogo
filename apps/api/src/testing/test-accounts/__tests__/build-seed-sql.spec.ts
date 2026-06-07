@@ -1,0 +1,33 @@
+import { describe, expect, it } from "vitest";
+import { buildCleanupSql, buildManifest, buildSeedSql } from "../build-seed-sql";
+
+describe("test account seed builder", () => {
+  it("builds non-transactional idempotent SQL without bare inserts", () => {
+    const sql = buildSeedSql();
+    // Cloudflare D1 の remote 実行は明示 BEGIN TRANSACTION / COMMIT を拒否する
+    // （wrangler d1 execute --file が全文を暗黙アトミックに実行するため）。
+    // 出力に明示トランザクションが混ざっていないことを退行ガードとして保証する。
+    expect(sql).not.toMatch(/BEGIN TRANSACTION/);
+    expect(sql).not.toMatch(/(^|\n)COMMIT;/);
+    expect(sql.startsWith("INSERT OR REPLACE INTO schema_versions")).toBe(true);
+    expect(sql).not.toMatch(/(^|\n)INSERT INTO /);
+    expect(sql).toContain("INSERT OR REPLACE INTO member_identities");
+    expect(sql).toContain("INSERT OR IGNORE INTO member_tags");
+    expect(sql).toContain("[TEST] 山田''太郎😀");
+  });
+
+  it("builds cleanup SQL scoped to TEST account ids only", () => {
+    const sql = buildCleanupSql();
+    expect(sql).toContain("DELETE FROM member_identities WHERE member_id IN ('TEST-MEM-01'");
+    expect(sql).toContain("DELETE FROM admin_users WHERE admin_id IN ('TEST-ADM-01'");
+    expect(sql).not.toContain("LIKE '%'");
+  });
+
+  it("builds manifest with loginable and publicListed flags", () => {
+    const manifest = buildManifest();
+    expect(manifest.members).toHaveLength(10);
+    expect(manifest.members.filter((member) => member.loginable)).toHaveLength(7);
+    expect(manifest.members.filter((member) => member.publicListed)).toHaveLength(5);
+    expect(manifest.admins.filter((admin) => admin.active)).toHaveLength(2);
+  });
+});

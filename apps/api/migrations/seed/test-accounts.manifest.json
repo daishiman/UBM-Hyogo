@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-06-03T10:30:00.000Z",
+  "members": [
+    {
+      "memberId": "TEST-MEM-01",
+      "email": "test-mem-01@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 公開 ログイン 太郎",
+      "loginable": true,
+      "publicListed": true,
+      "isDeleted": false,
+      "storageStateName": "test-mem-01.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-02",
+      "email": "test-mem-02@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 会員限定 花子",
+      "loginable": true,
+      "publicListed": false,
+      "isDeleted": false,
+      "storageStateName": "test-mem-02.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-03",
+      "email": "test-mem-03@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 公開 複数出席 三郎",
+      "loginable": true,
+      "publicListed": false,
+      "isDeleted": false,
+      "storageStateName": "test-mem-03.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-04",
+      "email": "test-mem-04@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 規約未同意 四郎",
+      "loginable": false,
+      "publicListed": false,
+      "isDeleted": false,
+      "storageStateName": "test-mem-04.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-05",
+      "email": "test-mem-05@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 削除済 五郎",
+      "loginable": false,
+      "publicListed": false,
+      "isDeleted": true,
+      "storageStateName": "test-mem-05.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-06",
+      "email": "test-mem-06@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 最小公開 六郎",
+      "loginable": true,
+      "publicListed": true,
+      "isDeleted": false,
+      "storageStateName": "test-mem-06.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-07",
+      "email": "test-mem-07@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 多タグ 通知停止 七海",
+      "loginable": true,
+      "publicListed": true,
+      "isDeleted": false,
+      "storageStateName": "test-mem-07.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-08",
+      "email": "test-mem-08@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 未登録ゲート 八郎",
+      "loginable": false,
+      "publicListed": false,
+      "isDeleted": false,
+      "storageStateName": "test-mem-08.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-09",
+      "email": "test-mem-09@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 本人写真 九美",
+      "loginable": true,
+      "publicListed": true,
+      "isDeleted": false,
+      "storageStateName": "test-mem-09.storageState.json"
+    },
+    {
+      "memberId": "TEST-MEM-10",
+      "email": "test-mem-10@test.ubm-hyogo.invalid",
+      "fullName": "[TEST] 山田'太郎😀 長い名前エッジケース",
+      "loginable": true,
+      "publicListed": true,
+      "isDeleted": false,
+      "storageStateName": "test-mem-10.storageState.json"
+    }
+  ],
+  "admins": [
+    {
+      "adminId": "TEST-ADM-01",
+      "email": "test-admin-01@test.ubm-hyogo.invalid",
+      "displayName": "[TEST] 管理者 有効1",
+      "active": true,
+      "storageStateName": "test-adm-01.storageState.json"
+    },
+    {
+      "adminId": "TEST-ADM-02",
+      "email": "test-admin-02@test.ubm-hyogo.invalid",
+      "displayName": "[TEST] 管理者 有効2",
+      "active": true,
+      "storageStateName": "test-adm-02.storageState.json"
+    },
+    {
+      "adminId": "TEST-ADM-03",
+      "email": "test-admin-03@test.ubm-hyogo.invalid",
+      "displayName": "[TEST] 管理者 無効",
+      "active": false,
+      "storageStateName": "test-adm-03.storageState.json"
+    }
+  ]
+}

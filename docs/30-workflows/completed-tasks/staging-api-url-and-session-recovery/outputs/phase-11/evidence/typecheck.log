@@ -1,0 +1,3 @@
+PASS 2026-06-03
+Command: mise exec -- pnpm typecheck
+Result: apps/web and all workspace typecheck targets completed successfully.

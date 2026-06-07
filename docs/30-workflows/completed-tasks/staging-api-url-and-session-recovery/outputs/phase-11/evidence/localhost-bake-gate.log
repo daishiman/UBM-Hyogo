@@ -1,0 +1,22 @@
+PASS 2026-06-03
+Command: bash scripts/verify-no-localhost-bake.sh --src-only
+Result: unallowlisted localhost / 127.0.0.1 API endpoint bake was not detected.
+
+PASS 2026-06-04 (build bundle scan / AC-4 完全検証)
+Build: ENVIRONMENT=staging NEXT_PUBLIC_API_BASE_URL=https://ubm-hyogo-api-staging.daishimanju.workers.dev
+       PUBLIC_API_BASE_URL=... INTERNAL_API_BASE_URL=... AUTH_URL=...
+       mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare  (exit 0)
+Command: grep -rln "localhost:8787|127.0.0.1:8787|...:8888" apps/web/.open-next/assets apps/web/.next/static
+Result: client bundle (.open-next/assets + .next/static) に localhost/127.0.0.1 焼き込み 0 件。AC-4 充足。
+
+注記 (gate 仕様是正): build 後に `verify-no-localhost-bake.sh --bundle-only` を実行したところ、
+従来は `.open-next` ツリー全体 (server-functions / handler.mjs 含む) を scan していたため、
+サーバー側で local fallback 定数 (transport.ts LOCAL_API_FALLBACK_BASE_URL) を圧縮した行
+(allowlist コメントが minify で消える) を誤検出していた。spec task-c §2.3 は対象を
+「build 済 client bundle (.open-next/assets/*.js)」と定義しているため、bundle scan 対象を
+`.open-next/assets` + `.next/static` (= ブラウザへ配信される client bundle) に限定するよう
+gate を是正。是正後:
+  - bash scripts/verify-no-localhost-bake.sh --bundle-only  -> exit 0 (clean)
+  - bash scripts/verify-no-localhost-bake.sh                -> exit 0 (clean, src+bundle)
+  - mise exec -- pnpm vitest run scripts/verify-no-localhost-bake.spec.ts -> 2 passed
+CI (.github/workflows/verify-no-localhost-bake.yml) は従来通り --src-only のみ実行のため挙動不変。
