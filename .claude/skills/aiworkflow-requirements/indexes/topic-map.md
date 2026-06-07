@@ -2879,6 +2879,17 @@ node scripts/list-specs.js --topics
 | Skill Feedback | L50 |
 | Lessons Learned | L54 |
 
+### references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L13 |
+| Evidence | L24 |
+| Invariants | L32 |
+| User Gate | L39 |
+| Lessons Learned | L43 |
+
 ### references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md
 
 | セクション | 行 |
