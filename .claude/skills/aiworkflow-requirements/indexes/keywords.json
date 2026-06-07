@@ -3374,6 +3374,7 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -4950,6 +4951,7 @@
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -7528,6 +7530,7 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -8288,6 +8291,7 @@
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -11538,6 +11542,7 @@
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -16776,6 +16781,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-task-c-privacy-terms-public-shell-spec-artifact-inventory.md",
       "workflow-task-c-public-member-sidebar-shell-integration-artifact-inventory.md",
@@ -17604,6 +17610,7 @@
     "consolidation": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "expand": [
@@ -19071,6 +19078,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -19590,7 +19598,8 @@
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md"
     ],
     "block": [
-      "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md"
+      "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md"
     ],
     "は実コンポーネントの": [
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md"
@@ -20531,7 +20540,8 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "css": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md"
     ],
     "の境界": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
@@ -27162,6 +27172,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -27403,6 +27414,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27512,6 +27524,7 @@
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -27649,6 +27662,7 @@
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -28273,6 +28287,9 @@
     ],
     "announcement": [
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md"
+    ],
+    "globals": [
+      "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md"
     ],
     "fk": [
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md"

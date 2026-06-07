@@ -23,6 +23,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
 | user gate | remote D1 apply、commit、push、PR |
 
+### issue-1103-globals-css-shell-block-consolidation（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1103-globals-css-shell-block-consolidation/` |
+| issue | #1103 CLOSED（reopen しない / PR 文脈は Refs のみ） |
+| 目的 | `apps/web/src/styles/globals.css` の byte-identical `parallel-01 P1-1〜P1-5` 重複ブロックを 1 本化し、shell/page/card/typography token surface の drift risk を下げる |
+| implementation target | `apps/web/src/styles/globals.css` |
+| evidence | `data-shell="sidebar"` 2 matches、`parallel-01 P1-1 page surface` 1 match、web build PASS、web lint PASS、`verify:tokens` PASS、`tokens.runtime.spec.ts` 9 PASS |
+| invariant | apps/api / D1 / auth / route contract / token definition unchanged。admin scoped responsive override is retained |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md` |
+| user gate | commit, push, PR, staging screenshot |
+
 ### issue-1094-identity-conflicts-optimistic-aria-live-announcement（30種思考法改善反映 / 2026-06-05）
 
 | 項目 | 値 |
