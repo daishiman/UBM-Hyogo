@@ -5400,6 +5400,18 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
 | inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
+
+# issue-1129-single-write-batchid-correlation
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / NON_VISUAL / 2026-06-07 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| API | Single admin manual tag assign writes `after_json.{tagId,source,batchId}` and single unassign writes `before_json.{tagId,batchId}` with request-scoped UUID; existing `GET /admin/audit?batchId=<id>` searches both via `$.batchId` |
+| invariant | no endpoint, response shape, D1 schema, migration, `apps/web`, or audit read-side SQL change; noop writes leave no audit row and no batchId |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS; API typecheck PASS |
+| inventory | `references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

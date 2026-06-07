@@ -45,8 +45,8 @@ It adds bulk tag `batchId` lookup and display support to the existing read-only 
 
 ## Contract Notes
 
-- `batchId` belongs only to bulk tag operations created by issue-1036.
-- Assign audit rows store `batchId` in `after_json`; unassign rows store it in `before_json`.
+- `batchId` belongs to tag write audit correlation. Issue #1079 introduced the read-side filter for bulk tag operations created by issue #1036; issue #1129 extends the same payload key/path to single admin manual tag assign/unassign.
+- Assign audit rows store `batchId` in `after_json`; unassign rows store it in `before_json` for both bulk writes and single manual writes.
 - No `audit_log.correlation_id`, generated column, JSON index, or migration is introduced.
 - JSON path lookup is guarded with `json_valid(...)` so malformed legacy audit payloads do not make batchId filtering fail.
 - Full-scan risk is bounded by existing keyset cursor + LIMIT and operational guidance to combine `batchId` with `from` / `to` / `action`.
