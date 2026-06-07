@@ -2,15 +2,8 @@
 // 不変条件 #5: web は D1 を直接参照しない。verify は API worker に委譲する。
 // AC-3: 失敗 reason は /login?error=<mapped> に対応する識別子へ正規化する。
 
-import { getAuthEnv } from "../env";
-
-const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
-
-const resolveApiBase = (override?: string): string => {
-  const v = override ?? getAuthEnv().INTERNAL_API_BASE_URL;
-  if (v && v.length > 0) return v.replace(/\/$/, "");
-  return FALLBACK_INTERNAL_API;
-};
+import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "../env";
+import { fetchViaApiTransport, resolveApiFetch } from "../fetch/transport";
 
 export interface VerifyMagicLinkUser {
   readonly email: string;
@@ -84,15 +77,29 @@ const KNOWN_REASONS: ReadonlySet<VerifyFailureReason> = new Set([
 export const verifyMagicLink = async (
   input: VerifyMagicLinkInput,
 ): Promise<VerifyMagicLinkResult> => {
-  const fetchImpl = input.fetchImpl ?? fetch;
-  const url = `${resolveApiBase(input.apiBaseUrl)}/auth/magic-link/verify`;
+  const env = getAuthEnv();
   let res: Response;
   try {
-    res = await fetchImpl(url, {
+    const init: RequestInit = {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ token: input.token, email: input.email }),
-    });
+    };
+    if (input.fetchImpl !== undefined) {
+      const baseUrl = (input.apiBaseUrl ?? env.INTERNAL_API_BASE_URL ?? "").replace(/\/$/, "");
+      res = await input.fetchImpl(`${baseUrl}/auth/magic-link/verify`, init);
+    } else {
+      res = await fetchViaApiTransport(
+        resolveApiFetch({
+          API_SERVICE: env.API_SERVICE,
+          baseUrl: input.apiBaseUrl ?? env.INTERNAL_API_BASE_URL,
+          environment: getEnvironment(),
+          isTest: getTransportRuntimeIsTest(),
+        }),
+        "/auth/magic-link/verify",
+        init,
+      );
+    }
   } catch {
     return { ok: false, reason: "temporary_failure" };
   }
