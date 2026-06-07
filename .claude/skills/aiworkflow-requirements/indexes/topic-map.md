@@ -2889,6 +2889,16 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | Boundary | L33 |
 
+### references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L18 |
+| Implemented files (apps/web only) | L33 |
+| Boundaries | L43 |
+| Lessons Learned | L51 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8885,6 +8895,7 @@ node scripts/list-specs.js --topics
 | issue-998-members-publish-state-production-rollout | L4203 |
 | issue-1078-bulk-tag-picker-large-catalog-ux | L4262 |
 | issue-1068-admin-tag-inline-create-ui | L4276 |
+| issue-1111-proxy-transport-util-unify | L4294 |
 
 ### references/task-workflow-backlog-part2.md
 
