@@ -2918,6 +2918,12 @@ node scripts/list-specs.js --topics
 | Boundaries | L43 |
 | Lessons Learned | L51 |
 
+### references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L14 |
+
 ### references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -5966,15 +5972,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L27 |
-| 使い方 | L35 |
-| Current Alias Overrides（個別互換行） | L42 |
-| Family Summary | L88 |
-| Detailed Register | L109 |
-| Section Extract Register (2026-03-17) | L290 |
-| 500-Line Split Register (2026-03-16) | L301 |
-| Fragment Migration Register (2026-04-28) | L323 |
-| Task Root Path Drift Register (2026-04-30 追記) | L350 |
+| 概要 | L28 |
+| 使い方 | L36 |
+| Current Alias Overrides（個別互換行） | L43 |
+| Family Summary | L89 |
+| Detailed Register | L110 |
+| Section Extract Register (2026-03-17) | L291 |
+| 500-Line Split Register (2026-03-16) | L302 |
+| Fragment Migration Register (2026-04-28) | L324 |
+| Task Root Path Drift Register (2026-04-30 追記) | L351 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -8913,19 +8919,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3873 |
-| フェーズ構造（概要） | L3882 |
-| 品質ゲート（概要） | L3913 |
-| 出力テンプレート | L3924 |
-| 実行時のコマンド・エージェント・スキル | L3947 |
-| 昇格パターン集 | L3971 |
-| Current Active / Spec Created Tasks | L3973 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4139 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4207 |
-| issue-998-members-publish-state-production-rollout | L4233 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4292 |
-| issue-1068-admin-tag-inline-create-ui | L4306 |
-| issue-1111-proxy-transport-util-unify | L4324 |
+| ドキュメント構成 | L3887 |
+| フェーズ構造（概要） | L3896 |
+| 品質ゲート（概要） | L3927 |
+| 出力テンプレート | L3938 |
+| 実行時のコマンド・エージェント・スキル | L3961 |
+| 昇格パターン集 | L3985 |
+| Current Active / Spec Created Tasks | L3987 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4153 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4221 |
+| issue-998-members-publish-state-production-rollout | L4247 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4306 |
+| issue-1068-admin-tag-inline-create-ui | L4320 |
+| issue-1111-proxy-transport-util-unify | L4338 |
 
 ### references/task-workflow-backlog-part2.md
 

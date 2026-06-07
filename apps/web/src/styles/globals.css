@@ -1310,6 +1310,27 @@
     color: var(--ubm-color-text-primary);
   }
 
+  .admin-timeline__heading .ui-badge[data-attendance-level] {
+    border-radius: 6px;
+    font-weight: 700;
+    padding: 2px 8px;
+  }
+
+  .admin-timeline__heading .ui-badge[data-attendance-level="none"] {
+    background: var(--status-neutral-bg);
+    color: var(--ubm-color-text-secondary);
+  }
+
+  .admin-timeline__heading .ui-badge[data-attendance-level="normal"] {
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+  }
+
+  .admin-timeline__heading .ui-badge[data-attendance-level="high"] {
+    background: var(--status-success-bg);
+    color: var(--ubm-color-ok);
+  }
+
   .schema-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

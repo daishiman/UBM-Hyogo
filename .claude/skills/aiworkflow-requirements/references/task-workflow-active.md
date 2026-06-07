@@ -23,6 +23,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
 
+### issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| Issue | #1112 CLOSED（Issue mutation は未実行） |
+| 目的 | `/admin/meetings` 開催日タイムラインの出席人数バッジに、none / normal / high の 3 段階色強調を追加する |
+| implementation targets | `apps/web/src/features/admin/components/_meetings/meetingStats.ts`, `apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx`, `apps/web/src/styles/globals.css`, `_meetings/__tests__/{MeetingTimeline,meetingStats}.spec.tsx` |
+| invariant | apps/api endpoint surface / D1 schema / Google Form / 出席集計 semantics / `tokens.css` / `design-tokens.md` / 共有 `.ui-badge` default behavior unchanged |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web verify-design-tokens PASS、local Playwright screenshot 3 PNG PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
 ### issue-1105-member-status-fk-constraint（2026-06-05）
 
 | 項目 | 値 |
