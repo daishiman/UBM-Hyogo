@@ -18,6 +18,18 @@ bash scripts/smoke/runtime-admin-web.sh production --out-dir ci-evidence --ci-su
 GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-session-cookie.mts production
 ```
 
+## mint-staging-bearers.mts
+
+`mint-staging-bearers.mts` issues short-lived staging bearer JWTs. Use
+`--roles admin`, `--roles me`, or `--roles admin,me`; the default remains
+`admin,me` for compatibility. Role-scoping keeps admin-only jobs from requiring
+`STAGING_ME_MEMBER_ID` and `STAGING_ME_EMAIL`.
+
+```bash
+GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-bearers.mts --roles admin
+pnpm exec tsx scripts/smoke/verify-mint-env-contract.mts
+```
+
 ## tag-queue-race.mjs
 
 `tag-queue-race.mjs` verifies that concurrent resolves for the same tag queue item produce exactly one winner and `race_lost` losers.
