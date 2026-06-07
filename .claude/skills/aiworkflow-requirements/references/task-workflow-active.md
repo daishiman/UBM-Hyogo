@@ -23,6 +23,48 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md` |
 | user gate | staging deploy、real secret mutation、real runtime smoke、required status check 登録、commit、push、PR |
 
+### issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| Issue | #1112 CLOSED（Issue mutation は未実行） |
+| 目的 | `/admin/meetings` 開催日タイムラインの出席人数バッジに、none / normal / high の 3 段階色強調を追加する |
+| implementation targets | `apps/web/src/features/admin/components/_meetings/meetingStats.ts`, `apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx`, `apps/web/src/styles/globals.css`, `_meetings/__tests__/{MeetingTimeline,meetingStats}.spec.tsx` |
+| invariant | apps/api endpoint surface / D1 schema / Google Form / 出席集計 semantics / `tokens.css` / `design-tokens.md` / 共有 `.ui-badge` default behavior unchanged |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web verify-design-tokens PASS、local Playwright screenshot 3 PNG PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
+### issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| Issue | #1105 CLOSED（reopen / mutation なし） |
+| 親 workflow | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、orphan status をDBレベルで禁止する |
+| implementation targets | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| invariant | endpoint surface / apps web / public response shape unchanged. `notification_opt_out` を含む現行カラムを保持し、`idx_member_status_public` を再作成 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS、apps/api D1 full regression 109 files / 937 tests PASS、API typecheck PASS、`verify:d1-migrations` PASS、`apps/web` diff 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply、commit、push、PR |
+
+### issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| 目的 | admin attendance analytics の 100 回以上 zone 誤分類と延べ/unique 指標混同を解消する |
+| implemented targets | `apps/api/src/repository/attendance-analytics.ts`, `apps/api/src/lib/parse-attendance-filter.ts`, `packages/shared/src/zod/admin-attendance.ts`, `apps/web/src/features/admin/attendance/{lib,components,__tests__}/**`, `apps/web/playwright/fixtures/auth.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| invariant | D1 migration / endpoint path / HTTP method / Google Form schema / UBM growth-zone domain unchanged |
+| evidence | focused Vitest root 6 files / 21 tests PASS、D1 repository 1 file / 13 tests PASS、routes/migrations diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot、commit、push、PR |
+
 ### issue-1103-globals-css-shell-block-consolidation（2026-06-05）
 
 | 項目 | 値 |
