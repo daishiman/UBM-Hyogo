@@ -14,6 +14,23 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md` |
 | user gate | commit, push, PR, Issue mutation |
 
+## issue-1111-proxy-transport-util-unify（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #1111 CLOSED（未実施のまま close。本 WF は closed のまま実装仕様作成・mutation なし）。PR 文脈は `Refs #1111` のみ |
+| parent | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/`（FU-AMA-002・route.ts transport 統一を landed 済み） |
+| purpose | admin/public の transport 選択（service-binding 優先 → HTTP fallback）を新規 pure util `apps/web/src/lib/fetch/transport-select.ts` へ集約する pure refactor |
+| implementation | `apps/web/src/lib/fetch/transport-select.ts`（new）, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`（new・9）, `route.spec.ts`, `server-fetch.{binding,http-fallback,env}.spec.ts`, `public.spec.ts` |
+| evidence | focused Vitest 6 files / 44 tests PASS, web typecheck PASS, web lint PASS, verify:phase12-compliance ok:true, gate-metadata ERROR 0 |
+| invariant | pure refactor（分岐結果 / fallback base 解決 / binding 無効化条件 / transport ログ出力が完全不変）。per-caller 真理値（`disableBinding` / `resolveBase: () => string \| null` / opt-in `log`）を呼び出し側に保持。`base-unavailable` 分岐は route.ts のみ到達（500）。`LOCAL_DEV_FALLBACK`（127.0.0.1:8787）は route.ts に残し util へ移送しない（task-18 gate） |
+| scope out | `auth.ts` session-resolve（`service ?? { fetch }` 軽量変種）は同型 4 値 idiom でない別形状ゆえスコープ外（baseline 境界・起票しない） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md`（Lessons L-I1111-001..007） |
+| user gate | commit, push, PR, staging smoke, Issue state change |
+
 ## issue-1103-globals-css-shell-block-consolidation（2026-06-05）
 
 | 項目 | 値 |
