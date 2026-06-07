@@ -362,6 +362,18 @@ const task17AuditFixture = (path: string) => {
   };
 };
 
+// issue-1116: /admin/tag-master の SSR list。full e2e の並列実行では mock API
+// (port 8787) への SSR fetch が稀に 404 化するため、PLAYWRIGHT_TEST=1 時は
+// schema/diff（下記）と同じく fetchAdmin 側で決定的に固定 list を返す。
+const adminTagMasterFixture = () => ({
+  total: 3,
+  items: [
+    { tagId: "tag_mentor", code: "mentor", label: "メンター", category: "role" },
+    { tagId: "tag_vip", code: "vip", label: "VIP会員", category: "membership" },
+    { tagId: "tag_kobe", code: "kobe", label: "神戸", category: "area" },
+  ],
+});
+
 const task18TagQueueFixture = () => ({
   total: 2,
   items: [
@@ -540,6 +552,15 @@ export async function fetchAdmin<T>(
     path.startsWith("/admin/schema/diff")
   ) {
     return task17SchemaFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TEST"] === "1" &&
+    opts.method === undefined &&
+    (path === "/admin/tags" || path.startsWith("/admin/tags?"))
+  ) {
+    return adminTagMasterFixture() as T;
   }
 
   if (
