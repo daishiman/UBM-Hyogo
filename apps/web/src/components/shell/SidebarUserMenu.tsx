@@ -2,12 +2,12 @@
 
 // Task B — sidebar 左下の user menu。`<details>` ベースの popover で role 別 action を集約。
 // ログアウトは既存 SignOutButton を embed し挙動を変えない。route 変化で自動 close。
-import { useEffect, useId, useRef } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { SignOutButton } from "../auth/SignOutButton";
-import { browserDocument } from "../../lib/is-browser";
+import { useDismissable } from "../../hooks/useDismissable";
 import { SidebarUserAvatar } from "./SidebarUserAvatar";
 import type { ShellRole } from "./shell-config";
 import { buildUserMenuActions, roleDisplayLabel } from "./user-menu-config";
@@ -25,6 +25,11 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
   const roleLabel = roleDisplayLabel(role);
   const displayName = user?.displayName || user?.email || "ゲスト";
   const isViewer = role === "viewer";
+  const closeMenu = useCallback(() => {
+    const details = detailsRef.current;
+    if (!details?.open) return;
+    details.open = false;
+  }, []);
   const tooltipId = `shell-user-menu-tooltip-${useId().replace(/:/g, "")}`;
 
   // route 変化で popover を自動 close。
@@ -32,31 +37,7 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
     if (detailsRef.current) detailsRef.current.open = false;
   }, [pathname]);
 
-  useEffect(() => {
-    const doc = browserDocument();
-    if (!doc) return;
-
-    const closeIfOutside = (event: PointerEvent) => {
-      const details = detailsRef.current;
-      if (!details?.open) return;
-      const target = event.target;
-      if (target instanceof Node && details.contains(target)) return;
-      details.open = false;
-    };
-
-    const closeOnEscape = (event: KeyboardEvent) => {
-      const details = detailsRef.current;
-      if (!details?.open || event.key !== "Escape") return;
-      details.open = false;
-    };
-
-    doc.addEventListener("pointerdown", closeIfOutside);
-    doc.addEventListener("keydown", closeOnEscape);
-    return () => {
-      doc.removeEventListener("pointerdown", closeIfOutside);
-      doc.removeEventListener("keydown", closeOnEscape);
-    };
-  }, []);
+  useDismissable(detailsRef, closeMenu);
 
   return (
     <details
