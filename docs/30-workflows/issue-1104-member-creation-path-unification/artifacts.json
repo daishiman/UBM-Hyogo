@@ -1,0 +1,158 @@
+{
+  "title": "issue-1104-member-creation-path-unification",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "feature": "issue-1104-member-creation-path-unification",
+  "created": "2026-06-05",
+  "lastUpdated": "2026-06-07",
+  "branch": "docs/issue-1104-member-creation-path-unification-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "member（member_identities）生成と member_status 既定行生成の責務を単一 helper（createMemberWithStatus）へ集約し、どの作成経路（ingest / auto-link）から作っても member_status orphan が構造的に発生しないようにする実装仕様書。auto-link 経路（backfillIdentityFromCandidate / session-resolve）は issue #1104 §5.1 の棚卸しが見落としていた現役 orphan 源であり、本タスクで status 連結対象に含める。apps/api のみ。apps/web 無変更・新規 endpoint/D1 schema 変更/FK 制約導入なし（FK は followup-002 へ委譲）。",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "githubIssue": "#1104",
+    "githubIssueState": "CLOSED",
+    "githubIssuePolicy": "CLOSED のまま維持・reopen しない。commit/PR/staging はユーザーゲート",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/admin-member-detail-status-404-fix-followup-001-member-creation-path-unification.md",
+    "investigationConclusion": "Phase 1 事前調査時点では未解決（2026-06-05 現行コード確認）。createMember/ensureMember 統一 helper は不在（createMemberTagsProvider は無関係）。ensureMemberStatusRow は sync-forms-responses.ts:314 と member-status.ts:60 の 2 箇所に散在。upsertMember(members.ts:63) は member_identities のみ生成。さらに issue §5.1 は auto-link 経路（identities.ts:69 backfillIdentityFromCandidate → session-resolve.ts:53）を棚卸しから欠落させており、これが member_status を生成しない現役 orphan 源。issue 行番号も陳腐化（:303→:307 / :385→:391 / migration 0024→0025）。別タスク未解決のため本 workflow が必要だった。本 wave 実装後は createMemberWithStatus と auto-link status 連結により P-1/P-2 を解消済みで、member-status route の ensure は legacy backstop として意図的保持。",
+    "issueOptimization": "issue を現行コードへ最適化: (1) 棚卸し表に auto-link 経路 P-2 を追加 (2) 行番号を現行へ更新 (3) backfill migration を 0025 へ訂正 (4) 単一 helper を createMemberWithStatus として具体化",
+    "userGated": [
+      "commit",
+      "push",
+      "PR creation (base dev)",
+      "staging deploy / authenticated admin smoke",
+      "GitHub Issue 状態変更（#1104 は CLOSED 維持）"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-05T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-1104-member-creation-path-unification/phase-3.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-3 設計を作成し 4 条件評価 PASS。root cause（生成責務分散 + auto-link 欠落）と採用方針（単一 helper createMemberWithStatus 集約 + F-4 防御保持）を確定。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-05T10:08:43+09:00",
+        "evidence_path": "docs/30-workflows/issue-1104-member-creation-path-unification/phase-5.md",
+        "approver": "daishiman",
+        "notes": "implementation: createMemberWithStatus 新設、ingest/auto-link 差し替え、focused D1 tests 5 files / 51 tests PASS、api typecheck/lint PASS。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-1104-member-creation-path-unification/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR / staging deploy / authenticated smoke — すべてユーザーゲート"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "name": "要件定義",
+      "status": "completed",
+      "artifacts": [
+        "phase-1.md"
+      ]
+    },
+    "phase-2": {
+      "name": "設計",
+      "status": "completed",
+      "artifacts": [
+        "phase-2.md"
+      ]
+    },
+    "phase-3": {
+      "name": "設計レビュー",
+      "status": "completed",
+      "artifacts": [
+        "phase-3.md"
+      ]
+    },
+    "phase-4": {
+      "name": "テスト作成",
+      "status": "completed",
+      "artifacts": [
+        "phase-4.md"
+      ]
+    },
+    "phase-5": {
+      "name": "実装",
+      "status": "completed",
+      "artifacts": [
+        "phase-5.md"
+      ]
+    },
+    "phase-6": {
+      "name": "テスト拡充",
+      "status": "completed",
+      "artifacts": [
+        "phase-6.md"
+      ]
+    },
+    "phase-7": {
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "artifacts": [
+        "phase-7.md"
+      ]
+    },
+    "phase-8": {
+      "name": "リファクタリング",
+      "status": "completed",
+      "artifacts": [
+        "phase-8.md"
+      ]
+    },
+    "phase-9": {
+      "name": "品質保証",
+      "status": "completed",
+      "artifacts": [
+        "phase-9.md"
+      ]
+    },
+    "phase-10": {
+      "name": "最終レビュー",
+      "status": "completed",
+      "artifacts": [
+        "phase-10.md"
+      ]
+    },
+    "phase-11": {
+      "name": "手動テスト",
+      "status": "completed",
+      "artifacts": [
+        "phase-11.md",
+        "outputs/phase-11/manual-test-result.md"
+      ]
+    },
+    "phase-12": {
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "artifacts": [
+        "phase-12.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": {
+      "name": "PR作成",
+      "status": "blocked_pending_user_approval",
+      "artifacts": [
+        "phase-13.md"
+      ]
+    }
+  }
+}
