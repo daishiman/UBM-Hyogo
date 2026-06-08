@@ -1,0 +1,112 @@
+{
+  "title": "issue-1119-member-tags-referential-integrity-guard",
+  "type": "implementation",
+  "status": "implemented_local",
+  "feature": "issue-1119-member-tags-referential-integrity-guard",
+  "created": "2026-06-06",
+  "lastUpdated": "2026-06-06",
+  "branch": "docs/issue-1119-member-tags-referential-integrity-guard-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "member_tags.tag_id の参照整合性ギャップを documented no-FK 架構を尊重して application 層で根本解決する（孤児行検出関数 + admin 監査 endpoint + assignTagsToMember helper の未定義 tag_id skip + 不変条件テスト + 既存 fixture 健全性確認）。DB-level FK は採用しない意思決定を記録する。",
+    "workflow_state": "implemented_local",
+    "githubIssue": 1119,
+    "githubIssueState": "CLOSED",
+    "githubIssueStatePolicy": "keep_closed_no_reopen",
+    "parentWorkflow": "docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/",
+    "sourceUnassignedSpec": "docs/30-workflows/completed-tasks/unassigned-task/task-issue-1070-followup-003-member-tags-foreign-key-evaluation.md",
+    "dependencies": [
+      "issue-1070-tag-reactivate-physical-delete"
+    ],
+    "investigationConclusion": "member_tags.tag_id への DB-level FK は全 migration に 0 件で未実装。別タスク（issue-1117 migrateTo / issue-1105 member_status FK）でも未解決。リポジトリには 0022_member_photos.sql:4 で『D1 では FK を使わず application 層で整合性を保つ』documented invariant が存在するため、FK 追加は採用せず、no-FK 架構を尊重した application 層の孤児行検出ガードで根本解決する。",
+    "userApprovedApproach": "App 層整合性ガード強化（整合性重視・migration 追加なし）。ユーザー承認 2026-06-06。",
+    "userGated": [
+      "commit",
+      "push",
+      "PR 作成 (gh pr create --base dev)",
+      "staging / production deploy",
+      "実 D1 への孤児行調査クエリ実行"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1119-member-tags-referential-integrity-guard/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "implemented_local: Phase 1-13 仕様書一式、apps/api 実装、focused vitest/typecheck/lint 検証、Phase 12 strict 7 完了。commit / push / PR / deploy / 実 D1 orphan query は user-gated。"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "name": "Requirements",
+      "file": "phase-1.md",
+      "status": "implemented_local"
+    },
+    "phase-2": {
+      "name": "Design",
+      "file": "phase-2.md",
+      "status": "implemented_local"
+    },
+    "phase-3": {
+      "name": "Design Review",
+      "file": "phase-3.md",
+      "status": "implemented_local"
+    },
+    "phase-4": {
+      "name": "Test Design",
+      "file": "phase-4.md",
+      "status": "implemented_local"
+    },
+    "phase-5": {
+      "name": "Implementation",
+      "file": "phase-5.md",
+      "status": "implemented_local"
+    },
+    "phase-6": {
+      "name": "Test Expansion",
+      "file": "phase-6.md",
+      "status": "implemented_local"
+    },
+    "phase-7": {
+      "name": "Coverage",
+      "file": "phase-7.md",
+      "status": "implemented_local"
+    },
+    "phase-8": {
+      "name": "Refactoring",
+      "file": "phase-8.md",
+      "status": "implemented_local"
+    },
+    "phase-9": {
+      "name": "Quality Assurance",
+      "file": "phase-9.md",
+      "status": "implemented_local"
+    },
+    "phase-10": {
+      "name": "Final Review",
+      "file": "phase-10.md",
+      "status": "implemented_local"
+    },
+    "phase-11": {
+      "name": "Manual Test (NON_VISUAL)",
+      "file": "phase-11.md",
+      "status": "implemented_local"
+    },
+    "phase-12": {
+      "name": "Documentation",
+      "file": "phase-12.md",
+      "status": "implemented_local"
+    },
+    "phase-13": {
+      "name": "PR Creation",
+      "file": "phase-13.md",
+      "status": "pending_user_approval"
+    }
+  }
+}

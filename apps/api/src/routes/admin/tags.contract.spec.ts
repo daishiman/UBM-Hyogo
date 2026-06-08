@@ -408,6 +408,66 @@ describe("admin tag master CRUD contract (issue-1035)", () => {
     expect(await missing.json()).toEqual({ ok: false, error: "tag_not_found" });
   });
 
+  it("GET /admin/tags/orphans returns empty when no member_tags rows exist (TC-C01)", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/orphans",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, count: 0, orphans: [] });
+  });
+
+  it("GET /admin/tags/orphans detects member_tags whose tag_id has no definition (TC-C02)", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_ghost', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/orphans",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      ok: boolean;
+      count: number;
+      orphans: Array<{ memberId: string; tagId: string }>;
+    };
+    expect(body.ok).toBe(true);
+    expect(body.count).toBe(1);
+    expect(body.orphans[0]?.tagId).toBe("tag_ghost");
+    expect(body.orphans[0]?.memberId).toBe("m1");
+  });
+
+  it("GET /admin/tags/orphans is not captured by /tags/:tagId dynamic routes (TC-C03)", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_ghost', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/orphans",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    // ":tagId"='orphans' 扱いされていれば count キーは存在しない
+    expect("count" in body).toBe(true);
+    expect(body.count).toBe(1);
+  });
+
+  it("GET /admin/tags/orphans rejects unauthenticated requests (TC-C04)", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request("/tags/orphans", {}, makeEnv(env));
+    expect([401, 403]).toContain(res.status);
+  });
+
   it("keeps /admin/tags/queue routed to the queue route when mounted before CRUD", async () => {
     await env.db
       .prepare(
