@@ -21,7 +21,7 @@
 ## 概要
 
 本タスクは `audit_log` に batchId 相関列（VIRTUAL generated column 第一候補 / plain `correlation_id`
-fallback）+ index を `0026` migration で追加し、`apps/api/src/repository/auditLog.ts` の `listFiltered`
+fallback）+ index を `0027` migration で追加し、`apps/api/src/repository/auditLog.ts` の `listFiltered`
 batchId 検索を JSON full scan から index 列走査へ切り替える **NON_VISUAL / apps/api 専用** の実装 workflow である。
 Phase 12 では、正本同期・証跡境界・残 user gate を実施結果として記録する。
 
@@ -83,7 +83,7 @@ Phase 12 では、正本同期・証跡境界・残 user gate を実施結果と
   （方式B は `_correlation_id` 版）を migration 末尾コメントに併記。
 - **append-only 維持**: backfill は migration 内 SQL のみ。`auditLog.ts` から UPDATE/DELETE を export しない（AC-7）。
 - **設定値**: index 名 = `idx_audit_log_batch_id`（方式A）/ `idx_audit_log_correlation_id`（方式B）。
-  migration 番号 = `0026_audit_log_batchid_index.sql`。
+  migration 番号 = `0027_audit_log_batchid_index.sql`。
 - **検証コマンド**: Phase 9/11 の D1 vitest（`auditLog.repository.spec.ts` / `audit.contract.spec.ts`）+
   `EXPLAIN QUERY PLAN` assertion。
 - **既知制限**: query surface 不変（batchId param は #1079 で確定済み）・production/staging apply は user-gated。
@@ -126,7 +126,7 @@ NON_VISUAL タスクのため screenshot は無い。視覚証跡セクション
 | --- | --- | --- |
 | `AuditLogListFilters.batchId` | **既存・変更なし → N/A** | #1079 で確定済みの公開 filter interface。本タスクは検索の **実装方式（SQL）** を index 走査へ変えるのみで、interface signature は変えない |
 | `GET /admin/audit` query surface | **変更なし → N/A** | query param は不変（index.md スコープ「含まない」） |
-| schema 変更（`0026` migration） | **反映済み** | aiworkflow-requirements `database-schema.md` に `audit_log.batch_id` + `idx_audit_log_batch_id` を追記 |
+| schema 変更（`0027` migration） | **反映済み** | aiworkflow-requirements `database-schema.md` に `audit_log.batch_id` + `idx_audit_log_batch_id` を追記 |
 
 > 公開 TypeScript interface（`AuditLogListFilters`）の signature 変更は無いため interface 追加は **N/A**。
 > schema（DB 列）追加は database 系正本仕様へ反映済み。
@@ -279,7 +279,7 @@ mise exec -- pnpm indexes:rebuild
 
 ## runtime / user-gated 境界
 
-- 実装サイクル完了後に行うのは、コード適用（`0026` migration + `auditLog.ts`）・focused D1 tests・
+- 実装サイクル完了後に行うのは、コード適用（`0027` migration + `auditLog.ts`）・focused D1 tests・
   EXPLAIN QUERY PLAN 証跡取得・aiworkflow 正本同期（Step 1-A/1-B/1-C/Step 2）まで。
 - commit / push / PR 作成・migration apply（staging / production）は **user-gated**（Phase 13）。
 - Issue #1128 は **CLOSED 維持**（reopen しない）。

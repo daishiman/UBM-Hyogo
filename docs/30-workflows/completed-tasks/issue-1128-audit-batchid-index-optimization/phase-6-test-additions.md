@@ -27,7 +27,7 @@ Phase 4 の主要 happy-path / 後方互換ケースに加え、fail path と回
 
 - assertion 方針: プラン `detail` 群に `idx_audit_log_batch_id`（方式B: `idx_audit_log_correlation_id`）が含まれること、かつ `SCAN audit_log`（full scan）が含まれないことの **両方** を assert する（index 名 present だけだと部分 scan を見逃すため二重 guard）。
 - 実装は repository SQL の文字列ではなく `EXPLAIN QUERY PLAN` の実行結果を観測する（実装差し替え耐性）。
-- migration spec は `_setup.ts` が `0026` を自動適用するため、追加 DDL なしでプランを取得できる。
+- migration spec は `_setup.ts` が `0027` を自動適用するため、追加 DDL なしでプランを取得できる。
 
 ## 4. 補助コマンド
 
@@ -36,11 +36,11 @@ Phase 4 の主要 happy-path / 後方互換ケースに加え、fail path と回
 mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
   apps/api/src/repository/__tests__/auditLog.repository.spec.ts \
   apps/api/src/routes/admin/audit.contract.spec.ts \
-  apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts
+  apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts
 
 # EXPLAIN QUERY PLAN guard 単体（migration spec のみ）
 mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
-  apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts -t "index"
+  apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts -t "index"
 ```
 
 ## 5. DoD

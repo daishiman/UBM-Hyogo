@@ -3,7 +3,7 @@
 ## Summary
 
 Issue #1128 の local implementation は `implemented_local_evidence_captured / implementation / NON_VISUAL` として完了した。
-`apps/api/migrations/0026_audit_log_batchid_index.sql` で `audit_log.batch_id` VIRTUAL generated column と
+`apps/api/migrations/0027_audit_log_batchid_index.sql` で `audit_log.batch_id` VIRTUAL generated column と
 `idx_audit_log_batch_id` を追加し、`apps/api/src/repository/auditLog.ts` の batchId filter を `batch_id = ?` に切り替えた。
 
 ## Evidence

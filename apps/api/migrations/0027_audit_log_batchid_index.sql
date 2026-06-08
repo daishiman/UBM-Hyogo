@@ -1,4 +1,4 @@
--- 0026_audit_log_batchid_index.sql
+-- 0027_audit_log_batchid_index.sql
 -- Issue #1128: audit_log batchId lookup optimization.
 -- The batch id is stored in after_json for assign rows and before_json for
 -- unassign rows. A VIRTUAL generated column keeps the append path unchanged

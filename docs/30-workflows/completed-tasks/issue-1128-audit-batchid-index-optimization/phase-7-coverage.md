@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | batchId 検索分岐 | `apps/api/src/repository/auditLog.ts` | `listFiltered` の `if (filters.batchId)` 分岐（切替後の `add("batch_id = ?", ...)` 行）。 |
 | append 相関列書込（方式B採用時のみ） | `apps/api/src/repository/auditLog.ts` | `append` 内の `correlationId` 算出 + INSERT bind 追加行。方式A採用時は対象外（generated column のため write コードなし）。 |
-| 0026 migration | `apps/api/migrations/0026_audit_log_batchid_index.sql` | 列追加 / index 作成 /（方式B時）backfill UPDATE が適用され、index 走査・既存行ヒットで実行が検証されること（SQL は line coverage 計測対象外のため、TC-01/TC-01b/TC-02 の PASS をもって被覆とみなす）。 |
+| 0027 migration | `apps/api/migrations/0027_audit_log_batchid_index.sql` | 列追加 / index 作成 /（方式B時）backfill UPDATE が適用され、index 走査・既存行ヒットで実行が検証されること（SQL は line coverage 計測対象外のため、TC-01/TC-01b/TC-02 の PASS をもって被覆とみなす）。 |
 
 ## 2. 全件対象外の明記
 
@@ -25,7 +25,7 @@ mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
   --coverage \
   --coverage.include="apps/api/src/repository/auditLog.ts" \
   apps/api/src/repository/__tests__/auditLog.repository.spec.ts \
-  apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts
+  apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts
 ```
 
 証跡として記録する数値（Phase 7 実行時に埋める）:
@@ -34,7 +34,7 @@ mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
 | --- | --- | --- | --- |
 | `listFiltered` batchId 分岐 | （実測値）% | （実測値）% | TC-03（after/before 両方向）/ TC-04（NULL 除外）/ 既存 batchId 3 ケース |
 | `append` 相関列書込（方式B時） | （実測値）% | （実測値）% | TC-05（write-path）/ TC-03 |
-| 0026 migration 適用経路 | N/A（SQL） | N/A（SQL） | TC-01 / TC-01b / TC-02（PASS で被覆） |
+| 0027 migration 適用経路 | N/A（SQL） | N/A（SQL） | TC-01 / TC-01b / TC-02（PASS で被覆） |
 
 > branch coverage の重点: batchId 分岐の真（指定あり）/ 偽（未指定）、方式B の `append` における `after.batchId ?? before.batchId ?? null` の 3 分岐（after あり / before あり / 両 NULL）。TC-03 + TC-04 + TC-05 で全分岐を踏む設計。
 

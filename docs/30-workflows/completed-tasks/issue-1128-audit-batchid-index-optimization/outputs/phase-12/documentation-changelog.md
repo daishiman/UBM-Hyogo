@@ -18,8 +18,8 @@ workflow_state: `implemented_local_evidence_captured` / 更新日: 2026-06-07 / 
 | `outputs/phase-12/unassigned-task-detection.md` | 新規（本 wave） | spec authoring |
 | `outputs/phase-12/skill-feedback-report.md` | 新規（本 wave） | spec authoring |
 | `outputs/phase-12/main.md` | 新規（本 wave） | implementation close-out |
-| `apps/api/migrations/0026_audit_log_batchid_index.sql` | 新規 | implementation |
-| `apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts` | 新規 | test |
+| `apps/api/migrations/0027_audit_log_batchid_index.sql` | 新規 | implementation |
+| `apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts` | 新規 | test |
 | `apps/api/src/repository/auditLog.ts` | 更新 | implementation |
 | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | 更新 | test |
 

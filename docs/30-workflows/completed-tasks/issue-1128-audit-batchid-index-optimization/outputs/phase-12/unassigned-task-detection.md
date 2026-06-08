@@ -9,7 +9,7 @@ workflow_state: `implemented_local_evidence_captured` / 更新日: 2026-06-07 / 
 
 **0 件。**
 
-本タスクは `0026` migration（batchId 相関列 + index）+ `auditLog.ts` `listFiltered` の SQL 切替 + test に閉じ、
+本タスクは `0027` migration（batchId 相関列 + index）+ `auditLog.ts` `listFiltered` の SQL 切替 + test に閉じ、
 分割・先送りはしない（CONST_007）。実装後に TODO / FIXME / `.skip` / 未実装分岐が残らないことを確認し、
 current 0 件とする。
 

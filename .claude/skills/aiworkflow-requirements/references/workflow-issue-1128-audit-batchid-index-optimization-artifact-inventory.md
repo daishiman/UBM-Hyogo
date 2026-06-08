@@ -17,16 +17,16 @@ It optimizes existing `/admin/audit?batchId=` lookup by adding an indexable gene
 
 | Path | Role |
 | --- | --- |
-| `apps/api/migrations/0026_audit_log_batchid_index.sql` | Adds `audit_log.batch_id` VIRTUAL generated column and `idx_audit_log_batch_id`. |
+| `apps/api/migrations/0027_audit_log_batchid_index.sql` | Adds `audit_log.batch_id` VIRTUAL generated column and `idx_audit_log_batch_id`. |
 | `apps/api/src/repository/auditLog.ts` | Switches `listFiltered` batchId predicate from JSON full scan to `batch_id = ?`. |
 | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | Adds index-plan assertion while preserving after/before batchId behavior. |
-| `apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts` | Verifies generated column shape, index existence, after/before extraction, and query plan. |
+| `apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts` | Verifies generated column shape, index existence, after/before extraction, and query plan. |
 
 ## Evidence
 
 | Command | Result |
 | --- | --- |
-| `mise exec -- pnpm exec vitest run --config vitest.d1.config.ts apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts apps/api/src/repository/__tests__/auditLog.repository.spec.ts apps/api/src/routes/admin/audit.contract.spec.ts` | PASS: 3 files / 28 tests. |
+| `mise exec -- pnpm exec vitest run --config vitest.d1.config.ts apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts apps/api/src/repository/__tests__/auditLog.repository.spec.ts apps/api/src/routes/admin/audit.contract.spec.ts` | PASS: 3 files / 28 tests. |
 
 ## Contract Notes
 

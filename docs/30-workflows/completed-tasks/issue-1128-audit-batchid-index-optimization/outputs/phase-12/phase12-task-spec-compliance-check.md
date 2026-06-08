@@ -24,9 +24,9 @@
 | spec（新規） | `.../artifacts.json` / `.../outputs/artifacts.json` | gate metadata（parity 済み） |
 | spec（新規） | `.../outputs/phase-12/*.md`（6 ファイル） | Phase 12 close-out 成果物 |
 | spec（新規） | `.../outputs/phase-11/manual-test-result.md` | NON_VISUAL 証跡 |
-| プロダクトコード | `apps/api/migrations/0026_audit_log_batchid_index.sql` | `audit_log.batch_id` VIRTUAL generated column + index |
+| プロダクトコード | `apps/api/migrations/0027_audit_log_batchid_index.sql` | `audit_log.batch_id` VIRTUAL generated column + index |
 | プロダクトコード | `apps/api/src/repository/auditLog.ts` | batchId 条件を `batch_id = ?` へ切替 |
-| テスト | `apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts` / `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | migration shape / index plan / repository 非退化 |
+| テスト | `apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts` / `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | migration shape / index plan / repository 非退化 |
 
 > apps/web / public API response shape / query surface は変更なし。
 
@@ -68,7 +68,7 @@
 | 対象 | 同期内容 | 状態 |
 | --- | --- | --- |
 | aiworkflow-requirements indexes | `node .claude/skills/aiworkflow-requirements/scripts/generate-index.js`（`indexes:rebuild`） | spec authoring 波で実行・drift 0 |
-| system spec（database 系） | `database-schema.md` / quick-reference / resource-map / task-workflow-active / artifact inventory へ `0026` 相関列 + index を同期 | done |
+| system spec（database 系） | `database-schema.md` / quick-reference / resource-map / task-workflow-active / artifact inventory へ `0027` 相関列 + index を同期 | done |
 | 元 unassigned-task spec | `task-issue-1079-followup-001-audit-batchid-index-optimization.md` を `consumed_by_issue_1128` へ更新 | done |
 
 ## Runtime or user-gated boundary

@@ -59,9 +59,9 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 
 ## Application audit_log（issue-1128 batchId index）
 
-`audit_log` は UBM-Hyogo application audit の D1 実テーブルであり、単数形を正本名とする。初期定義は `apps/api/migrations/0003_auth_support.sql`、cold storage manifest は `0018_add_audit_log_export_manifest.sql`、batchId 相関 index は `0026_audit_log_batchid_index.sql` が所有する。
+`audit_log` は UBM-Hyogo application audit の D1 実テーブルであり、単数形を正本名とする。初期定義は `apps/api/migrations/0003_auth_support.sql`、cold storage manifest は `0018_add_audit_log_export_manifest.sql`、batchId 相関 index は `0027_audit_log_batchid_index.sql` が所有する。
 
-実 migration `apps/api/migrations/0026_audit_log_batchid_index.sql` の正本 DDL:
+実 migration `apps/api/migrations/0027_audit_log_batchid_index.sql` の正本 DDL:
 
 - `audit_log.batch_id`: `TEXT GENERATED ALWAYS AS (...) VIRTUAL`
 - generated expression: `COALESCE(CASE WHEN json_valid(after_json) THEN json_extract(after_json, '$.batchId') END, CASE WHEN json_valid(before_json) THEN json_extract(before_json, '$.batchId') END)`

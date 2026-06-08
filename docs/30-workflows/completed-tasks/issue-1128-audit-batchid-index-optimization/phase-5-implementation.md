@@ -9,12 +9,12 @@
 
 | パス | 種別 | 内容 |
 | --- | --- | --- |
-| `apps/api/migrations/0026_audit_log_batchid_index.sql` | **新規** | 相関列 + index 追加（方式B採用時は backfill UPDATE も含む）。rollback 手順をコメントで併記。 |
+| `apps/api/migrations/0027_audit_log_batchid_index.sql` | **新規** | 相関列 + index 追加（方式B採用時は backfill UPDATE も含む）。rollback 手順をコメントで併記。 |
 | `apps/api/src/repository/auditLog.ts` | **編集** | `listFiltered` の batchId 分岐（`:200-205`）を index 列走査へ切替。方式B採用時は `append`（`:103-138`）の INSERT に相関列を追加。 |
 | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | **編集** | Phase 4 の TC-02 / TC-03 / TC-04（+方式B時 TC-05）を追記。既存 batchId 3 ケースは無改修保持。 |
-| `apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts` | **新規** | TC-01（EXPLAIN QUERY PLAN）/ TC-01b（列・index 存在）。 |
+| `apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts` | **新規** | TC-01（EXPLAIN QUERY PLAN）/ TC-01b（列・index 存在）。 |
 | `apps/api/src/routes/admin/audit.contract.spec.ts` | 編集（必要時のみ） | route 契約非退化を確認。`GET /audit` の query surface・response shape が不変なら無改修で PASS する見込み。 |
-| `apps/api/migrations/sequence-exceptions.json` | **不変** | `0026` は重複 prefix ではないため登録不要。 |
+| `apps/api/migrations/sequence-exceptions.json` | **不変** | `0027` は重複 prefix ではないため登録不要。 |
 
 > 削除ファイルなし。
 
@@ -31,7 +31,7 @@ Miniflare D1 に方式A の DDL を流し、`EXPLAIN QUERY PLAN SELECT audit_id 
 
 決定を Phase 2 設計書および本 Phase 冒頭に追記する。以降の SQL / repository diff は採用方式のみを適用する（下記両版を提示）。
 
-### Step 2: migration `0026` 作成（§3）。
+### Step 2: migration `0027` 作成（§3）。
 
 ### Step 3: repository 切替（§4）。
 
@@ -39,14 +39,14 @@ Miniflare D1 に方式A の DDL を流し、`EXPLAIN QUERY PLAN SELECT audit_id 
 
 ---
 
-## 3. migration `0026_audit_log_batchid_index.sql`（完全 SQL）
+## 3. migration `0027_audit_log_batchid_index.sql`（完全 SQL）
 
 > `_setup.ts` は `--` 行内コメント除去 + `;` 分割で適用する（単文 DDL のみ可・`BEGIN...END` / トリガ不可）。両版とも単文 DDL + 単文 UPDATE で構成する。
 
 ### 方式A（第一候補・VIRTUAL generated column）
 
 ```sql
--- 0026_audit_log_batchid_index.sql
+-- 0027_audit_log_batchid_index.sql
 -- Issue #1128: audit_log の batchId 検索を index 走査に最適化する。
 -- after_json / before_json の '$.batchId' を VIRTUAL generated column へ抽出し index を張る。
 -- append-only 維持: 既存行への破壊的変更なし。generated column は読み取り専用。
@@ -79,7 +79,7 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_batch_id
 ### 方式B（fallback・plain column + backfill）
 
 ```sql
--- 0026_audit_log_batchid_index.sql
+-- 0027_audit_log_batchid_index.sql
 -- Issue #1128: audit_log の batchId 検索を index 走査に最適化する（方式B fallback）。
 -- VIRTUAL generated column が index されない D1 環境向け。plain 列 + backfill + index。
 -- append-only 維持: backfill は migration 内 UPDATE のみ（アプリ API には UPDATE を足さない＝AC-7）。
@@ -188,7 +188,7 @@ await c.db
 | --- | --- | --- | --- |
 | `listFiltered(c, filters)` | `AuditLogListFilters`（`batchId?` 含む・不変） | `AuditLogListRow[]`（不変） | 読み取りのみ。SQL の where 句が `batch_id = ?`（または `correlation_id = ?`）へ変わるが結果集合 contract は同一。 |
 | `append(c, e)`（方式B時のみ変更） | `NewAuditLogEntry`（不変） | `AuditLogEntry`（不変） | INSERT 1 行に `correlation_id` 列が追加で書かれる。entry 戻り値は不変。 |
-| migration `0026` | — | — | 列追加 + index 作成（方式B時さらに backfill UPDATE）。append-only 維持。 |
+| migration `0027` | — | — | 列追加 + index 作成（方式B時さらに backfill UPDATE）。append-only 維持。 |
 
 ---
 
@@ -214,7 +214,7 @@ mise exec -- pnpm --filter @ubm-hyogo/api typecheck
 mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
   apps/api/src/repository/__tests__/auditLog.repository.spec.ts \
   apps/api/src/routes/admin/audit.contract.spec.ts \
-  apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts
+  apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts
 
 # migration sequence guard
 mise exec -- pnpm verify:d1-migrations   # = node scripts/verify-d1-migration-sequence.mjs

@@ -6,7 +6,7 @@
 | --- | --- |
 | タスク種別 | API / DB（D1 migration + `apps/api` repository SQL 変更） |
 | 視覚分類 | **NON_VISUAL** |
-| 非視覚的である理由 | 変更対象は D1 schema（`0026` migration の相関列 + index）と `auditLog.ts` の `listFiltered` batchId 検索 SQL のみ。`GET /admin/audit` の query surface・返却 shape は不変（#1079 確定済み）であり、レンダリング・UI/UX・画面遷移に一切影響しない。表示結果は切替前と同一（AC-5 非退化）であり、視覚的差分は原理的に発生しない |
+| 非視覚的である理由 | 変更対象は D1 schema（`0027` migration の相関列 + index）と `auditLog.ts` の `listFiltered` batchId 検索 SQL のみ。`GET /admin/audit` の query surface・返却 shape は不変（#1079 確定済み）であり、レンダリング・UI/UX・画面遷移に一切影響しない。表示結果は切替前と同一（AC-5 非退化）であり、視覚的差分は原理的に発生しない |
 | 代替証跡 | (1) D1 targeted 自動テスト（spec 名 + 件数）、(2) `EXPLAIN QUERY PLAN` 出力（index 走査の実証） |
 
 ## 実地操作の可否（Before-Quit-001）
@@ -31,7 +31,7 @@
 | --- | --- | --- |
 | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts`（batchId ケース `:122-235`） | AC-3 / AC-4 / AC-5 | after_json 由来 / before_json 由来双方が同一 batchId で 1 検索にヒット（COALESCE）。既存行ヒット。返却 shape 非退化 |
 | `apps/api/src/routes/admin/audit.contract.spec.ts` | AC-5 | route 契約（query surface・返却 shape）非退化 |
-| `apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts`（新規作成時） | AC-1 / AC-2 | `PRAGMA table_info` で相関列存在 / `EXPLAIN QUERY PLAN` で index 走査 |
+| `apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts`（新規作成時） | AC-1 / AC-2 | `PRAGMA table_info` で相関列存在 / `EXPLAIN QUERY PLAN` で index 走査 |
 
 ### 環境ブロッカー（別カテゴリ・あれば記録）
 

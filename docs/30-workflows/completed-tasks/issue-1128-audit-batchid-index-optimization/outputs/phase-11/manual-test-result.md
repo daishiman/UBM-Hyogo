@@ -16,7 +16,7 @@
 
 | カテゴリ | 内容 | 状態 |
 | --- | --- | --- |
-| focused D1 test | `mise exec -- pnpm exec vitest run --config vitest.d1.config.ts apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts apps/api/src/repository/__tests__/auditLog.repository.spec.ts apps/api/src/routes/admin/audit.contract.spec.ts` | PASS（3 files / 28 tests） |
+| focused D1 test | `mise exec -- pnpm exec vitest run --config vitest.d1.config.ts apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts apps/api/src/repository/__tests__/auditLog.repository.spec.ts apps/api/src/routes/admin/audit.contract.spec.ts` | PASS（3 files / 28 tests） |
 | repository 非退化 | after_json / before_json 両方の batchId hit、action AND、cursor pagination、破損 JSON 混在 | PASS |
 | index 走査 | `EXPLAIN QUERY PLAN ... WHERE batch_id = ?` が `idx_audit_log_batch_id` を使用し、`SCAN audit_log` が出ない | PASS |
 | 環境ブロッカー | なし | — |
@@ -25,7 +25,7 @@
 
 ```
 mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
-  apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts \
+  apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts \
   apps/api/src/repository/__tests__/auditLog.repository.spec.ts \
   apps/api/src/routes/admin/audit.contract.spec.ts
 

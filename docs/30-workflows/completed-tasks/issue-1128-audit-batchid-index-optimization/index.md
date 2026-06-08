@@ -41,7 +41,7 @@ dependencies:
 | audit_log に batchId 相関列（generated column / correlation_id）が存在するか | **無し** | `apps/api/migrations/0003_auth_support.sql:32-42`（テーブル定義以後、列追加 migration 無し。`grep batchId\|correlation_id\|GENERATED ALWAYS apps/api/migrations/` = 0 件） |
 | batchId 専用 index が存在するか | **無し** | audit_log の index は `idx_audit_log_target`（`0003`）と `idx_audit_log_export`系のみ |
 | `GET /admin/audit` の batchId 検索が index 列走査になっているか | **否（JSON full scan）** | `apps/api/src/repository/auditLog.ts:200-205` が `json_valid(after_json) AND json_extract(after_json,'$.batchId') = ? OR (... before_json ...)` の full scan |
-| 別タスクで解決済みか | **当初は否。今回解決済み** | 元 unassigned task は `consumed_by_issue_1128` へ更新済み。今回 `0026_audit_log_batchid_index.sql` を追加 |
+| 別タスクで解決済みか | **当初は否。今回解決済み** | 元 unassigned task は `consumed_by_issue_1128` へ更新済み。今回 `0027_audit_log_batchid_index.sql` を追加 |
 
 → **結論: 必要（未解決）**。Issue #1079 Phase 12 で YAGNI として先送りされた performance 改善だが、根本問題（full scan）は実在し未実装。本タスクで根本解決する。
 
@@ -62,16 +62,16 @@ dependencies:
 | 対象 route | `apps/api/src/routes/admin/audit.ts`（`GET /audit`・query surface は #1079 で確定済み、変更しない） |
 | batchId の埋め込み位置 | assign は `after_json.$.batchId`、unassign は `before_json.$.batchId`（非対称） |
 | 既存 batchId 検索 SQL | `((json_valid(after_json) AND json_extract(after_json,'$.batchId') = ?n) OR (json_valid(before_json) AND json_extract(before_json,'$.batchId') = ?n))` |
-| 次の migration 番号 | `0026`（最新 = `0025_backfill_member_status.sql`。`sequence-exceptions.json` に重複登録不要な新規連番） |
+| 次の migration 番号 | `0027`（最新 = `0025_backfill_member_status.sql`。`sequence-exceptions.json` に重複登録不要な新規連番） |
 | 非退化 contract test | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts`（batchId ケース `:122-235`）/ `apps/api/src/routes/admin/audit.contract.spec.ts` |
-| テスト migration loader | `apps/api/src/repository/__tests__/_setup.ts`（`apps/api/migrations/*.sql` を sort 順に全適用。`0026` は自動で乗る。`--` コメント除去 + `;` 分割のため BEGIN..END を含まない単文 DDL のみ可） |
+| テスト migration loader | `apps/api/src/repository/__tests__/_setup.ts`（`apps/api/migrations/*.sql` を sort 順に全適用。`0027` は自動で乗る。`--` コメント除去 + `;` 分割のため BEGIN..END を含まない単文 DDL のみ可） |
 | D1 テスト config | `vitest.d1.config.ts`（`pool: forks` / `singleFork`。`apps/api/src/repository/**/*.repository.spec.ts` と `apps/api/src/routes/**/*.contract.spec.ts` を include） |
 
 ## 受け入れ基準（元 Issue AC を継承・現行コードへ補正）
 
 | ID | 受け入れ基準 |
 | --- | --- |
-| AC-1 | audit_log に batchId 相関キーを保持する列（VIRTUAL generated column 第一候補 / plain `correlation_id` 列 fallback）が `0026` migration で追加される |
+| AC-1 | audit_log に batchId 相関キーを保持する列（VIRTUAL generated column 第一候補 / plain `correlation_id` 列 fallback）が `0027` migration で追加される |
 | AC-2 | 追加列に index が付与され、`GET /admin/audit` の batchId 検索が index 列走査になる（`EXPLAIN QUERY PLAN` で `SCAN audit_log` でなく index 使用を確認） |
 | AC-3 | assign（after_json 由来）/ unassign（before_json 由来）双方の batchId が1列で拾える（`COALESCE(json_extract(after_json,'$.batchId'), json_extract(before_json,'$.batchId'))`） |
 | AC-4 | 既存 audit 行も検索に乗る（VIRTUAL なら index 構築で自動・plain 列なら backfill UPDATE migration） |
@@ -83,7 +83,7 @@ dependencies:
 
 | 項目 | 結果 |
 | --- | --- |
-| migration | `apps/api/migrations/0026_audit_log_batchid_index.sql` を追加。`audit_log.batch_id` を VIRTUAL generated column とし、`idx_audit_log_batch_id(batch_id, created_at DESC, audit_id DESC)` を作成 |
+| migration | `apps/api/migrations/0027_audit_log_batchid_index.sql` を追加。`audit_log.batch_id` を VIRTUAL generated column とし、`idx_audit_log_batch_id(batch_id, created_at DESC, audit_id DESC)` を作成 |
 | repository | `apps/api/src/repository/auditLog.ts` の `listFiltered` batchId 分岐を `batch_id = ?` に変更。公開 query surface / response shape は不変 |
 | tests | focused D1 Vitest 3 files / 28 tests PASS。`EXPLAIN QUERY PLAN` で `idx_audit_log_batch_id` 使用、`SCAN audit_log` 不在を assert |
 | user-gated | staging / production D1 migration apply、deploy、commit、push、PR は未実行 |
@@ -92,7 +92,7 @@ dependencies:
 
 ### 含む（今サイクルで完了）
 
-- `0026` migration: batchId 相関列 + index 追加（+ fallback 採用時は backfill UPDATE）
+- `0027` migration: batchId 相関列 + index 追加（+ fallback 採用時は backfill UPDATE）
 - `auditLog.ts` の `listFiltered` batchId 分岐を index 列走査へ切替（+ fallback 採用時は `append` の write path 拡張）
 - migration ロールバック手順の文書化
 - 既存 contract / repository test の非退化確認 + index 走査 / 後方互換の追加 test

@@ -25,7 +25,7 @@ workflow_state: `implemented_local_evidence_captured` / taskType: `implementatio
 | `AuditLogListFilters.batchId` | **既存・変更なし → N/A** | #1079 で確定済みの公開 filter interface。本タスクは batchId 検索の **実装方式（内部 SQL）** を full scan → index 列走査へ変えるのみで、interface signature（TypeScript 型）は変えない。公開 API 変更なし |
 | `GET /admin/audit` query surface | **変更なし → N/A** | query param（batchId 含む）は #1079 確定済で不変（index.md スコープ「含まない」） |
 | `listFiltered` シグネチャ | **変更なし → N/A** | 引数・戻り値型は不変。内部 SQL のみ変更 |
-| D1 schema 変更（`0026` migration の相関列 + index） | **反映済み** | `audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id(batch_id, created_at DESC, audit_id DESC)` を `.claude/skills/aiworkflow-requirements/references/database-schema.md` に追記 |
+| D1 schema 変更（`0027` migration の相関列 + index） | **反映済み** | `audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id(batch_id, created_at DESC, audit_id DESC)` を `.claude/skills/aiworkflow-requirements/references/database-schema.md` に追記 |
 
 > **要点（pitfall 回避）**: 公開 TypeScript interface（`AuditLogListFilters`）の signature 変更は無いため、Step 2 の
 > public interface 追加は N/A。ただし D1 schema（DB 列 + index）追加は別軸のため database 系正本へ反映済み。

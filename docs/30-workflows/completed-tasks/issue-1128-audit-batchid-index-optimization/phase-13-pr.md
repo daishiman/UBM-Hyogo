@@ -23,7 +23,7 @@
 
 ## 1. 前提（user 承認後に実行）
 
-- 実装サイクル（`0026` migration + `auditLog.ts` の `listFiltered` 切替）が完了し、Gate-B（`phase-9-qa.md`）が
+- 実装サイクル（`0027` migration + `auditLog.ts` の `listFiltered` 切替）が完了し、Gate-B（`phase-9-qa.md`）が
   `passed` であること（typecheck / lint / D1 vitest 非退化 + `EXPLAIN QUERY PLAN` index 走査 assertion 緑）。
 - Gate-C 前提として `phase-10-final-review.md` の AC-1..7 評価が PASS であること。
 - Phase 11（`phase-11-manual-test.md`）の NON_VISUAL 証跡（D1 自動テスト出力 + `EXPLAIN QUERY PLAN` テキスト）が
@@ -71,7 +71,7 @@ perf(issue-1128): audit_log batchId 検索を json_extract full scan から inde
 - Issue #1128 は #1079 Phase 12 の未タスク検出（baseline B-1）から起票された follow-up。**CLOSED のまま** follow-up 実装として扱う（reopen しない）。
 
 ### 4.2 変更点
-- **`apps/api/migrations/0026_audit_log_batchid_index.sql`（新規）**:
+- **`apps/api/migrations/0027_audit_log_batchid_index.sql`（新規）**:
   batchId 相関列 + index を追加。
   - 方式A（採用時）: VIRTUAL generated column `batch_id` =
     `COALESCE(json_extract(after_json,'$.batchId'), json_extract(before_json,'$.batchId'))` + `idx_audit_log_batch_id`。
@@ -85,7 +85,7 @@ perf(issue-1128): audit_log batchId 検索を json_extract full scan から inde
 - query surface は不変（batchId param は #1079 で確定済み・`apps/api/src/routes/admin/audit.ts` 変更なし）。
 
 ### 4.3 受入条件 達成状況（Gate-C 結果と紐付け）
-- AC-1（相関列を `0026` で追加）/ AC-2（index + `EXPLAIN QUERY PLAN` で full scan でないこと確認）/
+- AC-1（相関列を `0027` で追加）/ AC-2（index + `EXPLAIN QUERY PLAN` で full scan でないこと確認）/
   AC-3（after-before COALESCE で 1 列集約）/ AC-4（既存行も検索に乗る）/ AC-5（返却結果が切替前と同一・非退化）/
   AC-6（rollback 手順）/ AC-7（append-only 維持・UPDATE/DELETE 非 export）の達成を `phase-10-final-review.md` と紐付けて記載。
 
@@ -104,7 +104,7 @@ perf(issue-1128): audit_log batchId 検索を json_extract full scan から inde
   ```
 
 ### 4.5 migration & rollback
-- migration: `0026_audit_log_batchid_index.sql`。`_setup.ts` が `apps/api/migrations/*.sql` を sort 順に
+- migration: `0027_audit_log_batchid_index.sql`。`_setup.ts` が `apps/api/migrations/*.sql` を sort 順に
   全適用するため、D1 テストでは自動で乗る（単文 DDL・`BEGIN..END` 不使用）。
 - rollback（migration 末尾コメントに併記）:
   ```sql
@@ -150,7 +150,7 @@ git status --porcelain            # 未コミット変更が空であること
 
 | パス | 区分 |
 | --- | --- |
-| `apps/api/migrations/0026_audit_log_batchid_index.sql` | 新規 |
+| `apps/api/migrations/0027_audit_log_batchid_index.sql` | 新規 |
 | `apps/api/src/repository/auditLog.ts` | 編集 |
 | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | 追記 |
 | `apps/api/src/routes/admin/audit.contract.spec.ts` | 追記（非退化 + index 走査 assertion） |

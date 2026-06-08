@@ -7,7 +7,7 @@
 | workflow root | `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/` |
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
 | purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
-| implementation | `apps/api/migrations/0026_audit_log_batchid_index.sql`（`audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id`）、`apps/api/src/repository/auditLog.ts`（`batch_id = ?`） |
+| implementation | `apps/api/migrations/0027_audit_log_batchid_index.sql`（`audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id`）、`apps/api/src/repository/auditLog.ts`（`batch_id = ?`） |
 | evidence | focused D1 Vitest 3 files / 28 tests PASS; `EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用 / `SCAN audit_log` 不在 |
 | invariant | public query / response shape unchanged; `audit_log` append-only repository boundary unchanged |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md` |

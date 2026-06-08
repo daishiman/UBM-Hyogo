@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import { setupD1 } from "../../src/repository/__tests__/_setup";
 
-describe("0026_audit_log_batchid_index", () => {
+describe("0027_audit_log_batchid_index", () => {
   it("adds a generated batch_id column and an index-backed lookup", async () => {
     const env = await setupD1();
 

@@ -55,10 +55,10 @@ EXPLAIN QUERY PLAN
 
 ## 設計（方式 A: VIRTUAL generated column）
 
-### migration `0026_audit_log_batchid_index.sql`
+### migration `0027_audit_log_batchid_index.sql`
 
 ```sql
--- 0026_audit_log_batchid_index.sql
+-- 0027_audit_log_batchid_index.sql
 -- Issue #1128 (#1079 follow-up B-1): audit_log batchId 検索を json_extract full scan から
 -- index 列走査へ最適化。batchId は after_json(assign)/before_json(unassign) に非対称に埋まるため
 -- COALESCE で 1 列へ畳み込む VIRTUAL generated column を追加し index 化する。
@@ -110,7 +110,7 @@ if (filters.batchId) {
 
 ## 設計（方式 B: plain `correlation_id` — fallback）
 
-### migration `0026_audit_log_batchid_index.sql`
+### migration `0027_audit_log_batchid_index.sql`
 
 ```sql
 -- 1. 相関列（plain）

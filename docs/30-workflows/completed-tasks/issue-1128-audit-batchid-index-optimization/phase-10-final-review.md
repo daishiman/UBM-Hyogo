@@ -7,7 +7,7 @@ Phase 9（Gate-B）通過後、AC-1〜AC-7 の充足を機械的に確認し blo
 
 | AC | 受け入れ基準 | 検証方法 | 状態 |
 | --- | --- | --- | --- |
-| AC-1 | batchId 相関列が `0026` migration で追加される | `apps/api/migrations/0026_audit_log_batchid_index.sql` に `ALTER TABLE audit_log ADD COLUMN batch_id ... GENERATED ALWAYS AS (...) VIRTUAL` が存在。`apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts` が `PRAGMA table_xinfo(audit_log)` で generated `batch_id`（hidden=2）を assert | PASS |
+| AC-1 | batchId 相関列が `0027` migration で追加される | `apps/api/migrations/0027_audit_log_batchid_index.sql` に `ALTER TABLE audit_log ADD COLUMN batch_id ... GENERATED ALWAYS AS (...) VIRTUAL` が存在。`apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts` が `PRAGMA table_xinfo(audit_log)` で generated `batch_id`（hidden=2）を assert | PASS |
 | AC-2 | index 付与 + batchId 検索が index 列走査になる | migration に `idx_audit_log_batch_id ON audit_log(batch_id, created_at DESC, audit_id DESC) WHERE batch_id IS NOT NULL` が存在。migration spec / repository spec が `EXPLAIN QUERY PLAN ... WHERE batch_id = ?` に `idx_audit_log_batch_id` を含み `SCAN audit_log` を含まないことを assert | PASS |
 | AC-3 | assign(after_json) / unassign(before_json) 双方の batchId を 1 列で拾う | generated expression は `json_valid` guard 付きで `after_json.$.batchId` と `before_json.$.batchId` を `COALESCE` する。migration spec と repository spec が after_json 由来行 / before_json 由来行の同一 batchId hit を assert | PASS |
 | AC-4 | 既存 audit 行も検索に乗る | 方式 A（VIRTUAL generated column）採用により backfill UPDATE なしで既存行へ算出が波及する。migration spec が列を明示しない raw INSERT 後に `batch_id` 検索で hit することを assert | PASS |

@@ -135,7 +135,7 @@ EXPLAIN QUERY PLAN SELECT audit_id FROM audit_log WHERE batch_id = 'x';
 
 ### SQL シグネチャ（migration DDL）
 
-#### 方式A: `0026_audit_log_batchid_index.sql`
+#### 方式A: `0027_audit_log_batchid_index.sql`
 
 ```sql
 -- 1. batchId 相関列（VIRTUAL = ADD COLUMN 可・既存行へ自動波及・write path 変更不要）
@@ -153,7 +153,7 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_batch_id
   WHERE batch_id IS NOT NULL;
 ```
 
-#### 方式B（fallback）: `0026_audit_log_batchid_index.sql`
+#### 方式B（fallback）: `0027_audit_log_batchid_index.sql`
 
 ```sql
 ALTER TABLE audit_log ADD COLUMN correlation_id TEXT;
@@ -193,7 +193,7 @@ curl "/admin/audit?batchId=batch-1079-abc123"
 | --- | --- |
 | NULL batchId（assign/unassign いずれの payload にも batchId が無い行） | generated 列 / `correlation_id` は NULL になり index には sparse に乗る。`WHERE batch_id = ?` は NULL 行に一致しない（= 検索対象外）。これは正しい挙動（batchId 無しの行は batchId 検索の対象外） |
 | 不正 JSON 行（`after_json` / `before_json` が JSON として壊れている） | generated expression / fallback backfill のどちらも `json_valid` で guard してから `json_extract` する。壊れた JSON 側は NULL に畳まれ、例外や誤ヒットを起こさない（既存 `json_valid` ガードと同等の堅牢性を維持） |
-| migration 適用失敗 | `0026` は単文 DDL のみで構成し（`BEGIN..END` 不使用）、テスト loader（`_setup.ts` の `;` 分割）と sequence guard（`pnpm verify:d1-migrations`）で事前検知する |
+| migration 適用失敗 | `0027` は単文 DDL のみで構成し（`BEGIN..END` 不使用）、テスト loader（`_setup.ts` の `;` 分割）と sequence guard（`pnpm verify:d1-migrations`）で事前検知する |
 
 ### エッジケース
 
@@ -208,7 +208,7 @@ curl "/admin/audit?batchId=batch-1079-abc123"
 
 | 項目 | 値 |
 | --- | --- |
-| migration 番号 / ファイル名 | `0026` / `0026_audit_log_batchid_index.sql` |
+| migration 番号 / ファイル名 | `0027` / `0027_audit_log_batchid_index.sql` |
 | 相関列名（方式A） | `batch_id`（VIRTUAL generated column） |
 | 相関列名（方式B） | `correlation_id`（plain TEXT 列） |
 | index 名（方式A） | `idx_audit_log_batch_id` |
@@ -226,7 +226,7 @@ append-only 不変条件（`auditLog.ts:228-229`）を破らない。
 
 ```bash
 mise exec -- pnpm exec vitest run --config vitest.d1.config.ts \
-  apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts \
+  apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts \
   apps/api/src/repository/__tests__/auditLog.repository.spec.ts \
   apps/api/src/routes/admin/audit.contract.spec.ts
 mise exec -- pnpm --filter @ubm-hyogo/api typecheck
@@ -237,7 +237,7 @@ mise exec -- pnpm --filter @ubm-hyogo/api lint
 
 | テスト | 目的 |
 | --- | --- |
-| `apps/api/migrations/__tests__/0026_audit_log_batchid_index.spec.ts` | generated column / index / query plan を検証 |
+| `apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts` | generated column / index / query plan を検証 |
 | `apps/api/src/repository/__tests__/auditLog.repository.spec.ts` | after_json / before_json 両方の batchId 非退化と index 使用を検証 |
 | `apps/api/src/routes/admin/audit.contract.spec.ts` | public route の `batchId` contract / pagination / filter 合成を検証 |
 

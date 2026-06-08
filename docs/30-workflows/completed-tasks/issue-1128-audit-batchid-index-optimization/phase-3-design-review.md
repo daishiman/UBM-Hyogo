@@ -9,14 +9,14 @@
 | 単一サイクル完了（CONST_007） | PASS | migration 1 本 + repository 1 ファイル + test。先送り・分割なし |
 | 既存不変条件との整合 | PASS | append-only（AC-7）/ query surface 不変 / D1 apps/api 閉域を維持 |
 | 命名規則整合（FB-01） | PASS | `snake_case` 列・`idx_audit_log_*` index・`NNNN_*.sql` migration |
-| テストハーネス互換 | PASS | `_setup.ts` が `0026` を自動適用。単文 DDL で `;` 分割安全 |
+| テストハーネス互換 | PASS | `_setup.ts` が `0027` を自動適用。単文 DDL で `;` 分割安全 |
 | 実測ゲート | PASS | 方式 A/B の決定基準（EXPLAIN QUERY PLAN）が Phase 2 に明記済み |
 
 ## AC → 実装マッピング
 
 | AC | 実装箇所 | 検証 |
 | --- | --- | --- |
-| AC-1 | `0026` migration の ADD COLUMN | migration spec / `_setup.ts` 適用成功 |
+| AC-1 | `0027` migration の ADD COLUMN | migration spec / `_setup.ts` 適用成功 |
 | AC-2 | CREATE INDEX + `listFiltered` 切替 | EXPLAIN QUERY PLAN で index 走査 |
 | AC-3 | COALESCE（after/before） | repository spec の after/before 両ケース緑 |
 | AC-4 | 方式 A=index 構築自動 / 方式 B=backfill UPDATE | 既存行検索ケース緑 |

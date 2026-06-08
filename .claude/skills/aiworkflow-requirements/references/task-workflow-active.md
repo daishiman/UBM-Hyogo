@@ -4366,7 +4366,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
 | Issue | `#1128`（CLOSED。PR 文脈は `Refs #1128` のみ） |
 | purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
-| implementation | `apps/api/migrations/0026_audit_log_batchid_index.sql` で `audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id` を追加し、`apps/api/src/repository/auditLog.ts` の `listFiltered` batchId predicate を `batch_id = ?` へ切替 |
+| implementation | `apps/api/migrations/0027_audit_log_batchid_index.sql` で `audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id` を追加し、`apps/api/src/repository/auditLog.ts` の `listFiltered` batchId predicate を `batch_id = ?` へ切替 |
 | evidence | focused D1 Vitest PASS 3 files / 28 tests。`EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用かつ `SCAN audit_log` 不在を assert |
 | invariant | public query / response shape unchanged。`audit_log` append-only repository boundary unchanged |
 | user gate | staging / production D1 migration apply、deploy、commit、push、PR |
