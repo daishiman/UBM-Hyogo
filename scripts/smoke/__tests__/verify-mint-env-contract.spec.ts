@@ -156,6 +156,7 @@ describe("verify mint env contract", () => {
       "STAGING_ADMIN_EMAIL",
       "STAGING_ME_MEMBER_ID",
       "STAGING_ME_EMAIL",
+      "CLOUDFLARE_API_TOKEN",
       "SLACK_WEBHOOK_INCIDENT",
     ]);
     expect(detectContractViolations({ steps, provisionedSecrets })).toEqual([]);

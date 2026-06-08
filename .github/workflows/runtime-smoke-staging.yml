@@ -145,7 +145,9 @@ jobs:
       STAGING_API_BASE: ${{ secrets.STAGING_API_BASE }}
       STAGING_ADMIN_BEARER: ${{ secrets.STAGING_ADMIN_BEARER }}
       STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       RUNTIME_SMOKE_MINT_DEGRADED: '0'
+      RUNTIME_SMOKE_CF_DEGRADED: '0'
       CLOUDFLARE_ENV: staging
     steps:
       - uses: actions/checkout@v4
@@ -177,31 +179,38 @@ jobs:
           echo "STAGING_ADMIN_BEARER=$admin" >> "$GITHUB_ENV"
 
       - name: verify required staging secrets
+        id: verify-bulk-inputs
         if: env.RUNTIME_SMOKE_MINT_DEGRADED != '1'
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          missing=()
-          for name in STAGING_API_BASE STAGING_ADMIN_BEARER CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
+          required_missing=()
+          for name in STAGING_API_BASE STAGING_ADMIN_BEARER CLOUDFLARE_ACCOUNT_ID; do
             if [ -z "${!name:-}" ]; then
-              missing+=("$name")
+              required_missing+=("$name")
             fi
           done
 
-          if [ "${#missing[@]}" -gt 0 ]; then
-            printf "::error::missing secrets in environment 'staging-runtime-smoke': %s\n" "${missing[*]}"
-              exit 1
+          if [ "${#required_missing[@]}" -gt 0 ]; then
+            printf "::error::missing required staging runtime smoke inputs: %s\n" "${required_missing[*]}"
+            exit 1
+          fi
+
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "cf_degraded=1" >> "$GITHUB_OUTPUT"
+            echo "::notice::CLOUDFLARE_API_TOKEN is not provisioned for staging-runtime-smoke; bulk-tag runtime smoke will be skipped"
+          else
+            echo "cf_degraded=0" >> "$GITHUB_OUTPUT"
           fi
 
       - name: mask staging credentials
-        if: env.RUNTIME_SMOKE_MINT_DEGRADED != '1'
+        if: env.RUNTIME_SMOKE_MINT_DEGRADED != '1' && steps.verify-bulk-inputs.outputs.cf_degraded != '1'
         run: |
           echo "::add-mask::$STAGING_ADMIN_BEARER"
           echo "::add-mask::$STAGING_API_BASE"
 
       - name: run bulk tag runtime smoke
-        if: env.RUNTIME_SMOKE_MINT_DEGRADED != '1'
+        if: env.RUNTIME_SMOKE_MINT_DEGRADED != '1' && steps.verify-bulk-inputs.outputs.cf_degraded != '1'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -211,7 +220,7 @@ jobs:
           bash scripts/smoke/runtime-tag-bulk.sh staging --out-dir ci-evidence-bulk-tag --ci-summary
 
       - name: redaction grep gate
-        if: always() && env.RUNTIME_SMOKE_MINT_DEGRADED != '1'
+        if: always() && env.RUNTIME_SMOKE_MINT_DEGRADED != '1' && steps.verify-bulk-inputs.outputs.cf_degraded != '1'
         run: |
           leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-' ci-evidence-bulk-tag/ || true)"
           if [ -n "$leak_files" ]; then
@@ -221,7 +230,7 @@ jobs:
           fi
 
       - name: upload evidence artifact
-        if: always() && env.RUNTIME_SMOKE_MINT_DEGRADED != '1'
+        if: always() && env.RUNTIME_SMOKE_MINT_DEGRADED != '1' && steps.verify-bulk-inputs.outputs.cf_degraded != '1'
         uses: actions/upload-artifact@v4
         with:
           name: bulk-tag-runtime-smoke-staging-${{ github.run_id }}

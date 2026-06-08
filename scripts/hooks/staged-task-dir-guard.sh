@@ -80,8 +80,9 @@ task_dir_from_path() {
     30-workflows)
       [ -n "${parts[2]:-}" ] || return 1
       case "${parts[2]}" in
-        unassigned-task|runbooks)
-          # 共通領域: 単一ファイル形式の受け皿。ブランチ slug 整合は不要。
+        unassigned-task|runbooks|operations)
+          # 共通領域: 単一ファイル形式の受け皿 / 恒久運用ドキュメント置き場。
+          # タスクディレクトリではないため、ブランチ slug 整合は不要。
           return 1
           ;;
         completed-tasks|02-application-implementation)
