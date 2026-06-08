@@ -90,6 +90,19 @@ Issue の AC が物理的・構造的に観測不能な場所を指定してい�
 
 Issue #230 `lefthook-edit-guard` では、`.git/hooks/` 手書き追加の CI literal 検知を local pre-commit guard + CI hook-integrity gate に写像した。これは scope split ではなく、観測可能面への要件再配置である。
 
+## パターン10: 同一表示ラベルが別ドメインに重複する grep gate
+
+`0→1` / `1→10` / `10→100` のような表示ラベルが複数ドメインで使われる場合、文字列だけの grep gate は別ドメインの正当な残存を誤検出する。
+
+| 観点 | ルール |
+| --- | --- |
+| scope 決定 | 検査対象を型 import / schema owner / feature directory などの所有境界で限定する |
+| 除外の書き方 | 「なぜ除外してよいか」を Phase 1 inventory と Phase 9 QA に明記する |
+| 互換値 | 旧値を互換マッピングとして残す場合は、正当残存箇所を定数や parser に集約し、テストで新キーへ正規化されることを確認する |
+| FAIL 条件 | schema enum / API output / web label など、正本出力面に旧表示値が残る場合は FAIL |
+
+Issue #1101 `attendance-analytics-calc-correction` では、出席回数帯の `AttendanceZone` と UBM 事業成長フェーズが同じ視覚ラベルを持っていたため、grep 範囲を `apps/api/src/repository` / `apps/api/src/lib/parse-attendance-filter.ts` / `apps/web/src/features/admin/attendance` / `packages/shared/src/zod/admin-attendance.ts` に限定し、別ドメインの `byZone.ts` などは非対象として扱った。
+
 ## 再利用チェックリスト
 
 - [ ] `quick_validate.js` と `validate_all.js` の結果を分けて記録した
@@ -98,3 +111,4 @@ Issue #230 `lefthook-edit-guard` では、`.git/hooks/` 手書き追加の CI li
 - [ ] `current` / `baseline` を分けて記録した
 - [ ] parent / child / archive / mirror の 4 edge を確認した
 - [ ] 観測不能 AC がある場合、目的を保った enforcement 面写像と AC→R trace を記録した
+- [ ] 同一表示ラベルが複数ドメインにある場合、grep gate を所有境界で限定し、正当残存箇所を明記した

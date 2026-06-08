@@ -227,6 +227,8 @@ function attendanceOverviewBody() {
     totalSessions: 12,
     totalMembers: 30,
     overallRate: 0.75,
+    uniqueAttendeeCount: 24,
+    uniqueAttendanceRate: 0.8,
     filter: attendanceFilterEcho(),
     previousPeriodRate: 0.68,
   }
@@ -282,9 +284,10 @@ function attendanceTrendBody() {
 function attendanceZoneDistributionBody() {
   return {
     rows: [
-      { zone: '0→1', attendeeCount: 6, rate: 0.2 },
-      { zone: '1→10', attendeeCount: 21, rate: 0.7 },
-      { zone: '10→100', attendeeCount: 3, rate: 0.1 },
+      { zone: 'zone_0', attendeeCount: 6, rate: 0.2 },
+      { zone: 'zone_1_9', attendeeCount: 21, rate: 0.7 },
+      { zone: 'zone_10_99', attendeeCount: 3, rate: 0.1 },
+      { zone: 'zone_100_plus', attendeeCount: 0, rate: 0 },
       { zone: 'unknown', attendeeCount: 0, rate: 0 },
     ],
     filter: attendanceFilterEcho(),
@@ -297,7 +300,7 @@ function attendanceAbsenteesBody() {
       {
         memberId: 'mem_delta',
         displayName: '西宮 三郎',
-        zone: '0→1',
+        zone: 'zone_0',
         lastAttendedAt: null,
         missedCount: 3,
       },
@@ -578,6 +581,40 @@ function adminTagsQueueBody(query: URLSearchParams) {
     ? items.filter((it) => it.status === status)
     : items
   return { total: filtered.length, items: filtered }
+}
+
+function adminTagMasterBody() {
+  return {
+    total: 3,
+    items: [
+      { tagId: 'tag_mentor', code: 'mentor', label: 'メンター', category: 'role' },
+      { tagId: 'tag_vip', code: 'vip', label: 'VIP会員', category: 'membership' },
+      { tagId: 'tag_kobe', code: 'kobe', label: '神戸', category: 'area' },
+    ],
+  }
+}
+
+function updateAdminTagMasterBody(tagId: string, body: {
+  code?: string
+  label?: string
+  category?: string
+  expectedCode?: string
+}) {
+  if (body.code === 'vip') {
+    return { status: 409, body: { ok: false, error: 'tag_code_conflict' } }
+  }
+  if (body.code === 'mentor_stale' || body.expectedCode === 'stale') {
+    return { status: 409, body: { ok: false, error: 'tag_stale_conflict' } }
+  }
+  return {
+    status: 200,
+    body: {
+      tagId,
+      code: body.code ?? 'mentor',
+      label: body.label ?? 'メンター',
+      category: body.category ?? 'role',
+    },
+  }
 }
 
 function meetingsListBody() {
@@ -906,6 +943,23 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/admin/tags/queue') {
         response(res, 200, adminTagsQueueBody(url.searchParams))
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/tags') {
+        response(res, 200, adminTagMasterBody())
+        return
+      }
+      const tagMasterMatch = url.pathname.match(/^\/admin\/tags\/([^/]+)$/)
+      if (req.method === 'PATCH' && tagMasterMatch?.[1]) {
+        readJson(req)
+          .then((body) => {
+            const result = updateAdminTagMasterBody(
+              decodeURIComponent(tagMasterMatch[1]),
+              body as { code?: string; label?: string; category?: string; expectedCode?: string },
+            )
+            response(res, result.status, result.body)
+          })
+          .catch(() => response(res, 400, { ok: false, error: 'invalid_json' }))
         return
       }
       const meetingDetailMatch = url.pathname.match(/^\/admin\/meetings\/([^/]+)$/)

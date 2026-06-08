@@ -2,8 +2,9 @@
 // email <-> member_id の双方向検索を提供
 
 import type { DbCtx } from "./_shared/db";
-import type { MemberId, ResponseEmail } from "./_shared/brand";
+import { asMemberId, type MemberId, type ResponseEmail } from "./_shared/brand";
 import type { MemberIdentityRow } from "./members";
+import { ensureMemberStatusRow } from "./status";
 
 export interface AutoLinkCandidate {
   member_id: string;
@@ -85,7 +86,15 @@ export async function backfillIdentityFromCandidate(
     )
     .run();
 
-  return findIdentityByEmail(c, candidate.response_email as ResponseEmail);
+  const identity = await findIdentityByEmail(
+    c,
+    candidate.response_email as ResponseEmail,
+  );
+  if (identity) {
+    await ensureMemberStatusRow(c, asMemberId(identity.member_id));
+  }
+
+  return identity;
 }
 
 export async function tryAutoLinkIdentityByEmail(
@@ -93,7 +102,10 @@ export async function tryAutoLinkIdentityByEmail(
   email: ResponseEmail,
 ): Promise<MemberIdentityRow | null> {
   const existing = await findIdentityByEmail(c, email);
-  if (existing) return existing;
+  if (existing) {
+    await ensureMemberStatusRow(c, asMemberId(existing.member_id));
+    return existing;
+  }
 
   const candidate = await findAutoLinkCandidateByEmail(c, email);
   if (!candidate) return null;

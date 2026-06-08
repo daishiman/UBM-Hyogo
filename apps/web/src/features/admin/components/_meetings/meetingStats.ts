@@ -14,6 +14,22 @@ export interface MeetingStats {
   readonly avgAttendees: number;
 }
 
+export type AttendanceLevel = "none" | "normal" | "high";
+
+export const ATTENDANCE_LEVEL_THRESHOLDS = {
+  high: 10,
+} as const;
+
+export function attendanceLevel(count: number): AttendanceLevel {
+  if (!Number.isFinite(count) || count <= 0) {
+    return "none";
+  }
+  if (count >= ATTENDANCE_LEVEL_THRESHOLDS.high) {
+    return "high";
+  }
+  return "normal";
+}
+
 export function computeMeetingStats(items: ReadonlyArray<MeetingItem>): MeetingStats {
   const totalMeetings = items.length;
   const recentHeldOn = items.reduce<string | null>(

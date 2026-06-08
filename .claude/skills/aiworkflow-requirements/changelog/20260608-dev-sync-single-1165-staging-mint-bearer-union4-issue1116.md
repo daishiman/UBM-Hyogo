@@ -1,0 +1,17 @@
+# dev sync: 単一 1 コミット(#1165 staging-mint-bearer)取込で union 4 file（aiworkflow 側のみ・topic-map と keywords.json は両方 Auto-merge）+ `pnpm sync:resolve` 1 パス収束・CI コード修正 0 で全緑（2026-06-08 issue-1116 への 2nd-pass intake）
+
+- 日時: 2026-06-08（`docs/issue-1116-admin-tag-master-code-edit-ui-spec` への dev 2nd-pass 取込）
+- ブランチ: `docs/issue-1116-admin-tag-master-code-edit-ui-spec` ← `dev`（sub-worktree wt-13・**1 behind**・ローカル dev = origin/dev 一致（`8bab08a62`）で dev 同期 no-op・独自コミット 0）
+- 関連: 同一ブランチ前回 [[20260607-dev-sync-union6-issue1116-skillmd-keywords-ours]]（L-DEVSYNC-117/118）/ skill-sync 同伴則 L-DEVSYNC-116 / union member 不安定則 L-DEVSYNC-099,108,117 / `lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-119（本回新規）**
+- 取込: dev 新規 **1 コミット** = `8bab08a62`(#1165 staging bearer mint の env 契約を role-scoped 化 + drift gate 追加・親 issue-1081)。merge-base `f902a8e05`(#1155)→ origin/dev `8bab08a62` の単一前進。
+- 事象: content CONFLICT は **4 file（全 union・aiworkflow 配下のみ）**:
+  - `.claude/skills/aiworkflow-requirements/SKILL.md`（union・本文衝突）
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `indexes/topic-map.md` は **今回 Auto-merging で非衝突（union member から OUT）**／`indexes/keywords.json` も Auto-merging（`--ours` 発火せず）／`SKILL-changelog.md`（両 skill）・`task-specification-creator/SKILL.md` も Auto-merge（衝突 0）
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 4 files` + 内部 `pnpm indexes:rebuild`（5486 キーワード）を完遂し `all skill / index conflicts resolved`。`git diff --diff-filter=U` 0 / 実マーカー grep 0 → merge commit `bc38e9e15`（lefthook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）。
+- **union member 不安定則の再確認（前回 union 5/6 → 今回 union 4）**: 同一 issue-1116 ブランチへの連続 intake で union member は前回（6 コミット取込）の SKILL.md+quick-reference+resource-map+topic-map+task-workflow-active(5)+keywords(--ours) から、今回（1 コミット取込）は **topic-map と keywords が両方 OUT** へ縮退。確定則「union member = 取込デルタが実 touch する skill ファイル集合」は本回も成立し、#1165 が aiworkflow の SKILL.md 本文/quick-reference/resource-map/task-workflow-active のみ重複追記、topic-map・keywords は行領域非重複で git 自動結合。resolver は member 集合の大小に非依存で単一パス収束。
+- **skill-sync 同伴則（L-DEVSYNC-116）の単一コミット版確認**: #1165 はそれ自身が staging-mint-bearer close-out の skill-sync 同伴コミット（両 skill の SKILL.md/indexes/changelog/references を touch）。同梱した `scripts/smoke/*`・`.github/workflows/verify-mint-env-contract.yml`・`apps/web/playwright/tests/admin-meetings-prototype-alignment.spec.ts` は issue-1116 feature と没交渉で全て Auto-merge。衝突面は skill-index union に集約され apps/scripts コードは 0 衝突。
+- 検証順: `git fetch --prune origin`（local dev vs origin/dev = 0/0 一致・dev 同期 no-op・独自 0）→ `git rev-list --count HEAD..origin/dev` = 1 behind → `git merge origin/dev --no-edit` CONFLICT 4 union → `pnpm sync:resolve`（`union-resolving 4 files` + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git commit --no-edit`（`bc38e9e15`）→ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0（stablekey-literal-lint 3 件は mode=warning 既存・本マージ非変更 file）/ `pnpm indexes:rebuild` 冪等（drift 0・5486 キーワード）/ 取込テスト `vitest run scripts/smoke/__tests__/{mint-staging-bearers,verify-mint-env-contract}.spec.ts` 26 pass。CI コード修正なしで全緑。
+- 反映先: 本 changelog + 対の task-spec changelog（SP-DEVSYNC-111）+ 両 SKILL-changelog.md 1 行 + lessons-learned **L-DEVSYNC-119**（intake risk 評価は `git diff HEAD..origin/dev` でなく `git log origin/dev ^HEAD` で見る、の新トラップ知見）。

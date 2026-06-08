@@ -16,11 +16,23 @@ issue_number: 1102
 | 対象機能     | `apps/web` shell — `SidebarUserMenu` popover の dismiss 挙動                     |
 | 優先度       | 低                                                                              |
 | 見積もり規模 | 小規模                                                                          |
-| ステータス   | 未実施                                                                          |
+| ステータス   | 実装済み（`docs/30-workflows/completed-tasks/issue-1102-usedismissable-hook-extraction/` で implemented_local_evidence_captured） |
 | 発見元       | sidebar-footer-pinning-and-account-popover-ux（Phase 3 MINOR TECH-M-02 / Phase 10 引き継ぎ）|
 | 発見日       | 2026-06-02                                                                      |
 
 ---
+
+## 0. 解決記録（2026-06-06）
+
+本 follow-up は `docs/30-workflows/completed-tasks/issue-1102-usedismissable-hook-extraction/` で実装済み。
+
+- 実装: `apps/web/src/hooks/useDismissable.ts`
+- テスト: `apps/web/src/hooks/__tests__/useDismissable.spec.tsx`
+- 移行: `SidebarUserMenu.tsx` / `DensityToggle.client.tsx`
+- 証跡: focused vitest 3 files / 35 tests PASS
+- 残 user gate: commit / push / PR / Issue mutation
+
+このファイルは発見元の履歴として保持し、現行正本は上記 workflow root とする。
 
 ## 1. なぜこのタスクが必要か（Why）
 

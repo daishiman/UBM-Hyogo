@@ -8,6 +8,92 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1104-member-creation-path-unification（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-1104-member-creation-path-unification/` |
+| Issue | #1104 CLOSED（reopen しない。commit/PR/staging は user-gated） |
+| 目的 | member 作成経路を単一 helper / status 連結へ統一し、`member_status` orphan を ingest / auto-link の両経路で発生不能にする |
+| implementation targets | `apps/api/src/repository/members.ts`, `apps/api/src/repository/identities.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, focused tests |
+| invariant | `apps/web` / endpoint surface / D1 schema / migrations / FK 制約は変更なし。route mutation の `ensureMemberStatusRow` は legacy backstop として保持 |
+| evidence | focused D1 Vitest 5 files / 51 tests PASS、API typecheck PASS、API lint PASS、grep gate PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging authenticated smoke, Issue mutation |
+
+### issue-1116-admin-tag-master-code-edit-ui（30種思考法改善反映 / 2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/` |
+| Issue | #1116 CLOSED（mutation は user-gated、PR 文脈は `Refs #1116` のみ） |
+| 親 workflow | `issue-1069-tag-code-rename` |
+| 目的 | admin tag master の `code` / `label` / `category` を UI から安全に編集する sibling route `/admin/tag-master` を追加する |
+| implementation targets | `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/src/features/admin/components/_tags/{TagMasterPanel,TagMasterEditForm}.tsx`, `apps/web/src/features/admin/api/tags.ts`, `apps/web/src/components/shell/{shell-config,icons}.tsx`, `apps/web/src/styles/globals.css` |
+| invariant | apps/api / D1 / Google Form / existing `/admin/tags` tag queue unchanged。`expectedCode` CAS は issue-1069 API surface を消費 |
+| evidence | focused Vitest 3 files / 19 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、verify:no-inline-style PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
+
+### staging-mint-bearer-env-contract-guard（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/` |
+| 親 workflow | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 目的 | bulk-tag runtime smoke の admin-only mint step が ME 系 env 欠落で落ちる drift を、role-scoped mint helper と static contract gate で再発防止する |
+| implementation targets | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/verify-mint-env-contract.mts`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/verify-mint-env-contract.yml`, `scripts/smoke/provision-staging-secrets.sh`, `scripts/smoke/README.md` |
+| tests | `scripts/smoke/__tests__/mint-staging-bearers.spec.ts`, `scripts/smoke/__tests__/verify-mint-env-contract.spec.ts`, `scripts/smoke/__tests__/mint-staging-bearers-self-verify.spec.ts` |
+| evidence | focused Vitest 3 files / 27 tests PASS; `verify-mint-env-contract` PASS; `bash -n` PASS; shellcheck PASS; actionlint PASS; typecheck/lint PASS |
+| invariant | `apps/*` runtime code / API endpoint / D1 schema / UI は変更なし。production runtime smoke には degrade を適用しない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md` |
+| user gate | staging deploy、real secret mutation、real runtime smoke、required status check 登録、commit、push、PR |
+
+### issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| Issue | #1112 CLOSED（Issue mutation は未実行） |
+| 目的 | `/admin/meetings` 開催日タイムラインの出席人数バッジに、none / normal / high の 3 段階色強調を追加する |
+| implementation targets | `apps/web/src/features/admin/components/_meetings/meetingStats.ts`, `apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx`, `apps/web/src/styles/globals.css`, `_meetings/__tests__/{MeetingTimeline,meetingStats}.spec.tsx` |
+| invariant | apps/api endpoint surface / D1 schema / Google Form / 出席集計 semantics / `tokens.css` / `design-tokens.md` / 共有 `.ui-badge` default behavior unchanged |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web verify-design-tokens PASS、local Playwright screenshot 3 PNG PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
+### issue-1105-member-status-fk-constraint（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local_verification_pass` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1105-member-status-fk-constraint/` |
+| Issue | #1105 CLOSED（reopen / mutation なし） |
+| 親 workflow | `docs/30-workflows/completed-tasks/admin-member-detail-status-404-fix/` |
+| 目的 | `member_status.member_id` に `member_identities(member_id)` への FK を導入し、orphan status をDBレベルで禁止する |
+| implementation targets | `apps/api/migrations/0026_member_status_fk_constraint.sql`, `apps/api/migrations/__tests__/0026_member_status_fk_constraint.spec.ts`, existing D1 test fixtures fixture追従, `apps/api/src/repository/__tests__/_setup.ts` full regression安定化 |
+| invariant | endpoint surface / apps web / public response shape unchanged. `notification_opt_out` を含む現行カラムを保持し、`idx_member_status_public` を再作成 |
+| evidence | focused D1 Vitest 1 file / 6 tests PASS、apps/api D1 full regression 109 files / 937 tests PASS、API typecheck PASS、`verify:d1-migrations` PASS、`apps/web` diff 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md` |
+| user gate | remote D1 apply、commit、push、PR |
+
+### issue-1101-attendance-analytics-calc-correction（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1101-attendance-analytics-calc-correction/` |
+| 目的 | admin attendance analytics の 100 回以上 zone 誤分類と延べ/unique 指標混同を解消する |
+| implemented targets | `apps/api/src/repository/attendance-analytics.ts`, `apps/api/src/lib/parse-attendance-filter.ts`, `packages/shared/src/zod/admin-attendance.ts`, `apps/web/src/features/admin/attendance/{lib,components,__tests__}/**`, `apps/web/playwright/fixtures/auth.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| invariant | D1 migration / endpoint path / HTTP method / Google Form schema / UBM growth-zone domain unchanged |
+| evidence | focused Vitest root 6 files / 21 tests PASS、D1 repository 1 file / 13 tests PASS、routes/migrations diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md` |
+| user gate | staging authenticated screenshot、commit、push、PR |
+
 ### issue-1103-globals-css-shell-block-consolidation（2026-06-05）
 
 | 項目 | 値 |
@@ -4278,3 +4364,22 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | evidence | Phase 12 strict 7 outputs present; root/output artifacts parity present; implementation and runtime screenshots pending |
 | artifact inventory | `references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` |
 | user gate | app implementation, local visual evidence, staging verification, commit, push, PR, Issue mutation |
+
+## issue-1111-proxy-transport-util-unify
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1111-proxy-transport-util-unify/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| Issue | `#1111`（CLOSED。未実施のまま close、本 WF は closed のまま実装仕様作成・mutation なし。PR 文脈は `Refs #1111` のみ） |
+| parent | `docs/30-workflows/completed-tasks/admin-meetings-attendance-404-fix-and-ux/`（FU-AMA-002） |
+| purpose | admin/public の transport 選択（service-binding 優先 → HTTP fallback）を新規 pure util `apps/web/src/lib/fetch/transport-select.ts` に集約する pure refactor |
+| implementation targets | `apps/web/src/lib/fetch/transport-select.ts`（new）, `apps/web/app/api/admin/[...path]/route.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/src/lib/fetch/public.ts` |
+| tests | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`（new・9）, `route.spec.ts`, `server-fetch.{binding,http-fallback,env}.spec.ts`, `public.spec.ts`; focused 6 files / 44 tests PASS |
+| system spec | n/a（公開 API / D1 / Google Form 不変。web 内部 util ゆえ本 WF と artifact inventory に記録） |
+| workflow state | `implemented_local_evidence_captured`（apps/web only; `apps/api` unchanged） |
+| invariant | pure refactor（分岐結果 / fallback base 解決 / binding 無効化条件 / transport ログ出力が完全不変）。per-caller 真理値を呼び出し側に保持。`auth.ts` はスコープ外 |
+| evidence | focused Vitest 6 files / 44 tests PASS; web typecheck/lint PASS; verify:phase12-compliance ok:true; gate-metadata ERROR 0 |
+| boundary | commit, push, PR, staging smoke, Issue mutation は user-gated |
+| artifact inventory | `references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md` |
+| user gate | commit, push, PR, staging smoke, Issue state change |

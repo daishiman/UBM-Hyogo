@@ -8,6 +8,11 @@ import {
   ListIdentityConflictsResponseZ,
 } from "@ubm-hyogo/shared";
 import { getAdminFetchEnv, getEnv } from "../env";
+import {
+  resolveServiceBinding,
+  selectAndFetch,
+  stripTrailingSlash,
+} from "../fetch/transport-select";
 import type { AdminAuditListResponse } from "./types";
 
 interface AdminFetchErrorOptions {
@@ -65,9 +70,9 @@ export function isAdminFetchError(error: unknown): error is AdminFetchError {
 }
 
 const resolveApiBase = (): string => {
-  return (
-    getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL
-  ).replace(/\/$/, "");
+  return stripTrailingSlash(
+    getAdminFetchEnv().INTERNAL_API_BASE_URL ?? getEnv().INTERNAL_API_BASE_URL,
+  );
 };
 
 const resolveInternalSecret = (): string =>
@@ -80,8 +85,10 @@ function isTestOrPlaywright(): boolean {
 
 function getAdminServiceBinding(): { fetch: typeof fetch } | undefined {
   const env = getAdminFetchEnv();
-  if (isTestOrPlaywright() && env.INTERNAL_API_BASE_URL) return undefined;
-  return env.API_SERVICE;
+  return resolveServiceBinding({
+    binding: env.API_SERVICE,
+    disableBinding: isTestOrPlaywright() && Boolean(env.INTERNAL_API_BASE_URL),
+  });
 }
 
 async function buildAdminRequestHeaders(
@@ -355,6 +362,18 @@ const task17AuditFixture = (path: string) => {
   };
 };
 
+// issue-1116: /admin/tag-master の SSR list。full e2e の並列実行では mock API
+// (port 8787) への SSR fetch が稀に 404 化するため、PLAYWRIGHT_TEST=1 時は
+// schema/diff（下記）と同じく fetchAdmin 側で決定的に固定 list を返す。
+const adminTagMasterFixture = () => ({
+  total: 3,
+  items: [
+    { tagId: "tag_mentor", code: "mentor", label: "メンター", category: "role" },
+    { tagId: "tag_vip", code: "vip", label: "VIP会員", category: "membership" },
+    { tagId: "tag_kobe", code: "kobe", label: "神戸", category: "area" },
+  ],
+});
+
 const task18TagQueueFixture = () => ({
   total: 2,
   items: [
@@ -537,6 +556,15 @@ export async function fetchAdmin<T>(
 
   if (
     process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TEST"] === "1" &&
+    opts.method === undefined &&
+    (path === "/admin/tags" || path.startsWith("/admin/tags?"))
+  ) {
+    return adminTagMasterFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
     process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
     opts.method === undefined &&
     path.startsWith("/admin/audit")
@@ -551,15 +579,19 @@ export async function fetchAdmin<T>(
     cache: "no-store",
     ...(opts.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
   };
-  const binding = getAdminServiceBinding();
-  let res: Response;
-  if (binding) {
-    res = await binding.fetch(`https://service-binding.local${path}`, init);
-    logAdminTransport("service-binding", path, res.status);
-  } else {
-    res = await fetch(`${resolveApiBase()}${path}`, init);
-    logAdminTransport("http-fallback", path, res.status);
+  const transportResult = await selectAndFetch(
+    {
+      binding: getAdminServiceBinding(),
+      resolveBase: resolveApiBase,
+      log: logAdminTransport,
+    },
+    path,
+    init,
+  );
+  if (transportResult.kind === "base-unavailable") {
+    throw new AdminFetchError({ path, status: 500 });
   }
+  const res = transportResult.response;
   if (!res.ok) {
     let responseBody: string | null = null;
     try {

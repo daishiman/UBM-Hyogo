@@ -1,0 +1,102 @@
+{
+  "workflow_id": "staging-mint-bearer-env-contract-guard",
+  "feature": "staging-mint-bearer-env-contract-guard",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-07T06:30:00.000+09:00",
+  "lastUpdated": "2026-06-07T06:30:00.000+09:00",
+  "metadata": {
+    "taskId": "TASK-STAGING-MINT-BEARER-ENV-CONTRACT-GUARD-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "ci-gate",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_spec_classification": "implementation_spec",
+    "scope": "staging runtime smoke の mint-staging-bearers.mts env 契約 drift（bulk-tag-runtime-smoke job が admin-only にもかかわらず STAGING_ME_MEMBER_ID / STAGING_ME_EMAIL 欠落で exit 2）を再発させない実装仕様書。(A) mint script の role-scoping (--roles admin|me|admin,me) で要求 env を role 単位に分離、(B) 新規 verify-mint-env-contract 静的 gate で workflow step env / --roles / script 要求 env / provision カバー集合の drift を PR 時点で fail-fast 検出、(C) provision-staging-secrets.sh を JWT-mint secret 集合へ整合更新、(D) 必須 env 不足時の degrade（warn + job skip / static fallback）を staging セキュリティ緩和許容下で追加。",
+    "canonical_root": "docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard",
+    "related_issue": "なし（CI 失敗ログ起点・backend-ci #695 run の bulk-tag-runtime-smoke job failure）",
+    "parent_task": "docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke",
+    "root_cause_summary": "mint-staging-bearers.mts の main() が role に関わらず常に 5 env (admin+me) を必須化。bulk-tag-runtime-smoke job の mint step は admin 系 env のみ渡すため ME 系欠落で exit 2。さらに provision-staging-secrets.sh は旧 static-bearer 集合を provision しており JWT-mint secret 集合と drift。",
+    "security_relaxation_note": "ユーザー許容済み: staging 環境のため再発防止を優先しセキュリティレベルを落としてよい。具体的には (D) 必須 env 不足時の hard-fail を warn + degrade (job skip / static fallback) へ緩和する。production runtime smoke (production-runtime-smoke.yml) には degrade を適用しない（staging 限定）。",
+    "implementation_files": [
+      "scripts/smoke/mint-staging-bearers.mts",
+      "scripts/smoke/verify-mint-env-contract.mts",
+      ".github/workflows/runtime-smoke-staging.yml",
+      ".github/workflows/verify-mint-env-contract.yml",
+      "scripts/smoke/provision-staging-secrets.sh",
+      "scripts/smoke/README.md"
+    ],
+    "test_files": [
+      "scripts/smoke/__tests__/mint-staging-bearers.spec.ts",
+      "scripts/smoke/__tests__/verify-mint-env-contract.spec.ts"
+    ],
+    "reused_assets": [
+      "scripts/smoke/mint-staging-bearers.mts",
+      "scripts/smoke/bearer-freshness-gate.mts",
+      "packages/shared/src/auth.ts",
+      ".github/workflows/runtime-smoke-staging.yml",
+      "scripts/smoke/__tests__/mint-staging-bearers.spec.ts"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "verify_commands": [
+      "pnpm exec vitest run scripts/smoke/__tests__/mint-staging-bearers.spec.ts scripts/smoke/__tests__/mint-staging-bearers-self-verify.spec.ts scripts/smoke/__tests__/verify-mint-env-contract.spec.ts",
+      "pnpm exec tsx scripts/smoke/verify-mint-env-contract.mts",
+      "pnpm typecheck",
+      "pnpm lint",
+      "go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/runtime-smoke-staging.yml .github/workflows/verify-mint-env-contract.yml"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-07T06:30:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_creation: Phase 1-13 実装仕様書一式（index.md / phase-1..13 / phase-12 strict outputs / artifacts parity）を作成。実装区分=実装仕様書。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-07T08:10:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation: mint role-scoping / drift gate / provision 更新 / degrade を実コードへ反映。focused Vitest 27 tests PASS、verify-mint-env-contract PASS、bash -n/shellcheck PASS、actionlint PASS。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "delivery: commit / push / PR 作成。user-gated。"
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "path": "outputs/phase-1/phase-1.md" },
+    { "id": 2, "name": "設計", "status": "completed", "path": "outputs/phase-2/phase-2.md" },
+    { "id": 3, "name": "設計レビュー", "status": "completed", "path": "outputs/phase-3/phase-3.md" },
+    { "id": 4, "name": "テスト作成", "status": "completed", "path": "outputs/phase-4/phase-4.md" },
+    { "id": 5, "name": "実装", "status": "completed", "path": "outputs/phase-5/phase-5.md" },
+    { "id": 6, "name": "テスト拡充", "status": "completed", "path": "outputs/phase-6/phase-6.md" },
+    { "id": 7, "name": "カバレッジ確認", "status": "completed", "path": "outputs/phase-7/phase-7.md" },
+    { "id": 8, "name": "リファクタリング", "status": "completed", "path": "outputs/phase-8/phase-8.md" },
+    { "id": 9, "name": "品質保証", "status": "completed", "path": "outputs/phase-9/phase-9.md" },
+    { "id": 10, "name": "最終レビュー", "status": "completed", "path": "outputs/phase-10/phase-10.md" },
+    { "id": 11, "name": "手動テスト", "status": "completed", "path": "outputs/phase-11/phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed", "path": "outputs/phase-12/phase-12.md" },
+    { "id": 13, "name": "PR作成", "status": "pending_user_approval", "path": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"], "3": ["2"], "4": ["3"], "5": ["4"], "6": ["5"], "7": ["6"],
+    "8": ["7"], "9": ["8"], "10": ["9"], "11": ["10"], "12": ["11"], "13": ["12"]
+  }
+}
