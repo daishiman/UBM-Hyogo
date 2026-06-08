@@ -10,6 +10,13 @@ import type { WriteTagNoteProviderCtx } from "../repository/_shared/provider-con
 const seed = async (env: InMemoryD1, status = "queued") => {
   await env.db
     .prepare(
+      `INSERT INTO member_identities
+        (member_id, response_email, current_response_id, first_response_id, last_submitted_at, created_at, updated_at)
+       VALUES ('m1', 'm1@example.com', 'r1', 'r1', '2026-05-01T00:00:00.000Z', '2026-05-01T00:00:00.000Z', '2026-05-01T00:00:00.000Z')`,
+    )
+    .run();
+  await env.db
+    .prepare(
       "INSERT INTO tag_definitions (tag_id, code, label, category) VALUES ('tag_1','tag-1','Tag 1','interest'),('tag_2','tag-2','Tag 2','interest')",
     )
     .run();

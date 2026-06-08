@@ -101,3 +101,21 @@ authenticated runtime visual evidence は staging deploy 後の user approval �
 - `docs/30-workflows/completed-tasks/issue-1069-tag-code-rename/`
 - `docs/00-getting-started-manual/specs/01-api-schema.md`
 - `apps/api/src/routes/admin/tags.ts`
+
+---
+
+```yaml
+status: consumed
+consumed_at: 2026-06-06
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/
+recovery_note: |
+  Issue #1116 (= task-issue-1069-followup-001) was CLOSED before a canonical
+  workflow root existed. This unassigned-task file is preserved for backward
+  link integrity (Issue #1116 body links to this path). All Phase 1-13
+  implementation specs have been migrated to the canonical workflow root above
+  (spec_created). The CLOSED issue was optimized to the current codebase:
+  /admin/tags is now the tag QUEUE, so the tag master CRUD uses a NEW sibling
+  route /admin/tag-master (a child route would collide with the tag-queue nav
+  item via isNavItemActive prefix matching). Future PR uses Refs #1116 only;
+  the issue is NOT reopened.
+```

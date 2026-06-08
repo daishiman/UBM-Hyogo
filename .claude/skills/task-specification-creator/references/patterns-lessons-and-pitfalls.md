@@ -56,6 +56,15 @@
 
 ## Phase 12 関連失敗パターン
 
+### Issue 棚卸し表の hidden path 欠落
+
+- **状況**: Issue / unassigned-task が作成経路や helper 呼び出し箇所を表で列挙している。
+- **問題**: Issue 作成時点の棚卸しが古く、現行コードの hidden path（例: auth session auto-link）が表から漏れていると、仕様書は主経路だけを直して orphan 生成源を残す。
+- **原因**: historical Issue の行番号・経路表を current code anchor として扱い、Phase 1 で `rg` による再検証を省略した。
+- **教訓**: Phase 1 では元表 / 現行 grep / 補正後 inventory の 3 列を必須化し、`INSERT` / `ON CONFLICT` / `ensure*` / route 起点を横断 grep する。補正後 inventory を index の正本に昇格し、Issue 本文は historical input に格下げする。
+- **発見日**: 2026-06-05
+- **関連タスク**: issue-1104-member-creation-path-unification
+
 ### 親 workflow skeleton と現行 route topology の乖離
 
 - **状況**: 親 workflow の Task を子 workflow へ切り出す際、元 skeleton が想定する route 配置・削除対象・package 名が現行 codebase とずれる場合
@@ -2113,6 +2122,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **L-I1065-002（docs-only ラベル → CONST_004 で実装仕様書昇格）**: GitHub Issue ラベルが `docs-only` でも root cause 解消にコード変更（dead alias / dead code の削除）が必要なら CONST_004（ラベルより実態優先）で実装仕様書として作成する。昇格判断を `artifacts.json.spec_classification_note` に残す。命名整理は cookie 名 / value / 属性を不変に保ち（既存利用者の永続状態を破壊しない invariant）、diff を alias 削除のみに閉じる。
 - anti-pattern: issue 記述を実コード未確認のまま設計前提に焼き込む / ラベルだけで分類を確定し SSOT 違反（dead alias 残存）を docs-only として放置する / dead alias 削除のついでに cookie 名・属性まで変更し既存利用者の状態を破壊する。
 - 参照: `references/phase-template-phase1.md` §「Issue / unassigned-task 前提の実コード検証（Issue #1065 対策）」, `references/phase12-skill-feedback-promotion.md` Applied Examples（Issue #1065 行）。SSOT-readable cookie 永続化の前身は L-SSRSEED-001..003（issue-1024）。
+
+### 同一表示ラベルが別ドメインに重複する場合は grep gate を所有境界で限定する（issue-1101, 2026-06-05）
+
+`issue-1101-attendance-analytics-calc-correction` で確立。出席回数帯の `AttendanceZone` は旧表示値 `0→1` / `1→10` / `10→100` を snake_case key（`zone_0` / `zone_1_9` / `zone_10_99` / `zone_100_plus`）へ移行したが、同じ視覚ラベルは UBM 事業成長フェーズの別ドメインにも存在していた。
+
+- **SP-I1101-001（grep gate は文字列だけでなく所有境界で定義する）**: 旧表示値残存ゼロ gate は repository 全体に素朴にかけず、`AttendanceZone` を所有・消費する `apps/api/src/repository/attendance-analytics.ts`、`apps/api/src/lib/parse-attendance-filter.ts`、`apps/web/src/features/admin/attendance/**`、`packages/shared/src/zod/admin-attendance.ts` に限定する。別ドメインの `apps/api/src/routes/admin/_shared/byZone.ts` や public member filter は正当残存であり、本タスクで変更しない。
+- **SP-I1101-002（互換値は正当残存箇所を集約してテストする）**: 旧矢印値を互換入力として残す場合は、parser / compatibility map に集約し、schema enum / API output / web label からは除去する。互換 map の残存は FAIL ではないが、テストで新キーへ正規化されることを必須にする。
+- anti-pattern: `rg '0→1'` の全 repo ヒットを一律 FAIL とする / 別ドメインの表示ラベルまで巻き込んで破壊的に変更する / schema enum と互換 parser の残存を区別せずに gate を設計する。
+- 参照: `references/patterns-validation-and-audit.md` §「パターン10: 同一表示ラベルが別ドメインに重複する grep gate」。
 
 ### 残コンフリクト判定 grep の `=======` 罫線 false-positive は 4 本目の branch でも再現／衝突集合が aiworkflow-requirements skill のみ（task-spec 側ゼロ）の回も定型（SP-DEVSYNC-083）
 

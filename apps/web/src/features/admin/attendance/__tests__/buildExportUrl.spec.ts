@@ -12,10 +12,10 @@ describe("buildAttendanceExportUrlClient", () => {
     const url = buildAttendanceExportUrlClient({
       periodFrom: "2026-01-01",
       periodTo: "2026-06-01",
-      zones: ["1→10", "10→100"],
+      zones: ["zone_1_9", "zone_10_99"],
     });
     expect(url).toContain("periodFrom=2026-01-01");
     expect(url).toContain("periodTo=2026-06-01");
-    expect(url).toMatch(/zone=1%E2%86%9210%2C10%E2%86%92100/);
+    expect(url).toContain("zone=zone_1_9%2Czone_10_99");
   });
 });
