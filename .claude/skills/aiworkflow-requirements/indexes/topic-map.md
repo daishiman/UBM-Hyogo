@@ -4244,6 +4244,21 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
 
+### references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| state classification | L7 |
+| root artifacts | L13 |
+| implementation artifacts | L25 |
+| phase 11 evidence | L35 |
+| phase 12 required artifacts | L43 |
+| invariants | L55 |
+| same-wave skill sync | L63 |
+| Lessons Learned | L77 |
+| user-gated operations | L89 |
+
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
 | セクション | 行 |
@@ -8991,19 +9006,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3977 |
-| フェーズ構造（概要） | L3986 |
-| 品質ゲート（概要） | L4017 |
-| 出力テンプレート | L4028 |
-| 実行時のコマンド・エージェント・スキル | L4051 |
-| 昇格パターン集 | L4075 |
-| Current Active / Spec Created Tasks | L4077 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4243 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4311 |
-| issue-998-members-publish-state-production-rollout | L4338 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4397 |
-| issue-1068-admin-tag-inline-create-ui | L4411 |
-| issue-1111-proxy-transport-util-unify | L4429 |
+| ドキュメント構成 | L3991 |
+| フェーズ構造（概要） | L4000 |
+| 品質ゲート（概要） | L4031 |
+| 出力テンプレート | L4042 |
+| 実行時のコマンド・エージェント・スキル | L4065 |
+| 昇格パターン集 | L4089 |
+| Current Active / Spec Created Tasks | L4091 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4257 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4325 |
+| issue-998-members-publish-state-production-rollout | L4352 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4411 |
+| issue-1068-admin-tag-inline-create-ui | L4425 |
+| issue-1111-proxy-transport-util-unify | L4443 |
 
 ### references/task-workflow-backlog-part2.md
 
