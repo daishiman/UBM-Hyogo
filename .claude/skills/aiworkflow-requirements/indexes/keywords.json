@@ -1325,6 +1325,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
@@ -3381,6 +3382,7 @@
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3468,6 +3470,7 @@
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -3828,6 +3831,7 @@
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
@@ -3951,6 +3955,7 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-governance-design-category.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "route": [
@@ -4960,6 +4965,7 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1088-manual-form-resync-sync-duration-display-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5364,8 +5370,11 @@
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -5406,6 +5415,7 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
@@ -5712,6 +5722,7 @@
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
       "workflow-issue-882-terms-prefetch-env-validation-fix-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
     ],
     "層化": [
@@ -6280,6 +6291,7 @@
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -6541,6 +6553,7 @@
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -7553,6 +7566,9 @@
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7606,6 +7622,7 @@
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -7691,7 +7708,9 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-806-dynamic-member-og-image-artifact-inventory.md",
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md",
@@ -7832,6 +7851,7 @@
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
       "ui-ux-admin-dashboard.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
     ],
@@ -8319,9 +8339,12 @@
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8786,6 +8809,7 @@
       "workflow-issue-908-staging-rollback-notification-runtime-smoke-artifact-inventory.md",
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
@@ -9071,10 +9095,12 @@
       "lessons-learned-ut-25-deriv-01-sa-key-rotation-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-governance-design-category.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
@@ -10328,6 +10354,7 @@
       "workflow-issue-1076-member-og-design-token-alignment-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11578,6 +11605,7 @@
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -11596,6 +11624,7 @@
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-test-accounts-seed-spec-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
@@ -11827,6 +11856,8 @@
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -11859,6 +11890,7 @@
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
@@ -12079,6 +12111,7 @@
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md"
@@ -12521,6 +12554,7 @@
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "ui-ux-feature-components-advanced.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md"
     ],
     "report": [
@@ -13154,6 +13188,7 @@
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md"
@@ -13807,6 +13842,7 @@
       "workflow-issue-1042-dismiss-confirm-optimistic-update-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
@@ -14192,7 +14228,9 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -15868,6 +15906,7 @@
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
@@ -17483,7 +17522,9 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -17736,7 +17777,8 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
     ],
     "integrity": [
-      "lessons-learned-issue-230-lefthook-edit-guard-2026-05.md"
+      "lessons-learned-issue-230-lefthook-edit-guard-2026-05.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md"
     ],
     "で正本化した派生・参照": [
       "lessons-learned-issue-230-lefthook-edit-guard-2026-05.md"
@@ -19138,6 +19180,7 @@
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -19248,6 +19291,7 @@
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -21706,6 +21750,7 @@
     ],
     "And": [
       "lessons-learned-ut-15-waf-rate-limiting.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -22221,7 +22266,8 @@
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
     ],
     "creation": [
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md"
     ],
     "時に": [
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
@@ -25345,6 +25391,8 @@
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -25378,6 +25426,7 @@
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-test-accounts-seed-spec-artifact-inventory.md",
@@ -25880,6 +25929,7 @@
     ],
     "unification": [
       "task-workflow-active.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md"
     ],
     "タスクワークフローバックログ": [
@@ -27251,6 +27301,7 @@
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27361,6 +27412,7 @@
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -27494,7 +27546,9 @@
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27556,6 +27610,7 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -27697,6 +27752,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
       "workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -27744,6 +27800,7 @@
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -27819,6 +27876,8 @@
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1054-wrangler-binding-drift-ci-gate-artifact-inventory.md",
       "workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md",
+      "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27836,6 +27895,7 @@
       "workflow-issue-988-identity-conflicts-merge-optimistic-update-artifact-inventory.md",
       "workflow-issue-991-admin-fetch-error-typed-class-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
       "workflow-test-accounts-seed-spec-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
@@ -27852,6 +27912,7 @@
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -28294,11 +28355,13 @@
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md"
     ],
     "master": [
-      "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md"
+      "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md"
     ],
     "Tests": [
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
@@ -28395,6 +28458,15 @@
     ],
     "emphasis": [
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md"
+    ],
+    "Method": [
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md"
+    ],
+    "Compact": [
+      "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md"
+    ],
+    "referential": [
+      "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -28731,7 +28803,8 @@
       "workflow-issue-895-admin-topbar-actions-client-island-artifact-inventory.md"
     ],
     "bearer": [
-      "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md"
+      "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md"
     ],
     "retirement": [
       "workflow-issue-899-static-bearer-fallback-retirement-artifact-inventory.md",
@@ -28861,7 +28934,8 @@
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md"
     ],
     "mint": [
-      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md"
+      "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
+      "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md"
     ],
     "recurrence": [
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md"
