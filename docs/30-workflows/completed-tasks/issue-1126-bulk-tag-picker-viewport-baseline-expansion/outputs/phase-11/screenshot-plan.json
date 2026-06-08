@@ -1,0 +1,13 @@
+{
+  "workflow_id": "issue-1126-bulk-tag-picker-viewport-baseline-expansion",
+  "status": "implemented_local_runtime_pending",
+  "screenshots": [
+    { "path": "outputs/phase-11/screenshots/bulk-tag-picker-assign-mode-mobile.png", "viewport": "mobile", "mode": "assign", "status": "pending" },
+    { "path": "outputs/phase-11/screenshots/bulk-tag-picker-unassign-mode-mobile.png", "viewport": "mobile", "mode": "unassign", "status": "pending" },
+    { "path": "outputs/phase-11/screenshots/bulk-tag-picker-assign-mode-tablet.png", "viewport": "tablet", "mode": "assign", "status": "pending" },
+    { "path": "outputs/phase-11/screenshots/bulk-tag-picker-unassign-mode-tablet.png", "viewport": "tablet", "mode": "unassign", "status": "pending" },
+    { "path": "outputs/phase-11/screenshots/bulk-tag-picker-assign-mode-wide.png", "viewport": "wide", "mode": "assign", "status": "pending" },
+    { "path": "outputs/phase-11/screenshots/bulk-tag-picker-unassign-mode-wide.png", "viewport": "wide", "mode": "unassign", "status": "pending" }
+  ]
+}
+

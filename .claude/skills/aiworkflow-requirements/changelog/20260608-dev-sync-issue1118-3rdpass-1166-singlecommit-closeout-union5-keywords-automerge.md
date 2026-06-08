@@ -1,0 +1,19 @@
+# dev sync: #1166（member 作成経路を createMemberWithStatus へ統一・issue-1104）1 コミット取込で union 5（close-out 同梱で skill core 全体に波及）+ `keywords.json` は `--ours` 非発火 Auto-merge・CI コード修正 0 で全緑（2026-06-08 issue-1118 ブランチ **三度目以降**）
+
+- 日時: 2026-06-08（`docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` への dev 取込）
+- ブランチ: `docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` ← `dev`（sub-worktree wt-18・**1 behind / 8 ahead**・ローカル dev vs origin/dev = 0 own / 0 behind → メイン WT `git merge --ff-only origin/dev` は `Already up to date`（dev = origin/dev = `f3d483aaf` 一致）・独自コミット 0）
+- 関連: 同ブランチ先行 [[20260608-dev-sync-issue1118-behind8-union5-keywords-ours]]（1st pass）/ #1165 2nd pass（union 4 縮退）/ 単一コミット close-out 同梱の同型 = `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-097/101**（issue-1112 behind1 単一 API コミット union5）/ **L-DEVSYNC-098/107**
+- 取込: dev 新規 1 コミット = `f3d483aaf`（#1166 = issue-1104 member 作成経路を単一 helper `createMemberWithStatus` へ統一）。この 1 コミットが issue-1104 の close-out 一式（`docs/30-workflows/issue-1104-member-creation-path-unification/**` + 両 SKILL-changelog 行 + `references/workflow-issue-1104-...-artifact-inventory.md` + `task-workflow-active.md` 更新 + index map 3 波及）を同梱。
+- 事象: content CONFLICT は **5 file（全 union）= aiworkflow 側に集中**:
+  - `.claude/skills/aiworkflow-requirements/SKILL.md`（union・本文衝突）
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `indexes/keywords.json` は **Auto-merging で非衝突（`--ours` 非発火・status `M`）** / `SKILL-changelog.md`（両スキル）/ `lessons-learned/*` も Auto-merging / `task-specification-creator/SKILL.md` は非衝突（マージ出力未出現）
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 5 files` + 内部 `pnpm indexes:rebuild` を完遂し `all skill / index conflicts resolved`。`git diff --diff-filter=U` 0 / 実マーカー grep（`git grep '^<<<<<<< '`）0。
+- **核心データポイント（単一コミット close-out 同梱 → union member が skill core 全体に拡張・keywords は取込内容に独立連動）**:
+  - 本回は取込 **1 コミットのみ**だが、#1166 が issue-1104 **close-out 一式**を同梱するため union member = 5（SKILL.md 本文含む skill core 全体）。同ブランチ 2nd pass（#1165 single）は union 4（topic-map / keywords が Auto-merge）だったのに対し、本 3rd pass は同じ単一コミットでも close-out 同梱で **union 5 + topic-map 衝突**へ拡張。→ L-DEVSYNC-097/101（issue-1112 behind1 単一 API コミットでも close-out 同梱なら union 5）を**別ブランチ・別取込で再確認**。
+  - `keywords.json` の `--ours` 発火は取込内容に独立連動: 1st pass（#1155 等 8 コミット）は `--ours` 発火、本 3rd pass（#1166 single）は Auto-merge で `--ours` 非発火。**`--ours` 発火可否・topic-map 衝突可否は取込デルタ依存で毎回変動**するため、件数・member を前回比で固定せず毎回 `git diff --name-only --diff-filter=U` と `union-resolving N files` の N を実確認してから `pnpm sync:resolve` 直行する確定則を堅持。
+- 検証順: `git fetch --prune origin` → `git rev-list --count origin/dev..dev` = 0（独自コミット 0）→ メイン WT `git merge --ff-only origin/dev` = `Already up to date`（dev = origin/dev `f3d483aaf`）→ `git rev-list --left-right --count origin/dev...HEAD` = 1 / 8 → `git merge dev --no-edit` CONFLICT 5 union → `pnpm sync:resolve`（`union-resolving 5 files` + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git commit --no-edit`（merge commit `dfe8b7426`・lefthook 全 pass: main-branch-guard / lefthook-edit-guard / staged-task-dir-guard（MERGE_HEAD で auto-skip）/ block-test-suffix / block-stable-key-update）→ #1166 が `apps/api` コード変更を含むため `pnpm typecheck` exit 0（7 packages 全 Done）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（5488 kw・drift 0）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（単一コミット close-out 同梱 → union 5 拡張 + keywords `--ours` 非発火の新データ点）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避のため起こさず、L-DEVSYNC-097/101 + L-DEVSYNC-098/107 の確定データ（close-out 同梱の単一コミットは union を skill core 全体へ拡張・`--ours`/topic-map 衝突は取込デルタに独立連動）として記録。

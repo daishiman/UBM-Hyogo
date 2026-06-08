@@ -5,6 +5,7 @@
 - 検索 UI は公開一覧の体験を基準に `q / zone / status / tag / sort / density` を正式採用する
 - タグは本人入力項目ではなく、管理者レビューを通す派生情報として扱う
 - `admin/tags` の主目的は `未タグ会員の割当キュー` であり、タグ辞書やルールの直接編集ではない
+- `admin/tags/catalog` は `tag_definitions` の master catalog 管理画面であり、割当キューとは別 route とする
 - `gas-prototype/` のタグ辞書は初期カテゴリ検討の参考に使うが、本番バックエンド仕様の正本にはしない
 - 実装先は `apps/web` の一覧・検索 UI と `apps/api` のタグ付与/同期処理で分離する
 
@@ -111,6 +112,14 @@ MVP では上記2種類に限定する。
 - 右側に `会員要約 / 事業概要 / スキル / タグ選択`
 - 保存したら次の会員へ進める
 - タグ確定は `POST /admin/tags/queue/:queueId/resolve` のみを使い、会員タグ直接編集 API は作らない
+
+### タグ辞書 master catalog
+
+- tag master の棚卸しは `/admin/tags/catalog` で行う
+- `GET /admin/tags` の `items[].active` を status badge として表示する
+- active tag には論理削除と物理削除、inactive tag には再有効化と物理削除を表示する
+- 物理削除は不可逆確認を必須とし、409 `tag_has_references` は `referenceCount` を管理者に表示して削除不可理由を明確にする
+- API / D1 schema は既存 tag master write endpoints を消費し、新 endpoint は追加しない
 
 ### タグ割当 resolve API（07a）
 

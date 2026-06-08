@@ -16,6 +16,7 @@ export type ShellNavItemId =
   | "members"
   | "tag-master"
   | "tag-queue"
+  | "tag-catalog"
   | "schema"
   | "meeting"
   | "requests"
@@ -82,6 +83,12 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
       { id: "members", href: "/admin/members", label: "会員管理", icon: "members" },
       { id: "tag-master", href: "/admin/tag-master", label: "タグ管理", icon: "tag-master" },
       { id: "tag-queue", href: "/admin/tags", label: "タグキュー", icon: "tag-queue" },
+      {
+        id: "tag-catalog",
+        href: "/admin/tags/catalog",
+        label: "タグカタログ",
+        icon: "tag-catalog",
+      },
       schemaItem,
       { id: "meeting", href: "/admin/meetings", label: "開催日", icon: "meeting" },
       { id: "requests", href: "/admin/requests", label: "依頼キュー", icon: "requests" },
@@ -127,5 +134,6 @@ export function buildNavForRole(
 export function isNavItemActive(itemHref: string, pathname: string): boolean {
   if (itemHref === "/") return pathname === "/";
   if (itemHref === "/admin") return pathname === "/admin";
+  if (itemHref === "/admin/tags") return pathname === "/admin/tags";
   return pathname === itemHref || pathname.startsWith(itemHref + "/");
 }

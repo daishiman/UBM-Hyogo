@@ -57,6 +57,19 @@ git log --oneline -20 -- <対象ファイルパス>
 grep -n "<対象関数名>" <対象ファイルパス>
 ```
 
+#### Issue / unassigned-task 棚卸し表の現行コード再検証（2026-06-05 / issue-1104）
+
+Issue や unassigned-task に「作成経路」「呼び出し箇所」「行番号」の棚卸し表が含まれる場合、Phase 1 でその表を正本扱いせず、現行コードを `rg` で再列挙してから採用する。古い Issue は hidden path（例: session auto-link）や行番号 drift を含みうるため、元表 / 現行 grep / 補正後 inventory の 3 列を Phase 1 に記録する。
+
+最低限の確認:
+
+```bash
+rg -n "<主要 helper>|<関連 ensure 関数>|<hidden path 候補>" apps packages --glob '*.ts'
+rg -n "INSERT INTO <対象 table>|INSERT OR IGNORE INTO <対象 table>|ON CONFLICT" apps packages --glob '*.ts'
+```
+
+補正が出た場合は index / Phase 1 の inventory を現行コードへ上書きし、Issue 本文は historical input として扱う。補正なしでも「現行 grep で確認済み」と明記する。
+
 #### landed 実装検出時の existing-hardening 分岐（2026-06-01 追加）
 
 P50 で対象機能が既に dev / current branch に landed 済みと確認できた場合、greenfield 新規実装として仕様書を進めない。Phase 1 で `git log` / `rg --files` / `rg -n` の実測結果を表にし、`metadata.implementation_mode` を `existing-hardening`（またはより具体的な `existing-*-hardening`）へ再分類する。

@@ -32,6 +32,19 @@ retention purge / production destructive D1 mutation / 物理削除 cron 等、
 - 強制移行 / 付け替え / cascade 相当の仕様は、移行先・audit・rollback 方針の合意が無い限り本 endpoint の暗黙挙動にしない。
 - production で実際に物理削除する手順は runbook + `user_approval_marker` + pre-delete backup / read-only verification を要求する。
 
+#### force-migration（参照付け替え→物理削除）派生（2026-06-06 / issue-1117 由来・FB-I1117-001/002）
+
+上の「強制移行を暗黙挙動にしない」を満たした上で、参照を別キーへ付け替えてから親を消す強制移行を**新たな endpoint 挙動として明示合意の上で**追加するときは、次を 2-stage 境界テンプレに含める。
+
+- **既存拒否経路は不変保持し、移行は opt-in にする**。新パスを増やさず既存物理削除 route に optional query（例: `?migrateTo=<dest>`）を足し、query 未指定時は従来の 409 拒否経路を verbatim 維持して **regression test で固定**する（移行と削除を 1 経路に混ぜない）。
+- **PK 衝突を吸収する移行 SQL を使う**。DB-FK 不在テーブルで `(member_id, dest)` のような複合 PK 衝突が起きうるため、素朴な `UPDATE ... SET key=dest`（衝突で部分移行・例外を生む）ではなく `INSERT OR IGNORE ... SELECT` + source `DELETE` の 2 ステップを単一 `db.batch` で原子実行する。移行件数は **移行前 source 参照数**で測る。
+- **移行後に `COUNT(*)===0` 再検証段を必ず挟む**。移行 → source 参照 0 件を再確認 → 既存物理削除関数を呼ぶ、の順で防御段（`has_references`）を経由し、孤児化を構造的に禁止する。
+- **移行先検証を error contract に分離する**。dest 不在 / dest inactive / `src===dest` をそれぞれ独立 error code（例: `migration_target_not_found`(404) / `migration_target_inactive`(409) / `migration_target_same_as_source`(400)）へ写像する。
+- **移行 audit を削除 audit と分けて 2 件 append する**。移行 action（before=`{src,dest,referenceCount}` / after=`{migratedCount,deleted:true}`）+ 既存物理削除 action。`AuditAction` が brand 型（enum なし）なら route literal union 拡張のみで足り schema 変更不要。
+- **runtime-chosen の移行先は固定 DDL migration で表現できない**ため、データ移行を schema migration 化しない（新 migration 番号を増やさない）。移行・ガードは application-level に閉じる。
+- **逆移行 rollback を runbook 化する**。dest→src 戻しの逆移行手順を runbook（AC 化）に残し、production 実行は `user_approval_marker` + pre-mutation backup を要求する。
+- Phase 12 未タスク検出は、親の `unassigned-task-detection.md` で formalize 済み未タスク（U-1 等）を解消する followup の場合「current 新規 0 件」と明記し、親の他 U（UI / DB-FK 評価）は重複起票せず参照のみとする（source unassigned → followup → 親 U のトレーサビリティを固定）。
+
 ---
 
 ## 0. Governance mutation user 明示承認 gate（2026-05-09 stage-3-impl 由来 / 必須）

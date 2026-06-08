@@ -32,8 +32,11 @@ describe("instrumentation-client browser init guard", () => {
 
     expect(initSpy).toHaveBeenCalledTimes(1);
     expect(initSpy).toHaveBeenCalledWith({
+      beforeSend: expect.any(Function),
+      denyUrls: expect.arrayContaining([expect.any(RegExp)]),
       dsn: "https://browser@example.test/1",
       environment: "staging",
+      ignoreErrors: expect.arrayContaining([expect.any(RegExp)]),
       tracesSampleRate: 0.2,
     });
     expect(browserWindow.__ubmSentryInitialized__).toBe(true);

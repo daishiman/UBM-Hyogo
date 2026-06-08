@@ -87,6 +87,14 @@ task_dir_from_path() {
           ;;
         completed-tasks|02-application-implementation)
           [ -n "${parts[3]:-}" ] || return 1
+          # close-out 後の共通領域受け皿（completed-tasks/unassigned-task,
+          # completed-tasks/runbooks）は top-level の同名領域と同じく単一ファイル形式の
+          # 受け皿であり、branch slug 整合は不要（consumed spec の close-out 移動で誤検知になる）。
+          case "${parts[3]}" in
+            unassigned-task|runbooks)
+              return 1
+              ;;
+          esac
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;
         *)

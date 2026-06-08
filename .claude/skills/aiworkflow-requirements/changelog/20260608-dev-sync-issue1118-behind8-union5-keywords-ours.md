@@ -1,0 +1,18 @@
+# dev sync: 8 コミット取込で union 5 file + keywords `--ours`・**取込デルタが aiworkflow-requirements skill のみ touch → union member が 5 に縮小（task-spec-creator SKILL.md 非衝突）**を確認（2026-06-08 issue-1118）
+
+- 日時: 2026-06-08（`docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` への dev 取込）
+- ブランチ: `docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` ← `dev`（sub-worktree wt-18・**8 behind / 2 ahead**・ローカル dev = origin/dev 一致で dev 同期は `Already up to date` no-op・独自コミット 0）
+- 関連: 同型先行例 [[20260607-dev-sync-issue1112-behind8-union5-keywords-ours]] / [[20260607-dev-sync-union6-issue1105-skillmd-content-conflict]] / `aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-098/107** / `task-specification-creator/lessons-learned/dev-sync-merge-conflict-resolution.md`
+- 取込: dev 新規 8 コミット = `f902a8e05`(#1155 admin/meetings 出席人数バッジ 3 段階色強調 issue-1112) / `0a70a8dd6`(#1160 useDismissable hook 抽出・SidebarUserMenu/DensityToggle 挙動不変移行 issue-1102) / `a7fdfb5fc`(#1154 member_status.member_id FK 制約導入で orphan DB レベル禁止 issue-1105) / `c53a275df`(#1152 出席分析 zone 境界・延べ/unique 指標是正 issue-1101) / `ec22db916`(#1156 transport 選択 util 集約) / `d34ce8131`(#1153 globals.css 重複 shell ブロック 1 本化 issue-1103) / `8ed2e222d`(#1151 identity-conflicts optimistic 消失アナウンス単一 aria-live region 化 issue-1094) / `7922d38bf`(#1150 全件 backfill 確定前 実 response 件数プレビュー issue-1089)
+- 事象: content CONFLICT は **5 file（union）+ keywords（`--ours`）**。全て `aiworkflow-requirements` skill 配下に集中し、**`task-specification-creator/SKILL.md` は非衝突（マージ出力に未出現）**:
+  - `.claude/skills/aiworkflow-requirements/SKILL.md`（union・本文衝突）
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `indexes/keywords.json`（`--ours` 発火・1 derived file）
+  - `SKILL-changelog.md` / `LOGS/_legacy.md` は Auto-merging で非衝突
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 5 files` + `taking --ours for 1 derived files`（keywords.json）+ 内部 `pnpm indexes:rebuild` を完遂し `all skill / index conflicts resolved`。`git diff --diff-filter=U` 0 / 実マーカー grep 0。
+- **核心データポイント（取込デルタ分布 → union member 集合則の再確認）**: 確定則「**union member = 取込デルタが実 touch する skill ファイル集合**」を本回も再確認。先行 issue-1105（8 コミット取込）は両 SKILL.md 本文まで衝突し member 6 だったが、本回の 8 コミットは admin/web/api 横断ながら **skill 同期コミット側の touch が aiworkflow-requirements の indexes/references/SKILL.md に集中**したため member が 5 に縮小し `task-spec-creator/SKILL.md` は member 外。**取込コミット数が同じ 8 でも union member 数は不変ではなく、デルタが実 touch する skill 集合次第で 5↔6 に変動する**（resolver は member 集合の大小に非依存で単一パス収束するため解消手順は不変）。
+- 検証順: `git fetch --prune origin`（local dev vs origin/dev = 0/1 → メイン WT で `git merge --ff-only origin/dev` 後 0/0・独自 0）→ `git rev-list --count` で 8 behind / 2 ahead → `git merge dev --no-edit` CONFLICT 5 union + keywords → `pnpm sync:resolve`（`union-resolving 5 files` + `--ours` keywords + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git commit --no-edit`（merge commit `83041e5fa`・lefthook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）→ #1152/#1153/#1154/#1156/#1160 等が `apps/web`/`apps/api` コード変更を含むため `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（drift 0・5485 キーワード）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（union member 5↔6 変動の新データ点）+ 両 SKILL-changelog.md 1 行 + `task-specification-creator/lessons-learned/dev-sync-merge-conflict-resolution.md` への 1 データ点追記。新規 lesson 番号は SSOT インフレ回避のため起こさず、L-DEVSYNC-098/107 の確定データ（デルタ分布 → member 集合 5↔6 変動）として記録。
