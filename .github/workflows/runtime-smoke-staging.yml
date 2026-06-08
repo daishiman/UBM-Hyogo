@@ -145,7 +145,6 @@ jobs:
       STAGING_API_BASE: ${{ secrets.STAGING_API_BASE }}
       STAGING_ADMIN_BEARER: ${{ secrets.STAGING_ADMIN_BEARER }}
       STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       RUNTIME_SMOKE_MINT_DEGRADED: '0'
       RUNTIME_SMOKE_CF_DEGRADED: '0'
       CLOUDFLARE_ENV: staging
@@ -182,6 +181,9 @@ jobs:
         id: verify-bulk-inputs
         if: env.RUNTIME_SMOKE_MINT_DEGRADED != '1'
         env:
+          # CF token は job-level env に置かず、degrade 判定に必要な本 step の
+          # step-level env に限定して露出する（workflow-env-scope ルール準拠）。
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           required_missing=()
