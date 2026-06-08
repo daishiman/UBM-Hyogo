@@ -1,0 +1,21 @@
+# dev sync: #1161（member_tags 参照整合性ガード〔孤児検出〕app 層実装・issue-1119）1 コミット取込で union 5 + `keywords.json` `--ours` 発火・CI コード修正 0 で全緑（2026-06-08 issue-1118 ブランチ **四度目以降**）
+
+- 日時: 2026-06-08（`docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` への dev 取込）
+- ブランチ: `docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` ← `dev`（sub-worktree wt-18・**1 behind / 10 ahead**・ローカル dev vs origin/dev = 0 own / 0 behind → メイン WT `git merge --ff-only origin/dev` は `Already up to date`（dev = origin/dev = `21034f3b5` 一致）・独自コミット 0）
+- 関連: 同ブランチ直前 pass [[20260608-dev-sync-issue1118-3rdpass-1166-singlecommit-closeout-union5-keywords-automerge]]（#1166 single・union5・keywords **Auto-merge**）/ `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-098/107**
+- 取込: dev 新規 1 コミット = `21034f3b5`（#1161 = issue-1119 member_tags 参照整合性ガード〔孤児検出〕を app 層で実装）。`apps/api`（`memberTags.ts` / `tags.ts` + contract/repository spec）+ `apps/web`（TagCatalogPanel / TagCatalogRow / shell-config / icons / globals.css）を含み、issue-1119 close-out 一式も同梱。
+- 事象: content CONFLICT は **6 件 = union 5 + keywords 1**:
+  - `.claude/skills/aiworkflow-requirements/SKILL.md`（union・本文衝突）
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/keywords.json`（**`--ours` 発火**）
+  - `SKILL-changelog.md`（両スキル）/ `LOGS/_legacy.md` / `lessons-learned/*` は Auto-merging / `task-specification-creator/SKILL.md` は非衝突
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 5 files` + `taking --ours for 1 derived files`（keywords.json）+ 内部 `pnpm indexes:rebuild` を完遂し `all skill / index conflicts resolved`。`git diff --diff-filter=U` 0 / 実マーカー grep 0。
+- **核心データポイント（keywords `--ours` 発火は取込内容依存・直前 pass と対比）**:
+  - 同ブランチ直前 3rd pass（#1166 single・close-out 同梱）は union5 + **keywords Auto-merge（`--ours` 非発火）**だったのに対し、本 4th pass（#1161 single）は同じ単一コミット close-out 同梱でも **keywords `--ours` 発火**。→ `keywords.json` の衝突有無（= `--ours` 発火可否）は取込デルタが keywords 索引対象（workflow / lessons / changelog の登録語）をどれだけ touch するかに連動し、**コミット数・close-out 同梱の有無では予測できない**ことを再確認。
+  - union 5 構成（SKILL.md + index map 3 + task-workflow-active）は 3rd pass と同一 = close-out 同梱の単一コミットは union を skill core 全体へ拡張する確定則を堅持。
+  - 確定則: 件数・member・`--ours` 発火を前回比で固定せず、毎回 `git diff --name-only --diff-filter=U` の実集合と `union-resolving N files` / `taking --ours for M files` の N/M を実確認してから `pnpm sync:resolve` 直行する。
+- 検証順: `git fetch --prune origin` → `git rev-list --count origin/dev..dev` = 0（独自 0）→ メイン WT `git merge --ff-only origin/dev` = `Already up to date`（dev = origin/dev `21034f3b5`）→ `git rev-list --left-right --count origin/dev...HEAD` = 1 / 10 → `git merge dev --no-edit` CONFLICT（union 5 + keywords）→ `pnpm sync:resolve`（`union-resolving 5 files` + `--ours` keywords + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git commit --no-edit`（merge commit `da669a6f0`・lefthook 全 pass: main-branch-guard / lefthook-edit-guard / staged-task-dir-guard（MERGE_HEAD で auto-skip）/ block-test-suffix / block-stable-key-update）→ #1161 が `apps/api`/`apps/web` コード変更を含むため `pnpm typecheck` exit 0（7 packages 全 Done）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（drift 0）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（直前 pass と同一単一コミット close-out 同梱でも keywords `--ours` 発火が変動する新データ点）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避のため起こさず、L-DEVSYNC-098/107 の確定データ（keywords `--ours` 発火は取込デルタの索引語 touch 量に独立連動）として記録。

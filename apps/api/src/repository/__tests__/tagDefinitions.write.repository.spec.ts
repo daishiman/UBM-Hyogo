@@ -5,8 +5,10 @@ import {
   countMemberTagReferences,
   createTagDefinition,
   deactivateTagDefinition,
+  forceMigrateAndPhysicalDeleteTagDefinition,
   getTagDefinitionByIdRaw,
   listTagDefinitionsPaged,
+  migrateMemberTagReferences,
   physicalDeleteTagDefinition,
   reactivateTagDefinition,
   updateTagDefinition,
@@ -202,6 +204,74 @@ describe("tagDefinitions write repository (issue-1035)", () => {
       ok: false,
       reason: "not_found",
     });
+  });
+
+  it("migrates member_tags references and absorbs destination PK conflicts", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO member_tags (member_id, tag_id, source, assigned_by)
+         VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com'),
+                ('m2', 'tag_eng', 'manual', 'admin@example.com'),
+                ('m2', 'tag_mgr', 'manual', 'admin@example.com')`,
+      )
+      .run();
+
+    const migrated = await migrateMemberTagReferences(env.ctx, "tag_eng", "tag_mgr");
+    expect(migrated).toEqual({ sourceReferenceCount: 2, migratedCount: 2 });
+    expect(await countMemberTagReferences(env.ctx, "tag_eng")).toBe(0);
+
+    const destinationRows = await env.db
+      .prepare("SELECT member_id FROM member_tags WHERE tag_id = 'tag_mgr' ORDER BY member_id ASC")
+      .all<{ member_id: string }>();
+    expect(destinationRows.results.map((row) => row.member_id)).toEqual(["m1", "m2"]);
+  });
+
+  it("force-migrates references and then physically deletes the source tag", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO member_tags (member_id, tag_id, source, assigned_by)
+         VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com'),
+                ('m2', 'tag_eng', 'manual', 'admin@example.com'),
+                ('m2', 'tag_mgr', 'manual', 'admin@example.com')`,
+      )
+      .run();
+
+    const result = await forceMigrateAndPhysicalDeleteTagDefinition(env.ctx, "tag_eng", "tag_mgr");
+    expect(result).toEqual({
+      ok: true,
+      row: expect.objectContaining({ tagId: "tag_eng", code: "engineer" }),
+      sourceReferenceCount: 2,
+      migratedCount: 2,
+    });
+    expect(await getTagDefinitionByIdRaw(env.ctx, "tag_eng")).toBeNull();
+    expect(await countMemberTagReferences(env.ctx, "tag_eng")).toBe(0);
+    expect(await countMemberTagReferences(env.ctx, "tag_mgr")).toBe(2);
+  });
+
+  it("rejects invalid force-migration targets before mutating member_tags", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+
+    expect(await forceMigrateAndPhysicalDeleteTagDefinition(env.ctx, "tag_eng", "tag_eng")).toEqual({
+      ok: false,
+      reason: "same_as_source",
+    });
+    expect(await forceMigrateAndPhysicalDeleteTagDefinition(env.ctx, "tag_eng", "missing")).toEqual({
+      ok: false,
+      reason: "target_not_found",
+    });
+    expect(await forceMigrateAndPhysicalDeleteTagDefinition(env.ctx, "tag_eng", "tag_old")).toEqual({
+      ok: false,
+      reason: "target_inactive",
+    });
+    expect(await forceMigrateAndPhysicalDeleteTagDefinition(env.ctx, "missing", "tag_mgr")).toEqual({
+      ok: false,
+      reason: "not_found",
+    });
+    expect(await countMemberTagReferences(env.ctx, "tag_eng")).toBe(1);
   });
 
   it("lists with pagination, search, inactive rows, and stable total", async () => {

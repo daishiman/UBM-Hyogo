@@ -1,0 +1,29 @@
+name: verify-mint-env-contract
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/runtime-smoke-staging.yml"
+      - ".github/workflows/verify-mint-env-contract.yml"
+      - "scripts/smoke/mint-staging-bearers.mts"
+      - "scripts/smoke/verify-mint-env-contract.mts"
+      - "scripts/smoke/provision-staging-secrets.sh"
+      - "scripts/smoke/__tests__/verify-mint-env-contract.spec.ts"
+  push:
+    branches: [dev, main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup project
+        uses: ./.github/actions/setup-project
+
+      - name: verify mint env contract
+        run: pnpm exec tsx scripts/smoke/verify-mint-env-contract.mts

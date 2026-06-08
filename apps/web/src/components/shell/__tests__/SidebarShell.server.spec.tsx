@@ -37,10 +37,10 @@ async function renderServer() {
 }
 
 describe("SidebarShellServer", () => {
-  it("admin session で全 14 nav item を描画する（TC-04 相当）", async () => {
+  it("admin session で全 16 nav item を描画する（TC-04 相当）", async () => {
     vi.mocked(getSession).mockResolvedValue(ADMIN);
     const { container } = await renderServer();
-    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(14);
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(16);
   });
 
   it("schemaDiffCount は queued のみカウントされ schema link に badge 2 が出る（TC-05）", async () => {

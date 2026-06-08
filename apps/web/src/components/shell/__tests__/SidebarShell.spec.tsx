@@ -42,9 +42,9 @@ describe("SidebarShell", () => {
     expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(4);
   });
 
-  it("admin は nav item 14 個（3+1+10）", () => {
+  it("admin は nav item 16 個（3+1+12）", () => {
     const { container } = renderShell("admin");
-    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(14);
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(16);
   });
 
   it("children と mobileTriggerSlot が shell 配下に render される", () => {
