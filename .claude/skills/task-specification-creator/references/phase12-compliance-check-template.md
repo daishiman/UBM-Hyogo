@@ -61,6 +61,18 @@ the task specification, actual changed files, evidence files, and system ledgers
 > | manual test result | outputs/phase-11/manual-test-result.md | n/a |
 > ```
 >
+> implemented_local_evidence_captured root（NON_VISUAL で local deterministic evidence を manual-test-result に実体記録する場合）:
+>
+> ```markdown
+> ## Phase 11 evidence file inventory
+>
+> | Classification | Path | Status |
+> | --- | --- | --- |
+> | manual test result | outputs/phase-11/manual-test-result.md | present |
+> ```
+>
+> `present` を使う場合は、`manual-test-result.md` に実行済み focused test / typecheck / lint / grep gate のコマンド、件数、PASS 状態を記録する。未実行の計画だけなら `n/a` または `pending` を使い、`implemented_local_evidence_captured` を主張しない。
+>
 > 列見出しは **`Classification` / `Path` / `Status`**（小文字統一）で固定。`Evidence` / `State` / `ファイル` / `状態` 等の亜種は parser に拾われず CI 必 fail。`Status` は `present` / `pending` / `n/a` の 3 値のみ。空テーブル禁止（`<empty-or-missing-table>` で fail）。
 >
 > authenticated staging visual / `VISUAL_ON_EXECUTION` / `implemented_local_runtime_pending`

@@ -33,7 +33,9 @@ const PATHS: Record<ShellNavItemId, string> = {
   attendance: "M3 21V10M9 21V4M15 21v-7M21 21V8",
   members:
     "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M17 3.13a4 4 0 0 1 0 7.75",
+  "tag-master": "M20.59 13.41 12 22l-9-9V3h10z M7 7h.01M14 6l4 4M18 6l-4 4",
   "tag-queue": "M20.59 13.41 12 22l-9-9V3h10z M7 7h.01",
+  "tag-catalog": "M4 5h16M4 12h16M4 19h16M7 5v14M17 5v14",
   schema:
     "M4 6c0-1.66 3.58-3 8-3s8 1.34 8 3-3.58 3-8 3-8-1.34-8-3zM4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6",
   meeting: "M3 7h18v14H3zM3 7l2-4h14l2 4M8 3v4M16 3v4",
