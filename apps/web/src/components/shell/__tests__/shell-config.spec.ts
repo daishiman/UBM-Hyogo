@@ -22,7 +22,20 @@ describe("buildNavForRole", () => {
     const groups = buildNavForRole("admin");
     expect(groups.map((g) => g.id)).toEqual(["public", "members", "admin"]);
     const admin = groups.find((g) => g.id === "admin");
-    expect(admin?.items).toHaveLength(10);
+    expect(admin?.items).toHaveLength(11);
+    expect(admin?.items.map((i) => i.id)).toContain("tag-master");
+  });
+
+  it("admin は tag master と tag queue を sibling route として持つ", () => {
+    const admin = buildNavForRole("admin").find((g) => g.id === "admin");
+    expect(admin?.items.find((i) => i.id === "tag-master")).toMatchObject({
+      href: "/admin/tag-master",
+      label: "タグ管理",
+    });
+    expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
+      href: "/admin/tags",
+      label: "タグキュー",
+    });
   });
 
   it("admin の schema は schemaDiffCount>0 のとき warn badge を持つ", () => {
@@ -69,5 +82,10 @@ describe("isNavItemActive", () => {
     expect(isNavItemActive("/members", "/members")).toBe(true);
     expect(isNavItemActive("/members", "/members/abc")).toBe(true);
     expect(isNavItemActive("/members", "/membersx")).toBe(false);
+  });
+
+  it("tag master は tag queue nav を active にしない", () => {
+    expect(isNavItemActive("/admin/tags", "/admin/tag-master")).toBe(false);
+    expect(isNavItemActive("/admin/tag-master", "/admin/tag-master")).toBe(true);
   });
 });
