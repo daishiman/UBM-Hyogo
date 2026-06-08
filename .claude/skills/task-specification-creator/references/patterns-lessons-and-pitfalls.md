@@ -56,6 +56,15 @@
 
 ## Phase 12 関連失敗パターン
 
+### Issue 棚卸し表の hidden path 欠落
+
+- **状況**: Issue / unassigned-task が作成経路や helper 呼び出し箇所を表で列挙している。
+- **問題**: Issue 作成時点の棚卸しが古く、現行コードの hidden path（例: auth session auto-link）が表から漏れていると、仕様書は主経路だけを直して orphan 生成源を残す。
+- **原因**: historical Issue の行番号・経路表を current code anchor として扱い、Phase 1 で `rg` による再検証を省略した。
+- **教訓**: Phase 1 では元表 / 現行 grep / 補正後 inventory の 3 列を必須化し、`INSERT` / `ON CONFLICT` / `ensure*` / route 起点を横断 grep する。補正後 inventory を index の正本に昇格し、Issue 本文は historical input に格下げする。
+- **発見日**: 2026-06-05
+- **関連タスク**: issue-1104-member-creation-path-unification
+
 ### 親 workflow skeleton と現行 route topology の乖離
 
 - **状況**: 親 workflow の Task を子 workflow へ切り出す際、元 skeleton が想定する route 配置・削除対象・package 名が現行 codebase とずれる場合
