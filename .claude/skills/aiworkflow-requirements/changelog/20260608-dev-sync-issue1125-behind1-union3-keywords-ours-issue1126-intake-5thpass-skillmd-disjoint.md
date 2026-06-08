@@ -1,0 +1,15 @@
+# dev sync 5th pass: 1 コミット取込（#1162）で **union 3 + `keywords.json` --ours（SKILL.md は今回 Auto-merge で非衝突）**・`pnpm sync:resolve` 1 パス収束・CI 失敗 0（2026-06-08 issue-1125・同日 5 回目）
+
+- 日時: 2026-06-08（`docs/issue-1125-bulk-tag-result-staging-mutation-visual-baseline-spec` への dev 取込・**同日 5 回目**）
+- ブランチ: `docs/issue-1125-bulk-tag-result-staging-mutation-visual-baseline-spec` ← `origin/dev`（sub-worktree wt-3・**1 behind / 10 ahead**・前回 sync 後に dev へ #1162 が 1 件 land・ローカル dev = origin/dev 0/0 で同期不要）
+- 起点: ユーザー指示「CI が失敗していたら CI を改善・コンフリクトが発生していたら解消」。**CI は `gh pr checks 1164` 全 pass（43 pass / 4 skipping）→ CI 改善不要**、一方 `gh pr view --json mergeable` が `CONFLICTING/DIRTY` → コンフリクト解消のみ実施（前回 4th pass で記録した「CI green × PR CONFLICTING は独立軸」則の再適用）。
+- 関連: 同日 1〜4 回目 [[20260608-dev-sync-issue1125-behind8-union4-keywords-ours]] / [[20260608-dev-sync-issue1125-behind1-union4-keywords-ours-issue1119-intake]] / [[20260608-dev-sync-issue1125-behind1-union4-keywords-ours-issue1117-intake-3rdpass]] / [[20260608-dev-sync-issue1125-behind1-union4-keywords-ours-issue1118-intake-4thpass-ci-transient]] / `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-097/098/107**
+- 取込: dev 新規 1 コミット = `b25227c6b`(#1162 bulk tag picker viewport baseline 拡張 仕様書 + skill 同期 + close-out issue-1126)
+- 事象: content CONFLICT は **4 file**で、**今回は SKILL.md が Auto-merge で非衝突**（同日 1〜4 回目は SKILL.md 含む union 4 だった）:
+  - `.claude/skills/aiworkflow-requirements/indexes/{quick-reference, resource-map, topic-map}.md`（**union 3**）
+  - `.claude/skills/aiworkflow-requirements/indexes/keywords.json`（`--ours` → rebuild）
+  - `SKILL.md` / `references/task-workflow-active.md` / `SKILL-changelog.md`（両スキル）/ `LOGS/_legacy.md` は Auto-merging で非衝突
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 3 files` + `taking --ours for 1 derived files` + 内部 `pnpm indexes:rebuild` を完遂し `all skill / index conflicts resolved`。`--diff-filter=U` 0 / マーカー 0。
+- **核心データポイント（union member は touch 集合で決まる＝SKILL.md disjoint の実例）**: 同日 1〜4 回目は intake が aiworkflow SKILL.md の変更履歴 table を touch し SKILL.md も衝突（union 4）だったのに対し、本回 #1162 は **feature 側（issue-1125）と SKILL.md の編集行が非重複**だったため git auto-merge が成立し SKILL.md は非衝突（union 3 に縮小）。これは確定則「**union member = 取込デルタと feature 側が同一行域を触る skill ファイルの集合**」の直接実証で、L-DEVSYNC-097-A（union N と member 集合は独立変数）・L-DEVSYNC-116-B（task-workflow-active が Auto-merge 側に転んだ前例）と同型の「member は固定 anchor を持たない」事例。keywords.json は派生 large rebuild で常に `--ours` に転ぶ点のみ不変。
+- 検証順: `gh pr checks 1164`（43 pass / 4 skipping・fail 0）→ `gh pr view --json mergeable`（CONFLICTING/DIRTY）→ `git fetch --prune origin`（local dev = origin/dev 0/0）→ `git merge origin/dev --no-edit` CONFLICT 4 → `pnpm sync:resolve`（`union-resolving 3 files` + `--ours` + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git add -A && git commit --no-edit`（merge `576c60fbe`・lefthook 全 pass・MERGE_HEAD で staged-task-dir-guard auto-skip）→ #1162 は docs/skill 中心だが念のため `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0。CI コード修正 0。
+- 反映先: 本 changelog（**SKILL.md disjoint で union 4→3 に縮小した実例**）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避で起こさず L-DEVSYNC-097/098/107/116-B の確定データ拡張として記録。
