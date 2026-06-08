@@ -1,0 +1,199 @@
+{
+  "workflow_id": "issue-1117-tag-physical-delete-force-migration",
+  "feature": "issue-1117-tag-physical-delete-force-migration",
+  "parent_workflow": "issue-1070-tag-reactivate-physical-delete",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-06T00:00:00+09:00",
+  "lastUpdated": "2026-06-06T00:00:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-1117-PHYSICAL-DELETE-FORCE-MIGRATION",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "irreversible",
+    "implementationDomain": "admin-api-tag-master-lifecycle",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/1117",
+    "issue_state": "CLOSED",
+    "irreversible_task_rules": "references/non-visual-irreversible-task-rules.md",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production --command \"<force-migration UPDATE/DELETE on member_tags + DELETE tag_definitions>\"  # production runtime (user-gated, runbook only)",
+      "git commit",
+      "git push",
+      "gh pr create --base dev"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/routes/admin/tags.contract.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm lint",
+      "rg -n \"member_tags|tag_has_references|migration_target_|admin.tag.references_migrated\" apps/api",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts apps/api/src/routes/admin/tags.contract.spec.ts",
+      "rg -n \"admin\\.tag\\.references_migrated|migration_target_|tag_has_references|member_tags\" apps/api docs/00-getting-started-manual/specs/01-api-schema.md"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-<timestamp>.md",
+    "scope": "Add a force-migration path to apps/api so a physically-deletable tag that still has member_tags references can have those references reassigned to another (destination) tag and then be hard-deleted. New repository functions migrateMemberTagReferences (INSERT OR IGNORE + DELETE to absorb (member_id, dest) PK collisions, returning {sourceReferenceCount,migratedCount}) and forceMigrateAndPhysicalDeleteTagDefinition (validate src/dest existence + dest active + src!=dest, migrate, re-verify countMemberTagReferences(src)===0, then call the existing physicalDeleteTagDefinition). Extend DELETE /admin/tags/:tagId/physical with an optional ?migrateTo=<destTagId> query branch: when absent the issue-1070 409 tag_has_references rejection path is preserved verbatim (AC-7 regression); when present the two-stage migrate->verify->delete flow runs. Add error codes migration_target_not_found(404)/migration_target_inactive(409)/migration_target_same_as_source(400) to ERROR_TO_STATUS, and a new audit action admin.tag.references_migrated (before={tag_id:src,dest,referenceCount}, after={migratedCount,deleted:true}) alongside the existing admin.tag.physically_deleted. No D1 schema migration is required (member_tags has no FK to tag_definitions; the guard and migration are application-level by design). No apps/web change. Force-migration and physical delete are physical-deletion-2-stage: endpoint code + migration SQL + reference guard + audit + tests are implementable in one cycle; only the production runtime mutation is user-gated via runbook. Issue #1117 stays CLOSED. This deliverable includes local implementation, focused tests, and canonical spec sync; commit, push, PR, staging runtime, production mutation, and Issue state changes are user-gated.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration",
+    "runtime_boundary": "Local implementation, focused D1 Vitest, API typecheck, repo lint, and canonical API spec sync are completed in this cycle. Staging runtime smoke, production tag force-migration/physical delete mutation, commit, push, PR, and Issue state changes remain user-gated. Issue #1117 stays CLOSED.",
+    "issue_optimization_note": "Issue #1117 (= issue-1070 followup-001) was filed against the issue-1070 design boundary (409 tag_has_references rejection). issue-1070 is now landed (countMemberTagReferences / physicalDeleteTagDefinition / 409 tag_has_references exist in current code: tagDefinitions.ts:210-237, tags.ts:59,268-289). This spec is optimized to CURRENT code: (O1) the migration target is a runtime-chosen value, so a fixed DDL migration cannot express it -> dedicated ENDPOINT method confirmed (DELETE /admin/tags/:tagId/physical?migrateTo=<dest>), no new schema migration. (O2) member_tags has NO database FOREIGN KEY to tag_definitions (PRIMARY KEY (member_id, tag_id) only + idx_member_tags_member, migrations/0002_admin_managed.sql:43-51,85-86), so migration/guard are application-level; (member_id, dest) PK collisions are absorbed by INSERT OR IGNORE + DELETE. (O3) the issue-1070 409 rejection path is preserved as the no-migrateTo branch (AC-7 regression). (O4) audit uses appendTagAudit + auditLog.ts (before_json/after_json/actor); AuditAction is RepoBrand<string> so the new admin.tag.references_migrated needs no enum/brand change, and AuditTargetType already includes 'tag'. (O5) migration target validation (not_found/inactive/same-as-source) uses getTagDefinitionByIdRaw + the active column. Latest migration is 0025; no 0026 is added by this task (runtime data op, not DDL). Confirmed unimplemented before this cycle; this cycle implements the dedicated endpoint path locally. Issue stays CLOSED.",
+    "implementation_files": [
+      "apps/api/src/repository/tagDefinitions.ts",
+      "apps/api/src/routes/admin/tags.ts",
+      "docs/00-getting-started-manual/specs/01-api-schema.md"
+    ],
+    "test_files": [
+      "apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts",
+      "apps/api/src/routes/admin/tags.contract.spec.ts"
+    ],
+    "regression_test_files": [
+      "apps/api/src/routes/admin/tags.contract.spec.ts",
+      "apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Design and design-review specs complete (Phase 1-3). Implementation contracts (repository signatures, route ?migrateTo branch, error codes, SQL strategy, audit actions, reference guard) are fixed."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Local implementation, focused D1 Vitest, API typecheck, repo lint, and canonical API spec sync are completed. Staging runtime and production mutation remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "commit / push / PR / staging runtime / production mutation are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "output": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "output": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "output": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "output": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "output": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "output": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "outputs/phase-11/manual-test-result.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "outputs/phase-13/phase-13.md"
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}
