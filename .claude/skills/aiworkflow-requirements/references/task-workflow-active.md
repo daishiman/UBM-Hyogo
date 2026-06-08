@@ -422,6 +422,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md` |
 | user gate | staging runtime smoke、production tag physical delete mutation、commit、push、PR、Issue state change |
 
+### issue-1117-tag-physical-delete-force-migration（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/` |
+| Issue | #1117 CLOSED 維持。PR 文脈は `Refs #1117` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| 目的 | `member_tags` 参照あり tag を active destination tag へ強制移行してから物理削除する |
+| implementation targets | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts` |
+| invariant | `DELETE /admin/tags/:tagId/physical?migrateTo=<destTagId>` 指定時のみ force-migration。未指定時は issue-1070 の 409 `tag_has_references` 拒否経路を維持。移行先は active tag のみ、`src===dest` は 400、成功時は source 参照 0 件を再確認してから physical delete |
+| evidence | focused D1 Vitest 2 files / 25 tests PASS、API typecheck PASS、repo lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md` |
+| user gate | staging runtime smoke、production tag force-migration / physical delete mutation、commit、push、PR、Issue state change |
+
 ### issue-1069-tag-code-rename（2026-06-03）
 
 | 項目 | 値 |
