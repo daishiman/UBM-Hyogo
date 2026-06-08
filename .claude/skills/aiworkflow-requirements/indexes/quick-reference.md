@@ -13,6 +13,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
 | user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
 
+## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| issue | #1125 CLOSED（reopen / mutation なし） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | 認証付き staging `/admin/members` で実 `POST /admin/members/tags/bulk` mutation 後の result summary 2 状態（all-success / deleted-member partial-failure）を visual baseline 化する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-result-authenticated.spec.ts`, `apps/api/migrations/seed/bulk-tag-result-staging-{seed,cleanup}.sql`, `scripts/smoke/capture-bulk-tag-result.sh`, `scripts/smoke/__tests__/capture-bulk-tag-result.test.sh`, `package.json` |
+| evidence | runner syntax PASS; runner shell test PASS; authenticated staging baseline pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md` |
+| user gate | staging seed/mutation/baseline/cleanup, staging deploy, commit, push, PR |
+
 ## sentry-extension-noise-filter-spec（2026-06-07）
 
 | 項目 | 値 |
