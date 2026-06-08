@@ -8,6 +8,50 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1116-admin-tag-master-code-edit-ui（30種思考法改善反映 / 2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/` |
+| Issue | #1116 CLOSED（mutation は user-gated、PR 文脈は `Refs #1116` のみ） |
+| 親 workflow | `issue-1069-tag-code-rename` |
+| 目的 | admin tag master の `code` / `label` / `category` を UI から安全に編集する sibling route `/admin/tag-master` を追加する |
+| implementation targets | `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/src/features/admin/components/_tags/{TagMasterPanel,TagMasterEditForm}.tsx`, `apps/web/src/features/admin/api/tags.ts`, `apps/web/src/components/shell/{shell-config,icons}.tsx`, `apps/web/src/styles/globals.css` |
+| invariant | apps/api / D1 / Google Form / existing `/admin/tags` tag queue unchanged。`expectedCode` CAS は issue-1069 API surface を消費 |
+| evidence | focused Vitest 3 files / 19 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、verify:no-inline-style PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
+
+### staging-mint-bearer-env-contract-guard（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/` |
+| 親 workflow | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 目的 | bulk-tag runtime smoke の admin-only mint step が ME 系 env 欠落で落ちる drift を、role-scoped mint helper と static contract gate で再発防止する |
+| implementation targets | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/verify-mint-env-contract.mts`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/verify-mint-env-contract.yml`, `scripts/smoke/provision-staging-secrets.sh`, `scripts/smoke/README.md` |
+| tests | `scripts/smoke/__tests__/mint-staging-bearers.spec.ts`, `scripts/smoke/__tests__/verify-mint-env-contract.spec.ts`, `scripts/smoke/__tests__/mint-staging-bearers-self-verify.spec.ts` |
+| evidence | focused Vitest 3 files / 27 tests PASS; `verify-mint-env-contract` PASS; `bash -n` PASS; shellcheck PASS; actionlint PASS; typecheck/lint PASS |
+| invariant | `apps/*` runtime code / API endpoint / D1 schema / UI は変更なし。production runtime smoke には degrade を適用しない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md` |
+| user gate | staging deploy、real secret mutation、real runtime smoke、required status check 登録、commit、push、PR |
+
+### issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| Issue | #1112 CLOSED（Issue mutation は未実行） |
+| 目的 | `/admin/meetings` 開催日タイムラインの出席人数バッジに、none / normal / high の 3 段階色強調を追加する |
+| implementation targets | `apps/web/src/features/admin/components/_meetings/meetingStats.ts`, `apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx`, `apps/web/src/styles/globals.css`, `_meetings/__tests__/{MeetingTimeline,meetingStats}.spec.tsx` |
+| invariant | apps/api endpoint surface / D1 schema / Google Form / 出席集計 semantics / `tokens.css` / `design-tokens.md` / 共有 `.ui-badge` default behavior unchanged |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web verify-design-tokens PASS、local Playwright screenshot 3 PNG PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
 ### issue-1105-member-status-fk-constraint（2026-06-05）
 
 | 項目 | 値 |

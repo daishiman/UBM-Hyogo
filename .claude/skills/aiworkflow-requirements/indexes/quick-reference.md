@@ -1,5 +1,60 @@
 # クイックリファレンス
 
+## issue-1116-admin-tag-master-code-edit-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| issue | #1116 CLOSED（mutation は user-gated、PR 文脈は `Refs #1116` のみ） |
+| parent | `issue-1069-tag-code-rename` |
+| purpose | admin が tag master の `code` / `label` / `category` を UI から安全に編集できる導線を追加 |
+| implementation | `/admin/tag-master` route、`TagMasterPanel`、`TagMasterEditForm`、`api/tags.ts`、shell nav/icon、token-only CSS |
+| evidence | focused Vitest 3 files / 19 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; verify:no-inline-style PASS |
+| invariant | apps/api / D1 / Google Form unchanged。既存 `PATCH /admin/tags/:tagId` + web catch-all proxyのみ利用。`/admin/tags` tag queueとは sibling routeで分離 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
+
+## staging-mint-bearer-env-contract-guard（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| purpose | bulk-tag runtime smoke の admin-only mint step が ME 系 env 欠落で落ちる drift を、role-scoped mint helper と static contract gate で再発防止する |
+| implementation | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/verify-mint-env-contract.mts`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/verify-mint-env-contract.yml`, `scripts/smoke/provision-staging-secrets.sh`, `scripts/smoke/README.md` |
+| evidence | focused Vitest 3 files / 27 tests PASS; `verify-mint-env-contract` PASS; `bash -n` PASS; shellcheck PASS; actionlint PASS; typecheck/lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md` |
+| user gate | staging deploy, real GitHub Environment secret mutation, real runtime smoke, required status check registration, commit, push, PR |
+
+## issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1112 CLOSED（Issue mutation は未実行） |
+| purpose | admin `/admin/meetings` 開催日タイムラインの出席人数バッジを none / normal / high の 3 段階で色強調する |
+| implementation | `attendanceLevel(count)` pure helper、`data-attendance-level` 属性、`.admin-timeline__heading` scoped CSS、focused tests |
+| evidence | focused Vitest 2 files / 20 tests PASS; web typecheck PASS; web verify-design-tokens PASS; local Playwright screenshot 3 PNG PASS |
+| invariant | apps/api / D1 / Google Form / attendance aggregation / tokens.css / design-tokens.md unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
+## issue-1102-usedismissable-hook-extraction（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1102-usedismissable-hook-extraction/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #1102 CLOSED 維持（mutation は user-gated） |
+| parent | `docs/30-workflows/completed-tasks/sidebar-footer-pinning-and-account-popover-ux/` |
+| purpose | `<details>` popover の outside pointerdown / Escape dismiss 重複ロジックを `useDismissable` hook に抽出し、`SidebarUserMenu` と `DensityToggle` を挙動不変で移行 |
+| implementation | `apps/web/src/hooks/useDismissable.ts`, `apps/web/src/hooks/__tests__/useDismissable.spec.tsx`, `apps/web/src/components/shell/SidebarUserMenu.tsx`, `apps/web/src/components/public/DensityToggle.client.tsx` |
+| evidence | focused vitest 3 files / 35 tests PASS; consumer regression specs unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## issue-1105-member-status-fk-constraint（2026-06-05）
 
 | 項目 | 値 |
