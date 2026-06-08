@@ -23,6 +23,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
 | user gate | authenticated runtime/staging screenshot、commit、push、PR |
 
+### staging-mint-bearer-env-contract-guard（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/` |
+| 親 workflow | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 目的 | bulk-tag runtime smoke の admin-only mint step が ME 系 env 欠落で落ちる drift を、role-scoped mint helper と static contract gate で再発防止する |
+| implementation targets | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/verify-mint-env-contract.mts`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/verify-mint-env-contract.yml`, `scripts/smoke/provision-staging-secrets.sh`, `scripts/smoke/README.md` |
+| tests | `scripts/smoke/__tests__/mint-staging-bearers.spec.ts`, `scripts/smoke/__tests__/verify-mint-env-contract.spec.ts`, `scripts/smoke/__tests__/mint-staging-bearers-self-verify.spec.ts` |
+| evidence | focused Vitest 3 files / 27 tests PASS; `verify-mint-env-contract` PASS; `bash -n` PASS; shellcheck PASS; actionlint PASS; typecheck/lint PASS |
+| invariant | `apps/*` runtime code / API endpoint / D1 schema / UI は変更なし。production runtime smoke には degrade を適用しない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md` |
+| user gate | staging deploy、real secret mutation、real runtime smoke、required status check 登録、commit、push、PR |
+
 ### issue-1112-attendance-count-badge-emphasis（2026-06-06）
 
 | 項目 | 値 |
