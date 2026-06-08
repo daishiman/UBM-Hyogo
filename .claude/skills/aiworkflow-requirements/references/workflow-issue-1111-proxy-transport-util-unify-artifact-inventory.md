@@ -38,7 +38,7 @@
 | `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts` | new — util 単体テスト（9 cases: disableBinding / strip / binding 経路 / fallback / base-unavailable / opt-in log） |
 | `apps/web/app/api/admin/[...path]/route.ts` | edit — transport 分岐を util 経由へ切替。`disableBinding = isTestOrPlaywright(env) && !!env.INTERNAL_API_BASE_URL`、`resolveBase = () => apiBase(env)`、log 渡さず（ログ無し維持）、`base-unavailable` 時 500 を維持 |
 | `apps/web/src/lib/admin/server-fetch.ts` | edit — util 経由へ切替。`resolveBase = () => resolveApiBase()`（常に string）、log = `logAdminTransport`（scope:admin） |
-| `apps/web/src/lib/fetch/public.ts` | edit — util 経由へ切替。`disableBinding = isTestOrPlaywright() && !!env.PUBLIC_API_BASE_URL`、`resolveBase = () => getBaseUrl()`（DEFAULT localhost）、log = `logTransport`（scope 無し）。PLAYWRIGHT cache bypass（`effectiveInit`）は呼び出し側に保持 |
+| `apps/web/src/lib/fetch/public.ts` | edit — util 経由へ切替。issue-1145 後の current contract は `disableBinding = isTestOrPlaywright() && !!env.NEXT_PUBLIC_API_BASE_URL`、`resolveBase = () => getBaseUrl()`（DEFAULT localhost）、log = `logTransport`（scope 無し）。PLAYWRIGHT cache bypass（`effectiveInit`）は呼び出し側に保持 |
 
 ## Boundaries
 

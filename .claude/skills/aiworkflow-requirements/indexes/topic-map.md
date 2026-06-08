@@ -2924,6 +2924,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L14 |
 
+### references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Contract | L22 |
+| Evidence | L30 |
+| Lessons Learned | L40 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8921,6 +8931,7 @@ node scripts/list-specs.js --topics
 | issue-1078-bulk-tag-picker-large-catalog-ux | L4291 |
 | issue-1068-admin-tag-inline-create-ui | L4305 |
 | issue-1111-proxy-transport-util-unify | L4323 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4341 |
 
 ### references/task-workflow-backlog-part2.md
 

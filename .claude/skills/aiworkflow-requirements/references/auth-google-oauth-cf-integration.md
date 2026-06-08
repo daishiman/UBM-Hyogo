@@ -44,7 +44,7 @@ JWT claims に積んで返却 → Auth.js が cookie に永続化
 | AUTH_GOOGLE_ID | apps/web | Google OAuth Client ID |
 | AUTH_GOOGLE_SECRET | apps/web | Google OAuth Client Secret |
 | INTERNAL_AUTH_SECRET | apps/web + apps/api | service-binding 内部呼出の共有秘匿値（同一値必須） |
-| PUBLIC_API_BASE_URL | apps/web | local dev fallback / browser 公開 fetch |
+| NEXT_PUBLIC_API_BASE_URL | apps/web / apps/og | public API host の単一正本名。local/test HTTP fallback / browser 公開 fetch / OG Worker fallback |
 | INTERNAL_API_BASE_URL | apps/web | service-binding 不在時のサーバ間 fallback |
 
 `AUTH_SECRET` と `INTERNAL_AUTH_SECRET` は web/api 両方に同一値で必須。欠落時は fail-closed（unregistered 扱い）。`secret list` は名前の存在だけを示すため、値が空でないことや runtime で利用可能なことは curl/smoke で別途確認する。
@@ -67,9 +67,9 @@ JWT claims に積んで返却 → Auth.js が cookie に永続化
 同一 Cloudflare アカウント配下で `workers.dev` ドメインへ public fetch すると loopback 404 が返る既知問題がある。これを避けるため `apps/web` は `apps/api` を **service binding** 経由で呼ぶ。
 
 - 主経路: `env.API_SERVICE.fetch(request)`（Worker-to-Worker、内部 RPC）
-- fallback: `PUBLIC_API_BASE_URL` への通常 fetch（local dev / preview のみ）
+- fallback: `NEXT_PUBLIC_API_BASE_URL` への通常 fetch（local dev / preview / Playwright mock のみ）
 
-実装は `apps/web/src/lib/fetch/public.ts` に集約し、内部 fetch ヘルパは binding を主・PUBLIC_API_BASE_URL を従に切り替える。`wrangler.toml` 側は env ごとに binding 宣言が必要：
+実装は `apps/web/src/lib/fetch/public.ts` に集約し、内部 fetch ヘルパは binding を主・`NEXT_PUBLIC_API_BASE_URL` を従に切り替える。`wrangler.toml` 側は env ごとに binding 宣言が必要：
 
 ```toml
 [[env.staging.services]]
@@ -99,7 +99,7 @@ JWT claims に積んだ後、middleware/route handler は再度 D1 を呼ばず�
 Auth.js v5 は `process.env.AUTH_SECRET` 等を直接参照する箇所があるが、Cloudflare Workers の edge runtime では `process.env` が build 時のスナップショットしか持たない。これを補正するため OpenNext build 後に `.open-next/worker.js` をパッチする。
 
 - 実装: `scripts/patch-open-next-worker.mjs`
-- 内容: `buildAuthEnv()` 関数を worker entry に注入し、Cloudflare `env`（fetch handler 第二引数）から `AUTH_*` / `INTERNAL_*` / `PUBLIC_API_BASE_URL` を抽出
+- 内容: `buildAuthEnv()` 関数を worker entry に注入し、Cloudflare `env`（fetch handler 第二引数）から `AUTH_*` / `INTERNAL_*` / `NEXT_PUBLIC_API_BASE_URL` を抽出
 - 二重経路:
   1. `globalThis.__UBM_AUTH_ENV__` に格納（同一 isolate 内の任意モジュールから参照可能）
   2. request header `x-ubm-auth-secret` 等として下位 fetch に伝播（service-binding 経由の internal call 用）

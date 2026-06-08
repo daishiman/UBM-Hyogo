@@ -20,7 +20,7 @@ describe("OG worker router", () => {
       "/members/m-1",
       {},
       {
-        PUBLIC_API_BASE_URL: "https://api.example.test",
+        NEXT_PUBLIC_API_BASE_URL: "https://api.example.test",
         API_SERVICE: {
           fetch: async () =>
             new Response(

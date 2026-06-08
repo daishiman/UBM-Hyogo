@@ -42,7 +42,6 @@ export default defineConfig({
             PLAYWRIGHT_TASK17_ADMIN_FIXTURE: "1",
             PLAYWRIGHT_TEST: "1",
             PORT: "3000",
-            PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
           },
         },
       }
