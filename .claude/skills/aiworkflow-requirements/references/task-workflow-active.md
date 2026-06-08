@@ -21,6 +21,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
 | user gate | staging admin storageState mint、authenticated runtime screenshot、`--update-snapshots` baseline、commit、push、PR。Issue #1127 は CLOSED 維持 |
 
+### issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| Issue | #1126 CLOSED 維持。Issue mutation は user-gated |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| 目的 | `/admin/members` BulkActionBar tag picker の authenticated staging visual baseline を mobile / tablet / wide へ additive 拡張する |
+| implementation targets | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| invariant | apps/api / D1 schema / Google Form / `BulkActionBar.tsx` / Playwright config / CI workflow は不変。read-only capture のみ |
+| evidence | local implementation present; Phase 11 runtime visual evidence pending user gate |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, `--update-snapshots`, commit, push, PR, Issue mutation |
+
 ### issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
 
 | 項目 | 値 |
