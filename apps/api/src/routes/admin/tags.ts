@@ -8,6 +8,7 @@ import {
 import { adminEmail, asAdminId, auditAction } from "../../repository/_shared/brand";
 import { ctx, type DbCtx } from "../../repository/_shared/db";
 import { requireProvider } from "../../repository/_shared/provider-context";
+import { detectOrphanMemberTags } from "../../repository/memberTags";
 import {
   createTagDefinition,
   deactivateTagDefinition,
@@ -154,6 +155,13 @@ export const createAdminTagsRoute = () => {
       { total: result.total, items: result.items.map(rowBody) },
       200,
     );
+  });
+
+  // 静的セグメント /tags/orphans は /tags/:tagId 系より前に登録し、capture を防ぐ。
+  // read-only ゆえ audit log なし（既存 read endpoint に倣う）。
+  app.get("/tags/orphans", async (c) => {
+    const orphans = await detectOrphanMemberTags(db(c));
+    return c.json({ ok: true, count: orphans.length, orphans });
   });
 
   app.post("/tags", async (c) => {

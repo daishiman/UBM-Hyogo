@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1119-member-tags-referential-integrity-guard（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local / implementation / NON_VISUAL / implementation_mode=new` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1119-member-tags-referential-integrity-guard/` |
+| Issue | #1119 CLOSED 維持（reopen / mutation なし） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| source unassigned | `docs/30-workflows/completed-tasks/unassigned-task/task-issue-1070-followup-003-member-tags-foreign-key-evaluation.md` |
+| 目的 | `member_tags.tag_id` の orphan を documented no-FK 架構に沿って application 層の read-only detection + admin audit endpoint で可視化し、`assignTagsToMember` helper 誤用時にも未定義 tag_id を書かない |
+| implementation targets | `apps/api/src/repository/memberTags.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/repository/__tests__/memberTags.orphan.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/routes/admin/members.contract.spec.ts`（fixture 健全性確認のみ） |
+| invariant | DB-level FK / migration 追加なし、apps/web 非接触、issue-1070 `countMemberTagReferences` + 409 `tag_has_references` guard 非破壊 |
+| evidence | Phase 1-13 specs + Phase 12 strict 7 present。focused tests は local 実行対象。commit/push/PR/deploy/実 D1 orphan query は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md` |
+
 ### issue-1104-member-creation-path-unification（2026-06-05）
 
 | 項目 | 値 |
