@@ -4,18 +4,26 @@
 import { mkdirSync } from "node:fs";
 import path, { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { expect, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
+import { VIEWPORTS } from "../../fixtures/viewports";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const phase11ScreenshotsDir = resolve(
+const defaultPhase11ScreenshotsDir = resolve(
   __dirname,
-  "../../../../../docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/outputs/phase-11/screenshots",
+  "../../../../../docs/30-workflows/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/screenshots",
 );
+const phase11ScreenshotsDir = process.env.PLAYWRIGHT_SCREENSHOT_DIR ?? defaultPhase11ScreenshotsDir;
 
 const SNAP = {
   assign: "bulk-tag-picker-assign-mode.png",
   unassign: "bulk-tag-picker-unassign-mode.png",
 } as const;
+
+const RESPONSIVE_VIEWPORTS = [
+  { name: "mobile", ...VIEWPORTS.mobile },
+  { name: "tablet", ...VIEWPORTS.tablet },
+  { name: "wide", ...VIEWPORTS.wide },
+] as const;
 
 const disableAnimations =
   "*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }";
@@ -24,9 +32,7 @@ test.use({
   storageState: join(__dirname, "..", "..", ".auth", "admin.storageState.json"),
 });
 
-test("staging /admin/members bulk tag picker assign/unassign baselines", async ({
-  page,
-}) => {
+async function prepareBulkRegion(page: Page) {
   await page.goto("/admin/members", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "会員管理" })).toBeVisible({
     timeout: 10_000,
@@ -50,31 +56,65 @@ test("staging /admin/members bulk tag picker assign/unassign baselines", async (
 
   await page.addStyleTag({ content: disableAnimations });
 
-  await expect(bulkRegion).toHaveScreenshot(SNAP.assign, {
-    animations: "disabled",
-    maxDiffPixelRatio: 0.05,
-  });
-  mkdirSync(phase11ScreenshotsDir, { recursive: true });
-  await bulkRegion.screenshot({
-    path: join(phase11ScreenshotsDir, "bulk-tag-picker-assign-mode-authenticated-staging.png"),
-    animations: "disabled",
-  });
+  return bulkRegion;
+}
 
-  const modeGroup = bulkRegion.getByRole("group", { name: "付与モード" });
+async function switchToUnassignMode(page: Page) {
+  const modeGroup = page.getByRole("region", { name: "一括操作" }).getByRole("group", {
+    name: "付与モード",
+  });
   await modeGroup.getByRole("button", { name: "解除" }).click();
   await expect(modeGroup.getByRole("button", { name: "解除" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
+}
 
-  await expect(bulkRegion).toHaveScreenshot(SNAP.unassign, {
+async function captureAndAssertBulkRegion(bulkRegion: Locator, screenshotName: string) {
+  mkdirSync(phase11ScreenshotsDir, { recursive: true });
+  await bulkRegion.screenshot({
+    path: join(phase11ScreenshotsDir, screenshotName),
+    animations: "disabled",
+  });
+  await expect(bulkRegion).toHaveScreenshot(screenshotName, {
     animations: "disabled",
     maxDiffPixelRatio: 0.05,
   });
+}
+
+test("staging /admin/members bulk tag picker assign/unassign baselines", async ({
+  page,
+}) => {
+  const bulkRegion = await prepareBulkRegion(page);
+
+  await captureAndAssertBulkRegion(bulkRegion, SNAP.assign);
+
+  await switchToUnassignMode(page);
+
+  await captureAndAssertBulkRegion(bulkRegion, SNAP.unassign);
 
   await expect(page.getByTestId("bulk-tag-result")).toHaveCount(0);
-  await bulkRegion.screenshot({
-    path: join(phase11ScreenshotsDir, "bulk-tag-picker-unassign-mode-authenticated-staging.png"),
-    animations: "disabled",
-  });
 });
+
+for (const viewport of RESPONSIVE_VIEWPORTS) {
+  test(`staging /admin/members bulk tag picker ${viewport.name} assign/unassign baselines`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    const bulkRegion = await prepareBulkRegion(page);
+
+    await captureAndAssertBulkRegion(
+      bulkRegion,
+      `bulk-tag-picker-assign-mode-${viewport.name}.png`,
+    );
+
+    await switchToUnassignMode(page);
+
+    await captureAndAssertBulkRegion(
+      bulkRegion,
+      `bulk-tag-picker-unassign-mode-${viewport.name}.png`,
+    );
+
+    await expect(page.getByTestId("bulk-tag-result")).toHaveCount(0);
+  });
+}

@@ -14,6 +14,78 @@
 | user gate | staging screenshots, commit, push, PR |
 
 
+## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| issue | #1125 CLOSED（reopen / mutation なし） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | 認証付き staging `/admin/members` で実 `POST /admin/members/tags/bulk` mutation 後の result summary 2 状態（all-success / deleted-member partial-failure）を visual baseline 化する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-result-authenticated.spec.ts`, `apps/api/migrations/seed/bulk-tag-result-staging-{seed,cleanup}.sql`, `scripts/smoke/capture-bulk-tag-result.sh`, `scripts/smoke/__tests__/capture-bulk-tag-result.test.sh`, `package.json` |
+| evidence | runner syntax PASS; runner shell test PASS; authenticated staging baseline pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md` |
+| user gate | staging seed/mutation/baseline/cleanup, staging deploy, commit, push, PR |
+
+## sentry-extension-noise-filter-spec（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/sentry-extension-noise-filter-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | browser extension由来のmain-world漏れerror eventをclient Sentry送信前に除外し、app errorはfail-openで保持する |
+| implementation | `apps/web/src/lib/sentry/extension-noise-filter.ts`, `apps/web/src/instrumentation-client.ts`, `apps/web/src/lib/sentry/index.ts` |
+| tests | `apps/web/src/lib/sentry/extension-noise-filter.spec.ts`, `apps/web/src/__tests__/instrumentation-client.runtime.spec.ts` |
+| evidence | focused Vitest 2 files / 12 tests PASS; web typecheck PASS; web lint PASS |
+| invariant | mixed app/extension frames are retained; unreachable extension/Chrome console noise is out of code scope; API/D1/UI unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
+| user gate | external Sentry dashboard confirmation, commit, push, PR |
+
+## issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1126 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1126` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| purpose | BulkActionBar tag picker authenticated staging visual baseline を mobile / tablet / wide に拡張する |
+| implementation | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| evidence | local code implemented; web typecheck / focused BulkActionBar vitest tracked in Phase 11; staging visual capture and `--update-snapshots` pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, baseline update, commit, push, PR, Issue mutation |
+
+## issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| issue | #1118 CLOSED（mutation は user-gated、PR 文脈は `Refs #1118`） |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| purpose | `/admin/tags` queue とは別に `/admin/tags/catalog` tag master catalog を新設し、reactivate / logical delete / physical delete を既存 API へ配線 |
+| implementation | `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/admin/{TagCatalogPanel,TagCatalogRow,tagCatalogLifecycle}.ts*`, shell nav, `globals.css` |
+| evidence | focused Vitest component/pure/nav suite PASS; local static visual PNGs present; `@ubm-hyogo/web` typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
+| user gate | authenticated runtime/staging screenshots, commit, push, PR |
+
+## issue-1117-tag-physical-delete-force-migration（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1117 CLOSED 維持。Issue mutation なし、PR 文脈は `Refs #1117` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| purpose | `member_tags` 参照あり tag を active destination tag へ強制移行してから物理削除する |
+| implementation | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts` |
+| evidence | focused D1 Vitest 2 files / 25 tests PASS, API typecheck PASS, repo lint PASS |
+| invariant | `DELETE /admin/tags/:tagId/physical?migrateTo=<destTagId>` 指定時のみ force-migration（`INSERT OR IGNORE ... SELECT` + source delete で `(member_id,dest)` PK 衝突吸収・source COUNT=0 再検証後に既存 physical delete）。未指定時は issue-1070 の 409 `tag_has_references` 拒否経路を維持。移行先は active tag のみ・`src===dest` は 400。error code `migration_target_not_found`(404) / `migration_target_inactive`(409) / `migration_target_same_as_source`(400)、audit `admin.tag.references_migrated` + `admin.tag.physically_deleted`。D1 schema migration 不要（`member_tags` に FK なし） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md` |
+| user gate | staging runtime smoke, production tag force-migration / physical delete mutation, commit, push, PR, Issue state change |
+
 ## issue-1119-member-tags-referential-integrity-guard（2026-06-06）
 
 | 項目 | 値 |
