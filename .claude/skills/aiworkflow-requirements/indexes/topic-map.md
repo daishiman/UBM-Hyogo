@@ -2976,6 +2976,16 @@ node scripts/list-specs.js --topics
 | User-Gated | L42 |
 | Lessons Learned | L46 |
 
+### references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L24 |
+| Evidence | L34 |
+| Lessons Learned | L42 |
+
 ### references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md
 
 | セクション | 行 |
@@ -9005,10 +9015,10 @@ node scripts/list-specs.js --topics
 | Current Active / Spec Created Tasks | L4091 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L4257 |
 | issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4325 |
-| issue-998-members-publish-state-production-rollout | L4351 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4410 |
-| issue-1068-admin-tag-inline-create-ui | L4424 |
-| issue-1111-proxy-transport-util-unify | L4442 |
+| issue-998-members-publish-state-production-rollout | L4352 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4411 |
+| issue-1068-admin-tag-inline-create-ui | L4425 |
+| issue-1111-proxy-transport-util-unify | L4443 |
 
 ### references/task-workflow-backlog-part2.md
 
