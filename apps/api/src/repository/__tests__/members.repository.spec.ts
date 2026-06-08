@@ -4,7 +4,12 @@ import {
   MEMBER_IDENTITY_1,
   MEMBER_IDENTITY_2,
 } from "../__fixtures__/members.fixture";
-import { findMemberById, listMembersByIds, upsertMember } from "../members";
+import {
+  createMemberWithStatus,
+  findMemberById,
+  listMembersByIds,
+  upsertMember,
+} from "../members";
 import { asMemberId, asResponseId, asResponseEmail } from "../_shared/brand";
 
 describe("members repository", () => {
@@ -78,6 +83,34 @@ describe("members repository", () => {
       const updated = store.memberIdentities.find((r) => r["member_id"] === "m_001");
       expect(updated?.["response_email"]).toBe("updated@example.com");
       expect(updated?.["current_response_id"]).toBe("r_new");
+    });
+  });
+
+  describe("createMemberWithStatus", () => {
+    it("identity と member_status 既定行を同期生成し、再呼び出しでも status を重複しない", async () => {
+      store.memberIdentities = [];
+      store.memberStatus = [];
+
+      const input = {
+        memberId: asMemberId("m_new"),
+        responseEmail: asResponseEmail("new@example.com"),
+        currentResponseId: asResponseId("r_new"),
+        firstResponseId: asResponseId("r_new"),
+        lastSubmittedAt: "2026-02-01T00:00:00Z",
+      };
+
+      await createMemberWithStatus(ctx, input);
+      await createMemberWithStatus(ctx, input);
+
+      expect(store.memberIdentities).toHaveLength(1);
+      expect(store.memberStatus).toHaveLength(1);
+      expect(store.memberStatus[0]).toMatchObject({
+        member_id: "m_new",
+        public_consent: "unknown",
+        rules_consent: "unknown",
+        publish_state: "member_only",
+        is_deleted: 0,
+      });
     });
   });
 });

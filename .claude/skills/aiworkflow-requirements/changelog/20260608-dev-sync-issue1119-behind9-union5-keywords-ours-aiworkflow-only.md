@@ -1,0 +1,18 @@
+# dev sync: 9 コミット大デルタ取込で union 5 + keywords `--ours`（**aiworkflow 側のみ衝突・task-spec SKILL.md は Auto-merge**）・`pnpm sync:resolve` 1 パス収束・CI コード修正 0 で全緑（2026-06-08 issue-1119 member-tags referential-integrity guard）
+
+- 日時: 2026-06-08（`docs/issue-1119-member-tags-referential-integrity-guard-spec` への dev 取込）
+- ブランチ: `docs/issue-1119-member-tags-referential-integrity-guard-spec` ← `dev`（sub-worktree wt-19・**9 behind / 2 ahead**・ローカル dev は origin/dev に一致＝同期不要・独自コミット 0）
+- 関連: 同型先行例 [[20260608-dev-sync-union5-staging-mint-bearer-4commit-aiworkflow-only-conflict]] / [[20260607-dev-sync-union6-issue1116-skillmd-keywords-ours]] / [[20260607-dev-sync-issue1112-behind8-union5-keywords-ours]] / `aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-097/098/107**
+- 取込: dev 新規 **9 コミット** = `e1248ff3f`(#1158 タグ code 編集専用 UI issue-1116) / `8bab08a62`(#1165 staging bearer mint env 契約 role-scoped 化 + drift gate) / `f902a8e05`(#1155 admin/meetings 出席人数バッジ 3 段階色強調 issue-1112) / `0a70a8dd6`(#1160 useDismissable hook 抽出 issue-1102) / `a7fdfb5fc`(#1154 member_status.member_id FK 制約 #1105) / `c53a275df`(#1152 出席分析 zone 境界・延べ/unique 是正 issue-1101) / `ec22db916`(#1156 transport 選択 util 集約) / `d34ce8131`(#1153 globals.css 重複 shell ブロック 1 本化 issue-1103) / `8ed2e222d`(#1151 identity-conflicts optimistic 消失アナウンス aria-live 単一化 issue-1094)
+- 事象: content CONFLICT は **aiworkflow 配下のみ 6 file**:
+  - `.claude/skills/aiworkflow-requirements/SKILL.md`（union・本文衝突＝#1158 issue-1116 close-out が変更履歴 table を touch）
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/keywords.json`（CONFLICT content → `--ours` 発火）
+  - `task-specification-creator/SKILL.md` / `task-specification-creator/**` は全て Auto-merging（**非衝突**）/ 両 `SKILL-changelog.md` / `LOGS/_legacy.md` も Auto-merging
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 5 files` + `taking --ours for 1 derived files: keywords.json` + 内部 `pnpm indexes:rebuild` を完遂し `all skill / index conflicts resolved`。`git diff --diff-filter=U` 0 / 実マーカー grep 0（確立済みパターン）。
+- **核心データポイント（取込デルタ規模の上端拡張 → 確定則の再々確認）**: 本回は **9 コミット＝直近で最大規模の取込デルタ**だが、conflict は依然 aiworkflow 配下に偏在し union 5 + keywords `--ours`。確定則「**union member = 取込デルタが実 touch する skill ファイル集合**」は上端 9 コミットでも成立。**先行 [[20260608-dev-sync-union5-staging-mint-bearer-4commit-aiworkflow-only-conflict]]（4 コミット・keywords `--ours` 非発火・SKILL.md 衝突）との差分**: 本回は #1158 が issue-1116 の close-out（SKILL.md 変更履歴 table + keywords）を同梱したため **同じ「aiworkflow 偏在」でも keywords.json が CONFLICT 検出され `--ours` 発火**。union 件数・keywords `--ours` 有無は behind 数（4 vs 9）でも取込コミット数でもなく「取込デルタが keywords/SKILL.md core を touch するか」のみで決まることを再確認。
+- 検証順: `git fetch --prune origin`（local dev = origin/dev 一致＝同期不要・独自 0）→ `git rev-list --left-right --count` で 2 ahead / 9 behind → `git merge origin/dev --no-edit` CONFLICT 6 file（union 5 + keywords ours）→ `pnpm sync:resolve`（`union-resolving 5 files` + `--ours` keywords + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git commit --no-edit`（merge commit・lefthook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）→ 取込が `apps/web`/`apps/api` コード変更を含むため `pnpm install --force` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（drift 0）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（9 コミット大デルタ + keywords `--ours` 発火の新データ点）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避のため起こさず、L-DEVSYNC-097/098/107 の確定データ（デルタ規模上端 9・偏在 + keywords 発火条件）として記録。

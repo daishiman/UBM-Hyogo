@@ -8,6 +8,109 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| Issue | #1126 CLOSED 維持。Issue mutation は user-gated |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| 目的 | `/admin/members` BulkActionBar tag picker の authenticated staging visual baseline を mobile / tablet / wide へ additive 拡張する |
+| implementation targets | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| invariant | apps/api / D1 schema / Google Form / `BulkActionBar.tsx` / Playwright config / CI workflow は不変。read-only capture のみ |
+| evidence | local implementation present; Phase 11 runtime visual evidence pending user gate |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, `--update-snapshots`, commit, push, PR, Issue mutation |
+
+### issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` |
+| Issue | #1118 CLOSED（mutation は user-gated） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| 目的 | tag master lifecycle UI の前提 drift（既存 master UI 不在）を補正し、専用 `/admin/tags/catalog` を新設する |
+| implementation targets | `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/admin/TagCatalogPanel.tsx`, `apps/web/src/components/admin/TagCatalogRow.tsx`, `apps/web/src/components/admin/tagCatalogLifecycle.ts`, `apps/web/src/components/shell/{shell-config,icons}.tsx`, `apps/web/src/styles/globals.css` |
+| invariant | apps/api / D1 schema / Google Form / existing `/admin/tags` TagQueuePanel route unchanged. UI consumes existing `GET /admin/tags`, `POST /admin/tags/:tagId/reactivate`, `DELETE /admin/tags/:tagId`, `DELETE /admin/tags/:tagId/physical` |
+| evidence | focused Vitest component/pure/nav suite PASS、local static visual PNGs present、web typecheck PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
+| user gate | authenticated runtime/staging screenshot、commit、push、PR |
+
+### issue-1119-member-tags-referential-integrity-guard（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local / implementation / NON_VISUAL / implementation_mode=new` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1119-member-tags-referential-integrity-guard/` |
+| Issue | #1119 CLOSED 維持（reopen / mutation なし） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| source unassigned | `docs/30-workflows/completed-tasks/unassigned-task/task-issue-1070-followup-003-member-tags-foreign-key-evaluation.md` |
+| 目的 | `member_tags.tag_id` の orphan を documented no-FK 架構に沿って application 層の read-only detection + admin audit endpoint で可視化し、`assignTagsToMember` helper 誤用時にも未定義 tag_id を書かない |
+| implementation targets | `apps/api/src/repository/memberTags.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/repository/__tests__/memberTags.orphan.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/routes/admin/members.contract.spec.ts`（fixture 健全性確認のみ） |
+| invariant | DB-level FK / migration 追加なし、apps/web 非接触、issue-1070 `countMemberTagReferences` + 409 `tag_has_references` guard 非破壊 |
+| evidence | Phase 1-13 specs + Phase 12 strict 7 present。focused tests は local 実行対象。commit/push/PR/deploy/実 D1 orphan query は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md` |
+
+### issue-1104-member-creation-path-unification（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-1104-member-creation-path-unification/` |
+| Issue | #1104 CLOSED（reopen しない。commit/PR/staging は user-gated） |
+| 目的 | member 作成経路を単一 helper / status 連結へ統一し、`member_status` orphan を ingest / auto-link の両経路で発生不能にする |
+| implementation targets | `apps/api/src/repository/members.ts`, `apps/api/src/repository/identities.ts`, `apps/api/src/jobs/sync-forms-responses.ts`, focused tests |
+| invariant | `apps/web` / endpoint surface / D1 schema / migrations / FK 制約は変更なし。route mutation の `ensureMemberStatusRow` は legacy backstop として保持 |
+| evidence | focused D1 Vitest 5 files / 51 tests PASS、API typecheck PASS、API lint PASS、grep gate PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging authenticated smoke, Issue mutation |
+
+### issue-1116-admin-tag-master-code-edit-ui（30種思考法改善反映 / 2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/` |
+| Issue | #1116 CLOSED（mutation は user-gated、PR 文脈は `Refs #1116` のみ） |
+| 親 workflow | `issue-1069-tag-code-rename` |
+| 目的 | admin tag master の `code` / `label` / `category` を UI から安全に編集する sibling route `/admin/tag-master` を追加する |
+| implementation targets | `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/src/features/admin/components/_tags/{TagMasterPanel,TagMasterEditForm}.tsx`, `apps/web/src/features/admin/api/tags.ts`, `apps/web/src/components/shell/{shell-config,icons}.tsx`, `apps/web/src/styles/globals.css` |
+| invariant | apps/api / D1 / Google Form / existing `/admin/tags` tag queue unchanged。`expectedCode` CAS は issue-1069 API surface を消費 |
+| evidence | focused Vitest 3 files / 19 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、verify:no-inline-style PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
+
+### staging-mint-bearer-env-contract-guard（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/staging-mint-bearer-env-contract-guard/` |
+| 親 workflow | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 目的 | bulk-tag runtime smoke の admin-only mint step が ME 系 env 欠落で落ちる drift を、role-scoped mint helper と static contract gate で再発防止する |
+| implementation targets | `scripts/smoke/mint-staging-bearers.mts`, `scripts/smoke/verify-mint-env-contract.mts`, `.github/workflows/runtime-smoke-staging.yml`, `.github/workflows/verify-mint-env-contract.yml`, `scripts/smoke/provision-staging-secrets.sh`, `scripts/smoke/README.md` |
+| tests | `scripts/smoke/__tests__/mint-staging-bearers.spec.ts`, `scripts/smoke/__tests__/verify-mint-env-contract.spec.ts`, `scripts/smoke/__tests__/mint-staging-bearers-self-verify.spec.ts` |
+| evidence | focused Vitest 3 files / 27 tests PASS; `verify-mint-env-contract` PASS; `bash -n` PASS; shellcheck PASS; actionlint PASS; typecheck/lint PASS |
+| invariant | `apps/*` runtime code / API endpoint / D1 schema / UI は変更なし。production runtime smoke には degrade を適用しない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md` |
+| user gate | staging deploy、real secret mutation、real runtime smoke、required status check 登録、commit、push、PR |
+
+### issue-1112-attendance-count-badge-emphasis（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1112-attendance-count-badge-emphasis/` |
+| Issue | #1112 CLOSED（Issue mutation は未実行） |
+| 目的 | `/admin/meetings` 開催日タイムラインの出席人数バッジに、none / normal / high の 3 段階色強調を追加する |
+| implementation targets | `apps/web/src/features/admin/components/_meetings/meetingStats.ts`, `apps/web/src/features/admin/components/_meetings/MeetingTimeline.tsx`, `apps/web/src/styles/globals.css`, `_meetings/__tests__/{MeetingTimeline,meetingStats}.spec.tsx` |
+| invariant | apps/api endpoint surface / D1 schema / Google Form / 出席集計 semantics / `tokens.css` / `design-tokens.md` / 共有 `.ui-badge` default behavior unchanged |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web verify-design-tokens PASS、local Playwright screenshot 3 PNG PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR, Issue mutation |
+
 ### issue-1105-member-status-fk-constraint（2026-06-05）
 
 | 項目 | 値 |
@@ -333,6 +436,22 @@
 | evidence | focused D1 Vitest 2 files / 15 tests PASS、API typecheck PASS、repo lint PASS |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1070-tag-reactivate-physical-delete-artifact-inventory.md` |
 | user gate | staging runtime smoke、production tag physical delete mutation、commit、push、PR、Issue state change |
+
+### issue-1117-tag-physical-delete-force-migration（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/` |
+| Issue | #1117 CLOSED 維持。PR 文脈は `Refs #1117` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| 目的 | `member_tags` 参照あり tag を active destination tag へ強制移行してから物理削除する |
+| implementation targets | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts` |
+| invariant | `DELETE /admin/tags/:tagId/physical?migrateTo=<destTagId>` 指定時のみ force-migration。未指定時は issue-1070 の 409 `tag_has_references` 拒否経路を維持。移行先は active tag のみ、`src===dest` は 400、成功時は source 参照 0 件を再確認してから physical delete |
+| evidence | focused D1 Vitest 2 files / 25 tests PASS、API typecheck PASS、repo lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md` |
+| user gate | staging runtime smoke、production tag force-migration / physical delete mutation、commit、push、PR、Issue state change |
 
 ### issue-1069-tag-code-rename（2026-06-03）
 
