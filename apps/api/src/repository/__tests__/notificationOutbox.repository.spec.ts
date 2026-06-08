@@ -236,6 +236,7 @@ describe("notificationOutbox opt-out gate (issue-55)", () => {
   });
 
   const seedStatus = async (memberId: string, optOut: 0 | 1) => {
+    await seedMember(env, memberId, `${memberId}@example.com`);
     await env.db
       .prepare(
         `INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted, notification_opt_out, updated_at)

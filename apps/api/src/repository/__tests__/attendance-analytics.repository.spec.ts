@@ -12,6 +12,10 @@ import {
   listSessionAttendanceStats,
   listMemberAttendanceRanking,
 } from "../attendance";
+import {
+  computeAttendanceOverviewExt,
+  listZoneDistribution,
+} from "../attendance-analytics";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -94,6 +98,36 @@ describe("attendance analytics aggregates", () => {
       expect(r.totalMembers).toBe(2);
       // active attendance rows = 3 (m1->s1, m1->s2, m2->s1)
       expect(r.overallRate).toBe(0.75);
+    });
+  });
+
+  describe("computeAttendanceOverviewExt", () => {
+    it("returns extended overall and unique attendance metrics", async () => {
+      await seedBase(env);
+      const r = await computeAttendanceOverviewExt(env.ctx);
+      expect(r.totalSessions).toBe(2);
+      expect(r.totalMembers).toBe(2);
+      expect(r.overallRate).toBe(0.75);
+      expect(r.uniqueAttendeeCount).toBe(2);
+      expect(r.uniqueAttendanceRate).toBe(1);
+    });
+  });
+
+  describe("listZoneDistribution", () => {
+    it("uses machine-readable attendance zone keys", async () => {
+      await seedBase(env);
+      const r = await listZoneDistribution(env.ctx, {
+        periodFrom: null,
+        periodTo: null,
+        zone: null,
+      });
+      expect(r.rows.map((row) => row.zone)).toEqual([
+        "zone_0",
+        "zone_1_9",
+        "zone_10_99",
+        "zone_100_plus",
+      ]);
+      expect(r.rows.map((row) => row.attendeeCount)).toEqual([0, 2, 0, 0]);
     });
   });
 

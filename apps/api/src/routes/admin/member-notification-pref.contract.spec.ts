@@ -11,6 +11,17 @@ const makeEnv = (env: InMemoryD1) => ({
   AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
+const seedIdentity = async (env: InMemoryD1, memberId: string) => {
+  await env.db
+    .prepare(
+      `INSERT INTO member_identities
+        (member_id, response_email, current_response_id, first_response_id, last_submitted_at, created_at, updated_at)
+       VALUES (?1, ?2, ?3, ?3, ?4, ?4, ?4)`,
+    )
+    .bind(memberId, `${memberId}@example.com`, `resp_${memberId}`, "2026-05-23T00:00:00Z")
+    .run();
+};
+
 describe("PATCH /admin/members/:memberId/notification-pref", () => {
   let env: InMemoryD1;
   beforeEach(async () => {
@@ -52,6 +63,7 @@ describe("PATCH /admin/members/:memberId/notification-pref", () => {
   });
 
   it("admin が opt-out を切り替えると 200 + member_status に永続化される", async () => {
+    await seedIdentity(env, "m_target");
     const app = createAdminMemberNotificationPrefRoute();
     const res = await app.request(
       "/members/m_target/notification-pref",
@@ -86,6 +98,7 @@ describe("PATCH /admin/members/:memberId/notification-pref", () => {
   });
 
   it("冪等性: 同値 PATCH は 200 を返す", async () => {
+    await seedIdentity(env, "m_idem");
     const app = createAdminMemberNotificationPrefRoute();
     const headers = {
       ...(await adminAuthHeader()),

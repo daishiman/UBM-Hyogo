@@ -32,15 +32,15 @@ test("member sees 3 user actions at /profile", async ({ memberPage }) => {
   await expect(menu.getByText("ログアウト")).toBeVisible();
 });
 
-// S3: admin / desktop — 14 nav items + 管理者ダッシュボード action
-// public(3: home/directory/register) + members(1: profile) + admin(10: dashboard/attendance/
-// members/tag-queue/schema/meeting/requests/identity/audit/form-responses external link) = 14。
-// form-responses(Google Form 回答 external link) を admin グループへ追加したため 13→14。
-test("admin sees 14 nav items and admin dashboard action at /admin", async ({ adminPage }) => {
+// S3: admin / desktop — 15 nav items + 管理者ダッシュボード action
+// public(3: home/directory/register) + members(1: profile) + admin(11: dashboard/attendance/
+// members/tag-master/tag-queue/schema/meeting/requests/identity/audit/form-responses external link) = 15。
+// tag-master(タグ管理 専用 UI・issue-1116) を admin グループへ追加したため 14→15。
+test("admin sees 15 nav items and admin dashboard action at /admin", async ({ adminPage }) => {
   await adminPage.goto("/admin");
   await waitShellReady(adminPage);
   const navItems = adminPage.locator('[data-shell="sidebar"] [data-shell-block="nav-item"]');
-  await expect(navItems).toHaveCount(14);
+  await expect(navItems).toHaveCount(15);
   await adminPage.locator('[data-shell-block="user-menu"] summary').click();
   await expect(
     adminPage.locator('[data-shell-block="user-menu"]').getByText("管理者ダッシュボード"),

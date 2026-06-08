@@ -1,7 +1,7 @@
 "use client";
 import type { ReactNode } from "react";
 import { AdminEmptyState } from "../_shared";
-import type { MeetingItem } from "./meetingStats";
+import { attendanceLevel, type MeetingItem } from "./meetingStats";
 
 interface Props {
   readonly items: ReadonlyArray<MeetingItem>;
@@ -54,7 +54,11 @@ export function MeetingTimeline({
               >
                 <span className="admin-timeline__date">{m.heldOn}</span>
                 <span className="admin-timeline__title">{m.title}</span>
-                <span className="ui-badge" data-testid={`meeting-attendance-count-${m.sessionId}`}>
+                <span
+                  className="ui-badge"
+                  data-attendance-level={attendanceLevel(attendanceCount)}
+                  data-testid={`meeting-attendance-count-${m.sessionId}`}
+                >
                   {attendanceLabel}
                 </span>
                 <span className="sr-only">出席を記録・編集</span>
