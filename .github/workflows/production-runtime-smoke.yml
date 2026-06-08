@@ -13,6 +13,14 @@ on:
         description: "manual run reason"
         required: false
         default: "ad-hoc production smoke"
+      run_bulk_tag_mutation:
+        description: "set true to run issue-1137 bulk tag production mutation smoke"
+        required: false
+        default: "false"
+      bulk_tag_confirmation:
+        description: "type I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1 to authorize bulk tag prod write"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -107,3 +115,67 @@ jobs:
             exit 1
           fi
           bash scripts/smoke/ci-summary-post.sh ci-evidence
+
+  bulk-tag-production-runtime-smoke:
+    if: ${{ inputs.run_bulk_tag_mutation == 'true' && inputs.bulk_tag_confirmation == 'I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1' }}
+    runs-on: ubuntu-latest
+    environment: production-runtime-smoke
+    timeout-minutes: 10
+    env:
+      PRODUCTION_API_BASE: ${{ secrets.PRODUCTION_API_BASE }}
+      PRODUCTION_ADMIN_BEARER: ${{ secrets.PRODUCTION_ADMIN_BEARER }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_ENV: production
+      CF_SH_SKIP_WITH_ENV: "1"
+      BULK_TAG_PRODUCTION_SMOKE_APPROVAL: issue-1137-production-bulk-tag-smoke
+      BULK_TAG_PRODUCTION_SMOKE_CONFIRM: I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup project
+        uses: ./.github/actions/setup-project
+
+      - name: verify required production bulk tag secrets
+        run: |
+          missing=()
+          for name in PRODUCTION_API_BASE PRODUCTION_ADMIN_BEARER CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf "::error::missing secrets in environment 'production-runtime-smoke': %s\n" "${missing[*]}"
+            echo "::error::bulk tag production smoke mutates synthetic rows in production D1 and requires environment approval"
+            exit 1
+          fi
+
+      - name: mask production bulk tag credentials
+        run: |
+          echo "::notice::bulk tag production smoke is workflow_dispatch + environment-approved + dual-marker gated"
+          echo "::add-mask::$PRODUCTION_ADMIN_BEARER"
+          echo "::add-mask::$PRODUCTION_API_BASE"
+
+      - name: run bulk tag production runtime smoke
+        run: |
+          mkdir -p ci-evidence-bulk-tag-prod
+          bash scripts/smoke/runtime-tag-bulk.sh production --out-dir ci-evidence-bulk-tag-prod --ci-summary
+
+      - name: redaction grep gate
+        if: always()
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-' ci-evidence-bulk-tag-prod/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload bulk tag production evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bulk-tag-production-runtime-smoke-${{ github.run_id }}
+          path: ci-evidence-bulk-tag-prod/
+          retention-days: 30
