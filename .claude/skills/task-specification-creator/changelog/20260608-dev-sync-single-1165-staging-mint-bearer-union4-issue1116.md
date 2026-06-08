@@ -1,0 +1,11 @@
+# dev sync: 単一 1 コミット(#1165 staging-mint-bearer)取込で union 4 file（aiworkflow 側のみ衝突・task-spec 配下は SKILL.md/SKILL-changelog.md とも全 Auto-merge）+ `pnpm sync:resolve` 1 パス収束・CI コード修正 0 で全緑（2026-06-08 issue-1116 への 2nd-pass intake）
+
+- 日時: 2026-06-08（`docs/issue-1116-admin-tag-master-code-edit-ui-spec` への dev 2nd-pass 取込）
+- ブランチ: `docs/issue-1116-admin-tag-master-code-edit-ui-spec` ← `dev`（sub-worktree wt-13・**1 behind**・ローカル dev = origin/dev 一致（`8bab08a62`）で dev 同期 no-op・独自コミット 0）
+- 関連: 同一ブランチ前回 [[20260607-dev-sync-union6-issue1116-skillmd-keywords-ours]]（SP-DEVSYNC-110）/ union member の skill 非対称則 / 対の aiworkflow L-DEVSYNC-119 / **SP-DEVSYNC-111（本回新規）**
+- 取込: dev 新規 **1 コミット** = `8bab08a62`(#1165 staging bearer mint の env 契約を role-scoped 化 + drift gate 追加・親 issue-1081)。merge-base `f902a8e05`(#1155)→ origin/dev `8bab08a62` の単一前進。
+- 事象: content CONFLICT は **4 file（全 union・すべて aiworkflow-requirements 配下）**。`task-specification-creator` 配下は `SKILL.md` / `SKILL-changelog.md` とも **全て Auto-merge（衝突 0）**で、本回も union member の skill 非対称（片側 4・task-spec 側 0）が正常成立。
+- **核心（union member の skill 非対称性・単一コミット版）**: 確定則「union member = 取込デルタが実 touch する skill ファイル集合」は skill ごとに独立評価される。#1165 は staging-mint-bearer close-out の skill-sync 同伴コミットだが、task-spec 側 SKILL.md（最新 3 件規約行）の追記領域は dev/feature で行非重複だったため Auto-merge に収まり、aiworkflow 側のみ SKILL.md 本文+quick-reference+resource-map+task-workflow-active の 4 union。resolver は両 skill 一括スキャンで member 非対称（片側集中）でも単一パス収束。
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 4 files` + 内部 `pnpm indexes:rebuild`（5486 キーワード）→ `all skill / index conflicts resolved`。`git diff --diff-filter=U` 0 / 実マーカー 0 → merge commit `bc38e9e15`（lefthook 全 pass・staged-task-dir-guard は MERGE_HEAD で auto-skip）。
+- 検証順: `git fetch --prune origin`（local dev = origin/dev 一致・dev 同期 no-op・独自 0）→ `HEAD..origin/dev` = 1 behind → `git merge origin/dev --no-edit` CONFLICT 4 union → `pnpm sync:resolve` → `--diff-filter=U` 0 → `git commit --no-edit`（`bc38e9e15`）→ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（drift 0）/ 取込 smoke test 26 pass。CI コード修正なしで全緑。
+- 反映先: 本 changelog + 対の aiworkflow changelog（L-DEVSYNC-119）+ 両 SKILL-changelog.md 1 行。**SP-DEVSYNC-111 採番**（intake risk 評価は `git diff HEAD..origin/dev`（自分の未マージ成果が deletion に見える全 divergence）でなく `git log origin/dev ^HEAD`（純取込デルタ）で見る、の新トラップ知見を対 lesson と共有）。

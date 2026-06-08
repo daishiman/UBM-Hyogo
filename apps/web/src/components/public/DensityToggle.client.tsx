@@ -1,9 +1,9 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useId, useRef } from "react";
+import { useCallback, useId, useRef } from "react";
 
-import { browserDocument } from "../../lib/is-browser";
+import { useDismissable, type DismissReason } from "../../hooks/useDismissable";
 import { Icon } from "../ui/Icon";
 import { Segmented } from "../ui/Segmented";
 
@@ -66,39 +66,16 @@ export function DensityToggle({ value }: DensityToggleProps) {
 
   // <details> は非制御のまま native 標準挙動（summary toggle）を維持し、
   // close 操作だけを ref 経由で命令的に行う。
-  const closeHelp = useCallback(() => {
-    if (detailsRef.current) detailsRef.current.open = false;
+  const onDismiss = useCallback((reason: DismissReason) => {
+    const details = detailsRef.current;
+    if (!details?.open) return;
+    details.open = false;
+    if (reason === "escape") {
+      details.querySelector("summary")?.focus();
+    }
   }, []);
 
-  // Escape / click-outside による close。listener は mount〜unmount で張り、
-  // ハンドラ内で detailsRef.current.open を直接判定する（open のときだけ作用）。
-  // unmount で必ず解除して event listener leak を防ぐ。
-  useEffect(() => {
-    const doc = browserDocument();
-    if (!doc) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && detailsRef.current?.open) {
-        closeHelp();
-        detailsRef.current?.querySelector("summary")?.focus();
-      }
-    };
-    const onPointerDown = (e: PointerEvent) => {
-      const target = e.target;
-      if (
-        detailsRef.current?.open &&
-        target instanceof Node &&
-        !detailsRef.current.contains(target)
-      ) {
-        closeHelp();
-      }
-    };
-    doc.addEventListener("keydown", onKeyDown);
-    doc.addEventListener("pointerdown", onPointerDown);
-    return () => {
-      doc.removeEventListener("keydown", onKeyDown);
-      doc.removeEventListener("pointerdown", onPointerDown);
-    };
-  }, [closeHelp]);
+  useDismissable(detailsRef, onDismiss);
 
   const segmentedOptions = OPTIONS.map((option) => ({
     value: option.value,

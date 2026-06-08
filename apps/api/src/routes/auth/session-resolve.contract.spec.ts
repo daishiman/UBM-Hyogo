@@ -193,14 +193,13 @@ describe("GET /auth/session-resolve", () => {
     expect(body.memberId).toBe("m_001");
   });
 
-  it("auto-link: identity 無し / response と status ありなら memberId を返す", async () => {
+  it("auto-link: identity 無し / response と queue あり / status 無しなら rules_declined に倒す", async () => {
     await seedResponse(env, "r_auto", "auto@example.com");
     await env.db
       .prepare(
         "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id) VALUES ('q-auto', 'm_auto', 'r_auto')",
       )
       .run();
-    await seedStatus(env, "m_auto", "consented", 0);
 
     const app = createSessionResolveRoute();
     const res = await app.request(
@@ -212,9 +211,9 @@ describe("GET /auth/session-resolve", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
     expect(body).toEqual({
-      memberId: "m_auto",
+      memberId: null,
       isAdmin: false,
-      gateReason: null,
+      gateReason: "rules_declined",
     });
   });
 
@@ -232,5 +231,28 @@ describe("GET /auth/session-resolve", () => {
     const body = (await res.json()) as Record<string, unknown>;
     expect(body.memberId).toBeNull();
     expect(body.gateReason).toBe("rules_declined");
+  });
+
+  it("auto-link: 既存 identity に status が欠けていても session resolve で既定行を補完する", async () => {
+    await seedIdentity(env, "m_legacy", "legacy@example.com");
+
+    const app = createSessionResolveRoute();
+    const res = await app.request(
+      "/session-resolve?email=legacy@example.com",
+      { headers: { "x-internal-auth": INTERNAL } },
+      makeEnv(env),
+    );
+    const status = await env.db
+      .prepare("SELECT * FROM member_status WHERE member_id = 'm_legacy'")
+      .first<{ member_id: string; rules_consent: string }>();
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body.memberId).toBeNull();
+    expect(body.gateReason).toBe("rules_declined");
+    expect(status).toMatchObject({
+      member_id: "m_legacy",
+      rules_consent: "unknown",
+    });
   });
 });

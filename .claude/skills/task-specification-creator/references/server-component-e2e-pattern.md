@@ -185,11 +185,24 @@ SSR mock が**2系統**存在し、実行環境でどちらが応答するかが
 1. **negative-query（空結果を返す検索語）は contracts fixture を単一ソースにする**。`packages/contracts/src/fixtures.mjs` の `fixtures.public.negativeQuery`（`"zzz_no_match_zzz"`）が正本で、`index.spec.ts` が値を assert する。テスト・両 mock はこの値に揃える。独自 prefix（`zzznotfound-${Date.now()}` 等）を spec ごとに作らない。
 2. **mock の空系レスポンスも `.strict()` zod schema の必須キーを満たす**。`PublicMemberListViewZ` は `.strict()` かつ `topTags` 必須。空系で `topTags` を省略すると `listMembers()` 内の `.parse()` が throw → ページが error boundary に落ち、EmptyState が描画されず spec が timeout する。正常系と空系で同一 schema を満たすこと。
 3. **mock を 2 系統持つ場合は応答規約（条件分岐・キー）を両系統で一致させる**。`auth.ts` と `e2e-mock-api.mjs` の `/public/members` ハンドラは同じ negative-query 判定（`q === fixtures.public.negativeQuery`）と同じレスポンス shape にする。
+4. **drift は negative-query に限らない。endpoint 追加・body field 追加・enum 値変更も同型 drift 源**（2026-06-07 / issue-1101 attendance analytics calc correction 由来）。issue-1101 では attendance dashboard の overview に `uniqueAttendeeCount` / `uniqueAttendanceRate` 追加、zone-distribution の値を `0→1` 等から `zone_0` / `zone_1_9` / `zone_10_99` / `zone_100_plus` へ変更、`/admin/dashboard/attendance/absentees` を画面が server-side fetch するよう追加したが、`auth.ts` だけ更新し `e2e-mock-api.mjs` を忘れた結果、`e2e (desktop/mobile 3 project)` と `e2e-tests-coverage-gate` が **CI でのみ** FAIL した（404 → ページ degrade、KPI testid not found、zone ラベル欠落）。ローカル vitest / unit test は in-process mock を見ないため検知できない。**新規 endpoint を画面が server-side fetch する場合は `e2e-mock-api.mjs` に route handler 追加も必須**（body 関数の追加だけでは route 分岐に到達せず 404 のまま）。
 
 ### Phase 別チェック追記
 
 - Phase 4 / 6：spec が使う negative-query / empty-state トリガ語は contracts fixture を import or 同値参照する。spec 独自のマジック文字列を増やさない。
-- Phase 11：EmptyState 系 spec は CI serving-path（e2e-mock-api.mjs を 8787 先起動 → `CI=1 playwright test`）でも green を確認する。local の auth.ts 単体 PASS だけを根拠にしない。
+- Phase 6 / 7：admin/public dashboard 系の mock body（overview / zone-distribution / absentees 等）や endpoint を変更したら、`auth.ts` と `e2e-mock-api.mjs` を **同一 wave で揃える**。変更後に両系統を grep 突合する:
+
+  ```bash
+  # field / enum / route が両系統で一致しているか
+  grep -n "uniqueAttendeeCount\|zone_100_plus\|attendance/absentees" \
+    apps/web/playwright/fixtures/auth.ts scripts/e2e-mock-api.mjs
+  ```
+- Phase 11：EmptyState 系 spec / 新 endpoint 依存 spec は CI serving-path（e2e-mock-api.mjs を 8787 先起動 → `CI=1 playwright test`）でも green を確認する。local の auth.ts 単体 PASS だけを根拠にしない。新 endpoint は push 前に 200 応答を確認する:
+
+  ```bash
+  E2E_MOCK_API_PORT=8799 node scripts/e2e-mock-api.mjs &
+  node -e "fetch('http://127.0.0.1:8799/admin/dashboard/attendance/absentees?lastN=3').then(r=>console.log(r.status))"
+  ```
 
 ```bash
 # CI 相当の serving-path 再現（e2e-mock-api.mjs を先起動してから spec 実行）

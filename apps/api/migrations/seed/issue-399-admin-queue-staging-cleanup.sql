@@ -9,10 +9,13 @@ DELETE FROM audit_log
 DELETE FROM deleted_members WHERE member_id LIKE 'ISSUE399-%';
 DELETE FROM admin_member_notes WHERE note_id LIKE 'ISSUE399-%';
 DELETE FROM member_status      WHERE member_id LIKE 'ISSUE399-%';
+-- member_identities は member_status の親（FK 0026）。child を消した後に parent を消す。
+DELETE FROM member_identities  WHERE member_id LIKE 'ISSUE399-%';
 COMMIT;
 
--- Verification (must return 0 / 0 / 0 / 0).
-SELECT count(*) AS remaining_audit   FROM audit_log WHERE target_id LIKE 'ISSUE399-%';
-SELECT count(*) AS remaining_deleted FROM deleted_members WHERE member_id LIKE 'ISSUE399-%';
-SELECT count(*) AS remaining_notes   FROM admin_member_notes WHERE note_id  LIKE 'ISSUE399-%';
-SELECT count(*) AS remaining_members FROM member_status      WHERE member_id LIKE 'ISSUE399-%';
+-- Verification (must return 0 / 0 / 0 / 0 / 0).
+SELECT count(*) AS remaining_audit      FROM audit_log          WHERE target_id LIKE 'ISSUE399-%';
+SELECT count(*) AS remaining_deleted    FROM deleted_members    WHERE member_id LIKE 'ISSUE399-%';
+SELECT count(*) AS remaining_notes      FROM admin_member_notes WHERE note_id   LIKE 'ISSUE399-%';
+SELECT count(*) AS remaining_members    FROM member_status      WHERE member_id LIKE 'ISSUE399-%';
+SELECT count(*) AS remaining_identities FROM member_identities  WHERE member_id LIKE 'ISSUE399-%';

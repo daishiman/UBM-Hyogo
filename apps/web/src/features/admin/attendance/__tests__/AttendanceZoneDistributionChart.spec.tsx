@@ -9,8 +9,8 @@ describe("AttendanceZoneDistributionChart", () => {
   it("renders the attendance count band legend and labels", () => {
     const data: AttendanceZoneDistribution = {
       rows: [
-        { zone: "0→1", attendeeCount: 2, rate: 0 },
-        { zone: "1→10", attendeeCount: 8, rate: 0.4 },
+        { zone: "zone_0", attendeeCount: 2, rate: 0 },
+        { zone: "zone_1_9", attendeeCount: 8, rate: 0.4 },
       ],
       filter: { periodFrom: null, periodTo: null, zoneFilter: null },
     };
@@ -25,7 +25,7 @@ describe("AttendanceZoneDistributionChart", () => {
 
   it("allows a zero-width bar for zero percent rows", () => {
     const data: AttendanceZoneDistribution = {
-      rows: [{ zone: "0→1", attendeeCount: 0, rate: 0 }],
+      rows: [{ zone: "zone_0", attendeeCount: 0, rate: 0 }],
       filter: { periodFrom: null, periodTo: null, zoneFilter: null },
     };
 
