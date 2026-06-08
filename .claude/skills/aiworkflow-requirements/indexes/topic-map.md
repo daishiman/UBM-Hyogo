@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L251 |
-| UBM-Hyogo Admin Sync API（03a） | L272 |
-| UBM-Hyogo Member Self-Service API（04b） | L324 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
-| Desktop IPC API サマリー | L366 |
-| 変更履歴 | L397 |
-| 関連ドキュメント | L414 |
+| エンドポイント命名規則 | L252 |
+| UBM-Hyogo Admin Sync API（03a） | L273 |
+| UBM-Hyogo Member Self-Service API（04b） | L325 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L353 |
+| Desktop IPC API サマリー | L367 |
+| 変更履歴 | L398 |
+| 関連ドキュメント | L415 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2900,6 +2900,15 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | Boundary | L33 |
 
+### references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L22 |
+| Lessons | L31 |
+| User-Gated Boundary | L37 |
+
 ### references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md
 
 | セクション | 行 |
@@ -2923,6 +2932,70 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Summary | L14 |
+
+### references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implemented Files | L15 |
+| Tests And Evidence | L27 |
+| Boundaries | L37 |
+| 30-Method Compact Evidence | L44 |
+| Lessons Learned | L56 |
+
+### references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
+### references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Tests And Evidence | L25 |
+| Workflow Artifacts | L38 |
+| System Specs | L48 |
+| Lessons Learned | L55 |
+
+### references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L15 |
+| Evidence | L25 |
+| Invariants | L35 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
+
+### references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L24 |
+| Evidence | L34 |
+| Lessons Learned | L42 |
+
+### references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Implementation targets | L22 |
+| Runtime visual evidence | L29 |
+| Lessons Learned | L40 |
+| User-gated actions | L46 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -4181,6 +4254,21 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
 
+### references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| state classification | L7 |
+| root artifacts | L13 |
+| implementation artifacts | L25 |
+| phase 11 evidence | L35 |
+| phase 12 required artifacts | L43 |
+| invariants | L55 |
+| same-wave skill sync | L63 |
+| Lessons Learned | L77 |
+| user-gated operations | L89 |
+
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
 | セクション | 行 |
@@ -4321,6 +4409,16 @@ node scripts/list-specs.js --topics
 | Implementation artifacts | L10 |
 | Local evidence | L19 |
 | Lessons | L27 |
+
+### references/workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Evidence | L23 |
+| User-Gated | L34 |
+| Lessons Learned | L41 |
 
 ### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
 
@@ -8918,19 +9016,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3885 |
-| フェーズ構造（概要） | L3894 |
-| 品質ゲート（概要） | L3925 |
-| 出力テンプレート | L3936 |
-| 実行時のコマンド・エージェント・スキル | L3959 |
-| 昇格パターン集 | L3983 |
-| Current Active / Spec Created Tasks | L3985 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4151 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4219 |
-| issue-998-members-publish-state-production-rollout | L4245 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4304 |
-| issue-1068-admin-tag-inline-create-ui | L4318 |
-| issue-1111-proxy-transport-util-unify | L4336 |
+| ドキュメント構成 | L4004 |
+| フェーズ構造（概要） | L4013 |
+| 品質ゲート（概要） | L4044 |
+| 出力テンプレート | L4055 |
+| 実行時のコマンド・エージェント・スキル | L4078 |
+| 昇格パターン集 | L4102 |
+| Current Active / Spec Created Tasks | L4104 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4270 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4338 |
+| issue-998-members-publish-state-production-rollout | L4365 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4424 |
+| issue-1068-admin-tag-inline-create-ui | L4438 |
+| issue-1111-proxy-transport-util-unify | L4456 |
 
 ### references/task-workflow-backlog-part2.md
 

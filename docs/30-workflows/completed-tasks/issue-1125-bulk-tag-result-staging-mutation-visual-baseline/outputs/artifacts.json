@@ -1,0 +1,100 @@
+{
+  "workflow_id": "issue-1125-bulk-tag-result-staging-mutation-visual-baseline",
+  "feature": "issue-1125-bulk-tag-result-staging-mutation-visual-baseline",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-06T00:00:00+09:00",
+  "lastUpdated": "2026-06-06T00:00:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-1125-BULK-TAG-RESULT-STAGING-MUTATION-VISUAL-001",
+    "taskType": "implementation",
+    "githubIssue": 1125,
+    "githubIssueState": "CLOSED",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "playwright-authenticated-staging-visual",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_staging_runtime_pending",
+    "scope": "Add one authenticated staging Playwright spec that opens real /admin/members, selects synthetic test members, applies a real POST /admin/members/tags/bulk mutation, and captures the result-summary all-success and partial-failure (deleted-member skipped) baselines. A dedicated seed/cleanup SQL pair (e2e_test_issue1125_ prefix, no explicit SQL transaction per D1 remote constraint) plus a trap-cleanup shell runner orchestrate seed -> capture -> cleanup with residual-zero verification. The notFound (unregistered tag) visual is out of scope because the tag picker only renders registered tags; it stays covered by the parent local fixture + BulkActionBar.spec.tsx TC-BAB-TAG-03.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline",
+    "runtime_boundary": "This wave adds the Playwright spec, seed/cleanup SQL, capture runner, and local shell test. Authenticated staging seed -> mutation -> baseline generation -> cleanup, staging deploy, commit, push, and PR remain user-gated. GitHub issue #1125 stays CLOSED (recovered_from_unassigned / refs_only).",
+    "optimization_note": "Issue #1125 was written (2026-06-03) for a manual user-gated screenshot capture of the result 2 states. Since then the authenticated staging Playwright infrastructure (setup.staging-auth.ts, staging-visual-authenticated project) and the issue-1081 staging D1 seed/cleanup+redact runner (scripts/smoke/runtime-tag-bulk.sh) landed. This spec optimizes the root solution to a mutation interaction-gated authenticated staging Playwright spec plus a trap-cleanup seed/cleanup runner, instead of a manual capture.",
+    "scope_decision": "Investigation confirmed the result 2 states (all-success / partial-failure) staging mutation visual baseline is unresolved: issue-1036 only has page.setContent() local fixtures, issue-1077 scoped result states out (read-only picker only), issue-1081/#1144 is NON_VISUAL (API smoke), issue-1080 is local component test. partial-failure is reproduced via a seeded deleted member (member_status.is_deleted=1) -> skipped_deleted -> frontend skipped list. notFound (unregistered tag) cannot be produced through the UI and remains covered by parent local fixtures + BulkActionBar.spec.tsx TC-BAB-TAG-03.",
+    "consumes_unassigned_task": "docs/30-workflows/unassigned-task/task-issue-1036-followup-001-staging-authenticated-bulk-tag-visual-baseline.md",
+    "implementation_files": [
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-result-authenticated.spec.ts",
+      "apps/api/migrations/seed/bulk-tag-result-staging-seed.sql",
+      "apps/api/migrations/seed/bulk-tag-result-staging-cleanup.sql",
+      "scripts/smoke/capture-bulk-tag-result.sh"
+    ],
+    "test_files": [
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-result-authenticated.spec.ts",
+      "scripts/smoke/__tests__/capture-bulk-tag-result.test.sh",
+      "apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx"
+    ],
+    "canonical_screenshots": [
+      "bulk-tag-result-all-success.png",
+      "bulk-tag-result-partial-failure.png"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx",
+      "bash scripts/smoke/__tests__/capture-bulk-tag-result.test.sh",
+      "PLAYWRIGHT_STAGING_BASE_URL=https://ubm-hyogo-web-staging.daishimanju.workers.dev bash scripts/smoke/capture-bulk-tag-result.sh staging --out-dir docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/outputs/phase-11/evidence"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec, strict Phase 12 outputs, and the consumed unassigned-task pointer are present for the authenticated staging result-baseline task"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: Playwright spec, seed/cleanup SQL, capture runner, package smoke:test wiring, and runner shell test were added. Local runner syntax and shell test passed; broader typecheck/lint/focused tests are recorded in Phase 11."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: authenticated staging seed/mutation/baseline capture/cleanup, staging deploy, push, and PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local_evidence_present_staging_runtime_pending", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "outputs/phase-13/pr-creation-result.md" }
+  ],
+  "dependencies": {
+    "2": ["1"], "3": ["2"], "4": ["3"], "5": ["4"], "6": ["5"], "7": ["6"],
+    "8": ["7"], "9": ["8"], "10": ["9"], "11": ["10"], "12": ["11"], "13": ["12"]
+  }
+}

@@ -1,6 +1,16 @@
+import { execFileSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { verifySessionJwt } from "@ubm-hyogo/shared";
-import { mintStagingBearers } from "../mint-staging-bearers.mts";
+import {
+  findMissingEnv,
+  mintStagingBearers,
+  mintStagingBearersForRoles,
+  parseRoles,
+  requiredEnvForRoles,
+} from "../mint-staging-bearers.mts";
 
 // ダミー鍵リテラルのみ使用し、実 secret を fixture に置かない（不変条件 3）。
 const SECRET = "test-secret-mint-parity";
@@ -14,6 +24,14 @@ const baseEnv = {
   meEmail: "me@example.com",
 } as const;
 
+const roleEnv = {
+  STAGING_AUTH_SECRET: SECRET,
+  STAGING_ADMIN_MEMBER_ID: "admin-member-id",
+  STAGING_ADMIN_EMAIL: "admin@example.com",
+  STAGING_ME_MEMBER_ID: "me-member-id",
+  STAGING_ME_EMAIL: "me@example.com",
+} as const;
+
 // JWT payload (2 個目の segment) を base64url decode して iat を取り出す test util。
 function decodeIat(jwt: string): number {
   const payloadSegment = jwt.split(".")[1]!;
@@ -21,6 +39,44 @@ function decodeIat(jwt: string): number {
     "===".slice((payloadSegment.length + 3) % 4);
   const json = JSON.parse(Buffer.from(padded, "base64").toString("utf8")) as { iat: number };
   return json.iat;
+}
+
+function runCli(args: readonly string[], env: NodeJS.ProcessEnv): {
+  status: number;
+  output: string;
+  stderr: string;
+} {
+  const dir = mkdtempSync(join(tmpdir(), "mint-bearers-"));
+  const outputFile = join(dir, "github-output.txt");
+  writeFileSync(outputFile, "");
+  try {
+    const stderr = execFileSync(
+      process.execPath,
+      ["--import", "tsx", "scripts/smoke/mint-staging-bearers.mts", ...args],
+      {
+        cwd: process.cwd(),
+        env: {
+          PATH: process.env.PATH,
+          HOME: process.env.HOME,
+          GITHUB_OUTPUT: outputFile,
+          MINT_TTL_SECONDS: "600",
+          ...env,
+        },
+        stdio: ["ignore", "ignore", "pipe"],
+        encoding: "utf8",
+      },
+    );
+    return { status: 0, output: readFileSync(outputFile, "utf8"), stderr };
+  } catch (error) {
+    const err = error as { status?: number; stderr?: Buffer | string };
+    return {
+      status: err.status ?? 1,
+      output: readFileSync(outputFile, "utf8"),
+      stderr: Buffer.isBuffer(err.stderr) ? err.stderr.toString("utf8") : String(err.stderr ?? ""),
+    };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 }
 
 describe("mintStagingBearers", () => {
@@ -82,4 +138,106 @@ describe("mintStagingBearers", () => {
     const minted = await mintStagingBearers(baseEnv);
     expect(Object.keys(minted).sort()).toEqual(["adminBearer", "meBearer", "memberId"]);
   });
+});
+
+describe("mint bearer role scoping", () => {
+  it("parses role lists and removes duplicates", () => {
+    expect(parseRoles(undefined)).toEqual(["admin", "me"]);
+    expect(parseRoles("admin,me,admin")).toEqual(["admin", "me"]);
+    expect(parseRoles("me,admin")).toEqual(["admin", "me"]);
+    expect(() => parseRoles("admin,owner")).toThrow(/unknown role/);
+  });
+
+  it("requires only env names needed by the selected role", () => {
+    expect(requiredEnvForRoles(["admin"])).toEqual([
+      "STAGING_AUTH_SECRET",
+      "STAGING_ADMIN_MEMBER_ID",
+      "STAGING_ADMIN_EMAIL",
+    ]);
+    expect(findMissingEnv(requiredEnvForRoles(["admin"]), roleEnv)).toEqual([]);
+    expect(findMissingEnv(requiredEnvForRoles(["admin"]), {
+      STAGING_AUTH_SECRET: SECRET,
+    })).toEqual([
+      "STAGING_ADMIN_MEMBER_ID",
+      "STAGING_ADMIN_EMAIL",
+    ]);
+  });
+
+  it("mints only admin bearer for admin role", async () => {
+    const minted = await mintStagingBearersForRoles(["admin"], {
+      STAGING_AUTH_SECRET: SECRET,
+      STAGING_ADMIN_MEMBER_ID: roleEnv.STAGING_ADMIN_MEMBER_ID,
+      STAGING_ADMIN_EMAIL: roleEnv.STAGING_ADMIN_EMAIL,
+    });
+    expect(minted.adminBearer).toBeDefined();
+    expect(minted.meBearer).toBeUndefined();
+    expect(minted.memberId).toBe(roleEnv.STAGING_ADMIN_MEMBER_ID);
+  });
+
+  it("mints only me bearer for me role", async () => {
+    const minted = await mintStagingBearersForRoles(["me"], {
+      STAGING_AUTH_SECRET: SECRET,
+      STAGING_ME_MEMBER_ID: roleEnv.STAGING_ME_MEMBER_ID,
+      STAGING_ME_EMAIL: roleEnv.STAGING_ME_EMAIL,
+    });
+    expect(minted.adminBearer).toBeUndefined();
+    expect(minted.meBearer).toBeDefined();
+    expect(minted.memberId).toBe(roleEnv.STAGING_ME_MEMBER_ID);
+  });
+});
+
+describe("mint-staging-bearers CLI", () => {
+  it("admin role does not require ME env", () => {
+    const result = runCli(["--roles", "admin"], {
+      STAGING_AUTH_SECRET: SECRET,
+      STAGING_ADMIN_MEMBER_ID: roleEnv.STAGING_ADMIN_MEMBER_ID,
+      STAGING_ADMIN_EMAIL: roleEnv.STAGING_ADMIN_EMAIL,
+    });
+    expect(result.status).toBe(0);
+    expect(result.output).toMatch(/^admin_bearer=/m);
+    expect(result.output).toMatch(/^member_id=admin-member-id$/m);
+    expect(result.output).not.toMatch(/^me_bearer=/m);
+  }, 30_000);
+
+  it("--roles=<value> form is accepted", () => {
+    const result = runCli(["--roles=admin"], {
+      STAGING_AUTH_SECRET: SECRET,
+      STAGING_ADMIN_MEMBER_ID: roleEnv.STAGING_ADMIN_MEMBER_ID,
+      STAGING_ADMIN_EMAIL: roleEnv.STAGING_ADMIN_EMAIL,
+    });
+    expect(result.status).toBe(0);
+    expect(result.output).toMatch(/^admin_bearer=/m);
+    expect(result.output).not.toMatch(/^me_bearer=/m);
+  }, 30_000);
+
+  it("default role list preserves admin+me output compatibility", () => {
+    const result = runCli([], roleEnv);
+    expect(result.status).toBe(0);
+    expect(result.output).toMatch(/^admin_bearer=/m);
+    expect(result.output).toMatch(/^me_bearer=/m);
+    expect(result.output).toMatch(/^member_id=admin-member-id$/m);
+  }, 30_000);
+
+  it("missing env report is scoped to requested role and leaks no values", () => {
+    const result = runCli(["--roles", "admin"], { STAGING_AUTH_SECRET: SECRET });
+    expect(result.status).toBe(2);
+    expect(result.stderr).toContain("STAGING_ADMIN_MEMBER_ID");
+    expect(result.stderr).toContain("STAGING_ADMIN_EMAIL");
+    expect(result.stderr).not.toContain("STAGING_ME_MEMBER_ID");
+    expect(result.stderr).not.toContain(SECRET);
+  }, 30_000);
+
+  it("degrade exits zero and writes only the degraded marker", () => {
+    const result = runCli(["--roles", "admin"], { RUNTIME_SMOKE_MINT_DEGRADE: "1" });
+    expect(result.status).toBe(0);
+    expect(result.output).toBe("mint_degraded=1\n");
+    expect(result.output).not.toContain("admin_bearer=");
+    expect(result.output).not.toContain("me_bearer=");
+  }, 30_000);
+
+  it("degrade trigger is strict", () => {
+    const result = runCli(["--roles", "admin"], { RUNTIME_SMOKE_MINT_DEGRADE: "true" });
+    expect(result.status).toBe(2);
+    expect(result.output).not.toContain("mint_degraded=1");
+  }, 30_000);
 });

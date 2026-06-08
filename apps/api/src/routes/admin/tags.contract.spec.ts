@@ -408,6 +408,195 @@ describe("admin tag master CRUD contract (issue-1035)", () => {
     expect(await missing.json()).toEqual({ ok: false, error: "tag_not_found" });
   });
 
+  it("DELETE /admin/tags/:tagId/physical?migrateTo= migrates references before physical delete", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO member_tags (member_id, tag_id, source, assigned_by)
+         VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com'),
+                ('m2', 'tag_eng', 'manual', 'admin@example.com'),
+                ('m2', 'tag_mgr', 'manual', 'admin@example.com')`,
+      )
+      .run();
+    const app = createAdminTagsRoute();
+
+    const res = await app.request(
+      "/tags/tag_eng/physical?migrateTo=tag_mgr",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(204);
+
+    const sourceRows = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id='tag_eng'")
+      .first<{ n: number }>();
+    const destinationRows = await env.db
+      .prepare("SELECT member_id FROM member_tags WHERE tag_id='tag_mgr' ORDER BY member_id ASC")
+      .all<{ member_id: string }>();
+    const sourceTag = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM tag_definitions WHERE tag_id='tag_eng'")
+      .first<{ n: number }>();
+    expect(sourceRows?.n).toBe(0);
+    expect(destinationRows.results.map((row) => row.member_id)).toEqual(["m1", "m2"]);
+    expect(sourceTag?.n).toBe(0);
+
+    expect(await auditCount(env, "admin.tag.references_migrated")).toBe(1);
+    expect(await auditCount(env, "admin.tag.physically_deleted")).toBe(1);
+    expect(await auditPayload(env, "admin.tag.references_migrated")).toEqual({
+      before: {
+        tag_id: "tag_eng",
+        dest: "tag_mgr",
+        referenceCount: 2,
+      },
+      after: {
+        migratedCount: 2,
+        deleted: true,
+      },
+    });
+  });
+
+  it("DELETE /admin/tags/:tagId/physical?migrateTo= trims the destination tag id", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+
+    const res = await app.request(
+      "/tags/tag_eng/physical?migrateTo=%20tag_mgr%20",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(204);
+    const destinationRows = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id='tag_mgr'")
+      .first<{ n: number }>();
+    expect(destinationRows?.n).toBe(1);
+    expect(await auditPayload(env, "admin.tag.references_migrated")).toEqual({
+      before: {
+        tag_id: "tag_eng",
+        dest: "tag_mgr",
+        referenceCount: 1,
+      },
+      after: {
+        migratedCount: 1,
+        deleted: true,
+      },
+    });
+  });
+
+  it("DELETE /admin/tags/:tagId/physical?migrateTo= rejects invalid migration targets without mutation", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_eng', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+
+    const same = await app.request(
+      "/tags/tag_eng/physical?migrateTo=tag_eng",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(same.status).toBe(400);
+    expect(await same.json()).toEqual({ ok: false, error: "migration_target_same_as_source" });
+
+    const missing = await app.request(
+      "/tags/tag_eng/physical?migrateTo=missing",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(missing.status).toBe(404);
+    expect(await missing.json()).toEqual({ ok: false, error: "migration_target_not_found" });
+
+    const inactive = await app.request(
+      "/tags/tag_eng/physical?migrateTo=tag_old",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(inactive.status).toBe(409);
+    expect(await inactive.json()).toEqual({ ok: false, error: "migration_target_inactive" });
+
+    const empty = await app.request(
+      "/tags/tag_eng/physical?migrateTo=%20%20",
+      { method: "DELETE", headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(empty.status).toBe(404);
+    expect(await empty.json()).toEqual({ ok: false, error: "migration_target_not_found" });
+
+    const sourceRows = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM member_tags WHERE tag_id='tag_eng'")
+      .first<{ n: number }>();
+    const sourceTag = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM tag_definitions WHERE tag_id='tag_eng'")
+      .first<{ n: number }>();
+    expect(sourceRows?.n).toBe(1);
+    expect(sourceTag?.n).toBe(1);
+    expect(await auditCount(env, "admin.tag.references_migrated")).toBe(0);
+    expect(await auditCount(env, "admin.tag.physically_deleted")).toBe(0);
+  });
+
+  it("GET /admin/tags/orphans returns empty when no member_tags rows exist (TC-C01)", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/orphans",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, count: 0, orphans: [] });
+  });
+
+  it("GET /admin/tags/orphans detects member_tags whose tag_id has no definition (TC-C02)", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_ghost', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/orphans",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      ok: boolean;
+      count: number;
+      orphans: Array<{ memberId: string; tagId: string }>;
+    };
+    expect(body.ok).toBe(true);
+    expect(body.count).toBe(1);
+    expect(body.orphans[0]?.tagId).toBe("tag_ghost");
+    expect(body.orphans[0]?.memberId).toBe("m1");
+  });
+
+  it("GET /admin/tags/orphans is not captured by /tags/:tagId dynamic routes (TC-C03)", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1', 'tag_ghost', 'manual', 'admin@example.com')",
+      )
+      .run();
+    const app = createAdminTagsRoute();
+    const res = await app.request(
+      "/tags/orphans",
+      { headers: await adminAuthHeader() },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    // ":tagId"='orphans' 扱いされていれば count キーは存在しない
+    expect("count" in body).toBe(true);
+    expect(body.count).toBe(1);
+  });
+
+  it("GET /admin/tags/orphans rejects unauthenticated requests (TC-C04)", async () => {
+    const app = createAdminTagsRoute();
+    const res = await app.request("/tags/orphans", {}, makeEnv(env));
+    expect([401, 403]).toContain(res.status);
+  });
+
   it("keeps /admin/tags/queue routed to the queue route when mounted before CRUD", async () => {
     await env.db
       .prepare(

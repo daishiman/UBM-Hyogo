@@ -4,6 +4,7 @@
 import type { DbCtx } from "./_shared/db";
 import { placeholders } from "./_shared/sql";
 import type { MemberId, ResponseId, ResponseEmail } from "./_shared/brand";
+import { ensureMemberStatusRow } from "./status";
 
 export interface MemberIdentityRow {
   member_id: string;
@@ -83,4 +84,15 @@ export async function upsertMember(
       row.lastSubmittedAt,
     )
     .run();
+}
+
+/**
+ * 会員 identity と member_status 既定行を同じ作成責務として同期する。
+ */
+export async function createMemberWithStatus(
+  c: DbCtx,
+  row: UpsertMemberInput,
+): Promise<void> {
+  await upsertMember(c, row);
+  await ensureMemberStatusRow(c, row.memberId);
 }

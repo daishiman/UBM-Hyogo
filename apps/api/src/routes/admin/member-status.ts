@@ -57,6 +57,8 @@ export const createAdminMemberStatusRoute = () => {
     const mid = asMemberId(memberId);
     const identity = await findMemberById(db, mid);
     if (!identity) return c.json({ ok: false, error: "not found" }, 404);
+    // Legacy backstop: status PATCH can touch pre-existing identities that were
+    // created before the unified member creation path existed.
     await ensureMemberStatusRow(db, mid);
     const before = (await getStatus(db, mid)) ?? defaultMemberStatusRow(mid);
 

@@ -10,7 +10,7 @@ category: 評価
 target_feature: tag lifecycle schema governance (member_tags / tag_definitions)
 priority: 低
 scale: 中規模
-status: 未実施
+status: consumed_by_issue_1119
 source_phase: issue-1070 Phase 12 unassigned-task-detection U-3
 created_date: 2026-06-03
 dependencies: [issue-1070-tag-reactivate-physical-delete]
@@ -24,9 +24,18 @@ dependencies: [issue-1070-tag-reactivate-physical-delete]
 | 対象機能 | tag lifecycle schema governance (member_tags / tag_definitions) |
 | 優先度 | 低 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_1119 |
 | 発見元 | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/outputs/phase-12/unassigned-task-detection.md` U-3 |
 | 関連 Issue | #1070 |
+
+---
+
+## Consumed Trace（2026-06-06）
+
+- 後継 workflow: `docs/30-workflows/completed-tasks/issue-1119-member-tags-referential-integrity-guard/`
+- Status: consumed by Issue #1119（CLOSED 維持・reopen しない）implemented_local workflow
+- 決定: DB-level FK は**不採用**（`0022_member_photos.sql:4` の documented no-FK 架構を尊重）。代替として application 層の孤児行検出ガード（`detectOrphanMemberTags` / `countOrphanMemberTags` + `GET /admin/tags/orphans` + `assignTagsToMember` 先在検証 + 不変条件テスト）で根本解決済み。ADR は Phase 2 §0 ADR-1119。
+- Close-out: Phase 1-13 仕様書一式・apps/api 実装着地（focused vitest / typecheck / lint green）・Phase 12 strict 7 完了。commit / push / PR / staging-production deploy / 実 D1 orphan query は Phase 13 user approval gate。
 
 ---
 

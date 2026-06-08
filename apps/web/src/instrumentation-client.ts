@@ -10,6 +10,11 @@ declare global {
 }
 
 import * as Sentry from "@sentry/nextjs";
+import {
+  EXTENSION_DENY_URLS,
+  EXTENSION_IGNORE_ERRORS,
+  filterExtensionNoise,
+} from "@/lib/sentry/extension-noise-filter";
 
 if (typeof window !== "undefined" && !window.__ubmSentryInitialized__) {
   window.__ubmSentryInitialized__ = true;
@@ -21,6 +26,9 @@ if (typeof window !== "undefined" && !window.__ubmSentryInitialized__) {
         environment:
           process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT ??
           "local",
+        beforeSend: filterExtensionNoise,
+        denyUrls: EXTENSION_DENY_URLS,
+        ignoreErrors: EXTENSION_IGNORE_ERRORS,
         tracesSampleRate: parseSampleRate(
           process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE,
         ),

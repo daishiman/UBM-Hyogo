@@ -25,8 +25,16 @@ test.describe('admin meetings prototype alignment evidence', () => {
     await expect(adminPage.getByRole('heading', { name: '開催日 / 出席管理' })).toBeVisible()
     await capture(adminPage, 'list-default.png')
 
-    await adminPage.getByTestId('meeting-row-sess-1').getByRole('button').click()
-    await expect(adminPage.getByRole('region', { name: '出席編集' })).toBeVisible()
+    // MeetingsClientShell は "use client"。hydration 前の click は onClick 未装着で
+    // 取りこぼされる（firefox は hydration が遅く drawer が開かないことがある）。
+    // hydration 前の click は何もトグルしないため、click → drawer 表示を toPass で
+    // リトライしても二重トグルは起きない（最初の hydration 後 click のみが開く）。
+    const drawerToggle = adminPage.getByTestId('meeting-row-sess-1').getByRole('button')
+    const drawerRegion = adminPage.getByRole('region', { name: '出席編集' })
+    await expect(async () => {
+      await drawerToggle.click()
+      await expect(drawerRegion).toBeVisible({ timeout: 2000 })
+    }).toPass({ timeout: 30_000 })
     await capture(adminPage, 'list-drawer-open.png')
 
     await mockApi.seedMeetings({ members: [], meetings: [] })

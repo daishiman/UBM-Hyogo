@@ -1,0 +1,9 @@
+{
+  "workflow_id": "issue-1126-bulk-tag-picker-viewport-baseline-expansion",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "capture_status": "pending_user_gate",
+  "implementation_status": "implemented_local_runtime_pending",
+  "playwright_project": "staging-visual-authenticated",
+  "read_only": true,
+  "mutation_allowed": false
+}
