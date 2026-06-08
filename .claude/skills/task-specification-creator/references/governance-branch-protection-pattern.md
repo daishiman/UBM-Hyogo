@@ -27,7 +27,21 @@ branch protection は `dev` / `main` / `release/*` など **ブランチごと�
 | after（fresh GET） | 必須 | 必須 | `outputs/phase-13/branch-protection-after-dev.json` / `-main.json` |
 | user approval marker | 必須（1 ファイルで両ブランチ承認を逐語記録）| 同左 | `outputs/phase-13/user-approval-<task-id>-<timestamp>.md` |
 
-### 3. AI 実行可否（branch protection 専用）
+### 3. required check 対象 workflow は no-paths で常時起動
+
+`required_status_checks.contexts` に登録する GitHub Actions workflow は、対象 branch の
+`pull_request` で常に status を返す必要がある。`on.pull_request.paths` / `paths-ignore`
+で workflow 自体が skip されると、branch protection 側は required context の status を
+取得できず `Expected - Waiting for status` の permanent pending block になる。
+
+required 化前の Phase 2 / 5 では次を必須確認する:
+
+- 対象 workflow の `on.pull_request` に `paths` / `paths-ignore` がないこと
+- path 条件が必要な場合は workflow 自体を skip せず、job 内部の軽量判定で success を返すこと
+- 既存 required contexts と同じ context 名で実 run が少なくとも 1 回 success していること
+- trigger 変更が必要な場合は `.github/workflows/*.yml` の local code diff と focused lint/test を同 wave で完了し、branch protection `PUT` のみ user-gated に残すこと
+
+### 4. AI 実行可否（branch protection 専用）
 
 | 操作 | AI 実行可否（user 承認前） | 備考 |
 | --- | --- | --- |

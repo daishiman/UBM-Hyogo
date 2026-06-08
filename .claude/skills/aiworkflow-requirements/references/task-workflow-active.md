@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| Issue | #1146 CLOSED（`Refs #1146` のみ） |
+| 親 workflow | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| 目的 | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation targets | `.github/workflows/verify-no-localhost-bake.yml`（`on.pull_request.paths` 除去のみ） |
+| invariant | `scripts/verify-no-localhost-bake.sh` / `.spec.ts` の grep LOGIC 不変。apps runtime / API / D1 / Google Form 不変 |
+| evidence | actionlint 1.7.7 PASS、focused Vitest 1 file / 2 tests PASS、`verify-no-localhost-bake.sh --src-only` PASS、`--self-test` PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT、after evidence、commit、push、PR、Issue mutation |
+
 ### staging-mint-bearer-env-contract-guard（2026-06-07）
 
 | 項目 | 値 |
