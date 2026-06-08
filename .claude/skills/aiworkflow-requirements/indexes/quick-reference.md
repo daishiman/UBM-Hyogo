@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-1104-member-creation-path-unification（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1104-member-creation-path-unification/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1104 CLOSED（reopen / mutation は user-gated、PR 文脈は `Refs #1104`） |
+| purpose | `member_identities` 生成と `member_status` 既定行生成を単一責務へ寄せ、ingest / auto-link の orphan 生成を構造的に防ぐ |
+| implementation | `apps/api/src/repository/members.ts` に `createMemberWithStatus`、`apps/api/src/repository/identities.ts` auto-link status ensure、`apps/api/src/jobs/sync-forms-responses.ts` ingest 差し替え |
+| evidence | focused D1 Vitest 5 files / 51 tests PASS、API typecheck PASS、API lint PASS、apps/web diff 0、新規 migration 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy/authenticated smoke, Issue mutation |
+
 ## issue-1116-admin-tag-master-code-edit-ui（2026-06-06）
 
 | 項目 | 値 |
