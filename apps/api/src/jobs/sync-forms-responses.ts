@@ -42,14 +42,13 @@ import {
   findIdentityByEmail,
   updateCurrentResponse,
 } from "../repository/identities";
-import { upsertMember } from "../repository/members";
+import { createMemberWithStatus } from "../repository/members";
 import { upsertResponse } from "../repository/responses";
 import {
   upsertExtraField,
   upsertKnownField,
 } from "../repository/responseFields";
 import {
-  ensureMemberStatusRow,
   getStatus,
   setConsentSnapshot,
 } from "../repository/status";
@@ -404,15 +403,14 @@ export async function processResponse(
   } else {
     memberId = asMemberId(crypto.randomUUID());
     isFirstResponse = true;
-    await upsertMember(dbCtx, {
+    await createMemberWithStatus(dbCtx, {
       memberId,
       responseEmail,
       currentResponseId: responseId,
       firstResponseId: responseId,
       lastSubmittedAt: resp.submittedAt,
     });
-    await ensureMemberStatusRow(dbCtx, memberId);
-    // upsertMember + ensureMemberStatusRow の 2 write
+    // createMemberWithStatus = identity upsert + status ensure の 2 write
     writeCount += 2;
   }
 
