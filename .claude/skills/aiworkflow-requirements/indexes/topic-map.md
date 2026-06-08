@@ -2924,6 +2924,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Summary | L14 |
 
+### references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L13 |
+| Public surface（内部 bash lib 契約） | L27 |
+| Evidence | L36 |
+| Invariants | L49 |
+| User Gate | L57 |
+| Lessons Learned | L61 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -8908,19 +8920,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3872 |
-| フェーズ構造（概要） | L3881 |
-| 品質ゲート（概要） | L3912 |
-| 出力テンプレート | L3923 |
-| 実行時のコマンド・エージェント・スキル | L3946 |
-| 昇格パターン集 | L3970 |
-| Current Active / Spec Created Tasks | L3972 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4138 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4206 |
-| issue-998-members-publish-state-production-rollout | L4232 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4291 |
-| issue-1068-admin-tag-inline-create-ui | L4305 |
-| issue-1111-proxy-transport-util-unify | L4323 |
+| ドキュメント構成 | L3887 |
+| フェーズ構造（概要） | L3896 |
+| 品質ゲート（概要） | L3927 |
+| 出力テンプレート | L3938 |
+| 実行時のコマンド・エージェント・スキル | L3961 |
+| 昇格パターン集 | L3985 |
+| Current Active / Spec Created Tasks | L3987 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4153 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4221 |
+| issue-998-members-publish-state-production-rollout | L4247 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4306 |
+| issue-1068-admin-tag-inline-create-ui | L4320 |
+| issue-1111-proxy-transport-util-unify | L4338 |
 
 ### references/task-workflow-backlog-part2.md
 
