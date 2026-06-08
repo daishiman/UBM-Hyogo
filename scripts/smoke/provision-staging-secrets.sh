@@ -14,17 +14,22 @@ ENV_NAME="staging-runtime-smoke"
 
 SECRETS=(
   "STAGING_API_BASE:op://Employee/ubm-hyogo-env/STAGING_API_BASE"
-  "STAGING_ADMIN_BEARER:op://Employee/ubm-hyogo-env/STAGING_ADMIN_BEARER"
-  "STAGING_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_MEMBER_ID"
-  "STAGING_ME_BEARER:op://Employee/ubm-hyogo-env/STAGING_ME_BEARER"
+  "STAGING_AUTH_SECRET:op://Employee/ubm-hyogo-env/STAGING_AUTH_SECRET"
+  "STAGING_ADMIN_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_ADMIN_MEMBER_ID"
+  "STAGING_ADMIN_EMAIL:op://Employee/ubm-hyogo-env/STAGING_ADMIN_EMAIL"
+  "STAGING_ME_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_ME_MEMBER_ID"
+  "STAGING_ME_EMAIL:op://Employee/ubm-hyogo-env/STAGING_ME_EMAIL"
   "SLACK_WEBHOOK_INCIDENT:op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING"
 )
+
+# Legacy static bearer secrets are intentionally not provisioned by this script.
+# They remain accepted by runtime-smoke-staging as a temporary fallback only.
 
 usage() {
   cat <<'USAGE'
 Usage: bash scripts/smoke/provision-staging-secrets.sh
 
-Provision the five GitHub environment secrets required by
+Provision the JWT-mint GitHub environment secrets required by
 `staging-runtime-smoke` from 1Password references. The script is idempotent and
 prints secret names only.
 
@@ -99,12 +104,11 @@ echo "verifying inventory:"
 inventory="$(gh api "repos/${REPO}/environments/${ENV_NAME}/secrets" --jq '.secrets[].name' | sort)"
 expected="$(printf '%s\n' "${SECRETS[@]}" | awk -F: '{print $1}' | sort)"
 
-if [[ "$inventory" != "$expected" ]]; then
-  echo "::error::secret inventory mismatch" >&2
-  echo "expected names:" >&2
-  printf '%s\n' "$expected" >&2
-  echo "actual names:" >&2
-  printf '%s\n' "$inventory" >&2
+missing="$(comm -23 <(printf '%s\n' "$expected") <(printf '%s\n' "$inventory"))"
+
+if [[ -n "$missing" ]]; then
+  echo "::error::secret inventory missing expected names" >&2
+  printf '%s\n' "$missing" >&2
   exit 1
 fi
 
