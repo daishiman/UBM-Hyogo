@@ -13,6 +13,49 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
 | user gate | dev/main branch protection PUT, after evidence, commit, push, PR, Issue mutation |
 
+## issue-1119-member-tags-referential-integrity-guard（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1119-member-tags-referential-integrity-guard/` |
+| status | `implemented_local / implementation / NON_VISUAL / implementation_mode=new` |
+| issue | #1119 CLOSED 維持（reopen / mutation なし） |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| source | `docs/30-workflows/completed-tasks/unassigned-task/task-issue-1070-followup-003-member-tags-foreign-key-evaluation.md` |
+| purpose | `member_tags.tag_id` の orphan を DB-level FK ではなく application 層の read-only detection + admin audit endpoint で可視化し、`assignTagsToMember` helper 誤用時にも未定義 tag_id を書かない |
+| implementation | `apps/api/src/repository/memberTags.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/repository/__tests__/memberTags.orphan.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/routes/admin/members.contract.spec.ts`（fixture 健全性確認のみ） |
+| invariant | documented no-FK 架構（`0022_member_photos.sql:4`）維持、migration 追加なし、apps/web 非接触、issue-1070 count guard 非破壊 |
+| evidence boundary | Phase 1-13 specs and Phase 12 strict 7 present; focused tests are local verification targets; commit, push, PR, deploy, real D1 orphan query are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md` |
+
+## issue-1104-member-creation-path-unification（2026-06-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-1104-member-creation-path-unification/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1104 CLOSED（reopen / mutation は user-gated、PR 文脈は `Refs #1104`） |
+| purpose | `member_identities` 生成と `member_status` 既定行生成を単一責務へ寄せ、ingest / auto-link の orphan 生成を構造的に防ぐ |
+| implementation | `apps/api/src/repository/members.ts` に `createMemberWithStatus`、`apps/api/src/repository/identities.ts` auto-link status ensure、`apps/api/src/jobs/sync-forms-responses.ts` ingest 差し替え |
+| evidence | focused D1 Vitest 5 files / 51 tests PASS、API typecheck PASS、API lint PASS、apps/web diff 0、新規 migration 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging deploy/authenticated smoke, Issue mutation |
+
+## issue-1116-admin-tag-master-code-edit-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1116-admin-tag-master-code-edit-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| issue | #1116 CLOSED（mutation は user-gated、PR 文脈は `Refs #1116` のみ） |
+| parent | `issue-1069-tag-code-rename` |
+| purpose | admin が tag master の `code` / `label` / `category` を UI から安全に編集できる導線を追加 |
+| implementation | `/admin/tag-master` route、`TagMasterPanel`、`TagMasterEditForm`、`api/tags.ts`、shell nav/icon、token-only CSS |
+| evidence | focused Vitest 3 files / 19 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; verify:no-inline-style PASS |
+| invariant | apps/api / D1 / Google Form unchanged。既存 `PATCH /admin/tags/:tagId` + web catch-all proxyのみ利用。`/admin/tags` tag queueとは sibling routeで分離 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR, Issue mutation |
+
 ## staging-mint-bearer-env-contract-guard（2026-06-07）
 
 | 項目 | 値 |

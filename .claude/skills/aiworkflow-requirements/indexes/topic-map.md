@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L251 |
-| UBM-Hyogo Admin Sync API（03a） | L272 |
-| UBM-Hyogo Member Self-Service API（04b） | L324 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
-| Desktop IPC API サマリー | L366 |
-| 変更履歴 | L397 |
-| 関連ドキュメント | L414 |
+| エンドポイント命名規則 | L252 |
+| UBM-Hyogo Admin Sync API（03a） | L273 |
+| UBM-Hyogo Member Self-Service API（04b） | L325 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L353 |
+| Desktop IPC API サマリー | L367 |
+| 変更履歴 | L398 |
+| 関連ドキュメント | L415 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2900,6 +2900,15 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | Boundary | L33 |
 
+### references/workflow-issue-1104-member-creation-path-unification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L22 |
+| Lessons | L31 |
+| User-Gated Boundary | L37 |
+
 ### references/workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md
 
 | セクション | 行 |
@@ -2923,6 +2932,28 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Summary | L14 |
+
+### references/workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implemented Files | L15 |
+| Tests And Evidence | L27 |
+| Boundaries | L37 |
+| 30-Method Compact Evidence | L44 |
+| Lessons Learned | L56 |
+
+### references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L15 |
+| Evidence | L25 |
+| Invariants | L35 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
 
 ### references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md
 
@@ -8925,19 +8956,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3902 |
-| フェーズ構造（概要） | L3911 |
-| 品質ゲート（概要） | L3942 |
-| 出力テンプレート | L3953 |
-| 実行時のコマンド・エージェント・スキル | L3976 |
-| 昇格パターン集 | L4000 |
-| Current Active / Spec Created Tasks | L4002 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4168 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4236 |
-| issue-998-members-publish-state-production-rollout | L4262 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4321 |
-| issue-1068-admin-tag-inline-create-ui | L4335 |
-| issue-1111-proxy-transport-util-unify | L4353 |
+| ドキュメント構成 | L3946 |
+| フェーズ構造（概要） | L3955 |
+| 品質ゲート（概要） | L3986 |
+| 出力テンプレート | L3997 |
+| 実行時のコマンド・エージェント・スキル | L4020 |
+| 昇格パターン集 | L4044 |
+| Current Active / Spec Created Tasks | L4046 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4212 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4280 |
+| issue-998-members-publish-state-production-rollout | L4306 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4365 |
+| issue-1068-admin-tag-inline-create-ui | L4379 |
+| issue-1111-proxy-transport-util-unify | L4397 |
 
 ### references/task-workflow-backlog-part2.md
 
