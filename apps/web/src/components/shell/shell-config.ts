@@ -14,6 +14,7 @@ export type ShellNavItemId =
   | "dashboard"
   | "attendance"
   | "members"
+  | "tag-master"
   | "tag-queue"
   | "tag-catalog"
   | "schema"
@@ -80,6 +81,7 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
         icon: "attendance",
       },
       { id: "members", href: "/admin/members", label: "会員管理", icon: "members" },
+      { id: "tag-master", href: "/admin/tag-master", label: "タグ管理", icon: "tag-master" },
       { id: "tag-queue", href: "/admin/tags", label: "タグキュー", icon: "tag-queue" },
       {
         id: "tag-catalog",
