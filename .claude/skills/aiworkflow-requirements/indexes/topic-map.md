@@ -2944,6 +2944,16 @@ node scripts/list-specs.js --topics
 | 30-Method Compact Evidence | L44 |
 | Lessons Learned | L56 |
 
+### references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
 ### references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md
 
 | セクション | 行 |
@@ -8949,19 +8959,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3931 |
-| フェーズ構造（概要） | L3940 |
-| 品質ゲート（概要） | L3971 |
-| 出力テンプレート | L3982 |
-| 実行時のコマンド・エージェント・スキル | L4005 |
-| 昇格パターン集 | L4029 |
-| Current Active / Spec Created Tasks | L4031 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4197 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4265 |
-| issue-998-members-publish-state-production-rollout | L4291 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4350 |
-| issue-1068-admin-tag-inline-create-ui | L4364 |
-| issue-1111-proxy-transport-util-unify | L4382 |
+| ドキュメント構成 | L3947 |
+| フェーズ構造（概要） | L3956 |
+| 品質ゲート（概要） | L3987 |
+| 出力テンプレート | L3998 |
+| 実行時のコマンド・エージェント・スキル | L4021 |
+| 昇格パターン集 | L4045 |
+| Current Active / Spec Created Tasks | L4047 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4213 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4281 |
+| issue-998-members-publish-state-production-rollout | L4307 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4366 |
+| issue-1068-admin-tag-inline-create-ui | L4380 |
+| issue-1111-proxy-transport-util-unify | L4398 |
 
 ### references/task-workflow-backlog-part2.md
 
