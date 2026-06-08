@@ -1,0 +1,146 @@
+{
+  "workflow_id": "issue-1126-bulk-tag-picker-viewport-baseline-expansion",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL_ON_EXECUTION",
+  "created_at": "2026-06-06",
+  "owner": "daishiman",
+  "branch": "docs/issue-1126-bulk-tag-picker-viewport-baseline-expansion-spec",
+  "issue": 1126,
+  "issue_state": "CLOSED",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_mode": "new",
+    "scope": "apps/web/playwright の bulk tag picker authenticated staging visual spec に mobile/tablet/wide × assign/unassign baseline を additive 追加 (B案: page.setViewportSize 切替 + snapshot 名 viewport suffix)。既存 desktop 無 suffix baseline / staging-visual-authenticated project / mint-staging-storage-state / CI workflow / BulkActionBar component は不変。read-only capture を維持。",
+    "implementation_files": [
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+      "apps/web/playwright/fixtures/viewports.ts"
+    ],
+    "githubIssue": 1126,
+    "githubIssueState": "CLOSED",
+    "githubIssuePolicy": "do not mutate issue state; PR context is Refs #1126 only",
+    "parentIssue": 1077,
+    "parentWorkflow": "docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/",
+    "recoveredFromUnassigned": "docs/30-workflows/unassigned-task/task-issue-1077-followup-001-bulk-tag-picker-viewport-baseline-expansion.md",
+    "investigationConclusion": "Not implemented anywhere (verified 2026-06-06). admin-members-bulk-tag-authenticated.spec.ts captures only desktop (project default 1280x800) via toHaveScreenshot(SNAP.assign/unassign); no page.setViewportSize, no -mobile/-tablet/-wide baselines, CI project has no viewport matrix. Sibling tasks issue-1125 (result mutation baseline) / issue-1080 / issue-1081 are different scopes. Issue #1126 is therefore still required; this workflow optimizes it to current code (reuse VIEWPORTS fixture, additive wide, B案 per-test viewport, no CI YAML change).",
+    "userGated": [
+      "staging admin storageState minting",
+      "authenticated staging visual capture / --update-snapshots",
+      "commit",
+      "push",
+      "PR creation (base dev, Refs #1126)",
+      "issue #1126 state mutation / reopen / comment"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 と Phase 12 strict 7 outputs を作成。実装区分=実装仕様書 (CONST_004)、CONST_005 必須項目を Phase 5/6/11 に充足、CONST_007 1サイクルスコープ確認。issue #1126 CLOSED 維持。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-06T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local code implementation completed for viewports fixture and authenticated staging Playwright spec; static/focused verification is recorded in Phase 11. Authenticated staging visual capture and snapshot update remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging admin storageState minting / authenticated capture / --update-snapshots / commit / push / PR / issue mutation are user-gated."
+      }
+    ],
+    "implementation_status": "implemented_local_runtime_pending",
+    "localImplementationSummary": "Implemented in this cycle: added VIEWPORTS.wide and responsive mobile/tablet/wide assign/unassign Playwright baseline tests while preserving the existing desktop snapshots and read-only capture boundary.",
+    "implemented_files": [
+      "apps/web/playwright/fixtures/viewports.ts",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts"
+    ],
+    "localVerification": [
+      "passed: pnpm typecheck",
+      "passed: pnpm lint (stablekey-literal warning 3 existing warnings, exit 0)",
+      "passed: pnpm --filter @ubm-hyogo/web typecheck",
+      "passed: pnpm --filter @ubm-hyogo/web lint",
+      "passed: pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx (22 tests)",
+      "passed: pnpm verify:phase12-compliance -- --workflow docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion",
+      "passed: pnpm indexes:rebuild"
+    ]
+  },
+  "phases": {
+    "phase-1": {
+      "name": "Requirements",
+      "file": "phase-1/phase-1.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-2": {
+      "name": "Design",
+      "file": "phase-2/phase-2.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-3": {
+      "name": "Design Review",
+      "file": "phase-3/phase-3.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-4": {
+      "name": "Test Creation",
+      "file": "phase-4/phase-4.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-5": {
+      "name": "Implementation",
+      "file": "phase-5/phase-5.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-6": {
+      "name": "Test Expansion",
+      "file": "phase-6/phase-6.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-7": {
+      "name": "Coverage Check",
+      "file": "phase-7/phase-7.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-8": {
+      "name": "Refactoring",
+      "file": "phase-8/phase-8.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-9": {
+      "name": "Quality Assurance",
+      "file": "phase-9/phase-9.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-10": {
+      "name": "Final Review",
+      "file": "phase-10/phase-10.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-11": {
+      "name": "Manual Test",
+      "file": "phase-11/phase-11.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-12": {
+      "name": "Documentation",
+      "file": "phase-12/main.md",
+      "status": "implemented_local_runtime_pending"
+    },
+    "phase-13": {
+      "name": "PR Creation",
+      "file": "phase-13/phase-13.md",
+      "status": "implemented_local_runtime_pending"
+    }
+  }
+}
