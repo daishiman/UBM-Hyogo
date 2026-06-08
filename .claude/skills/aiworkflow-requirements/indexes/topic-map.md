@@ -2977,6 +2977,16 @@ node scripts/list-specs.js --topics
 | User-Gated | L42 |
 | Lessons Learned | L46 |
 
+### references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L24 |
+| Evidence | L34 |
+| Lessons Learned | L42 |
+
 ### references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md
 
 | セクション | 行 |
@@ -9018,10 +9028,10 @@ node scripts/list-specs.js --topics
 | issue-1007-density-toggle-help-hint-hardening | L4349 |
 | issue-1079-bulk-tag-audit-batch-filter | L4362 |
 | issue-1128-audit-batchid-index-optimization | L4375 |
-| issue-998-members-publish-state-production-rollout | L4389 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4448 |
-| issue-1068-admin-tag-inline-create-ui | L4462 |
-| issue-1111-proxy-transport-util-unify | L4480 |
+| issue-998-members-publish-state-production-rollout | L4392 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4451 |
+| issue-1068-admin-tag-inline-create-ui | L4465 |
+| issue-1111-proxy-transport-util-unify | L4483 |
 
 ### references/task-workflow-backlog-part2.md
 
