@@ -22,6 +22,36 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
 | user gate | external Sentry dashboard confirmation, commit, push, PR |
 
+### issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| Issue | #1126 CLOSED 維持。Issue mutation は user-gated |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| 目的 | `/admin/members` BulkActionBar tag picker の authenticated staging visual baseline を mobile / tablet / wide へ additive 拡張する |
+| implementation targets | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| invariant | apps/api / D1 schema / Google Form / `BulkActionBar.tsx` / Playwright config / CI workflow は不変。read-only capture のみ |
+| evidence | local implementation present; Phase 11 runtime visual evidence pending user gate |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, `--update-snapshots`, commit, push, PR, Issue mutation |
+
+### issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` |
+| Issue | #1118 CLOSED（mutation は user-gated） |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| 目的 | tag master lifecycle UI の前提 drift（既存 master UI 不在）を補正し、専用 `/admin/tags/catalog` を新設する |
+| implementation targets | `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/admin/TagCatalogPanel.tsx`, `apps/web/src/components/admin/TagCatalogRow.tsx`, `apps/web/src/components/admin/tagCatalogLifecycle.ts`, `apps/web/src/components/shell/{shell-config,icons}.tsx`, `apps/web/src/styles/globals.css` |
+| invariant | apps/api / D1 schema / Google Form / existing `/admin/tags` TagQueuePanel route unchanged. UI consumes existing `GET /admin/tags`, `POST /admin/tags/:tagId/reactivate`, `DELETE /admin/tags/:tagId`, `DELETE /admin/tags/:tagId/physical` |
+| evidence | focused Vitest component/pure/nav suite PASS、local static visual PNGs present、web typecheck PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
+| user gate | authenticated runtime/staging screenshot、commit、push、PR |
+
 ### issue-1119-member-tags-referential-integrity-guard（2026-06-06）
 
 | 項目 | 値 |

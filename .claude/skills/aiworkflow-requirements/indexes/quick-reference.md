@@ -14,6 +14,34 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
 | user gate | external Sentry dashboard confirmation, commit, push, PR |
 
+## issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1126 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1126` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| purpose | BulkActionBar tag picker authenticated staging visual baseline を mobile / tablet / wide に拡張する |
+| implementation | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| evidence | local code implemented; web typecheck / focused BulkActionBar vitest tracked in Phase 11; staging visual capture and `--update-snapshots` pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, baseline update, commit, push, PR, Issue mutation |
+
+## issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| issue | #1118 CLOSED（mutation は user-gated、PR 文脈は `Refs #1118`） |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| purpose | `/admin/tags` queue とは別に `/admin/tags/catalog` tag master catalog を新設し、reactivate / logical delete / physical delete を既存 API へ配線 |
+| implementation | `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/admin/{TagCatalogPanel,TagCatalogRow,tagCatalogLifecycle}.ts*`, shell nav, `globals.css` |
+| evidence | focused Vitest component/pure/nav suite PASS; local static visual PNGs present; `@ubm-hyogo/web` typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
+| user gate | authenticated runtime/staging screenshots, commit, push, PR |
+
 ## issue-1117-tag-physical-delete-force-migration（2026-06-06）
 
 | 項目 | 値 |

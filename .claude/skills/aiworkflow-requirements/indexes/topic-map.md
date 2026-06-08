@@ -2954,6 +2954,17 @@ node scripts/list-specs.js --topics
 | User-Gated | L32 |
 | Lessons Learned | L36 |
 
+### references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Tests And Evidence | L25 |
+| Workflow Artifacts | L38 |
+| System Specs | L48 |
+| Lessons Learned | L55 |
+
 ### references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2964,6 +2975,17 @@ node scripts/list-specs.js --topics
 | Invariants | L35 |
 | User-Gated | L42 |
 | Lessons Learned | L46 |
+
+### references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Implementation targets | L22 |
+| Runtime visual evidence | L29 |
+| Lessons Learned | L40 |
+| User-gated actions | L46 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -8974,19 +8996,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3961 |
-| フェーズ構造（概要） | L3970 |
-| 品質ゲート（概要） | L4001 |
-| 出力テンプレート | L4012 |
-| 実行時のコマンド・エージェント・スキル | L4035 |
-| 昇格パターン集 | L4059 |
-| Current Active / Spec Created Tasks | L4061 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4227 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4295 |
-| issue-998-members-publish-state-production-rollout | L4321 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4380 |
-| issue-1068-admin-tag-inline-create-ui | L4394 |
-| issue-1111-proxy-transport-util-unify | L4412 |
+| ドキュメント構成 | L3991 |
+| フェーズ構造（概要） | L4000 |
+| 品質ゲート（概要） | L4031 |
+| 出力テンプレート | L4042 |
+| 実行時のコマンド・エージェント・スキル | L4065 |
+| 昇格パターン集 | L4089 |
+| Current Active / Spec Created Tasks | L4091 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4257 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4325 |
+| issue-998-members-publish-state-production-rollout | L4351 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4410 |
+| issue-1068-admin-tag-inline-create-ui | L4424 |
+| issue-1111-proxy-transport-util-unify | L4442 |
 
 ### references/task-workflow-backlog-part2.md
 

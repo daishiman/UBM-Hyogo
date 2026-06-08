@@ -3385,6 +3385,7 @@
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3834,6 +3835,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
@@ -5379,7 +5381,9 @@
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -6298,6 +6302,7 @@
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -6617,6 +6622,7 @@
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
@@ -7489,6 +7495,7 @@
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-1043-identity-conflicts-row-fade-animation-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
@@ -7576,6 +7583,7 @@
       "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -8351,7 +8359,9 @@
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -9029,6 +9039,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
@@ -10668,6 +10679,7 @@
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -11615,7 +11627,9 @@
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -11867,7 +11881,9 @@
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -12529,7 +12545,8 @@
       "task-workflow-completed-skill-lifecycle-security.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "task-workflow-completed-skill-lifecycle-ui.md",
-      "task-workflow-completed-skill-lifecycle.md"
+      "task-workflow-completed-skill-lifecycle.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md"
     ],
     "再分類は同": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
@@ -13201,6 +13218,8 @@
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-982-drawer-tag-pill-editing-artifact-inventory.md"
@@ -14243,6 +14262,7 @@
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -14401,7 +14421,8 @@
     ],
     "actions": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
-      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md"
+      "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md"
     ],
     "KPI": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md"
@@ -15921,6 +15942,7 @@
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
@@ -16151,6 +16173,7 @@
       "ui-ux-components.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
@@ -16275,6 +16298,7 @@
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1080-bulk-tag-result-member-labels-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-776-schema-alias-bulk-resolve-artifact-inventory.md",
       "workflow-issue-837-schema-alias-bulk-rollback-artifact-inventory.md"
     ],
@@ -16688,6 +16712,7 @@
     ],
     "expansion": [
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-879-safe-server-fetch-member-public-horizontal-expansion-artifact-inventory.md"
     ],
     "left": [
@@ -17092,6 +17117,7 @@
       "security-web-response-headers.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-275-magic-link-429-retry-after-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
       "workflow-issue-894-admin-topbar-breadcrumb-integration-artifact-inventory.md",
@@ -17198,11 +17224,13 @@
       "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
       "lessons-learned-issue-276-mobile-filterbar-tag-picker-2026-05.md",
       "task-workflow-active.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md"
     ],
     "catalog": [
       "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
-      "task-workflow-active.md"
+      "task-workflow-active.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md"
     ],
     "ux": [
       "lessons-learned-issue-1078-bulk-tag-picker-large-catalog-ux-2026-06.md",
@@ -17544,6 +17572,7 @@
       "workflow-issue-1112-attendance-count-badge-emphasis-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -19199,6 +19228,7 @@
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -21771,6 +21801,7 @@
     "And": [
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-777-schema-diff-resolve-history-view-artifact-inventory.md",
       "workflow-issue-778-schema-alias-rollback-undo-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -25332,6 +25363,7 @@
       "workflow-issue-1031-member-self-photo-upload-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -25412,6 +25444,7 @@
       "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27316,6 +27349,7 @@
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27564,7 +27598,9 @@
       "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -27676,6 +27712,7 @@
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -27994,6 +28031,7 @@
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-874-login-staging-visual-smoke-artifact-inventory.md",
       "workflow-issue-880-public-segment-error-loading-boundary-artifact-inventory.md",
@@ -28378,6 +28416,7 @@
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
@@ -28484,8 +28523,14 @@
     "Compact": [
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md"
     ],
+    "Specs": [
+      "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md"
+    ],
     "referential": [
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md"
+    ],
+    "viewport": [
+      "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
