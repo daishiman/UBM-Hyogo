@@ -423,24 +423,25 @@ Cloudflare Dashboard > My Profile > API Tokens > Create Token
 
 ---
 
-## Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06）
+## Cloudflare API Token rotation runbook（RETIRED 2026-06-08）
 
-Cloudflare API Token の 90 日 rotation は `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` を current implementation spec とし、手動 runbook と GitHub Actions reminder workflow の 2 層で管理する。
+> **current facts (cf-token-env-contract-and-rotation-retirement / 2026-06-08)**: 90 日 calendar rotation policy は廃止した。reminder workflow `.github/workflows/cf-token-rotation-reminder.yml` と checker `scripts/check-cf-rotation-reminder.sh`、GitHub Variable `CF_TOKEN_ISSUED_AT` は retired。current policy は **non-expiring / least-privilege / environment-scoped token + event-based revocation** で、正本は `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md`。`cf-token-rotation-runbook.md` は tombstone（監査履歴）として保持する。
 
 | 項目 | 正本 |
 | --- | --- |
-| runbook | `docs/30-workflows/operations/cf-token-rotation-runbook.md` |
-| 実施記録 | `docs/30-workflows/operations/cf-token-rotation-log.md` |
-| reminder workflow | `.github/workflows/cf-token-rotation-reminder.yml` |
-| checker | `scripts/check-cf-rotation-reminder.sh` |
-| 発行日 variable | GitHub Variable `CF_TOKEN_ISSUED_AT` |
+| current runbook | `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` |
+| retired runbook（tombstone） | `docs/30-workflows/operations/cf-token-rotation-runbook.md` |
+| 実施記録（履歴保持・末尾に retirement entry） | `docs/30-workflows/operations/cf-token-rotation-log.md` |
+| reminder workflow | retired（削除済み） |
+| checker | retired（削除済み） |
+| 発行日 variable `CF_TOKEN_ISSUED_AT` | retired（新規 consumer を追加しない） |
 
 運用境界:
 
 - Token 値 / Token ID / scope 値は runbook、実施記録、Phase outputs、GitHub Issue、PR body、evidence に記録しない。
-- rotation 自動化はしない。workflow は 85 日経過時点で Issue を起票する reminder のみ。
-- staging-first、24h 並行運用、旧 Token disable 後 24h delete、rollback 経路を runbook の必須 gate とする。
-- 実 production rotation と `gh secret set` は user 明示承認後のみ実行する。
+- calendar rotation はしない。compromise / scope drift / owner change / failed validation を検知した時点で即時 revoke する event-based 運用とする。
+- staging token と production token は別トークン・狭スコープ・環境分離（staging=D1 edit のみ / production=Workers deploy + D1 edit のみ）で発行する。
+- token 発行・1Password 投入・`gh secret set` は user 明示承認後のみ実行する。
 
 ### モニタリング系 Secret（UT-08 連携）
 

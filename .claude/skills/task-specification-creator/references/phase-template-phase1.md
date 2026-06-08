@@ -118,6 +118,21 @@ Issue / unassigned-task が記述する「現状の挙動・契約・コード�
 - 検証で前提誤りを見つけたら、`implementation-guide.md` / `phase-1-requirements.md` に **訂正注記**として残し、次の人が再び drift と誤認しないようにする。Phase 2 以降の設計例も実コードに合わせて補正する。
 - GitHub Issue ラベルが `docs-only` でも、root cause（SSOT 違反 = dead alias / dead code 残存）の解消にコード変更が必要なら、CONST_004（ラベルより実態優先）で **実装仕様書**として分類する。昇格判断は `artifacts.json` の `spec_classification_note` に残し、後続レビューで分類根拠を追えるようにする（[phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) Applied Examples 参照）。
 
+#### CI secret / env provisioning gap 検証（cf-token-env-contract 対策）
+
+GitHub Actions / shell / Cloudflare / staging runtime smoke など secret・env に依存する CI 障害では、Phase 1 で「workflow が消費する `secrets.*` / `vars.*`」と「provisioning 正本（`scripts/*provision*.sh` / runbook / environment inventory）」を分けて実測する。ユーザー仮説が token expiry / weekly rotation / external outage でも、現行 workflow と投入正本の name-only 差分を確認するまで真因扱いしない。
+
+Phase 1 outputs には以下を記録する:
+
+| 項目 | 記録内容 |
+| --- | --- |
+| consumed names | 対象 workflow が参照する `secrets.NAME` / `vars.NAME` の name-only 一覧 |
+| provisioning source | 1Password ref / `gh secret set` script / runbook などの投入正本 |
+| gap classification | provision gap / stale provision / documented legacy exemption / no gap |
+| runtime boundary | secret value mutation・Cloudflare token 発行・GitHub environment secret 投入・実 runtime smoke が user-gated か |
+
+secret 値・token id・scope details は Phase 1 evidence に書かない。name-only 差分と redaction invariant だけを扱う。
+
 #### D1 migration 前提の現行再スコープ（Issue #1105 対策）
 
 D1 migration / table rebuild / FK 制約追加を含むタスクでは、Issue 本文や古い未タスクに書かれた migration 番号・既存 schema をそのまま採用しない。Phase 1 で現行 `apps/api/migrations/` を実測し、番号占有・後続 ALTER・消失する dependent object を表に固定する。

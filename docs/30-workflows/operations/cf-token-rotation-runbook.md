@@ -1,6 +1,16 @@
-# Cloudflare API Token 90 Day Rotation Runbook
+# Cloudflare API Token Rotation Runbook
+
+> RETIRED: 2026-06-08 に 90 day calendar rotation policy は廃止した。
+> Current procedure は `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md`。
+> 本ファイルは監査履歴として保持し、新規運用手順として使わない。
 
 ## 1. Overview
+
+This runbook is retired.
+
+The previous procedure rotated long-lived Cloudflare API tokens on a 90 day calendar. Current policy uses non-expiring, least-privilege, environment-scoped tokens with event-based revocation on compromise, scope drift, owner change, or failed validation. See `cf-token-provisioning-and-revocation-runbook.md`.
+
+## Retired Historical Procedure
 
 This runbook is the operating procedure for rotating the long-lived Cloudflare API token used by GitHub Actions deployment and Cloudflare operations.
 
