@@ -10,11 +10,17 @@ category: 改善
 target_feature: apps/web /admin/members BulkActionBar tag picker visual baseline
 priority: 低
 scale: 小規模
-status: 未着手
+status: consumed
 source_phase: issue-1077-bulk-tag-authenticated-staging-visual Phase 10 MINOR-02 / Phase 12 detection B-1
 created_date: 2026-06-03
 dependencies: [issue-1077-bulk-tag-authenticated-staging-visual]
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/
+consumed_date: 2026-06-06
 ```
+
+> **consumed pointer（2026-06-06）**: 本未タスク指示書は Phase 1-13 の実装仕様書へ昇格した。
+> 正本ワークフロー: [`docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/`](../completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/index.md)
+> issue #1126 は CLOSED のまま（`Refs #1126`・reopen しない）。本ファイルは backlink trace として維持する。
 
 | 項目 | 内容 |
 | --- | --- |
@@ -24,12 +30,37 @@ dependencies: [issue-1077-bulk-tag-authenticated-staging-visual]
 | 対象機能 | `apps/web` `/admin/members` BulkActionBar tag picker visual baseline |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | `未着手` |
+| ステータス | `consumed` |
 | 発見元 | issue-1077-bulk-tag-authenticated-staging-visual Phase 10 MINOR-02 / Phase 12 detection B-1 |
 | 発見日 | 2026-06-03 |
 | 親 workflow | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
 
 ---
+
+## 苦戦箇所【記入必須】
+
+- 初期仕様書は `spec_created` として閉じる前提だったが、実際には `viewports.ts` と authenticated staging Playwright spec の2ファイルを同一サイクルで安全に実装できたため、`implemented_local_runtime_pending` へ再分類した。
+- screenshot evidence の出力先は親 issue-1077 completed root ではなく、本 issue-1126 workflow root の `outputs/phase-11/` に所有させる必要があった。
+
+## リスクと対策【記入必須】
+
+| リスク | 対策 |
+| --- | --- |
+| 既存 desktop baseline を壊す | desktop no-suffix snapshot を既存 test に残し、responsive snapshots は viewport suffix 付きの別 test に分離 |
+| staging D1 mutation | apply button は押さず、`bulk-tag-result` count 0 を assert |
+| baseline 未生成で通常実行が fail | 初回 `--update-snapshots` は user-gated として明示 |
+
+## 検証方法【記入必須】
+
+- `pnpm --filter @ubm-hyogo/web typecheck`
+- `pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx`
+- user-gated: `pnpm --filter @ubm-hyogo/web exec playwright test --project=staging-visual-authenticated admin-members-bulk-tag-authenticated --update-snapshots`
+
+## スコープ【記入必須】
+
+| 含む | 含まない |
+| --- | --- |
+| `VIEWPORTS.wide` additive 追加、responsive 3 viewport × assign/unassign baseline assertion 追加、Phase 11/12 evidence ledger 同期 | result mutation baseline、API/D1/Google Form変更、production capture、commit/push/PR |
 
 ## 1. なぜこのタスクが必要か（Why）
 

@@ -1,0 +1,939 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-staging\\/.*\\.spec\\.ts$/",
+          "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/sidebar-shell\\/.*\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-chromium",
+        "name": "smoke-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/full-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-chromium",
+        "name": "visual-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/admin-shell\\/.*\\.spec\\.ts$/"
+        ],
+        "testMatch": [
+          "/visual\\/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "setup-auth",
+        "name": "setup-auth",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/setup-auth\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "auth-slot-coverage",
+        "name": "auth-slot-coverage",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/auth-slot-coverage\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-staging\\/.*\\.spec\\.ts$/",
+          "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/sidebar-shell\\/.*\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-staging\\/.*\\.spec\\.ts$/",
+          "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/admin-pages\\.spec\\.ts$/",
+          "/admin-tags-resolve-drawer\\.spec\\.ts$/",
+          "/task15-admin-screenshots\\.spec\\.ts$/",
+          "/sidebar-shell\\/.*\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-desktop",
+        "name": "visual-full-chromium-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-tablet",
+        "name": "visual-full-chromium-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-full-chromium-mobile",
+        "name": "visual-full-chromium-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-full",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "sidebar-shell-visual-desktop",
+        "name": "sidebar-shell-visual-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-visual\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "sidebar-shell-visual-tablet",
+        "name": "sidebar-shell-visual-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-visual\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "sidebar-shell-visual-mobile",
+        "name": "sidebar-shell-visual-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-visual\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "sidebar-shell-smoke",
+        "name": "sidebar-shell-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests",
+        "testIgnore": [
+          "/visual\\/.*\\.spec\\.ts$/",
+          "/visual-staging\\/.*\\.spec\\.ts$/",
+          "/visual-full\\/.*\\.spec\\.ts$/",
+          "/full-smoke\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-visual",
+        "name": "staging-visual",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/visual-staging\\/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "setup-authenticated-staging",
+        "name": "setup-authenticated-staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/setup\\.staging-auth\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-visual-authenticated",
+        "name": "staging-visual-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated",
+        "testIgnore": [
+          "/setup\\.staging-auth\\.ts$/",
+          "/teardown\\.staging-auth\\.ts$/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "teardown-authenticated-staging",
+        "name": "teardown-authenticated-staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/teardown\\.staging-auth\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "admin-staging-visual-mobile",
+        "name": "admin-staging-visual-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual/admin-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "admin-staging-visual-tablet",
+        "name": "admin-staging-visual-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual/admin-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "admin-staging-visual-desktop",
+        "name": "admin-staging-visual-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual/admin-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "admin-staging-visual-wide",
+        "name": "admin-staging-visual-wide",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual/admin-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/tests/e2e",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/node_modules/monocart-reporter/lib/index.js",
+        {
+          "name": "UBM-Hyogo E2E",
+          "outputFile": "../../docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/monocart/index.html",
+          "coverage": {
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/coverage",
+            "reports": [
+              [
+                "v8",
+                {
+                  "outputDir": "coverage/v8"
+                }
+              ],
+              "json-summary",
+              [
+                "lcovonly",
+                {
+                  "outputFile": "coverage/lcov.info"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "changed",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "visual-staging-authenticated/teardown.staging-auth.ts",
+      "file": "visual-staging-authenticated/teardown.staging-auth.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "remove storageState",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "teardown-authenticated-staging",
+              "projectName": "teardown-authenticated-staging",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 74,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-06-06T22:32:49.044Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "14c2f8c54d5856e38a44-c009d074fe6487b64e4f",
+          "file": "visual-staging-authenticated/teardown.staging-auth.ts",
+          "line": 12,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "visual-staging-authenticated/setup.staging-auth.ts",
+      "file": "visual-staging-authenticated/setup.staging-auth.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "mint member storageState",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup-authenticated-staging",
+              "projectName": "setup-authenticated-staging",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 58,
+                  "error": {
+                    "message": "Error: mint-staging-storage-state: missing/invalid env: STAGING_AUTH_SECRET, STAGING_ADMIN_MEMBER_ID, STAGING_ADMIN_EMAIL, STAGING_ME_MEMBER_ID, STAGING_ME_EMAIL, STAGING_WORKER_HOST",
+                    "stack": "Error: mint-staging-storage-state: missing/invalid env: STAGING_AUTH_SECRET, STAGING_ADMIN_MEMBER_ID, STAGING_ADMIN_EMAIL, STAGING_ME_MEMBER_ID, STAGING_ME_EMAIL, STAGING_WORKER_HOST\n    at mintStagingStorageState (/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts:65:11)\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated/setup.staging-auth.ts:17:9",
+                    "location": {
+                      "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts",
+                      "column": 11,
+                      "line": 65
+                    },
+                    "snippet": "\u001b[90m   at \u001b[39m../scripts/mint-staging-storage-state.ts:65\n\n  63 |         ? `mint-staging-storage-state: missing/invalid env: ${missing.join(\", \")}`\n  64 |         : \"mint-staging-storage-state: env validation failed\";\n> 65 |     throw new Error(message);\n     |           ^\n  66 |   }\n  67 |   const e = parsed.data;\n  68 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts",
+                        "column": 11,
+                        "line": 65
+                      },
+                      "message": "Error: mint-staging-storage-state: missing/invalid env: STAGING_AUTH_SECRET, STAGING_ADMIN_MEMBER_ID, STAGING_ADMIN_EMAIL, STAGING_ME_MEMBER_ID, STAGING_ME_EMAIL, STAGING_WORKER_HOST\n\n   at ../scripts/mint-staging-storage-state.ts:65\n\n  63 |         ? `mint-staging-storage-state: missing/invalid env: ${missing.join(\", \")}`\n  64 |         : \"mint-staging-storage-state: env validation failed\";\n> 65 |     throw new Error(message);\n     |           ^\n  66 |   }\n  67 |   const e = parsed.data;\n  68 |\n    at mintStagingStorageState (/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts:65:11)\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated/setup.staging-auth.ts:17:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-06-06T22:32:43.210Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results/setup.staging-auth.ts-mint-member-storageState-setup-authenticated-staging/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results/setup.staging-auth.ts-mint-member-storageState-setup-authenticated-staging/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts",
+                    "column": 11,
+                    "line": 65
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "081592e5fe10c060abbe-40d0b2bbea63b2c0d374",
+          "file": "visual-staging-authenticated/setup.staging-auth.ts",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "mint admin storageState",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup-authenticated-staging",
+              "projectName": "setup-authenticated-staging",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 31,
+                  "error": {
+                    "message": "Error: mint-staging-storage-state: missing/invalid env: STAGING_AUTH_SECRET, STAGING_ADMIN_MEMBER_ID, STAGING_ADMIN_EMAIL, STAGING_ME_MEMBER_ID, STAGING_ME_EMAIL, STAGING_WORKER_HOST",
+                    "stack": "Error: mint-staging-storage-state: missing/invalid env: STAGING_AUTH_SECRET, STAGING_ADMIN_MEMBER_ID, STAGING_ADMIN_EMAIL, STAGING_ME_MEMBER_ID, STAGING_ME_EMAIL, STAGING_WORKER_HOST\n    at mintStagingStorageState (/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts:65:11)\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated/setup.staging-auth.ts:24:9",
+                    "location": {
+                      "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts",
+                      "column": 11,
+                      "line": 65
+                    },
+                    "snippet": "\u001b[90m   at \u001b[39m../scripts/mint-staging-storage-state.ts:65\n\n  63 |         ? `mint-staging-storage-state: missing/invalid env: ${missing.join(\", \")}`\n  64 |         : \"mint-staging-storage-state: env validation failed\";\n> 65 |     throw new Error(message);\n     |           ^\n  66 |   }\n  67 |   const e = parsed.data;\n  68 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts",
+                        "column": 11,
+                        "line": 65
+                      },
+                      "message": "Error: mint-staging-storage-state: missing/invalid env: STAGING_AUTH_SECRET, STAGING_ADMIN_MEMBER_ID, STAGING_ADMIN_EMAIL, STAGING_ME_MEMBER_ID, STAGING_ME_EMAIL, STAGING_WORKER_HOST\n\n   at ../scripts/mint-staging-storage-state.ts:65\n\n  63 |         ? `mint-staging-storage-state: missing/invalid env: ${missing.join(\", \")}`\n  64 |         : \"mint-staging-storage-state: env validation failed\";\n> 65 |     throw new Error(message);\n     |           ^\n  66 |   }\n  67 |   const e = parsed.data;\n  68 |\n    at mintStagingStorageState (/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts:65:11)\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/tests/visual-staging-authenticated/setup.staging-auth.ts:24:9"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-06-06T22:32:46.543Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results/setup.staging-auth.ts-mint-admin-storageState-setup-authenticated-staging/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/outputs/phase-11/evidence/test-results/setup.staging-auth.ts-mint-admin-storageState-setup-authenticated-staging/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260606-165617-wt-2/apps/web/playwright/scripts/mint-staging-storage-state.ts",
+                    "column": 11,
+                    "line": 65
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "081592e5fe10c060abbe-c0b28a83452a0d6b24b8",
+          "file": "visual-staging-authenticated/setup.staging-auth.ts",
+          "line": 23,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+      "file": "visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "staging /admin/members bulk tag picker assign/unassign baselines",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "staging-visual-authenticated",
+              "projectName": "staging-visual-authenticated",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "6dc8a1fc9c624304562a-678000b6b2242b44a1f8",
+          "file": "visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+          "line": 85,
+          "column": 1
+        },
+        {
+          "title": "staging /admin/members bulk tag picker mobile assign/unassign baselines",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "staging-visual-authenticated",
+              "projectName": "staging-visual-authenticated",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "6dc8a1fc9c624304562a-77e83b89db625408b734",
+          "file": "visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+          "line": 100,
+          "column": 3
+        },
+        {
+          "title": "staging /admin/members bulk tag picker tablet assign/unassign baselines",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "staging-visual-authenticated",
+              "projectName": "staging-visual-authenticated",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "6dc8a1fc9c624304562a-7ce28bad528fa5f2e43f",
+          "file": "visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+          "line": 100,
+          "column": 3
+        },
+        {
+          "title": "staging /admin/members bulk tag picker wide assign/unassign baselines",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "staging-visual-authenticated",
+              "projectName": "staging-visual-authenticated",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "6dc8a1fc9c624304562a-e55fdbd6417b0ddbdd11",
+          "file": "visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts",
+          "line": 100,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-06-06T22:32:38.248Z",
+    "duration": 11094.321,
+    "expected": 1,
+    "skipped": 4,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
