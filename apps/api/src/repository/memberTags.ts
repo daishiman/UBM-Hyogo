@@ -48,6 +48,48 @@ export interface MemberTagWithDefinition {
   active: number;
 }
 
+/** member_tags のうち tag_definitions に対応 tag_id が存在しない孤児行（参照整合性破れ） */
+export type OrphanMemberTag = {
+  memberId: string;
+  tagId: string;
+  source: string;
+  assignedAt: string;
+  assignedBy: string | null;
+};
+
+/**
+ * member_tags のうち tag_definitions に対応 tag_id が存在しない孤児行を検出する（read-only）。
+ * 防止は各 write 経路の tag_id 先在検証が担い、本関数は既存孤児の検出・監査を担う。
+ * `countMemberTagReferences`（tag → 被参照数・削除時防壁）とは逆方向の関心事である。
+ */
+export async function detectOrphanMemberTags(c: DbCtx): Promise<OrphanMemberTag[]> {
+  const { results } = await c.db
+    .prepare(
+      `SELECT member_id   AS memberId,
+              tag_id      AS tagId,
+              source      AS source,
+              assigned_at AS assignedAt,
+              assigned_by AS assignedBy
+         FROM member_tags
+        WHERE tag_id NOT IN (SELECT tag_id FROM tag_definitions)
+        ORDER BY member_id, tag_id`,
+    )
+    .all<OrphanMemberTag>();
+  return results ?? [];
+}
+
+/** 孤児 member_tags 行の件数（不変条件テストで == 0 を検証する用途）。`detect` と同一 WHERE 句。 */
+export async function countOrphanMemberTags(c: DbCtx): Promise<number> {
+  const row = await c.db
+    .prepare(
+      `SELECT COUNT(*) AS n
+         FROM member_tags
+        WHERE tag_id NOT IN (SELECT tag_id FROM tag_definitions)`,
+    )
+    .first<{ n: number }>();
+  return row?.n ?? 0;
+}
+
 /**
  * member_id のタグ一覧を tag_definitions JOIN で取得する
  */
@@ -109,8 +151,24 @@ export async function assignTagsToMember(
   tagIds: TagId[],
   assignedBy: string,
 ): Promise<number> {
+  if (tagIds.length === 0) return 0;
+
+  const uniqueTagIds = [...new Set(tagIds)];
+  const ph = placeholders(uniqueTagIds.length);
+  const activeRows = await c.db
+    .prepare(
+      `SELECT tag_id
+         FROM tag_definitions
+        WHERE active = 1
+          AND tag_id IN (${ph})`,
+    )
+    .bind(...uniqueTagIds)
+    .all<{ tag_id: string }>();
+  const activeTagIds = new Set(activeRows.results.map((r) => r.tag_id));
+
   let applied = 0;
-  for (const tagId of tagIds) {
+  for (const tagId of uniqueTagIds) {
+    if (!activeTagIds.has(tagId)) continue;
     const result = await c.db
       .prepare(
         `INSERT INTO member_tags (member_id, tag_id, source, confidence, assigned_by)

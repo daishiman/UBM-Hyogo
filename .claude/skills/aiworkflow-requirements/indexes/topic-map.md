@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L251 |
-| UBM-Hyogo Admin Sync API（03a） | L272 |
-| UBM-Hyogo Member Self-Service API（04b） | L324 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
-| Desktop IPC API サマリー | L366 |
-| 変更履歴 | L397 |
-| 関連ドキュメント | L414 |
+| エンドポイント命名規則 | L252 |
+| UBM-Hyogo Admin Sync API（03a） | L273 |
+| UBM-Hyogo Member Self-Service API（04b） | L325 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L353 |
+| Desktop IPC API サマリー | L367 |
+| 変更履歴 | L398 |
+| 関連ドキュメント | L415 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2943,6 +2943,49 @@ node scripts/list-specs.js --topics
 | Boundaries | L37 |
 | 30-Method Compact Evidence | L44 |
 | Lessons Learned | L56 |
+
+### references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L22 |
+| User-Gated | L32 |
+| Lessons Learned | L36 |
+
+### references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Tests And Evidence | L25 |
+| Workflow Artifacts | L38 |
+| System Specs | L48 |
+| Lessons Learned | L55 |
+
+### references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L15 |
+| Evidence | L25 |
+| Invariants | L35 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
+
+### references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L11 |
+| Implementation targets | L22 |
+| Runtime visual evidence | L29 |
+| Lessons Learned | L40 |
+| User-gated actions | L46 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -8938,19 +8981,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3916 |
-| フェーズ構造（概要） | L3925 |
-| 品質ゲート（概要） | L3956 |
-| 出力テンプレート | L3967 |
-| 実行時のコマンド・エージェント・スキル | L3990 |
-| 昇格パターン集 | L4014 |
-| Current Active / Spec Created Tasks | L4016 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4182 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4250 |
-| issue-998-members-publish-state-production-rollout | L4276 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4335 |
-| issue-1068-admin-tag-inline-create-ui | L4349 |
-| issue-1111-proxy-transport-util-unify | L4367 |
+| ドキュメント構成 | L3977 |
+| フェーズ構造（概要） | L3986 |
+| 品質ゲート（概要） | L4017 |
+| 出力テンプレート | L4028 |
+| 実行時のコマンド・エージェント・スキル | L4051 |
+| 昇格パターン集 | L4075 |
+| Current Active / Spec Created Tasks | L4077 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4243 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4311 |
+| issue-998-members-publish-state-production-rollout | L4337 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4396 |
+| issue-1068-admin-tag-inline-create-ui | L4410 |
+| issue-1111-proxy-transport-util-unify | L4428 |
 
 ### references/task-workflow-backlog-part2.md
 
