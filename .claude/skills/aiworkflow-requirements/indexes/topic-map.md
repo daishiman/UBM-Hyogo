@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L251 |
-| UBM-Hyogo Admin Sync API（03a） | L272 |
-| UBM-Hyogo Member Self-Service API（04b） | L324 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L352 |
-| Desktop IPC API サマリー | L366 |
-| 変更履歴 | L397 |
-| 関連ドキュメント | L414 |
+| エンドポイント命名規則 | L252 |
+| UBM-Hyogo Admin Sync API（03a） | L273 |
+| UBM-Hyogo Member Self-Service API（04b） | L325 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L353 |
+| Desktop IPC API サマリー | L367 |
+| 変更履歴 | L398 |
+| 関連ドキュメント | L415 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2954,6 +2954,17 @@ node scripts/list-specs.js --topics
 | Workflow Artifacts | L38 |
 | System Specs | L48 |
 | Lessons Learned | L55 |
+
+### references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L15 |
+| Evidence | L25 |
+| Invariants | L35 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -8949,19 +8960,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3931 |
-| フェーズ構造（概要） | L3940 |
-| 品質ゲート（概要） | L3971 |
-| 出力テンプレート | L3982 |
-| 実行時のコマンド・エージェント・スキル | L4005 |
-| 昇格パターン集 | L4029 |
-| Current Active / Spec Created Tasks | L4031 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4197 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4265 |
-| issue-998-members-publish-state-production-rollout | L4291 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4350 |
-| issue-1068-admin-tag-inline-create-ui | L4364 |
-| issue-1111-proxy-transport-util-unify | L4382 |
+| ドキュメント構成 | L3946 |
+| フェーズ構造（概要） | L3955 |
+| 品質ゲート（概要） | L3986 |
+| 出力テンプレート | L3997 |
+| 実行時のコマンド・エージェント・スキル | L4020 |
+| 昇格パターン集 | L4044 |
+| Current Active / Spec Created Tasks | L4046 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4212 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4280 |
+| issue-998-members-publish-state-production-rollout | L4306 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4365 |
+| issue-1068-admin-tag-inline-create-ui | L4379 |
+| issue-1111-proxy-transport-util-unify | L4397 |
 
 ### references/task-workflow-backlog-part2.md
 

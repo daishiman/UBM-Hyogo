@@ -14,6 +14,21 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
 | user gate | authenticated runtime/staging screenshots, commit, push, PR |
 
+## issue-1119-member-tags-referential-integrity-guard（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1119-member-tags-referential-integrity-guard/` |
+| status | `implemented_local / implementation / NON_VISUAL / implementation_mode=new` |
+| issue | #1119 CLOSED 維持（reopen / mutation なし） |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| source | `docs/30-workflows/completed-tasks/unassigned-task/task-issue-1070-followup-003-member-tags-foreign-key-evaluation.md` |
+| purpose | `member_tags.tag_id` の orphan を DB-level FK ではなく application 層の read-only detection + admin audit endpoint で可視化し、`assignTagsToMember` helper 誤用時にも未定義 tag_id を書かない |
+| implementation | `apps/api/src/repository/memberTags.ts`, `apps/api/src/routes/admin/tags.ts`, `apps/api/src/repository/__tests__/memberTags.orphan.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts`, `apps/api/src/routes/admin/members.contract.spec.ts`（fixture 健全性確認のみ） |
+| invariant | documented no-FK 架構（`0022_member_photos.sql:4`）維持、migration 追加なし、apps/web 非接触、issue-1070 count guard 非破壊 |
+| evidence boundary | Phase 1-13 specs and Phase 12 strict 7 present; focused tests are local verification targets; commit, push, PR, deploy, real D1 orphan query are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md` |
+
 ## issue-1104-member-creation-path-unification（2026-06-05）
 
 | 項目 | 値 |
