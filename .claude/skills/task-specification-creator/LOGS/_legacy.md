@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-08 - public-members-tag-filter-ux-refine close-out
+
+`implementation / VISUAL` workflow を `spec_created` のまま閉じると CONST_004/005 と矛盾するため、同一サイクルで `apps/web` 実装、focused tests、Phase 11 evidence、Phase 12 strict 7、aiworkflow sync まで完了し `implemented_local_runtime_pending` に再分類した。root token gate は `pnpm verify:tokens` が正本。
+
 ## 2026-06-03 - issue-1079 D1 JSON search binding / full-scan pattern
 
 `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` の automation-30 改善で、D1 repository の JSON column 検索における SQL binding 落とし穴を task-specification-creator へ同一サイクル反映した。`references/patterns-testing-and-implementation.md` に、同一値を after/before JSON path で OR 検索する場合は単一 `?` helper を使わず 1 回だけ bind して同じ `?N` を複数箇所参照すること、破損 JSON row 混在に備えて `json_valid` guard を入れること、JSON index 不在時は Phase 2 で full-scan 緩和と schema 化境界を明記することを追加した。
