@@ -1,5 +1,12 @@
 # Issue #1079 follow-up 001: audit_log batchId index 最適化
 
+> **[consumed → spec 化済み 2026-06-07]** 本未タスクは Phase 1-13 実装仕様書へ展開済み。
+> 正本: `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/`（`implemented_local_evidence_captured`）。
+> Issue #1128 は CLOSED のまま実装（ユーザー指示）。staging / production migration apply・PR は Phase 13
+> user-gated。初期 spec では「STORED generated column 第一候補」を SQLite/D1 の
+> `ALTER TABLE ADD COLUMN` 制約（STORED 追加不可・VIRTUAL のみ可）に合わせ
+> **VIRTUAL generated column + index（fallback: plain `correlation_id`）** へ最適化補正した。
+
 ## メタ情報
 
 ```yaml
@@ -10,7 +17,7 @@ category: 改善（パフォーマンス）
 target_feature: GET /admin/audit の batchId 検索 / audit_log schema
 priority: 低
 scale: 中規模
-status: 未実施
+status: consumed_by_issue_1128
 source_phase: issue-1079 Phase 12 unassigned-task-detection B-1
 created_date: 2026-06-03
 dependencies: [issue-1079-bulk-tag-audit-batch-filter, issue-1036-bulk-member-tag-assign]
@@ -23,7 +30,7 @@ spec_path: docs/30-workflows/unassigned-task/task-issue-1079-followup-001-audit-
 | 分類 | follow-up / performance |
 | 優先度 | 低 |
 | 規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_1128 |
 
 ## 1. 概要（なぜこのタスクが必要か）
 
