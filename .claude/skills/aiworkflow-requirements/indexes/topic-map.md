@@ -3031,6 +3031,15 @@ node scripts/list-specs.js --topics
 | Evidence | L25 |
 | Contract Notes | L31 |
 
+### references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Evidence | L24 |
+| Contract Notes | L31 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -9040,22 +9049,22 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4021 |
-| フェーズ構造（概要） | L4030 |
-| 品質ゲート（概要） | L4061 |
-| 出力テンプレート | L4072 |
-| 実行時のコマンド・エージェント・スキル | L4095 |
-| 昇格パターン集 | L4119 |
-| Current Active / Spec Created Tasks | L4121 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4287 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4355 |
-| issue-1007-density-toggle-help-hint-hardening | L4379 |
-| issue-1079-bulk-tag-audit-batch-filter | L4392 |
-| issue-1128-audit-batchid-index-optimization | L4405 |
-| issue-998-members-publish-state-production-rollout | L4422 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4481 |
-| issue-1068-admin-tag-inline-create-ui | L4495 |
-| issue-1111-proxy-transport-util-unify | L4513 |
+| ドキュメント構成 | L4037 |
+| フェーズ構造（概要） | L4046 |
+| 品質ゲート（概要） | L4077 |
+| 出力テンプレート | L4088 |
+| 実行時のコマンド・エージェント・スキル | L4111 |
+| 昇格パターン集 | L4135 |
+| Current Active / Spec Created Tasks | L4137 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4303 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4371 |
+| issue-1007-density-toggle-help-hint-hardening | L4395 |
+| issue-1079-bulk-tag-audit-batch-filter | L4408 |
+| issue-1128-audit-batchid-index-optimization | L4421 |
+| issue-998-members-publish-state-production-rollout | L4438 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4497 |
+| issue-1068-admin-tag-inline-create-ui | L4511 |
+| issue-1111-proxy-transport-util-unify | L4529 |
 
 ### references/task-workflow-backlog-part2.md
 
