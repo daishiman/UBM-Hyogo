@@ -163,6 +163,20 @@ UI screenshot を後続取得する小規模 implementation / VISUAL_ON_EXECUTIO
 - `manual-evidence-deferred.md` がない状態で「screenshot は後続取得」とだけ書くのは false green とみなす
 - Phase 12 `phase12-task-spec-compliance-check.md` は両ファイルを別行で参照し、片方欠落で `FAIL`
 
+#### Authenticated staging visual 横展開の read-only boundary
+
+`staging-visual-authenticated` 等の認証付き visual 基盤を複数 admin 画面へ横展開する場合は、Phase 11 の撮影計画に
+route ごとの副作用境界判定表を置く。共有 staging D1 を対象にする spec は、初期表示 capture に限定し、mutation trigger をクリックしない。
+
+| route | mutation trigger | read-only guard | evidence state |
+| --- | --- | --- | --- |
+| `/admin/requests` | approve / reject confirm | `dialog` count 0 | screenshot `n/a` or `pending` until user-gated capture |
+| `/admin/schema` | bulk resolve / rollback modal | modal test id count 0 | screenshot `n/a` or `pending` until user-gated capture |
+
+実 capture が user-gated でも、local Playwright spec が実ファイルとして存在し `--list` で認識できる場合は、
+manual-test-result を `present`、screenshot 行を `n/a` または `pending` として記録できる。
+ただし spec 物理作成まで user-gated に残して `spec_created` で閉じることは禁止する。
+
 ### Cloudflare deploy-verification subtemplate
 
 `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION` で、実装差分は local に存在し、

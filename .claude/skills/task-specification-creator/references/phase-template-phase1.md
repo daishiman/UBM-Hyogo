@@ -57,6 +57,19 @@ git log --oneline -20 -- <対象ファイルパス>
 grep -n "<対象関数名>" <対象ファイルパス>
 ```
 
+#### Issue / unassigned-task 棚卸し表の現行コード再検証（2026-06-05 / issue-1104）
+
+Issue や unassigned-task に「作成経路」「呼び出し箇所」「行番号」の棚卸し表が含まれる場合、Phase 1 でその表を正本扱いせず、現行コードを `rg` で再列挙してから採用する。古い Issue は hidden path（例: session auto-link）や行番号 drift を含みうるため、元表 / 現行 grep / 補正後 inventory の 3 列を Phase 1 に記録する。
+
+最低限の確認:
+
+```bash
+rg -n "<主要 helper>|<関連 ensure 関数>|<hidden path 候補>" apps packages --glob '*.ts'
+rg -n "INSERT INTO <対象 table>|INSERT OR IGNORE INTO <対象 table>|ON CONFLICT" apps packages --glob '*.ts'
+```
+
+補正が出た場合は index / Phase 1 の inventory を現行コードへ上書きし、Issue 本文は historical input として扱う。補正なしでも「現行 grep で確認済み」と明記する。
+
 #### landed 実装検出時の existing-hardening 分岐（2026-06-01 追加）
 
 P50 で対象機能が既に dev / current branch に landed 済みと確認できた場合、greenfield 新規実装として仕様書を進めない。Phase 1 で `git log` / `rg --files` / `rg -n` の実測結果を表にし、`metadata.implementation_mode` を `existing-hardening`（またはより具体的な `existing-*-hardening`）へ再分類する。
@@ -104,6 +117,21 @@ Issue / unassigned-task が記述する「現状の挙動・契約・コード�
 - 前提誤りを鵜呑みにすると、存在しない契約差を前提に過剰スコープな設計を生む。
 - 検証で前提誤りを見つけたら、`implementation-guide.md` / `phase-1-requirements.md` に **訂正注記**として残し、次の人が再び drift と誤認しないようにする。Phase 2 以降の設計例も実コードに合わせて補正する。
 - GitHub Issue ラベルが `docs-only` でも、root cause（SSOT 違反 = dead alias / dead code 残存）の解消にコード変更が必要なら、CONST_004（ラベルより実態優先）で **実装仕様書**として分類する。昇格判断は `artifacts.json` の `spec_classification_note` に残し、後続レビューで分類根拠を追えるようにする（[phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) Applied Examples 参照）。
+
+#### CI secret / env provisioning gap 検証（cf-token-env-contract 対策）
+
+GitHub Actions / shell / Cloudflare / staging runtime smoke など secret・env に依存する CI 障害では、Phase 1 で「workflow が消費する `secrets.*` / `vars.*`」と「provisioning 正本（`scripts/*provision*.sh` / runbook / environment inventory）」を分けて実測する。ユーザー仮説が token expiry / weekly rotation / external outage でも、現行 workflow と投入正本の name-only 差分を確認するまで真因扱いしない。
+
+Phase 1 outputs には以下を記録する:
+
+| 項目 | 記録内容 |
+| --- | --- |
+| consumed names | 対象 workflow が参照する `secrets.NAME` / `vars.NAME` の name-only 一覧 |
+| provisioning source | 1Password ref / `gh secret set` script / runbook などの投入正本 |
+| gap classification | provision gap / stale provision / documented legacy exemption / no gap |
+| runtime boundary | secret value mutation・Cloudflare token 発行・GitHub environment secret 投入・実 runtime smoke が user-gated か |
+
+secret 値・token id・scope details は Phase 1 evidence に書かない。name-only 差分と redaction invariant だけを扱う。
 
 #### D1 migration 前提の現行再スコープ（Issue #1105 対策）
 
@@ -215,6 +243,29 @@ Phase 1 outputs には以下を記録する:
 | action | new / patch existing / no-op / split follow-up |
 
 参考実例: task-17 admin schema/conflicts/audit では `apps/web/app/(admin)/admin/{schema,identity-conflicts,audit}/page.tsx` と `apps/web/src/components/admin/*` が既に存在したため、`new` ではなく `existing-admin-contract-hardening` に再分類した。
+
+### Reuse-pattern Expansion Inventory Gate
+
+既存基盤を複数 route / 画面 / workflow へ横展開するタスクでは、候補一覧をそのまま実装対象にしない。
+Phase 1 で「候補 × current 実装状況」の突合表を作り、既に coverage / spec / CI 対応が存在する候補はスコープから除外する。
+元 issue / unassigned-task の候補が陳腐化している場合は、現行コードと既存 spec を正本にして対象を縮約する。
+
+必須確認:
+
+```bash
+rg --files apps/web/playwright apps/web/tests apps/web/src apps/web/app | rg '<route-or-feature-keyword>'
+rg -n '<canonical-screenshot-or-spec-name>|<route>' docs/30-workflows .claude/skills/aiworkflow-requirements
+```
+
+Phase 1 outputs には以下を記録する:
+
+| 候補 | current coverage/spec | 判定 | 根拠 |
+| --- | --- | --- | --- |
+| `/admin/tags` | existing authenticated visual spec | scope-out | 既存 workflow で完了済み |
+| `/admin/audit` | no authenticated visual spec | implement | 横展開対象 |
+
+実装 target が明確な候補は、staging 実走・baseline commit・PR など user-gated な外部操作だけを残し、
+local spec / runner / helper / focused static verification は同一 cycle で実装して `implemented_local_runtime_pending` 等へ昇格する。
 
 ## 1.X 外部 SaaS 無料枠仕様調査（リスク前置き）
 

@@ -51,6 +51,8 @@ export async function findByCode(c: DbCtx, code: string): Promise<TagDefinitionR
 // code rename は optimistic CAS + dedicated audit action 付きでのみ許可する。
 // 論理削除は active=0 とし、member_tags の既存 row は保持する。
 // 物理削除は member_tags 参照が 0 件の tag_definitions row にだけ許可する。
+// 強制移行付き物理削除は、active な移行先 tag へ member_tags を集約し、src 参照 0 件を再確認してから
+// 既存 physical delete を呼ぶ issue-1117 専用経路に限定する。
 
 export interface CreateTagDefinitionInput {
   code: string;
@@ -220,6 +222,19 @@ export type PhysicalDeleteTagDefinitionResult =
   | { ok: false; reason: "not_found" }
   | { ok: false; reason: "has_references"; referenceCount: number };
 
+export interface MigrateMemberTagReferencesResult {
+  sourceReferenceCount: number;
+  migratedCount: number;
+}
+
+export type ForceMigrateAndPhysicalDeleteTagResult =
+  | { ok: true; row: TagDefinitionRow; sourceReferenceCount: number; migratedCount: number }
+  | { ok: false; reason: "not_found" }
+  | { ok: false; reason: "target_not_found" }
+  | { ok: false; reason: "target_inactive" }
+  | { ok: false; reason: "same_as_source" }
+  | { ok: false; reason: "has_references"; referenceCount: number };
+
 export async function physicalDeleteTagDefinition(
   c: DbCtx,
   tagId: string,
@@ -234,6 +249,72 @@ export async function physicalDeleteTagDefinition(
 
   await c.db.prepare("DELETE FROM tag_definitions WHERE tag_id = ?1").bind(tagId).run();
   return { ok: true, row: current };
+}
+
+export async function migrateMemberTagReferences(
+  c: DbCtx,
+  sourceTagId: string,
+  destinationTagId: string,
+): Promise<MigrateMemberTagReferencesResult> {
+  const sourceReferenceCount = await countMemberTagReferences(c, sourceTagId);
+  if (sourceReferenceCount === 0) {
+    return { sourceReferenceCount, migratedCount: 0 };
+  }
+
+  const insertDestinationRows = c.db
+    .prepare(
+      `INSERT OR IGNORE INTO member_tags
+        (member_id, tag_id, source, confidence, assigned_at, assigned_by)
+       SELECT member_id, ?2, source, confidence, assigned_at, assigned_by
+       FROM member_tags
+       WHERE tag_id = ?1`,
+    )
+    .bind(sourceTagId, destinationTagId);
+  const deleteSourceRows = c.db
+    .prepare("DELETE FROM member_tags WHERE tag_id = ?1")
+    .bind(sourceTagId);
+
+  if (c.db.batch) {
+    await c.db.batch([insertDestinationRows, deleteSourceRows]);
+  } else {
+    await insertDestinationRows.run();
+    await deleteSourceRows.run();
+  }
+  return { sourceReferenceCount, migratedCount: sourceReferenceCount };
+}
+
+export async function forceMigrateAndPhysicalDeleteTagDefinition(
+  c: DbCtx,
+  sourceTagId: string,
+  destinationTagId: string,
+): Promise<ForceMigrateAndPhysicalDeleteTagResult> {
+  if (sourceTagId === destinationTagId) return { ok: false, reason: "same_as_source" };
+
+  const source = await getTagDefinitionByIdRaw(c, sourceTagId);
+  if (!source) return { ok: false, reason: "not_found" };
+
+  const destination = await getTagDefinitionByIdRaw(c, destinationTagId);
+  if (!destination) return { ok: false, reason: "target_not_found" };
+  if (!destination.active) return { ok: false, reason: "target_inactive" };
+
+  const migrated = await migrateMemberTagReferences(c, sourceTagId, destinationTagId);
+  const remainingReferences = await countMemberTagReferences(c, sourceTagId);
+  if (remainingReferences > 0) {
+    return { ok: false, reason: "has_references", referenceCount: remainingReferences };
+  }
+
+  const deleted = await physicalDeleteTagDefinition(c, sourceTagId);
+  if (!deleted.ok) {
+    if (deleted.reason === "not_found") return { ok: false, reason: "not_found" };
+    return { ok: false, reason: "has_references", referenceCount: deleted.referenceCount };
+  }
+
+  return {
+    ok: true,
+    row: source,
+    sourceReferenceCount: migrated.sourceReferenceCount,
+    migratedCount: migrated.migratedCount,
+  };
 }
 
 export async function listTagDefinitionsPaged(
