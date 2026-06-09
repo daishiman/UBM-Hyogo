@@ -294,6 +294,19 @@
 | evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
 | user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
 
+### issue-1137-bulk-tag-production-runtime-smoke（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` |
+| Issue | #1137 CLOSED 維持。Issue mutation は行わない |
+| 目的 | issue-1081 の staging bulk tag mutation smoke を production Workers + `ubm-hyogo-db-prod` real D1 用へ拡張する |
+| implementation targets | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-production-seed.sql`, `apps/api/migrations/seed/bulk-tag-production-cleanup.sql`, `.github/workflows/production-runtime-smoke.yml`, `scripts/smoke/__tests__/runtime-tag-bulk.test.sh` |
+| invariant | staging guard / staging seed-cleanup SQL は不変。production fixture は `e2e_test_prod_tagbulk_` prefix 限定。production runner は dual marker を要求 |
+| evidence | local shell test PASS、actionlint PASS。production real D1 seed/mutation/cleanup evidence は user-gated |
+| user gate | production real D1 seed/mutation/cleanup、commit、push、PR |
+
 ### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
 | 項目 | 値 |
