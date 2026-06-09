@@ -8,7 +8,7 @@ category: ガバナンス / ワークフロー整備（CI gate 強制化）
 target_feature: GitHub branch protection（dev / main）の required_status_checks.contexts
 priority: 中
 scale: 小規模
-status: spec_created
+status: consumed
 source_phase: staging-api-url-and-session-recovery Phase 10 §MINOR M-2（2回検証で superset 検出）
 created_date: 2026-06-03
 dependencies: [staging-api-url-and-session-recovery]
@@ -24,7 +24,7 @@ dependencies: [staging-api-url-and-session-recovery]
 | 対象機能     | GitHub branch protection（`dev` / `main`）の `required_status_checks.contexts`                               |
 | 優先度       | 中（gate を新設しても必須化しないと localhost 焼き込み回帰を merge ブロックできないため）                       |
 | 見積もり規模 | 小規模                                                                                                       |
-| ステータス   | spec_created（未着手・実 `gh api -X PUT` は user-gated）                                                       |
+| ステータス   | consumed（Issue #1146 canonical workflow root へ移行済み。実 `gh api -X PUT` は user-gated）                                                       |
 | 発見元       | staging-api-url-and-session-recovery Phase 10 §MINOR M-2（2回検証で superset 検出）                            |
 | 発見日       | 2026-06-03                                                                                                   |
 | GitHub Issue | [#1146](https://github.com/daishiman/UBM-Hyogo/issues/1146)                                                  |
@@ -208,7 +208,31 @@ diff <(jq -S . /tmp/main-protection-before.json) <(jq -S . /tmp/main-protection-
 
 ### 含まない
 
-- `verify-no-localhost-bake.yml` / `verify-no-localhost-bake.sh` のロジック変更（gate 本体は無改修）。
-- 他 gate（`audit-correlation-verify` / `verify-design-tokens` / `playwright-smoke` 等）の required check 追加・削除。
+- `verify-no-localhost-bake.sh` の grep ロジック変更（gate LOGIC は無改修）。
+- 他 gate（現 required check: `ci` / `Validate Build` / `coverage-gate` / `lighthouse-ci` / `e2e-tests-coverage-gate`）の追加・削除。
 - `required_pull_request_reviews` の有効化（solo 運用で `null` 維持）。
 - API / D1 / Google Form / Cloudflare runtime 設定の変更。
+
+---
+
+```yaml
+status: consumed
+consumed_at: 2026-06-08
+consumed_by_issue: 1146
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/
+recovery_note: |
+  Issue #1146 (FU-SASR-002) was CLOSED before a canonical workflow root existed.
+  This unassigned-task (proto-spec) file is preserved for backward link integrity
+  (issue #1146 body links to this path). All Phase 1-13 work has been migrated to
+  the canonical workflow root above as an implementation spec
+  (implemented_local_runtime_pending; branch-protection PUT remains user-gated).
+optimization_note: |
+  本 proto-spec は「登録済み required context = audit-correlation-verify / verify-design-tokens
+  / playwright-smoke」を前提としていたが、2026-06-08 の実測では dev/main の
+  required_status_checks.contexts は ci / Validate Build / coverage-gate / lighthouse-ci
+  / e2e-tests-coverage-gate であり前提が stale。また verify-no-localhost-bake.yml は
+  on.pull_request.paths フィルタを持つため、現状のまま required 化すると非 web PR が
+  Waiting-for-status で永久 merge block になる根本問題が判明した。canonical workflow root
+  では (1) 実測 context を正本化し (2) yml の pull_request.paths 除去（常時実行化・grep
+  LOGIC 不変）を実装仕様に追加した。詳細は canonical_workflow を参照。
+```

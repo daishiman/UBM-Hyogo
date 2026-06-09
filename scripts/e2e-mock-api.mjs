@@ -93,6 +93,8 @@ const state = {
   publicHomeEmpty: false,
   // admin attendance dashboard fixture scenario（auth.ts in-process mock と同一契約）
   attendanceDashboardScenario: "all-ok",
+  // public member detail fixture scenario（auth.ts in-process mock と同一契約）
+  publicMemberDetailScenario: "full",
 };
 
 const resetState = () => {
@@ -104,6 +106,7 @@ const resetState = () => {
   state.meetingsSeed = defaultMeetingsSeed();
   state.publicHomeEmpty = false;
   state.attendanceDashboardScenario = "all-ok";
+  state.publicMemberDetailScenario = "full";
 };
 
 const defaultAdminDashboardByZone = () => [
@@ -197,39 +200,152 @@ const publicStats = () => ({
       ],
 });
 
-const buildPublicProfile = (id) => ({
-  memberId: id,
-  summary: {
-    fullName: primaryMember.fullName,
-    nickname: primaryMember.nickname,
-    location: primaryMember.location,
-    occupation: primaryMember.occupation,
-    ubmZone: primaryMember.ubmZone,
-    ubmMembershipType: primaryMember.ubmMembershipType,
-  },
-  publicSections: [
-    {
-      key: "profile",
-      title: "プロフィール",
-      fields: [
-        {
-          stableKey: "member_display_name",
-          label: "表示名",
-          value: "佐藤 サンプル",
-          kind: "shortText",
-          visibility: "public",
-          source: "forms",
-        },
-      ],
+// public member detail を scenario 別に構築する（auth.ts in-process mock の
+// publicMemberProfileBody と同一契約）。full / message-hidden は survey 全項目を
+// publicSections に充填し、sparse は profile 基本2項目のみへ縮約する。
+const buildPublicProfile = (id) => {
+  const scenario = state.publicMemberDetailScenario;
+  const full = scenario === "full";
+  const messageHidden = scenario === "message-hidden";
+  const richFields =
+    full || messageHidden
+      ? [
+          {
+            stableKey: "hometown",
+            label: "出身地",
+            value: "兵庫県明石市",
+            kind: "shortText",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "businessOverview",
+            label: "ビジネス概要",
+            value:
+              "神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。",
+            kind: "paragraph",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "skills",
+            label: "スキル",
+            value: "TypeScript / Cloudflare Workers / 業務フロー設計",
+            kind: "paragraph",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "canProvide",
+            label: "提供できること",
+            value: "Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談",
+            kind: "paragraph",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "hobbies",
+            label: "趣味",
+            value: "登山、コーヒー、地域イベント巡り",
+            kind: "shortText",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "recentInterest",
+            label: "最近の関心",
+            value: "地域コミュニティとAI活用",
+            kind: "shortText",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "motto",
+            label: "座右の銘",
+            value: "小さく試して、早く学ぶ",
+            kind: "shortText",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "otherActivities",
+            label: "その他の活動",
+            value: "商店街の勉強会運営と学生向けプログラミング相談",
+            kind: "paragraph",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "urlWebsite",
+            label: "Webサイト",
+            value: "https://example.test/sample-001",
+            kind: "url",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "urlOthers",
+            label: "その他リンク",
+            value: "Podcast: https://podcast.example.test/sample-001",
+            kind: "paragraph",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "selfIntroduction",
+            label: "自己紹介",
+            value: messageHidden
+              ? ""
+              : "UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。",
+            kind: "paragraph",
+            visibility: "public",
+            source: "forms",
+          },
+        ]
+      : [];
+  return {
+    memberId: id,
+    summary: {
+      fullName: "佐藤 サンプル",
+      nickname: "sample",
+      location: "兵庫県神戸市",
+      occupation: "事業開発",
+      ubmZone: "Kobe",
+      ubmMembershipType: "regular",
     },
-  ],
-  attendance: [
-    { sessionId: "session_task18", title: "2026年5月 定例会", heldOn: "2026-05-12" },
-  ],
-  attendanceMeta: { hasMore: false, nextCursor: null },
-  tags: [{ code: "kobe", label: "Kobe", category: "zone" }],
-  photoUrl: publicPhotoUrl,
-});
+    publicSections: [
+      {
+        key: "profile",
+        title: "プロフィール",
+        fields: [
+          {
+            stableKey: "fullName",
+            label: "氏名",
+            value: "佐藤 サンプル",
+            kind: "shortText",
+            visibility: "public",
+            source: "forms",
+          },
+          {
+            stableKey: "nickname",
+            label: "ニックネーム",
+            value: "sample",
+            kind: "shortText",
+            visibility: "public",
+            source: "forms",
+          },
+          ...richFields,
+        ],
+      },
+    ],
+    attendance: [
+      { sessionId: "session_task18", title: "2026年5月 定例会", heldOn: "2026-05-12" },
+    ],
+    attendanceMeta: { hasMore: false, nextCursor: null },
+    tags: [{ code: "kobe", label: "Kobe", category: "zone" }],
+    photoUrl: publicPhotoUrl,
+  };
+};
 
 const publicList = (url) => {
   const q = url.searchParams.get("q") ?? "";
@@ -539,6 +655,21 @@ const server = createServer(async (req, res) => {
     }
     state.attendanceDashboardScenario = scenario;
     return writeJson(res, 200, { ok: true });
+  }
+  if (req.method === "POST" && pathname === "/__test__/public-member-detail") {
+    const body = await readBody(req);
+    const scenario = body && body.scenario;
+    if (
+      scenario !== "full" &&
+      scenario !== "sparse" &&
+      scenario !== "message-hidden"
+    ) {
+      return writeJson(res, 400, {
+        error: "invalid_public_member_detail_scenario",
+      });
+    }
+    state.publicMemberDetailScenario = scenario;
+    return writeJson(res, 200, { ok: true, scenario: state.publicMemberDetailScenario });
   }
 
   // /health: status field を含む（contract test の string match 対象）

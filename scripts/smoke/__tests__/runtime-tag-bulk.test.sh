@@ -36,6 +36,11 @@ run_expect_exit "unknown-env-refused" 2 env STAGING_API_BASE=http://staging.exam
 run_expect_exit "missing-api-base" 2 env STAGING_ADMIN_BEARER=stub bash "$RUNNER" staging
 run_expect_exit "production-url-refused" 2 env STAGING_API_BASE=https://ubm-hyogo-api-production.example.test STAGING_ADMIN_BEARER=stub bash "$RUNNER" staging
 run_expect_exit "d1-database-refused" 2 env STAGING_API_BASE=http://staging.example.test STAGING_ADMIN_BEARER=stub CF_D1_DATABASE=ubm-hyogo-db-production bash "$RUNNER" staging
+run_expect_exit "production-no-approval-refused" 2 env PRODUCTION_API_BASE=https://api.ubm-hyogo.workers.dev PRODUCTION_ADMIN_BEARER=stub bash "$RUNNER" production
+run_expect_exit "production-single-approval-refused" 2 env PRODUCTION_API_BASE=https://api.ubm-hyogo.workers.dev PRODUCTION_ADMIN_BEARER=stub BULK_TAG_PRODUCTION_SMOKE_APPROVAL=issue-1137-production-bulk-tag-smoke bash "$RUNNER" production
+run_expect_exit "production-wrong-host-refused" 2 env PRODUCTION_API_BASE=http://localhost:8787 PRODUCTION_ADMIN_BEARER=stub BULK_TAG_PRODUCTION_SMOKE_APPROVAL=issue-1137-production-bulk-tag-smoke BULK_TAG_PRODUCTION_SMOKE_CONFIRM=I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1 bash "$RUNNER" production
+run_expect_exit "production-host-substring-refused" 2 env PRODUCTION_API_BASE=https://example.test/path/api.ubm-hyogo.workers.dev PRODUCTION_ADMIN_BEARER=stub BULK_TAG_PRODUCTION_SMOKE_APPROVAL=issue-1137-production-bulk-tag-smoke BULK_TAG_PRODUCTION_SMOKE_CONFIRM=I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1 bash "$RUNNER" production
+run_expect_exit "production-d1-database-refused" 2 env PRODUCTION_API_BASE=https://api.ubm-hyogo.workers.dev PRODUCTION_ADMIN_BEARER=stub CF_D1_DATABASE=ubm-hyogo-db-staging BULK_TAG_PRODUCTION_SMOKE_APPROVAL=issue-1137-production-bulk-tag-smoke BULK_TAG_PRODUCTION_SMOKE_CONFIRM=I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1 bash "$RUNNER" production
 
 redacted="$(printf 'authorization: Bearer abc123tokenvalue0000\nCookie: __Secure-authjs.session-token=secretval\n' | bash "$REDACT")"
 if [[ "$redacted" == *"abc123tokenvalue0000"* || "$redacted" == *"secretval"* ]]; then
@@ -133,6 +138,26 @@ if [[ -f "$TEST_DIR/evidence/summary.json" ]] && jq -e '.status == "PASS"' "$TES
   echo "PASS [summary-pass]"
 else
   echo "FAIL [summary-pass]"
+  fail=$((fail + 1))
+fi
+
+rm -f "$TEST_DIR/issue1081_retry_seen" "$TEST_DIR/issue1081_unassigned_seen"
+set +e
+PATH="$FAKE_BIN:$PATH" \
+TMPDIR="$TEST_DIR" \
+PRODUCTION_API_BASE=https://api.ubm-hyogo.workers.dev \
+PRODUCTION_ADMIN_BEARER=stub-admin \
+BULK_TAG_PRODUCTION_SMOKE_APPROVAL=issue-1137-production-bulk-tag-smoke \
+BULK_TAG_PRODUCTION_SMOKE_CONFIRM=I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1 \
+CF_SH_PATH="$TEST_DIR/cf.sh" \
+  bash "$RUNNER" production --out-dir "$TEST_DIR/evidence-prod" --ci-summary --skip-seed >/dev/null 2>&1
+prod_runner_code=$?
+set -e
+assert_eq "0" "$prod_runner_code" "runner-production-stub-pass"
+if [[ -f "$TEST_DIR/evidence-prod/summary.json" ]] && jq -e '.status == "PASS"' "$TEST_DIR/evidence-prod/summary.json" >/dev/null; then
+  echo "PASS [production-summary-pass]"
+else
+  echo "FAIL [production-summary-pass]"
   fail=$((fail + 1))
 fi
 

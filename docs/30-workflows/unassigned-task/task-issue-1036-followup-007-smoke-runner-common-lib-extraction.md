@@ -1,3 +1,6 @@
+> **消費済み（consumed_by_issue_1138）**: 本未タスク仕様は workflow `issue-1138-smoke-runner-common-lib-extraction` で消費・実装済み。実装の正本は
+> `docs/30-workflows/completed-tasks/issue-1138-smoke-runner-common-lib-extraction/` に集約済み。本ファイルは Issue #1138 body の `spec_path` backlink 保護のため tombstone として現位置に維持する（移動しない）。
+
 ## メタ情報
 
 ```yaml

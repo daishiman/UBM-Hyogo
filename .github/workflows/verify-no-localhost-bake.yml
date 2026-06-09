@@ -3,13 +3,6 @@ name: verify-no-localhost-bake
 on:
   pull_request:
     branches: [main, dev]
-    paths:
-      - "apps/web/src/**"
-      - "apps/web/app/**"
-      - "apps/web/wrangler.toml"
-      - "scripts/verify-no-localhost-bake.sh"
-      - "scripts/verify-no-localhost-bake.spec.ts"
-      - ".github/workflows/verify-no-localhost-bake.yml"
   push:
     branches: [main, dev]
 
