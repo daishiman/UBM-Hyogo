@@ -6,7 +6,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const cloudflareEnv: {
   API_SERVICE?: { fetch: typeof fetch };
   NEXT_PUBLIC_API_BASE_URL?: string;
-  PUBLIC_API_BASE_URL?: string;
   ENVIRONMENT?: string;
 } = {};
 const cloudflareContext = vi.fn(() => ({ env: cloudflareEnv }));
@@ -29,11 +28,9 @@ import {
 const reset = () => {
   delete cloudflareEnv.API_SERVICE;
   delete cloudflareEnv.NEXT_PUBLIC_API_BASE_URL;
-  delete cloudflareEnv.PUBLIC_API_BASE_URL;
   delete cloudflareEnv.ENVIRONMENT;
   cloudflareContext.mockImplementation(() => ({ env: cloudflareEnv }));
   delete process.env.NEXT_PUBLIC_API_BASE_URL;
-  delete process.env.PUBLIC_API_BASE_URL;
   delete process.env.ENVIRONMENT;
 };
 
@@ -66,7 +63,6 @@ describe("fetchPublic", () => {
 
   it("NEXT_PUBLIC_API_BASE_URL を優先した外向き fetch", async () => {
     cloudflareEnv.NEXT_PUBLIC_API_BASE_URL = "https://api.example.com";
-    cloudflareEnv.PUBLIC_API_BASE_URL = "https://legacy.example.com";
     const spy = mockFetchOnce({ status: 200, body: { ok: 1 } });
     const r = await fetchPublic<{ ok: number }>("/v1/foo");
     expect(r).toEqual({ ok: 1 });
@@ -202,7 +198,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     reset();
   });
 
-  it("[AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる", async () => {
+  it("[AC-R-02] production context: NEXT_PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("CI", "");
     vi.stubEnv("PLAYWRIGHT_TEST", "");
@@ -228,7 +224,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     expect(url).toBe("https://service-binding.local/health");
   });
 
-  it("[AC-R-03] CI without Playwright flag: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる", async () => {
+  it("[AC-R-03] CI without Playwright flag: NEXT_PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("CI", "true");
     vi.stubEnv("PLAYWRIGHT_TEST", "");
@@ -252,7 +248,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     expect(globalFetchSpy).not.toHaveBeenCalled();
   });
 
-  it("[AC-R-01] NODE_ENV=test: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
+  it("[AC-R-01] NODE_ENV=test: NEXT_PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
     vi.stubEnv("NODE_ENV", "test");
     process.env.NEXT_PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
 
@@ -267,7 +263,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     expect(bindingFetch).not.toHaveBeenCalled();
   });
 
-  it("[edge-1] staging: PUBLIC_API_BASE_URL 未設定なら service binding が呼ばれる", async () => {
+  it("[edge-1] staging: NEXT_PUBLIC_API_BASE_URL 未設定なら service binding が呼ばれる", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("CI", "");
 
@@ -298,7 +294,7 @@ describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
     expect(url).toBe("http://localhost:8787/health");
   });
 
-  it("[edge-3] PLAYWRIGHT_TEST=1: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
+  it("[edge-3] PLAYWRIGHT_TEST=1: NEXT_PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
     vi.stubEnv("PLAYWRIGHT_TEST", "1");
     process.env.NEXT_PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
 

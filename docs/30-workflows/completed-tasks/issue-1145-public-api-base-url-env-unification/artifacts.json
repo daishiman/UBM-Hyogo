@@ -1,0 +1,90 @@
+{
+  "workflow_id": "issue-1145-public-api-base-url-env-unification",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "created_at": "2026-06-08",
+  "owner": "daishiman",
+  "branch": "refactor/issue-1138-smoke-runner-common-lib",
+  "issue": 1145,
+  "issue_state": "CLOSED",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "new",
+    "scope": "旧 PUBLIC_API_BASE_URL env を repo 全体（apps/web は削除・apps/og は NEXT_PUBLIC_API_BASE_URL へ rename）から消し単一化する。env schema/型/accessor/consumer/wrangler/.dev.vars.example/playwright config/spec 群の全 19 ファイルが対象。getApiBaseEnv() + ApiBaseEnv 型は production consumer 0 件のため関数ごと削除。base URL 値・解決優先順位・transport 選択は不変。API endpoint・D1 schema・Google Form は不変",
+    "implementation_files": [
+      "apps/web/src/lib/env.ts",
+      "apps/web/src/lib/fetch/public.ts",
+      "apps/web/wrangler.toml",
+      "apps/web/.dev.vars.example",
+      "apps/web/playwright.config.ts",
+      "apps/web/playwright.admin-schema-diff.config.ts",
+      "apps/og/src/member-source.ts",
+      "apps/og/wrangler.toml",
+      "apps/web/src/lib/__tests__/env.spec.ts",
+      "apps/web/src/lib/fetch/public.spec.ts",
+      "apps/web/src/lib/api/__tests__/public.spec.ts",
+      "apps/web/src/lib/__tests__/build-time-env.spec.ts",
+      "apps/web/src/lib/fetch/authed.spec.ts",
+      "apps/web/src/__tests__/instrumentation.runtime.spec.ts",
+      "apps/web/src/lib/admin/__tests__/server-fetch.env.spec.ts",
+      "apps/web/src/lib/admin/__tests__/server-fetch.binding.spec.ts",
+      "apps/web/src/lib/admin/__tests__/server-fetch.http-fallback.spec.ts",
+      "apps/og/src/__tests__/member-source.spec.ts",
+      "apps/og/src/__tests__/router.spec.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-08T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 と Phase 12 strict 7 outputs を作成し、implementation / NON_VISUAL として実装対象 19 ファイルを確定。issue #1145 を現行コードへ最適化（apps/og 編入・getApiBaseEnv 削除・package filter 名是正）"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-08T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: 実コード・設定・spec・GitHub Actions env injection・aiworkflow 正本同期を同一サイクルで実装。apps/.github 旧キー grep 0 件、web direct targeted 9 files / 79 tests PASS、og test 6 files / 23 tests PASS、web typecheck/lint PASS、og typecheck PASS。@ubm-hyogo/web package 全体 test は今回変更外の既存 UI spec 2 件 red のため Gate-B 証跡外"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit・push・PR・staging+production 再 deploy（wrangler vars 反映）・Issue mutation は user-gated"
+      }
+    ],
+    "implementation_status": "implemented_local_evidence_captured"
+  },
+  "phases": {
+    "phase-1": { "file": "phase-1/phase-1.md", "status": "completed" },
+    "phase-2": { "file": "phase-2/phase-2.md", "status": "completed" },
+    "phase-3": { "file": "phase-3/phase-3.md", "status": "completed" },
+    "phase-4": { "file": "phase-4/phase-4.md", "status": "completed" },
+    "phase-5": { "file": "phase-5/phase-5.md", "status": "completed" },
+    "phase-6": { "file": "phase-6/phase-6.md", "status": "completed" },
+    "phase-7": { "file": "phase-7/phase-7.md", "status": "completed" },
+    "phase-8": { "file": "phase-8/phase-8.md", "status": "completed" },
+    "phase-9": { "file": "phase-9/phase-9.md", "status": "completed" },
+    "phase-10": { "file": "phase-10/phase-10.md", "status": "completed" },
+    "phase-11": { "file": "phase-11/phase-11.md", "status": "completed" },
+    "phase-12": { "file": "phase-12/phase-12.md", "status": "completed" },
+    "phase-13": { "file": "phase-13/phase-13.md", "status": "pending_user_approval" }
+  },
+  "phase_12_outputs": [
+    "phase-12/main.md",
+    "phase-12/implementation-guide.md",
+    "phase-12/system-spec-update-summary.md",
+    "phase-12/documentation-changelog.md",
+    "phase-12/unassigned-task-detection.md",
+    "phase-12/skill-feedback-report.md",
+    "phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}
