@@ -10,6 +10,17 @@
 
 ## Server Fetch / Service Binding
 
+## Implementation Target Reclassification
+
+### SP-MDSP-001: 具体的な apps/packages 実装対象がある仕様書は `spec_created` で閉じない
+
+- **状況**: `member-data-source-precedence-and-profile-session-fix` は Phase 5 と artifacts metadata に migration / repository / mapper / route / web UI / integration mapper を具体的に列挙していた。
+- **問題**: 実装可能な apps/packages 差分があるのに `spec_created`・「実装 user-gated」・「コード差分 0」で Phase 12 PASS にすると、CONST_004/005 と Phase 5 の実装責務が矛盾する。
+- **解決策**: 外部操作（remote D1 apply、staging deploy、authenticated visual capture、commit/push/PR）だけを user-gated に分離し、ローカルで可能な実装・typecheck・focused tests・system spec sync・aiworkflow ledger sync は同一 cycle で完了させる。
+- **判定基準**: `implementation_files` が `apps/` / `packages/` / `scripts/` / migration を具体的に指し、外部認証や破壊的操作なしに編集・検証できるなら `implemented_local_runtime_pending` へ昇格する。
+- **禁止**: VISUAL screenshot 未取得を理由に、実装済みまたは実装可能な workflow を `spec_created` のまま閉じること。
+- **発見日**: 2026-06-09
+
 ### Admin server-fetch service-binding symmetry
 
 - **状況**: public fetch は Cloudflare `API_SERVICE` service-binding 優先なのに、admin server-fetch だけ `${INTERNAL_API_BASE_URL}` HTTP fetch のみで実装されていた。
@@ -499,6 +510,8 @@ dev → feature の sync-merge で発生した conflict 解消ルール（aiwork
 
 - **L-DEVSYNC-043 (`pnpm sync:resolve` 中の worktree `index.lock` 失敗)**: sync-merge を伴う Phase（特に Phase 5 / Phase 12 の skill index 更新 + Phase 13 PR 前）で `pnpm sync:resolve` が `fatal: Unable to create '.../worktrees/<wt>/index.lock'` で失敗するケースを runbook 化する。**仕様書側の Phase 12 implementation-guide / Phase 13 PR pre-flight チェックリスト**に「`pnpm sync:resolve` 失敗時は `rm -f $(git rev-parse --git-dir)/index.lock` を試す」troubleshoot 行を含めること（worktree 環境では `.git` がファイルなので `.git/index.lock` 直接除去はできない）。詳細手順は aiworkflow-requirements skill L-DEVSYNC-043 を参照。
 - **L-DEVSYNC-063 (並列WT での local dev 同期判定は `git rev-parse` ハッシュ比較を正本にする)**: 9 並列 worktree 運用では、別 WT のプロセスが同タイミングで fetch/同期を走らせると共有 `dev` ref が読み取り中に更新され、`git log -1 dev` 表示や `git rev-list --count` 初回値が **stale な behind/ahead** を返す。Phase 13 PR pre-flight / sync runbook で local dev 同期判定を記述する仕様には、「**`git rev-parse dev` == `git rev-parse origin/dev` の直接ハッシュ比較を一次ソースにし、`log`/`rev-list` 表示が矛盾したら rev-parse で再確認する**」ガードを含める。両ハッシュ一致なら dev 同期は no-op として skip し、`git rev-list --count origin/dev..dev` による独自コミット検出（中断条件）の誤発火を防ぐ。詳細は aiworkflow-requirements skill L-DEVSYNC-063 を参照。
+- **SP-DEVSYNC-118 (git mergeable でも CI が落ちる sync-merge — migration prefix 衝突 / static-manifest drift は専用 gate のみで顕在化・Phase 11 検証順に git 衝突と CI gate を別軸で明記)**: dev → feature の sync-merge が `git diff --diff-filter=U` 0 / PR `mergeable=MERGEABLE` でも、(1) **D1 migration prefix 衝突**（feature が先取りした `00NN_*.sql` と dev が land した別名 `00NN_*.sql` は git ではテキスト非衝突だが `pnpm verify:d1-migrations` が unregistered duplicate で fail）(2) **static-manifest hash drift**（spec source = `01-api-schema.md` 等を feature/取込が touch したのに `static-manifest.json` 未再生成で `pnpm verify:static-manifest` が `sourceSpecHashDrift`）(3) **coverage-gate の cascade fail**（`needs:[ci]` ゆえ ci job fail で shard skip → gate fail-closed）で落ちる。仕様書側の含意: ① **D1 migration を新設する spec は Phase 5 で「番号は予約宣言し、sync-merge 後に衝突したら新規側を空き番号へ renumber（exceptions 登録でなく繰り上げ）」を AC 化**（テストが `readdirSync` で migration を読むなら renumber は安全＝ファイル名ハードコード禁止を併記）。② **`01-api-schema.md` / manifest source spec を編集する spec は Phase 12 implementation-guide に `pnpm regenerate:static-manifest` を必須手順化**。③ **Phase 13 PR pre-flight チェックリストに「git 衝突解消（`--diff-filter=U` 0）と CI gate（`gh pr checks`）は別軸。`pnpm verify:d1-migrations` / `verify:static-manifest` はローカル `typecheck`/`lint` で緑でも CI で落ちるため個別実行する」を明記**。④ coverage-gate fail を見たら独立 debug でなく `needs` chain（ci job）の根本を先に直す。詳細は aiworkflow-requirements skill L-DEVSYNC-126 を参照。
+- **SP-DEVSYNC-117 (同一ソース surface の両側 delta が部分集合関係なら superset を丸ごと採用 — union でも `--ours`/`--theirs` 機械二択でもない)**: dev → feature の sync-merge で **resolver 非対応のソースファイル**（`apps/**` の `.ts` 等）が衝突した場合、Phase 12 implementation-guide / Phase 13 PR pre-flight の sync-merge 解消ルールに「**まず `git diff <merge-base> <ours>` と `git diff <merge-base> <theirs>` の delta 包含関係を判定してから解消方針を決める**」ガードを含める。判定は 3 分岐: (1) 一方の delta が他方に**完全包含**（部分集合）→ **superset 側を丸ごと採用（wholesale）**。本件 `build-seed-sql.ts` は ours=「3 キーをリテラルから `STABLE_KEY.*` 型定数へ置換するリファクタ」、theirs(#1170)=「同じ型定数化 **かつ** 26 キーへ拡張」で ours ⊂ theirs ゆえ theirs wholesale で損失ゼロ（union は二重定義でコンパイル不能、`--ours` は #1170 機能破壊）。(2) **互いに素**（別レイヤー・別関心事）→ 両意図を意味統合して両保持（L-DEVSYNC-124 の doc 直交統合と同型）。(3) 同一行を**矛盾方向**に変更し統合不能 → 最終レポートにエスカレーション。仕様書側の含意: 仕様が「既存定数/列挙の拡張」や「リテラル→型定数リファクタ」を伴うソースを touch する場合、Phase 11 sync-merge 見積りに「dev 側が同一定数を先に拡張していたら自 delta が部分集合化し theirs wholesale で解ける（手動統合不要）」を明記し、解消対象が `indexes` 入力 doc（`references/*.md` 等）でなければ merge commit 後の `indexes:rebuild` は冪等で別 commit 不要（解消対象が indexes 入力 doc の時のみ `chore(indexes)` 別 commit が要る＝SP-DEVSYNC-116 と弁別）。詳細は aiworkflow-requirements skill L-DEVSYNC-125 を参照。
 
 ## enum → route exhaustiveness guard pattern（issue-891）
 
