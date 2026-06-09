@@ -122,7 +122,7 @@ cd apps/web && mise exec -- pnpm vitest run app/\(member\)/profile src/component
 ## 3. 実機操作の前提（user-gated・本サイクル未実施）
 
 - staging deploy（`apps/api` / `apps/web`）— user-gated（Phase 13）。
-- D1 migration `0027_member_field_overrides.sql` の apply — user-gated（`bash scripts/cf.sh d1 migrations apply`）。
+- D1 migration `0028_member_field_overrides.sql` の apply — user-gated（`bash scripts/cf.sh d1 migrations apply`）。
 - admin / 会員ログイン（bearer mint）— user-gated。
 - staging `/me` のログイン状態 status 実測（RC-3 真因 H-2 transport / H-3 DB 例外の切り分け）— Lane E 実機ログとして Gate-B 時に user-gated。
 

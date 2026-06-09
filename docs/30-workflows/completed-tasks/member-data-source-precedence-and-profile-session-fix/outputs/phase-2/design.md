@@ -17,7 +17,7 @@ updated: 2026-06-09
 - projection = 純関数（state 無し・use-case/builder が DI）
 
 ## Lane A: DDL
-- `0027_member_field_overrides.sql`: テーブル `member_field_overrides(member_id, stable_key, value_json, raw_value_json, updated_by, updated_at, PK(member_id, stable_key))` + `member_identities` へ `seed_source` / `seed_imported_at` 列追加（ALTER）。FK は張らない（既存設計整合・app 層で identity 存在確認）。provenance を別テーブルにしない根拠 = identity と 1:1 で列追加が最小。
+- `0028_member_field_overrides.sql`: テーブル `member_field_overrides(member_id, stable_key, value_json, raw_value_json, updated_by, updated_at, PK(member_id, stable_key))` + `member_identities` へ `seed_source` / `seed_imported_at` 列追加（ALTER）。FK は張らない（既存設計整合・app 層で identity 存在確認）。provenance を別テーブルにしない根拠 = identity と 1:1 で列追加が最小。
 - repository `memberFieldOverrides.ts`: `listOverridesByMemberId` / `listOverridesByMemberIds` / `upsertOverride` / `deleteOverride`。
 - `identities.ts`: `getSeedProvenance` / `markSeedImported`（seed_source IS NULL のときのみ書く＝ import-once 根拠）。
 

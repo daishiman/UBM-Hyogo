@@ -31,7 +31,7 @@ updated: 2026-06-09
 ### 1.1 `member_field_overrides` テーブル DDL
 
 ```sql
--- apps/api/migrations/0027_member_field_overrides.sql
+-- apps/api/migrations/0028_member_field_overrides.sql
 -- L1 admin override（Form schema 外の admin-managed data・不変条件 #4）。
 -- 再同期（L2 Form 再回答 / L3 Sheets seed）で絶対に上書きされない確定編集値。
 

@@ -93,7 +93,7 @@ SSOT 記載の33列ヘッダーは Google Drive MCP 実取得値として採用�
 - `member_responses(response_id PK, form_id, revision_id, schema_hash, response_email, submitted_at, edit_response_url, answers_json NOT NULL, raw_answers_json, extra_fields_json, unmapped_question_ids_json, search_text)` — **氏名・職業等の個別列は存在しない**（`answers_json` / `extra_fields_json` のみ）。
 - `response_fields(response_id, stable_key, value_json, raw_value_json, PK(response_id, stable_key))` — 表示の正本。
 - `member_status(member_id PK, public_consent, rules_consent, publish_state, is_deleted, hidden_reason, last_notified_at, updated_by, updated_at)` — admin-managed。
-- 既存 migration 最新番号: **0026**（`0026_member_status_fk_constraint.sql`）。同番号複数あり（0002/0008/0014/0015/0020 が二重）。新規 migration は **`0027_member_field_overrides.sql`** を採番（衝突回避）。命名規則は `00NN_snake_case.sql`。
+- 既存 migration 最新番号: **0027**（dev #1167 `0027_audit_log_batchid_index.sql` が land 済）。同番号複数あり（0002/0008/0014/0015/0020 が二重）。新規 migration は **`0028_member_field_overrides.sql`** を採番（0027 は sync-merge で dev と衝突したため 0028 へ繰り上げ）。命名規則は `00NN_snake_case.sql`。
 
 ### 5.3 🔴 RC-1 訂正注記（Sheets 経路は SQL レベルで壊れている）
 
@@ -169,7 +169,7 @@ publicConsent, rulesConsent                                            // sectio
 
 | # | ファイル | 種別 | Lane | 内容 |
 |---|---------|------|------|------|
-| 1 | `apps/api/migrations/0027_member_field_overrides.sql` | 新規 | A | `member_field_overrides` テーブル + `member_identities` への `seed_source` / `seed_imported_at` 列追加 |
+| 1 | `apps/api/migrations/0028_member_field_overrides.sql` | 新規 | A | `member_field_overrides` テーブル + `member_identities` への `seed_source` / `seed_imported_at` 列追加 |
 | 2 | `apps/api/src/repository/memberFieldOverrides.ts` | 新規 | A | override の upsert / delete / list（memberId 単位）|
 | 3 | `apps/api/src/repository/identities.ts` | 編集 | A | provenance 列 read/write helper（`markSeedImported` / `getSeedProvenance`）追加 |
 | 4 | `apps/api/src/jobs/mappers/sheets-to-members.ts` | 編集 | B | `DB_FIELD_MAP` の key を実ヘッダーへ是正 + `CONSENT_MAP` 実値追加 + zone/status 値正規化 + 出力モデルを `response_fields`/`answers_json` 互換へ変更 |
@@ -202,7 +202,7 @@ publicConsent, rulesConsent                                            // sectio
 | repository ファイル | **camelCase**（`memberPhotos.ts`, `memberTags.ts`, `responseFields.ts`, `adminNotes.ts`, `schemaAliases.ts`）。例外: `attendance-analytics.ts`, `identity-conflict.ts`, `identity-merge.ts`（kebab）。多数派は camelCase。 | `memberFieldOverrides.ts` | ✅ camelCase 多数派と整合 |
 | use-case 共通純関数 | `use-cases/_shared/` 既存。ファイルは kebab（例: `search-query-parser.ts`, `pagination.ts`）が多い | `field-precedence.ts` | ✅ kebab と整合 |
 | admin route ファイル | **kebab-case**（`member-status.ts`, `member-notes.ts`, `member-delete.ts`, `identity-conflicts.ts`）| `member-fields.ts` | ✅ kebab と整合 |
-| migration | `00NN_snake_case.sql`（最新 0026・複数二重番号あり）| `0027_member_field_overrides.sql` | ✅ 採番衝突回避（27 は未使用）|
+| migration | `00NN_snake_case.sql`（最新 0026・複数二重番号あり）| `0028_member_field_overrides.sql` | ✅ 採番衝突回避（0027 は dev #1167 audit_log_batchid_index が使用済のため 0028 へ採番）|
 | admin web component | **PascalCase**（`apps/web/src/components/admin/` 配下）| `MemberFieldEditor.tsx` | ✅ 整合 / 不変条件 #9 = `<input>` 直書き禁止 → `FormField` 経由 |
 | admin mutation hook | `@/features/admin/hooks/useAdminMutation`（不変条件 #10・legacy `@/lib/useAdminMutation` 禁止）| 既存 hook 再利用 | ✅ |
 
@@ -246,7 +246,7 @@ mise exec -- pnpm vitest run \
 
 ### migration 検証（user-gated）
 ```
-bash scripts/cf.sh d1 migrations list <db>   # 0027 が表示されること
+bash scripts/cf.sh d1 migrations list <db>   # 0028 が表示されること
 # SELECT で member_field_overrides / member_identities.seed_source 列存在確認（Phase 4 に SQL 記載）
 ```
 

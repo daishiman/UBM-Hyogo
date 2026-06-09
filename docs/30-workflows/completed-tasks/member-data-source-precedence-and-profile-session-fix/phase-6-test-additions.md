@@ -34,7 +34,7 @@ Phase 4（happy path 中心の RED→GREEN）を補完し、**fail path・回帰
   - `getOverrides` 0 件 → 空 map（null/undefined を返さない）。
   - 不正 `value_json`（非 JSON）混入行が `json_valid` ガードで読み飛ばされ全体が落ちない（CORR と D1 JSON 方針）。
   - `deleteOverride` 存在しない key → no-op（例外なし）。
-- migration `0027`:
+- migration `0028`:
   - 補助 command（§4）で列/テーブル存在を SQL 検証。`seed_source`/`seed_imported_at` の DEFAULT と NULL 許容を確認。
 
 ### Lane B — ingestion

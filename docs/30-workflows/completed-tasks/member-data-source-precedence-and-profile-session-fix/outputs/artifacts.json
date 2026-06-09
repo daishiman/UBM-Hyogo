@@ -23,7 +23,7 @@
     "depends_on": [],
     "lanes": ["A:data-model", "B:ingestion", "C:projection-and-admin-write", "D:web-ui", "E:profile-session-fix"],
     "implementation_files": [
-      "apps/api/migrations/0027_member_field_overrides.sql",
+      "apps/api/migrations/0028_member_field_overrides.sql",
       "apps/api/src/repository/memberFieldOverrides.ts",
       "apps/api/src/repository/members.ts",
       "apps/api/src/repository/_shared/builder.ts",

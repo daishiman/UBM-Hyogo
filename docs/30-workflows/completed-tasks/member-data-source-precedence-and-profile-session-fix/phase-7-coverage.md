@@ -232,7 +232,7 @@ cd apps/web && mise exec -- pnpm vitest run \
 
 | 非対象 | 理由 |
 |--------|------|
-| `apps/api/migrations/0027_*.sql` | SQL DDL は実行で検証（migration apply・user-gated）。coverage 対象外。 |
+| `apps/api/migrations/0028_*.sql` | SQL DDL は実行で検証（migration apply・user-gated）。coverage 対象外。 |
 | `apps/web/app/(admin)/admin/members/[id]/...`（editor 配置箇所のページ統合）| 配置のみの場合は coverage 寄与小。behavior は `MemberFieldEditor.spec.tsx` で被覆。 |
 | リポジトリ全体の閾値 gate 新設 | YAGNI（既存 coverage-guard 運用に委ねる・広域指定回避 Feedback BEFORE-QUIT-005）|
 | 既存 Form 経路の非変更ブロック | 本タスクで触らない行は対象外（変更ブロック限定原則）|

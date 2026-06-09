@@ -20,7 +20,7 @@ updated: 2026-06-09
 
 | # | パス | 種別 | Lane |
 |---|------|------|------|
-| 1 | `apps/api/migrations/0027_member_field_overrides.sql` | 新規 | A |
+| 1 | `apps/api/migrations/0028_member_field_overrides.sql` | 新規 | A |
 | 2 | `apps/api/src/repository/memberFieldOverrides.ts` | 新規 | A |
 | 3 | `apps/api/src/repository/identities.ts` | 編集 | A |
 | 4 | `apps/api/src/jobs/mappers/sheets-to-members.ts` | 編集 | B |
@@ -49,12 +49,12 @@ updated: 2026-06-09
 
 ## Lane A — データモデル基盤（NON_VISUAL・直列ゲート）
 
-### A-1. migration（新規）`apps/api/migrations/0027_member_field_overrides.sql`
+### A-1. migration（新規）`apps/api/migrations/0028_member_field_overrides.sql`
 
 DDL 全文（`phase-2-design.md` §1.1 を正本・採番 CORR-6）:
 
 ```sql
--- apps/api/migrations/0027_member_field_overrides.sql
+-- apps/api/migrations/0028_member_field_overrides.sql
 -- L1 admin override（Form schema 外の admin-managed data・不変条件 #4）。
 -- 再同期（L2 Form 再回答 / L3 Sheets seed）で絶対に上書きされない確定編集値。
 
@@ -208,11 +208,11 @@ export async function markSeedImported(
 - `MemberIdentityRow`（`members.ts`）には `seed_source`/`seed_imported_at` を追加しない（`SELECT *` で拾えるが型に列挙不要・読み手は `getSeedProvenance` を使う）。型を足したい場合は optional で追加。
 
 ### Lane A DoD
-- [ ] `0027_member_field_overrides.sql` が命名規則（`00NN_snake_case.sql`）に合致・採番 0027。
+- [ ] `0028_member_field_overrides.sql` が命名規則（`00NN_snake_case.sql`）に合致・採番 0028。
 - [ ] `memberFieldOverrides.ts` の 4 関数が export され A-1 spec 全 pass。
 - [ ] `markSeedImported` の二重呼び出しが no-op（A-2 spec）。
 - [ ] `pnpm typecheck`（apps/api）緑。
-- 想定動作確認: in-memory D1 に 0027 を apply→ upsert/list/delete 往復、`markSeedImported` 冪等を spec で確認。
+- 想定動作確認: in-memory D1 に 0028 を apply→ upsert/list/delete 往復、`markSeedImported` 冪等を spec で確認。
 
 ---
 
@@ -778,7 +778,7 @@ cd apps/web && mise exec -- pnpm vitest run 'app/(member)/profile' src/component
 
 **user-gated（本 Phase で実行しない）**:
 ```bash
-bash scripts/cf.sh d1 migrations apply <db>     # 0027 適用
+bash scripts/cf.sh d1 migrations apply <db>     # 0028 適用
 # staging deploy / commit / PR / staging 実機 /me status 切り分け
 ```
 

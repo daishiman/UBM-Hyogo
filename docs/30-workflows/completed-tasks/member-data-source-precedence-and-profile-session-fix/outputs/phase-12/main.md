@@ -29,7 +29,7 @@ Google Form / 回答スプレッドシートの会員情報を公開一覧 `/mem
 
 | Lane | 責務 | 結論 |
 |------|------|------|
-| A | データモデル基盤（override テーブル 0027 + provenance 列） | 実装済み |
+| A | データモデル基盤（override テーブル 0028 + provenance 列） | 実装済み |
 | B | 取込是正（Sheets を response_fields 書込モデルへ合流 + ラベル/同意/enum 正規化 + import-once） | 実装済み |
 | C | 表示プレシデンス純関数 `field-precedence.ts` + `PUT /admin/member-fields/:memberId` | 実装済み |
 | D | Web UI（admin drawer field editor + 公開/会員 merged 表示） | 実装済み・runtime visual pending |

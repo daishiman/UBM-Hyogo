@@ -18,7 +18,7 @@ updated: 2026-06-09
 1. 実装（Lane A → B/C-1/E 並列 → C-2 → D → 統合検証）が完了している。
 2. Phase 11 計画コマンド（typecheck / lint / 対象 vitest / HEX gate）がローカルで GREEN。
 3. Lane D の screenshot を user-gated で取得済み（`outputs/phase-11/screenshots/<component>-<state>.png`）。
-4. D1 migration `0027_member_field_overrides.sql` を staging に apply 済み（user-gated）。
+4. D1 migration `0028_member_field_overrides.sql` を staging に apply 済み（user-gated）。
 
 ---
 
@@ -31,7 +31,7 @@ updated: 2026-06-09
 git add -A
 git commit -m "feat(member): 会員データソース3層プレシデンス反映 + /profile セッションエラー修正
 
-- Lane A: member_field_overrides テーブル(0027) + member_identities provenance 列
+- Lane A: member_field_overrides テーブル(0028) + member_identities provenance 列
 - Lane B: Sheets 経路を response_fields 書込モデルへ合流 + RC-1/RC-2 ラベル・同意マップ是正 + import-once
 - Lane C: field-precedence 純関数 projection + PUT /admin/member-fields/:memberId
 - Lane D: MemberFieldEditor(admin) + 公開/会員 merged 表示
@@ -65,7 +65,7 @@ gh pr create --base dev \
 
 ```bash
 # staging
-bash scripts/cf.sh d1 migrations list ubm-hyogo-db --env staging      # 0027 が pending であること
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db --env staging      # 0028 が pending であること
 bash scripts/cf.sh d1 migrations apply ubm-hyogo-db --env staging     # user 承認後
 # production（dev→main マージ後・別承認）
 bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production

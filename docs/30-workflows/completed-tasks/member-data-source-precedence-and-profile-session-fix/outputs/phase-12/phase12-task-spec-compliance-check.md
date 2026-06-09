@@ -81,7 +81,7 @@ commit / PR / D1 適用 / deploy / 認証済み visual capture は user-gated。
 | 実装（Lane A-E コード） | ローカル実装済み |
 | focused vitest / typecheck / migration verifier | PASS |
 | VISUAL screenshot（6 PNG） | user-gated（本サイクル PNG 0） |
-| D1 migration `0027` apply | user-gated（Phase 13） |
+| D1 migration `0028` apply | user-gated（Phase 13） |
 | commit / push / PR（base=dev） | user-gated（Phase 13） |
 | staging / production deploy | user-gated（Phase 13） |
 | Lane E staging 実機ログ切り分け | Gate-B 時 user-gated |

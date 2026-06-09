@@ -61,7 +61,7 @@ updated: 2026-06-09
 | getSeedProvenance 未取込 | seed_source NULL | get | `{seedSource:null, seedImportedAt:null}` |
 | getSeedProvenance 取込済 | seed_source="forms" | get | `{seedSource:"forms", seedImportedAt:"..."}` |
 
-> migration 適用は user-gated（§6）。spec はテーブル/列が存在する前提（in-memory D1 に 0027 SQL を apply するヘルパー）で書く。
+> migration 適用は user-gated（§6）。spec はテーブル/列が存在する前提（in-memory D1 に 0028 SQL を apply するヘルパー）で書く。
 
 ---
 
@@ -250,7 +250,7 @@ mise exec -- pnpm vitest run \
 
 ### migration 検証（user-gated）
 ```bash
-bash scripts/cf.sh d1 migrations list <db>   # 0027 が表示されること（適用後）
+bash scripts/cf.sh d1 migrations list <db>   # 0028 が表示されること（適用後）
 # 列存在確認 SQL（Phase 6 §補助 command にも記載）:
 #   SELECT name FROM pragma_table_info('member_identities') WHERE name IN ('seed_source','seed_imported_at');
 #   SELECT name FROM sqlite_master WHERE type='table' AND name='member_field_overrides';
@@ -272,7 +272,7 @@ bash scripts/cf.sh d1 migrations list <db>   # 0027 が表示されること（�
 
 ## 4. テスト fixture 方針
 
-- in-memory D1: 既存 spec が使う test ctx helper（`ctx({DB})` + better-sqlite3 / Miniflare D1 のいずれか・既存 repository spec の方式に合流）を再利用。0027 migration の DDL を beforeEach で apply。
+- in-memory D1: 既存 spec が使う test ctx helper（`ctx({DB})` + better-sqlite3 / Miniflare D1 のいずれか・既存 repository spec の方式に合流）を再利用。0028 migration の DDL を beforeEach で apply。
 - `findIdentityByEmail` 等の repository 関数は B-2 / C-3 では**実 D1 fixture**で検証（mock しない・SQL 整合まで確認）。Lane D の web は `window.api` を `Object.defineProperty` で mock（VSCPKR-02）。
 - contract test は `Hono` app を直接 request（`app.request("/admin/member-fields/m1", {...})`）。auditLogProvider は fake provider を DI（既存 `member-status.contract.spec.ts` の provider middleware 注入パターン）。
 

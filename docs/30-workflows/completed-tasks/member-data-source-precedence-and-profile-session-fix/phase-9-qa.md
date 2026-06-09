@@ -51,7 +51,7 @@ updated: 2026-06-09
 | **admin form input = FormField**（不変条件 #9）| `apps/web/src/components/admin/` で `<input>` 直書き禁止 | `grep -rn "<input" apps/web/src/components/admin/MemberFieldEditor.tsx` | 0 件（`FormField` 経由）|
 | **admin mutation = useAdminMutation**（不変条件 #10）| legacy `@/lib/useAdminMutation` 新規参照禁止 | `grep -rn "@/lib/useAdminMutation" apps/web` の新規追加 | 新規 0（`@/features/admin/hooks/useAdminMutation` 使用）|
 | **consent キー統一**（不変条件 #2/#3）| `publicConsent` / `rulesConsent`・`responseEmail` は system field | spec / 実装の stableKey 使用箇所目視 + stablekey lint | `lint:stablekey:strict` PASS |
-| **migration 採番衝突 0**（CORR-6）| `0027_member_field_overrides.sql` が一意 | `mise exec -- pnpm verify:d1-migrations`（`scripts/verify-d1-migration-sequence.mjs`）| 0027 衝突なし |
+| **migration 採番衝突 0**（CORR-6）| `0028_member_field_overrides.sql` が一意 | `mise exec -- pnpm verify:d1-migrations`（`scripts/verify-d1-migration-sequence.mjs`）| 0028 衝突なし |
 | **stableKey リテラル直書き禁止**（lint）| stableKey は `STABLE_KEY.*` 経由 | `mise exec -- pnpm lint:stablekey:strict` | PASS |
 
 ---
@@ -66,7 +66,7 @@ updated: 2026-06-09
 | packages vitest | Phase 7 §3.3 | `mapper.spec.ts` PASS（2 ラベル解決）|
 | web vitest | Phase 7 §3.4（`--root ../..` 必須）| 対象 spec 全 PASS |
 | token gate | `mise exec -- pnpm verify:tokens` | HEX 0 |
-| migration 採番 | `mise exec -- pnpm verify:d1-migrations` | 0027 一意 |
+| migration 採番 | `mise exec -- pnpm verify:d1-migrations` | 0028 一意 |
 
 ### 4.1 一括 DoD コマンド列（SSOT §10 を本タスク対象に具体化）
 

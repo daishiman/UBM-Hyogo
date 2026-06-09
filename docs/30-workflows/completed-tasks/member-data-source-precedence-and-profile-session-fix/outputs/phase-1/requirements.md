@@ -31,13 +31,13 @@ AC-1..AC-9（正本 §2）。要点: AC-1 は「ラベル一致 + `response_fiel
 3. **Form 経路も RC-1 該当**: `mapper.ts` の label `X URL`（実 `X（Twitter）URL`）/ `その他の SNS・URL`（実 `その他のSNS・URL`）が不一致 → urlX/urlOthers が slug fallback。
 4. **integrations パス**: `packages/integrations/google/src/forms/mapper.ts`（SSOT の `packages/integrations-google` は不正確）。
 5. **STABLE_KEY = camelCase**（`response_fields.stable_key` も camelCase）。31 key。
-6. **最新 migration = 0026**（二重番号あり）→ 新規 `0027_member_field_overrides.sql`。
+6. **最新 migration = 0026**（二重番号あり）→ 新規 `0028_member_field_overrides.sql`。
 
 ## 命名規則
 - repository: camelCase 多数派 → `memberFieldOverrides.ts`
 - use-case 共通: kebab → `field-precedence.ts`
 - admin route: kebab → `member-fields.ts`
-- migration: `00NN_snake.sql` → `0027_member_field_overrides.sql`
+- migration: `00NN_snake.sql` → `0028_member_field_overrides.sql`
 - admin web component: PascalCase → `MemberFieldEditor.tsx`
 
 ## inventory / targeted vitest

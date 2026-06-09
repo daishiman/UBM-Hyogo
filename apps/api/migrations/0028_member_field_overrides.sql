@@ -1,4 +1,4 @@
--- 0027_member_field_overrides.sql
+-- 0028_member_field_overrides.sql
 -- member data source precedence: L1 admin override > L2 form response > L3 sheet seed.
 
 ALTER TABLE member_identities

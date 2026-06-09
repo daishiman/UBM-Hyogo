@@ -7,7 +7,7 @@
 | workflow root | `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` |
 | status | `implemented_local_runtime_pending / implementation / VISUAL` |
 | purpose | 会員プロフィール表示を L1 管理者確定編集 > L2 Google Form 本人再回答 > L3 Sheets seed に統一し、`/profile` session failure を fail-safe にする |
-| implementation | `apps/api/migrations/0027_member_field_overrides.sql`, `apps/api/src/repository/memberFieldOverrides.ts`, `apps/api/src/use-cases/_shared/field-precedence.ts`, `apps/api/src/routes/admin/member-fields.ts`, `apps/web/src/components/admin/MemberFieldEditor.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| implementation | `apps/api/migrations/0028_member_field_overrides.sql`, `apps/api/src/repository/memberFieldOverrides.ts`, `apps/api/src/use-cases/_shared/field-precedence.ts`, `apps/api/src/routes/admin/member-fields.ts`, `apps/web/src/components/admin/MemberFieldEditor.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
 | evidence | D1 migration verifier PASS; API/Web typecheck PASS; focused Vitest 27 PASS; D1 contract Vitest 35 PASS |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md` |
 | user gate | remote D1 apply, staging deploy, authenticated visual capture, commit, push, PR |

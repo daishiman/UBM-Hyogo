@@ -68,7 +68,7 @@
 
 ### Lane A — データモデル基盤
 
-#### migration `apps/api/migrations/0027_member_field_overrides.sql`（新規・CORR-6 採番）
+#### migration `apps/api/migrations/0028_member_field_overrides.sql`（新規・CORR-6 採番）
 
 ```sql
 CREATE TABLE IF NOT EXISTS member_field_overrides (

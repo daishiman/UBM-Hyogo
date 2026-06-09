@@ -230,8 +230,8 @@ cd apps/web && mise exec -- pnpm vitest run app/\(member\)/profile src/component
 - **CORR-3（Form 経路も RC-1 該当・限定的）**: `packages/integrations/google/src/forms/mapper.ts` の `STABLE_KEY_BY_LABEL` のうち **`"X URL"`（実ヘッダー `"X（Twitter）URL"`）** と **`"その他の SNS・URL"`（実 `"その他のSNS・URL"`・全角スペース差）** の 2 ラベルが不一致 → `urlX`/`urlOthers` が slug fallback で unknown 化。残り 29 ラベルは一致。Lane B で 2 ラベルを実ヘッダーに合わせる。
 - **CORR-4（パス訂正）**: integrations 実体は `packages/integrations/google/src/forms/mapper.ts`（SSOT の `packages/integrations-google` は誤記）。
 - **CORR-5（値ドメイン正規化）**: `STABLE_KEY` は **camelCase**（`response_fields.stable_key` も camelCase・31 key）。enum 値（例 `ubmZone="0_to_1"`）と実スプレッドシート値（`"0→1"` / `"会員"`）が異なるため、**取込時に値ドメイン正規化**（`"0→1"`→`"0_to_1"` 等のマップ）が必要。Lane B のマッピング設計に含める（既存 memory `project_members_search_filter_ux_and_api_fix_spec` の真因とも整合）。
-- **CORR-6（採番）**: 最新 migration = `0026_member_status_fk_constraint.sql` → 新規は **`0027_member_field_overrides.sql`**。
-- **CORR-7（provenance 設計確定）**: import-once provenance は別テーブルではなく **`member_identities` に 2 列追加**（`seed_source TEXT` / `seed_imported_at TEXT`。identity と 1:1・最小コスト）。同 migration 0027 に同梱。
+- **CORR-6（採番）**: 最新 migration = `0026_member_status_fk_constraint.sql` → 新規は **`0028_member_field_overrides.sql`**。
+- **CORR-7（provenance 設計確定）**: import-once provenance は別テーブルではなく **`member_identities` に 2 列追加**（`seed_source TEXT` / `seed_imported_at TEXT`。identity と 1:1・最小コスト）。同 migration 0028 に同梱。
 - **CORR-8（projection 純関数）**: `apps/api/src/use-cases/_shared/field-precedence.ts`（純関数 `resolveFieldValue` / `mergeFieldOverrides`）を 1 つ作り、list / detail / (me/profile) の 3 経路で共有する（ロジック重複排除・branch 100%）。
 
 > 詳細な DDL・関数シグネチャ・契約は `phase-2-design.md` を正本とする。
