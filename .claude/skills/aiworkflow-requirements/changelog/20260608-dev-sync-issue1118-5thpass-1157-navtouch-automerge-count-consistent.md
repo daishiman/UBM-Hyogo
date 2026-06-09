@@ -1,0 +1,14 @@
+# dev sync: #1157（参照付き tag の強制移行つき物理削除・issue-1117）1 コミット取込で union 4 + keywords `--ours`・**nav 系 file を touch するが Auto-merge で件数整合維持**・CI コード修正 0 で全緑（2026-06-08 issue-1118 ブランチ **五度目以降**）
+
+- 日時: 2026-06-08（`docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` への dev 取込）
+- ブランチ: `docs/issue-1118-admin-tag-catalog-lifecycle-ui-spec` ← `dev`（sub-worktree wt-18・**1 behind / 13 ahead**・ローカル dev vs origin/dev = 0/0 → メイン WT `--ff-only` は `Already up to date`（dev = origin/dev = `596fc0c24`）・独自 0）
+- 関連: 直前 4th pass [[20260608-dev-sync-issue1118-4thpass-1161-singlecommit-union5-keywords-ours]] / **L-DEVSYNC-122**（nav 件数 drift の遅延顕在化）の直接適用回 / `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md`
+- 取込: dev 新規 1 コミット = `596fc0c24`（#1157 = issue-1117 参照付き tag の強制移行つき物理削除）。close-out 一式を同梱。
+- 事象: content CONFLICT は **union 4（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md`）+ `keywords.json`（`--ours`）**・`task-workflow-active.md` は今回 Auto-merge。
+- **🔴 L-DEVSYNC-122 直接適用 — nav 系 file を touch する取込だが今回は Auto-merge で件数整合が維持された**:
+  - 取込 #1157 は `apps/web/src/components/shell/{shell-config.ts,icons.tsx}` + `SidebarShell.spec.tsx` + `SidebarShell.server.spec.tsx` + `sidebar-shell-smoke.spec.ts` + `shell-config.spec.ts` を **diff 上 touch**（`git diff 97e7dfca1 596fc0c24` に出現）。これは L-DEVSYNC-122 が警告する「nav 本体が dev 取込で変化 → 件数 drift リスク」のリスクゾーン。
+  - ただし今回は **git Auto-merge で衝突なし**、かつ私の直前修正（4th pass の admin 16 化）と dev #1157 の nav 状態が**両立**したため、マージ後の状態は **shell-config admin items = 12（dashboard/attendance/members/tag-master/tag-queue/tag-catalog/schema/meeting/requests/identity/audit/form-responses）・総レンダ 16・全件数 spec が 16/12 で整合**。
+  - **L-DEVSYNC-122-B を実行して確認**（typecheck/lint だけでは件数を見ないため不十分）: `vitest run --root . apps/web/src/components/shell` = **12 files / 77 tests 全 pass**（SidebarShell unit 17 + shell-config.spec.ts admin items 12 整合）。残 15 参照 grep 0。→ **nav touch 取込では「衝突有無に関わらず件数 full test を必ず回す」運用が正しく機能した実例**。
+- 解消: `pnpm sync:resolve` 1 回（`union-resolving 4 files` + `taking --ours for 1 derived files` keywords + rebuild, exit 0）→ `--diff-filter=U` 0 / マーカー 0。
+- 検証順: `git fetch --prune origin` → dev own 0 → メイン WT `--ff-only` = `Already up to date`（`596fc0c24`）→ `git rev-list --left-right --count origin/dev...HEAD` = 1/13 → `git merge dev --no-edit` CONFLICT（union 4 + keywords）→ `pnpm sync:resolve`（4 union + keywords `--ours` + rebuild）→ マーカー 0 → `git commit --no-edit`（merge commit `300f05926`・lefthook 全 pass・staged-task-dir-guard MERGE_HEAD auto-skip）→ **nav touch ゆえ L-DEVSYNC-122-B 適用**: `vitest run apps/web/src/components/shell` 77 pass → `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm verify:static-manifest` OK（#1157 が `static-manifest.json` touch）/ `indexes:rebuild` 冪等（drift 0）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（L-DEVSYNC-122 が定めた「nav touch 取込での件数 full test 必須化」が衝突なし Auto-merge ケースでも機能した適用実例）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は起こさず L-DEVSYNC-122 の適用データとして記録。

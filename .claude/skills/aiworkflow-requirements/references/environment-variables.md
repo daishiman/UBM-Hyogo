@@ -482,7 +482,7 @@ CD 有効化に必要な GitHub Actions 値は、1Password Environments を正�
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | Yes for backend-ci | backend-ci D1 migration step。`with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret を渡す |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | Yes for backend-ci | backend-ci Workers deploy step。`with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret を渡す |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | GitHub repository variable | Yes | Cloudflare account 識別。workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照 |
-| `CF_TOKEN_ISSUED_AT` | Variable | GitHub repository variable | Yes | Cloudflare API Token production 発行日。`.github/workflows/cf-token-rotation-reminder.yml` が 85 日経過判定に使用 |
+| `CF_TOKEN_ISSUED_AT` | Variable | GitHub repository variable | No | Retired。90 day calendar rotation は 2026-06-08 に廃止し、`cf-token-rotation-reminder.yml` も削除済み。新規 consumer を追加しない。current policy は `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` の event-based revocation |
 | `DISCORD_WEBHOOK_URL` | Secret | GitHub repository secret | No | CD 結果通知 |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Deleted by Issue #638 | Issue #331 cleanup 後の `web-cd.yml` では未参照。rollback POST は別途 user approval marker 後のみ。復元値は `ubm-hyogo-web` |
 
