@@ -22,7 +22,7 @@ test.describe("serial-06 public member detail binding", () => {
     await expect(page.locator('[data-page="public-member-detail"]')).toBeVisible();
     await expect(page.locator('[data-component="profile-hero"]')).toBeVisible();
     await expect(page.locator('[data-section="profile"]')).toBeVisible();
-    await expect(page.locator('[data-stable-key="member_display_name"]')).toBeVisible();
+    await expect(page.locator('[data-stable-key="urlOthers"]')).toBeVisible();
     await expect(page.locator('[data-section="activity"]')).toBeVisible();
     await expect(page.locator('[data-stable-key="attendance:session_task18"]')).toBeVisible();
 

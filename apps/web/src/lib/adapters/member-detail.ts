@@ -13,6 +13,7 @@ import {
   FieldSourceZ,
   FieldVisibilityZ,
   PublicMemberProfileZ,
+  STABLE_KEY,
   StableKeyZ,
 } from "@ubm-hyogo/shared";
 
@@ -85,16 +86,77 @@ export interface NormalizedSection {
   fields: ReadonlyArray<NormalizedField>;
 }
 
+export type MemberDetailHero = PublicMemberProfile["summary"] & {
+  hometown: string;
+};
+
+export interface MemberDetailBusiness {
+  businessOverview: string;
+  skills: string;
+  canProvide: string;
+}
+
+export interface MemberDetailLink {
+  stableKey: string;
+  label: string;
+  href: string;
+}
+
 export interface MemberDetailProps {
   memberId: string;
   summary: PublicMemberProfile["summary"];
+  hero: MemberDetailHero;
+  business: MemberDetailBusiness;
+  personal: ReadonlyArray<NormalizedField>;
+  message: string;
   sections: ReadonlyArray<NormalizedSection>;
   linkSections: ReadonlyArray<NormalizedSection>;
+  links: ReadonlyArray<MemberDetailLink>;
+  other: ReadonlyArray<NormalizedSection>;
   attendance: PublicMemberProfile["attendance"];
   tags: PublicMemberProfile["tags"];
   // issue-1029: public-safe presigned photo URL（API 正本から写し取る）。
   photoUrl?: string | undefined;
 }
+
+const HERO_KEYS = new Set<string>([
+  STABLE_KEY.fullName,
+  STABLE_KEY.nickname,
+  STABLE_KEY.location,
+  STABLE_KEY.occupation,
+  STABLE_KEY.hometown,
+  STABLE_KEY.ubmZone,
+  STABLE_KEY.ubmMembershipType,
+]);
+
+const BUSINESS_KEYS = [
+  STABLE_KEY.businessOverview,
+  STABLE_KEY.skills,
+  STABLE_KEY.canProvide,
+] as const;
+
+const PERSONAL_KEYS = [
+  STABLE_KEY.hobbies,
+  STABLE_KEY.recentInterest,
+  STABLE_KEY.motto,
+  STABLE_KEY.otherActivities,
+] as const;
+
+const MESSAGE_KEYS = new Set<string>([STABLE_KEY.selfIntroduction]);
+
+const ASSIGNED_DETAIL_KEYS = new Set<string>([
+  ...HERO_KEYS,
+  ...BUSINESS_KEYS,
+  ...PERSONAL_KEYS,
+  ...MESSAGE_KEYS,
+]);
+
+const FALLBACK_LABELS = {
+  [STABLE_KEY.hobbies]: "趣味",
+  [STABLE_KEY.recentInterest]: "最近の関心",
+  [STABLE_KEY.motto]: "座右の銘",
+  [STABLE_KEY.otherActivities]: "その他の活動",
+} as const satisfies Record<(typeof PERSONAL_KEYS)[number], string>;
 
 function normalizeField(
   field: RawField,
@@ -128,6 +190,43 @@ function normalizeSection(
   return { key: section.key, title: section.title, fields };
 }
 
+function renderValue(value: RawField["value"]): string {
+  if (Array.isArray(value)) return value.filter(Boolean).join(", ");
+  if (value === null || value === undefined) return "";
+  return String(value).trim();
+}
+
+function fieldByStableKey(
+  sections: ReadonlyArray<NormalizedSection>,
+): ReadonlyMap<string, NormalizedField> {
+  const fields = new Map<string, NormalizedField>();
+  for (const field of sections.flatMap((section) => section.fields)) {
+    if (!fields.has(field.stableKey)) fields.set(field.stableKey, field);
+  }
+  return fields;
+}
+
+function valueFor(
+  fields: ReadonlyMap<string, NormalizedField>,
+  stableKey: string,
+): string {
+  const field = fields.get(stableKey);
+  return field ? renderValue(field.value) : "";
+}
+
+function buildOtherSections(
+  sections: ReadonlyArray<NormalizedSection>,
+): ReadonlyArray<NormalizedSection> {
+  return sections
+    .map((section) => ({
+      ...section,
+      fields: section.fields.filter(
+        (field) => !ASSIGNED_DETAIL_KEYS.has(field.stableKey),
+      ),
+    }))
+    .filter((section) => section.fields.length > 0);
+}
+
 export function toMemberDetailProps(
   profile: PublicMemberProfile,
   options: ToMemberDetailPropsOptions = {},
@@ -147,15 +246,54 @@ export function toMemberDetailProps(
   const linkSections = profile.publicSections
     .map((section) => normalizeSection(section, LINK_KINDS, onUnknownKindOnce))
     .filter((s): s is NormalizedSection => s !== null);
+  const fields = fieldByStableKey(sections);
+  const links = linkSections
+    .flatMap((section) => section.fields)
+    .map((field) => ({
+      stableKey: field.stableKey,
+      label: field.label,
+      href: renderValue(field.value),
+    }))
+    .filter((link) => link.href.length > 0);
   return {
     memberId: profile.memberId,
     summary: profile.summary,
+    hero: {
+      ...profile.summary,
+      hometown: valueFor(fields, STABLE_KEY.hometown),
+    },
+    business: {
+      businessOverview: valueFor(fields, STABLE_KEY.businessOverview),
+      skills: valueFor(fields, STABLE_KEY.skills),
+      canProvide: valueFor(fields, STABLE_KEY.canProvide),
+    },
+    personal: PERSONAL_KEYS.map((stableKey) => {
+      const field = fields.get(stableKey);
+      return (
+        field ?? {
+          stableKey,
+          label: FALLBACK_LABELS[stableKey],
+          value: null,
+          kind: "shortText" as const,
+        }
+      );
+    }),
+    message: valueFor(fields, STABLE_KEY.selfIntroduction),
     sections,
     linkSections,
+    links,
+    other: buildOtherSections(sections),
     attendance: profile.attendance,
     tags: profile.tags,
     photoUrl: profile.photoUrl,
   };
 }
 
-export const __testInternals = { DETAIL_KINDS, KIND_ROUTE, LINK_KINDS } as const;
+export const __testInternals = {
+  BUSINESS_KEYS,
+  DETAIL_KINDS,
+  HERO_KEYS,
+  KIND_ROUTE,
+  LINK_KINDS,
+  PERSONAL_KEYS,
+} as const;

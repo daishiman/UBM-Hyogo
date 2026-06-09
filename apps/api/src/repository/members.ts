@@ -12,6 +12,8 @@ export interface MemberIdentityRow {
   current_response_id: string;
   first_response_id: string;
   last_submitted_at: string;
+  seed_source?: string | null;
+  seed_imported_at?: string | null;
   created_at: string;
   updated_at: string;
 }

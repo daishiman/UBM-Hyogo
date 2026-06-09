@@ -1,3 +1,5 @@
+import { STABLE_KEY } from "@ubm-hyogo/shared";
+
 export const TEST_ACCOUNT_ACTOR = "seed:test-accounts";
 export const TEST_ACCOUNT_EMAIL_DOMAIN = "test.ubm-hyogo.invalid";
 export const TEST_ACCOUNT_PREFIX = "TEST-";
@@ -18,6 +20,7 @@ export interface TestMemberAccount {
   readonly publishState: PublishState;
   readonly isDeleted: boolean;
   readonly notificationOptOut: boolean;
+  readonly profile?: Readonly<Record<string, string | null>>;
   readonly tags: readonly string[];
   readonly attendance: readonly string[];
   readonly photo?: {
@@ -96,6 +99,36 @@ export const testAccountsCatalog = {
       publishState: "public",
       isDeleted: false,
       notificationOptOut: false,
+      profile: {
+        [STABLE_KEY.nickname]: "test-taro",
+        [STABLE_KEY.location]: "兵庫県神戸市中央区",
+        [STABLE_KEY.hometown]: "兵庫県明石市",
+        [STABLE_KEY.ubmMembershipType]: "member",
+        [STABLE_KEY.businessOverview]:
+          "神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。",
+        [STABLE_KEY.skills]:
+          "TypeScript / Cloudflare Workers / 業務フロー設計 / 生成AI活用",
+        [STABLE_KEY.canProvide]:
+          "Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談",
+        [STABLE_KEY.hobbies]: "登山、コーヒー、地域イベント巡り",
+        [STABLE_KEY.recentInterest]: "地域コミュニティとAI活用",
+        [STABLE_KEY.motto]: "小さく試して、早く学ぶ",
+        [STABLE_KEY.otherActivities]:
+          "商店街の勉強会運営と学生向けプログラミング相談を続けています。",
+        [STABLE_KEY.urlWebsite]: "https://example.test/test-mem-01",
+        [STABLE_KEY.urlFacebook]: "https://facebook.com/test.mem.01",
+        [STABLE_KEY.urlInstagram]: "https://instagram.com/test.mem.01",
+        [STABLE_KEY.urlThreads]: "https://threads.net/@test.mem.01",
+        [STABLE_KEY.urlYoutube]: "https://youtube.com/@test-mem-01",
+        [STABLE_KEY.urlTiktok]: "https://www.tiktok.com/@test.mem.01",
+        [STABLE_KEY.urlX]: "https://x.com/test_mem_01",
+        [STABLE_KEY.urlBlog]: "https://blog.example.test/test-mem-01",
+        [STABLE_KEY.urlNote]: "https://note.com/test_mem_01",
+        [STABLE_KEY.urlLinkedin]: "https://www.linkedin.com/in/test-mem-01",
+        [STABLE_KEY.urlOthers]: "Podcast: https://podcast.example.test/test-mem-01",
+        [STABLE_KEY.selfIntroduction]:
+          "UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。",
+      },
       tags: ["tag_b_it", "tag_s_dev", "tag_r_kobe", "tag_ro_owner", "tag_st_active"],
       attendance: ["TEST-MTG-01", "TEST-MTG-02"],
       photo: { source: "admin", processingStatus: "none", hasThumb: false },

@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-06-07T22:00:00+09:00",
+  "route": "/members/sample-001",
+  "source": "local mock API",
+  "screenshots": [
+    "screenshots/member-detail-full.png",
+    "screenshots/member-detail-sparse.png",
+    "screenshots/member-detail-message-hidden.png"
+  ]
+}
