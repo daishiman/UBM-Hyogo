@@ -3,10 +3,12 @@ import { Hono } from "hono";
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminAuditRoute, encodeAuditCursor } from "./audit";
+import { createAdminMembersRoute } from "./members";
 import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
+  SYNC_ADMIN_TOKEN: "t",
   AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
@@ -120,6 +122,47 @@ const seedAudit = async (env: InMemoryD1) => {
       .bind(...row)
       .run();
   }
+};
+
+const seedSingleTagWriteFixtures = async (env: InMemoryD1) => {
+  await env.db
+    .prepare(
+      `INSERT INTO member_identities
+       (member_id, response_email, current_response_id, first_response_id, last_submitted_at)
+       VALUES ('m_single','single@example.com','r_single','r_single','2026-06-07T00:00:00Z')`,
+    )
+    .run();
+  await env.db
+    .prepare(
+      `INSERT INTO member_status (member_id, public_consent, rules_consent, publish_state, is_deleted)
+       VALUES ('m_single','consented','consented','public',0)`,
+    )
+    .run();
+  await env.db
+    .prepare(
+      `INSERT INTO tag_definitions (tag_id, code, label, category, source_stable_keys_json, active)
+       VALUES ('tag_single','single','単一タグ','misc','[]',1)`,
+    )
+    .run();
+};
+
+const latestBatchId = async (
+  env: InMemoryD1,
+  action: "admin.member.tag_assigned" | "admin.member.tag_unassigned",
+  column: "before_json" | "after_json",
+): Promise<string> => {
+  const r = await env.db
+    .prepare(
+      `SELECT json_extract(${column}, '$.batchId') AS batchId
+       FROM audit_log
+       WHERE action=?1 AND target_id='m_single'
+       ORDER BY created_at DESC, audit_id DESC
+       LIMIT 1`,
+    )
+    .bind(action)
+    .first<{ batchId: string | null }>();
+  expect(r?.batchId).toEqual(expect.any(String));
+  return r?.batchId ?? "";
 };
 
 describe("admin audit route", () => {
@@ -255,6 +298,94 @@ describe("admin audit route", () => {
     ]);
     expect(JSON.stringify(body.items)).toContain("batch-1079");
     expect(JSON.stringify(body.items)).not.toContain("batch-other");
+  });
+
+  it("GET /audit: single tag write batchId hits assign after_json and unassign before_json", async () => {
+    await seedSingleTagWriteFixtures(env);
+    const root = new Hono();
+    root.route("/admin", createAdminMembersRoute());
+    root.route("/admin", createAdminAuditRoute());
+    const headers = { ...(await adminAuthHeader()), "content-type": "application/json" };
+
+    const assign = await root.request(
+      "/admin/members/m_single/tags",
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ tagId: "tag_single" }),
+      },
+      makeEnv(env),
+    );
+    expect(assign.status).toBe(200);
+    const assignBatchId = await latestBatchId(
+      env,
+      "admin.member.tag_assigned",
+      "after_json",
+    );
+
+    const assignAudit = await root.request(
+      `/admin/audit?batchId=${encodeURIComponent(assignBatchId)}`,
+      { headers },
+      makeEnv(env),
+    );
+    expect(assignAudit.status).toBe(200);
+    const assignBody = (await assignAudit.json()) as {
+      items: Array<{ action: string; targetId: string; maskedAfter: unknown }>;
+      appliedFilters: { batchId: string | null };
+    };
+    // batchId の検索ヒットは raw json_extract('$.batchId') を使う appliedFilters /
+    // length で検証する（masked payload は PII redaction を経るため batchId 表示の
+    // verbatim 保持は redact.spec.ts で別途固定する。ここで masked 値へ equality を
+    // 課すと、redaction 仕様変更時に脆く・UUID 依存の flake 源になる）。
+    expect(assignBody.appliedFilters.batchId).toBe(assignBatchId);
+    expect(assignBody.items).toHaveLength(1);
+    expect(assignBody.items[0]).toMatchObject({
+      action: "admin.member.tag_assigned",
+      targetId: "m_single",
+      maskedAfter: { tagId: "tag_single", source: "manual" },
+    });
+
+    const unassign = await root.request(
+      "/admin/members/m_single/tags/tag_single",
+      { method: "DELETE", headers },
+      makeEnv(env),
+    );
+    expect(unassign.status).toBe(204);
+    const unassignBatchId = await latestBatchId(
+      env,
+      "admin.member.tag_unassigned",
+      "before_json",
+    );
+    expect(unassignBatchId).not.toBe(assignBatchId);
+
+    const unassignAudit = await root.request(
+      `/admin/audit?batchId=${encodeURIComponent(unassignBatchId)}`,
+      { headers },
+      makeEnv(env),
+    );
+    expect(unassignAudit.status).toBe(200);
+    const unassignBody = (await unassignAudit.json()) as {
+      items: Array<{ action: string; targetId: string; maskedBefore: unknown }>;
+      appliedFilters: { batchId: string | null };
+    };
+    expect(unassignBody.appliedFilters.batchId).toBe(unassignBatchId);
+    expect(unassignBody.items).toHaveLength(1);
+    expect(unassignBody.items[0]).toMatchObject({
+      action: "admin.member.tag_unassigned",
+      targetId: "m_single",
+      maskedBefore: { tagId: "tag_single" },
+    });
+
+    const bulkAudit = await root.request(
+      "/admin/audit?batchId=batch-1079",
+      { headers },
+      makeEnv(env),
+    );
+    expect(bulkAudit.status).toBe(200);
+    const bulkBody = (await bulkAudit.json()) as {
+      items: Array<{ auditId: string }>;
+    };
+    expect(bulkBody.items.map((item) => item.auditId)).toEqual(["audit_006", "audit_007"]);
   });
 
   it("GET /audit: action and batchId filters are combined with AND", async () => {

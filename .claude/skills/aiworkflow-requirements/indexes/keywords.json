@@ -3391,6 +3391,7 @@
       "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7612,6 +7613,7 @@
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7998,6 +8000,7 @@
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-255-coverage-threshold-sync-lint-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -8436,6 +8439,7 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8525,6 +8529,7 @@
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
@@ -14702,7 +14707,8 @@
     ],
     "single": [
       "lessons-learned-06c-C-admin-tags-2026-05.md",
-      "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md"
+      "lessons-learned-issue-776-schema-alias-bulk-resolve-2026-05.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md"
     ],
     "POM": [
       "lessons-learned-06c-C-admin-tags-2026-05.md"
@@ -17419,6 +17425,7 @@
     "correlation": [
       "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md",
       "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md"
@@ -19305,6 +19312,7 @@
       "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -26051,7 +26059,8 @@
     ],
     "batchid": [
       "task-workflow-active.md",
-      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md"
+      "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md"
     ],
     "optimization": [
       "task-workflow-active.md",
@@ -27463,6 +27472,7 @@
       "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27718,6 +27728,7 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27833,6 +27844,7 @@
       "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -28103,6 +28115,7 @@
       "workflow-issue-1089-backfill-impact-preview-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
+      "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
