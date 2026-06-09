@@ -29,7 +29,34 @@ export interface TestAccountManifest {
   }[];
 }
 
-const STABLE_KEYS = [STABLE_KEY.fullName, STABLE_KEY.occupation, STABLE_KEY.ubmZone] as const;
+const PUBLIC_RESPONSE_FIELD_KEYS = [
+  STABLE_KEY.fullName,
+  STABLE_KEY.nickname,
+  STABLE_KEY.location,
+  STABLE_KEY.occupation,
+  STABLE_KEY.hometown,
+  STABLE_KEY.ubmZone,
+  STABLE_KEY.ubmMembershipType,
+  STABLE_KEY.businessOverview,
+  STABLE_KEY.skills,
+  STABLE_KEY.canProvide,
+  STABLE_KEY.hobbies,
+  STABLE_KEY.recentInterest,
+  STABLE_KEY.motto,
+  STABLE_KEY.otherActivities,
+  STABLE_KEY.urlWebsite,
+  STABLE_KEY.urlFacebook,
+  STABLE_KEY.urlInstagram,
+  STABLE_KEY.urlThreads,
+  STABLE_KEY.urlYoutube,
+  STABLE_KEY.urlTiktok,
+  STABLE_KEY.urlX,
+  STABLE_KEY.urlBlog,
+  STABLE_KEY.urlNote,
+  STABLE_KEY.urlLinkedin,
+  STABLE_KEY.urlOthers,
+  STABLE_KEY.selfIntroduction,
+] as const;
 
 const sqlString = (value: string): string => `'${value.replaceAll("'", "''")}'`;
 const sqlNullableString = (value: string | null | undefined): string =>
@@ -50,9 +77,10 @@ const buildInsert = (
 };
 
 const answersFor = (member: TestMemberAccount): Record<string, string | null> => ({
-  fullName: member.fullName,
-  occupation: member.occupation,
-  ubmZone: member.ubmZone,
+  [STABLE_KEY.fullName]: member.fullName,
+  [STABLE_KEY.occupation]: member.occupation,
+  [STABLE_KEY.ubmZone]: member.ubmZone,
+  ...member.profile,
   notificationOptOut: member.notificationOptOut ? "true" : "false",
 });
 
@@ -62,7 +90,9 @@ const searchTextFor = (member: TestMemberAccount): string =>
 const responseFieldRows = (catalog: TestAccountsCatalog): string[][] =>
   catalog.members.flatMap((member) => {
     const answers = answersFor(member);
-    return STABLE_KEYS.map((stableKey) => [
+    return PUBLIC_RESPONSE_FIELD_KEYS.filter((stableKey) =>
+      Object.hasOwn(answers, stableKey),
+    ).map((stableKey) => [
       sqlString(member.responseId),
       sqlString(stableKey),
       sqlJson(answers[stableKey]),
@@ -84,7 +114,7 @@ export const buildSeedSql = (catalog: TestAccountsCatalog = testAccountsCatalog)
         sqlString(catalog.schemaHash),
         sqlString("active"),
         sqlString(catalog.submittedAt),
-        sqlNumber(STABLE_KEYS.length),
+        sqlNumber(PUBLIC_RESPONSE_FIELD_KEYS.length),
         "0",
         sqlString("seed:test-accounts"),
       ]],
