@@ -34,9 +34,10 @@
   | JSON validity | 既存 row に破損 JSON が混在し得る場合は `json_valid(column)` guard を入れること |
   | full scan | JSON index 不在時の scan 特性、keyset cursor + LIMIT、sparse key、plain 列併用誘導 |
   | schema 化境界 | generated column / dedicated column / index migration を今回 scope に入れるか、運用トリガ付き別関心にするか |
+- **D1 generated column index 化の注意**: SQLite / D1 で `ALTER TABLE ... ADD COLUMN` により generated column を追加する場合、`STORED` は追加できず `VIRTUAL` のみ許可される。append-only 大テーブルで既存行を消さずに JSON payload 由来の検索キーを index 化する場合は、`VIRTUAL generated column + partial index` を第一候補にし、`EXPLAIN QUERY PLAN` で index 使用を実測する。`STORED` が必要な場合はテーブル再構築を伴う別タスクとして扱う。
 - **検証**: repository test で両 JSON path の hit、破損 JSON row 混在時に落ちないこと、他 filter との AND 合成、cursor pagination 併用、不一致時 empty 200 を固定する。API/UI がある場合は `appliedFilters` echo と pagination href の query 保持も contract/component test に含める。
 - **発見日**: 2026-06-03
-- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`
+- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`, `issue-1128-audit-batchid-index-optimization`
 
 ### カバレッジ閾値免除判定パターン
 
@@ -456,3 +457,12 @@
 - **注意**: static import 済み module へ後段 `vi.doMock()` を当てると mock cache が不安定になる。async adapter を同一 spec で扱う場合は `vi.hoisted()` + partial mock、または adapter unit は既存 focused regression に委譲する。
 - **発見日**: 2026-05-30
 - **関連タスク**: `issue-1010-auth-view-session-contract-integration-test`
+
+### CI secret contract gate responsibility split
+
+- **状況**: GitHub Actions workflow が `secrets.*` を消費し、別の shell script / runbook が GitHub Environment へ secret を投入する。
+- **アプローチ**: role-specific contract（例: JWT mint に必要な env）と workflow-wide secret provisioning contract（例: consumed secrets ⊆ provisioned secrets ∪ documented legacy exemptions）は同じ verifier に混ぜない。責務ごとに別 script / 別 test / 別 workflow gate とし、既存 gate の期待値は provisioning inventory 追加にだけ追随させる。
+- **検証**: 新 gate は name-only extraction、missing provision、stale provision、empty-rationale exemption を unit test する。既存 gate は同時 focused test で green を確認し、責務変更がないことを証明する。
+- **禁止**: graceful degrade を static contract の免除にしない。degrade は runtime fallback であり、provisioning gap を検出する gate は別途 PASS させる。
+- **発見日**: 2026-06-08
+- **関連タスク**: `cf-token-env-contract-and-rotation-retirement`

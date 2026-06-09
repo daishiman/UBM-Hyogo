@@ -10,8 +10,11 @@ import type { PublicMemberProfileZ } from "@ubm-hyogo/shared";
 import type { MemberDetailProps } from "@/lib/adapters/member-detail";
 
 import { MemberActivity } from "./MemberActivity";
+import { BusinessOverviewSection } from "./BusinessOverviewSection";
 import { MemberDetailSections } from "./MemberDetailSections";
 import { MemberLinks } from "./MemberLinks";
+import { MessageCard } from "./MessageCard";
+import { PersonalSection } from "./PersonalSection";
 import { MemberTags } from "./MemberTags";
 import { ProfileHero } from "./ProfileHero";
 
@@ -58,8 +61,12 @@ function toLegacyActivitySections(
 export function MemberDetail({
   memberId,
   summary,
-  sections,
+  hero,
+  business,
+  personal,
+  message,
   linkSections,
+  other,
   attendance,
   tags,
   photoUrl,
@@ -76,13 +83,21 @@ export function MemberDetail({
         nickname={summary.nickname}
         occupation={summary.occupation}
         location={summary.location}
+        hometown={hero.hometown}
         ubmZone={summary.ubmZone}
         ubmMembershipType={summary.ubmMembershipType}
         photoUrl={photoUrl}
       />
-      {tags.length > 0 ? <MemberTags tags={tags} /> : null}
-      <MemberLinks sections={toLegacySections(linkSections)} />
-      <MemberDetailSections sections={toLegacySections(sections)} />
+      <div className="grid-2" data-region="member-detail-primary">
+        <BusinessOverviewSection {...business} />
+        <div className="stack-sm" data-region="member-detail-side">
+          <MemberTags tags={tags} />
+          <MemberLinks sections={toLegacySections(linkSections)} />
+        </div>
+      </div>
+      <PersonalSection rows={personal} />
+      <MessageCard message={message} />
+      <MemberDetailSections sections={toLegacySections(other)} />
       <MemberActivity sections={toLegacyActivitySections(attendance)} />
     </article>
   );

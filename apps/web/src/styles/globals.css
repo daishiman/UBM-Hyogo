@@ -1837,6 +1837,14 @@
     background: var(--ubm-color-surface-bg);
   }
 
+  .accent-soft {
+    background: var(--ubm-color-accent-soft);
+  }
+
+  .serif {
+    font-family: var(--ubm-font-serif);
+  }
+
   .eyebrow {
     color: var(--ubm-color-accent-ink);
     font-size: var(--ubm-text-xs);

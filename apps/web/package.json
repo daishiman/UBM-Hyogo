@@ -33,6 +33,7 @@
   "dependencies": {
     "@opennextjs/cloudflare": "1.19.4",
     "@sentry/cloudflare": "^10.51.0",
+    "@sentry/core": "^10.51.0",
     "@sentry/nextjs": "^10.51.0",
     "@ubm-hyogo/contracts": "workspace:*",
     "@ubm-hyogo/shared": "workspace:*",

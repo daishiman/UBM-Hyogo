@@ -1072,19 +1072,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L45 |
-| Schema aliases write target（issue-191 / UT-07B） | L60 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L92 |
-| Legacy Sheets sync transition note（U-UT01-09） | L104 |
-| Schema alias assignment workflow（07b） | L116 |
-| ワークフロー関連テーブル | L120 |
-| ユーザー関連テーブル | L159 |
-| システムプロンプト関連テーブル | L193 |
-| チャット関連テーブル | L228 |
-| RAG関連テーブル | L264 |
-| Knowledge Graph関連テーブル | L306 |
-| 変換処理関連テーブル | L440 |
-| インデックス設計 | L499 |
-| 関連ドキュメント / 変更履歴 / DDL テンプレ | L503 |
+| Application audit_log（issue-1128 batchId index） | L60 |
+| Schema aliases write target（issue-191 / UT-07B） | L78 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L110 |
+| Legacy Sheets sync transition note（U-UT01-09） | L122 |
+| Schema alias assignment workflow（07b） | L134 |
+| ワークフロー関連テーブル | L138 |
+| ユーザー関連テーブル | L177 |
+| システムプロンプト関連テーブル | L211 |
+| チャット関連テーブル | L246 |
+| RAG関連テーブル | L282 |
+| Knowledge Graph関連テーブル | L324 |
+| 変換処理関連テーブル | L458 |
+| インデックス設計 | L517 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L521 |
 
 ---
 
@@ -2431,6 +2432,16 @@ node scripts/list-specs.js --topics
 | Consumed Source | L41 |
 | Boundary | L47 |
 
+### references/workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L36 |
+| User-Gated | L45 |
+| Lessons Learned | L53 |
+
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2976,6 +2987,16 @@ node scripts/list-specs.js --topics
 | User-Gated | L42 |
 | Lessons Learned | L46 |
 
+### references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Workflow Artifacts | L24 |
+| Evidence | L34 |
+| Lessons Learned | L42 |
+
 ### references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md
 
 | セクション | 行 |
@@ -2986,6 +3007,48 @@ node scripts/list-specs.js --topics
 | Runtime visual evidence | L29 |
 | Lessons Learned | L40 |
 | User-gated actions | L46 |
+
+### references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L15 |
+| Implementation targets | L27 |
+| Invariants | L37 |
+| Runtime visual evidence | L44 |
+| Gates | L54 |
+| Source unassigned trace | L62 |
+| User-gated actions | L68 |
+| Lessons Learned | L75 |
+
+### references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Evidence | L25 |
+| Contract Notes | L31 |
+
+### references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Evidence | L24 |
+| Contract Notes | L31 |
+
+### references/workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Gates | L23 |
+| Invariants | L30 |
+| Lessons Learned | L36 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -4215,6 +4278,16 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
 
+### references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L26 |
+| Invariants | L37 |
+| Lessons Learned | L41 |
+
 ### references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -4233,6 +4306,21 @@ node scripts/list-specs.js --topics
 | Canonical Ownership | L23 |
 
 ### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
+
+### references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| state classification | L7 |
+| root artifacts | L13 |
+| implementation artifacts | L25 |
+| phase 11 evidence | L35 |
+| phase 12 required artifacts | L43 |
+| invariants | L55 |
+| same-wave skill sync | L63 |
+| Lessons Learned | L77 |
+| user-gated operations | L89 |
 
 ### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
 
@@ -5775,11 +5863,11 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L365 |
 | セキュリティ原則 | L400 |
 | Cloudflare API Token の作成手順 | L411 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L426 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L537 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L581 |
-| 関連 SOP | L631 |
-| 変更履歴 | L635 |
+| Cloudflare API Token rotation runbook（RETIRED 2026-06-08） | L426 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L538 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L582 |
+| 関連 SOP | L632 |
+| 変更履歴 | L636 |
 
 ### references/deployment.md
 
@@ -8981,19 +9069,22 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3977 |
-| フェーズ構造（概要） | L3986 |
-| 品質ゲート（概要） | L4017 |
-| 出力テンプレート | L4028 |
-| 実行時のコマンド・エージェント・スキル | L4051 |
-| 昇格パターン集 | L4075 |
-| Current Active / Spec Created Tasks | L4077 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4243 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4311 |
-| issue-998-members-publish-state-production-rollout | L4337 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4396 |
-| issue-1068-admin-tag-inline-create-ui | L4410 |
-| issue-1111-proxy-transport-util-unify | L4428 |
+| ドキュメント構成 | L4063 |
+| フェーズ構造（概要） | L4072 |
+| 品質ゲート（概要） | L4103 |
+| 出力テンプレート | L4114 |
+| 実行時のコマンド・エージェント・スキル | L4137 |
+| 昇格パターン集 | L4161 |
+| Current Active / Spec Created Tasks | L4163 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4329 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4397 |
+| issue-1007-density-toggle-help-hint-hardening | L4421 |
+| issue-1079-bulk-tag-audit-batch-filter | L4434 |
+| issue-1128-audit-batchid-index-optimization | L4447 |
+| issue-998-members-publish-state-production-rollout | L4464 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4523 |
+| issue-1068-admin-tag-inline-create-ui | L4537 |
+| issue-1111-proxy-transport-util-unify | L4555 |
 
 ### references/task-workflow-backlog-part2.md
 
