@@ -29,6 +29,14 @@
   - 巨大 e2e ログは `gh run view --log` / `--log-failed` が空返ししやすい → `gh api repos/{o}/{r}/actions/jobs/{jobId}/logs` を file 化して `✘`/`Error:`/`expect(`/`locator(` を grep。
 - **発見日**: 2026-06-09
 
+### screenshot 安定化 `page.addStyleTag` は WebKit/Firefox の Report-Only CSP で reject される（L-CIE2E-CSP-ADDSTYLETAG）
+
+- **状況**: 新規 Phase 11 screenshot 取得テストが animation 抑制のため `await page.addStyleTag({ content: '...' })` を try/catch なしで呼んでいた。
+- **問題**: chromium では通るが **firefox（script-src strict-dynamic / unsafe-eval なしで Playwright の eval 注入をブロック）と webkit（style-src で stylesheet 適用を Report-Only でも reject）で throw** し、`e2e (desktop-chromium)` は緑なのに `e2e (desktop-firefox)` / `e2e (mobile-webkit)` だけ落ちる。マルチブラウザ matrix の 1 ブラウザ緑では検知できない。
+- **解決策**: 既存の同種テスト（`mypage-prototype-alignment-screenshots.spec.ts` / `admin-attendance-dashboard-ux.spec.ts`）が確立済みの **try/catch + `page.emulateMedia({ reducedMotion: 'reduce' })` fallback** パターンへ揃える。注入は screenshot 安定化目的で機能アサーションには影響しないため CSP 拒否は握り潰してよい。
+- **教訓**: screenshot 系 e2e で `addStyleTag({content})` を使うときは **必ず try/catch + emulateMedia fallback** で包む（リポジトリ確立パターン）。新規 spec を書くときは sibling の安定化ヘルパを literal コピーして CSP footgun を回避する。chromium だけで動作確認すると firefox/webkit fail を見落とす。
+- **発見日**: 2026-06-09
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出

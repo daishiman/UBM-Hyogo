@@ -10,10 +10,18 @@ const PHASE11_DIR = path.resolve(
 const SCREENSHOT_DIR = path.join(PHASE11_DIR, 'screenshots')
 
 async function stabilize(page: import('@playwright/test').Page) {
-  await page.addStyleTag({
-    content:
-      '*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }',
-  })
+  // WebKit / Firefox は Report-Only CSP の script-src（strict-dynamic・unsafe-eval なし）でも
+  // addStyleTag を reject するため try/catch で許容する。注入は animation 停止目的の screenshot
+  // 安定化で機能アサーションには影響しない。
+  try {
+    await page.addStyleTag({
+      content:
+        '*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }',
+    })
+  } catch {
+    // CSP 拒否時は emulateMedia による reducedMotion fallback で最低限の animation 抑制を保つ
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+  }
 }
 
 async function capture(
