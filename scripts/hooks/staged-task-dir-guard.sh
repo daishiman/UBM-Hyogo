@@ -80,12 +80,21 @@ task_dir_from_path() {
     30-workflows)
       [ -n "${parts[2]:-}" ] || return 1
       case "${parts[2]}" in
-        unassigned-task|runbooks)
-          # 共通領域: 単一ファイル形式の受け皿。ブランチ slug 整合は不要。
+        unassigned-task|runbooks|operations)
+          # 共通領域: 単一ファイル形式の受け皿 / 恒久運用ドキュメント置き場。
+          # タスクディレクトリではないため、ブランチ slug 整合は不要。
           return 1
           ;;
         completed-tasks|02-application-implementation)
           [ -n "${parts[3]:-}" ] || return 1
+          # close-out 後の共通領域受け皿（completed-tasks/unassigned-task,
+          # completed-tasks/runbooks）は top-level の同名領域と同じく単一ファイル形式の
+          # 受け皿であり、branch slug 整合は不要（consumed spec の close-out 移動で誤検知になる）。
+          case "${parts[3]}" in
+            unassigned-task|runbooks)
+              return 1
+              ;;
+          esac
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;
         *)

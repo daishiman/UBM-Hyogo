@@ -831,6 +831,7 @@ export const createAdminMembersRoute = () => {
     const authUser = c.get("authUser");
     const applied = await assignTagToMemberByAdmin(db, mid, tagId, authUser.email);
     if (applied) {
+      const batchId = crypto.randomUUID();
       await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
         actorId: asAdminId(authUser.memberId),
         actorEmail: adminEmail(authUser.email),
@@ -838,7 +839,7 @@ export const createAdminMembersRoute = () => {
         targetType: "member",
         targetId: memberId,
         before: null,
-        after: { tagId, source: "manual" },
+        after: { tagId, source: "manual", batchId },
       });
     }
 
@@ -871,13 +872,14 @@ export const createAdminMembersRoute = () => {
     const removed = await unassignTagFromMemberByAdmin(db, mid, tagId);
     if (removed) {
       const authUser = c.get("authUser");
+      const batchId = crypto.randomUUID();
       await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
         actorId: asAdminId(authUser.memberId),
         actorEmail: adminEmail(authUser.email),
         action: auditAction("admin.member.tag_unassigned"),
         targetType: "member",
         targetId: memberId,
-        before: { tagId },
+        before: { tagId, batchId },
         after: null,
       });
     }

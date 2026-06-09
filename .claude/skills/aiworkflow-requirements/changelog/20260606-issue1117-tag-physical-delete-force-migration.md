@@ -1,0 +1,13 @@
+# issue-1117 tag physical delete force-migration
+
+`issue-1117-tag-physical-delete-force-migration` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。親 `issue-1070-tag-reactivate-physical-delete` の U-1（参照あり tag の強制移行）を解消する。
+
+- `apps/api/src/repository/tagDefinitions.ts` に `migrateMemberTagReferences`（`INSERT OR IGNORE INTO member_tags ... SELECT` で dest へ複製 + source 行を DELETE。`(member_id, dest)` PK 衝突は `INSERT OR IGNORE` が吸収し、`{sourceReferenceCount, migratedCount}` を返す）と `forceMigrateAndPhysicalDeleteTagDefinition`（src/dest 存在 + dest `active` + `src !== dest` を検証 → 移行 → source `countMemberTagReferences` が 0 件であることを再検証 → 既存 `physicalDeleteTagDefinition` を呼出）を追加。
+- `apps/api/src/routes/admin/tags.ts` の `DELETE /admin/tags/:tagId/physical` に optional `?migrateTo=<destTagId>` query 分岐を追加。未指定時は issue-1070 の 409 `tag_has_references` 拒否経路を verbatim 維持（AC-7 regression）、指定時のみ migrate→verify→delete の二段フローを実行。空文字の `migrateTo` は `migration_target_not_found` で reject。
+- `ERROR_TO_STATUS` に `migration_target_not_found`(404) / `migration_target_inactive`(409) / `migration_target_same_as_source`(400) を追加。成功時は audit `admin.tag.references_migrated`（before=`{tag_id:src, dest, referenceCount}` / after=`{migratedCount, deleted:true}`）と既存 `admin.tag.physically_deleted` の 2 件を append し 204 を返す。
+- `member_tags` は `tag_definitions` への DB-level FOREIGN KEY を持たない（`PRIMARY KEY (member_id, tag_id)` + `idx_member_tags_member` のみ）ため、移行・ガードは application-level SQL で完結する。runtime-chosen の destination tag を固定 DDL migration では表現できないため新 schema migration は不要（最新 migration は 0025 のまま）。`apps/web` は変更しない。
+- `docs/00-getting-started-manual/specs/01-api-schema.md` に endpoint query / error code / audit action / 冪等性 / 不変条件 #13 を同期。
+- 検証: focused D1 Vitest 2 files / 25 tests PASS（`tagDefinitions.write.repository.spec.ts` + `tags.contract.spec.ts`）、`mise exec -- pnpm --filter @ubm-hyogo/api typecheck` PASS、`mise exec -- pnpm lint` PASS。Phase 12 strict 7 + `force-migration-runbook.md`（AC-6 逆移行ロールバック方針）present。
+- 同一 wave 反映: resource-map / quick-reference / task-workflow-active / 専用 artifact inventory（`## Lessons Learned` 節 L-I1117-001..003 埋込）/ topic-map / keywords（`indexes:rebuild`）/ SKILL.md 本体 / SKILL-changelog / LOGS。固有 lessons file は inventory 埋込で吸収（issue-976 先例）。
+- 未タスク: 新規 0 件。本タスクは親 issue-1070 の U-1 を解消するもので AC-1..AC-7 を全達成設計。スコープ外の B-1（admin UI 導線・親 U-2）/ B-2（`member_tags` DB-FK 評価・親 U-3）は親 detection で既 formalize 済みのため重複起票しない。
+- Issue #1117 は CLOSED 維持、PR 文脈は `Refs #1117` のみ。staging runtime smoke / production tag 強制移行・物理削除 mutation / commit / push / PR / Issue mutation は user-gated。
