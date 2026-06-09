@@ -8,6 +8,47 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### member-data-source-precedence-and-profile-session-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` |
+| 目的 | L1 管理者確定編集 > L2 Google Form 本人再回答 > L3 Sheets seed のプロフィール表示合成と `/profile` session failure fail-safe |
+| implementation targets | `apps/api/migrations/0028_member_field_overrides.sql`, `apps/api/src/repository/memberFieldOverrides.ts`, `apps/api/src/use-cases/_shared/field-precedence.ts`, `apps/api/src/routes/admin/member-fields.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | D1 migration verifier PASS、API/Web typecheck PASS、focused Vitest 27 PASS、D1 contract Vitest 35 PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated visual capture、commit、push、PR |
+
+### public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| 目的 | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implemented targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/components/public/{ProfileHero,MemberDetail,BusinessOverviewSection,PersonalSection,MessageCard,MemberTags}.tsx`, `apps/web/src/styles/globals.css`, `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts`, `apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql`, `apps/api/migrations/seed/test-accounts.manifest.json` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema unchanged; stableKey literals use `STABLE_KEY`; web has no D1 direct access |
+| evidence | focused Vitest 5 files / 31 tests PASS、web typecheck PASS、api typecheck PASS、stableKey lint PASS、Phase 11 local screenshots 3 PNG present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+### issue-1129-single-write-batchid-correlation（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| issue | #1129 CLOSED（reopen しない / PR 文脈は Refs のみ） |
+| parent | `issue-1079-bulk-tag-audit-batch-filter` / `issue-1036-bulk-member-tag-assign` |
+| 目的 | 単一 admin manual tag assign/unassign の audit payload に request-scoped `batchId`（群サイズ 1）を付与し、既存 `GET /admin/audit?batchId=` で bulk と同一導線の相関閲覧を可能にする |
+| implementation target | `apps/api/src/routes/admin/members.ts` |
+| tests | `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/routes/admin/audit.contract.spec.ts` |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS、API typecheck PASS |
+| invariant | endpoint / response shape / `audit_log` schema / migration / `apps/web` / `auditLog.listFiltered` SQL は変更なし。noop は audit も batchId も残さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ### issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
 
 | 項目 | 値 |
@@ -264,6 +305,19 @@
 | invariant | endpoint contract / D1 schema / UI / auth 方式は変更なし。fixture は `e2e_test_issue1081_` prefix 限定、production guard は staging DB 固定 |
 | evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
 | user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
+
+### issue-1137-bulk-tag-production-runtime-smoke（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` |
+| Issue | #1137 CLOSED 維持。Issue mutation は行わない |
+| 目的 | issue-1081 の staging bulk tag mutation smoke を production Workers + `ubm-hyogo-db-prod` real D1 用へ拡張する |
+| implementation targets | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-production-seed.sql`, `apps/api/migrations/seed/bulk-tag-production-cleanup.sql`, `.github/workflows/production-runtime-smoke.yml`, `scripts/smoke/__tests__/runtime-tag-bulk.test.sh` |
+| invariant | staging guard / staging seed-cleanup SQL は不変。production fixture は `e2e_test_prod_tagbulk_` prefix 限定。production runner は dual marker を要求 |
+| evidence | local shell test PASS、actionlint PASS。production real D1 seed/mutation/cleanup evidence は user-gated |
+| user gate | production real D1 seed/mutation/cleanup、commit、push、PR |
 
 ### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 

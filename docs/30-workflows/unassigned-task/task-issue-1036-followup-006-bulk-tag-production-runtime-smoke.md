@@ -8,12 +8,15 @@ category: 改善
 target_feature: apps/api POST /admin/members/tags/bulk（production runtime smoke）
 priority: 低
 scale: 中規模
-status: 未実施
+status: consumed_by_issue_1137
 source_phase: issue-1081-bulk-tag-real-d1-runtime-smoke Phase 12 unassigned-task-detection UT-CANDIDATE-1 / Phase 10 MINOR M-2
 created_date: 2026-06-03
 dependencies: [issue-1081-bulk-tag-real-d1-runtime-smoke, issue-1036-bulk-member-tag-assign]
 spec_path: docs/30-workflows/unassigned-task/task-issue-1036-followup-006-bulk-tag-production-runtime-smoke.md
+consumed_by: docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke
 ```
+
+> **Consumed Trace**: 本未タスクは issue #1137 ワークフロー `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` で Phase 1-13 として formalize・実装（`implemented_local_runtime_pending`）された。issue #1137 body が本ファイルパスを `spec_path` で直接参照するため、backlink 保護のためファイル本体は移動せず本位置に tombstone として維持し、canonical pointer のみ completed-tasks 版を指す。
 
 | 項目 | 内容 |
 |------|------|
