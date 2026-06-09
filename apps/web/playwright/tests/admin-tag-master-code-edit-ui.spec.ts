@@ -55,11 +55,11 @@ test.describe('issue-1116 admin tag master code edit UI Phase 11 screenshots', (
       })
     })
     await adminPage.goto('/admin/tag-master', { waitUntil: 'networkidle' })
-    await expect(adminPage.getByRole('heading', { name: 'タグ管理' })).toBeVisible()
-    await expect(adminPage.getByTestId('admin-tag-master-list')).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: 'タグ定義' })).toBeVisible()
+    await expect(adminPage.getByTestId('admin-tag-definition-list')).toBeVisible()
     await capture(adminPage, 'tag-master-list.png')
 
-    await adminPage.getByRole('button', { name: /メンター/ }).click()
+    await adminPage.getByRole('button', { name: '編集対象' }).first().click()
     await expect(adminPage.getByRole('form', { name: /メンター を編集/ })).toBeVisible()
     await capture(adminPage, 'tag-master-edit-form.png')
 
