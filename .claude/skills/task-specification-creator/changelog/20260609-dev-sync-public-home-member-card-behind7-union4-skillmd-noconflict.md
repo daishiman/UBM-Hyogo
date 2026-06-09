@@ -15,3 +15,10 @@
 - **CI 根本原因 = コード不具合でなく生成物ドリフト**: `ci` job の `Verify static manifest (UT-02A-FU-DIAG-001)` が `[verify-static-manifest] FAIL reason=sourceSpecHashDrift`。`coverage-gate` は連鎖 fail（`coverage-gate-shard` が skip → fail-closed）で**単一根本原因**。dev 取込が `apps/api/src/repository/` の spec ソースを変えると生成物 `static-manifest.json` の `sourceSpecHash` が drift する。
 - **Phase 11/12「dev sync 後 CI 緑化チェックリスト」への追記**: 「**typecheck / lint / indexes:rebuild の 3 点では static-manifest drift を検知できない**。dev delta が `apps/api/src/repository/` を含む回は merge 後に必ず `pnpm regenerate:static-manifest` → `pnpm verify:static-manifest`（OK 確認）→ `git add -A` で manifest を merge コミット同梱してから push する。ローカル pre-push hook に static-manifest gate がないため、漏らすと push 後 CI `ci` job 失敗で初めて顕在化し、`coverage-gate` まで連鎖 fail する」を SP-DEVSYNC-089/098 の補強として追記。
 - 2nd pass 解消: behind 2 `git merge origin/dev` → 同 union 4 → `pnpm sync:resolve` → `pnpm regenerate:static-manifest`（sourceSpecHash=sha256:1813b1dd…・OK）→ `pnpm verify:static-manifest` OK → typecheck/lint exit 0 → merge commit `ec89f3766` → push。
+
+## 3rd pass（CI `coverage-gate-shard (web)` test 1 件 fail = 常時付与 query param の test 同期漏れ）— Phase 11/12 test 完全性チェックへの補強
+
+- 2nd pass push 後、`ci` job は pass したが `coverage-gate-shard (web)` が **test 1 件**で fail（閾値割れでなく素の失敗・`1 failed | 1772 passed`）→ `coverage-gate` 連鎖 fail。
+- 真因（自 feature 起因・sync-merge 無関係）: feat `d8d19b992` が `toApiQuery` に `expand=tags` を無条件付与し直接 unit `members-search.spec.ts` は更新も、`listMembers` 経由で間接的に通る `public.spec.ts` の既定値テスト更新を漏らした。
+- **Phase 11/12「test 完全性チェック」への追記**: 「**常時付与の query/projection パラメータ（`expand` 等）を追加・変更したら、直接 unit だけでなくその関数を間接的に通す wrapper・呼び出し側の全テストを `grep -rn '<param>' **/__tests__` で洗って同期する**。片側のみ更新すると CI の別 shard（coverage-gate-shard）で初めて落ち、しかも `coverage-gate` の連鎖 fail として現れるため、閾値割れと誤認しやすい。shard ログの `N failed` 行で『閾値割れ』と『素の test 失敗』を切り分ける」を補強として追記。
+- 解消: `public.spec.ts` 期待値を `/public/members?expand=tags` へ整合（commit `0c972fecd`）→ `coverage-guard.sh --group web` PASS（1773 passed・lines 86.56%）。
