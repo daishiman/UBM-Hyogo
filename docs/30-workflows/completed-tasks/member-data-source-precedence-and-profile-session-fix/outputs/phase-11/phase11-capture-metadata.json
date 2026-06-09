@@ -1,0 +1,62 @@
+{
+  "taskId": "member-data-source-precedence-and-profile-session-fix",
+  "mode": "VISUAL",
+  "workflow_state": "implemented_local_runtime_pending",
+  "status": "pending_runtime_visual",
+  "captureGated": "implemented_local_runtime_pending: ローカル実装と検証は完了。実 PNG は staging deploy + bearer mint + seeded D1/R2 状態を前提にするため user-gated で行う。",
+  "screenshotDir": "outputs/phase-11/screenshots",
+  "naming": "<component>-<state>.png",
+  "evidenceStrategy": "tier1 = local jsdom render + focused vitest（主証跡・NON_VISUAL backend 含む）, tier2 = local Playwright screenshot（Lane D・user-gated）",
+  "visualLanes": ["D:web-ui"],
+  "nonVisualLanes": ["A:data-model", "B:ingestion", "C:projection-and-admin-write", "E:profile-session-fix"],
+  "screenshots": [
+    {
+      "file": "member-field-editor-edit.png",
+      "route": "/(admin)/admin/members/[id]",
+      "targetComponent": "apps/web/src/features/admin/components/_members/MemberDrawer.tsx",
+      "state": "admin がプロフィールフィールド（例: fullName / ubmZone）を編集中、dirty 状態",
+      "ac": ["AC-5"],
+      "status": "pending_runtime_visual"
+    },
+    {
+      "file": "member-field-editor-saved.png",
+      "route": "/(admin)/admin/members/[id]",
+      "targetComponent": "apps/web/src/features/admin/components/_members/MemberDrawer.tsx",
+      "state": "override 保存後、source=admin で effective 値が反映された状態",
+      "ac": ["AC-5"],
+      "status": "pending_runtime_visual"
+    },
+    {
+      "file": "public-members-list-merged.png",
+      "route": "/(public)/members",
+      "targetComponent": "apps/web public members list",
+      "state": "override 済み会員が一覧に merged 値で表示され、外形レイアウト不変",
+      "ac": ["AC-1", "AC-5", "AC-6"],
+      "status": "pending_runtime_visual"
+    },
+    {
+      "file": "public-member-detail-merged.png",
+      "route": "/(public)/members/[id]",
+      "targetComponent": "apps/web public member detail",
+      "state": "詳細が override>response の merged 値を表示",
+      "ac": ["AC-4", "AC-5", "AC-6"],
+      "status": "pending_runtime_visual"
+    },
+    {
+      "file": "profile-merged-self-view.png",
+      "route": "/profile",
+      "targetComponent": "apps/web/app/(member)/profile/page.tsx",
+      "state": "本人ログインで自分の merged プロフィールが表示",
+      "ac": ["AC-6"],
+      "status": "pending_runtime_visual"
+    },
+    {
+      "file": "profile-unregistered-guidance.png",
+      "route": "/profile",
+      "targetComponent": "apps/web/app/(member)/profile/page.tsx",
+      "state": "会員未登録ユーザー（管理者等）に会員専用ページ案内＋公開導線（汎用エラーで詰まらない）",
+      "ac": ["AC-7"],
+      "status": "pending_runtime_visual"
+    }
+  ]
+}
