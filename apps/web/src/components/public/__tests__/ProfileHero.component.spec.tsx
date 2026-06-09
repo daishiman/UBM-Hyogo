@@ -11,6 +11,7 @@ const baseProps = {
   nickname: "taro",
   occupation: "エンジニア",
   location: "兵庫県神戸市",
+  hometown: "兵庫県明石市",
   ubmZone: "Kobe",
   ubmMembershipType: "regular",
 };
@@ -36,6 +37,9 @@ describe("ProfileHero", () => {
     expect(
       container.querySelector('[data-key="status"]')?.textContent,
     ).toBe(baseProps.ubmMembershipType);
+    expect(
+      container.querySelector('[data-key="hometown"]')?.textContent,
+    ).toBe(baseProps.hometown);
     expect(screen.getByRole("img", { name: baseProps.fullName })).toBeTruthy();
   });
 
@@ -43,6 +47,7 @@ describe("ProfileHero", () => {
     const { container } = render(
       <ProfileHero
         {...baseProps}
+        hometown=""
         ubmZone={null}
         ubmMembershipType={null}
       />,

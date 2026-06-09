@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Staging bulk tag mutation runtime smoke runner (issue-1081).
+# Bulk tag mutation runtime smoke runner (issue-1081 staging, issue-1137 production).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -7,7 +7,7 @@ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || cd "$SCRIPT_DIR/../.."
 REDACT="$SCRIPT_DIR/redact.sh"
 CF_SH="${CF_SH_PATH:-$REPO_ROOT/scripts/cf.sh}"
 PREFIX="e2e_test_issue1081_"
-CF_D1_DATABASE="${CF_D1_DATABASE:-ubm-hyogo-db-staging}"
+CF_D1_DATABASE="${CF_D1_DATABASE:-}"
 SEED_SQL="$REPO_ROOT/apps/api/migrations/seed/bulk-tag-staging-seed.sql"
 CLEANUP_SQL="$REPO_ROOT/apps/api/migrations/seed/bulk-tag-staging-cleanup.sql"
 MEMBER_IDS='["e2e_test_issue1081_mem_1","e2e_test_issue1081_mem_2"]'
@@ -30,7 +30,7 @@ CLEANUP_RAN=0
 
 usage() {
   cat >&2 <<'EOF'
-usage: runtime-tag-bulk.sh staging [--out-dir <path>] [--ci-summary] [--skip-seed] [--skip-cleanup]
+usage: runtime-tag-bulk.sh staging|production [--out-dir <path>] [--ci-summary] [--skip-seed] [--skip-cleanup]
 EOF
 }
 
@@ -68,10 +68,13 @@ parse_args() {
     exit 2
   fi
   shift || true
-  if [[ "$ENVIRONMENT" != "staging" ]]; then
-    echo "Only staging bulk tag runtime smoke is allowed" >&2
-    exit 2
-  fi
+  case "$ENVIRONMENT" in
+    staging|production) ;;
+    *)
+      echo "Only staging or production bulk tag runtime smoke is allowed" >&2
+      exit 2
+      ;;
+  esac
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -102,21 +105,44 @@ parse_args() {
     esac
   done
 
-  local api_base="${STAGING_API_BASE:-}"
+  configure_environment
+}
+
+configure_environment() {
+  local env_prefix api_base_var admin_bearer_var default_out_dir
+  env_prefix="$(printf '%s' "$ENVIRONMENT" | tr '[:lower:]' '[:upper:]')"
+  api_base_var="${env_prefix}_API_BASE"
+  admin_bearer_var="${env_prefix}_ADMIN_BEARER"
+  local api_base="${!api_base_var:-}"
   if [[ -z "$api_base" ]]; then
-    echo "STAGING_API_BASE is required" >&2
+    echo "$api_base_var is required" >&2
     exit 2
   fi
-  ADMIN_BEARER="${STAGING_ADMIN_BEARER:-}"
+  ADMIN_BEARER="${!admin_bearer_var:-}"
   if [[ -z "$ADMIN_BEARER" ]]; then
-    echo "STAGING_ADMIN_BEARER is required" >&2
+    echo "$admin_bearer_var is required" >&2
     exit 2
   fi
-  if [[ "${CLOUDFLARE_ENV:-staging}" != "staging" ]]; then
-    echo "CLOUDFLARE_ENV must be staging" >&2
+  if [[ "${CLOUDFLARE_ENV:-$ENVIRONMENT}" != "$ENVIRONMENT" ]]; then
+    echo "CLOUDFLARE_ENV must be $ENVIRONMENT" >&2
     exit 2
   fi
   BASE="${api_base%/}"
+
+  if [[ "$ENVIRONMENT" == "production" ]]; then
+    PREFIX="e2e_test_prod_tagbulk_"
+    CF_D1_DATABASE="${CF_D1_DATABASE:-ubm-hyogo-db-prod}"
+    SEED_SQL="$REPO_ROOT/apps/api/migrations/seed/bulk-tag-production-seed.sql"
+    CLEANUP_SQL="$REPO_ROOT/apps/api/migrations/seed/bulk-tag-production-cleanup.sql"
+    MEMBER_IDS='["e2e_test_prod_tagbulk_mem_1","e2e_test_prod_tagbulk_mem_2"]'
+    TAG_IDS='["e2e_test_prod_tagbulk_tag_1","e2e_test_prod_tagbulk_tag_2"]'
+    default_out_dir="docs/30-workflows/issue-1137-bulk-tag-production-runtime-smoke/outputs/phase-11/evidence"
+    if [[ "$OUT_DIR" == "docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/outputs/phase-11/evidence" ]]; then
+      OUT_DIR="$default_out_dir"
+    fi
+  else
+    CF_D1_DATABASE="${CF_D1_DATABASE:-ubm-hyogo-db-staging}"
+  fi
 }
 
 assert_staging_guard() {
@@ -135,12 +161,39 @@ assert_staging_guard() {
   fi
 }
 
+assert_production_guard() {
+  local allow_regex="${PRODUCTION_API_HOST_ALLOW_REGEX:-^(ubm-hyogo-api\.[A-Za-z0-9-]+\.workers\.dev|api\.ubm-hyogo\.workers\.dev)$}"
+  local host_port="${BASE#*://}"
+  host_port="${host_port%%/*}"
+  local host="${host_port%%:*}"
+  if [[ "$CF_D1_DATABASE" != "ubm-hyogo-db-prod" ]]; then
+    echo "CF_D1_DATABASE must be ubm-hyogo-db-prod" >&2
+    exit 2
+  fi
+  if ! printf '%s\n' "$host" | grep -Eiq "$allow_regex"; then
+    echo "PRODUCTION_API_BASE must match production allowlist" >&2
+    exit 2
+  fi
+  if printf '%s\n' "$host" | grep -Eiq 'staging|127\.0\.0\.1|localhost'; then
+    echo "non-production target refused" >&2
+    exit 2
+  fi
+  if [[ "${BULK_TAG_PRODUCTION_SMOKE_APPROVAL:-}" != "issue-1137-production-bulk-tag-smoke" ]]; then
+    echo "BULK_TAG_PRODUCTION_SMOKE_APPROVAL marker is required" >&2
+    exit 2
+  fi
+  if [[ "${BULK_TAG_PRODUCTION_SMOKE_CONFIRM:-}" != "I_UNDERSTAND_THIS_MUTATES_PRODUCTION_D1" ]]; then
+    echo "BULK_TAG_PRODUCTION_SMOKE_CONFIRM marker is required" >&2
+    exit 2
+  fi
+}
+
 log_redacted() {
   printf '%s\n' "$*" | bash "$REDACT" >> "$OUT_LOG"
 }
 
 run_d1() {
-  bash "$CF_SH" d1 execute "$CF_D1_DATABASE" --env staging --remote "$@"
+  bash "$CF_SH" d1 execute "$CF_D1_DATABASE" --env "$ENVIRONMENT" --remote "$@"
 }
 
 seed() {
@@ -268,7 +321,11 @@ cleanup() {
 
 main() {
   parse_args "$@"
-  assert_staging_guard
+  if [[ "$ENVIRONMENT" == "production" ]]; then
+    assert_production_guard
+  else
+    assert_staging_guard
+  fi
   mkdir -p "$OUT_DIR"
   OUT_LOG="$OUT_DIR/runtime-tag-bulk-smoke.log"
   SUMMARY_JSON="$OUT_DIR/summary.json"

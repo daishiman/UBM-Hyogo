@@ -13,6 +13,45 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
 | user gate | browser/staging visual screenshots, commit, push, PR |
 
+## public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implementation | `member-detail.ts`（stableKey 駆動 section 再構成 + hometown 抽出 + `other` 元構造保持 fallback）、public components（`ProfileHero` / `MemberDetail` / `BusinessOverviewSection` / `PersonalSection` / `MessageCard` / `MemberTags`）、`globals.css` / `legacy-public.css`（sticky footer 重なり修正）、`test-accounts/{catalog,build-seed-sql}.ts` + 生成 seed SQL |
+| evidence | focused Vitest 5 files / 31 tests PASS; web/api typecheck PASS; stableKey lint PASS; Phase 11 local runtime screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema 不変; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由 |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+## issue-1128-audit-batchid-index-optimization（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
+| implementation | `apps/api/migrations/0027_audit_log_batchid_index.sql`（`audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id`）、`apps/api/src/repository/auditLog.ts`（`batch_id = ?`） |
+| evidence | focused D1 Vitest 3 files / 28 tests PASS; `EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用 / `SCAN audit_log` 不在 |
+| invariant | public query / response shape unchanged; `audit_log` append-only repository boundary unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md` |
+| user gate | staging / production D1 migration apply, deploy, commit, push, PR |
+
+## issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | issue-1077 authenticated staging visual 基盤を未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-{audit,requests,identity-conflicts,schema,meetings}-authenticated.spec.ts` 5 本を追加。既存 `staging-visual-authenticated` project / admin storageState / CI を再利用し、config 変更なし |
+| invariant | mutation controls are never clicked; product code, D1 schema, `playwright.config.ts`, and CI are unchanged |
+| evidence | local spec implementation complete; `--list` / typecheck / lint are local evidence; staging capture and baseline generation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
+
 ## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
 
 | 項目 | 値 |
@@ -285,6 +324,19 @@
 | evidence | local shell test PASS; actionlint PASS; `pnpm smoke:test` PASS; staging real D1 mutation smoke pending user approval |
 | invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
 | user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
+
+## issue-1137-bulk-tag-production-runtime-smoke（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | issue-1081 の staging bulk tag mutation smoke を production Workers + `ubm-hyogo-db-prod` real D1 用へ拡張 |
+| implementation | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-production-{seed,cleanup}.sql`, `.github/workflows/production-runtime-smoke.yml` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`; actionlint on `production-runtime-smoke.yml` |
+| evidence | local shell test PASS; actionlint PASS; production real D1 runtime evidence pending user approval |
+| invariant | staging guard / staging SQL unchanged; production prefix fixed to `e2e_test_prod_tagbulk_`; dual marker required |
+| user gate | production real D1 seed/mutation/cleanup evidence, commit, push, PR |
 
 ## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
@@ -5596,6 +5648,18 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
 | inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
+
+# issue-1129-single-write-batchid-correlation
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / NON_VISUAL / 2026-06-07 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| API | Single admin manual tag assign writes `after_json.{tagId,source,batchId}` and single unassign writes `before_json.{tagId,batchId}` with request-scoped UUID; existing `GET /admin/audit?batchId=<id>` searches both via `$.batchId` |
+| invariant | no endpoint, response shape, D1 schema, migration, `apps/web`, or audit read-side SQL change; noop writes leave no audit row and no batchId |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS; API typecheck PASS |
+| inventory | `references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

@@ -10,7 +10,10 @@ category: 改善
 target_feature: apps/web /admin/* authenticated staging visual regression
 priority: 低
 scale: 中規模
-status: 未着手
+status: consumed
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/
+consumed_by: issue-1127-authenticated-staging-visual-admin-screens-expansion
+consumed_date: 2026-06-07
 source_phase: issue-1077-bulk-tag-authenticated-staging-visual Phase 12 detection B-2 / skill-feedback-report 再利用パターン
 created_date: 2026-06-03
 dependencies: [issue-1077-bulk-tag-authenticated-staging-visual]
@@ -24,10 +27,16 @@ dependencies: [issue-1077-bulk-tag-authenticated-staging-visual]
 | 対象機能 | `apps/web` `/admin/*` authenticated staging visual regression |
 | 優先度 | 低 |
 | 見積もり規模 | 中規模 |
-| ステータス | `未着手` |
+| ステータス | `consumed_by_issue_1127` |
 | 発見元 | issue-1077-bulk-tag-authenticated-staging-visual Phase 12 detection B-2 / skill-feedback-report 再利用パターン |
 | 発見日 | 2026-06-03 |
 | 親 workflow | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| canonical workflow | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+
+> **Consumed trace (2026-06-07)**: 本未タスクは issue #1127 canonical workflow として消費済み。
+> 5 Playwright spec の local 実装は完了し、`staging-visual-authenticated --list` で認識確認済み。
+> authenticated staging capture / baseline snapshot 生成 / commit / push / PR は user-gated のため
+> canonical workflow 側の `implemented_local_runtime_pending` 境界で管理する。
 
 ---
 

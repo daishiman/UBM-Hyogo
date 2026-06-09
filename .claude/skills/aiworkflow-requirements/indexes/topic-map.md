@@ -1072,19 +1072,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L45 |
-| Schema aliases write target（issue-191 / UT-07B） | L60 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L92 |
-| Legacy Sheets sync transition note（U-UT01-09） | L104 |
-| Schema alias assignment workflow（07b） | L116 |
-| ワークフロー関連テーブル | L120 |
-| ユーザー関連テーブル | L159 |
-| システムプロンプト関連テーブル | L193 |
-| チャット関連テーブル | L228 |
-| RAG関連テーブル | L264 |
-| Knowledge Graph関連テーブル | L306 |
-| 変換処理関連テーブル | L440 |
-| インデックス設計 | L499 |
-| 関連ドキュメント / 変更履歴 / DDL テンプレ | L503 |
+| Application audit_log（issue-1128 batchId index） | L60 |
+| Schema aliases write target（issue-191 / UT-07B） | L78 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L110 |
+| Legacy Sheets sync transition note（U-UT01-09） | L122 |
+| Schema alias assignment workflow（07b） | L134 |
+| ワークフロー関連テーブル | L138 |
+| ユーザー関連テーブル | L177 |
+| システムプロンプト関連テーブル | L211 |
+| チャット関連テーブル | L246 |
+| RAG関連テーブル | L282 |
+| Knowledge Graph関連テーブル | L324 |
+| 変換処理関連テーブル | L458 |
+| インデックス設計 | L517 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L521 |
 
 ---
 
@@ -3018,6 +3019,48 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L40 |
 | User-gated actions | L46 |
 
+### references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L15 |
+| Implementation targets | L27 |
+| Invariants | L37 |
+| Runtime visual evidence | L44 |
+| Gates | L54 |
+| Source unassigned trace | L62 |
+| User-gated actions | L68 |
+| Lessons Learned | L75 |
+
+### references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Evidence | L25 |
+| Contract Notes | L31 |
+
+### references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L6 |
+| Implementation Artifacts | L16 |
+| Evidence | L24 |
+| Contract Notes | L31 |
+
+### references/workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Gates | L23 |
+| Invariants | L30 |
+| Lessons Learned | L36 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -4245,6 +4288,16 @@ node scripts/list-specs.js --topics
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
+
+### references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L26 |
+| Invariants | L37 |
+| Lessons Learned | L41 |
 
 ### references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md
 
@@ -9027,19 +9080,22 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4022 |
-| フェーズ構造（概要） | L4031 |
-| 品質ゲート（概要） | L4062 |
-| 出力テンプレート | L4073 |
-| 実行時のコマンド・エージェント・スキル | L4096 |
-| 昇格パターン集 | L4120 |
-| Current Active / Spec Created Tasks | L4122 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4288 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4356 |
-| issue-998-members-publish-state-production-rollout | L4383 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4442 |
-| issue-1068-admin-tag-inline-create-ui | L4456 |
-| issue-1111-proxy-transport-util-unify | L4474 |
+| ドキュメント構成 | L4077 |
+| フェーズ構造（概要） | L4086 |
+| 品質ゲート（概要） | L4117 |
+| 出力テンプレート | L4128 |
+| 実行時のコマンド・エージェント・スキル | L4151 |
+| 昇格パターン集 | L4175 |
+| Current Active / Spec Created Tasks | L4177 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4343 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4411 |
+| issue-1007-density-toggle-help-hint-hardening | L4435 |
+| issue-1079-bulk-tag-audit-batch-filter | L4448 |
+| issue-1128-audit-batchid-index-optimization | L4461 |
+| issue-998-members-publish-state-production-rollout | L4478 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4537 |
+| issue-1068-admin-tag-inline-create-ui | L4551 |
+| issue-1111-proxy-transport-util-unify | L4569 |
 
 ### references/task-workflow-backlog-part2.md
 
