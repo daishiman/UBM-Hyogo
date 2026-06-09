@@ -10,6 +10,8 @@ import {
 } from "../../repository/attendance";
 import { findCurrentResponse } from "../../repository/responses";
 import { listFieldsByResponseId } from "../../repository/responseFields";
+import { listFieldOverridesByMemberId } from "../../repository/memberFieldOverrides";
+import { resolveFieldPrecedence } from "../_shared/field-precedence";
 import { listFieldsByVersion } from "../../repository/schemaQuestions";
 import { getStatus } from "../../repository/status";
 import { existsPublicMember } from "../../repository/publicMembers";
@@ -71,14 +73,19 @@ export const getPublicMemberProfileUseCase = async (
     : undefined;
 
   const attendanceProvider = requireAttendanceProvider(ctx);
-  const [fieldRows, tagRows, schemaRows, attendancePage] = await Promise.all([
-    listFieldsByResponseId(ctx, response.response_id as never),
-    memberTagsProvider.listTagsByMemberId(memberId as never),
-    listFieldsByVersion(ctx, response.form_id, response.revision_id),
-    attendanceProvider.findByMemberId(memberId as never, {
-      limit: ATTENDANCE_PAGE_DEFAULT_LIMIT,
-    }),
-  ]);
+  const [fieldRows, overrideRows, tagRows, schemaRows, attendancePage] =
+    await Promise.all([
+      listFieldsByResponseId(ctx, response.response_id as never),
+      listFieldOverridesByMemberId(ctx, memberId as never),
+      memberTagsProvider.listTagsByMemberId(memberId as never),
+      listFieldsByVersion(ctx, response.form_id, response.revision_id),
+      attendanceProvider.findByMemberId(memberId as never, {
+        limit: ATTENDANCE_PAGE_DEFAULT_LIMIT,
+      }),
+    ]);
+
+  // L1 admin override を表示値にマージ（AC-6・公開詳細）。override 済みフィールドが最優先。
+  const mergedFields = resolveFieldPrecedence(fieldRows, overrideRows);
 
   return toPublicMemberProfile({
     member: { memberId },
@@ -87,7 +94,7 @@ export const getPublicMemberProfileUseCase = async (
       publishState: status.publish_state,
       isDeleted: status.is_deleted === 1,
     },
-    fields: fieldRows.map((f) => ({
+    fields: mergedFields.map((f) => ({
       stableKey: f.stable_key,
       value: parseJson(f.value_json),
     })),

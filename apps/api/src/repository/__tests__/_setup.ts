@@ -74,6 +74,7 @@ const TABLES = [
   "member_attendance",
   "meeting_sessions",
   "member_status",
+  "member_field_overrides",
   "member_identities",
   "member_field_visibility",
   "response_fields",
