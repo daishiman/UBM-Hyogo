@@ -29,7 +29,7 @@ service-binding 経路の AC-1（binding 優先）を検証するとき、`vi.st
 
 ## L-UT05A-FP-004: HTTP fallback 経路は loopback subrequest 404 に注意し、service-binding を一次経路にする
 
-HTTP fallback URL は `getBaseUrl()` 経由で `PUBLIC_API_BASE_URL` を読むが、staging で同一 Cloudflare account の `*.workers.dev` に対する loopback subrequest が 404 を返す事象が表面化した。
+HTTP fallback URL は `getBaseUrl()` 経由で `NEXT_PUBLIC_API_BASE_URL` を読むが、staging で同一 Cloudflare account の `*.workers.dev` に対する loopback subrequest が 404 を返す事象が表面化した。旧 `PUBLIC_API_BASE_URL` は issue-1145 で削除済み。
 
 - このため production / staging では **service-binding が必ず一次経路**でなければならない。HTTP fallback は local dev (`pnpm dev` 等) で `API_SERVICE` binding が未注入のときの保険であり、`workers.dev` ホスト宛の loopback fetch を期待しない。
 - service-binding URL は `https://service-binding.local${path}` を使う。host は worker 側で無視されるが、`new URL(...)` parse が必要なため正規 URL の体裁を維持する。

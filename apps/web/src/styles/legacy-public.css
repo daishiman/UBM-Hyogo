@@ -714,9 +714,7 @@
   }
 
   [data-component="public-footer"] {
-    position: sticky;
-    bottom: 0;
-    z-index: 20;
+    position: static;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1199,9 +1197,7 @@
   }
 
   [data-component="public-footer"] {
-    position: sticky;
-    bottom: 0;
-    z-index: 20;
+    position: static;
     display: flex;
     align-items: center;
     justify-content: space-between;

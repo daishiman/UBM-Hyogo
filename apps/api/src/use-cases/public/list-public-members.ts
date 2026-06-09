@@ -5,6 +5,7 @@
 import type { DbCtx } from "../../repository/_shared/db";
 import { STABLE_KEY, asMemberId, asResponseId } from "@ubm-hyogo/shared";
 import { listFieldsByResponseIds } from "../../repository/responseFields";
+import { listFieldOverridesByMemberIds } from "../../repository/memberFieldOverrides";
 import { listTagsByMemberIds } from "../../repository/memberTags";
 import {
   aggregateTopTags,
@@ -119,12 +120,27 @@ export const listPublicMembersUseCase = async (
   );
   const fieldRows =
     responseIds.length > 0 ? await listFieldsByResponseIds(ctx, responseIds) : [];
+  const overrideRows =
+    memberIds.length > 0
+      ? await listFieldOverridesByMemberIds(ctx, memberIds.map((id) => asMemberId(id)))
+      : [];
+  const responseIdByMemberId = new Map(
+    memberRows.map((m) => [m.member_id, m.current_response_id]),
+  );
   const fieldsByResponseId = new Map<string, Map<string, string | null>>();
   for (const f of fieldRows) {
     if (!(SUMMARY_KEYS as readonly string[]).includes(f.stable_key)) continue;
     const fields = fieldsByResponseId.get(f.response_id) ?? new Map();
     fields.set(f.stable_key, f.value_json);
     fieldsByResponseId.set(f.response_id, fields);
+  }
+  for (const override of overrideRows) {
+    if (!(SUMMARY_KEYS as readonly string[]).includes(override.stable_key)) continue;
+    const responseId = responseIdByMemberId.get(override.member_id);
+    if (!responseId) continue;
+    const fields = fieldsByResponseId.get(responseId) ?? new Map();
+    fields.set(override.stable_key, override.value_json);
+    fieldsByResponseId.set(responseId, fields);
   }
 
   const items: PublicMemberListItemSource[] = [];

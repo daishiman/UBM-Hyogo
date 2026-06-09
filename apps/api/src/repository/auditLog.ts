@@ -1,7 +1,7 @@
 // audit_log repository（append-only）
 // AC-6: append-only。UPDATE / DELETE API は提供しない（型で阻止）。
 // DDL: audit_log(audit_id PK, actor_id, actor_email, action, target_type, target_id,
-//                 before_json, after_json, created_at)
+//                 before_json, after_json, created_at, batch_id generated)
 import type { DbCtx } from "./_shared/db";
 import type { AdminEmail, AdminId, AuditAction } from "./_shared/brand";
 
@@ -197,12 +197,7 @@ export const listFiltered = async (
   if (filters.targetId) add("target_id = ?", filters.targetId);
   if (filters.fromUtc) add("created_at >= ?", filters.fromUtc);
   if (filters.toUtcExclusive) add("created_at < ?", filters.toUtcExclusive);
-  if (filters.batchId) {
-    bindings.push(filters.batchId);
-    where.push(
-      `((json_valid(after_json) AND json_extract(after_json, '$.batchId') = ?${bindings.length}) OR (json_valid(before_json) AND json_extract(before_json, '$.batchId') = ?${bindings.length}))`,
-    );
-  }
+  if (filters.batchId) add("batch_id = ?", filters.batchId);
   if (filters.cursor) {
     bindings.push(filters.cursor.createdAt, filters.cursor.auditId);
     where.push(

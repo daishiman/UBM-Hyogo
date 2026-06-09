@@ -22,6 +22,7 @@ Google Forms API
 
 Cloudflare D1
   -> normalized app state (canonical DB)
+  -> member_field_overrides (admin-confirmed profile edits)
 ```
 
 GAS prototype はこの構成に含めない。`localStorage` ベースの UI 叩き台としてのみ扱う。
@@ -129,6 +130,7 @@ Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers 
 | `form_field_aliases` | `questionId` 差し替え追跡 |
 | `member_responses` | 生回答の正規化保存 |
 | `member_identities` | stable member entity |
+| `member_field_overrides` | 管理者の確定プロフィール編集（表示時 L1 override） |
 | `member_status` | consent snapshot / 公開 / 削除状態 |
 | `deleted_members` | 削除履歴 |
 | `meeting_sessions` | 開催日 |
@@ -142,7 +144,7 @@ Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers 
 | `tag_assignment_queue` | 手動確認キュー |
 | `sync_jobs` | 同期実行履歴 |
 
-`profile_overrides` は本人更新の正本から外すため、MVP 必須テーブルに含めない。
+`profile_overrides` は本人更新の正本から外すため、MVP 必須テーブルに含めない。本人更新は Google Form 再回答を正本とし、管理者の確定編集だけを `member_field_overrides` に保持する。
 
 ---
 
@@ -176,10 +178,39 @@ CREATE TABLE IF NOT EXISTS member_identities (
   current_response_id TEXT NOT NULL,
   first_response_id TEXT NOT NULL,
   last_submitted_at TEXT NOT NULL,
+  seed_source TEXT,
+  seed_imported_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 ```
+
+`seed_source` は `forms` / `sheets` の provenance を保持する。スプレッドシート seed は import-once で、既存 member は `seed_source` の値に関係なく上書きしない。新規 seed 時だけ `seed_source='sheets'` と `seed_imported_at` を記録する。
+
+### member_field_overrides
+
+```sql
+CREATE TABLE IF NOT EXISTS member_field_overrides (
+  member_id TEXT NOT NULL,
+  stable_key TEXT NOT NULL,
+  value_json TEXT,
+  raw_value_json TEXT,
+  updated_by TEXT NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (member_id, stable_key)
+);
+
+CREATE INDEX IF NOT EXISTS idx_member_field_overrides_member
+  ON member_field_overrides(member_id);
+```
+
+プロフィール表示時の値解決は次の順序を正本とする。
+
+1. L1: `member_field_overrides` の管理者確定編集
+2. L2: Google Form 本人再回答の `member_responses` / `response_fields`
+3. L3: スプレッドシート初回 seed の `member_responses` / `response_fields`
+
+L1 は再同期と本人再回答では消さない。L2/L3 は同じ回答層に保存し、`member_identities.seed_source` / `seed_imported_at` で seed provenance を区別する。
 
 ### member_status
 

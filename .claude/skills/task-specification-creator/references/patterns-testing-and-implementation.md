@@ -34,9 +34,10 @@
   | JSON validity | 既存 row に破損 JSON が混在し得る場合は `json_valid(column)` guard を入れること |
   | full scan | JSON index 不在時の scan 特性、keyset cursor + LIMIT、sparse key、plain 列併用誘導 |
   | schema 化境界 | generated column / dedicated column / index migration を今回 scope に入れるか、運用トリガ付き別関心にするか |
+- **D1 generated column index 化の注意**: SQLite / D1 で `ALTER TABLE ... ADD COLUMN` により generated column を追加する場合、`STORED` は追加できず `VIRTUAL` のみ許可される。append-only 大テーブルで既存行を消さずに JSON payload 由来の検索キーを index 化する場合は、`VIRTUAL generated column + partial index` を第一候補にし、`EXPLAIN QUERY PLAN` で index 使用を実測する。`STORED` が必要な場合はテーブル再構築を伴う別タスクとして扱う。
 - **検証**: repository test で両 JSON path の hit、破損 JSON row 混在時に落ちないこと、他 filter との AND 合成、cursor pagination 併用、不一致時 empty 200 を固定する。API/UI がある場合は `appliedFilters` echo と pagination href の query 保持も contract/component test に含める。
 - **発見日**: 2026-06-03
-- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`
+- **関連タスク**: `issue-1079-bulk-tag-audit-batch-filter`, `issue-1128-audit-batchid-index-optimization`
 
 ### カバレッジ閾値免除判定パターン
 
@@ -456,6 +457,25 @@
 - **注意**: static import 済み module へ後段 `vi.doMock()` を当てると mock cache が不安定になる。async adapter を同一 spec で扱う場合は `vi.hoisted()` + partial mock、または adapter unit は既存 focused regression に委譲する。
 - **発見日**: 2026-05-30
 - **関連タスク**: `issue-1010-auth-view-session-contract-integration-test`
+
+### Bash 共通 lib 抽出（二段 source）の非退化検証パターン
+
+- **状況**: 複数 bash runner（smoke / CI script 等）にコピー重複した共通機構を新規共通 lib（`scripts/.../lib/<name>.sh`）へ抽出し SSOT 化する NON_VISUAL refactor。挙動を 1 ビットも変えず、既存 runner test が全 PASS することが完了条件。
+- **二段 source contract（最重要）**:
+  - 実行時は `runner` が `source lib`、test は `source "$RUNNER"`（runner 経由で lib も解決）する **二段 source**。lib 化後も `source "$RUNNER"` 後に **runner 固有関数が呼べる**ことを test で担保する。
+  - test が `source "$RUNNER"` で直接呼ぶ runner 固有関数（例: `assert_all_status` / `extract_count`）は **lib へ移さず runner に残す**。安易に lib へ移すと直叩き test が壊れる。
+- **lib 設計制約**:
+  - 共通 lib は `set -euo pipefail` / `trap` を **持たない**。これらは各 runner が所有する process lifecycle であり、lib に持たせると source 元の終了挙動を二重に書き換える。lib 冒頭コメントに「sourced by runners that already set shell options」を明記し逸脱を防ぐ。
+  - 公開変数は `<PREFIX>_*`（例 `SMOKE_OVERALL_STATUS`）、公開関数は `<prefix>_*`（例 `smoke_write_summary`）で名前空間化する。
+- **差分は統合でなく引数化で吸収**:
+  | 観点 | アンチパターン | 推奨 |
+  | --- | --- | --- |
+  | runner 間で異なる出力 shape | 1 つの固定 shape に統合（contract 変更＝退化） | `fn <...> <array_key>` のように **引数化** して両 shape を非退化再現 |
+  | 実装が 3 通りある候補（例 `assert_target`） | 分岐肥大の共通関数に押し込む | 純粋部品（host-allowlist 照合等）だけ抽出し残りは runner 残置（MECE 境界） |
+- **共通化候補の実態確認**: issue / 元仕様が挙げる共通化候補は鵜呑みにせず、着手時に実コードを grep して重複実態を再確認する（重複でない / 実装が runner ごとに異なる候補を除外）。
+- **AC 化例**: 非退化（出力 byte 不変）/ array_key 引数化 / 二段 source 解決 / lib に lifecycle 非保持 / 既存 runner test 無改修 PASS / shellcheck clean。
+- **発見日**: 2026-06-08
+- **関連タスク**: `issue-1138-smoke-runner-common-lib-extraction`
 
 ### CI secret contract gate responsibility split
 

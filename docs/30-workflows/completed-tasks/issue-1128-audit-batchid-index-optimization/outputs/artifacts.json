@@ -1,0 +1,59 @@
+{
+  "task_id": "issue-1128-audit-batchid-index-optimization",
+  "created_at": "2026-06-07",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "implementation_mode": "new",
+  "workflow_state": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization",
+    "github_issue": 1128,
+    "github_issue_state": "CLOSED",
+    "parent_workflow": "issue-1079-bulk-tag-audit-batch-filter",
+    "task_id": "task-issue-1079-followup-001-audit-batchid-index-optimization",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/phase-3-design-review.md",
+        "approver": "daishiman",
+        "notes": "Spec authoring gate. Phase 1-3 design fixed: 0027 migration adds a batchId correlation column (VIRTUAL generated column primary, plain correlation_id fallback) + index, repository listFiltered switches batchId search from json_extract full scan to index column scan. AC-1..7 mapped and completable in one implementation cycle. No app-facing UPDATE/DELETE added (append-only invariant preserved)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-07T10:14:33+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/phase-9-qa.md",
+        "approver": "daishiman",
+        "notes": "Local implementation QA passed. Focused D1 Vitest: apps/api/migrations/__tests__/0027_audit_log_batchid_index.spec.ts + apps/api/src/repository/__tests__/auditLog.repository.spec.ts + apps/api/src/routes/admin/audit.contract.spec.ts = 3 files / 28 tests PASS. EXPLAIN QUERY PLAN asserts idx_audit_log_batch_id and no SCAN audit_log."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "Migration apply (staging/production) and PR creation remain user-gated."
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "status": "completed", "file": "phase-1-requirements.md" },
+    "phase-2": { "status": "completed", "file": "phase-2-design.md" },
+    "phase-3": { "status": "completed", "file": "phase-3-design-review.md" },
+    "phase-4": { "status": "completed", "file": "phase-4-test-plan.md" },
+    "phase-5": { "status": "completed", "file": "phase-5-implementation.md" },
+    "phase-6": { "status": "completed", "file": "phase-6-test-additions.md" },
+    "phase-7": { "status": "completed", "file": "phase-7-coverage.md" },
+    "phase-8": { "status": "completed", "file": "phase-8-refactor.md" },
+    "phase-9": { "status": "completed", "file": "phase-9-qa.md" },
+    "phase-10": { "status": "completed", "file": "phase-10-final-review.md" },
+    "phase-11": { "status": "completed", "file": "phase-11-manual-test.md" },
+    "phase-12": { "status": "completed", "file": "phase-12-documentation.md" },
+    "phase-13": { "status": "blocked", "file": "phase-13-pr.md" }
+  }
+}
