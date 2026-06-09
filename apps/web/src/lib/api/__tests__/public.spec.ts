@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const cloudflareEnv: {
   API_SERVICE?: { fetch: typeof fetch };
-  PUBLIC_API_BASE_URL?: string;
+  NEXT_PUBLIC_API_BASE_URL?: string;
 } = {};
 const cloudflareContext = vi.fn(() => ({ env: cloudflareEnv }));
 
@@ -37,10 +37,10 @@ type PublicStatsView = z.infer<typeof PublicStatsViewZ>;
 
 const reset = () => {
   delete cloudflareEnv.API_SERVICE;
-  delete cloudflareEnv.PUBLIC_API_BASE_URL;
+  delete cloudflareEnv.NEXT_PUBLIC_API_BASE_URL;
   cloudflareContext.mockImplementation(() => ({ env: cloudflareEnv }));
-  delete process.env.PUBLIC_API_BASE_URL;
-  process.env.PUBLIC_API_BASE_URL = "http://localhost:8787";
+  delete process.env.NEXT_PUBLIC_API_BASE_URL;
+  process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost:8787";
 };
 
 const baseListResponse = (

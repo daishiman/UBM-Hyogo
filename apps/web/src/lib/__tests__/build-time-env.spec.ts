@@ -13,7 +13,6 @@ const wranglerPath = resolve(repoRoot, "apps/web/wrangler.toml");
 const requiredBuildEnvKeys = [
   "ENVIRONMENT",
   "NEXT_PUBLIC_API_BASE_URL",
-  "PUBLIC_API_BASE_URL",
   "INTERNAL_API_BASE_URL",
   "AUTH_URL",
   "SENTRY_ENVIRONMENT",
@@ -94,7 +93,6 @@ describe("build-time env injection contract", () => {
   it("getEnv() succeeds with full EnvSchema-required keys for staging build", () => {
     expect(getEnv(readBuildEnv("staging"))).toMatchObject({
       ENVIRONMENT: "staging",
-      PUBLIC_API_BASE_URL: "https://ubm-hyogo-api-staging.daishimanju.workers.dev",
       INTERNAL_API_BASE_URL: "https://ubm-hyogo-api-staging.daishimanju.workers.dev",
       AUTH_URL: "https://ubm-hyogo-web-staging.daishimanju.workers.dev",
       SENTRY_ENVIRONMENT: "staging",
@@ -107,7 +105,6 @@ describe("build-time env injection contract", () => {
   it("getEnv() succeeds with full EnvSchema-required keys for production build", () => {
     expect(getEnv(readBuildEnv("production"))).toMatchObject({
       ENVIRONMENT: "production",
-      PUBLIC_API_BASE_URL: "https://ubm-hyogo-api.daishimanju.workers.dev",
       INTERNAL_API_BASE_URL: "https://ubm-hyogo-api.daishimanju.workers.dev",
       AUTH_URL: "https://ubm-hyogo-web-production.daishimanju.workers.dev",
       SENTRY_ENVIRONMENT: "production",

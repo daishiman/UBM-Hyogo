@@ -7,13 +7,13 @@ compatibility_flags = ["nodejs_compat"]
 enabled = true
 
 [vars]
-PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
+NEXT_PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 
 [env.staging]
 name = "ubm-hyogo-og-staging"
 
 [env.staging.vars]
-PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
+NEXT_PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
 
 [[env.staging.services]]
 binding = "API_SERVICE"
@@ -26,7 +26,7 @@ enabled = true
 name = "ubm-hyogo-og-production"
 
 [env.production.vars]
-PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
+NEXT_PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 
 [[env.production.services]]
 binding = "API_SERVICE"

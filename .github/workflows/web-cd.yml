@@ -33,7 +33,6 @@ jobs:
         env:
           ENVIRONMENT: staging
           NEXT_PUBLIC_API_BASE_URL: https://ubm-hyogo-api-staging.daishimanju.workers.dev
-          PUBLIC_API_BASE_URL: https://ubm-hyogo-api-staging.daishimanju.workers.dev
           INTERNAL_API_BASE_URL: https://ubm-hyogo-api-staging.daishimanju.workers.dev
           AUTH_URL: https://ubm-hyogo-web-staging.daishimanju.workers.dev
           SENTRY_ENVIRONMENT: staging
@@ -178,7 +177,6 @@ jobs:
         env:
           ENVIRONMENT: production
           NEXT_PUBLIC_API_BASE_URL: https://ubm-hyogo-api.daishimanju.workers.dev
-          PUBLIC_API_BASE_URL: https://ubm-hyogo-api.daishimanju.workers.dev
           INTERNAL_API_BASE_URL: https://ubm-hyogo-api.daishimanju.workers.dev
           AUTH_URL: https://ubm-hyogo-web-production.daishimanju.workers.dev
           SENTRY_ENVIRONMENT: production

@@ -5,10 +5,8 @@ import { AttendanceFilterBar } from "./AttendanceFilterBar";
 import { KpiPanel } from "./KpiPanel";
 import { AttendanceTrendChart } from "./AttendanceTrendChart";
 import { AttendanceZoneDistributionChart } from "./AttendanceZoneDistributionChart";
-import { SessionAttendanceTable } from "./SessionAttendanceTable";
-import { MemberAttendanceTable } from "./MemberAttendanceTable";
-import { AttendanceTop10Ranking } from "./AttendanceTop10Ranking";
 import { AttendanceAbsenteeAlert } from "./AttendanceAbsenteeAlert";
+import { AttendanceDetailTabs } from "./AttendanceDetailTabs";
 
 interface Props {
   readonly filterState: AttendanceFilterState;
@@ -34,98 +32,75 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
       </p>
       <AttendanceFilterBar initial={filterState} />
 
-      {bundle.overview.ok ? (
-        <KpiPanel overview={bundle.overview.data} attendeeCount={attendeeCount} />
-      ) : (
-        <AdminSectionErrorClient
-          sectionLabel="出席KPI"
-          code={bundle.overview.error.code}
-          message={bundle.overview.error.message}
-        />
-      )}
-
-      <div className="attendance-charts-grid">
-        <div>
-          <h2>出席トレンド</h2>
-          <p className="attendance-section-intro">
-            月別の延べ出席数と開催セッション数の変化を確認します。
-          </p>
-          {bundle.trend.ok ? (
-            <AttendanceTrendChart trend={bundle.trend.data} />
+      <section className="attendance-zone attendance-zone--primary" aria-labelledby="attendance-primary-heading">
+        <div className="attendance-zone-heading">
+          <h2 id="attendance-primary-heading">PRIMARY</h2>
+          <p className="attendance-section-intro">全体の健全性と、今日フォローすべき対象を最初に判断します。</p>
+        </div>
+        <div className="attendance-primary-grid">
+          {bundle.overview.ok ? (
+            <KpiPanel overview={bundle.overview.data} attendeeCount={attendeeCount} />
           ) : (
             <AdminSectionErrorClient
-              sectionLabel="出席トレンド"
-              code={bundle.trend.error.code}
-              message={bundle.trend.error.message}
+              sectionLabel="出席KPI"
+              code={bundle.overview.error.code}
+              message={bundle.overview.error.message}
+            />
+          )}
+          {bundle.absentees.ok ? (
+            <AttendanceAbsenteeAlert data={bundle.absentees.data} />
+          ) : (
+            <AdminSectionErrorClient
+              sectionLabel="要フォローアップ"
+              code={bundle.absentees.error.code}
+              message={bundle.absentees.error.message}
             />
           )}
         </div>
-        <div>
-          <h2>出席回数帯別分布</h2>
-          <p className="attendance-section-intro">
-            メンバーを累計出席回数帯に分け、未出席・低頻度層の偏りを確認します。
-          </p>
-          {bundle.zoneDistribution.ok ? (
-            <AttendanceZoneDistributionChart data={bundle.zoneDistribution.data} />
-          ) : (
-            <AdminSectionErrorClient
-              sectionLabel="区画別分布"
-              code={bundle.zoneDistribution.error.code}
-              message={bundle.zoneDistribution.error.message}
-            />
-          )}
+      </section>
+
+      <section className="attendance-zone attendance-zone--trend" aria-labelledby="attendance-trend-heading">
+        <div className="attendance-zone-heading">
+          <h2 id="attendance-trend-heading">TREND</h2>
+          <p className="attendance-section-intro">月別推移と参加回数帯から、参加の偏りを確認します。</p>
         </div>
-      </div>
+        <div className="attendance-charts-grid">
+          <article className="attendance-analysis-card">
+            <h3>出席トレンド</h3>
+            <p className="attendance-section-intro">月別の延べ出席数と開催セッション数の変化を確認します。</p>
+            {bundle.trend.ok ? (
+              <AttendanceTrendChart trend={bundle.trend.data} />
+            ) : (
+              <AdminSectionErrorClient
+                sectionLabel="出席トレンド"
+                code={bundle.trend.error.code}
+                message={bundle.trend.error.message}
+              />
+            )}
+          </article>
+          <article className="attendance-analysis-card">
+            <h3>出席回数帯別分布</h3>
+            <p className="attendance-section-intro">未出席・低頻度層の偏りを確認します。</p>
+            {bundle.zoneDistribution.ok ? (
+              <AttendanceZoneDistributionChart data={bundle.zoneDistribution.data} />
+            ) : (
+              <AdminSectionErrorClient
+                sectionLabel="区画別分布"
+                code={bundle.zoneDistribution.error.code}
+                message={bundle.zoneDistribution.error.message}
+              />
+            )}
+          </article>
+        </div>
+      </section>
 
-      <h2>セッション別出席状況</h2>
-      <p className="attendance-section-intro">
-        各セッションの出席者数と出席率を確認し、詳細から参加者を追跡します。
-      </p>
-      {bundle.bySession.ok ? (
-        <SessionAttendanceTable rows={bundle.bySession.data} />
-      ) : (
-        <AdminSectionErrorClient
-          sectionLabel="セッション別出席状況"
-          code={bundle.bySession.error.code}
-          message={bundle.bySession.error.message}
-        />
-      )}
-
-      <h2>会員別出席率</h2>
-      <p className="attendance-section-intro">
-        メンバーごとの出席数と出席率を比較し、フォロー対象を見つけます。
-      </p>
-      {bundle.ranking.ok ? (
-        <MemberAttendanceTable rows={bundle.ranking.data} />
-      ) : (
-        <AdminSectionErrorClient
-          sectionLabel="会員別出席率"
-          code={bundle.ranking.error.code}
-          message={bundle.ranking.error.message}
-        />
-      )}
-
-      <h2>出席ランキング TOP 10</h2>
-      <p className="attendance-section-intro">
-        期間内で出席回数が多いメンバーを上位から確認します。
-      </p>
-      {bundle.ranking.ok ? (
-        <AttendanceTop10Ranking rows={bundle.ranking.data} />
-      ) : null}
-
-      <h2>要フォローアップ</h2>
-      <p className="attendance-section-intro">
-        直近セッションで連続欠席しているメンバーを確認します。
-      </p>
-      {bundle.absentees.ok ? (
-        <AttendanceAbsenteeAlert data={bundle.absentees.data} />
-      ) : (
-        <AdminSectionErrorClient
-          sectionLabel="要フォローアップ"
-          code={bundle.absentees.error.code}
-          message={bundle.absentees.error.message}
-        />
-      )}
+      <section className="attendance-zone attendance-zone--detail" aria-labelledby="attendance-detail-heading">
+        <div className="attendance-zone-heading">
+          <h2 id="attendance-detail-heading">DETAIL</h2>
+          <p className="attendance-section-intro">詳細テーブルは必要な観点だけを切り替えて確認します。</p>
+        </div>
+        <AttendanceDetailTabs bySession={bundle.bySession} ranking={bundle.ranking} />
+      </section>
     </div>
   );
 }

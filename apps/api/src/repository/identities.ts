@@ -146,3 +146,47 @@ export async function updateCurrentResponse(
     .bind(id, currentResponseId, lastSubmittedAt)
     .run();
 }
+
+export interface SeedProvenance {
+  seedSource: "sheets" | "forms" | null;
+  seedImportedAt: string | null;
+}
+
+export async function getSeedProvenance(
+  c: DbCtx,
+  id: MemberId,
+): Promise<SeedProvenance | null> {
+  const row = await c.db
+    .prepare(
+      `SELECT seed_source, seed_imported_at
+         FROM member_identities
+        WHERE member_id = ?1
+        LIMIT 1`,
+    )
+    .bind(id)
+    .first<{ seed_source: "sheets" | "forms" | null; seed_imported_at: string | null }>();
+  if (!row) return null;
+  return {
+    seedSource: row.seed_source,
+    seedImportedAt: row.seed_imported_at,
+  };
+}
+
+export async function markSeedImported(
+  c: DbCtx,
+  id: MemberId,
+  source: "sheets" | "forms",
+  importedAt: string,
+): Promise<void> {
+  await c.db
+    .prepare(
+      `UPDATE member_identities
+          SET seed_source = ?2,
+              seed_imported_at = ?3,
+              updated_at = datetime('now')
+        WHERE member_id = ?1
+          AND seed_source IS NULL`,
+    )
+    .bind(id, source, importedAt)
+    .run();
+}

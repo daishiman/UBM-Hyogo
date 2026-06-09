@@ -49,13 +49,14 @@ branch protection への実投入は user approval 後に dev / main 個別 payl
 | `responseEmail` | Google が自動収集する system field | フォーム項目ではない |
 | 現在有効な回答 | D1 `member_identities.current_response_id` | 同じ `responseEmail` の最新回答を採用 |
 | 公開状態・削除状態 | D1 `member_status` | 管理運用の正本 |
+| 管理者確定プロフィール編集 | D1 `member_field_overrides` | 表示時に Form 回答より優先する L1 override |
 | 開催日 | D1 `meeting_sessions` | Google Form schema 外の admin-managed data |
 | 参加履歴 | D1 `member_attendance` | Google Form schema 外の admin-managed data |
 | タグ辞書 | D1 `tag_definitions` | 管理・検索用 |
 | タグ付与結果 | D1 `member_tags` | ルールまたは管理補正の結果 |
 | タグ付与キュー | D1 `tag_assignment_queue` | 手動確認待ちキュー |
 
-本人のプロフィール本文を D1 の上書き差分で持つ前提は採らない。MVP では Google Form 再回答を正式な更新経路にする。
+本人によるプロフィール本文更新は Google Form 再回答を正式な更新経路にする。管理者の確定編集だけは `member_field_overrides` に保持し、表示時に L1 `member_field_overrides` > L2 Google Form 本人再回答 > L3 スプレッドシート初回 seed の順で合成する。
 
 ---
 
@@ -77,6 +78,7 @@ sync worker
 Cloudflare D1
   -> form_manifests / form_fields / form_field_aliases
   -> member_responses / member_identities / member_status
+  -> member_field_overrides
   -> deleted_members / admin_users / magic_tokens
   -> meeting_sessions / member_attendance
   -> tag_definitions / member_tags / tag_assignment_queue / sync_jobs
@@ -97,7 +99,8 @@ apps/web (Cloudflare Workers via @opennextjs/cloudflare)
 3. `responseEmail` はフォーム項目ではなく system field として扱う
 4. Google Form schema 外のデータは admin-managed data として分離する
 5. 本人更新は Google Form 再回答または edit URL 再入力で行う
-6. GAS prototype は本番バックエンド仕様に昇格させない
+6. 管理者確定編集は `member_field_overrides` に保存し、本人再回答や再同期で消さない
+7. GAS prototype は本番バックエンド仕様に昇格させない
 
 ---
 
@@ -165,6 +168,7 @@ apps/web (Cloudflare Workers via @opennextjs/cloudflare)
   -> 参加履歴付与/解除
   -> タグ割当キュー処理
   -> スキーマ差分確認
+  -> プロフィール項目の確定編集
 ```
 
 ---
@@ -175,8 +179,8 @@ apps/web (Cloudflare Workers via @opennextjs/cloudflare)
 |------|------|------|------|
 | 画面閲覧 | 公開ページのみ | 公開 + 自分の会員画面 | 全画面 |
 | フィールド visibility | `public` | `public` + `member` | `public` + `member` + `admin` |
-| 回答更新 | Google Form 経由のみ | Google Form 経由のみ | Google Form schema 外データのみ直接管理 |
-| 管理可能なデータ | なし | なし | 公開状態、削除、開催日、参加履歴、タグ、schema mapping |
+| 回答更新 | Google Form 経由のみ | Google Form 経由のみ | Google Form schema 外データ + 管理者確定プロフィール編集 |
+| 管理可能なデータ | なし | なし | 公開状態、削除、開催日、参加履歴、タグ、schema mapping、profile field override |
 
 ---
 

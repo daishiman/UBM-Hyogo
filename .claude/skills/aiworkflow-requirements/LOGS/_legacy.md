@@ -1266,3 +1266,6 @@ production env monitor secret cleanup は user-gated。
 - `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`/admin/tags` queue と `/admin/tags/catalog` master catalog の境界を正本化。
 - apps/web に catalog page / panel / row / lifecycle helper / shell nav / CSS / focused tests を追加。apps/api / D1 / Google Form は不変。
 - focused Vitest component/pure/nav suite PASS、local static visual PNGs present、web typecheck PASS。authenticated runtime/staging screenshot、commit、push、PR は user-gated。
+## 2026-06-09 member-data-source-precedence-and-profile-session-fix
+
+`docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` を `implemented_local_runtime_pending / implementation / VISUAL` として同一 wave 同期。`member_field_overrides`、Sheets seed import-once、L1>L2>L3 precedence、admin override endpoint/UI、`/profile` auth fail-safe を実装し、system specs / artifact inventory / indexes / changelog を更新。remote D1 apply、staging deploy、authenticated visual capture、commit、push、PR は user-gated。
