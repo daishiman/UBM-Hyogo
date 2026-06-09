@@ -24,6 +24,19 @@ describe("toMemberDetailProps", () => {
     expect(result.attendance).toEqual(samplePublicMemberProfile.attendance);
     expect(result.tags).toEqual(samplePublicMemberProfile.tags);
     expect(result.sections.length).toBeGreaterThan(0);
+    expect(result.hero.hometown).toBe("兵庫県明石市");
+    expect(result.business).toEqual({
+      businessOverview: "Web サービスを開発しています。",
+      skills: "TypeScript / Cloudflare Workers",
+      canProvide: "技術相談",
+    });
+    expect(result.personal.map((field) => field.stableKey)).toEqual([
+      "hobbies",
+      "recentInterest",
+      "motto",
+      "otherActivities",
+    ]);
+    expect(result.message).toBe("兵庫支部会で機械学習を学んでいます。");
   });
 
   it("visibility=member field を除外する", () => {
@@ -98,6 +111,67 @@ describe("toMemberDetailProps", () => {
     });
     expect(result.sections).toEqual([]);
     expect(result.linkSections).toEqual([]);
+    expect(result.hero.hometown).toBe("");
+    expect(result.business.businessOverview).toBe("");
+    expect(result.message).toBe("");
+  });
+
+  it("固定セクション未割当の public field は other fallback に残す", () => {
+    const result = toMemberDetailProps(samplePublicMemberProfile);
+    expect(result.other).toEqual([
+      expect.objectContaining({
+        key: "interests",
+        title: "興味関心",
+        fields: [
+          expect.objectContaining({
+            stableKey: "urlOthers",
+            value: "Podcast: https://example.com/podcast",
+          }),
+        ],
+      }),
+    ]);
+  });
+
+  it("固定セクション未割当の public field が複数 section に分散しても元 section 構造を保持する", () => {
+    const profile = structuredClone(samplePublicMemberProfile);
+    profile.publicSections.push({
+      key: "extra",
+      title: "追加情報",
+      fields: [
+        {
+          stableKey: "urlOthers",
+          label: "その他リンク 2",
+          value: "追加リンク: https://example.com/extra",
+          kind: "paragraph",
+          visibility: "public",
+          source: "forms",
+        },
+      ],
+    });
+
+    const result = toMemberDetailProps(profile);
+
+    expect(result.other).toEqual([
+      expect.objectContaining({
+        key: "interests",
+        title: "興味関心",
+        fields: [
+          expect.objectContaining({
+            stableKey: "urlOthers",
+          }),
+        ],
+      }),
+      expect.objectContaining({
+        key: "extra",
+        title: "追加情報",
+        fields: [
+          expect.objectContaining({
+            stableKey: "urlOthers",
+            value: "追加リンク: https://example.com/extra",
+          }),
+        ],
+      }),
+    ]);
   });
 
   it("出力 field には visibility / source キーが含まれない", () => {

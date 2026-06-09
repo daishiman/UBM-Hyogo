@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 import { buildCleanupSql, buildManifest, buildSeedSql } from "../build-seed-sql";
 
 describe("test account seed builder", () => {
@@ -14,6 +15,8 @@ describe("test account seed builder", () => {
     expect(sql).toContain("INSERT OR REPLACE INTO member_identities");
     expect(sql).toContain("INSERT OR IGNORE INTO member_tags");
     expect(sql).toContain("[TEST] 山田''太郎😀");
+    expect(sql).toContain(sqlFragment("TEST-RES-01", STABLE_KEY.selfIntroduction));
+    expect(sql).toContain(sqlFragment("TEST-RES-01", STABLE_KEY.urlLinkedin));
   });
 
   it("builds cleanup SQL scoped to TEST account ids only", () => {
@@ -31,3 +34,6 @@ describe("test account seed builder", () => {
     expect(manifest.admins.filter((admin) => admin.active)).toHaveLength(2);
   });
 });
+
+const sqlFragment = (responseId: string, stableKey: string): string =>
+  `('${responseId}', '${stableKey}',`;
