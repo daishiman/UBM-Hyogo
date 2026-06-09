@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L27 |
 | REST API エンドポイント一覧 | L37 |
-| エンドポイント命名規則 | L258 |
-| UBM-Hyogo Admin Sync API（03a） | L279 |
-| UBM-Hyogo Member Self-Service API（04b） | L331 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L359 |
-| Desktop IPC API サマリー | L373 |
-| 変更履歴 | L404 |
-| 関連ドキュメント | L421 |
+| エンドポイント命名規則 | L252 |
+| UBM-Hyogo Admin Sync API（03a） | L273 |
+| UBM-Hyogo Member Self-Service API（04b） | L325 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L353 |
+| Desktop IPC API サマリー | L367 |
+| 変更履歴 | L398 |
+| 関連ドキュメント | L415 |
 
 ### references/api-internal-chunk-search.md
 
