@@ -1,3 +1,5 @@
+import { STABLE_KEY } from "@ubm-hyogo/shared";
+
 import {
   TEST_ACCOUNT_ACTOR,
   testAccountsCatalog,
@@ -27,7 +29,7 @@ export interface TestAccountManifest {
   }[];
 }
 
-const STABLE_KEYS = ["fullName", "occupation", "ubmZone"] as const;
+const STABLE_KEYS = [STABLE_KEY.fullName, STABLE_KEY.occupation, STABLE_KEY.ubmZone] as const;
 
 const sqlString = (value: string): string => `'${value.replaceAll("'", "''")}'`;
 const sqlNullableString = (value: string | null | undefined): string =>

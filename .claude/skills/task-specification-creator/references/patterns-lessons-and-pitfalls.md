@@ -10,6 +10,17 @@
 
 ## Server Fetch / Service Binding
 
+## Implementation Target Reclassification
+
+### SP-MDSP-001: 具体的な apps/packages 実装対象がある仕様書は `spec_created` で閉じない
+
+- **状況**: `member-data-source-precedence-and-profile-session-fix` は Phase 5 と artifacts metadata に migration / repository / mapper / route / web UI / integration mapper を具体的に列挙していた。
+- **問題**: 実装可能な apps/packages 差分があるのに `spec_created`・「実装 user-gated」・「コード差分 0」で Phase 12 PASS にすると、CONST_004/005 と Phase 5 の実装責務が矛盾する。
+- **解決策**: 外部操作（remote D1 apply、staging deploy、authenticated visual capture、commit/push/PR）だけを user-gated に分離し、ローカルで可能な実装・typecheck・focused tests・system spec sync・aiworkflow ledger sync は同一 cycle で完了させる。
+- **判定基準**: `implementation_files` が `apps/` / `packages/` / `scripts/` / migration を具体的に指し、外部認証や破壊的操作なしに編集・検証できるなら `implemented_local_runtime_pending` へ昇格する。
+- **禁止**: VISUAL screenshot 未取得を理由に、実装済みまたは実装可能な workflow を `spec_created` のまま閉じること。
+- **発見日**: 2026-06-09
+
 ### Admin server-fetch service-binding symmetry
 
 - **状況**: public fetch は Cloudflare `API_SERVICE` service-binding 優先なのに、admin server-fetch だけ `${INTERNAL_API_BASE_URL}` HTTP fetch のみで実装されていた。
