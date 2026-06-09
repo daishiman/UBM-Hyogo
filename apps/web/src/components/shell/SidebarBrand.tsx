@@ -13,11 +13,11 @@ export function SidebarBrand({ collapsed }: SidebarBrandProps) {
       href="/"
       aria-label="UBM 兵庫支部会 ホームへ"
       data-shell-block="brand"
-      className="flex items-center gap-2 rounded-sm px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+      className={`flex items-center rounded-sm py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "w-full justify-center gap-0 px-0" : "gap-2 px-3"}`}
     >
       <span
         aria-hidden="true"
-        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-[var(--ubm-color-border-default)] text-sm font-bold text-[var(--ubm-color-accent-ink)]"
+        className={`inline-flex shrink-0 items-center justify-center rounded-sm border border-[var(--ubm-color-border-default)] text-sm font-bold text-[var(--ubm-color-accent-ink)] ${collapsed ? "h-10 w-10" : "h-8 w-8"}`}
       >
         U
       </span>

@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## admin-sidebar-collapse-layout-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | collapsed sidebar の brand / nav item / user menu / admin return を中央軸へ揃え、expanded regression を防ぐ |
+| implementation | `apps/web/src/components/shell/{SidebarBrand,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu}.tsx` |
+| evidence | focused Vitest 3 files / 30 tests PASS; local Playwright Chromium screenshots 3 PNG present; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR |
+
 ## issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
 
 | 項目 | 値 |
