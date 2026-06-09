@@ -1,0 +1,48 @@
+{
+  "mode": "VISUAL",
+  "taskId": "public-home-member-card-info-and-tag-clarity",
+  "status": "local_captured_staging_pending",
+  "captureContext": {
+    "environment": "staging",
+    "baseUrl": "https://ubm-hyogo-web-staging.daishimanju.workers.dev/",
+    "userGated": true,
+    "note": "local component harness capture is present; staging capture is deploy/user-gated"
+  },
+  "screenshots": [
+    {
+      "name": "member-card-home-comfy-with-tags.png",
+      "route": "/",
+      "state": "comfy 密度・curated タグ chip 行 + 業種概要 1 行表示",
+      "ac": ["AC-4", "AC-5", "AC-6"],
+      "tc": "TC-MC-COMFY"
+    },
+    {
+      "name": "member-card-tag-phase-emphasis.png",
+      "route": "/(public)/members",
+      "state": "事業フェーズ chip 強調・地域タグ非表示",
+      "ac": ["AC-1", "AC-2", "AC-4"],
+      "tc": "TC-MC-PHASE"
+    },
+    {
+      "name": "member-card-dense.png",
+      "route": "/(public)/members?density=dense",
+      "state": "dense 密度・タグ最大 2 件 + summary",
+      "ac": ["AC-4", "AC-5"],
+      "tc": "TC-MC-DENSE"
+    },
+    {
+      "name": "member-card-list.png",
+      "route": "/(public)/members?density=list",
+      "state": "list 密度・phase chip のみ・summary 非表示",
+      "ac": ["AC-4"],
+      "tc": "TC-MC-LIST"
+    },
+    {
+      "name": "tag-picker-arrow-normalized.png",
+      "route": "/(public)/members",
+      "state": "TagPicker topTags が 0 to 1 ではなく 0→1 表記",
+      "ac": ["AC-1", "AC-7"],
+      "tc": "TC-TP-NORM"
+    }
+  ]
+}

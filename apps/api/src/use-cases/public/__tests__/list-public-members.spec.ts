@@ -89,6 +89,82 @@ describe("listPublicMembersUseCase", () => {
     ]);
   });
 
+  it("projects businessOverview first line as optional businessSummary", async () => {
+    const db = createPublicD1Mock({
+      publicMembers: [
+        buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+      ],
+      publicMemberCount: 1,
+      responseFieldsByResponseId: {
+        "r-1": [
+          buildResponseFieldRow({
+            stable_key: "fullName",
+            value_json: JSON.stringify("テスト 太郎"),
+          }),
+          buildResponseFieldRow({
+            stable_key: "businessOverview",
+            value_json: JSON.stringify("地域事業者向けの受発注支援をしています。\n詳細は二行目です。"),
+          }),
+        ],
+      },
+    });
+
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+    });
+
+    expect(result.items[0]?.businessSummary).toBe(
+      "地域事業者向けの受発注支援をしています。",
+    );
+  });
+
+  it("caps businessSummary at 120 characters with an ellipsis", async () => {
+    const longFirstLine = "あ".repeat(121);
+    const db = createPublicD1Mock({
+      publicMembers: [
+        buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+      ],
+      publicMemberCount: 1,
+      responseFieldsByResponseId: {
+        "r-1": [
+          buildResponseFieldRow({
+            stable_key: "businessOverview",
+            value_json: JSON.stringify(longFirstLine),
+          }),
+        ],
+      },
+    });
+
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+    });
+
+    expect(result.items[0]?.businessSummary).toBe(`${"あ".repeat(120)}…`);
+  });
+
+  it("omits businessSummary when the first businessOverview line is blank", async () => {
+    const db = createPublicD1Mock({
+      publicMembers: [
+        buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+      ],
+      publicMemberCount: 1,
+      responseFieldsByResponseId: {
+        "r-1": [
+          buildResponseFieldRow({
+            stable_key: "businessOverview",
+            value_json: JSON.stringify("   \n二行目は採用しない"),
+          }),
+        ],
+      },
+    });
+
+    const result = await listPublicMembersUseCase(baseQuery, {
+      ctx: { db: db as never },
+    });
+
+    expect(result.items[0]).not.toHaveProperty("businessSummary");
+  });
+
   it("公開 member 0 件のとき空配列と total=0 を返す", async () => {
     const db = createPublicD1Mock({
       publicMembers: [],

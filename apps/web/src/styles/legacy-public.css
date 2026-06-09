@@ -1563,6 +1563,20 @@
     align-items: center;
     gap: 6px;
   }
+  [data-component="member-card"] [data-role="meta"] li[data-role="occupation"] {
+    color: var(--ubm-color-text-primary);
+    font-weight: 600;
+  }
+  [data-component="member-card"] [data-role="biz-summary"] {
+    display: -webkit-box;
+    margin: var(--ubm-space-3) 0 0;
+    overflow: hidden;
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
   [data-component="member-card"] [data-role="chip-row"] {
     display: flex;
     flex-wrap: wrap;
@@ -1580,7 +1594,8 @@
     justify-content: flex-end;
   }
   [data-component="member-card"] [data-role="zone"],
-  [data-component="member-card"] [data-role="status"] {
+  [data-component="member-card"] [data-role="status"],
+  [data-component="member-card"] [data-role="tag-chip"] {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -1592,6 +1607,24 @@
     line-height: 1;
     padding: 5px 9px;
     white-space: nowrap;
+  }
+  [data-component="member-card"] [data-role="tag-row"] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ubm-space-2);
+    margin: var(--ubm-space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  [data-component="member-card"][data-density="dense"] [data-role="tag-row"] {
+    gap: 6px;
+  }
+  [data-component="member-card"][data-density="list"] [data-role="tag-row"] {
+    margin: 0;
+  }
+  [data-component="member-card"] [data-role="tag-chip"][data-phase="true"] {
+    border-color: var(--ubm-color-border-strong);
+    color: var(--ubm-color-text-primary);
   }
   [data-component="member-card"] [data-role="chip-dot"] {
     width: 6px;

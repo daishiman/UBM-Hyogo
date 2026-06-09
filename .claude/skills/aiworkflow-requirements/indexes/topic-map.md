@@ -8959,19 +8959,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L3947 |
-| フェーズ構造（概要） | L3956 |
-| 品質ゲート（概要） | L3987 |
-| 出力テンプレート | L3998 |
-| 実行時のコマンド・エージェント・スキル | L4021 |
-| 昇格パターン集 | L4045 |
-| Current Active / Spec Created Tasks | L4047 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4213 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4281 |
-| issue-998-members-publish-state-production-rollout | L4307 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4366 |
-| issue-1068-admin-tag-inline-create-ui | L4380 |
-| issue-1111-proxy-transport-util-unify | L4398 |
+| ドキュメント構成 | L3959 |
+| フェーズ構造（概要） | L3968 |
+| 品質ゲート（概要） | L3999 |
+| 出力テンプレート | L4010 |
+| 実行時のコマンド・エージェント・スキル | L4033 |
+| 昇格パターン集 | L4057 |
+| Current Active / Spec Created Tasks | L4059 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4225 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4293 |
+| issue-998-members-publish-state-production-rollout | L4319 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4378 |
+| issue-1068-admin-tag-inline-create-ui | L4392 |
+| issue-1111-proxy-transport-util-unify | L4410 |
 
 ### references/task-workflow-backlog-part2.md
 

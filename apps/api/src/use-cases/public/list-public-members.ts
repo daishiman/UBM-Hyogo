@@ -33,7 +33,11 @@ const SUMMARY_KEYS = [
   STABLE_KEY.location,
   STABLE_KEY.ubmZone,
   STABLE_KEY.ubmMembershipType,
+  STABLE_KEY.businessOverview,
 ] as const;
+
+const FIRST_LINE = /\r?\n/;
+const BIZ_SUMMARY_MAX = 120;
 
 const parseJsonString = (raw: string | null): string => {
   if (raw === null) return "";
@@ -53,6 +57,14 @@ const parseJsonNullable = (raw: string | null): string | null => {
   } catch {
     return null;
   }
+};
+
+const toBusinessSummary = (raw: string): string | undefined => {
+  const first = raw.split(FIRST_LINE)[0]?.trim() ?? "";
+  if (!first) return undefined;
+  return first.length > BIZ_SUMMARY_MAX
+    ? `${first.slice(0, BIZ_SUMMARY_MAX)}…`
+    : first;
 };
 
 export const listPublicMembersUseCase = async (
@@ -118,6 +130,9 @@ export const listPublicMembersUseCase = async (
   const items: PublicMemberListItemSource[] = [];
   for (const m of memberRows) {
     const byKey = fieldsByResponseId.get(m.current_response_id) ?? new Map();
+    const businessSummary = toBusinessSummary(
+      parseJsonString(byKey.get(STABLE_KEY.businessOverview) ?? null),
+    );
     items.push({
       memberId: m.member_id,
       fullName: parseJsonString(byKey.get(STABLE_KEY.fullName) ?? null),
@@ -129,6 +144,7 @@ export const listPublicMembersUseCase = async (
         byKey.get(STABLE_KEY.ubmMembershipType) ?? null,
       ),
       photoUrl: photoMap.get(m.member_id),
+      ...(businessSummary ? { businessSummary } : {}),
       // wantTags のときだけ tags を付与（未登録 member は空配列）。
       ...(wantTags ? { tags: tagsByMember?.get(m.member_id) ?? [] } : {}),
     });
