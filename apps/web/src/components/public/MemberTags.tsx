@@ -6,19 +6,22 @@ export interface MemberTagsProps {
 }
 
 export function MemberTags({ tags }: MemberTagsProps) {
-  if (tags.length === 0) return null;
   return (
     <section data-component="member-tags" className="tags-root">
       <h2 className="tags-title">タグ</h2>
-      <ul className="tags-list" role="list">
-        {tags.map((t) => (
-          <li key={t.code}>
-            <Badge data-component="tag-pill" tone="default" outline>
-              {t.label}
-            </Badge>
-          </li>
-        ))}
-      </ul>
+      {tags.length === 0 ? (
+        <p data-role="empty-tags">タグ未設定</p>
+      ) : (
+        <ul className="tags-list" role="list">
+          {tags.map((t) => (
+            <li key={t.code}>
+              <Badge data-component="tag-pill" tone="default" outline>
+                {t.label}
+              </Badge>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

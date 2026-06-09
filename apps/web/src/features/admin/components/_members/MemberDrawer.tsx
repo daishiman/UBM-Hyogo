@@ -3,7 +3,11 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-import type { AdminMemberDetailView, PublishState } from "@ubm-hyogo/shared";
+import type {
+  AdminMemberDetailView,
+  PublishState,
+} from "@ubm-hyogo/shared";
+import { MemberFieldEditor } from "../../../../components/admin/MemberFieldEditor";
 import { Drawer } from "../../../../components/ui/Drawer";
 import { KVList } from "../../../../components/ui/KVList";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
@@ -171,6 +175,12 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
 
       {/* TAGS */}
       <MemberTagsEditor memberId={memberId} />
+
+      <MemberFieldEditor
+        memberId={memberId}
+        profile={profile}
+        onProfileUpdated={(nextProfile) => onUpdated({ profile: nextProfile })}
+      />
 
       {/* FORM RESPONSE */}
       <section

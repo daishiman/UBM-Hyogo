@@ -26,8 +26,10 @@ import { defaultMemberStatusRow, getStatus, listStatusesByMemberIds } from "../s
 import { findCurrentResponse, listResponsesByIds } from "../responses";
 import { listSectionsByResponseId } from "../responseSections";
 import { listFieldsByResponseId } from "../responseFields";
+import { listFieldOverridesByMemberId } from "../memberFieldOverrides";
 import { listVisibilityByMemberId } from "../fieldVisibility";
 import { listTagsByMemberId, listTagsByMemberIds } from "../memberTags";
+import { resolveFieldPrecedence } from "../../use-cases/_shared/field-precedence";
 import {
   defaultMetadataResolver,
   UNKNOWN_SECTION_KEY,
@@ -204,7 +206,8 @@ export function buildSectionsWithDiagnostics(
       value,
       kind,
       visibility,
-      source: "forms",
+      source:
+        (field as { source?: "forms" | "admin" | "derived" }).source ?? "forms",
     });
   }
 
@@ -269,9 +272,10 @@ export async function buildPublicMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
+  const [sections, fields, overrides, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
+    listFieldOverridesByMemberId(c, mid),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
     fetchAttendancePagedFor(
@@ -284,7 +288,13 @@ export async function buildPublicMemberProfile(
   const visibilityMap = buildVisibilityMap(visibilityRows);
 
   // public profile には visibility='public' のフィールドのみ含める
-  const publicSections = buildSections(sections, fields, visibilityMap, ["public"], defaultMetadataResolver);
+  const publicSections = buildSections(
+    sections,
+    resolveFieldPrecedence(fields, overrides),
+    visibilityMap,
+    ["public"],
+    defaultMetadataResolver,
+  );
 
   const summary = extractSummary(response.answers_json);
 
@@ -324,9 +334,10 @@ export async function buildMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
+  const [sections, fields, overrides, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
+    listFieldOverridesByMemberId(c, mid),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
     fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
@@ -335,7 +346,13 @@ export async function buildMemberProfile(
   const visibilityMap = buildVisibilityMap(visibilityRows);
 
   // member profile には visibility=public または member のフィールドを含める
-  const memberSections = buildSections(sections, fields, visibilityMap, ["public", "member"], defaultMetadataResolver);
+  const memberSections = buildSections(
+    sections,
+    resolveFieldPrecedence(fields, overrides),
+    visibilityMap,
+    ["public", "member"],
+    defaultMetadataResolver,
+  );
 
   const summary = extractSummary(response.answers_json);
 
@@ -394,9 +411,10 @@ export async function buildAdminMemberDetailView(
       identity.current_response_id ??
       identity.member_id,
   );
-  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
+  const [sections, fields, overrides, visibilityRows, tags, paged] = await Promise.all([
     response ? listSectionsByResponseId(c, responseId) : Promise.resolve([]),
     response ? listFieldsByResponseId(c, responseId) : Promise.resolve([]),
+    response ? listFieldOverridesByMemberId(c, mid) : Promise.resolve([]),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
     fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
@@ -406,7 +424,13 @@ export async function buildAdminMemberDetailView(
 
   // admin view には全 visibility のフィールドを含める
   const adminSections = response
-    ? buildSections(sections, fields, visibilityMap, ["public", "member", "admin"], defaultMetadataResolver)
+    ? buildSections(
+        sections,
+        resolveFieldPrecedence(fields, overrides),
+        visibilityMap,
+        ["public", "member", "admin"],
+        defaultMetadataResolver,
+      )
     : [];
 
   const summary = response ? extractSummary(response.answers_json) : extractSummary("{}");

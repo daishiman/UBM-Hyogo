@@ -19,6 +19,7 @@ SECRETS=(
   "STAGING_ADMIN_EMAIL:op://Employee/ubm-hyogo-env/STAGING_ADMIN_EMAIL"
   "STAGING_ME_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_ME_MEMBER_ID"
   "STAGING_ME_EMAIL:op://Employee/ubm-hyogo-env/STAGING_ME_EMAIL"
+  "CLOUDFLARE_API_TOKEN:op://Employee/ubm-hyogo-env/CLOUDFLARE_API_TOKEN_STAGING_RUNTIME_SMOKE"
   "SLACK_WEBHOOK_INCIDENT:op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING"
 )
 
