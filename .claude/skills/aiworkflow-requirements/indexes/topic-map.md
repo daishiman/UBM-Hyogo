@@ -2181,6 +2181,15 @@ node scripts/list-specs.js --topics
 | Follow-up | L52 |
 | Lessons Learned | L56 |
 
+### references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L9 |
+| Evidence | L21 |
+| Boundary | L30 |
+| Lessons Learned | L35 |
+
 ### references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -9030,19 +9039,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4021 |
-| フェーズ構造（概要） | L4030 |
-| 品質ゲート（概要） | L4061 |
-| 出力テンプレート | L4072 |
-| 実行時のコマンド・エージェント・スキル | L4095 |
-| 昇格パターン集 | L4119 |
-| Current Active / Spec Created Tasks | L4121 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4287 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4355 |
-| issue-998-members-publish-state-production-rollout | L4382 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4441 |
-| issue-1068-admin-tag-inline-create-ui | L4455 |
-| issue-1111-proxy-transport-util-unify | L4473 |
+| ドキュメント構成 | L4034 |
+| フェーズ構造（概要） | L4043 |
+| 品質ゲート（概要） | L4074 |
+| 出力テンプレート | L4085 |
+| 実行時のコマンド・エージェント・スキル | L4108 |
+| 昇格パターン集 | L4132 |
+| Current Active / Spec Created Tasks | L4134 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4300 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4368 |
+| issue-998-members-publish-state-production-rollout | L4395 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4454 |
+| issue-1068-admin-tag-inline-create-ui | L4468 |
+| issue-1111-proxy-transport-util-unify | L4486 |
 
 ### references/task-workflow-backlog-part2.md
 
