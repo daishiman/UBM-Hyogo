@@ -91,7 +91,7 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
       },
       schemaItem,
       { id: "meeting", href: "/admin/meetings", label: "開催日", icon: "meeting" },
-      { id: "requests", href: "/admin/requests", label: "依頼キュー", icon: "requests" },
+      { id: "requests", href: "/admin/requests", label: "会員からの申請", icon: "requests" },
       {
         id: "identity",
         href: "/admin/identity-conflicts",

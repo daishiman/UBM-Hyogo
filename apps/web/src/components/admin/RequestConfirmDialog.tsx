@@ -87,7 +87,7 @@ export function RequestConfirmDialog({
       }}
     >
       <h3 id={titleId}>
-        {kind === "approve" ? "依頼を承認します" : "依頼を却下します"}
+        {kind === "approve" ? "申請を承認します" : "申請を却下します"}
       </h3>
       {isDestructive && destructiveMessage && (
         <p role="alert">{destructiveMessage}</p>

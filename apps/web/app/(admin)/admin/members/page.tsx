@@ -5,6 +5,7 @@
 // AC-2: tag 編集は /admin/tags?memberId への Link のみ
 // AC-9: 管理メモはドロワー内のみ
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
+import Link from "next/link";
 import {
   toAdminApiQuery,
   ADMIN_FILTER_VALUES,
@@ -87,6 +88,11 @@ export default async function AdminMembersPage({
       <h1 id="admin-members-h" className="sr-only">
         会員管理
       </h1>
+      <p className="rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)]">
+        会員本人からの「公開停止/再開」「退会」の申請は
+        <Link className="link" href="/admin/requests">会員からの申請</Link>
+        で承認します。ここでの公開/非公開トグルは管理者がすぐに切り替えるための操作です。
+      </p>
       {result.ok ? (
         <MembersClientShell
           initial={result.data}

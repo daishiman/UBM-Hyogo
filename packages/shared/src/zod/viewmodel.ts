@@ -290,6 +290,9 @@ export const AdminMemberListItemZ = z.object({
   ubmZone: z.string().nullable().optional(),
   ubmMembershipType: z.string().nullable().optional(),
   tags: z.array(z.object({ code: z.string(), label: z.string() })).optional(),
+  pendingRequestTypes: z
+    .array(z.enum(["visibility_request", "delete_request"]))
+    .default([]),
   updatedAt: Iso8601Z.optional(),
 });
 

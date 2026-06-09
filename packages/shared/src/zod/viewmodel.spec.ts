@@ -260,6 +260,26 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
     expect(AdminMemberListViewZ.safeParse({ total: 0, members: [] }).success).toBe(true);
   });
 
+  it("AdminMemberListView defaults pendingRequestTypes to empty array", () => {
+    const result = AdminMemberListViewZ.parse({
+      total: 1,
+      members: [
+        {
+          memberId: "m1",
+          responseEmail: "m1@example.test",
+          fullName: "Member One",
+          publicConsent: "consented",
+          rulesConsent: "consented",
+          publishState: "public",
+          isDeleted: false,
+          lastSubmittedAt: "2026-06-09T00:00:00.000Z",
+        },
+      ],
+    });
+
+    expect(result.members[0]?.pendingRequestTypes).toEqual([]);
+  });
+
   it("AdminMemberDetailView strict rejects extra fields", () => {
     expect(
       AdminMemberDetailViewZ.safeParse({

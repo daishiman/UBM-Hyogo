@@ -1,5 +1,6 @@
 // followup-003 Lane C: プロトタイプ準拠テーブル (pages-admin.jsx L223-276)
 "use client";
+import Link from "next/link";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
 import { Chip } from "../../../../components/ui/Chip";
 import { EmptyState } from "../../../../components/ui/EmptyState";
@@ -57,6 +58,9 @@ function memberTagPills(tags: Member["tags"]) {
     </>
   );
 }
+
+const pendingRequestLabel = (type: Member["pendingRequestTypes"][number]): string =>
+  type === "delete_request" ? "退会申請中" : "公開申請中";
 
 export function MembersTable({
   items,
@@ -153,6 +157,18 @@ export function MembersTable({
                     publishState={m.publishState}
                     isDeleted={m.isDeleted}
                   />
+                  {m.pendingRequestTypes.map((requestType) => (
+                    <Link
+                      key={requestType}
+                      href={`/admin/requests?type=${requestType}`}
+                      aria-label={`${pendingRequestLabel(requestType)}（会員からの申請へ）`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Chip tone="warning" dot>
+                        {pendingRequestLabel(requestType)}
+                      </Chip>
+                    </Link>
+                  ))}
                 </div>
               </td>
               <td className="px-3 py-2">

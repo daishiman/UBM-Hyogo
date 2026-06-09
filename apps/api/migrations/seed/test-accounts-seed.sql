@@ -129,6 +129,11 @@ INSERT OR REPLACE INTO member_photos (member_id, object_key, content_type, byte_
 INSERT OR REPLACE INTO deleted_members (member_id, deleted_by, deleted_at, reason, purged_at, retention_policy_version) VALUES
   ('TEST-MEM-05', 'seed:test-accounts', '2026-06-03T10:30:00.000Z', 'test account deleted case', NULL, NULL);
 
+INSERT OR REPLACE INTO admin_member_notes (note_id, member_id, body, created_by, updated_by, created_at, updated_at, note_type, request_status, resolved_at, resolved_by_admin_id) VALUES
+  ('TEST-NOTE-V01', 'TEST-MEM-01', json_object('reason', '都合により一時的に掲載を止めたいです', 'payload', json('{"desiredState":"hidden"}')), 'seed:test-accounts', 'seed:test-accounts', '2026-06-03T10:30:00.000Z', '2026-06-03T10:30:00.000Z', 'visibility_request', 'pending', NULL, NULL),
+  ('TEST-NOTE-V02', 'TEST-MEM-02', json_object('reason', '公開できるようになったので掲載をお願いします', 'payload', json('{"desiredState":"public"}')), 'seed:test-accounts', 'seed:test-accounts', '2026-06-03T10:30:00.000Z', '2026-06-03T10:30:00.000Z', 'visibility_request', 'pending', NULL, NULL),
+  ('TEST-NOTE-D01', 'TEST-MEM-07', json_object('reason', '退会を希望します', 'payload', json('{}')), 'seed:test-accounts', 'seed:test-accounts', '2026-06-03T10:30:00.000Z', '2026-06-03T10:30:00.000Z', 'delete_request', 'pending', NULL, NULL);
+
 INSERT OR REPLACE INTO admin_users (admin_id, email, display_name, active, created_at) VALUES
   ('TEST-ADM-01', 'test-admin-01@test.ubm-hyogo.invalid', '[TEST] 管理者 有効1', 1, '2026-06-03T10:30:00.000Z'),
   ('TEST-ADM-02', 'test-admin-02@test.ubm-hyogo.invalid', '[TEST] 管理者 有効2', 1, '2026-06-03T10:30:00.000Z'),

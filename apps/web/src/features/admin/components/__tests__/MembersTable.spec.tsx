@@ -23,6 +23,7 @@ const mkMember = (id: string, name: string, overrides: Partial<Member> = {}): Me
   publishState: "public",
   isDeleted: false,
   lastSubmittedAt: "2026-05-01T00:00:00.000Z",
+  pendingRequestTypes: [],
   ...overrides,
 });
 
@@ -118,6 +119,33 @@ describe("MembersTable", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     expect(onPageChange).toHaveBeenCalledWith(2);
+  });
+
+  it("pendingRequestTypes がある行に申請中バッジリンクを描画する", () => {
+    render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            pendingRequestTypes: ["visibility_request", "delete_request"],
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "公開申請中（会員からの申請へ）" }).getAttribute("href")).toBe(
+      "/admin/requests?type=visibility_request",
+    );
+    expect(screen.getByRole("link", { name: "退会申請中（会員からの申請へ）" }).getAttribute("href")).toBe(
+      "/admin/requests?type=delete_request",
+    );
   });
 
   it("a11y violations 0", async () => {
