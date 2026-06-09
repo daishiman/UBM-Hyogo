@@ -21,6 +21,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
 | user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
 
+### issue-1129-single-write-batchid-correlation（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| issue | #1129 CLOSED（reopen しない / PR 文脈は Refs のみ） |
+| parent | `issue-1079-bulk-tag-audit-batch-filter` / `issue-1036-bulk-member-tag-assign` |
+| 目的 | 単一 admin manual tag assign/unassign の audit payload に request-scoped `batchId`（群サイズ 1）を付与し、既存 `GET /admin/audit?batchId=` で bulk と同一導線の相関閲覧を可能にする |
+| implementation target | `apps/api/src/routes/admin/members.ts` |
+| tests | `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/routes/admin/audit.contract.spec.ts` |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS、API typecheck PASS |
+| invariant | endpoint / response shape / `audit_log` schema / migration / `apps/web` / `auditLog.listFiltered` SQL は変更なし。noop は audit も batchId も残さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ### issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
 
 | 項目 | 値 |
