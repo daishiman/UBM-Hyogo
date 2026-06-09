@@ -54,6 +54,7 @@
 - コンポーネント間の関係を表で示す
 - 各コンポーネントに「日常の例え」を添える
 - 責務分離の理由を明示する
+- 運用 runbook を置換・廃止する場合は、旧 runbook の retired marker、新 runbook の replacement policy、旧方式を採用しない理由を記録する
 
 **テンプレート**:
 ```markdown

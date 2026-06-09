@@ -457,3 +457,12 @@
 - **注意**: static import 済み module へ後段 `vi.doMock()` を当てると mock cache が不安定になる。async adapter を同一 spec で扱う場合は `vi.hoisted()` + partial mock、または adapter unit は既存 focused regression に委譲する。
 - **発見日**: 2026-05-30
 - **関連タスク**: `issue-1010-auth-view-session-contract-integration-test`
+
+### CI secret contract gate responsibility split
+
+- **状況**: GitHub Actions workflow が `secrets.*` を消費し、別の shell script / runbook が GitHub Environment へ secret を投入する。
+- **アプローチ**: role-specific contract（例: JWT mint に必要な env）と workflow-wide secret provisioning contract（例: consumed secrets ⊆ provisioned secrets ∪ documented legacy exemptions）は同じ verifier に混ぜない。責務ごとに別 script / 別 test / 別 workflow gate とし、既存 gate の期待値は provisioning inventory 追加にだけ追随させる。
+- **検証**: 新 gate は name-only extraction、missing provision、stale provision、empty-rationale exemption を unit test する。既存 gate は同時 focused test で green を確認し、責務変更がないことを証明する。
+- **禁止**: graceful degrade を static contract の免除にしない。degrade は runtime fallback であり、provisioning gap を検出する gate は別途 PASS させる。
+- **発見日**: 2026-06-08
+- **関連タスク**: `cf-token-env-contract-and-rotation-retirement`
