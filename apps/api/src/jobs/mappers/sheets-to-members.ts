@@ -50,47 +50,111 @@ const DB_FIELD_MAP: Record<string, keyof MemberRow> = {
   "タイムスタンプ": "submittedAt",
   "メールアドレス": "responseEmail",
   "氏名": STABLE_KEY.fullName,
+  "お名前（フルネーム）": STABLE_KEY.fullName,
   "ニックネーム": STABLE_KEY.nickname,
+  "あだ名・ニックネーム": STABLE_KEY.nickname,
   "所在地": STABLE_KEY.location,
+  "お住まい（都道府県・市区町村）": STABLE_KEY.location,
   "生年月日": STABLE_KEY.birthDate,
   "職業": STABLE_KEY.occupation,
+  "職業・仕事内容": STABLE_KEY.occupation,
   "出身地": STABLE_KEY.hometown,
   "UBMゾーン": STABLE_KEY.ubmZone,
+  "UBM区画": STABLE_KEY.ubmZone,
   "UBM会員種別": STABLE_KEY.ubmMembershipType,
+  "UBM参加ステータス": STABLE_KEY.ubmMembershipType,
   "UBM入会日": STABLE_KEY.ubmJoinDate,
+  "UBMに入会・参加した時期": STABLE_KEY.ubmJoinDate,
   "事業概要": STABLE_KEY.businessOverview,
+  "ビジネス概要": STABLE_KEY.businessOverview,
   "強み・スキル": STABLE_KEY.skills,
+  "得意分野・スキル": STABLE_KEY.skills,
   "課題": STABLE_KEY.challenges,
+  "現在の課題・相談したいこと": STABLE_KEY.challenges,
   "提供できること": STABLE_KEY.canProvide,
+  "提供できること・協力できること": STABLE_KEY.canProvide,
   "趣味": STABLE_KEY.hobbies,
+  "趣味・好きなこと": STABLE_KEY.hobbies,
   "最近の関心": STABLE_KEY.recentInterest,
+  "最近ハマっていること": STABLE_KEY.recentInterest,
   "座右の銘": STABLE_KEY.motto,
+  "座右の銘・大切にしている言葉": STABLE_KEY.motto,
   "その他の活動": STABLE_KEY.otherActivities,
+  "仕事以外の活動": STABLE_KEY.otherActivities,
   "Webサイト": STABLE_KEY.urlWebsite,
+  "ホームページ URL": STABLE_KEY.urlWebsite,
   "Facebook": STABLE_KEY.urlFacebook,
+  "Facebook URL": STABLE_KEY.urlFacebook,
   "Instagram": STABLE_KEY.urlInstagram,
+  "Instagram URL": STABLE_KEY.urlInstagram,
   "Threads": STABLE_KEY.urlThreads,
+  "Threads URL": STABLE_KEY.urlThreads,
   "YouTube": STABLE_KEY.urlYoutube,
+  "YouTube URL": STABLE_KEY.urlYoutube,
   "TikTok": STABLE_KEY.urlTiktok,
+  "TikTok URL": STABLE_KEY.urlTiktok,
   "X": STABLE_KEY.urlX,
+  "X URL": STABLE_KEY.urlX,
+  "X（Twitter）URL": STABLE_KEY.urlX,
   "ブログ": STABLE_KEY.urlBlog,
+  "ブログ URL": STABLE_KEY.urlBlog,
   "note": STABLE_KEY.urlNote,
+  "note URL": STABLE_KEY.urlNote,
   "LinkedIn": STABLE_KEY.urlLinkedin,
+  "LinkedIn URL": STABLE_KEY.urlLinkedin,
   "その他URL": STABLE_KEY.urlOthers,
+  "その他のSNS・URL": STABLE_KEY.urlOthers,
+  "その他の SNS・URL": STABLE_KEY.urlOthers,
   "自己紹介": STABLE_KEY.selfIntroduction,
+  "自己紹介・一言メッセージ": STABLE_KEY.selfIntroduction,
   "公開同意": STABLE_KEY.publicConsent,
+  "ホームページへの掲載に同意しますか？": STABLE_KEY.publicConsent,
   "規約同意": STABLE_KEY.rulesConsent,
+  "勧誘ルール・免責事項への同意": STABLE_KEY.rulesConsent,
 };
 
 const CONSENT_MAP: Record<string, "consented" | "declined" | "unknown"> = {
   "はい": "consented",
   "同意する": "consented",
+  "同意する（掲載ok）": "consented",
+  "掲載ok": "consented",
   "yes": "consented",
   "true": "consented",
   "いいえ": "declined",
   "同意しない": "declined",
   "no": "declined",
   "false": "declined",
+};
+
+// CORR-5: 実スプレッドシート値（"0→1" / "会員"）と enum 値ドメイン（"0_to_1" / "member"）の
+// 差を取込時に吸収する。未知値は raw のまま保持（防御的・例外は投げない）。
+const UBM_ZONE_MAP: Record<string, string> = {
+  "0→1": "0_to_1",
+  "0to1": "0_to_1",
+  "0_to_1": "0_to_1",
+  "1→10": "1_to_10",
+  "1to10": "1_to_10",
+  "1_to_10": "1_to_10",
+  "10→100": "10_to_100",
+  "10to100": "10_to_100",
+  "10_to_100": "10_to_100",
+};
+
+const UBM_MEMBERSHIP_MAP: Record<string, string> = {
+  "会員": "member",
+  "member": "member",
+  "非会員": "non_member",
+  "non_member": "non_member",
+  "アカデミー": "academy",
+  "academy": "academy",
+};
+
+const normalizeFieldValue = (key: keyof MemberRow, value: string): string => {
+  if (key === STABLE_KEY.ubmZone) return UBM_ZONE_MAP[value.trim()] ?? value;
+  if (key === STABLE_KEY.ubmMembershipType) {
+    return UBM_MEMBERSHIP_MAP[value.trim()] ?? value;
+  }
+  return value;
 };
 
 export interface MapResult {
@@ -154,7 +218,7 @@ export function mapSheetRows(values: string[][]): MapResult {
         const membership = normalizeUbmMembershipType(value);
         if (membership !== null) partial.ubmMembershipType = membership;
       } else if (col.key !== "responseId") {
-        (partial as Record<string, string>)[col.key] = value;
+        (partial as Record<string, string>)[col.key] = normalizeFieldValue(col.key, value);
       }
     });
 

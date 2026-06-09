@@ -8,7 +8,8 @@ category: 改善 / リファクタリング（env schema cleanup）
 target_feature: apps/web/src/lib/env.ts / apps/web/wrangler.toml
 priority: 低
 scale: 小規模
-status: spec_created
+status: consumed_by_issue_1145
+consumed_trace: 本 follow-up は issue #1145 として現行コードへ最適化（apps/og 編入）され実装完了。正本ワークフロー = docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/。本ファイルは #1145 body backlink 保護のため tombstone として位置維持。
 source_phase: staging-api-url-and-session-recovery Phase 12 unassigned-task-detection §baseline B-1 / Phase 10 §MINOR M-1（2回検証一致）
 created_date: 2026-06-03
 dependencies: [staging-api-url-and-session-recovery]
@@ -24,7 +25,7 @@ dependencies: [staging-api-url-and-session-recovery]
 | 対象機能     | `apps/web/src/lib/env.ts`（schema / 型 / 正規化 / `getPublicFetchEnv` / `getApiBaseEnv`）/ `apps/web/wrangler.toml`（`[vars]` 6 行）  |
 | 優先度       | 低                                                                                                                                   |
 | 見積もり規模 | 小規模                                                                                                                               |
-| ステータス   | spec_created（未着手・実装/commit/PR は user-gated）                                                                                  |
+| ステータス   | consumed_by_issue_1145（issue #1145 で実装完了・正本 = completed-tasks/issue-1145-public-api-base-url-env-unification。commit/PR/deploy は user-gated） |
 | 発見元       | staging-api-url-and-session-recovery Phase 12 unassigned-task-detection §baseline B-1 / Phase 10 §MINOR M-1（2回検証一致）            |
 | 発見日       | 2026-06-03                                                                                                                           |
 | GitHub Issue | [#1145](https://github.com/daishiman/UBM-Hyogo/issues/1145)                                                                          |

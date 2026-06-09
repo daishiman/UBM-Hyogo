@@ -16,7 +16,6 @@ import { fetchAdmin } from "../server-fetch";
 const baseEnv = {
   ENVIRONMENT: "staging",
   NEXT_PUBLIC_API_BASE_URL: "https://web.example.test",
-  PUBLIC_API_BASE_URL: "https://public.example.test",
   INTERNAL_API_BASE_URL: "https://api.example.test/",
   INTERNAL_AUTH_SECRET: "internal-secret",
   AUTH_URL: "https://web.example.test",

@@ -13,9 +13,15 @@ import {
 } from "./sheets-fetcher";
 import { mapSheetRows, type MemberRow } from "./mappers/sheets-to-members";
 import { logSheetsAuthFailure } from "./sheets-auth-logger";
-import { STABLE_KEY, type SyncTriggerType } from "@ubm-hyogo/shared";
+import { STABLE_KEY, asMemberId, asResponseEmail, asResponseId, asStableKey, type SyncTriggerType } from "@ubm-hyogo/shared";
 import { withRetry } from "../utils/with-retry";
 import { WriteQueue } from "../utils/write-queue";
+import { ctx } from "../repository/_shared/db";
+import { findIdentityByEmail, markSeedImported } from "../repository/identities";
+import { createMemberWithStatus } from "../repository/members";
+import { upsertResponse } from "../repository/responses";
+import { upsertKnownField } from "../repository/responseFields";
+import { setConsentSnapshot } from "../repository/status";
 
 export interface SyncEnv {
   readonly DB: D1Database;
@@ -212,49 +218,11 @@ function parseIntOrDefault(value: string | undefined, defaultValue: number): num
   return Number.isFinite(n) && n > 0 ? n : defaultValue;
 }
 
-const UPSERT_COLUMNS = [
-  "response_id",
-  "response_email",
-  "submitted_at",
-  "full_name",
-  STABLE_KEY.nickname,
-  STABLE_KEY.location,
-  "birth_date",
-  STABLE_KEY.occupation,
-  STABLE_KEY.hometown,
-  "ubm_zone",
-  "ubm_membership_type",
-  "ubm_join_date",
-  "business_overview",
-  STABLE_KEY.skills,
-  STABLE_KEY.challenges,
-  "can_provide",
-  STABLE_KEY.hobbies,
-  "recent_interest",
-  STABLE_KEY.motto,
-  "other_activities",
-  "url_website",
-  "url_facebook",
-  "url_instagram",
-  "url_threads",
-  "url_youtube",
-  "url_tiktok",
-  "url_x",
-  "url_blog",
-  "url_note",
-  "url_linkedin",
-  "url_others",
-  "self_introduction",
-  "public_consent",
-  "rules_consent",
-  "extra_fields_json",
-  "unmapped_question_ids_json",
-] as const;
+const SHEET_FORM_ID = "google-sheets-seed";
+const SHEET_REVISION_ID = "sheets-v1";
+const SHEET_SCHEMA_HASH = "sheets-seed";
 
-const ROW_FIELD_ORDER: (keyof MemberRow)[] = [
-  "responseId",
-  "responseEmail",
-  "submittedAt",
+const RESPONSE_FIELD_KEYS: (keyof MemberRow)[] = [
   STABLE_KEY.fullName,
   STABLE_KEY.nickname,
   STABLE_KEY.location,
@@ -286,8 +254,6 @@ const ROW_FIELD_ORDER: (keyof MemberRow)[] = [
   STABLE_KEY.selfIntroduction,
   STABLE_KEY.publicConsent,
   STABLE_KEY.rulesConsent,
-  "extraFieldsJson",
-  "unmappedQuestionIdsJson",
 ];
 
 export async function upsertMembers(
@@ -295,18 +261,51 @@ export async function upsertMembers(
   rows: readonly MemberRow[],
 ): Promise<void> {
   if (rows.length === 0) return;
-  const placeholders = UPSERT_COLUMNS.map((_, i) => `?${i + 1}`).join(", ");
-  const updateAssignments = UPSERT_COLUMNS.filter((c) => c !== "response_id")
-    .map((c) => `${c} = excluded.${c}`)
-    .join(", ");
-  const sql = `INSERT INTO member_responses (${UPSERT_COLUMNS.join(", ")}, updated_at)
-VALUES (${placeholders}, datetime('now'))
-ON CONFLICT(response_id) DO UPDATE SET ${updateAssignments}, updated_at = datetime('now')`;
-
-  const statements = rows.map((row) =>
-    db.prepare(sql).bind(...ROW_FIELD_ORDER.map((k) => row[k] ?? null)),
-  );
-  await db.batch(statements);
+  const dbCtx = ctx({ DB: db });
+  for (const row of rows) {
+    const email = asResponseEmail(row.responseEmail);
+    const existing = await findIdentityByEmail(dbCtx, email);
+    if (existing) {
+      continue;
+    }
+    const memberId = asMemberId(`sheet:${crypto.randomUUID()}`);
+    const responseId = asResponseId(row.responseId);
+    const answers = Object.fromEntries(
+      RESPONSE_FIELD_KEYS.map((key) => [key, row[key] ?? null]),
+    );
+    await createMemberWithStatus(dbCtx, {
+      memberId,
+      responseEmail: email,
+      currentResponseId: responseId,
+      firstResponseId: responseId,
+      lastSubmittedAt: row.submittedAt,
+    });
+    await markSeedImported(dbCtx, memberId, "sheets", row.submittedAt);
+    await upsertResponse(dbCtx, {
+      responseId,
+      formId: SHEET_FORM_ID,
+      revisionId: SHEET_REVISION_ID,
+      schemaHash: SHEET_SCHEMA_HASH,
+      responseEmail: email,
+      submittedAt: row.submittedAt,
+      editResponseUrl: null,
+      answersJson: JSON.stringify(answers),
+      rawAnswersJson: JSON.stringify(answers),
+      extraFieldsJson: row.extraFieldsJson ?? "{}",
+      unmappedQuestionIdsJson: row.unmappedQuestionIdsJson ?? "[]",
+      searchText: Object.values(answers).filter((v): v is string => typeof v === "string").join(" "),
+    });
+    for (const key of RESPONSE_FIELD_KEYS) {
+      await upsertKnownField(
+        dbCtx,
+        responseId,
+        asStableKey(key),
+        JSON.stringify(row[key] ?? null),
+        JSON.stringify(row[key] ?? null),
+      );
+    }
+    await setConsentSnapshot(dbCtx, memberId, row.publicConsent, row.rulesConsent);
+  }
 }
 
 interface InsertRunningLogInput {

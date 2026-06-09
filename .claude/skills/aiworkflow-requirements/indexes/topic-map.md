@@ -3040,6 +3040,45 @@ node scripts/list-specs.js --topics
 | Evidence | L24 |
 | Contract Notes | L31 |
 
+### references/workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Gates | L23 |
+| Invariants | L30 |
+| Lessons Learned | L36 |
+
+### references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L13 |
+| Public surface（内部 bash lib 契約） | L27 |
+| Evidence | L36 |
+| Invariants | L49 |
+| User Gate | L57 |
+| Lessons Learned | L61 |
+
+### references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Contract | L22 |
+| Evidence | L30 |
+| Lessons Learned | L40 |
+
+### references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Root-Cause Notes | L16 |
+| Lessons Learned | L22 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -4089,6 +4128,13 @@ node scripts/list-specs.js --topics
 | Code Artifacts | L20 |
 | Evidence Boundary | L36 |
 
+### references/workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Phase 12 sync | L14 |
+| Lessons Learned | L20 |
+
 ### references/workflow-member-header-admin-link-artifact-inventory.md
 
 | セクション | 行 |
@@ -4267,6 +4313,16 @@ node scripts/list-specs.js --topics
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
+
+### references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L26 |
+| Invariants | L37 |
+| Lessons Learned | L41 |
 
 ### references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md
 
@@ -9049,22 +9105,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4037 |
-| フェーズ構造（概要） | L4046 |
-| 品質ゲート（概要） | L4077 |
-| 出力テンプレート | L4088 |
-| 実行時のコマンド・エージェント・スキル | L4111 |
-| 昇格パターン集 | L4135 |
-| Current Active / Spec Created Tasks | L4137 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4303 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4371 |
-| issue-1007-density-toggle-help-hint-hardening | L4395 |
-| issue-1079-bulk-tag-audit-batch-filter | L4408 |
-| issue-1128-audit-batchid-index-optimization | L4421 |
-| issue-998-members-publish-state-production-rollout | L4438 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4497 |
-| issue-1068-admin-tag-inline-create-ui | L4511 |
-| issue-1111-proxy-transport-util-unify | L4529 |
+| ドキュメント構成 | L4105 |
+| フェーズ構造（概要） | L4114 |
+| 品質ゲート（概要） | L4145 |
+| 出力テンプレート | L4156 |
+| 実行時のコマンド・エージェント・スキル | L4179 |
+| 昇格パターン集 | L4203 |
+| Current Active / Spec Created Tasks | L4205 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4371 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4439 |
+| issue-1007-density-toggle-help-hint-hardening | L4463 |
+| issue-1079-bulk-tag-audit-batch-filter | L4476 |
+| issue-1128-audit-batchid-index-optimization | L4489 |
+| issue-998-members-publish-state-production-rollout | L4506 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4565 |
+| issue-1068-admin-tag-inline-create-ui | L4579 |
+| issue-1111-proxy-transport-util-unify | L4597 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4615 |
 
 ### references/task-workflow-backlog-part2.md
 

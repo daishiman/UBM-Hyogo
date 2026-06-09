@@ -23,7 +23,7 @@ export function MemberLinks({ sections }: MemberLinksProps) {
   if (links.length === 0) return null;
   return (
     <section data-component="member-links" className="links-root">
-      <h2 className="links-title">リンク</h2>
+      <h2 className="links-title">SNS / WEB</h2>
       <ul className="links-list" role="list">
         {links.map((l) => (
           <li key={l.stableKey} data-stable-key={l.stableKey}>

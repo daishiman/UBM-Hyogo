@@ -5,7 +5,6 @@ const initSpy = vi.fn();
 const requiredEnv = {
   ENVIRONMENT: "local",
   NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
-  PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
   INTERNAL_API_BASE_URL: "http://127.0.0.1:8787",
   AUTH_URL: "http://127.0.0.1:3000",
   SENTRY_ENVIRONMENT: "local",

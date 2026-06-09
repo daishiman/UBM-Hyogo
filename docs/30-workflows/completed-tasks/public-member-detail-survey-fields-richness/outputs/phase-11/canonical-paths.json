@@ -1,0 +1,39 @@
+{
+  "workflow": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "status": "local_runtime_screenshots_present_staging_pending_user_gate",
+  "localEvidence": [
+    {
+      "path": "apps/web/src/lib/adapters/__tests__/member-detail.spec.ts",
+      "status": "present",
+      "role": "adapter contract for stableKey section reconstruction, visibility filter, other fallback"
+    },
+    {
+      "path": "apps/web/src/components/public/__tests__/MemberDetailRichSections.component.spec.tsx",
+      "status": "present",
+      "role": "business/personal/message component contract"
+    },
+    {
+      "path": "apps/api/src/testing/test-accounts/__tests__/build-seed-sql.spec.ts",
+      "status": "present",
+      "role": "TEST-MEM-01 public survey field seed contract"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "outputs/phase-11/screenshots/member-detail-full.png",
+      "status": "present",
+      "reason": "captured locally with Playwright mock API; staging seed apply remains user-gated"
+    },
+    {
+      "path": "outputs/phase-11/screenshots/member-detail-sparse.png",
+      "status": "present",
+      "reason": "captured locally with Playwright mock API"
+    },
+    {
+      "path": "outputs/phase-11/screenshots/member-detail-message-hidden.png",
+      "status": "present",
+      "reason": "captured locally with Playwright mock API"
+    }
+  ]
+}
