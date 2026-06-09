@@ -4,7 +4,6 @@ import { z } from "zod";
 export const EnvSchema = z.object({
   ENVIRONMENT: z.enum(["local", "staging", "production"]),
   NEXT_PUBLIC_API_BASE_URL: z.string().url(),
-  PUBLIC_API_BASE_URL: z.string().url(),
   INTERNAL_API_BASE_URL: z.string().url(),
   INTERNAL_AUTH_SECRET: z.string().min(1).optional(),
   SYNC_ADMIN_TOKEN: z.string().min(1).optional(),
@@ -61,7 +60,6 @@ export type AuthEnv = z.infer<typeof AuthEnvSchema> & {
 export interface PublicFetchEnv {
   API_SERVICE?: ServiceBinding;
   NEXT_PUBLIC_API_BASE_URL?: string;
-  PUBLIC_API_BASE_URL?: string;
   NODE_ENV?: string;
   PLAYWRIGHT_TEST?: string;
 }
@@ -71,11 +69,6 @@ export interface AdminFetchEnv {
   INTERNAL_API_BASE_URL?: string;
   NODE_ENV?: string;
   PLAYWRIGHT_TEST?: string;
-}
-
-export interface ApiBaseEnv {
-  INTERNAL_API_BASE_URL?: string;
-  PUBLIC_API_BASE_URL?: string;
 }
 
 function readCloudflareEnv(): RawEnv | undefined {
@@ -165,17 +158,6 @@ export function getTransportRuntimeIsTest(rawEnv: RawEnv = readRawEnv()): boolea
   return nodeEnv === "test" || playwright === "1";
 }
 
-export function getApiBaseEnv(rawEnv: RawEnv = readRawEnv()): ApiBaseEnv {
-  return {
-    ...(typeof rawEnv["INTERNAL_API_BASE_URL"] === "string"
-      ? { INTERNAL_API_BASE_URL: rawEnv["INTERNAL_API_BASE_URL"] }
-      : {}),
-    ...(typeof rawEnv["PUBLIC_API_BASE_URL"] === "string"
-      ? { PUBLIC_API_BASE_URL: rawEnv["PUBLIC_API_BASE_URL"] }
-      : {}),
-  };
-}
-
 export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv {
   const processEnv = readProcessEnv();
   const nextPublicBaseUrl =
@@ -184,17 +166,10 @@ export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv
       : typeof rawEnv["NEXT_PUBLIC_API_BASE_URL"] === "string"
         ? rawEnv["NEXT_PUBLIC_API_BASE_URL"]
         : undefined;
-  const baseUrl =
-    typeof processEnv["PUBLIC_API_BASE_URL"] === "string"
-      ? processEnv["PUBLIC_API_BASE_URL"]
-      : typeof rawEnv["PUBLIC_API_BASE_URL"] === "string"
-        ? rawEnv["PUBLIC_API_BASE_URL"]
-        : undefined;
   const binding = rawEnv["API_SERVICE"];
   return {
     ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
     ...(nextPublicBaseUrl === undefined ? {} : { NEXT_PUBLIC_API_BASE_URL: nextPublicBaseUrl }),
-    ...(baseUrl === undefined ? {} : { PUBLIC_API_BASE_URL: baseUrl }),
     ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
     ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
       ? { PLAYWRIGHT_TEST: processEnv["PLAYWRIGHT_TEST"] }
