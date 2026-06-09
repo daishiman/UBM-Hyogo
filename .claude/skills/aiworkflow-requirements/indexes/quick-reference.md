@@ -14,6 +14,70 @@
 | user gate | staging screenshots, commit, push, PR |
 
 
+## issue-1145-public-api-base-url-env-unification（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1145 CLOSED（mutation は user-gated） |
+| purpose | public API base URL の旧 `PUBLIC_API_BASE_URL` を削除し、`NEXT_PUBLIC_API_BASE_URL` へ単一化する |
+| implementation | `apps/web/src/lib/env.ts` から旧 key / `getApiBaseEnv()` / `ApiBaseEnv` を削除、`fetch/public.ts` を `NEXT_PUBLIC_API_BASE_URL` 単独 fallback に変更、apps/og を rename、web/og config・tests・GitHub Actions env injection を同期 |
+| invariant | `API_SERVICE` service binding 優先、`INTERNAL_API_BASE_URL` internal/admin/server fallback、API endpoint / D1 / Google Form / UI unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging/production deploy, Issue mutation |
+
+## member-data-source-precedence-and-profile-session-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 会員プロフィール表示を L1 管理者確定編集 > L2 Google Form 本人再回答 > L3 Sheets seed に統一し、`/profile` session failure を fail-safe にする |
+| implementation | `apps/api/migrations/0028_member_field_overrides.sql`, `apps/api/src/repository/memberFieldOverrides.ts`, `apps/api/src/use-cases/_shared/field-precedence.ts`, `apps/api/src/routes/admin/member-fields.ts`, `apps/web/src/components/admin/MemberFieldEditor.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | D1 migration verifier PASS; API/Web typecheck PASS; focused Vitest 27 PASS; D1 contract Vitest 35 PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md` |
+| user gate | remote D1 apply, staging deploy, authenticated visual capture, commit, push, PR |
+
+## public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implementation | `member-detail.ts`（stableKey 駆動 section 再構成 + hometown 抽出 + `other` 元構造保持 fallback）、public components（`ProfileHero` / `MemberDetail` / `BusinessOverviewSection` / `PersonalSection` / `MessageCard` / `MemberTags`）、`globals.css` / `legacy-public.css`（sticky footer 重なり修正）、`test-accounts/{catalog,build-seed-sql}.ts` + 生成 seed SQL |
+| evidence | focused Vitest 5 files / 31 tests PASS; web/api typecheck PASS; stableKey lint PASS; Phase 11 local runtime screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema 不変; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由 |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+## issue-1128-audit-batchid-index-optimization（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
+| implementation | `apps/api/migrations/0027_audit_log_batchid_index.sql`（`audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id`）、`apps/api/src/repository/auditLog.ts`（`batch_id = ?`） |
+| evidence | focused D1 Vitest 3 files / 28 tests PASS; `EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用 / `SCAN audit_log` 不在 |
+| invariant | public query / response shape unchanged; `audit_log` append-only repository boundary unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md` |
+| user gate | staging / production D1 migration apply, deploy, commit, push, PR |
+
+## issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | issue-1077 authenticated staging visual 基盤を未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-{audit,requests,identity-conflicts,schema,meetings}-authenticated.spec.ts` 5 本を追加。既存 `staging-visual-authenticated` project / admin storageState / CI を再利用し、config 変更なし |
+| invariant | mutation controls are never clicked; product code, D1 schema, `playwright.config.ts`, and CI are unchanged |
+| evidence | local spec implementation complete; `--list` / typecheck / lint are local evidence; staging capture and baseline generation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
+
 ## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
 
 | 項目 | 値 |
@@ -286,6 +350,19 @@
 | evidence | local shell test PASS; actionlint PASS; `pnpm smoke:test` PASS; staging real D1 mutation smoke pending user approval |
 | invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
 | user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
+
+## issue-1137-bulk-tag-production-runtime-smoke（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | issue-1081 の staging bulk tag mutation smoke を production Workers + `ubm-hyogo-db-prod` real D1 用へ拡張 |
+| implementation | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-production-{seed,cleanup}.sql`, `.github/workflows/production-runtime-smoke.yml` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`; actionlint on `production-runtime-smoke.yml` |
+| evidence | local shell test PASS; actionlint PASS; production real D1 runtime evidence pending user approval |
+| invariant | staging guard / staging SQL unchanged; production prefix fixed to `e2e_test_prod_tagbulk_`; dual marker required |
+| user gate | production real D1 seed/mutation/cleanup evidence, commit, push, PR |
 
 ## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
@@ -1101,7 +1178,7 @@
 | task | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
 | related | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
 | purpose | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を、member authed fetch の Workers env 解決是正と `/me` safe degradation で解消する |
-| implementation | `apps/web/src/lib/fetch/authed.ts` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を禁止。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
+| implementation | `apps/web/src/lib/fetch/authed.ts` は `INTERNAL_API_BASE_URL` を使い localhost fallback を禁止。issue-1145 後、旧 `getApiBaseEnv()` / `PUBLIC_API_BASE_URL` fallback は current contract から削除済み。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
 | tests | `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx` |
 | evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
@@ -3007,13 +3084,15 @@
 | Issue #640 step-scoped CF token cutover | `docs/30-workflows/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, legacy token revocation, commit, push, and PR are user-gated. |
 | Issue #717 Cloudflare Workers OIDC support revalidation | `docs/30-workflows/issue-717-oidc-cf-full-migration/`（`verified_current_no_code_change_pending_pr` / implementation / NON_VISUAL / conditional）。2026-05-16 時点では Cloudflare Workers GitHub Actions docs と `cloudflare/wrangler-action` README が API token authentication を案内しており、supported OIDC deploy path は未確認。`web-cd.yml` は no-code、Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を維持。Follow-up: `issue-717-followup-001-production-oidc-cutover`, `issue-717-followup-002-apps-api-d1-token-cutover`, `issue-717-followup-003-1password-restructure`. |
 | runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
-| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
+| runtime smoke CF token contract | `scripts/smoke/provision-staging-secrets.sh` provisions `CLOUDFLARE_API_TOKEN` for `staging-runtime-smoke`; `.github/workflows/verify-runtime-smoke-secret-contract.yml` runs `scripts/smoke/verify-runtime-smoke-secret-contract.mts` to ensure consumed secrets are provisioned or explicitly exempt. Missing CF token degrades only `bulk-tag-runtime-smoke`; missing `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `CLOUDFLARE_ACCOUNT_ID` still hard-fails |
+| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh`; current Cloudflare token runbook is `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` |
 | web-cd staging / production secret provisioning | canonical runbooks: `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` and `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md`; separate from `staging-runtime-smoke`; `CLOUDFLARE_API_TOKEN` is environment-scoped web-cd deploy token, `CLOUDFLARE_ACCOUNT_ID` is Variables-managed, evidence records `op://` references only, and secret mutation / commit / push / PR are user-gated |
 | Phase 12 | parent design root pending; task-01 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | approval boundary | secret placement / deploy run / runtime smoke / Slack failure injection / commit / push / PR are user-gated |
 | build mode 不変条件 | `apps/web` production build は `next build --webpack`。Turbopack は local dev 限定（`deployment-cloudflare-opennext-workers.md` §11.1） |
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
+| Cloudflare token rotation retirement | `.github/workflows/cf-token-rotation-reminder.yml` deleted on 2026-06-08. `CF_TOKEN_ISSUED_AT` is retired; use non-expiring least-privilege environment tokens with event-based revocation |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
@@ -3175,7 +3254,7 @@
 | workflow root | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
 | 状態 | `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval` |
 | 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
-| env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置 |
+| env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置。旧 `PUBLIC_API_BASE_URL` は issue-1145 で削除済み |
 | secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` / `INTERNAL_AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | downstream | task-03 は `SENTRY_*`、task-04/05/18 は `getEnv()` / grep gate を利用 |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。Cloudflare dry-run / secret put / commit / push / PR は user approval 後 |
@@ -5595,6 +5674,18 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
 | inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
+
+# issue-1129-single-write-batchid-correlation
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / NON_VISUAL / 2026-06-07 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| API | Single admin manual tag assign writes `after_json.{tagId,source,batchId}` and single unassign writes `before_json.{tagId,batchId}` with request-scoped UUID; existing `GET /admin/audit?batchId=<id>` searches both via `$.batchId` |
+| invariant | no endpoint, response shape, D1 schema, migration, `apps/web`, or audit read-side SQL change; noop writes leave no audit row and no batchId |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS; API typecheck PASS |
+| inventory | `references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

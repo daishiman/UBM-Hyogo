@@ -1,0 +1,48 @@
+{
+  "taskId": "member-data-source-precedence-and-profile-session-fix",
+  "mode": "VISUAL",
+  "status": "pending_runtime_visual",
+  "note": "implemented_local_runtime_pending。実装は user-gated のため PNG は 0 枚。user gate 後に staging（要 admin/会員ログイン）で capture する計画のみを定義する。",
+  "captures": [
+    {
+      "name": "admin-member-field-editor-default.png",
+      "route": "/(admin)/admin/members/[id]",
+      "state": "default",
+      "lane": "D",
+      "status": "pending_runtime_visual",
+      "verifies": ["AC-5"]
+    },
+    {
+      "name": "admin-member-field-editor-override-saved.png",
+      "route": "/(admin)/admin/members/[id]",
+      "state": "override-saved",
+      "lane": "D",
+      "status": "pending_runtime_visual",
+      "verifies": ["AC-5"]
+    },
+    {
+      "name": "public-members-list-reflected.png",
+      "route": "/(public)/members",
+      "state": "merged-projection",
+      "lane": "C/D",
+      "status": "pending_runtime_visual",
+      "verifies": ["AC-1", "AC-2", "AC-6"]
+    },
+    {
+      "name": "public-member-detail-reflected.png",
+      "route": "/(public)/members/[id]",
+      "state": "merged-projection",
+      "lane": "C/D",
+      "status": "pending_runtime_visual",
+      "verifies": ["AC-4", "AC-6"]
+    },
+    {
+      "name": "profile-session-failsafe.png",
+      "route": "/profile",
+      "state": "session-failsafe-branch",
+      "lane": "E",
+      "status": "pending_runtime_visual",
+      "verifies": ["AC-7"]
+    }
+  ]
+}

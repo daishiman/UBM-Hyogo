@@ -22,6 +22,76 @@
 | user gate | staging data-backed screenshots, commit, push, PR |
 
 
+### member-data-source-precedence-and-profile-session-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` |
+| 目的 | L1 管理者確定編集 > L2 Google Form 本人再回答 > L3 Sheets seed のプロフィール表示合成と `/profile` session failure fail-safe |
+| implementation targets | `apps/api/migrations/0028_member_field_overrides.sql`, `apps/api/src/repository/memberFieldOverrides.ts`, `apps/api/src/use-cases/_shared/field-precedence.ts`, `apps/api/src/routes/admin/member-fields.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | D1 migration verifier PASS、API/Web typecheck PASS、focused Vitest 27 PASS、D1 contract Vitest 35 PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md` |
+| user gate | remote D1 migration apply、staging deploy、authenticated visual capture、commit、push、PR |
+
+### public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| 目的 | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implemented targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/components/public/{ProfileHero,MemberDetail,BusinessOverviewSection,PersonalSection,MessageCard,MemberTags}.tsx`, `apps/web/src/styles/globals.css`, `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts`, `apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql`, `apps/api/migrations/seed/test-accounts.manifest.json` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema unchanged; stableKey literals use `STABLE_KEY`; web has no D1 direct access |
+| evidence | focused Vitest 5 files / 31 tests PASS、web typecheck PASS、api typecheck PASS、stableKey lint PASS、Phase 11 local screenshots 3 PNG present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+### issue-1129-single-write-batchid-correlation（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| issue | #1129 CLOSED（reopen しない / PR 文脈は Refs のみ） |
+| parent | `issue-1079-bulk-tag-audit-batch-filter` / `issue-1036-bulk-member-tag-assign` |
+| 目的 | 単一 admin manual tag assign/unassign の audit payload に request-scoped `batchId`（群サイズ 1）を付与し、既存 `GET /admin/audit?batchId=` で bulk と同一導線の相関閲覧を可能にする |
+| implementation target | `apps/api/src/routes/admin/members.ts` |
+| tests | `apps/api/src/routes/admin/members.tags.contract.spec.ts`, `apps/api/src/routes/admin/audit.contract.spec.ts` |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS、API typecheck PASS |
+| invariant | endpoint / response shape / `audit_log` schema / migration / `apps/web` / `auditLog.listFiltered` SQL は変更なし。noop は audit も batchId も残さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
+### issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| 目的 | issue-1077 authenticated staging visual 基盤を、未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation targets | `apps/web/playwright/tests/visual-staging-authenticated/admin-audit-authenticated.spec.ts`, `admin-requests-authenticated.spec.ts`, `admin-identity-conflicts-authenticated.spec.ts`, `admin-schema-authenticated.spec.ts`, `admin-meetings-authenticated.spec.ts` |
+| invariant | read-only 初期表示のみ。承認/却下、merge/別人マーク、alias 割当、Bulk Resolve/Rollback、再集計、開催日 CRUD、出席 CRUD はクリックしない。`apps/web/src` / `apps/api` / D1 / `playwright.config.ts` / CI は不変 |
+| evidence | local Playwright spec 5 本追加。`staging-visual-authenticated --list` / typecheck / lint を local evidence とし、authenticated staging capture と baseline 生成は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint、authenticated runtime screenshot、`--update-snapshots` baseline、commit、push、PR。Issue #1127 は CLOSED 維持 |
+
+### cf-token-env-contract-and-rotation-retirement（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/cf-token-env-contract-and-rotation-retirement/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 起点 | CI 失敗ログ `backend-ci #706 runtime-smoke-staging / bulk-tag-runtime-smoke`（`related_issue=null`） |
+| 目的 | `bulk-tag-runtime-smoke` が毎回赤くなる真因（`CLOUDFLARE_API_TOKEN` が provisioning 正本 `provision-staging-secrets.sh` に欠落し環境未登録）を恒久解消し、全消費 secret を provisioning 正本と突合する drift gate で再発防止。あわせて 90 日カレンダーローテ（`cf-token-rotation-reminder`）を撤廃し非失効・狭スコープ・環境分離・漏洩時即時失効へ一本化する |
+| implementation targets | `scripts/smoke/provision-staging-secrets.sh`, `.github/workflows/runtime-smoke-staging.yml`, `scripts/smoke/verify-runtime-smoke-secret-contract.mts`, `.github/workflows/verify-runtime-smoke-secret-contract.yml`, deleted `.github/workflows/cf-token-rotation-reminder.yml` / `scripts/check-cf-rotation-reminder.sh`, new `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md`, tombstoned `docs/30-workflows/operations/cf-token-rotation-runbook.md`, appended `docs/30-workflows/operations/cf-token-rotation-log.md` |
+| tests | `scripts/smoke/__tests__/verify-runtime-smoke-secret-contract.spec.ts` |
+| evidence | focused Vitest 2 files / 14 tests PASS（新規 6 + mint 回帰 8 = AC-7 不変確認）; `verify-runtime-smoke-secret-contract` PASS（11 consumed / 8 provisioned / 3 documented exempt）; `bash -n` PASS; actionlint PASS |
+| invariant | `apps/*` runtime code / API endpoint / D1 schema / Google Form / 既存 `verify-mint-env-contract` 挙動は変更なし（AC-7）。degrade は staging 限定で production runtime smoke には適用しない。secret 値・token id・scope を log / artifact に出さない（AC-8） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md`（Lessons L-CFEC-001..009） |
+| user gate | Cloudflare token 再発行 / 1Password 保管、`gh secret set` / provision 実行、real staging smoke、`verify-runtime-smoke-secret-contract` の required status check 登録、commit、push、PR |
+
 ### sentry-extension-noise-filter-spec（2026-06-07）
 
 | 項目 | 値 |
@@ -249,6 +319,19 @@
 | invariant | endpoint contract / D1 schema / UI / auth 方式は変更なし。fixture は `e2e_test_issue1081_` prefix 限定、production guard は staging DB 固定 |
 | evidence | local shell test PASS、actionlint PASS、`pnpm smoke:test` PASS。staging real D1 seed/mutation/cleanup evidence は user-gated |
 | user gate | staging deploy、real D1 seed/mutation/cleanup、commit、push、PR |
+
+### issue-1137-bulk-tag-production-runtime-smoke（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` |
+| Issue | #1137 CLOSED 維持。Issue mutation は行わない |
+| 目的 | issue-1081 の staging bulk tag mutation smoke を production Workers + `ubm-hyogo-db-prod` real D1 用へ拡張する |
+| implementation targets | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-production-seed.sql`, `apps/api/migrations/seed/bulk-tag-production-cleanup.sql`, `.github/workflows/production-runtime-smoke.yml`, `scripts/smoke/__tests__/runtime-tag-bulk.test.sh` |
+| invariant | staging guard / staging seed-cleanup SQL は不変。production fixture は `e2e_test_prod_tagbulk_` prefix 限定。production runner は dual marker を要求 |
+| evidence | local shell test PASS、actionlint PASS。production real D1 seed/mutation/cleanup evidence は user-gated |
+| user gate | production real D1 seed/mutation/cleanup、commit、push、PR |
 
 ### shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
@@ -1094,7 +1177,7 @@
 | related workflow | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
 | 目的 | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を解消し、admin 側と同型の Workers env 解決契約へ整える |
 | implementation targets | `apps/web/src/lib/fetch/authed.ts`, `apps/web/app/(member)/profile/page.tsx` |
-| contract | `fetchAuthed` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を持たない。`ProfilePage` の初回 `/me` は `safeServerFetch` で AuthRequiredError のみ redirect、その他は SectionError に降格する |
+| contract | `fetchAuthed` は `INTERNAL_API_BASE_URL` を使い localhost fallback を持たない。issue-1145 後、旧 `getApiBaseEnv()` / `PUBLIC_API_BASE_URL` fallback は current contract から削除済み。`ProfilePage` の初回 `/me` は `safeServerFetch` で AuthRequiredError のみ redirect、その他は SectionError に降格する |
 | evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
 | user gate | Cloudflare staging deploy、authenticated `/profile` curl、tail clean evidence、commit、push、PR |
@@ -2588,7 +2671,7 @@
 | 成果物 | `docs/30-workflows/completed-tasks/issue-666-fetch-public-service-binding-regression/` |
 | Issue | #666 OPEN。PR 文脈は `Refs #666` |
 | source unassigned | `docs/30-workflows/completed-tasks/task-e2e-stage3b-fetch-public-service-binding-priority-regression-001.md`（consumed by Issue #666 workflow） |
-| 目的 | `PUBLIC_API_BASE_URL` が production / staging に誤設定されても service binding を skip しない regression guard |
+| 目的 | 旧 `PUBLIC_API_BASE_URL` 系の誤設定で production / staging の service binding を skip しない regression guard。issue-1145 後の current key は `NEXT_PUBLIC_API_BASE_URL` |
 | implementation targets | `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.spec.ts` |
 | evidence boundary | focused Vitest, typecheck, lint, build, inverse assertion, and grep evidence captured locally; GitHub Actions PR runtime remains user-gated |
 | Phase 12 | strict 7 outputs present under `outputs/phase-12/`; root `artifacts.json` is the only artifact ledger |
@@ -3507,12 +3590,13 @@
 | --- | --- |
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_until_user_approval |
 | 成果物 | `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` |
-| 実装対象 | `docs/30-workflows/operations/cf-token-rotation-runbook.md`, `docs/30-workflows/operations/cf-token-rotation-log.md`, `.github/workflows/cf-token-rotation-reminder.yml`, `scripts/check-cf-rotation-reminder.sh` |
-| variable | GitHub repository variable `CF_TOKEN_ISSUED_AT` |
+| **RETIRED（2026-06-08）** | 90 日カレンダーローテ方針は `cf-token-env-contract-and-rotation-retirement` で撤廃。`.github/workflows/cf-token-rotation-reminder.yml` / `scripts/check-cf-rotation-reminder.sh` は削除済み、`cf-token-rotation-runbook.md` は tombstone 化、`CF_TOKEN_ISSUED_AT` は retired。現行方針は `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md`（非失効・狭スコープ・環境分離・漏洩時即時失効）。本エントリ以下は撤廃時点の監査履歴 |
+| 実装対象 | `docs/30-workflows/operations/cf-token-rotation-runbook.md`, `docs/30-workflows/operations/cf-token-rotation-log.md`, `.github/workflows/cf-token-rotation-reminder.yml`, `scripts/check-cf-rotation-reminder.sh`（後者 2 ファイルは 2026-06-08 削除済み） |
+| variable | GitHub repository variable `CF_TOKEN_ISSUED_AT`（retired） |
 | 境界 | reminder workflow は Issue 起票のみ。Token 発行 / `gh secret set` / production rotation は runbook の user approval gate 後だけ実行 |
 | secret hygiene | Token 値 / Token ID / scope 値は docs / log / evidence / PR body に記録しない |
 | Issue 取扱 | #407 CLOSED 維持。PR 文脈では `Refs #407` のみ |
-| 下流 | U-FIX-CF-ACCT-01-DERIV-01（OIDC 化）後に runbook 改訂または retire |
+| 下流 | `cf-token-env-contract-and-rotation-retirement`（2026-06-08）で event-based revocation へ移行・本ローテ運用は撤廃済み |
 
 ### 09c Incident Runbook Slack Delivery（2026-05-06）
 
@@ -4164,7 +4248,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | 06b-B-profile-self-service-request-ui | implemented-local / implementation / runtime-evidence-blocked / VISUAL_ON_EXECUTION / Phase 1-10・12 completed / Phase 11 blocked_runtime_evidence / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/` | `/profile` に本人の公開停止/再公開申請 UI と退会申請 UIを追加済み。04b `/me/visibility-request` / `/me/delete-request` と 06b profile page を上流にし、client は同一 origin `/api/me/visibility-request` / `/api/me/delete-request` proxy 経由で API Worker を叩く。実装 component は `RequestActionPanel`、`VisibilityRequestDialog`、`DeleteRequestDialog`、`RequestPendingBanner`、`RequestErrorMessage`、client helper は `apps/web/src/lib/api/me-requests.ts`。本文編集 UI は追加せず、409 duplicate pending request、success/error/pending statesを固定。Phase 11 logged-in screenshot / unskipped E2E は runtime capture pending で、06b-C / 08b / 09a が visual evidence として消費する。pending banner sticky 化は `docs/30-workflows/unassigned-task/task-06b-b-profile-request-pending-banner-sticky-001.md` に分離。 |
 | 06b-b-profile-request-pending-banner-sticky | implemented-local / implementation / VISUAL_ON_EXECUTION / Phase 1-10・12 completed / Phase 11 blocked_runtime_evidence / Phase 13 pending_user_approval | `docs/30-workflows/06b-b-profile-request-pending-banner-sticky/` | 06b-B から分離された pending banner sticky 化 follow-up を local 実装済み。`/profile` reload 後も server-side pending state から `RequestPendingBanner` を表示し、重複申請ボタンを disabled にする。`GET /me/profile.pendingRequests`、`admin_member_notes.request_status='pending'` + `note_type IN ('visibility_request','delete_request')` 読み取り、`apps/web/src/lib/api/me-types.ts` mirror、`RequestActionPanel` props 追加を実装済み。409 は既存 `DUPLICATE_PENDING_REQUEST` を再利用し、新 endpoint / memberId path / apps/web D1 direct access は追加しない。authenticated runtime screenshot / trace は未取得で 06b-C / 08b / 09a capture gate に接続。旧 unassigned task は formalized source として保持。 |
 | 06b-A-me-api-authjs-session-resolver | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/06b-A-me-api-authjs-session-resolver/` | `/profile` SSR が cookie forwarding で呼ぶ `/me` / `/me/profile` を、apps/api 側で Auth.js session cookie/JWT から解決する follow-up 実装。`apps/api/src/middleware/me-session-resolver.ts` が `authjs.session-token` / `__Secure-authjs.session-token` / next-auth v4 migration cookie / Authorization Bearer JWT を `AUTH_SECRET` で検証し、dev-only `x-ubm-dev-session` は `ENVIRONMENT === "development"` 限定で fail-closed。`apps/api/src/index.ts` の `/me` mount を inline dev-only resolver から `createMeSessionResolver()` に差し替え。Focused tests: `apps/api/src/middleware/me-session-resolver.test.ts` 12 cases（dev path / production rejection / env missing rejection / cookie names / wrong secret / expired / missing / malformed）。staging / production live smoke と deploy は 09a / 09c gate。旧 root `docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/` は legacy mapping に登録。 |
-| UT-05A fetchPublic service-binding | implemented-local / implementation / VISUAL_ON_EXECUTION / runtime evidence pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/ut-05a-fetchpublic-service-binding-001/` | Issue #387 CLOSED 維持のまま formalize。`apps/web/src/lib/fetch/public.ts` は `env.API_SERVICE.fetch(...)` 優先 + `PUBLIC_API_BASE_URL` local fallback、`apps/web/wrangler.toml` は staging `ubm-hyogo-api-staging` / production `ubm-hyogo-api` の `API_SERVICE` binding を正本とする。Phase 11 は deploy / curl / tail / local fallback の runtime evidence contract で、実 staging / production deploy・commit・push・PR は user 明示指示後のみ。root / outputs `artifacts.json` parity と Phase 12 strict 7 files を配置済み。 |
+| UT-05A fetchPublic service-binding | implemented-local / implementation / VISUAL_ON_EXECUTION / runtime evidence pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/ut-05a-fetchpublic-service-binding-001/` | Issue #387 CLOSED 維持のまま formalize。historical implementation は `apps/web/src/lib/fetch/public.ts` の `env.API_SERVICE.fetch(...)` 優先 + legacy public API base URL fallback を固定した。**Current contract は issue-1145 で supersede** され、HTTP fallback key は `NEXT_PUBLIC_API_BASE_URL` 単一、旧 `PUBLIC_API_BASE_URL` は current apps/.github contract から削除済み。Phase 11 は deploy / curl / tail / local fallback の runtime evidence contract で、実 staging / production deploy・commit・push・PR は user 明示指示後のみ。root / outputs `artifacts.json` parity と Phase 12 strict 7 files を配置済み。 |
 | 08b-parallel-playwright-e2e-and-ui-acceptance-smoke | spec_created / scaffolding-only / VISUAL_DEFERRED / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` | apps/web Playwright scaffold を追加。`apps/web/playwright.config.ts`、page objects、7 skipped spec、auth/D1 fixture placeholder、manual-only `.github/workflows/e2e-tests.yml`、Phase 11 evidence inventory を作成。実 screenshot / real axe / real Playwright report は未取得で、CI gate 化も未実施。full execution は `docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md` または 09a staging smoke へ委譲。 |
 | 08b-A-playwright-e2e-full-execution | spec_created / implementation-spec / VISUAL_ON_EXECUTION / Phase 1-10 and 12 completed / Phase 11 contract_ready_user-gated runtime evidence boundary / Phase 13 pending_user_approval / runtime evidence pending | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/` | 08b scaffold の full-execution 契約。Phase 11 evidence manifest に Playwright HTML/JSON report、real axe report、30+ desktop/mobile screenshot、admin UI gate、direct `/api/admin/*` 403、foreign content edit 403、secret hygiene、skip inventory の保存先を固定。Phase 12 strict 7 files と root/outputs artifacts parity は配置済み。実 Playwright 実行、CI gate promotion、commit / push / PR は user approval 後のみ。 |
 | 08a-B-public-search-filter-coverage | implemented-local / implementation-spec / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 11 runtime evidence pending / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/08a-B-public-search-filter-coverage/` | `/members` public search/filter 6 query parameter（`q / zone / status / tag / sort / density` + `page/limit`）を正本 specs と実コードへ同期。`status` は参加ステータスであり公開状態ではない。公開境界は `public_consent='consented'` / `publish_state='public'` / `is_deleted=0` / canonical alias source 除外で固定。`apps/api/src/_shared/search-query-parser.ts` は q trim + whitespace normalize + 200 truncate、tag dedup + empty drop + 5 limit。`apps/api/src/repository/publicMembers.ts` は LIKE wildcard literal escape、tag AND bind offset、`sort=name` fullName ASC + member_id ASC、`sort=recent` lastSubmittedAt DESC + fullName ASC + member_id ASC。正本 specs `12-search-tags.md` / `05-pages.md` / `01-api-schema.md` / `09-ui-ux.md` に同一 wave 同期済み。runtime screenshot / curl / axe evidence は 08b / 09a 実行時に取得する。 |
@@ -4225,7 +4309,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | task-spec-2a-admin-requests-e2e | implemented-local-runtime-pass / implementation / NON_VISUAL / Phase 11 desktop Chromium E2E PASS / Phase 12 strict outputs present | `docs/30-workflows/task-spec-2a-admin-requests-e2e/` | Stage 2 subtask 2a implementation is present: `apps/web/playwright/tests/admin-requests.spec.ts`, Auth.js-compatible Playwright session fixture, guarded SSR initial-data fixture (`PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV === "development"`), and RequestQueuePanel reject validation/row removal. Desktop Chromium E2E passed 6/6. member admin-gate expectation follows current proxy `/login?gate=admin_required`. |
 | e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci | spec_created / implementation / NON_VISUAL / user-gated runtime evidence boundary | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | Stage 3 subtask 3a。`lighthouse-ci` context、`.github/workflows/lighthouse.yml`、`lighthouserc.json`、4 route Lighthouse assertion、Q-02 `/profile` degradation decisionを固定。Parent umbrella archive is `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/`. Runtime CI evidence, commit, push, and PR are user-gated. |
 | issue-630-authenticated-profile-lhci-a11y | implemented-local-runtime-pending / implementation / NON_VISUAL / CLOSED issue reconciliation | `docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/` | Issue #630 successor。authenticated `/profile` Lighthouse a11y measurement を local 実装済み。test session JWT storageState 生成、mock API、LHCI puppeteer cookie 注入 + final URL pre-check、`lighthouserc.authenticated.json`、unauth `lighthouserc.json` から `/profile` 除外、`.github/workflows/lighthouse.yml` 二段化、`tsx` devDependency 追加、EXT-X1 backlog 接続を固定。Issue #630 は 2026-05-12T06:26:21Z に CLOSED 済みのため PR は `Refs #630`。runtime LHCI artifact / GitHub Secret mutation / commit / push / PR は user-gated。苦戦箇所は `references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md` の L-I630-001..005 を参照（CLOSED issue PR ref policy / `signSessionJwt` spec-vs-impl 整合 / filter exec での `tsx` 依存 / LHCI cwd 起点 / Server Component LHCI の deterministic mock backend）。 |
-| e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | Stage 3 subtask 3b は 2026-05-10 に local 実装完了。`.github/workflows/e2e-tests.yml` を `e2e-tests-coverage-gate` job として書き換え、`scripts/e2e-mock-api.mjs` deterministic mock API、`apps/web/src/lib/fetch/public.ts` の `PUBLIC_API_BASE_URL` 優先化（service binding より HTTP fallback を優先し CI mock 差し替えを成立）、`apps/web/playwright.config.ts` の monocart-reporter 配列末尾追加、`scripts/coverage-gate-e2e.sh`（line coverage 80% gate / `THRESHOLD_FIXTURE` override / `set -euo pipefail` / quality-gates.md path コメント付与）、devDeps `monocart-reporter@^2.9.0` / `c8@^10.1.0` を反映。fixture（pass 85.0% / fail-79 79.99% / missing）でローカル検証 PASS。実 CI run（T-3b-8..16, AC-3b-1..6）と branch protection mutation は PR / user-gated。苦戦箇所は `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md` の L-E2EQU-013..015 を参照。 |
+| e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | Stage 3 subtask 3b は 2026-05-10 に local 実装完了。`.github/workflows/e2e-tests.yml` を `e2e-tests-coverage-gate` job として書き換え、`scripts/e2e-mock-api.mjs` deterministic mock API、`apps/web/src/lib/fetch/public.ts` の historical public API base URL HTTP fallback 優先化（service binding より HTTP fallback を優先し CI mock 差し替えを成立）、`apps/web/playwright.config.ts` の monocart-reporter 配列末尾追加、`scripts/coverage-gate-e2e.sh`（line coverage 80% gate / `THRESHOLD_FIXTURE` override / `set -euo pipefail` / quality-gates.md path コメント付与）、devDeps `monocart-reporter@^2.9.0` / `c8@^10.1.0` を反映。**Current key は issue-1145 後 `NEXT_PUBLIC_API_BASE_URL` 単一**。fixture（pass 85.0% / fail-79 79.99% / missing）でローカル検証 PASS。実 CI run（T-3b-8..16, AC-3b-1..6）と branch protection mutation は PR / user-gated。苦戦箇所は `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md` の L-E2EQU-013..015 を参照。 |
 | e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts | implemented-local-runtime-pending / implementation / NON_VISUAL / branch-protection-applied / PR-CI-runtime-pending | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` + local execution root `docs/30-workflows/e2e-quality-uplift-stage-3/` | Stage 3 subtask 3c。3a/3b contexts registered後に dev/main required contextsを `ci`, `Validate Build`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate` に拡張する。Local implementation adds `.github/branch-protection/{dev,main}.json`, governance-invariant `.github/branch-protection/apply.sh`, `scripts/verify-branch-protection.sh`, and Lighthouse `workflow_dispatch` + `wait-on`. `gh api -X PUT` + fresh GET evidence は captured。commit, push, PR, PR checks required 表示, Lighthouse workflow run は user-gated. |
 
 ### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン
@@ -4359,6 +4443,46 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | scope | `/members` UX clarity: density meaning, live filter affordance, active filter chips, result-count live region |
 | implementation targets | `apps/web/src/components/public/{DensityToggle.client,MemberFilters.client,SelectedFiltersBar.client,SelectedTagsBar.client}.tsx`, `apps/web/src/components/ui/{Segmented,Search}.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/styles/legacy-public.css` |
 | evidence | focused component tests local; visual baseline / commit / push / PR user-gated |
+
+## issue-1007-density-toggle-help-hint-hardening
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / runtime visual pending_user_approval` |
+| Issue | `#1007` |
+| purpose | `/members` `DensityToggle` HelpHint hardening |
+| implementation | `useId` description ids、non-controlled `<details>` Escape/outside close、`IconName` `help` glyph、pointer target guard |
+| evidence | focused component tests 15 PASS。System specs `09-ui-ux.md` / `09d-icons.md`、Phase 11 local evidence、Phase 12 strict 7、quick-reference/resource-map/artifact inventory synchronized |
+| user gate | runtime screenshots、staging deploy、commit、push、PR |
+| inventory | `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md` |
+
+## issue-1079-bulk-tag-audit-batch-filter
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval` |
+| Issue | `#1079` |
+| purpose | `/admin/audit` に bulk tag audit 相関用の `batchId` query/filter/pagination/UI 表示を追加 |
+| implementation | `GET /admin/audit` が `batchId` query を受け、bulk tag audit の `after_json.$.batchId` / `before_json.$.batchId` を検索し、Web filter/pagination と row batchId copy 表示を維持 |
+| evidence | API D1 targeted PASS 2 files / 26 tests、Web targeted PASS 3 files / 54 tests、API/Web typecheck PASS |
+| user gate | authenticated runtime screenshots、commit、push、PR、Issue mutation |
+| inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
+
+## issue-1128-audit-batchid-index-optimization
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| Issue | `#1128`（CLOSED。PR 文脈は `Refs #1128` のみ） |
+| purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
+| implementation | `apps/api/migrations/0027_audit_log_batchid_index.sql` で `audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id` を追加し、`apps/api/src/repository/auditLog.ts` の `listFiltered` batchId predicate を `batch_id = ?` へ切替 |
+| evidence | focused D1 Vitest PASS 3 files / 28 tests。`EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用かつ `SCAN audit_log` 不在を assert |
+| invariant | public query / response shape unchanged。`audit_log` append-only repository boundary unchanged |
+| user gate | staging / production D1 migration apply、deploy、commit、push、PR |
+| inventory | `references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md` |
 | issue-1007-density-toggle-help-hint-hardening | implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict outputs present / runtime visual pending_user_approval | `docs/30-workflows/completed-tasks/issue-1007-density-toggle-help-hint-hardening/` | Issue #1007. `/members` `DensityToggle` HelpHint hardening: `useId` description ids, non-controlled `<details>` Escape/outside close, `IconName` `help` glyph, pointer target guard, focused component tests 15 PASS. System specs `09-ui-ux.md` and `09d-icons.md`, Phase 11 local evidence, Phase 12 strict 7, quick-reference/resource-map/artifact inventory synchronized. Runtime screenshots, staging deploy, commit, push, PR are user-gated. Inventory: `references/workflow-issue-1007-density-toggle-help-hint-hardening-artifact-inventory.md`. |
 | issue-1125-bulk-tag-result-staging-mutation-visual-baseline | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate | `docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/` | Issue #1125 CLOSED。認証付き staging `/admin/members` で実 `POST /admin/members/tags/bulk` mutation 後の BulkActionBar result summary all-success / deleted-member partial-failure baseline を取得する基盤。新規 Playwright spec、`bulk-tag-result-staging-{seed,cleanup}.sql`、`capture-bulk-tag-result.sh`、runner shell test、`smoke:test` wiring を追加。apps/web production source / apps/api production source / D1 schema / Google Form は不変。runner syntax + shell test PASS。staging seed/mutation/baseline/cleanup、commit、push、PR は user-gated。Inventory: `references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md`。 |
 | issue-1079-bulk-tag-audit-batch-filter | implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` | Issue #1079. Existing `/admin/audit` now accepts `batchId` query, searches bulk tag audit `after_json.$.batchId` and `before_json.$.batchId` with `json_valid` guard, preserves `batchId` through Web filter/pagination, and displays/copies row batchId via a client-only button. No new endpoint, D1 schema, or write-side change. API D1 targeted PASS 2 files / 26 tests; Web targeted PASS 3 files / 54 tests; API/Web typecheck PASS. Authenticated runtime screenshots, commit, push, PR, Issue mutation are user-gated. Inventory: `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md`. |
@@ -4472,3 +4596,15 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | boundary | commit, push, PR, staging smoke, Issue mutation は user-gated |
 | artifact inventory | `references/workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md` |
 | user gate | commit, push, PR, staging smoke, Issue state change |
+## issue-1145-public-api-base-url-env-unification（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/` |
+| Issue | #1145 CLOSED（reopen / mutation は user-gated） |
+| 目的 | public API base URL の旧 `PUBLIC_API_BASE_URL` を apps/web/.github から削除し、apps/og も `NEXT_PUBLIC_API_BASE_URL` へ rename して env key を単一化する |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/fetch/public.ts`, `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/playwright*.config.ts`, `apps/og/src/member-source.ts`, `apps/og/wrangler.toml`, focused web/og specs, `.github/workflows/*` env injection |
+| contract | `NEXT_PUBLIC_API_BASE_URL` が current public API base URL の単一正本。`API_SERVICE` service binding は production/staging primary transport、HTTP fallback は local/test/Playwright のみ。`getApiBaseEnv()` / `ApiBaseEnv` は削除済み |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
+| user gate | commit、push、PR、staging/production deploy、Issue mutation |

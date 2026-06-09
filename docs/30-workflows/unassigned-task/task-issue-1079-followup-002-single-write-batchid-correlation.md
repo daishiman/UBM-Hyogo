@@ -10,12 +10,19 @@ category: 改善
 target_feature: POST /admin/members/:memberId/tags / DELETE /admin/members/:memberId/tags/:tagId の audit payload
 priority: 低
 scale: 小規模
-status: 未実施
+status: 実装済み（local evidence captured）
 source_phase: issue-1079 Phase 12 unassigned-task-detection B-2
 created_date: 2026-06-03
 dependencies: [issue-1079-bulk-tag-audit-batch-filter, issue-1036-bulk-member-tag-assign]
 spec_path: docs/30-workflows/unassigned-task/task-issue-1079-followup-002-single-write-batchid-correlation.md
+status_update: consumed_by_issue_1129_implemented_local
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation
 ```
+
+> **Consumed Trace（2026-06-07）**: 本 unassigned-task は Issue #1129 の local implementation に消費された。
+> Phase 1-13 と実装証跡は `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` に作成済み（`workflow_state: implemented_local_evidence_captured`）。
+> 実装: `apps/api/src/routes/admin/members.ts`。証跡: focused D1 Vitest 2 files / 31 tests PASS、API typecheck PASS。
+> 本ファイルは Issue #1129 body からの backlink 保全のため物理移動せず canonical pointer のみ追記する。
 
 | 項目 | 内容 |
 | --- | --- |
@@ -23,7 +30,7 @@ spec_path: docs/30-workflows/unassigned-task/task-issue-1079-followup-002-single
 | 分類 | follow-up / audit correlation |
 | 優先度 | 低 |
 | 規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | 実装済み（local evidence captured） |
 
 ## 1. 概要（なぜこのタスクが必要か）
 
@@ -31,7 +38,7 @@ Issue #1036 の bulk tag write（`POST /admin/members/tags/bulk`）は、実 mut
 
 一方、単一 member の手動 tag 付与/解除（`POST /admin/members/:memberId/tags` / `DELETE /admin/members/:memberId/tags/:tagId`）の audit は現状 `after: { tagId, source }`（assign）等で **batchId を持たない**。このため bulk 操作は1つの batchId で相関閲覧できるが、単一 write 操作は相関キーを持たず一括フィルタに乗らない非対称が残っている。
 
-本タスクは、「単一 write も一括相関に含めたい」という運用要求が顕在化した場合に、単一 write endpoint の audit payload にも相関キーを付与する別関心タスクである。write 側（#1036 非対象領域）の変更となる。
+本タスクは、単一 write endpoint の audit payload にも相関キーを付与する別関心タスクである。Issue #1129 で local 実装済み。
 
 ## 2. 目的（何を達成するか）
 
@@ -41,7 +48,7 @@ Issue #1036 の bulk tag write（`POST /admin/members/tags/bulk`）は、実 mut
 
 | ID | 受け入れ基準 |
 | --- | --- |
-| AC-1 | 単一 write の相関の「まとまり」（リクエスト単位 / 管理操作セッション単位）が定義され、付与方針が確定している |
+| AC-1 | 単一 write の相関の「まとまり」は request-scoped（群サイズ 1）として定義され、付与方針が確定している |
 | AC-2 | `POST /admin/members/:memberId/tags`（assign）の audit payload に相関キーが付与され、`GET /admin/audit` の batchId フィルタでヒットする |
 | AC-3 | `DELETE /admin/members/:memberId/tags/:tagId`（unassign）の audit payload（before_json 側）に相関キーが付与され、batchId フィルタでヒットする |
 | AC-4 | 単一 write の payload キー名・所在が bulk（#1036）と揃っており、`GET /admin/audit` の `json_extract` after/before OR 検索が改修なしでそのまま効く |
@@ -51,7 +58,7 @@ Issue #1036 の bulk tag write（`POST /admin/members/tags/bulk`）は、実 mut
 ## 苦戦箇所【記入必須】
 
 - 対象: `apps/api/src/routes/admin/` の単一 tag write ハンドラ、`apps/api/src/repository/memberTags.ts`（audit append）
-- 症状: bulk（#1036）の batchId は「1 回の bulk リクエストで実 mutation した item 群」を束ねる意味論。単一 write に同じ batchId を付けると「まとまり」が曖昧（リクエスト単位なら 1 件しか相関しない／セッション単位なら横断定義が必要）になり、bulk の意味論と衝突しやすい。AC-1 で「まとまり」の定義を先に確定しないと、後段の payload 設計が振れる。
+- 症状: bulk（#1036）の batchId は「1 回の bulk リクエストで実 mutation した item 群」を束ねる意味論。Issue #1129 では単一 write のまとまりを request-scoped（群サイズ 1）に確定し、bulk の request-scoped 意味論と衝突しないようにした。
 - 注意: payload キー名・JSON path（`$.batchId`）を bulk と完全一致させないと、`GET /admin/audit` の `json_extract(after_json,'$.batchId')` / `json_extract(before_json,'$.batchId')` OR 検索（#1079 で確定）に乗らない。assign は after_json、unassign は before_json という非対称配置も #1036 と揃える必要がある。
 - 参照: `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/`, `apps/api/src/repository/memberTags.ts`
 
@@ -59,7 +66,7 @@ Issue #1036 の bulk tag write（`POST /admin/members/tags/bulk`）は、実 mut
 
 | リスク | 影響 | 対策 |
 | --- | --- | --- |
-| 単一 write の相関「まとまり」定義が曖昧で payload 設計が振れる | 中 | AC-1 で粒度（リクエスト単位 / セッション単位）を先に確定してから実装 |
+| 単一 write の相関「まとまり」定義が曖昧で payload 設計が振れる | 中 | Issue #1129 で request-scoped（群サイズ 1）に確定済み |
 | payload キー名 / JSON path が bulk とずれて batchId フィルタに乗らない | 中 | bulk（#1036）の payload 形・JSON path を contract test で固定し一致を検証 |
 | bulk の batchId 意味論と衝突する | 中 | 単一 write 由来の相関キーは bulk と区別可能にし、AC-6 で衝突なしを検証 |
 | 不変条件 #13 の 3 経路分離を崩す | 中 | 本タスクは (2) 単一 member 手動付与/解除の audit payload 拡張のみ。新 endpoint 追加・経路変更は禁止 |

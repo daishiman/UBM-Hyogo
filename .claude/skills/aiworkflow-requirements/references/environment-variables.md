@@ -103,11 +103,11 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 | `AUTH_GOOGLE_ID` | Google OAuth client id。apps/web secret。Google Cloud Console OAuth client |
 | `AUTH_GOOGLE_SECRET` | Google OAuth client secret。apps/web secret。漏洩時 fail-closed |
 | `INTERNAL_AUTH_SECRET` | apps/web → apps/api `/auth/session-resolve` 共有秘密。両 worker secret に同値、service-binding 経由 internal-only |
-| `PUBLIC_API_BASE_URL` | public API host。apps/web var。local fallback、Workers では service-binding 優先で host 不要。`apps/web/src/lib/fetch/public.ts` は direct env read を持たず `getPublicFetchEnv()` 経由で解決する |
+| `NEXT_PUBLIC_API_BASE_URL` | public API host の単一正本名。apps/web の public fetch / CSP と apps/og の HTTP fallback が参照する。Workers runtime では `API_SERVICE` service binding を優先し、HTTP fallback は local/test/Playwright の mock API 差し替え用。`apps/web/src/lib/fetch/public.ts` は direct env read を持たず `getPublicFetchEnv()` 経由で解決する |
 | `INTERNAL_API_BASE_URL` | internal endpoint host。apps/web var。service-binding 配下で host 不要、local 互換のみ |
 | `OG_IMAGE_BASE_URL` | apps/web public metadata var。member detail の `og:image` / `twitter:image` を `apps/og` 専用 Worker URL へ向ける任意値。未設定時は既存 static OG fallback を維持し、参照は `getPublicEnv()` 経由に限定する |
 
-`apps/web/src/lib/env.ts` の公開アクセサは用途別に分離する。`getEnv()` は full data/server fetch 境界で必須 schema を throw させる。`getApiBaseEnv()` は member SSR の authenticated API base URL 境界専用で、`INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` だけを部分取得し、呼び出し側が INTERNAL -> PUBLIC -> fail-fast を判定できるようにする。`getPublicEnv()` は public metadata / CSP 等の公開値（`OG_IMAGE_BASE_URL` を含む）のみを返す。`getAuthEnv()` は auth 境界専用で safeParse partial + `API_SERVICE` binding 同梱により invariant #11 fail-closed を維持する。`getPublicFetchEnv()` は public fetch の service-binding / local HTTP fallback 判定を env.ts に閉じ、`fetch/public.ts` 側の `process.env` / `getCloudflareContext` 直接参照を禁止する。
+`apps/web/src/lib/env.ts` の公開アクセサは用途別に分離する。`getEnv()` は full data/server fetch 境界で必須 schema を throw させる。`getPublicEnv()` は public metadata / CSP 等の公開値（`OG_IMAGE_BASE_URL` を含む）のみを返す。`getAuthEnv()` は auth 境界専用で safeParse partial + `API_SERVICE` binding 同梱により invariant #11 fail-closed を維持する。`getPublicFetchEnv()` は public fetch の service-binding / local HTTP fallback 判定を env.ts に閉じ、`fetch/public.ts` 側の `process.env` / `getCloudflareContext` 直接参照を禁止する。旧 `PUBLIC_API_BASE_URL` と `getApiBaseEnv()` / `ApiBaseEnv` は issue-1145 で削除済みで、同一 API base URL の二重命名を再導入しない。
 
 ### 機能フラグ
 
@@ -482,7 +482,7 @@ CD 有効化に必要な GitHub Actions 値は、1Password Environments を正�
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | Yes for backend-ci | backend-ci D1 migration step。`with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret を渡す |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | GitHub environment secrets (`staging` / `production`) | Yes for backend-ci | backend-ci Workers deploy step。`with.apiToken` と step-level `env.CLOUDFLARE_API_TOKEN` に同じ scoped secret を渡す |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | GitHub repository variable | Yes | Cloudflare account 識別。workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照 |
-| `CF_TOKEN_ISSUED_AT` | Variable | GitHub repository variable | Yes | Cloudflare API Token production 発行日。`.github/workflows/cf-token-rotation-reminder.yml` が 85 日経過判定に使用 |
+| `CF_TOKEN_ISSUED_AT` | Variable | GitHub repository variable | No | Retired。90 day calendar rotation は 2026-06-08 に廃止し、`cf-token-rotation-reminder.yml` も削除済み。新規 consumer を追加しない。current policy は `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` の event-based revocation |
 | `DISCORD_WEBHOOK_URL` | Secret | GitHub repository secret | No | CD 結果通知 |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Deleted by Issue #638 | Issue #331 cleanup 後の `web-cd.yml` では未参照。rollback POST は別途 user approval marker 後のみ。復元値は `ubm-hyogo-web` |
 

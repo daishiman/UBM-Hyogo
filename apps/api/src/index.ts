@@ -14,6 +14,7 @@ import {
 } from "./routes/admin/sync-schema";
 import { adminDashboardRoute } from "./routes/admin/dashboard";
 import { adminMembersRoute } from "./routes/admin/members";
+import { adminMemberFieldsRoute } from "./routes/admin/member-fields";
 import { adminMemberStatusRoute } from "./routes/admin/member-status";
 import { adminMemberNotificationPrefRoute } from "./routes/admin/member-notification-pref";
 import { adminMemberNotesRoute } from "./routes/admin/member-notes";
@@ -272,6 +273,7 @@ app.route(
 // 04c: admin backoffice endpoints
 app.route("/admin", adminDashboardRoute);
 app.route("/admin", adminMembersRoute);
+app.route("/admin", adminMemberFieldsRoute);
 app.route("/admin", adminMemberStatusRoute);
 app.route("/admin", adminMemberNotificationPrefRoute);
 app.route("/admin", adminMemberNotesRoute);
