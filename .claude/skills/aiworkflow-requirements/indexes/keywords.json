@@ -1166,7 +1166,8 @@
       "api-internal-search.md"
     ],
     "内部": [
-      "api-internal.md"
+      "api-internal.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "一覧": [
       "api-internal.md"
@@ -3393,6 +3394,7 @@
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3782,7 +3784,8 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "admin": [
       "architecture-admin-api-client.md",
@@ -4028,7 +4031,8 @@
       "interfaces-skill-verify-contract.md",
       "ui-history-search-view.md",
       "ui-ux-admin-dashboard.md",
-      "ui-ux-navigation-chat-patterns.md"
+      "ui-ux-navigation-chat-patterns.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "service": [
       "architecture-admin-api-client.md",
@@ -5400,6 +5404,7 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -6594,6 +6599,7 @@
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -7341,6 +7347,7 @@
       "lessons-learned-issue-765-1password-vault-restructure-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
@@ -7625,6 +7632,7 @@
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7899,6 +7907,7 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md"
     ],
@@ -8455,6 +8464,7 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -10463,6 +10473,7 @@
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11982,6 +11993,7 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -13620,6 +13632,7 @@
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
@@ -16444,7 +16457,8 @@
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
-      "llm-ipc-types.md"
+      "llm-ipc-types.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "と現行": [
       "lessons-learned-docs-only-lifecycle.md"
@@ -19348,6 +19362,7 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -21196,7 +21211,8 @@
       "lessons-learned-task-24.md"
     ],
     "runner": [
-      "lessons-learned-task-24.md"
+      "lessons-learned-task-24.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "一括更新": [
       "lessons-learned-task-24.md"
@@ -21712,7 +21728,8 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "bash": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "put": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -25575,6 +25592,7 @@
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27511,6 +27529,7 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27769,6 +27788,7 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -28313,7 +28333,8 @@
     ],
     "extraction": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md"
+      "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "実装同期ルール": [
       "workflow-ai-runtime-execution-responsibility-realignment.md"
@@ -28708,6 +28729,9 @@
     ],
     "screens": [
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md"
+    ],
+    "common": [
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",

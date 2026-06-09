@@ -1,5 +1,20 @@
 # クイックリファレンス
 
+## issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1138-smoke-runner-common-lib-extraction/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #1138 CLOSED（Issue mutation は未実行） |
+| parent | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/`（followup-007） |
+| purpose | `scripts/smoke/` の 3 runtime smoke runner にコピー重複する共通機構を新規共通 lib `scripts/smoke/lib/smoke-common.sh` へ挙動非退化で抽出し SSOT 化する |
+| implementation | `smoke-common.sh`（9 関数 + 3 公開変数 `SMOKE_*`）、`smoke_write_summary` array_key 引数化で routes/checks 両 shape 非退化再現、3 runner を lib source 薄ラッパーへ移行、`smoke-common.test.sh` 追加 |
+| evidence | lib unit test PASS、3 runner 非退化 test 全 PASS、shellcheck clean（exit 0）、verify:phase12-compliance ok:true、gate-metadata ERROR 0 |
+| invariant | runner runtime 挙動 / 出力 JSON shape / apps/api / D1 / Google Form / UI unchanged。`assert_target` / entry shape / request 系 / `trap` は runner 残置（MECE） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md` |
+| user gate | commit, push, PR, staging / production smoke, Issue mutation |
+
 ## issue-1145-public-api-base-url-env-unification（2026-06-08）
 
 | 項目 | 値 |

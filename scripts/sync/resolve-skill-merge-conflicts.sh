@@ -35,6 +35,11 @@ UNION_TARGETS=(
   ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md"
   ".claude/skills/task-specification-creator/SKILL.md"
   ".claude/skills/task-specification-creator/references/patterns-lessons-and-pitfalls.md"
+  # L-DEVSYNC-125 / SP-DEVSYNC-117: patterns-testing-and-implementation.md は
+  # patterns-lessons-and-pitfalls.md と同一の append-only（### entry 列挙）構造を持つ
+  # 姉妹 reference。両 branch が末尾へ別 entry を追記するだけの union-safe 衝突なのに
+  # UNION_TARGETS 欠落で resolver が WARN unhandled 残置していた（手動 union を要した）。
+  ".claude/skills/task-specification-creator/references/patterns-testing-and-implementation.md"
 )
 
 # --- 2. --ours + rebuild 対象（JSON 派生物） ---
