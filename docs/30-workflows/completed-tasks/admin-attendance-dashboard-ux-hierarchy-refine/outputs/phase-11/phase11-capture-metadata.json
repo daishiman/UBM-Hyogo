@@ -1,0 +1,66 @@
+{
+  "taskId": "admin-attendance-dashboard-ux-hierarchy-refine",
+  "mode": "VISUAL",
+  "status": "pending_visual_capture",
+  "captureState": "implemented_local_checks_pass_pending_capture",
+  "visualEvidence": "VISUAL_CAPTURE_PENDING",
+  "reason": "実装とローカル機械検証は完了。実 capture は staging deploy + admin bearer mint 後、user 承認のもと取得する。",
+  "screenshots": [
+    {
+      "name": "attendance-dashboard-full",
+      "tc": "TC-V-01",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "3 層全体（after 状態・before/after 比較を意図）"
+    },
+    {
+      "name": "attendance-primary-hero-followup-ok",
+      "tc": "TC-V-02",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "PRIMARY ヒーロー・要フォロー 0 件（neutral/success トーン・data-attendance-follow=none）"
+    },
+    {
+      "name": "attendance-primary-hero-followup-warn",
+      "tc": "TC-V-03",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "PRIMARY ヒーロー・要フォロー 1+ 件（warning トーン・data-attendance-follow=warn）"
+    },
+    {
+      "name": "attendance-trend-zone",
+      "tc": "TC-V-04",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "TREND ゾーン（トレンドチャート + 回数帯分布 2 カラム）"
+    },
+    {
+      "name": "attendance-detail-tabs-session",
+      "tc": "TC-V-05",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "DETAIL タブ = セッション別（Segmented value=session）"
+    },
+    {
+      "name": "attendance-detail-tabs-member",
+      "tc": "TC-V-06",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "DETAIL タブ = 会員別（Segmented value=member）"
+    },
+    {
+      "name": "attendance-detail-tabs-top10",
+      "tc": "TC-V-07",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "state": "DETAIL タブ = TOP10（Segmented value=top10）"
+    },
+    {
+      "name": "attendance-dashboard-mobile",
+      "tc": "TC-V-08",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "mobile",
+      "state": "モバイル幅・3 層が 1 カラム縦積み"
+    }
+  ]
+}

@@ -12,6 +12,19 @@
 | evidence | focused Vitest 6 files / 50 tests PASS; local Playwright PNG `outputs/phase-11/screenshots/member-card-home-comfy-with-tags.png` present |
 | user gate | staging screenshot, commit, push, PR |
 
+## issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| issue | #1146 CLOSED（`Refs #1146` のみ） |
+| purpose | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation | `.github/workflows/verify-no-localhost-bake.yml` の `on.pull_request.paths` 除去のみ |
+| evidence | actionlint 1.7.7 PASS; focused Vitest 1 file / 2 tests PASS; `bash scripts/verify-no-localhost-bake.sh --src-only` PASS; `--self-test` PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT, after evidence, commit, push, PR, Issue mutation |
+
 ## issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
 
 | 項目 | 値 |
