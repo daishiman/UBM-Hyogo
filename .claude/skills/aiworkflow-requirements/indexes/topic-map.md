@@ -2431,6 +2431,16 @@ node scripts/list-specs.js --topics
 | Consumed Source | L41 |
 | Boundary | L47 |
 
+### references/workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L36 |
+| User-Gated | L45 |
+| Lessons Learned | L53 |
+
 ### references/workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md
 
 | セクション | 行 |
@@ -5809,11 +5819,11 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L365 |
 | セキュリティ原則 | L400 |
 | Cloudflare API Token の作成手順 | L411 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L426 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L537 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L581 |
-| 関連 SOP | L631 |
-| 変更履歴 | L635 |
+| Cloudflare API Token rotation runbook（RETIRED 2026-06-08） | L426 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L538 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L582 |
+| 関連 SOP | L632 |
+| 変更履歴 | L636 |
 
 ### references/deployment.md
 
@@ -9015,19 +9025,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4007 |
-| フェーズ構造（概要） | L4016 |
-| 品質ゲート（概要） | L4047 |
-| 出力テンプレート | L4058 |
-| 実行時のコマンド・エージェント・スキル | L4081 |
-| 昇格パターン集 | L4105 |
-| Current Active / Spec Created Tasks | L4107 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4273 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4341 |
-| issue-998-members-publish-state-production-rollout | L4368 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4427 |
-| issue-1068-admin-tag-inline-create-ui | L4441 |
-| issue-1111-proxy-transport-util-unify | L4459 |
+| ドキュメント構成 | L4024 |
+| フェーズ構造（概要） | L4033 |
+| 品質ゲート（概要） | L4064 |
+| 出力テンプレート | L4075 |
+| 実行時のコマンド・エージェント・スキル | L4098 |
+| 昇格パターン集 | L4122 |
+| Current Active / Spec Created Tasks | L4124 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4290 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4358 |
+| issue-998-members-publish-state-production-rollout | L4385 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4444 |
+| issue-1068-admin-tag-inline-create-ui | L4458 |
+| issue-1111-proxy-transport-util-unify | L4476 |
 
 ### references/task-workflow-backlog-part2.md
 

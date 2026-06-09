@@ -541,6 +541,29 @@ describe("phase-12 compliance verification", () => {
     expect(roots).toEqual([]);
   });
 
+  it("excludes operations/* changes from workflow roots", async () => {
+    git(tmpRoot, ["init", "-b", "main"]);
+    git(tmpRoot, ["config", "user.email", "test@example.com"]);
+    git(tmpRoot, ["config", "user.name", "Test User"]);
+    writeFileSync(resolve(tmpRoot, "README.md"), "# baseline\n", "utf8");
+    git(tmpRoot, ["add", "."]);
+    git(tmpRoot, ["commit", "-m", "baseline"]);
+    mkdirSync(resolve(tmpRoot, "docs/30-workflows/operations"), { recursive: true });
+    writeFileSync(
+      resolve(tmpRoot, "docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md"),
+      "# runbook\n",
+      "utf8",
+    );
+
+    const roots = await collectChangedWorkflowRoots({
+      baseRef: "HEAD",
+      headRef: "HEAD",
+      repoRoot: tmpRoot,
+    });
+
+    expect(roots).toEqual([]);
+  });
+
   it("excludes issues/* (flat issue mirrors) from workflow roots", async () => {
     git(tmpRoot, ["init", "-b", "main"]);
     git(tmpRoot, ["config", "user.email", "test@example.com"]);
