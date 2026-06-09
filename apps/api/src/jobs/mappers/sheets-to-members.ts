@@ -1,7 +1,11 @@
 // UT-09: Sheets row → D1 member_responses 行 への mapping。
 // Sheets schema をコードに固定しない方針 (不変条件 #1) のため、ヘッダ行から index を構築する。
 
-import { STABLE_KEY } from "@ubm-hyogo/shared";
+import {
+  normalizeUbmMembershipType,
+  normalizeUbmZone,
+  STABLE_KEY,
+} from "@ubm-hyogo/shared";
 
 export interface MemberRow {
   responseId: string;
@@ -141,6 +145,14 @@ export function mapSheetRows(values: string[][]): MapResult {
       }
       if (col.key === STABLE_KEY.publicConsent || col.key === STABLE_KEY.rulesConsent) {
         partial[col.key] = CONSENT_MAP[value.trim().toLowerCase()] ?? "unknown";
+      } else if (col.key === STABLE_KEY.ubmZone) {
+        // 真因A 根治: Google Form ラベル → enum 正規化。
+        // 未知/空は格納せず fillNulls で null にし、value_json に生ラベルを残さない (AC-4)。
+        const zone = normalizeUbmZone(value);
+        if (zone !== null) partial.ubmZone = zone;
+      } else if (col.key === STABLE_KEY.ubmMembershipType) {
+        const membership = normalizeUbmMembershipType(value);
+        if (membership !== null) partial.ubmMembershipType = membership;
       } else if (col.key !== "responseId") {
         (partial as Record<string, string>)[col.key] = value;
       }
