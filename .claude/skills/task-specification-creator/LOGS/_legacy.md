@@ -2834,3 +2834,6 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 種別: implementation / spec_created / VISUAL_ON_EXECUTION
 - 反映: workflow-local の Phase 12 strict 7 物理未生成を補正し、`outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` を追加。
 - 検証: 既存 task-specification-creator rule で十分なためテンプレ変更は不要。aiworkflow-requirements ledger/index/inventory は同 cycle で同期。
+## 2026-06-09 member-data-source-precedence implementation reclassification
+
+`member-data-source-precedence-and-profile-session-fix` の close-out で、具体的な apps/packages/migration 実装対象がある workflow を `spec_created` のまま閉じない rule を追加。VISUAL runtime capture / remote D1 apply / commit / PR は user-gated のまま、ローカル実装と検証、system spec sync、aiworkflow ledger sync は同一 cycle で完了させる。
