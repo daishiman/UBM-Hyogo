@@ -1,0 +1,98 @@
+{
+  "title": "public-member-detail-survey-fields-richness",
+  "type": "implementation",
+  "status": "implemented_local_visual_present_staging_pending",
+  "feature": "public-member-detail-survey-fields-richness",
+  "created": "2026-06-07",
+  "lastUpdated": "2026-06-07",
+  "branch": "docs/public-member-detail-survey-fields-spec",
+  "base": "dev",
+  "metadata": {
+    "taskId": "TASK-PUBLIC-MEMBER-DETAIL-RICHNESS-001",
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "taskClassification": "UI",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "visualEvidenceStatus": "local_contract_tests_and_runtime_screenshots_present_staging_pending_user_gate",
+    "workflow_state": "implemented_local_visual_present_staging_pending",
+    "implementation_status": "implemented_local",
+    "relatedIssue": null,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + same-cycle local implementation completed (adapter section reconstruction + prototype components + test-accounts seed richness)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-07T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web public member detail rich sections + apps/api test-accounts seed; typecheck/lint/contract tests green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/outputs/phase-11/screenshots/member-detail-full.png",
+        "approver": "daishiman",
+        "notes": "delivery: staging seed apply + authenticated staging capture + merge remain user-gated"
+      }
+    ],
+    "scope": "Same-cycle local implementation completed for apps/web public member detail rich sections and apps/api test-accounts seed richness. Runtime screenshots, staging seed apply, commit, push, and PR remain user-gated.",
+    "investigationConclusion": "API GET /public/members/:memberId already returns all visibility=public fields via publicSections; no API/D1/Form schema change is needed. The 'thin' symptom is caused by (A) apps/web adapter+components rendering publicSections as a flat KV list instead of the prototype's structured sections, and (B) the TEST-MEM-01 seed carrying only 3 fields. Both are fixed in apps/web (adapter/components) and apps/api (test-accounts seed) within one cycle.",
+    "lanes": [
+      "Lane A (web UI): rebuild apps/web/src/lib/adapters/member-detail.ts into stableKey-driven section reconstruction and rework public components into prototype-compliant Hero/BusinessOverview/Tags+Links/Personal/Message sections.",
+      "Lane B (api seed): extend apps/api/src/testing/test-accounts seed so TEST-MEM-01 (and representative peers) carry all visibility=public survey answers, enabling staging full-field verification."
+    ],
+    "changeTargets": [
+      "apps/web/src/lib/adapters/member-detail.ts (edit: stableKey-driven section reconstruction + hometown extraction + other-fallback)",
+      "apps/web/src/components/public/ProfileHero.tsx (edit: hometown chip, eyebrow, avatar xl)",
+      "apps/web/src/components/public/MemberDetail.tsx (edit: prototype section assembly via grid-2)",
+      "apps/web/src/components/public/BusinessOverviewSection.tsx (new)",
+      "apps/web/src/components/public/PersonalSection.tsx (new)",
+      "apps/web/src/components/public/MessageCard.tsx (new)",
+      "apps/web/src/components/public/MemberDetailSections.tsx (edit: repurpose as the 'other' fallback section renderer)",
+      "apps/web/src/styles/globals.css (edit only if a needed class is absent; most prototype classes already exist)",
+      "apps/web/src/lib/adapters/__tests__/member-detail.spec.ts (edit/new)",
+      "apps/web/src/components/public/__tests__/*.spec.tsx (new component specs)",
+      "apps/api/src/testing/test-accounts/catalog.ts (edit: optional per-member public profile fields)",
+      "apps/api/src/testing/test-accounts/build-seed-sql.ts (edit: dynamic STABLE_KEYS + answersFor from per-member profile)",
+      "apps/api/src/testing/test-accounts/__tests__/build-seed-sql.spec.ts (edit/new)"
+    ],
+    "invariants": [
+      "No new API endpoint, no API response contract change, no D1 schema migration, no Google Form schema change.",
+      "apps/web never touches D1 binding; data only via fetchPublicOrNotFound.",
+      "OKLch tokens canonical; no HEX literals; verify-design-tokens must stay green.",
+      "No new primitives; reuse existing globals.css prototype classes.",
+      "visibility=public double-defense kept in adapter; member/admin fields never leak to public page.",
+      "stableKey references go through STABLE_KEY constant (lint-stablekey-literal)."
+    ],
+    "outOfScope": [
+      "staging seed apply, authenticated staging screenshots, commit, push, or PR (CONST_002/CONST_006).",
+      "Adding/altering API endpoints or D1 schema.",
+      "Exposing member/admin visibility fields on the public page.",
+      "Production real-data sync of Google Form responses (separate ops)."
+    ]
+  },
+  "phases": {
+    "1": { "name": "要件定義", "status": "completed", "artifacts": [] },
+    "2": { "name": "設計", "status": "completed", "artifacts": [] },
+    "3": { "name": "設計レビューゲート", "status": "completed", "artifacts": [] },
+    "4": { "name": "テスト作成", "status": "completed", "artifacts": [] },
+    "5": { "name": "実装", "status": "completed", "artifacts": [] },
+    "6": { "name": "テスト拡充", "status": "completed", "artifacts": [] },
+    "7": { "name": "テストカバレッジ確認", "status": "completed", "artifacts": [] },
+    "8": { "name": "リファクタリング", "status": "completed", "artifacts": [] },
+    "9": { "name": "品質保証", "status": "completed", "artifacts": [] },
+    "10": { "name": "最終レビューゲート", "status": "completed", "artifacts": [] },
+    "11": { "name": "手動テスト検証", "status": "local_runtime_screenshots_present_staging_pending_user_gate", "artifacts": ["outputs/phase-11/canonical-paths.json", "outputs/phase-11/screenshot-inventory.json", "outputs/phase-11/screenshots/member-detail-full.png", "outputs/phase-11/screenshots/member-detail-sparse.png", "outputs/phase-11/screenshots/member-detail-message-hidden.png"] },
+    "12": { "name": "ドキュメント更新", "status": "completed", "artifacts": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "13": { "name": "PR作成", "status": "user_gated_pending", "artifacts": [] }
+  }
+}

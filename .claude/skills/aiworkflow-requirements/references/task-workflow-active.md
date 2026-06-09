@@ -23,6 +23,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md` |
 | user gate | commit, push, PR, staging / production smoke, Issue mutation |
 
+### public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| 目的 | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implemented targets | `apps/web/src/lib/adapters/member-detail.ts`, `apps/web/src/components/public/{ProfileHero,MemberDetail,BusinessOverviewSection,PersonalSection,MessageCard,MemberTags}.tsx`, `apps/web/src/styles/globals.css`, `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts`, `apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql`, `apps/api/migrations/seed/test-accounts.manifest.json` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema unchanged; stableKey literals use `STABLE_KEY`; web has no D1 direct access |
+| evidence | focused Vitest 5 files / 31 tests PASS、web typecheck PASS、api typecheck PASS、stableKey lint PASS、Phase 11 local screenshots 3 PNG present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
 ### issue-1129-single-write-batchid-correlation（2026-06-07）
 
 | 項目 | 値 |
