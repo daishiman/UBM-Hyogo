@@ -327,6 +327,19 @@
 | invariant | endpoint contract and D1 schema unchanged; response is existing `{ batchId, results[] }`; fixture prefix fixed to `e2e_test_issue1081_`; issue #1081 CLOSED state preserved |
 | user gate | Cloudflare staging deploy, real D1 seed/mutation/cleanup, commit, push, PR |
 
+## issue-1137-bulk-tag-production-runtime-smoke（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1137-bulk-tag-production-runtime-smoke/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| purpose | issue-1081 の staging bulk tag mutation smoke を production Workers + `ubm-hyogo-db-prod` real D1 用へ拡張 |
+| implementation | `scripts/smoke/runtime-tag-bulk.sh`, `apps/api/migrations/seed/bulk-tag-production-{seed,cleanup}.sql`, `.github/workflows/production-runtime-smoke.yml` |
+| tests | `scripts/smoke/__tests__/runtime-tag-bulk.test.sh`; actionlint on `production-runtime-smoke.yml` |
+| evidence | local shell test PASS; actionlint PASS; production real D1 runtime evidence pending user approval |
+| invariant | staging guard / staging SQL unchanged; production prefix fixed to `e2e_test_prod_tagbulk_`; dual marker required |
+| user gate | production real D1 seed/mutation/cleanup evidence, commit, push, PR |
+
 ## shell-sidebar-tooltip-footer-header-responsive（2026-06-03）
 
 | 項目 | 値 |
