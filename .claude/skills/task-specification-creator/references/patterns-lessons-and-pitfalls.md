@@ -18,6 +18,17 @@
 - **教訓**: fetch 経路の root cause は per-route fixture や narrow warn では解消しない。public/admin の transport symmetry を Phase 2/4 gate に入れる。
 - **発見日**: 2026-05-28
 
+### e2e mock の二重実装 parity（in-process / standalone）（L-CIE2E-MOCK-PARITY）
+
+- **状況**: 公開メンバー詳細を 5 セクション化する PR が、e2e の **in-process mock**（`apps/web/playwright/fixtures/auth.ts`・local `pnpm test:e2e` 用）にのみ `/__test__/public-member-detail` 制御ルートと survey 全項目 scenario レスポンス（full/sparse/message-hidden）を追加した。
+- **問題**: CI の e2e は **standalone mock**（`scripts/e2e-mock-api.mjs`・`.github/workflows/e2e-tests.yml` の `node scripts/e2e-mock-api.mjs`）を使うが、こちらへの parity 更新が漏れ、制御ルート 404 と `[data-stable-key="urlOthers"]` 不在で e2e が fail。unit/typecheck/lint/focused Vitest は全 pass のまま **e2e のみ**落ちた（local in-process は緑だった）。
+- **解決策**: standalone mock を auth.ts と同一契約へ揃える（state に scenario フィールド + `buildPublicProfile` を scenario 対応 + POST 制御ルート追加）。`auth.ts` には既に「CI では e2e-mock-api.mjs が応答するため規約を揃える」明示コメントがあり、これが parity 契約の正本。
+- **教訓**:
+  - 新規 `/__test__/*` 制御ルート・新規 fixture レスポンスを足す変更は、**in-process（auth.ts）と standalone（e2e-mock-api.mjs）の両方に同契約で実装する**ことを実装タスクの AC / Phase 4 gate に明記する。「mock を1箇所だけ更新」は CI のみ落ちる footgun。
+  - standalone mock は `schemas.*Z.safeParse`（issue-667）を通すため、移植レスポンスは contract schema 適合必須。
+  - 巨大 e2e ログは `gh run view --log` / `--log-failed` が空返ししやすい → `gh api repos/{o}/{r}/actions/jobs/{jobId}/logs` を file 化して `✘`/`Error:`/`expect(`/`locator(` を grep。
+- **発見日**: 2026-06-09
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出
