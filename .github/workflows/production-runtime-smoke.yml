@@ -124,7 +124,9 @@ jobs:
     env:
       PRODUCTION_API_BASE: ${{ secrets.PRODUCTION_API_BASE }}
       PRODUCTION_ADMIN_BEARER: ${{ secrets.PRODUCTION_ADMIN_BEARER }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      # CLOUDFLARE_API_TOKEN は job-level env に置かず、実際に使う step（secrets verify /
+      # bulk tag runtime smoke 実行）の step-level env に限定して露出する
+      # （workflow-env-scope.test.sh / workflow-shell-lint ルール準拠）。
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_ENV: production
       CF_SH_SKIP_WITH_ENV: "1"
@@ -137,6 +139,9 @@ jobs:
         uses: ./.github/actions/setup-project
 
       - name: verify required production bulk tag secrets
+        env:
+          # CF token は job-level に置かず、欠落検査に必要な本 step に限定露出する。
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           missing=()
           for name in PRODUCTION_API_BASE PRODUCTION_ADMIN_BEARER CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
@@ -158,6 +163,9 @@ jobs:
           echo "::add-mask::$PRODUCTION_API_BASE"
 
       - name: run bulk tag production runtime smoke
+        env:
+          # runtime-tag-bulk.sh → cf.sh が production D1 へ書き込む際に CF token を使う。
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           mkdir -p ci-evidence-bulk-tag-prod
           bash scripts/smoke/runtime-tag-bulk.sh production --out-dir ci-evidence-bulk-tag-prod --ci-summary
