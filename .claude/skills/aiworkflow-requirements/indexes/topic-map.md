@@ -3050,6 +3050,16 @@ node scripts/list-specs.js --topics
 | Invariants | L30 |
 | Lessons Learned | L36 |
 
+### references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Contract | L22 |
+| Evidence | L30 |
+| Lessons Learned | L40 |
+
 ### references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md
 
 | セクション | 行 |
@@ -9099,6 +9109,7 @@ node scripts/list-specs.js --topics
 | issue-1078-bulk-tag-picker-large-catalog-ux | L4550 |
 | issue-1068-admin-tag-inline-create-ui | L4564 |
 | issue-1111-proxy-transport-util-unify | L4582 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4600 |
 
 ### references/task-workflow-backlog-part2.md
 
