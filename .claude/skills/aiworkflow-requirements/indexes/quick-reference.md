@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | issue-1077 authenticated staging visual 基盤を未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-{audit,requests,identity-conflicts,schema,meetings}-authenticated.spec.ts` 5 本を追加。既存 `staging-visual-authenticated` project / admin storageState / CI を再利用し、config 変更なし |
+| invariant | mutation controls are never clicked; product code, D1 schema, `playwright.config.ts`, and CI are unchanged |
+| evidence | local spec implementation complete; `--list` / typecheck / lint are local evidence; staging capture and baseline generation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
+
 ## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
 
 | 項目 | 値 |

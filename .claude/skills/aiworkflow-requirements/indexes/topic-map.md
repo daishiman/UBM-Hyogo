@@ -3007,6 +3007,20 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L40 |
 | User-gated actions | L46 |
 
+### references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L5 |
+| Canonical workflow | L15 |
+| Implementation targets | L27 |
+| Invariants | L37 |
+| Runtime visual evidence | L44 |
+| Gates | L54 |
+| Source unassigned trace | L62 |
+| User-gated actions | L68 |
+| Lessons Learned | L75 |
+
 ### references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md
 
 | セクション | 行 |
@@ -9025,19 +9039,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4024 |
-| フェーズ構造（概要） | L4033 |
-| 品質ゲート（概要） | L4064 |
-| 出力テンプレート | L4075 |
-| 実行時のコマンド・エージェント・スキル | L4098 |
-| 昇格パターン集 | L4122 |
-| Current Active / Spec Created Tasks | L4124 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4290 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4358 |
-| issue-998-members-publish-state-production-rollout | L4385 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4444 |
-| issue-1068-admin-tag-inline-create-ui | L4458 |
-| issue-1111-proxy-transport-util-unify | L4476 |
+| ドキュメント構成 | L4037 |
+| フェーズ構造（概要） | L4046 |
+| 品質ゲート（概要） | L4077 |
+| 出力テンプレート | L4088 |
+| 実行時のコマンド・エージェント・スキル | L4111 |
+| 昇格パターン集 | L4135 |
+| Current Active / Spec Created Tasks | L4137 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4303 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4371 |
+| issue-998-members-publish-state-production-rollout | L4398 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4457 |
+| issue-1068-admin-tag-inline-create-ui | L4471 |
+| issue-1111-proxy-transport-util-unify | L4489 |
 
 ### references/task-workflow-backlog-part2.md
 
