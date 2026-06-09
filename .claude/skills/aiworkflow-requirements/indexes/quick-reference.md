@@ -13,6 +13,47 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
 | user gate | staging authenticated screenshots, deploy, commit, push, PR |
 
+## issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| issue | #1146 CLOSED（`Refs #1146` のみ） |
+| purpose | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation | `.github/workflows/verify-no-localhost-bake.yml` の `on.pull_request.paths` 除去のみ |
+| evidence | actionlint 1.7.7 PASS; focused Vitest 1 file / 2 tests PASS; `bash scripts/verify-no-localhost-bake.sh --src-only` PASS; `--self-test` PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT, after evidence, commit, push, PR, Issue mutation |
+
+## issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1138-smoke-runner-common-lib-extraction/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #1138 CLOSED（Issue mutation は未実行） |
+| parent | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/`（followup-007） |
+| purpose | `scripts/smoke/` の 3 runtime smoke runner にコピー重複する共通機構を新規共通 lib `scripts/smoke/lib/smoke-common.sh` へ挙動非退化で抽出し SSOT 化する |
+| implementation | `smoke-common.sh`（9 関数 + 3 公開変数 `SMOKE_*`）、`smoke_write_summary` array_key 引数化で routes/checks 両 shape 非退化再現、3 runner を lib source 薄ラッパーへ移行、`smoke-common.test.sh` 追加 |
+| evidence | lib unit test PASS、3 runner 非退化 test 全 PASS、shellcheck clean（exit 0）、verify:phase12-compliance ok:true、gate-metadata ERROR 0 |
+| invariant | runner runtime 挙動 / 出力 JSON shape / apps/api / D1 / Google Form / UI unchanged。`assert_target` / entry shape / request 系 / `trap` は runner 残置（MECE） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md` |
+| user gate | commit, push, PR, staging / production smoke, Issue mutation |
+
+## issue-1145-public-api-base-url-env-unification（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1145-public-api-base-url-env-unification/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1145 CLOSED（mutation は user-gated） |
+| purpose | public API base URL の旧 `PUBLIC_API_BASE_URL` を削除し、`NEXT_PUBLIC_API_BASE_URL` へ単一化する |
+| implementation | `apps/web/src/lib/env.ts` から旧 key / `getApiBaseEnv()` / `ApiBaseEnv` を削除、`fetch/public.ts` を `NEXT_PUBLIC_API_BASE_URL` 単独 fallback に変更、apps/og を rename、web/og config・tests・GitHub Actions env injection を同期 |
+| invariant | `API_SERVICE` service binding 優先、`INTERNAL_API_BASE_URL` internal/admin/server fallback、API endpoint / D1 / Google Form / UI unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
+| user gate | commit, push, PR, staging/production deploy, Issue mutation |
+
 ## member-data-source-precedence-and-profile-session-fix（2026-06-09）
 
 | 項目 | 値 |
@@ -1164,7 +1205,7 @@
 | task | `TASK-FIX-PROFILE-SCR-ERR-STG-001` |
 | related | `docs/30-workflows/fix-admin-server-components-render-error-stg/` |
 | purpose | staging `/profile` の Server Components render error (`digest=398449091`, `scope=profile`) を、member authed fetch の Workers env 解決是正と `/me` safe degradation で解消する |
-| implementation | `apps/web/src/lib/fetch/authed.ts` は env.ts の `getApiBaseEnv()` 経由で `INTERNAL_API_BASE_URL` -> `PUBLIC_API_BASE_URL` を解決し、localhost fallback を禁止。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
+| implementation | `apps/web/src/lib/fetch/authed.ts` は `INTERNAL_API_BASE_URL` を使い localhost fallback を禁止。issue-1145 後、旧 `getApiBaseEnv()` / `PUBLIC_API_BASE_URL` fallback は current contract から削除済み。`apps/web/app/(member)/profile/page.tsx` は初回 `/me` を `safeServerFetch` でラップし、AuthRequiredError 以外を SectionError に降格 |
 | tests | `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx` |
 | evidence | focused Vitest 43 PASS、web typecheck PASS、web lint PASS、`authed.ts` source guard (`process.env[` 0 / `127.0.0.1` 0)、Phase 12 strict 7 present |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-server-components-render-error-artifact-inventory.md` |
@@ -3240,7 +3281,7 @@
 | workflow root | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
 | 状態 | `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval` |
 | 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
-| env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置 |
+| env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置。旧 `PUBLIC_API_BASE_URL` は issue-1145 で削除済み |
 | secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` / `INTERNAL_AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | downstream | task-03 は `SENTRY_*`、task-04/05/18 は `getEnv()` / grep gate を利用 |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。Cloudflare dry-run / secret put / commit / push / PR は user approval 後 |

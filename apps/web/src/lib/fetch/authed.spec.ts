@@ -41,12 +41,10 @@ const setCookies = (...cs: Array<{ name: string; value: string }>) => {
 const makeEnv = (
   overrides: Partial<{
     INTERNAL_API_BASE_URL: string;
-    PUBLIC_API_BASE_URL: string;
   }> = {},
 ) => ({
   ENVIRONMENT: "local",
   NEXT_PUBLIC_API_BASE_URL: "https://web.example.com",
-  PUBLIC_API_BASE_URL: "https://public.example.com",
   INTERNAL_API_BASE_URL: "https://api.example.com",
   ...overrides,
 });
