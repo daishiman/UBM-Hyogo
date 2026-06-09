@@ -26,6 +26,9 @@ the task specification, actual changed files, evidence files, and system ledgers
 > ファイルの見出しは上記 1..9 を**逐語**で使うこと。`## 1. Verdict` /
 > `## 2. Strict 7 Output Existence` 等の独自命名は CI が必ず fail する。番号や
 > 補足情報を表現したい場合は section 内本文または下位 `###` 見出しで対応する。
+> 見出し内のバッククォートも逐語一致対象であり、#3 は
+> ``## 3. `workflow_state` and phase status consistency`` と書く。`workflow_state`
+> のバッククォートを外した見出しは canonical heading drift として扱う。
 > 同等チェックは pre-push hook `scripts/hooks/phase12-compliance-guard.sh` が
 > 走り、push 前にローカルで block する。
 >

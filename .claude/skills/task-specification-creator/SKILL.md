@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.06.09-admin-schema-purpose-clarity-skill-feedback | 2026-06-09 | `admin-schema-page-purpose-clarity-ux` の Phase 12 skill feedback を同一サイクルで反映。並列 lane が確定済み配置判断を上書きしない `[CONFIRMED-IMMUTABLE]` marker rule、Phase 11 `n/a` screenshot では物理 PNG / 空ディレクトリを作らない rule、Phase 12 canonical heading のバッククォート逐語一致注意を既存 reference へ追記。 |
 | v2026.06.07-issue1128-d1-generated-column-index | 2026-06-07 | `issue-1128-audit-batchid-index-optimization` の Phase 12 feedback を反映。D1 / SQLite で `ALTER TABLE ... ADD COLUMN` する generated column は `VIRTUAL` のみ可で `STORED` はテーブル再構築が必要、append-only audit_log の JSON payload 検索キー index 化では `VIRTUAL generated column + partial index` を第一候補にし、`EXPLAIN QUERY PLAN` で index 使用を focused D1 test に固定する rule を追加。 |
 | v2026.06.07-issue1127-authenticated-visual-expansion-closeout | 2026-06-07 | reuse-pattern expansion の Phase 1 候補×実装状況突合、認証付き staging visual 横展開の read-only guard 表、`implemented_local_runtime_pending` の manual-test-result present + screenshot n/a/pending inventory 例、source unassigned-task consumed pointer 同期を追加。 |
 | v2026.06.06-issue1105-d1-migration-rescope-gate | 2026-06-06 | `issue-1105-member-status-fk-constraint` の close-out review feedback を反映。`references/phase-template-phase1.md` に D1 migration 前提の現行再スコープ gate を追加し、Issue 記載 migration 番号の陳腐化、後続 ALTER 列漏れ、テーブル再構築で消失する INDEX / VIEW / TRIGGER の AC 化、FK / PRAGMA 前例ゼロ時の local test と user-gated remote D1 境界分離を Phase 1 必須確認に昇格。 |
