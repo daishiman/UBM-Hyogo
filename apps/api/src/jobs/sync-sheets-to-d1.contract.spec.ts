@@ -6,9 +6,11 @@ import {
   runSync,
   chunk,
   resolveServiceAccountJson,
+  upsertMembers,
 } from "./sync-sheets-to-d1";
 import type { SyncEnv } from "./sync-sheets-to-d1";
 import type { SheetsFetcher, SheetsValueRange } from "./sheets-fetcher";
+import { mapSheetRows } from "./mappers/sheets-to-members";
 
 interface RecordedCall {
   sql: string;
@@ -21,6 +23,7 @@ class FakeD1 {
     locks: new Map<string, { holder: string; expiresAt: string }>(),
     logs: new Map<string, Record<string, unknown>>(),
     members: new Map<string, Record<string, unknown>>(),
+    identitiesByEmail: new Map<string, Record<string, unknown>>(),
   };
 
   prepare(sql: string): D1PreparedStatement {
@@ -39,6 +42,9 @@ class FakeD1 {
         return { results: [], success: true, meta: {} } as unknown as D1Result;
       },
       async first() {
+        if (sql.includes("FROM member_identities WHERE response_email = ?1")) {
+          return (self.state.identitiesByEmail.get(String(bindings[0])) ?? null) as never;
+        }
         return null;
       },
       async raw() {
@@ -217,5 +223,33 @@ describe("runSync", () => {
       runId: "run-b",
     });
     expect(db.state.members.size).toBe(1);
+  });
+});
+
+describe("upsertMembers import-once", () => {
+  it("既存 identity がある email は Sheets seed で current_response_id を上書きしない", async () => {
+    const db = new FakeD1();
+    db.state.identitiesByEmail.set("a@example.com", {
+      member_id: "m1",
+      response_email: "a@example.com",
+      current_response_id: "form-r1",
+      first_response_id: "form-r1",
+      last_submitted_at: "2026-01-01T00:00:00Z",
+      seed_source: null,
+      seed_imported_at: null,
+    });
+
+    const { rows } = mapSheetRows([
+      ["タイムスタンプ", "メールアドレス", "お名前（フルネーム）"],
+      ["2026-04-27T08:00:00Z", "a@example.com", "Sheet Name"],
+    ]);
+    await upsertMembers(db as unknown as D1Database, rows);
+
+    expect(db.state.identitiesByEmail.get("a@example.com")).toMatchObject({
+      current_response_id: "form-r1",
+      seed_source: null,
+      seed_imported_at: null,
+    });
+    expect(db.state.members.size).toBe(0);
   });
 });
