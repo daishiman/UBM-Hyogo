@@ -21,6 +21,22 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
 | user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
 
+### cf-token-env-contract-and-rotation-retirement（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/cf-token-env-contract-and-rotation-retirement/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-1081-bulk-tag-real-d1-runtime-smoke/` |
+| 起点 | CI 失敗ログ `backend-ci #706 runtime-smoke-staging / bulk-tag-runtime-smoke`（`related_issue=null`） |
+| 目的 | `bulk-tag-runtime-smoke` が毎回赤くなる真因（`CLOUDFLARE_API_TOKEN` が provisioning 正本 `provision-staging-secrets.sh` に欠落し環境未登録）を恒久解消し、全消費 secret を provisioning 正本と突合する drift gate で再発防止。あわせて 90 日カレンダーローテ（`cf-token-rotation-reminder`）を撤廃し非失効・狭スコープ・環境分離・漏洩時即時失効へ一本化する |
+| implementation targets | `scripts/smoke/provision-staging-secrets.sh`, `.github/workflows/runtime-smoke-staging.yml`, `scripts/smoke/verify-runtime-smoke-secret-contract.mts`, `.github/workflows/verify-runtime-smoke-secret-contract.yml`, deleted `.github/workflows/cf-token-rotation-reminder.yml` / `scripts/check-cf-rotation-reminder.sh`, new `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md`, tombstoned `docs/30-workflows/operations/cf-token-rotation-runbook.md`, appended `docs/30-workflows/operations/cf-token-rotation-log.md` |
+| tests | `scripts/smoke/__tests__/verify-runtime-smoke-secret-contract.spec.ts` |
+| evidence | focused Vitest 2 files / 14 tests PASS（新規 6 + mint 回帰 8 = AC-7 不変確認）; `verify-runtime-smoke-secret-contract` PASS（11 consumed / 8 provisioned / 3 documented exempt）; `bash -n` PASS; actionlint PASS |
+| invariant | `apps/*` runtime code / API endpoint / D1 schema / Google Form / 既存 `verify-mint-env-contract` 挙動は変更なし（AC-7）。degrade は staging 限定で production runtime smoke には適用しない。secret 値・token id・scope を log / artifact に出さない（AC-8） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md`（Lessons L-CFEC-001..009） |
+| user gate | Cloudflare token 再発行 / 1Password 保管、`gh secret set` / provision 実行、real staging smoke、`verify-runtime-smoke-secret-contract` の required status check 登録、commit、push、PR |
+
 ### sentry-extension-noise-filter-spec（2026-06-07）
 
 | 項目 | 値 |
@@ -3506,12 +3522,13 @@
 | --- | --- |
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_until_user_approval |
 | 成果物 | `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` |
-| 実装対象 | `docs/30-workflows/operations/cf-token-rotation-runbook.md`, `docs/30-workflows/operations/cf-token-rotation-log.md`, `.github/workflows/cf-token-rotation-reminder.yml`, `scripts/check-cf-rotation-reminder.sh` |
-| variable | GitHub repository variable `CF_TOKEN_ISSUED_AT` |
+| **RETIRED（2026-06-08）** | 90 日カレンダーローテ方針は `cf-token-env-contract-and-rotation-retirement` で撤廃。`.github/workflows/cf-token-rotation-reminder.yml` / `scripts/check-cf-rotation-reminder.sh` は削除済み、`cf-token-rotation-runbook.md` は tombstone 化、`CF_TOKEN_ISSUED_AT` は retired。現行方針は `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md`（非失効・狭スコープ・環境分離・漏洩時即時失効）。本エントリ以下は撤廃時点の監査履歴 |
+| 実装対象 | `docs/30-workflows/operations/cf-token-rotation-runbook.md`, `docs/30-workflows/operations/cf-token-rotation-log.md`, `.github/workflows/cf-token-rotation-reminder.yml`, `scripts/check-cf-rotation-reminder.sh`（後者 2 ファイルは 2026-06-08 削除済み） |
+| variable | GitHub repository variable `CF_TOKEN_ISSUED_AT`（retired） |
 | 境界 | reminder workflow は Issue 起票のみ。Token 発行 / `gh secret set` / production rotation は runbook の user approval gate 後だけ実行 |
 | secret hygiene | Token 値 / Token ID / scope 値は docs / log / evidence / PR body に記録しない |
 | Issue 取扱 | #407 CLOSED 維持。PR 文脈では `Refs #407` のみ |
-| 下流 | U-FIX-CF-ACCT-01-DERIV-01（OIDC 化）後に runbook 改訂または retire |
+| 下流 | `cf-token-env-contract-and-rotation-retirement`（2026-06-08）で event-based revocation へ移行・本ローテ運用は撤廃済み |
 
 ### 09c Incident Runbook Slack Delivery（2026-05-06）
 
