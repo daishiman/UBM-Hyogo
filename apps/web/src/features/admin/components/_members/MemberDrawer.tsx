@@ -37,6 +37,7 @@ function maskEmail(email: string): string {
 export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
   const [data, setData] = useState<AdminMemberDetailView | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,14 +55,29 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
     return () => {
       cancelled = true;
     };
-  }, [memberId]);
+  }, [memberId, reloadKey]);
 
   return (
     <Drawer open onClose={onClose} title="会員詳細">
       {error ? (
-        <p role="alert" className="text-sm text-[var(--ubm-color-danger)]">
-          読み込み失敗: {error}
-        </p>
+        <div role="alert" className="flex flex-col gap-3 text-sm text-[var(--ubm-color-danger)]">
+          <p>読み込み失敗: {error}</p>
+          <div>
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              onClick={() => {
+                setError(null);
+                setData(null);
+                setReloadKey((current) => current + 1);
+              }}
+              data-testid="member-detail-retry"
+            >
+              再試行
+            </Button>
+          </div>
+        </div>
       ) : !data ? (
         <p role="status" className="text-sm text-[var(--ubm-color-text-muted)]">
           読み込み中…

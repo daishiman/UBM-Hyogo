@@ -19,7 +19,7 @@ import type {
   FieldVisibility,
   AnswerValue,
 } from "@ubm-hyogo/shared";
-import { STABLE_KEY } from "@ubm-hyogo/shared";
+import { normalizeTagSource, STABLE_KEY } from "@ubm-hyogo/shared";
 import { findMemberById } from "../members";
 import { listMembersByIds } from "../members";
 import { defaultMemberStatusRow, getStatus, listStatusesByMemberIds } from "../status";
@@ -354,7 +354,7 @@ export async function buildMemberProfile(
       code: t.code,
       label: t.label,
       category: t.category,
-      source: t.source as "rule" | "ai" | "manual",
+      source: normalizeTagSource(t.source),
     })),
     lastSubmittedAt: response.submitted_at,
     editResponseUrl: response.edit_response_url,
@@ -426,7 +426,7 @@ export async function buildAdminMemberDetailView(
       code: t.code,
       label: t.label,
       category: t.category,
-      source: t.source as "rule" | "ai" | "manual",
+      source: normalizeTagSource(t.source),
     })),
     lastSubmittedAt: response?.submitted_at ?? identity.last_submitted_at,
     editResponseUrl: response?.edit_response_url ?? null,
