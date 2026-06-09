@@ -22,6 +22,36 @@
 | user gate | staging data-backed screenshots, commit, push, PR |
 
 
+### issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| Issue | #1146 CLOSED（`Refs #1146` のみ） |
+| 親 workflow | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| 目的 | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation targets | `.github/workflows/verify-no-localhost-bake.yml`（`on.pull_request.paths` 除去のみ） |
+| invariant | `scripts/verify-no-localhost-bake.sh` / `.spec.ts` の grep LOGIC 不変。apps runtime / API / D1 / Google Form 不変 |
+| evidence | actionlint 1.7.7 PASS、focused Vitest 1 file / 2 tests PASS、`verify-no-localhost-bake.sh --src-only` PASS、`--self-test` PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT、after evidence、commit、push、PR、Issue mutation |
+
+### issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1138-smoke-runner-common-lib-extraction/` |
+| Issue | #1138 CLOSED（Issue mutation は未実行） |
+| 親 workflow | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/`（followup-007） |
+| 目的 | `scripts/smoke/` の 3 runtime smoke runner にコピー重複する共通機構を新規共通 lib `scripts/smoke/lib/smoke-common.sh`（9 関数 + 3 公開変数）へ挙動非退化で抽出し SSOT 化する |
+| implementation targets | `scripts/smoke/lib/smoke-common.sh`（new）, `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/runtime-admin-web.sh`, `scripts/smoke/runtime-tag-bulk.sh`, `scripts/smoke/__tests__/smoke-common.test.sh`（new） |
+| invariant | runner runtime 挙動 / 出力 JSON shape（`smoke_write_summary` の `array_key=routes`/`checks` 分岐）/ apps/api / D1 / Google Form / UI 不変。`assert_target` / entry shape / request 系 / `trap` は runner 残置（MECE 境界）。`redact.sh` / `cf.sh` は再利用（不変） |
+| evidence | lib unit test PASS（smoke-common 7 ケース）、既存 3 runner 非退化 test 全 PASS、shellcheck clean（exit 0）、verify:phase12-compliance ok:true、gate-metadata ERROR 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md` |
+| user gate | commit, push, PR, staging / production smoke, Issue mutation |
+
 ### member-data-source-precedence-and-profile-session-fix（2026-06-09）
 
 | 項目 | 値 |

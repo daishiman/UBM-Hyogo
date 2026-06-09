@@ -5,6 +5,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || cd "$SCRIPT_DIR/../.." && pwd)"
 REDACT="$SCRIPT_DIR/redact.sh"
+SMOKE_REDACT="$REDACT"
+# shellcheck source=scripts/smoke/lib/smoke-common.sh
+source "$SCRIPT_DIR/lib/smoke-common.sh"
 CF_SH="${CF_SH_PATH:-$REPO_ROOT/scripts/cf.sh}"
 PREFIX="e2e_test_issue1081_"
 CF_D1_DATABASE="${CF_D1_DATABASE:-}"
@@ -24,8 +27,6 @@ CI_SUMMARY=0
 SKIP_SEED=0
 SKIP_CLEANUP=0
 TMP_DIR=""
-OVERALL_STATUS="PASS"
-SUMMARY_ENTRIES=()
 CLEANUP_RAN=0
 
 usage() {
@@ -35,17 +36,11 @@ EOF
 }
 
 write_summary() {
-  if [[ "$CI_SUMMARY" -ne 1 || -z "${SUMMARY_JSON:-}" ]]; then
-    return 0
-  fi
-  local entries_csv
-  entries_csv="$(IFS=,; echo "${SUMMARY_ENTRIES[*]:-}")"
-  printf '{"status":"%s","checks":[%s]}\n' "$OVERALL_STATUS" "$entries_csv" > "$SUMMARY_JSON"
+  smoke_write_summary "$CI_SUMMARY" "${SUMMARY_JSON:-}" "checks"
 }
 
 summary_pass() {
-  local label="$1"
-  SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"PASS"}' "$label")")
+  smoke_summary_pass "$1"
 }
 
 fail_and_exit() {
@@ -53,8 +48,7 @@ fail_and_exit() {
   local status="$2"
   local contract="$3"
   local reason="${4:-}"
-  OVERALL_STATUS="FAIL"
-  SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"FAIL","http":"%s","contract":%s,"reason":%s}' "$label" "$status" "$(printf '%s' "$contract" | jq -Rs .)" "$(printf '%s' "$reason" | jq -Rs .)")")
+  smoke_summary_fail_entry "$label" "$status" "$contract" "$reason"
   write_summary
   echo "FAIL: $label http=$status contract=$contract reason=$reason" >&2
   exit 1
@@ -155,7 +149,7 @@ assert_staging_guard() {
     echo "production target refused" >&2
     exit 2
   fi
-  if ! printf '%s\n' "$BASE" | grep -Eiq "$allow_regex"; then
+  if ! smoke_assert_host_allow "$BASE" "$allow_regex"; then
     echo "STAGING_API_BASE must match staging allowlist" >&2
     exit 2
   fi
@@ -189,11 +183,11 @@ assert_production_guard() {
 }
 
 log_redacted() {
-  printf '%s\n' "$*" | bash "$REDACT" >> "$OUT_LOG"
+  smoke_redact_line "$OUT_LOG" "$*"
 }
 
 run_d1() {
-  bash "$CF_SH" d1 execute "$CF_D1_DATABASE" --env "$ENVIRONMENT" --remote "$@"
+  smoke_run_d1 "$CF_SH" "$CF_D1_DATABASE" "$ENVIRONMENT" "$@"
 }
 
 seed() {
@@ -201,7 +195,7 @@ seed() {
     summary_pass "seed-skip"
     return 0
   fi
-  run_d1 --file "$SEED_SQL" | bash "$REDACT" >> "$OUT_LOG"
+  run_d1 --file "$SEED_SQL" | smoke_redact_filter "$OUT_LOG"
   summary_pass "seed"
 }
 
@@ -236,7 +230,7 @@ post_bulk() {
     printf 'status=%s\n' "$status"
     printf 'request_body=%s\n' "$payload"
     printf 'body=%s\n\n' "$(head -c 4000 "$body_file" | tr -d '\0')"
-  } | bash "$REDACT" >> "$OUT_LOG"
+  } | smoke_redact_filter "$OUT_LOG"
 
   if [[ "$status" != "200" ]]; then
     fail_and_exit "$label" "$status" "HTTP 200" "non-200"
@@ -283,7 +277,7 @@ audit_count() {
   local action="$1"
   local raw
   raw="$(run_d1 --json --command "SELECT count(*) AS c FROM audit_log WHERE action='${action}' AND target_id LIKE '${PREFIX}%';")"
-  printf '%s\n' "$raw" | bash "$REDACT" >> "$OUT_LOG"
+  printf '%s\n' "$raw" | smoke_redact_filter "$OUT_LOG"
   local count
   count="$(printf '%s\n' "$raw" | extract_count)"
   if [[ ! "$count" =~ ^[0-9]+$ ]]; then
@@ -297,7 +291,7 @@ count_by_table() {
   local column="$2"
   local raw
   raw="$(run_d1 --json --command "SELECT count(*) AS c FROM ${table} WHERE ${column} LIKE '${PREFIX}%';")"
-  printf '%s\n' "$raw" | bash "$REDACT" >> "$OUT_LOG"
+  printf '%s\n' "$raw" | smoke_redact_filter "$OUT_LOG"
   printf '%s\n' "$raw" | extract_count
 }
 
@@ -306,7 +300,7 @@ cleanup() {
     return 0
   fi
   CLEANUP_RAN=1
-  run_d1 --file "$CLEANUP_SQL" | bash "$REDACT" >> "$OUT_LOG"
+  run_d1 --file "$CLEANUP_SQL" | smoke_redact_filter "$OUT_LOG"
   local item table column count
   for item in "member_tags:member_id" "audit_log:target_id" "member_status:member_id" "member_identities:member_id" "member_responses:response_id" "tag_definitions:tag_id"; do
     table="${item%%:*}"
@@ -332,6 +326,7 @@ main() {
   TMP_DIR="$(mktemp -d)"
   umask 077
   : > "$OUT_LOG"
+  smoke_summary_init
   trap 'cleanup || true; rm -rf "$TMP_DIR"; write_summary' EXIT
 
   seed
