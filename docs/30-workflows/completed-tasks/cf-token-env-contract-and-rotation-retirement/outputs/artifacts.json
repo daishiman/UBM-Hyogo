@@ -1,0 +1,107 @@
+{
+  "workflow_id": "cf-token-env-contract-and-rotation-retirement",
+  "feature": "cf-token-env-contract-and-rotation-retirement",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-08T15:00:00.000+09:00",
+  "lastUpdated": "2026-06-08T15:00:00.000+09:00",
+  "metadata": {
+    "taskId": "TASK-CF-TOKEN-ENV-CONTRACT-AND-ROTATION-RETIREMENT-001",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "ci-gate",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "scope": "staging-runtime-smoke の bulk-tag-runtime-smoke ジョブが毎回失敗する真因（CLOUDFLARE_API_TOKEN が provision-staging-secrets.sh に欠落し環境未登録）を、provisioning 正本への追加・全消費 secret を突合する drift gate・graceful degrade で恒久解消し、CF トークンを非失効/狭スコープ/環境分離へ再発行して 90日ローテーション(cf-token-rotation-reminder)を撤廃し漏洩時即時失効運用へ一本化する。トークン再発行・provisioning 実行・commit・PR は user-gated。",
+    "canonical_root": "docs/30-workflows/completed-tasks/cf-token-env-contract-and-rotation-retirement",
+    "related_issue": null,
+    "related_issue_alias": "ci-failure-log: backend-ci #706 runtime-smoke-staging / bulk-tag-runtime-smoke",
+    "parent_task": "docs/30-workflows/completed-tasks/issue-1081-bulk-tag-real-d1-runtime-smoke",
+    "consumed_unassigned_task": null,
+    "runtime_boundary": "provision-staging-secrets.sh / runtime-smoke-staging.yml / 新 verifier + spec / 新 CI yml / cf-token-rotation-reminder.yml 削除 / runbook の編集は同一 cycle で実装可能。Cloudflare トークン再発行・1Password 保管・gh secret set / provisioning 実行・commit・push・PR・required check 登録は user-gated。",
+    "issue_optimization_note": "GitHub issue ではなく CI 失敗ログ起点。ユーザー仮説「週次トークン失効」は事実誤認で、真因は provisioning 正本のギャップ。ローテーションは 90日(cf-token-rotation-reminder)で別軸。ユーザー承認に基づき両環境(staging smoke + production deploy)を非失効・狭スコープ・環境分離・即時失効へ統一し rotation reminder を撤廃する。",
+    "implementation_files": [
+      "scripts/smoke/provision-staging-secrets.sh",
+      ".github/workflows/runtime-smoke-staging.yml",
+      "scripts/smoke/verify-runtime-smoke-secret-contract.mts",
+      "scripts/smoke/__tests__/verify-runtime-smoke-secret-contract.spec.ts",
+      ".github/workflows/verify-runtime-smoke-secret-contract.yml",
+      ".github/workflows/cf-token-rotation-reminder.yml",
+      "docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md",
+      "docs/30-workflows/operations/cf-token-rotation-runbook.md",
+      "docs/30-workflows/operations/cf-token-rotation-log.md"
+    ],
+    "test_files": [
+      "scripts/smoke/__tests__/verify-runtime-smoke-secret-contract.spec.ts"
+    ],
+    "reused_assets": [
+      "scripts/smoke/verify-mint-env-contract.mts",
+      "scripts/smoke/provision-staging-secrets.sh",
+      ".github/workflows/runtime-smoke-staging.yml",
+      ".github/workflows/verify-mint-env-contract.yml",
+      "scripts/smoke/runtime-tag-bulk.sh",
+      "scripts/smoke/redact.sh"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "verify_commands": [
+      "pnpm vitest run scripts/smoke/__tests__/verify-runtime-smoke-secret-contract.spec.ts",
+      "pnpm exec tsx scripts/smoke/verify-runtime-smoke-secret-contract.mts",
+      "bash -n scripts/smoke/provision-staging-secrets.sh",
+      "pnpm typecheck",
+      "pnpm lint",
+      "go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/runtime-smoke-staging.yml .github/workflows/verify-runtime-smoke-secret-contract.yml"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-08T15:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/cf-token-env-contract-and-rotation-retirement/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_authoring: Phase 1-13 実装仕様書・設計書・drift gate / degrade / runbook の contract を canonical 規約で作成。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-08T18:31:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/cf-token-env-contract-and-rotation-retirement/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "implementation: A1-A5 / B1-B4 のコード変更と local test(Vitest / verifier / actionlint / bash -n)PASS。Cloudflare token mutation and runtime smoke remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/cf-token-env-contract-and-rotation-retirement/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "delivery+operational: Cloudflare トークン再発行 / 1Password 保管 / provision 実行 / commit / push / PR。user-gated。"
+      }
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "path": "outputs/phase-1/phase-1.md" },
+    { "id": 2, "name": "設計", "status": "completed", "path": "outputs/phase-2/phase-2.md" },
+    { "id": 3, "name": "設計レビュー", "status": "completed", "path": "outputs/phase-3/phase-3.md" },
+    { "id": 4, "name": "テスト作成", "status": "completed", "path": "outputs/phase-4/phase-4.md" },
+    { "id": 5, "name": "実装", "status": "completed", "path": "outputs/phase-5/phase-5.md" },
+    { "id": 6, "name": "テスト拡充", "status": "completed", "path": "outputs/phase-6/phase-6.md" },
+    { "id": 7, "name": "カバレッジ確認", "status": "completed", "path": "outputs/phase-7/phase-7.md" },
+    { "id": 8, "name": "リファクタリング", "status": "completed", "path": "outputs/phase-8/phase-8.md" },
+    { "id": 9, "name": "品質保証", "status": "completed", "path": "outputs/phase-9/phase-9.md" },
+    { "id": 10, "name": "最終レビュー", "status": "completed", "path": "outputs/phase-10/phase-10.md" },
+    { "id": 11, "name": "手動テスト", "status": "completed", "path": "outputs/phase-11/phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed", "path": "outputs/phase-12/phase-12.md" },
+    { "id": 13, "name": "PR作成", "status": "pending_user_approval", "path": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"], "3": ["2"], "4": ["3"], "5": ["4"], "6": ["5"], "7": ["6"],
+    "8": ["7"], "9": ["8"], "10": ["9"], "11": ["10"], "12": ["11"], "13": ["12"]
+  }
+}

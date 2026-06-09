@@ -31,6 +31,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.06.07-issue1127-authenticated-visual-expansion-closeout | 2026-06-07 | reuse-pattern expansion の Phase 1 候補×実装状況突合、認証付き staging visual 横展開の read-only guard 表、`implemented_local_runtime_pending` の manual-test-result present + screenshot n/a/pending inventory 例、source unassigned-task consumed pointer 同期を追加。 |
 | v2026.06.06-issue1105-d1-migration-rescope-gate | 2026-06-06 | `issue-1105-member-status-fk-constraint` の close-out review feedback を反映。`references/phase-template-phase1.md` に D1 migration 前提の現行再スコープ gate を追加し、Issue 記載 migration 番号の陳腐化、後続 ALTER 列漏れ、テーブル再構築で消失する INDEX / VIEW / TRIGGER の AC 化、FK / PRAGMA 前例ゼロ時の local test と user-gated remote D1 境界分離を Phase 1 必須確認に昇格。 |
 | v2026.06.06-devsync-sp102-changelog-dedup-provenance | 2026-06-06 | `docs/issue-1101-attendance-analytics-calc-correction-spec` ← `dev` sync-merge（3 ahead / 6 behind・CONFLICT 7 file・2 スキル横断・`pnpm sync:resolve` 単独解消・merge `afcd1c4fb`）の解消知見を `lessons-learned/dev-sync-merge-conflict-resolution.md` **SP-DEVSYNC-102** として汎化。union 解消後の変更履歴テーブル重複バージョン行は ORIG_HEAD / origin/dev 行数照合で merge 起因（行数増）か両ブランチ既存（行数不変）かを判定し後者は除去しない、同一タグでも Changes 差は別エントリ、ヘッダ二重化チェックを本 lessons に記録。aiworkflow-requirements L-DEVSYNC-110 が正本。 |
 | v2026.06.05-issue1101-attendance-zone-grep-scope-boundary | 2026-06-05 | `issue-1101-attendance-analytics-calc-correction` の skill feedback を反映。同一視覚ラベルが別ドメインに重複する場合の grep gate を型 import / schema owner / feature directory の所有境界で限定する rule を追加。 |

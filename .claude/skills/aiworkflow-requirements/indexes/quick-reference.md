@@ -12,6 +12,75 @@
 | evidence | focused Vitest 6 files / 50 tests PASS; local Playwright PNG `outputs/phase-11/screenshots/member-card-home-comfy-with-tags.png` present |
 | user gate | staging screenshot, commit, push, PR |
 
+## issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | issue-1077 authenticated staging visual 基盤を未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-{audit,requests,identity-conflicts,schema,meetings}-authenticated.spec.ts` 5 本を追加。既存 `staging-visual-authenticated` project / admin storageState / CI を再利用し、config 変更なし |
+| invariant | mutation controls are never clicked; product code, D1 schema, `playwright.config.ts`, and CI are unchanged |
+| evidence | local spec implementation complete; `--list` / typecheck / lint are local evidence; staging capture and baseline generation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
+
+## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| issue | #1125 CLOSED（reopen / mutation なし） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | 認証付き staging `/admin/members` で実 `POST /admin/members/tags/bulk` mutation 後の result summary 2 状態（all-success / deleted-member partial-failure）を visual baseline 化する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-result-authenticated.spec.ts`, `apps/api/migrations/seed/bulk-tag-result-staging-{seed,cleanup}.sql`, `scripts/smoke/capture-bulk-tag-result.sh`, `scripts/smoke/__tests__/capture-bulk-tag-result.test.sh`, `package.json` |
+| evidence | runner syntax PASS; runner shell test PASS; authenticated staging baseline pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md` |
+| user gate | staging seed/mutation/baseline/cleanup, staging deploy, commit, push, PR |
+
+## sentry-extension-noise-filter-spec（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/sentry-extension-noise-filter-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | browser extension由来のmain-world漏れerror eventをclient Sentry送信前に除外し、app errorはfail-openで保持する |
+| implementation | `apps/web/src/lib/sentry/extension-noise-filter.ts`, `apps/web/src/instrumentation-client.ts`, `apps/web/src/lib/sentry/index.ts` |
+| tests | `apps/web/src/lib/sentry/extension-noise-filter.spec.ts`, `apps/web/src/__tests__/instrumentation-client.runtime.spec.ts` |
+| evidence | focused Vitest 2 files / 12 tests PASS; web typecheck PASS; web lint PASS |
+| invariant | mixed app/extension frames are retained; unreachable extension/Chrome console noise is out of code scope; API/D1/UI unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
+| user gate | external Sentry dashboard confirmation, commit, push, PR |
+
+## issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1126 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1126` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| purpose | BulkActionBar tag picker authenticated staging visual baseline を mobile / tablet / wide に拡張する |
+| implementation | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| evidence | local code implemented; web typecheck / focused BulkActionBar vitest tracked in Phase 11; staging visual capture and `--update-snapshots` pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, baseline update, commit, push, PR, Issue mutation |
+
+## issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| issue | #1118 CLOSED（mutation は user-gated、PR 文脈は `Refs #1118`） |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| purpose | `/admin/tags` queue とは別に `/admin/tags/catalog` tag master catalog を新設し、reactivate / logical delete / physical delete を既存 API へ配線 |
+| implementation | `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/admin/{TagCatalogPanel,TagCatalogRow,tagCatalogLifecycle}.ts*`, shell nav, `globals.css` |
+| evidence | focused Vitest component/pure/nav suite PASS; local static visual PNGs present; `@ubm-hyogo/web` typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
+| user gate | authenticated runtime/staging screenshots, commit, push, PR |
+
 ## issue-1117-tag-physical-delete-force-migration（2026-06-06）
 
 | 項目 | 値 |
@@ -2949,13 +3018,15 @@
 | Issue #640 step-scoped CF token cutover | `docs/30-workflows/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, legacy token revocation, commit, push, and PR are user-gated. |
 | Issue #717 Cloudflare Workers OIDC support revalidation | `docs/30-workflows/issue-717-oidc-cf-full-migration/`（`verified_current_no_code_change_pending_pr` / implementation / NON_VISUAL / conditional）。2026-05-16 時点では Cloudflare Workers GitHub Actions docs と `cloudflare/wrangler-action` README が API token authentication を案内しており、supported OIDC deploy path は未確認。`web-cd.yml` は no-code、Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を維持。Follow-up: `issue-717-followup-001-production-oidc-cutover`, `issue-717-followup-002-apps-api-d1-token-cutover`, `issue-717-followup-003-1password-restructure`. |
 | runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
-| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
+| runtime smoke CF token contract | `scripts/smoke/provision-staging-secrets.sh` provisions `CLOUDFLARE_API_TOKEN` for `staging-runtime-smoke`; `.github/workflows/verify-runtime-smoke-secret-contract.yml` runs `scripts/smoke/verify-runtime-smoke-secret-contract.mts` to ensure consumed secrets are provisioned or explicitly exempt. Missing CF token degrades only `bulk-tag-runtime-smoke`; missing `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `CLOUDFLARE_ACCOUNT_ID` still hard-fails |
+| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh`; current Cloudflare token runbook is `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` |
 | web-cd staging / production secret provisioning | canonical runbooks: `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` and `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md`; separate from `staging-runtime-smoke`; `CLOUDFLARE_API_TOKEN` is environment-scoped web-cd deploy token, `CLOUDFLARE_ACCOUNT_ID` is Variables-managed, evidence records `op://` references only, and secret mutation / commit / push / PR are user-gated |
 | Phase 12 | parent design root pending; task-01 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | approval boundary | secret placement / deploy run / runtime smoke / Slack failure injection / commit / push / PR are user-gated |
 | build mode 不変条件 | `apps/web` production build は `next build --webpack`。Turbopack は local dev 限定（`deployment-cloudflare-opennext-workers.md` §11.1） |
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
+| Cloudflare token rotation retirement | `.github/workflows/cf-token-rotation-reminder.yml` deleted on 2026-06-08. `CF_TOKEN_ISSUED_AT` is retired; use non-expiring least-privilege environment tokens with event-based revocation |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
