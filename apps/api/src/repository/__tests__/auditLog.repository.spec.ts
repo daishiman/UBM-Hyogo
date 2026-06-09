@@ -165,6 +165,19 @@ describe("auditLog (append-only)", () => {
     expect(rows.map((r) => r.targetId)).toEqual(["m_bulk_1", "m_bulk_2"]);
   });
 
+  it("listFiltered: batchId 検索は generated column index を使う", async () => {
+    const queryPlan = await env.db
+      .prepare(
+        "EXPLAIN QUERY PLAN SELECT audit_id FROM audit_log WHERE batch_id = ?1 ORDER BY created_at DESC, audit_id DESC LIMIT ?2",
+      )
+      .bind("batch-1079", 10)
+      .all<{ detail: string }>();
+
+    const details = (queryPlan.results ?? []).map((row) => row.detail).join("\n");
+    expect(details).toContain("idx_audit_log_batch_id");
+    expect(details).not.toMatch(/\bSCAN audit_log\b/);
+  });
+
   it("listFiltered: batchId と action は AND 結合される", async () => {
     await auditLog.append(env.ctx, {
       actorId: null,

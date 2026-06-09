@@ -52,6 +52,14 @@ const PII_KEYS = new Set([
   "actor_email",
 ]);
 
+// システム相関キー: PII ではなく audit 相関に必要な値なので redact しない。
+// batchId は crypto.randomUUID() で生成され、PHONE_RE に偶然一致する数字列
+// （例: `...-9961-50733719-...`）を含みうるため、value 単位の redactString に通すと
+// `[REDACTED:phone]` へ潰れ、#1079 audit viewer の batchId 列表示/copy/相関が壊れる。
+// key allowlist で当該キーの値を verbatim 保持し、検索 (json_extract '$.batchId') と
+// 表示の双方を成立させる。
+const SYSTEM_CORRELATION_KEYS = new Set(["batchid"]);
+
 const kindForKey = (key: string): RedactKind => {
   const k = key.toLowerCase();
   if (k === "email" || k === "mail" || k === "responseemail" || k === "response_email") return "email";
@@ -101,8 +109,12 @@ export const redactJsonValue = (value: unknown): unknown => {
   if (typeof value === "object") {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (PII_KEYS.has(k.toLowerCase())) {
+      const lower = k.toLowerCase();
+      if (PII_KEYS.has(lower)) {
         out[k] = { redacted: true, kind: kindForKey(k) } satisfies RedactedValue;
+      } else if (SYSTEM_CORRELATION_KEYS.has(lower) && typeof v === "string") {
+        // 相関キーは PII redaction を通さず verbatim 保持
+        out[k] = v;
       } else {
         out[k] = redactJsonValue(v);
       }

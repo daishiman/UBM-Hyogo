@@ -18,6 +18,25 @@
 - **教訓**: fetch 経路の root cause は per-route fixture や narrow warn では解消しない。public/admin の transport symmetry を Phase 2/4 gate に入れる。
 - **発見日**: 2026-05-28
 
+### e2e mock の二重実装 parity（in-process / standalone）（L-CIE2E-MOCK-PARITY）
+
+- **状況**: 公開メンバー詳細を 5 セクション化する PR が、e2e の **in-process mock**（`apps/web/playwright/fixtures/auth.ts`・local `pnpm test:e2e` 用）にのみ `/__test__/public-member-detail` 制御ルートと survey 全項目 scenario レスポンス（full/sparse/message-hidden）を追加した。
+- **問題**: CI の e2e は **standalone mock**（`scripts/e2e-mock-api.mjs`・`.github/workflows/e2e-tests.yml` の `node scripts/e2e-mock-api.mjs`）を使うが、こちらへの parity 更新が漏れ、制御ルート 404 と `[data-stable-key="urlOthers"]` 不在で e2e が fail。unit/typecheck/lint/focused Vitest は全 pass のまま **e2e のみ**落ちた（local in-process は緑だった）。
+- **解決策**: standalone mock を auth.ts と同一契約へ揃える（state に scenario フィールド + `buildPublicProfile` を scenario 対応 + POST 制御ルート追加）。`auth.ts` には既に「CI では e2e-mock-api.mjs が応答するため規約を揃える」明示コメントがあり、これが parity 契約の正本。
+- **教訓**:
+  - 新規 `/__test__/*` 制御ルート・新規 fixture レスポンスを足す変更は、**in-process（auth.ts）と standalone（e2e-mock-api.mjs）の両方に同契約で実装する**ことを実装タスクの AC / Phase 4 gate に明記する。「mock を1箇所だけ更新」は CI のみ落ちる footgun。
+  - standalone mock は `schemas.*Z.safeParse`（issue-667）を通すため、移植レスポンスは contract schema 適合必須。
+  - 巨大 e2e ログは `gh run view --log` / `--log-failed` が空返ししやすい → `gh api repos/{o}/{r}/actions/jobs/{jobId}/logs` を file 化して `✘`/`Error:`/`expect(`/`locator(` を grep。
+- **発見日**: 2026-06-09
+
+### screenshot 安定化 `page.addStyleTag` は WebKit/Firefox の Report-Only CSP で reject される（L-CIE2E-CSP-ADDSTYLETAG）
+
+- **状況**: 新規 Phase 11 screenshot 取得テストが animation 抑制のため `await page.addStyleTag({ content: '...' })` を try/catch なしで呼んでいた。
+- **問題**: chromium では通るが **firefox（script-src strict-dynamic / unsafe-eval なしで Playwright の eval 注入をブロック）と webkit（style-src で stylesheet 適用を Report-Only でも reject）で throw** し、`e2e (desktop-chromium)` は緑なのに `e2e (desktop-firefox)` / `e2e (mobile-webkit)` だけ落ちる。マルチブラウザ matrix の 1 ブラウザ緑では検知できない。
+- **解決策**: 既存の同種テスト（`mypage-prototype-alignment-screenshots.spec.ts` / `admin-attendance-dashboard-ux.spec.ts`）が確立済みの **try/catch + `page.emulateMedia({ reducedMotion: 'reduce' })` fallback** パターンへ揃える。注入は screenshot 安定化目的で機能アサーションには影響しないため CSP 拒否は握り潰してよい。
+- **教訓**: screenshot 系 e2e で `addStyleTag({content})` を使うときは **必ず try/catch + emulateMedia fallback** で包む（リポジトリ確立パターン）。新規 spec を書くときは sibling の安定化ヘルパを literal コピーして CSP footgun を回避する。chromium だけで動作確認すると firefox/webkit fail を見落とす。
+- **発見日**: 2026-06-09
+
 ## スクリプト・正規表現関連
 
 ### Markdown見出しレベルの誤検出
@@ -2175,6 +2194,15 @@ issue-1008 sync（`refactor/issue-1008-members-list-ux-clarity-artifact-status-r
 - **SP-I1070-B (DB-FK 不在テーブルへの delete は application-level COUNT(*) を唯一の参照防壁にする)**: 削除対象を参照する側に DB-level `FOREIGN KEY` が無い場合、`ON DELETE` / DB 制約は孤児化を防げない。Phase 2/3 で「削除前に参照件数 `COUNT(*)` を取り `> 0` は削除せず 4xx（例 409 `*_has_references` + `referenceCount`）で拒否」を唯一の防壁として仕様化する。強制移行 / 付け替え / cascade 相当は移行先・audit・rollback の合意が無い限り本 endpoint の暗黙挙動にしない（別 Issue へ）。
 - **SP-I1070-C (削除系 audit の before は repository が返す削除前 snapshot を使う)**: physical delete は row 消失後に before 値が取れない。repository の delete 関数を「成功時に削除前 row を返す」signature にし、route が `before: <snapshot>, after: null` で audit する。audit は state 変化時のみ append（delete 成功時 / reactivate `changed===true` 時）。
 - 参照: [[lessons-learned-issue-1070-tag-reactivate-physical-delete-2026-06]]（正本）, SP-I1035-D（prefix route 追加は既存 route regression 必須・本タスクの `/tags/:tagId/physical` vs `/tags/:tagId` 静的優先解決と同型）, [[non-visual-irreversible-task-rules]]（不可逆 mutation の 2-stage user-gate 境界）。
+
+## SP-I1126 VISUAL_ON_EXECUTION の実装対象物理 gate と runtime pending 境界（2026-06-06 issue-1126）
+
+`taskType=implementation` / `visualEvidence=VISUAL_ON_EXECUTION` の workflow で、Phase 5 が `apps/` の具体ファイルを実装対象に列挙し、同一 cycle で安全に編集できる場合の close-out rule。
+
+- **SP-I1126-A (物理実装 gate を `spec_created` 誠実性より優先)**: 実装対象が `apps/` / `packages/` / `scripts/` / workflow 実ファイルとして明示され、外部承認なしにローカル編集・focused test まで進められる場合は、仕様書作成のみで閉じない。実コードを同一 wave で編集し、root/output artifacts、Phase 11 pending evidence、Phase 12 strict 7、aiworkflow ledgers を `implemented_local_runtime_pending` へ同期する。
+- **SP-I1126-B (runtime visual と local implementation を二段に分ける)**: staging 認証・storageState・baseline `--update-snapshots`・比較実行が user-gated でも、ローカル実コード変更と型/単体検証は pending にしない。Phase 10/12 の AC は `LOCAL PASS / RUNTIME_PENDING` とし、runtime PASS は Phase 11 の実 PNG / capture metadata が `present` になった後だけ主張する。
+- **SP-I1126-C (擬似コードは実装後に物理コードへ再同期)**: Phase 2/5/6 が設計時の helper 名や loop 形を持つ場合、実装後の final code（例: `VIEWPORTS` import、`prepareBulkRegion(page)`、`switchToUnassignMode(page)`、viewport 別 `test(...)`）へ同 wave で直す。旧 helper 名・直接 viewport 数値・同一 test loop が残ると skill 準拠は FAIL。
+- **Anti-pattern**: `VISUAL_ON_EXECUTION` の screenshot 未取得を理由に、実コード差分のある workflow を `spec_created` のまま Phase 12 PASS にする。
 
 ### 衝突集合に aiworkflow `SKILL.md` 本体 + `resource-map.md` が入り keywords.json は非衝突の 5 file セット（task-spec 側ゼロ）も resolver 単一パスで完結（SP-DEVSYNC-086）
 

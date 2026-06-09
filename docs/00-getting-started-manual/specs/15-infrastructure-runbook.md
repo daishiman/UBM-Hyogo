@@ -307,15 +307,18 @@ Production deploy execution は `docs/30-workflows/issue-353-09c-production-depl
 
 T+0 / T+1h / T+6h / T+24h で Workers requests/errors、D1 reads/writes、`sync_jobs`、attendance duplicate SQL、不変条件 #5 / #6 / #14 を確認する。T+24h の警戒閾値は Workers requests 50k 以上、D1 reads 500k 以上、D1 writes 10k 以上とし、超過時は incident handoff または follow-up 起票へ分岐する。
 
-## Cloudflare API Token Rotation
+## Cloudflare API Token Provisioning And Revocation
 
-Cloudflare API Token の 90 日 rotation は `docs/30-workflows/operations/cf-token-rotation-runbook.md` を運用手順正本、`docs/30-workflows/operations/cf-token-rotation-log.md` を実施記録正本とする。Issue #407 の reminder workflow `.github/workflows/cf-token-rotation-reminder.yml` は GitHub repository variable `CF_TOKEN_ISSUED_AT` から 85 日経過を判定し、rotation reminder Issue を起票する。
+> **RETIRED 2026-06-08**: 90 日 calendar rotation policy は廃止した（cf-token-env-contract-and-rotation-retirement）。reminder workflow `.github/workflows/cf-token-rotation-reminder.yml` と checker `scripts/check-cf-rotation-reminder.sh`、GitHub repository variable `CF_TOKEN_ISSUED_AT` は retired。
+
+Cloudflare API Token の current policy は **non-expiring / least-privilege / environment-scoped token + event-based revocation** で、`docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` を運用手順正本とする。`docs/30-workflows/operations/cf-token-rotation-runbook.md` は tombstone（監査履歴）として保持し、`docs/30-workflows/operations/cf-token-rotation-log.md` は履歴記録として保持する。
 
 運用境界:
 
 - Token 値、Token ID、scope 値は runbook / log / Issue / PR / evidence に記録しない。
-- reminder workflow は `contents: read` / `issues: write` のみを持つ。
-- 実 token 発行、1Password 更新、`gh secret set`、production rotation は user approval gate 後のみ実行する。
+- calendar rotation はしない。compromise / scope drift / owner change / failed validation を検知した時点で即時 revoke する。
+- staging token と production token は別トークン・狭スコープ・環境分離（staging=D1 edit のみ / production=Workers deploy + D1 edit のみ）で発行する。
+- 実 token 発行、1Password 更新、`gh secret set` は user approval gate 後のみ実行する。
 
 
 ## Postmortem 生成（rollback 後の必須運用）

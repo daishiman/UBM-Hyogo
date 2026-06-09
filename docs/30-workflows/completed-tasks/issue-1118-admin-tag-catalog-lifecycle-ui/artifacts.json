@@ -1,0 +1,124 @@
+{
+  "workflow_id": "issue-1118-admin-tag-catalog-lifecycle-ui",
+  "feature": "issue-1118-admin-tag-catalog-lifecycle-ui",
+  "parent_workflow": "issue-1070-tag-reactivate-physical-delete",
+  "status": "completed",
+  "created": "2026-06-06T12:00:00+09:00",
+  "lastUpdated": "2026-06-06T12:00:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ISSUE-1118-ADMIN-TAG-CATALOG-LIFECYCLE-UI",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "implementationDomain": "admin-web-tag-master-catalog",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/1118",
+    "issue_state": "CLOSED",
+    "spec_only": false,
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "git commit",
+      "git push",
+      "gh pr create --base dev"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "rg -n \"reactivate|/physical|tag_has_references|referenceCount\" apps/web/src apps/web/app",
+      "rg -n \"GET /tags|listTagDefinitionsPaged\" apps/api/src/routes/admin/tags.ts"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-<timestamp>.md",
+    "scope": "Build a NEW admin tag master (tag_definitions) catalog management screen in apps/web at route /admin/tags/catalog, and wire the 3 tag lifecycle operations onto it by consuming ONLY existing apps/api endpoints (no API change, no D1 schema change): (1) reactivate via POST /admin/tags/:tagId/reactivate (200 row, idempotent no-op when already active) shown on inactive rows; (2) logical delete via DELETE /admin/tags/:tagId (204, active=1->0, issue-1035 landed) shown on active rows; (3) physical delete via DELETE /admin/tags/:tagId/physical (204 on success / 409 tag_has_references + referenceCount when member_tags references exist / 404 tag_not_found) gated by an irreversible ConfirmDialog. The 3 lifecycle operations MUST be visually and textually distinct so an admin cannot confuse 'shelve back', 'shelve away', and 'destroy forever'. The 409 referenceCount is surfaced as 'N人に使用中のため削除不可'. New files: app/(admin)/admin/tags/catalog/page.tsx (Server Component, safeServerFetch GET /admin/tags), src/components/admin/TagCatalogPanel.tsx (client list + filter + lifecycle state machine), src/components/admin/TagCatalogRow.tsx (per-row 3 lifecycle controls), src/components/admin/tagCatalogLifecycle.ts (pure helpers: operation descriptors, 409 body parse, active/inactive status label). Edits: src/styles/globals.css (.admin-tag-catalog-* classes, OKLch tokens only), admin sidebar nav link to /admin/tags/catalog. Reuse AdminPageHeader, AdminSectionErrorClient, safeServerFetch, useAdminMutation (DELETE=idempotent overload / POST=non-idempotent overload), ConfirmDialog (isDestructive), design tokens. This whole UI is completable in one implementation cycle. Issue #1118 stays CLOSED.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui",
+    "runtime_boundary": "Local implementation is complete (workflow_state=implemented_local_evidence_captured). apps/web code and focused tests were added in this cycle. Runtime/staging screenshot capture, commit, push, and PR remain user-gated. Issue #1118 stays CLOSED.",
+    "issue_optimization_note": "Issue #1118 (= task-issue-1070-followup-002) was written assuming an EXISTING admin tag master UI (tag list / tag row / logical-delete control) into which lifecycle controls would be 'added'. Investigation of CURRENT code (2026-06-06) shows that premise is STALE: (1) reactivate / physical / referenceCount appear NOWHERE in apps/web (rg = 0 hits) — the issue is unresolved, not fixed by another task. (2) The supposed 'existing admin tag UI' does NOT exist: /admin/tags route is TagQueuePanel (member-tag assignment QUEUE), not a tag_definitions master screen; tag_definitions only surface inside member-drawer / bulk-action pickers. (3) The supposed 'logical-delete control landed in #1035' does NOT exist in apps/web — #1035 landed the API only; apps/web calls DELETE /admin/tags/:tagId from NOWHERE. (4) #1068 MemberTagInlineCreate is an in-drawer master-create, not a master management screen. Therefore the ROOT problem is broader than 'add a button': there is NO tag-master catalog screen to host lifecycle controls. Per user decision (2026-06-06 AskUserQuestion: 'build a dedicated screen'), this spec is optimized to BUILD a new /admin/tags/catalog screen first, then wire all 3 lifecycle operations onto it. The hosting API (GET /admin/tags with q/page/pageSize -> {total, items:[{tagId,code,label,category,active}]}) and the 3 mutation endpoints already exist and are unchanged. Reframed acceptance criteria add AC-0 (catalog screen exists and lists tag_definitions) and keep the original AC-1..AC-8 lifecycle/visual-distinction criteria, now hosted on the new screen.",
+    "implementation_files": [
+      "apps/web/app/(admin)/admin/tags/catalog/page.tsx",
+      "apps/web/src/components/admin/TagCatalogPanel.tsx",
+      "apps/web/src/components/admin/TagCatalogRow.tsx",
+      "apps/web/src/components/admin/tagCatalogLifecycle.ts",
+      "apps/web/src/styles/globals.css",
+      "apps/web/src/components/shell/shell-config.ts"
+    ],
+    "test_files": [
+      "apps/web/src/components/admin/__tests__/TagCatalogPanel.component.spec.tsx",
+      "apps/web/src/components/admin/__tests__/TagCatalogRow.component.spec.tsx",
+      "apps/web/src/components/admin/__tests__/tagCatalogLifecycle.spec.ts"
+    ],
+    "regression_test_files": [
+      "apps/web/src/components/admin/__tests__/TagQueuePanel.component.spec.tsx",
+      "apps/api/src/routes/admin/tags.contract.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm --filter @ubm-hyogo/web test --run src/components/admin",
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:tokens",
+      "rg -n \"bg-\\[#|text-\\[#|#[0-9a-fA-F]{6}\" apps/web/src/components/admin/TagCatalogPanel.tsx apps/web/src/components/admin/TagCatalogRow.tsx"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-06T12:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Spec/design complete (Phase 1-3). Route path, new component boundaries, consumed endpoints, lifecycle state machine, 3-operation visual-distinction rules, and 409 referenceCount adapter are fixed; apps/web implementation completed in automation-30 improvement."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-06T14:27:28+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Implementation gate passed locally. Added /admin/tags/catalog page, TagCatalogPanel/Row/lifecycle helper, sidebar nav, CSS, and focused tests. Screenshot capture remains user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-06-06T14:27:28+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Close-out gate passed for local implementation and documentation sync. Commit/push/PR and staging screenshot remain user-gated. Issue #1118 stays CLOSED."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending", "output": "outputs/phase-13/phase-13.md", "user_approval_required": true }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}

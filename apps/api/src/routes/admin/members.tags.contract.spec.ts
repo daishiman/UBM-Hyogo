@@ -23,6 +23,8 @@ interface MemberTagsResponse {
   available: TagRef[];
 }
 
+const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const seedMembers = async (env: InMemoryD1) => {
   await env.db
     .prepare(
@@ -59,6 +61,24 @@ const auditCount = async (env: InMemoryD1, action: string): Promise<number> => {
   return r?.n ?? 0;
 };
 
+const latestAuditPayload = async <T extends Record<string, unknown>>(
+  env: InMemoryD1,
+  action: string,
+  column: "before_json" | "after_json",
+): Promise<T> => {
+  const r = await env.db
+    .prepare(
+      `SELECT ${column} AS payload FROM audit_log
+       WHERE target_type='member' AND target_id='m1' AND action=?1
+       ORDER BY created_at DESC, audit_id DESC
+       LIMIT 1`,
+    )
+    .bind(action)
+    .first<{ payload: string | null }>();
+  expect(r?.payload).toBeTruthy();
+  return JSON.parse(r?.payload ?? "{}") as T;
+};
+
 describe("admin member tags write contract (issue-982 task-A)", () => {
   let env: InMemoryD1;
   beforeEach(async () => {
@@ -81,6 +101,13 @@ describe("admin member tags write contract (issue-982 task-A)", () => {
     const body = (await res.json()) as MemberTagsResponse;
     expect(body.assigned.map((t) => t.tagId)).toContain("tag_eng");
     expect(await auditCount(env, "admin.member.tag_assigned")).toBe(1);
+    const payload = await latestAuditPayload<{
+      tagId: string;
+      source: string;
+      batchId: string;
+    }>(env, "admin.member.tag_assigned", "after_json");
+    expect(payload).toMatchObject({ tagId: "tag_eng", source: "manual" });
+    expect(payload.batchId).toMatch(UUID_V4_RE);
   });
 
   it("A-T2: POST 同一 tag 再送 → 200 + 重複なし + audit 増えない", async () => {
@@ -101,6 +128,12 @@ describe("admin member tags write contract (issue-982 task-A)", () => {
     const body = (await res.json()) as MemberTagsResponse;
     expect(body.assigned.filter((t) => t.tagId === "tag_eng")).toHaveLength(1);
     expect(await auditCount(env, "admin.member.tag_assigned")).toBe(1);
+    const payload = await latestAuditPayload<{ batchId: string }>(
+      env,
+      "admin.member.tag_assigned",
+      "after_json",
+    );
+    expect(payload.batchId).toMatch(UUID_V4_RE);
   });
 
   it("A-T3: POST body 不正（tagId 空）→ 400", async () => {
@@ -200,6 +233,13 @@ describe("admin member tags write contract (issue-982 task-A)", () => {
     );
     expect(res.status).toBe(204);
     expect(await auditCount(env, "admin.member.tag_unassigned")).toBe(1);
+    const payload = await latestAuditPayload<{ tagId: string; batchId: string }>(
+      env,
+      "admin.member.tag_unassigned",
+      "before_json",
+    );
+    expect(payload.tagId).toBe("tag_eng");
+    expect(payload.batchId).toMatch(UUID_V4_RE);
 
     const getRes = await app.request(
       "/members/m1/tags",
@@ -208,6 +248,38 @@ describe("admin member tags write contract (issue-982 task-A)", () => {
     );
     const body = (await getRes.json()) as MemberTagsResponse;
     expect(body.assigned.map((t) => t.tagId)).not.toContain("tag_eng");
+  });
+
+  it("A-T12: assign と unassign は別々の request-scoped batchId を持つ", async () => {
+    const app = createAdminMembersRoute();
+    await app.request(
+      "/members/m1/tags",
+      {
+        method: "POST",
+        headers: { ...(await adminAuthHeader()), "content-type": "application/json" },
+        body: JSON.stringify({ tagId: "tag_eng" }),
+      },
+      makeEnv(env),
+    );
+    await app.request(
+      "/members/m1/tags/tag_eng",
+      { method: "DELETE", headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+
+    const assignPayload = await latestAuditPayload<{ batchId: string }>(
+      env,
+      "admin.member.tag_assigned",
+      "after_json",
+    );
+    const unassignPayload = await latestAuditPayload<{ batchId: string }>(
+      env,
+      "admin.member.tag_unassigned",
+      "before_json",
+    );
+    expect(assignPayload.batchId).toMatch(UUID_V4_RE);
+    expect(unassignPayload.batchId).toMatch(UUID_V4_RE);
+    expect(assignPayload.batchId).not.toBe(unassignPayload.batchId);
   });
 
   it("A-T8: DELETE 未存在付与（冪等）→ 204 + audit 増えない", async () => {

@@ -67,6 +67,18 @@
 - `タグ辞書編集` や `タグルール編集` はこの画面の主責務にしない
 - 本人がタグを自己申告で編集する運用は採用しない
 
+### `/admin/tags/catalog`
+
+- 正式用途は `tag_definitions` の master catalog 管理
+- `/admin/tags` の割当キューとは別 route とし、queue 画面を辞書編集画面に拡張しない
+- `GET /admin/tags`（q/page/pageSize）で code / label / category / active を一覧表示する
+- lifecycle 操作は既存 API のみを消費する
+  - `POST /admin/tags/:tagId/reactivate`: 停止中 tag を再有効化する
+  - `DELETE /admin/tags/:tagId`: active tag を論理削除する
+  - `DELETE /admin/tags/:tagId/physical`: tag を物理削除する。409 `tag_has_references` は `referenceCount` を「N人に使用中のため削除不可」として表示する
+- 物理削除は不可逆操作のため `ConfirmDialog` `isDestructive` 経由の明示確認を必須とする
+- Web UI は `/api/admin/tags*` proxy 経由で apps/api を呼び、D1 を直接参照しない
+
 ### `/admin/schema`
 
 - Google Form の構造変化をレビューする専用画面

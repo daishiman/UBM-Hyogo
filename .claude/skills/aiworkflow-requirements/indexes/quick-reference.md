@@ -13,6 +13,117 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
 | user gate | dev/main branch protection PUT, after evidence, commit, push, PR, Issue mutation |
 
+## public-member-detail-survey-fields-richness（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-member-detail-survey-fields-richness/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | 公開メンバー詳細を prototype 準拠の Hero / BUSINESS OVERVIEW / TAGS+SNS / PERSONAL / MESSAGE 構造へ再構成し、`TEST-MEM-01` seed に public survey fields を持たせる |
+| implementation | `member-detail.ts`（stableKey 駆動 section 再構成 + hometown 抽出 + `other` 元構造保持 fallback）、public components（`ProfileHero` / `MemberDetail` / `BusinessOverviewSection` / `PersonalSection` / `MessageCard` / `MemberTags`）、`globals.css` / `legacy-public.css`（sticky footer 重なり修正）、`test-accounts/{catalog,build-seed-sql}.ts` + 生成 seed SQL |
+| evidence | focused Vitest 5 files / 31 tests PASS; web/api typecheck PASS; stableKey lint PASS; Phase 11 local runtime screenshots 3 PNG present |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md` |
+| invariant | API endpoint / API response contract / D1 migration / Google Form schema 不変; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由 |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+## issue-1128-audit-batchid-index-optimization（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1128-audit-batchid-index-optimization/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| purpose | existing `/admin/audit?batchId=` lookup を JSON full scan から generated column index 走査へ切り替える |
+| implementation | `apps/api/migrations/0027_audit_log_batchid_index.sql`（`audit_log.batch_id` VIRTUAL generated column + `idx_audit_log_batch_id`）、`apps/api/src/repository/auditLog.ts`（`batch_id = ?`） |
+| evidence | focused D1 Vitest 3 files / 28 tests PASS; `EXPLAIN QUERY PLAN` が `idx_audit_log_batch_id` 使用 / `SCAN audit_log` 不在 |
+| invariant | public query / response shape unchanged; `audit_log` append-only repository boundary unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md` |
+| user gate | staging / production D1 migration apply, deploy, commit, push, PR |
+
+## issue-1127-authenticated-staging-visual-admin-screens-expansion（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1127-authenticated-staging-visual-admin-screens-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | issue-1077 authenticated staging visual 基盤を未カバー 5 admin 画面（audit / requests / identity-conflicts / schema / meetings）へ read-only 初期表示 baseline として横展開する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-{audit,requests,identity-conflicts,schema,meetings}-authenticated.spec.ts` 5 本を追加。既存 `staging-visual-authenticated` project / admin storageState / CI を再利用し、config 変更なし |
+| invariant | mutation controls are never clicked; product code, D1 schema, `playwright.config.ts`, and CI are unchanged |
+| evidence | local spec implementation complete; `--list` / typecheck / lint are local evidence; staging capture and baseline generation are user-gated |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md` |
+| user gate | staging admin storageState mint, authenticated runtime screenshot, `--update-snapshots` baseline, commit, push, PR。Issue #1127 は CLOSED 維持 |
+
+## issue-1125-bulk-tag-result-staging-mutation-visual-baseline（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1125-bulk-tag-result-staging-mutation-visual-baseline/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| issue | #1125 CLOSED（reopen / mutation なし） |
+| parent | `docs/30-workflows/completed-tasks/issue-1036-bulk-member-tag-assign/` |
+| purpose | 認証付き staging `/admin/members` で実 `POST /admin/members/tags/bulk` mutation 後の result summary 2 状態（all-success / deleted-member partial-failure）を visual baseline 化する |
+| implementation | `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-result-authenticated.spec.ts`, `apps/api/migrations/seed/bulk-tag-result-staging-{seed,cleanup}.sql`, `scripts/smoke/capture-bulk-tag-result.sh`, `scripts/smoke/__tests__/capture-bulk-tag-result.test.sh`, `package.json` |
+| evidence | runner syntax PASS; runner shell test PASS; authenticated staging baseline pending_user_gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md` |
+| user gate | staging seed/mutation/baseline/cleanup, staging deploy, commit, push, PR |
+
+## sentry-extension-noise-filter-spec（2026-06-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/sentry-extension-noise-filter-spec/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| purpose | browser extension由来のmain-world漏れerror eventをclient Sentry送信前に除外し、app errorはfail-openで保持する |
+| implementation | `apps/web/src/lib/sentry/extension-noise-filter.ts`, `apps/web/src/instrumentation-client.ts`, `apps/web/src/lib/sentry/index.ts` |
+| tests | `apps/web/src/lib/sentry/extension-noise-filter.spec.ts`, `apps/web/src/__tests__/instrumentation-client.runtime.spec.ts` |
+| evidence | focused Vitest 2 files / 12 tests PASS; web typecheck PASS; web lint PASS |
+| invariant | mixed app/extension frames are retained; unreachable extension/Chrome console noise is out of code scope; API/D1/UI unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md` |
+| user gate | external Sentry dashboard confirmation, commit, push, PR |
+
+## issue-1126-bulk-tag-picker-viewport-baseline-expansion（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1126-bulk-tag-picker-viewport-baseline-expansion/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| issue | #1126 CLOSED 維持。Issue mutation / reopen は行わず、PR 文脈は `Refs #1126` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1077-bulk-tag-authenticated-staging-visual/` |
+| purpose | BulkActionBar tag picker authenticated staging visual baseline を mobile / tablet / wide に拡張する |
+| implementation | `apps/web/playwright/fixtures/viewports.ts`, `apps/web/playwright/tests/visual-staging-authenticated/admin-members-bulk-tag-authenticated.spec.ts` |
+| evidence | local code implemented; web typecheck / focused BulkActionBar vitest tracked in Phase 11; staging visual capture and `--update-snapshots` pending user gate |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md` |
+| user gate | staging storageState mint, authenticated visual capture, baseline update, commit, push, PR, Issue mutation |
+
+## issue-1118-admin-tag-catalog-lifecycle-ui（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1118-admin-tag-catalog-lifecycle-ui/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| issue | #1118 CLOSED（mutation は user-gated、PR 文脈は `Refs #1118`） |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| purpose | `/admin/tags` queue とは別に `/admin/tags/catalog` tag master catalog を新設し、reactivate / logical delete / physical delete を既存 API へ配線 |
+| implementation | `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/admin/{TagCatalogPanel,TagCatalogRow,tagCatalogLifecycle}.ts*`, shell nav, `globals.css` |
+| evidence | focused Vitest component/pure/nav suite PASS; local static visual PNGs present; `@ubm-hyogo/web` typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md` |
+| user gate | authenticated runtime/staging screenshots, commit, push, PR |
+
+## issue-1117-tag-physical-delete-force-migration（2026-06-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1117-tag-physical-delete-force-migration/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #1117 CLOSED 維持。Issue mutation なし、PR 文脈は `Refs #1117` のみ |
+| parent | `docs/30-workflows/completed-tasks/issue-1070-tag-reactivate-physical-delete/` |
+| purpose | `member_tags` 参照あり tag を active destination tag へ強制移行してから物理削除する |
+| implementation | `apps/api/src/repository/tagDefinitions.ts`, `apps/api/src/routes/admin/tags.ts`, `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| tests | `apps/api/src/repository/__tests__/tagDefinitions.write.repository.spec.ts`, `apps/api/src/routes/admin/tags.contract.spec.ts` |
+| evidence | focused D1 Vitest 2 files / 25 tests PASS, API typecheck PASS, repo lint PASS |
+| invariant | `DELETE /admin/tags/:tagId/physical?migrateTo=<destTagId>` 指定時のみ force-migration（`INSERT OR IGNORE ... SELECT` + source delete で `(member_id,dest)` PK 衝突吸収・source COUNT=0 再検証後に既存 physical delete）。未指定時は issue-1070 の 409 `tag_has_references` 拒否経路を維持。移行先は active tag のみ・`src===dest` は 400。error code `migration_target_not_found`(404) / `migration_target_inactive`(409) / `migration_target_same_as_source`(400)、audit `admin.tag.references_migrated` + `admin.tag.physically_deleted`。D1 schema migration 不要（`member_tags` に FK なし） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md` |
+| user gate | staging runtime smoke, production tag force-migration / physical delete mutation, commit, push, PR, Issue state change |
+
 ## issue-1119-member-tags-referential-integrity-guard（2026-06-06）
 
 | 項目 | 値 |
@@ -2934,13 +3045,15 @@
 | Issue #640 step-scoped CF token cutover | `docs/30-workflows/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, legacy token revocation, commit, push, and PR are user-gated. |
 | Issue #717 Cloudflare Workers OIDC support revalidation | `docs/30-workflows/issue-717-oidc-cf-full-migration/`（`verified_current_no_code_change_pending_pr` / implementation / NON_VISUAL / conditional）。2026-05-16 時点では Cloudflare Workers GitHub Actions docs と `cloudflare/wrangler-action` README が API token authentication を案内しており、supported OIDC deploy path は未確認。`web-cd.yml` は no-code、Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を維持。Follow-up: `issue-717-followup-001-production-oidc-cutover`, `issue-717-followup-002-apps-api-d1-token-cutover`, `issue-717-followup-003-1password-restructure`. |
 | runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
-| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
+| runtime smoke CF token contract | `scripts/smoke/provision-staging-secrets.sh` provisions `CLOUDFLARE_API_TOKEN` for `staging-runtime-smoke`; `.github/workflows/verify-runtime-smoke-secret-contract.yml` runs `scripts/smoke/verify-runtime-smoke-secret-contract.mts` to ensure consumed secrets are provisioned or explicitly exempt. Missing CF token degrades only `bulk-tag-runtime-smoke`; missing `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `CLOUDFLARE_ACCOUNT_ID` still hard-fails |
+| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh`; current Cloudflare token runbook is `docs/30-workflows/operations/cf-token-provisioning-and-revocation-runbook.md` |
 | web-cd staging / production secret provisioning | canonical runbooks: `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` and `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md`; separate from `staging-runtime-smoke`; `CLOUDFLARE_API_TOKEN` is environment-scoped web-cd deploy token, `CLOUDFLARE_ACCOUNT_ID` is Variables-managed, evidence records `op://` references only, and secret mutation / commit / push / PR are user-gated |
 | Phase 12 | parent design root pending; task-01 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | approval boundary | secret placement / deploy run / runtime smoke / Slack failure injection / commit / push / PR are user-gated |
 | build mode 不変条件 | `apps/web` production build は `next build --webpack`。Turbopack は local dev 限定（`deployment-cloudflare-opennext-workers.md` §11.1） |
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
+| Cloudflare token rotation retirement | `.github/workflows/cf-token-rotation-reminder.yml` deleted on 2026-06-08. `CF_TOKEN_ISSUED_AT` is retired; use non-expiring least-privilege environment tokens with event-based revocation |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
@@ -5522,6 +5635,18 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Web | `/admin/audit` batchId filter, pagination preservation, row batchId display, copy button |
 | inventory | `references/workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md` |
 | user gate | authenticated runtime screenshots, staging deploy, commit, push, PR, Issue mutation |
+
+# issue-1129-single-write-batchid-correlation
+
+| item | value |
+| --- | --- |
+| status | implemented_local_evidence_captured / implementation / NON_VISUAL / 2026-06-07 |
+| workflow | `docs/30-workflows/completed-tasks/issue-1129-single-write-batchid-correlation/` |
+| API | Single admin manual tag assign writes `after_json.{tagId,source,batchId}` and single unassign writes `before_json.{tagId,batchId}` with request-scoped UUID; existing `GET /admin/audit?batchId=<id>` searches both via `$.batchId` |
+| invariant | no endpoint, response shape, D1 schema, migration, `apps/web`, or audit read-side SQL change; noop writes leave no audit row and no batchId |
+| evidence | focused D1 Vitest 2 files / 31 tests PASS; API typecheck PASS |
+| inventory | `references/workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
 ## 2026-06-03 Additions
 
 | Topic | References | Notes |

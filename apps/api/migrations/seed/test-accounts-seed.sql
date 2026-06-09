@@ -1,8 +1,8 @@
 INSERT OR REPLACE INTO schema_versions (revision_id, form_id, schema_hash, state, synced_at, field_count, unknown_field_count, source_url) VALUES
-  ('TEST-REV-ACCOUNTS', 'TEST-FORM-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'active', '2026-06-03T10:30:00.000Z', 3, 0, 'seed:test-accounts');
+  ('TEST-REV-ACCOUNTS', 'TEST-FORM-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'active', '2026-06-03T10:30:00.000Z', 26, 0, 'seed:test-accounts');
 
 INSERT OR REPLACE INTO member_responses (response_id, form_id, revision_id, schema_hash, response_email, submitted_at, edit_response_url, answers_json, raw_answers_json, extra_fields_json, unmapped_question_ids_json, search_text) VALUES
-  ('TEST-RES-01', 'TEST-FORM-ACCOUNTS', 'TEST-REV-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'test-mem-01@test.ubm-hyogo.invalid', '2026-06-03T10:30:00.000Z', 'https://forms.test.invalid/edit/TEST-RES-01', '{"fullName":"[TEST] 公開 ログイン 太郎","occupation":"経営者","ubmZone":"0_to_1","notificationOptOut":"false"}', '{"fullName":"[TEST] 公開 ログイン 太郎","occupation":"経営者","ubmZone":"0_to_1","notificationOptOut":"false"}', '{"source":"seed:test-accounts"}', '[]', '[TEST] 公開 ログイン 太郎 経営者 0_to_1 test-mem-01@test.ubm-hyogo.invalid'),
+  ('TEST-RES-01', 'TEST-FORM-ACCOUNTS', 'TEST-REV-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'test-mem-01@test.ubm-hyogo.invalid', '2026-06-03T10:30:00.000Z', 'https://forms.test.invalid/edit/TEST-RES-01', '{"fullName":"[TEST] 公開 ログイン 太郎","occupation":"経営者","ubmZone":"0_to_1","nickname":"test-taro","location":"兵庫県神戸市中央区","hometown":"兵庫県明石市","ubmMembershipType":"member","businessOverview":"神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。","skills":"TypeScript / Cloudflare Workers / 業務フロー設計 / 生成AI活用","canProvide":"Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談","hobbies":"登山、コーヒー、地域イベント巡り","recentInterest":"地域コミュニティとAI活用","motto":"小さく試して、早く学ぶ","otherActivities":"商店街の勉強会運営と学生向けプログラミング相談を続けています。","urlWebsite":"https://example.test/test-mem-01","urlFacebook":"https://facebook.com/test.mem.01","urlInstagram":"https://instagram.com/test.mem.01","urlThreads":"https://threads.net/@test.mem.01","urlYoutube":"https://youtube.com/@test-mem-01","urlTiktok":"https://www.tiktok.com/@test.mem.01","urlX":"https://x.com/test_mem_01","urlBlog":"https://blog.example.test/test-mem-01","urlNote":"https://note.com/test_mem_01","urlLinkedin":"https://www.linkedin.com/in/test-mem-01","urlOthers":"Podcast: https://podcast.example.test/test-mem-01","selfIntroduction":"UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。","notificationOptOut":"false"}', '{"fullName":"[TEST] 公開 ログイン 太郎","occupation":"経営者","ubmZone":"0_to_1","nickname":"test-taro","location":"兵庫県神戸市中央区","hometown":"兵庫県明石市","ubmMembershipType":"member","businessOverview":"神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。","skills":"TypeScript / Cloudflare Workers / 業務フロー設計 / 生成AI活用","canProvide":"Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談","hobbies":"登山、コーヒー、地域イベント巡り","recentInterest":"地域コミュニティとAI活用","motto":"小さく試して、早く学ぶ","otherActivities":"商店街の勉強会運営と学生向けプログラミング相談を続けています。","urlWebsite":"https://example.test/test-mem-01","urlFacebook":"https://facebook.com/test.mem.01","urlInstagram":"https://instagram.com/test.mem.01","urlThreads":"https://threads.net/@test.mem.01","urlYoutube":"https://youtube.com/@test-mem-01","urlTiktok":"https://www.tiktok.com/@test.mem.01","urlX":"https://x.com/test_mem_01","urlBlog":"https://blog.example.test/test-mem-01","urlNote":"https://note.com/test_mem_01","urlLinkedin":"https://www.linkedin.com/in/test-mem-01","urlOthers":"Podcast: https://podcast.example.test/test-mem-01","selfIntroduction":"UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。","notificationOptOut":"false"}', '{"source":"seed:test-accounts"}', '[]', '[TEST] 公開 ログイン 太郎 経営者 0_to_1 test-mem-01@test.ubm-hyogo.invalid'),
   ('TEST-RES-02', 'TEST-FORM-ACCOUNTS', 'TEST-REV-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'test-mem-02@test.ubm-hyogo.invalid', '2026-06-03T10:30:00.000Z', 'https://forms.test.invalid/edit/TEST-RES-02', '{"fullName":"[TEST] 会員限定 花子","occupation":"デザイナー","ubmZone":"1_to_10","notificationOptOut":"false"}', '{"fullName":"[TEST] 会員限定 花子","occupation":"デザイナー","ubmZone":"1_to_10","notificationOptOut":"false"}', '{"source":"seed:test-accounts"}', '[]', '[TEST] 会員限定 花子 デザイナー 1_to_10 test-mem-02@test.ubm-hyogo.invalid'),
   ('TEST-RES-03', 'TEST-FORM-ACCOUNTS', 'TEST-REV-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'test-mem-03@test.ubm-hyogo.invalid', '2026-06-03T10:30:00.000Z', 'https://forms.test.invalid/edit/TEST-RES-03', '{"fullName":"[TEST] 公開 複数出席 三郎","occupation":"マーケター","ubmZone":"10_to_100","notificationOptOut":"false"}', '{"fullName":"[TEST] 公開 複数出席 三郎","occupation":"マーケター","ubmZone":"10_to_100","notificationOptOut":"false"}', '{"source":"seed:test-accounts"}', '[]', '[TEST] 公開 複数出席 三郎 マーケター 10_to_100 test-mem-03@test.ubm-hyogo.invalid'),
   ('TEST-RES-04', 'TEST-FORM-ACCOUNTS', 'TEST-REV-ACCOUNTS', 'TEST-SCHEMA-HASH-ACCOUNTS', 'test-mem-04@test.ubm-hyogo.invalid', '2026-06-03T10:30:00.000Z', 'https://forms.test.invalid/edit/TEST-RES-04', '{"fullName":"[TEST] 規約未同意 四郎","occupation":"営業","ubmZone":"Kobe","notificationOptOut":"false"}', '{"fullName":"[TEST] 規約未同意 四郎","occupation":"営業","ubmZone":"Kobe","notificationOptOut":"false"}', '{"source":"seed:test-accounts"}', '[]', '[TEST] 規約未同意 四郎 営業 Kobe test-mem-04@test.ubm-hyogo.invalid'),
@@ -15,8 +15,31 @@ INSERT OR REPLACE INTO member_responses (response_id, form_id, revision_id, sche
 
 INSERT OR REPLACE INTO response_fields (response_id, stable_key, value_json, raw_value_json) VALUES
   ('TEST-RES-01', 'fullName', '"[TEST] 公開 ログイン 太郎"', '"[TEST] 公開 ログイン 太郎"'),
+  ('TEST-RES-01', 'nickname', '"test-taro"', '"test-taro"'),
+  ('TEST-RES-01', 'location', '"兵庫県神戸市中央区"', '"兵庫県神戸市中央区"'),
   ('TEST-RES-01', 'occupation', '"経営者"', '"経営者"'),
+  ('TEST-RES-01', 'hometown', '"兵庫県明石市"', '"兵庫県明石市"'),
   ('TEST-RES-01', 'ubmZone', '"0_to_1"', '"0_to_1"'),
+  ('TEST-RES-01', 'ubmMembershipType', '"member"', '"member"'),
+  ('TEST-RES-01', 'businessOverview', '"神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。"', '"神戸を拠点に、中小企業向けの業務改善とWebサービス開発を支援しています。"'),
+  ('TEST-RES-01', 'skills', '"TypeScript / Cloudflare Workers / 業務フロー設計 / 生成AI活用"', '"TypeScript / Cloudflare Workers / 業務フロー設計 / 生成AI活用"'),
+  ('TEST-RES-01', 'canProvide', '"Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談"', '"Webアプリの要件整理、業務自動化の壁打ち、地域事業者向けDX相談"'),
+  ('TEST-RES-01', 'hobbies', '"登山、コーヒー、地域イベント巡り"', '"登山、コーヒー、地域イベント巡り"'),
+  ('TEST-RES-01', 'recentInterest', '"地域コミュニティとAI活用"', '"地域コミュニティとAI活用"'),
+  ('TEST-RES-01', 'motto', '"小さく試して、早く学ぶ"', '"小さく試して、早く学ぶ"'),
+  ('TEST-RES-01', 'otherActivities', '"商店街の勉強会運営と学生向けプログラミング相談を続けています。"', '"商店街の勉強会運営と学生向けプログラミング相談を続けています。"'),
+  ('TEST-RES-01', 'urlWebsite', '"https://example.test/test-mem-01"', '"https://example.test/test-mem-01"'),
+  ('TEST-RES-01', 'urlFacebook', '"https://facebook.com/test.mem.01"', '"https://facebook.com/test.mem.01"'),
+  ('TEST-RES-01', 'urlInstagram', '"https://instagram.com/test.mem.01"', '"https://instagram.com/test.mem.01"'),
+  ('TEST-RES-01', 'urlThreads', '"https://threads.net/@test.mem.01"', '"https://threads.net/@test.mem.01"'),
+  ('TEST-RES-01', 'urlYoutube', '"https://youtube.com/@test-mem-01"', '"https://youtube.com/@test-mem-01"'),
+  ('TEST-RES-01', 'urlTiktok', '"https://www.tiktok.com/@test.mem.01"', '"https://www.tiktok.com/@test.mem.01"'),
+  ('TEST-RES-01', 'urlX', '"https://x.com/test_mem_01"', '"https://x.com/test_mem_01"'),
+  ('TEST-RES-01', 'urlBlog', '"https://blog.example.test/test-mem-01"', '"https://blog.example.test/test-mem-01"'),
+  ('TEST-RES-01', 'urlNote', '"https://note.com/test_mem_01"', '"https://note.com/test_mem_01"'),
+  ('TEST-RES-01', 'urlLinkedin', '"https://www.linkedin.com/in/test-mem-01"', '"https://www.linkedin.com/in/test-mem-01"'),
+  ('TEST-RES-01', 'urlOthers', '"Podcast: https://podcast.example.test/test-mem-01"', '"Podcast: https://podcast.example.test/test-mem-01"'),
+  ('TEST-RES-01', 'selfIntroduction', '"UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。"', '"UBM兵庫で、地域の事業者同士が実務の知恵を持ち寄れる場を育てたいです。"'),
   ('TEST-RES-02', 'fullName', '"[TEST] 会員限定 花子"', '"[TEST] 会員限定 花子"'),
   ('TEST-RES-02', 'occupation', '"デザイナー"', '"デザイナー"'),
   ('TEST-RES-02', 'ubmZone', '"1_to_10"', '"1_to_10"'),
