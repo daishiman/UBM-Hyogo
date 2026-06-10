@@ -220,7 +220,7 @@ class MockStmt {
       return { results: (this.options.tagsByMemberId?.[key] ?? []) as T[] };
     }
 
-    if (sql.includes("SELECT mi.member_id, mi.current_response_id")) {
+    if (sql.includes("SELECT DISTINCT mi.member_id, mi.current_response_id")) {
       return { results: (this.options.publicMembers ?? []) as T[] };
     }
 

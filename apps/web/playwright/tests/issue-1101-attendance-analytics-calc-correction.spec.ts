@@ -29,9 +29,13 @@ test.describe('issue #1101 attendance analytics calculation correction evidence'
     await adminPage.setViewportSize({ width: 1280, height: 800 })
     await adminPage.goto('/admin/dashboard/attendance', { waitUntil: 'domcontentloaded' })
     await expect(adminPage.getByRole('heading', { level: 1, name: '出席ダッシュボード' })).toBeVisible()
-    await expect(adminPage.getByTestId('attendance-kpi-unique')).toContainText('期間内出席者数')
-    await expect(adminPage.getByTestId('attendance-kpi-unique')).toContainText('24')
-    await expect(adminPage.getByTestId('attendance-kpi-unique')).toContainText('80.0%')
+    // PRIMARY/TREND/DETAIL UX リファイン(admin-attendance-dashboard-ux)で
+    // 旧 attendance-kpi-unique カードはプライマリカード attendance-kpi-rate の
+    // ユニーク出席率 support 行へ統合された。issue #1101 の算出補正(ユニーク=24/80.0%)は
+    // 表示位置が変わっただけで計算意図は不変のため、新構造の同値をアサートする。
+    await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('ユニーク出席率')
+    await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('24')
+    await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('80.0%')
     await expect(
       adminPage.getByTestId('attendance-zone-distribution').getByText('100 回以上', { exact: true }),
     ).toBeVisible()
@@ -39,7 +43,7 @@ test.describe('issue #1101 attendance analytics calculation correction evidence'
 
     await adminPage.setViewportSize({ width: 390, height: 844 })
     await adminPage.goto('/admin/dashboard/attendance', { waitUntil: 'domcontentloaded' })
-    await expect(adminPage.getByTestId('attendance-kpi-unique')).toBeVisible()
+    await expect(adminPage.getByTestId('attendance-kpi-rate')).toBeVisible()
     await expect(adminPage.getByTestId('attendance-zone-distribution')).toBeVisible()
     await screenshot(adminPage, 'TC-11-issue1101-attendance-analytics-mobile.png')
 

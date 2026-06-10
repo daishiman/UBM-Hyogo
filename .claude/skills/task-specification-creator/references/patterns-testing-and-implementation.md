@@ -458,6 +458,25 @@
 - **発見日**: 2026-05-30
 - **関連タスク**: `issue-1010-auth-view-session-contract-integration-test`
 
+### Bash 共通 lib 抽出（二段 source）の非退化検証パターン
+
+- **状況**: 複数 bash runner（smoke / CI script 等）にコピー重複した共通機構を新規共通 lib（`scripts/.../lib/<name>.sh`）へ抽出し SSOT 化する NON_VISUAL refactor。挙動を 1 ビットも変えず、既存 runner test が全 PASS することが完了条件。
+- **二段 source contract（最重要）**:
+  - 実行時は `runner` が `source lib`、test は `source "$RUNNER"`（runner 経由で lib も解決）する **二段 source**。lib 化後も `source "$RUNNER"` 後に **runner 固有関数が呼べる**ことを test で担保する。
+  - test が `source "$RUNNER"` で直接呼ぶ runner 固有関数（例: `assert_all_status` / `extract_count`）は **lib へ移さず runner に残す**。安易に lib へ移すと直叩き test が壊れる。
+- **lib 設計制約**:
+  - 共通 lib は `set -euo pipefail` / `trap` を **持たない**。これらは各 runner が所有する process lifecycle であり、lib に持たせると source 元の終了挙動を二重に書き換える。lib 冒頭コメントに「sourced by runners that already set shell options」を明記し逸脱を防ぐ。
+  - 公開変数は `<PREFIX>_*`（例 `SMOKE_OVERALL_STATUS`）、公開関数は `<prefix>_*`（例 `smoke_write_summary`）で名前空間化する。
+- **差分は統合でなく引数化で吸収**:
+  | 観点 | アンチパターン | 推奨 |
+  | --- | --- | --- |
+  | runner 間で異なる出力 shape | 1 つの固定 shape に統合（contract 変更＝退化） | `fn <...> <array_key>` のように **引数化** して両 shape を非退化再現 |
+  | 実装が 3 通りある候補（例 `assert_target`） | 分岐肥大の共通関数に押し込む | 純粋部品（host-allowlist 照合等）だけ抽出し残りは runner 残置（MECE 境界） |
+- **共通化候補の実態確認**: issue / 元仕様が挙げる共通化候補は鵜呑みにせず、着手時に実コードを grep して重複実態を再確認する（重複でない / 実装が runner ごとに異なる候補を除外）。
+- **AC 化例**: 非退化（出力 byte 不変）/ array_key 引数化 / 二段 source 解決 / lib に lifecycle 非保持 / 既存 runner test 無改修 PASS / shellcheck clean。
+- **発見日**: 2026-06-08
+- **関連タスク**: `issue-1138-smoke-runner-common-lib-extraction`
+
 ### CI secret contract gate responsibility split
 
 - **状況**: GitHub Actions workflow が `secrets.*` を消費し、別の shell script / runbook が GitHub Environment へ secret を投入する。

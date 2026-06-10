@@ -6,11 +6,11 @@
 // 1. production / staging (Cloudflare Workers runtime, isTestOrPlaywright() === false)
 //    → service-binding `API_SERVICE.fetch()` を常に優先
 //    (同一 account workers.dev への外向き fetch loopback 404 を回避)
-// 2. test / Playwright (NODE_ENV=test / PLAYWRIGHT_TEST=1) かつ PUBLIC_API_BASE_URL 明示時
-//    → env.ts が解決した PUBLIC_API_BASE_URL の HTTP fetch
+// 2. test / Playwright (NODE_ENV=test / PLAYWRIGHT_TEST=1) かつ NEXT_PUBLIC_API_BASE_URL 明示時
+//    → env.ts が解決した NEXT_PUBLIC_API_BASE_URL の HTTP fetch
 //    (CI 上の deterministic mock API へ差し替え可能にするため)
 // 3. それ以外 (local `next dev` で service binding 不在)
-//    → env.ts が解決した PUBLIC_API_BASE_URL の HTTP fetch
+//    → env.ts が解決した NEXT_PUBLIC_API_BASE_URL の HTTP fetch
 //
 // 注: test runtime 判定 isTestOrPlaywright() は apps/web env 不変条件
 // (env 参照は env.ts 経由) に従い getPublicFetchEnv() 側に閉じる。
@@ -21,7 +21,7 @@ import { resolveServiceBinding, selectAndFetch } from "./transport-select";
 
 function getBaseUrl(): string {
   const env = getPublicFetchEnv();
-  const baseUrl = env.NEXT_PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL;
+  const baseUrl = env.NEXT_PUBLIC_API_BASE_URL;
   if (baseUrl) return baseUrl;
   if (getEnvironment() === "local") {
     // localhost-allow:local-fallback
@@ -42,11 +42,11 @@ function isTestOrPlaywright(): boolean {
 
 function getServiceBinding(): { fetch: typeof fetch } | undefined {
   const env = getPublicFetchEnv();
-  // test/CI 限定: PUBLIC_API_BASE_URL 明示時に HTTP fallback を優先(mock API 差し替えのため)
+  // test/CI 限定: NEXT_PUBLIC_API_BASE_URL 明示時に HTTP fallback を優先(mock API 差し替えのため)
   const disableBinding =
     isTestOrPlaywright() &&
-    Boolean(env.NEXT_PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL);
-  // production / staging: PUBLIC_API_BASE_URL の有無に関わらず service binding を最優先
+    Boolean(env.NEXT_PUBLIC_API_BASE_URL);
+  // production / staging: NEXT_PUBLIC_API_BASE_URL の有無に関わらず service binding を最優先
   return resolveServiceBinding({ binding: env.API_SERVICE, disableBinding });
 }
 
