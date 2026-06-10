@@ -12,6 +12,58 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+## admin-sidebar-collapse-layout-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | collapsed sidebar の brand / nav item / user menu / admin return を中央軸へ揃え、expanded regression を防ぐ |
+| implementation | `apps/web/src/components/shell/{SidebarBrand,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu}.tsx` |
+| evidence | focused Vitest 3 files / 30 tests PASS; local Playwright Chromium screenshots 3 PNG present; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR |
+
+## public-home-member-card-info-and-tag-clarity（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 公開 home `/` と `/members` の member card で、名前・アイコン・事業概要・事業フェーズ/業種/スキルを一目で分かるようにし、地域タグをカードから除外する |
+| implementation | `apps/web/src/lib/tags/tag-display.ts`, `apps/web/src/components/public/MemberCard.tsx`, `apps/web/src/components/public/TagPicker.client.tsx`, `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/page.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts` |
+| contract | `GET /public/members` endpoint surface 不変。optional `businessSummary` は existing public `businessOverview` 先頭 1 行・server cap 120。`expand=tags` は既存 opt-in tags を使用。D1 schema / Google Form / seed 不変 |
+| evidence | focused Vitest 6 files / 50 tests PASS; local Playwright PNG `outputs/phase-11/screenshots/member-card-home-comfy-with-tags.png` present |
+| user gate | staging screenshot, commit, push, PR |
+
+## issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| issue | #1146 CLOSED（`Refs #1146` のみ） |
+| purpose | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation | `.github/workflows/verify-no-localhost-bake.yml` の `on.pull_request.paths` 除去のみ |
+| evidence | actionlint 1.7.7 PASS; focused Vitest 1 file / 2 tests PASS; `bash scripts/verify-no-localhost-bake.sh --src-only` PASS; `--self-test` PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT, after evidence, commit, push, PR, Issue mutation |
+
+## issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1138-smoke-runner-common-lib-extraction/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #1138 CLOSED（Issue mutation は未実行） |
+| parent | `docs/30-workflows/issue-1081-bulk-tag-real-d1-runtime-smoke/`（followup-007） |
+| purpose | `scripts/smoke/` の 3 runtime smoke runner にコピー重複する共通機構を新規共通 lib `scripts/smoke/lib/smoke-common.sh` へ挙動非退化で抽出し SSOT 化する |
+| implementation | `smoke-common.sh`（9 関数 + 3 公開変数 `SMOKE_*`）、`smoke_write_summary` array_key 引数化で routes/checks 両 shape 非退化再現、3 runner を lib source 薄ラッパーへ移行、`smoke-common.test.sh` 追加 |
+| evidence | lib unit test PASS、3 runner 非退化 test 全 PASS、shellcheck clean（exit 0）、verify:phase12-compliance ok:true、gate-metadata ERROR 0 |
+| invariant | runner runtime 挙動 / 出力 JSON shape / apps/api / D1 / Google Form / UI unchanged。`assert_target` / entry shape / request 系 / `trap` は runner 残置（MECE） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md` |
+| user gate | commit, push, PR, staging / production smoke, Issue mutation |
+
 ## issue-1145-public-api-base-url-env-unification（2026-06-08）
 
 | 項目 | 値 |

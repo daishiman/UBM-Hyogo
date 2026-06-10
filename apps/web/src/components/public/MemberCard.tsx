@@ -2,6 +2,7 @@ import type { z } from "zod";
 
 import { PublicMemberListItemZ, STABLE_KEY } from "@ubm-hyogo/shared";
 
+import { phaseTone, selectCardTags } from "../../lib/tags/tag-display";
 import { statusTone, zoneTone } from "../../lib/tones";
 import { Avatar } from "../ui/Avatar";
 import { Icon } from "../ui/Icon";
@@ -20,6 +21,22 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
   const zone = member.ubmZone;
   const status = member.ubmMembershipType;
   const isList = density === "list";
+  const cardTags = selectCardTags(member.tags, density);
+  const tagRow =
+    cardTags.length > 0 ? (
+      <ul data-role="tag-row">
+        {cardTags.map((tag) => (
+          <li
+            key={tag.code}
+            data-role="tag-chip"
+            data-tone={tag.isPhase ? phaseTone(tag.code) : "stone"}
+            data-phase={tag.isPhase ? "true" : undefined}
+          >
+            {tag.label}
+          </li>
+        ))}
+      </ul>
+    ) : null;
 
   return (
     <article data-component="member-card" data-density={density}>
@@ -78,6 +95,7 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
                 {status}
               </span>
             ) : null}
+            {tagRow}
           </div>
         ) : (
           <ul data-role="meta">
@@ -95,6 +113,10 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
             ) : null}
           </ul>
         )}
+        {!isList && member.businessSummary ? (
+          <p data-role="biz-summary">{member.businessSummary}</p>
+        ) : null}
+        {!isList ? tagRow : null}
         {isList ? (
           <span data-role={STABLE_KEY.location}>
             {member.location ? (
