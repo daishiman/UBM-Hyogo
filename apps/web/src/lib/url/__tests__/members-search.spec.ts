@@ -80,7 +80,7 @@ describe("toApiQuery", () => {
       sort: "recent",
       density: "comfy",
     });
-    expect(params.toString()).toBe("");
+    expect(params.toString()).toBe("expand=tags");
   });
 
   it("非初期値は全て出力、tag は repeated", () => {
@@ -100,6 +100,7 @@ describe("toApiQuery", () => {
     expect(str).toContain("tag=dx");
     expect(str).toContain("sort=name");
     expect(str).toContain("density=dense");
+    expect(str).toContain("expand=tags");
   });
 
   it("API path 用 query として repeated tag と既定値省略を両立する", () => {
@@ -119,5 +120,6 @@ describe("toApiQuery", () => {
     expect(params.getAll("tag")).toEqual(["ai", "dx"]);
     expect(params.has("sort")).toBe(false);
     expect(params.get("density")).toBe("list");
+    expect(params.get("expand")).toBe("tags");
   });
 });

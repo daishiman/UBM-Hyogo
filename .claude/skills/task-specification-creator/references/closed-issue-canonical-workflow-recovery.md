@@ -40,6 +40,13 @@ Read docs/30-workflows/unassigned-task/<task-slug>.md
 - 苦戦箇所 / リスクと対策 / 検証方法 / スコープ（[unassigned-task-required-sections.md](unassigned-task-required-sections.md) の 4 セクション）
 - 関連 mutation commands と read-only evidence allow-list
 
+加えて、CLOSED Issue / proto-spec の値は作成時点から stale 化している前提で、Phase 1 に
+現行実測テーブルを置く:
+
+- proto-spec が列挙した required status contexts / branch protection 値 / workflow path を、`gh api` GET や `rg --files` で再測定する
+- 実測値と proto-spec の前提が違う場合は、proto-spec を直接修正して正本化するのではなく、canonical workflow root 側で「原典想定 / 現コードベース実態 / 採る方針」を記録する
+- 実測により code diff が必要と判明した場合は docs-only のまま閉じず、同 cycle で local code diff と focused verification を完了して `implemented_local_*` 状態へ再分類する
+
 ### Step 2: canonical workflow root を生成
 
 ```

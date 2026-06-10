@@ -1,0 +1,164 @@
+{
+  "task_id": "public-home-member-card-info-and-tag-clarity",
+  "created_at": "2026-06-08",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "edit",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "public_member_card_info_and_tag_clarity",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/",
+    "relatedIssue": null,
+    "scope_routes": [
+      "/",
+      "/(public)/members"
+    ],
+    "depends_on": [],
+    "implementation_files": [
+      "apps/web/src/lib/tags/tag-display.ts",
+      "apps/web/src/components/public/MemberCard.tsx",
+      "apps/web/src/components/public/TagPicker.client.tsx",
+      "apps/web/src/lib/url/members-search.ts",
+      "apps/web/app/(public)/page.tsx",
+      "apps/web/src/styles/legacy-public.css",
+      "apps/api/src/use-cases/public/list-public-members.ts",
+      "apps/api/src/view-models/public/public-member-list-view.ts",
+      "packages/shared/src/zod/viewmodel.ts",
+      "packages/shared/src/types/viewmodel/index.ts",
+      "apps/web/src/lib/tags/__tests__/tag-display.spec.ts",
+      "apps/web/src/components/public/__tests__/MemberCard.spec.tsx",
+      "apps/web/src/components/public/__tests__/MemberCard.component.spec.tsx",
+      "apps/web/src/components/public/__tests__/TagPicker.client.spec.tsx",
+      "apps/web/src/lib/url/__tests__/members-search.spec.ts",
+      "apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts"
+    ],
+    "verify_commands": [
+      "pnpm exec vitest run --root=. apps/web/src/lib/tags/__tests__/tag-display.spec.ts apps/web/src/components/public/__tests__/MemberCard.spec.tsx apps/web/src/components/public/__tests__/MemberCard.component.spec.tsx apps/web/src/components/public/__tests__/TagPicker.client.spec.tsx apps/web/src/lib/url/__tests__/members-search.spec.ts apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts",
+      "pnpm typecheck",
+      "pnpm lint",
+      "pnpm verify:tokens",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/artifacts.json docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-08T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review + implementation sync: Phase 1-13 implementation spec executed in this cycle; root cause fixed via web-layer label normalization + curated member card tags + businessSummary projection. API endpoint surface unchanged; D1 schema/Form unchanged."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-08T22:52:27+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web tag display util, MemberCard curated chips/businessSummary, TagPicker normalization, expand=tags wiring, apps/api businessSummary projection, shared zod/type updated. Focused Vitest 6 files / 50 tests PASS. Local visual PNG captured under outputs/phase-11/screenshots/; staging screenshot remains user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and staging visual baseline are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "phase-1-requirements.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "phase-2-design.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "phase-3-design-review.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "status": "completed",
+      "output": "phase-4-test-plan.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装手順",
+      "status": "completed",
+      "output": "phase-5-implementation.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト追加",
+      "status": "completed",
+      "output": "phase-6-test-additions.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ",
+      "status": "completed",
+      "output": "phase-7-coverage.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタ",
+      "status": "completed",
+      "output": "phase-8-refactor.md"
+    },
+    {
+      "phase": 9,
+      "name": "QA",
+      "status": "completed",
+      "output": "phase-9-qa.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "phase-10-final-review.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "phase-11-manual-test.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "phase-12-documentation.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "phase-13-pr.md"
+    }
+  ]
+}

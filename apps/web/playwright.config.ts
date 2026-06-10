@@ -146,7 +146,6 @@ const localEnv =
   `NODE_V8_COVERAGE=${localCoverageDir} ` +
   'PLAYWRIGHT_TEST=1 ' +
   'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
-  'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +
   `PLAYWRIGHT_SCREENSHOT_DIR=${EVIDENCE_DIR}/screenshots ` +
   'AUTH_URL=http://localhost:3000 ' +

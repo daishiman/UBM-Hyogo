@@ -1,0 +1,82 @@
+{
+  "mode": "VISUAL",
+  "task": "admin-attendance-dashboard-ux-hierarchy-refine",
+  "status": "implemented_local_checks_pass_pending_capture",
+  "captureRuntime": "staging-authenticated-admin (Playwright, user-gated)",
+  "screenshotsDirectory": "outputs/phase-11/screenshots",
+  "routes": [
+    {
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "attendance-dashboard-full",
+          "output": "outputs/phase-11/screenshots/attendance-dashboard-full.png",
+          "intent": "3 層全体（before/after 比較を意図・after 状態）",
+          "ac": ["AC-2", "AC-3", "AC-8"]
+        },
+        {
+          "name": "attendance-primary-hero-followup-ok",
+          "output": "outputs/phase-11/screenshots/attendance-primary-hero-followup-ok.png",
+          "intent": "PRIMARY ヒーロー・要フォロー 0 件（neutral/success トーン）",
+          "ac": ["AC-1", "AC-4"]
+        },
+        {
+          "name": "attendance-primary-hero-followup-warn",
+          "output": "outputs/phase-11/screenshots/attendance-primary-hero-followup-warn.png",
+          "intent": "PRIMARY ヒーロー・要フォロー 1+ 件（warning トーン）",
+          "ac": ["AC-1", "AC-4"]
+        },
+        {
+          "name": "attendance-trend-zone",
+          "output": "outputs/phase-11/screenshots/attendance-trend-zone.png",
+          "intent": "TREND ゾーン（トレンドチャート + 回数帯分布の 2 カラム）",
+          "ac": ["AC-2", "AC-8"]
+        },
+        {
+          "name": "attendance-detail-tabs-session",
+          "output": "outputs/phase-11/screenshots/attendance-detail-tabs-session.png",
+          "intent": "DETAIL タブ = セッション別 表示",
+          "ac": ["AC-3"]
+        },
+        {
+          "name": "attendance-detail-tabs-member",
+          "output": "outputs/phase-11/screenshots/attendance-detail-tabs-member.png",
+          "intent": "DETAIL タブ = 会員別 表示",
+          "ac": ["AC-3"]
+        },
+        {
+          "name": "attendance-detail-tabs-top10",
+          "output": "outputs/phase-11/screenshots/attendance-detail-tabs-top10.png",
+          "intent": "DETAIL タブ = TOP10 表示",
+          "ac": ["AC-3"]
+        }
+      ]
+    },
+    {
+      "route": "/admin/dashboard/attendance",
+      "viewport": "mobile",
+      "states": [
+        {
+          "name": "attendance-dashboard-mobile",
+          "output": "outputs/phase-11/screenshots/attendance-dashboard-mobile.png",
+          "intent": "モバイル幅・3 層が 1 カラム縦積みで成立",
+          "ac": ["AC-8", "AC-2"]
+        }
+      ]
+    }
+  ],
+  "expectedScreenshots": [
+    "outputs/phase-11/screenshots/attendance-dashboard-full.png",
+    "outputs/phase-11/screenshots/attendance-primary-hero-followup-ok.png",
+    "outputs/phase-11/screenshots/attendance-primary-hero-followup-warn.png",
+    "outputs/phase-11/screenshots/attendance-trend-zone.png",
+    "outputs/phase-11/screenshots/attendance-detail-tabs-session.png",
+    "outputs/phase-11/screenshots/attendance-detail-tabs-member.png",
+    "outputs/phase-11/screenshots/attendance-detail-tabs-top10.png",
+    "outputs/phase-11/screenshots/attendance-dashboard-mobile.png"
+  ],
+  "captureScriptContract": "try { ... } finally { browser.close(); server.close(); }  // FB-MSO-003",
+  "userGated": true,
+  "reason": "実装とローカル機械検証は完了。実 capture は staging deploy + admin bearer mint のうえ user 承認後に取得する。"
+}

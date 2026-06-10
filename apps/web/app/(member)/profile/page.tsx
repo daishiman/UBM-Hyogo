@@ -74,16 +74,25 @@ export default async function ProfilePage() {
 
   const me = meResult.data;
 
-  const [profileResult, statsResult] = await Promise.all([
-    safeServerFetch(
-      () => fetchAuthed<MeProfileResponse>("/me/profile"),
-      { codePrefix: "MEMBER_FETCH", rethrowOn: [AuthRequiredError] },
-    ),
-    safeServerFetch(
-      () => getStats({ revalidate: 60 }),
-      { codePrefix: "PUBLIC_STATS" },
-    ),
-  ]);
+  let profileResult: SafeResult<MeProfileResponse>;
+  let statsResult: SafeResult<Awaited<ReturnType<typeof getStats>>>;
+  try {
+    [profileResult, statsResult] = await Promise.all([
+      safeServerFetch(
+        () => fetchAuthed<MeProfileResponse>("/me/profile"),
+        { codePrefix: "MEMBER_FETCH", rethrowOn: [AuthRequiredError] },
+      ),
+      safeServerFetch(
+        () => getStats({ revalidate: 60 }),
+        { codePrefix: "PUBLIC_STATS" },
+      ),
+    ]);
+  } catch (err) {
+    if (err instanceof AuthRequiredError) {
+      return redirect("/login?redirect=/profile");
+    }
+    throw err;
+  }
 
   if (!profileResult.ok) {
     if (profileResult.error.code === "MEMBER_FETCH_404") {
