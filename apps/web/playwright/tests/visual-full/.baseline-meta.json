@@ -1,11 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "0ff9465a987fb65fecf3e07b2641a6ffe86854fe",
-  "captured_at": "2026-06-09T02:30:12Z",
+  "captured_at_commit_sha": "5e0fb55ed1764b8893cce3c98dd4b89eee6c5b17",
+  "captured_at": "2026-06-10T04:39:54Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26699807063",
-    "26732057120",
     "26732700618",
     "26793911803",
     "26857844535",
@@ -13,7 +11,9 @@
     "26889102142",
     "27050525423",
     "27052918274",
-    "27179703910"
+    "27179703910",
+    "27247391142",
+    "27253086349"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "公開メンバー詳細を proto 準拠5セクション化(PR #1170)し member-detail 画面レイアウトを意図的に再設計したため、visual/member-detail + visual-full/members-detail(desktop/tablet/mobile) baseline を新デザインへ更新"
+  "last_refresh_reason": "admin タグ定義UI統合(tag-catalog削除/タグ管理→タグ定義・nav 12→11)で admin サイドバーが意図的に変化。dev #1181 が再生成した tablet baseline(12-item)が feature の 11-item 描画と不一致し visual-full(tablet) 6 admin画面が diff。feature の実描画に baseline を追従させる。"
 }

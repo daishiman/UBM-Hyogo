@@ -2182,6 +2182,15 @@ node scripts/list-specs.js --topics
 | Follow-up | L52 |
 | Lessons Learned | L56 |
 
+### references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L9 |
+| Evidence | L21 |
+| Boundary | L30 |
+| Lessons Learned | L35 |
+
 ### references/workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -2215,6 +2224,16 @@ node scripts/list-specs.js --topics
 | User-Gated | L42 |
 | Lessons Learned | L46 |
 
+### references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L9 |
+| Workflow Artifacts | L18 |
+| Evidence | L29 |
+| Invariants | L37 |
+| Lessons Learned | L44 |
+
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2243,11 +2262,31 @@ node scripts/list-specs.js --topics
 | Contract | L17 |
 | Lessons Learned | L30 |
 
+### references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L12 |
+| Evidence | L20 |
+| Lessons Learned | L30 |
+
 ### references/workflow-admin-sidebar-public-return-link-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L20 |
+
+### references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L11 |
+| Implementation Artifacts | L23 |
+| Evidence | L44 |
+| Lessons Learned | L52 |
+| User-Gated | L58 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -4295,6 +4334,16 @@ node scripts/list-specs.js --topics
 | Evidence | L47 |
 | Lessons Learned | L58 |
 
+### references/workflow-profile-session-fetch-failure-investigation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+| Evidence | L22 |
+| Invariants | L31 |
+| User Gate | L37 |
+| Lessons Learned | L41 |
+
 ### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -4323,6 +4372,16 @@ node scripts/list-specs.js --topics
 | Evidence | L26 |
 | Invariants | L37 |
 | Lessons Learned | L41 |
+
+### references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L22 |
+| Invariants | L33 |
+| Lessons Learned | L40 |
 
 ### references/workflow-publish-state-backfill-admin-ui-artifact-inventory.md
 
@@ -9105,23 +9164,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4117 |
-| フェーズ構造（概要） | L4126 |
-| 品質ゲート（概要） | L4157 |
-| 出力テンプレート | L4168 |
-| 実行時のコマンド・エージェント・スキル | L4191 |
-| 昇格パターン集 | L4215 |
-| Current Active / Spec Created Tasks | L4217 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4383 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4451 |
-| issue-1007-density-toggle-help-hint-hardening | L4475 |
-| issue-1079-bulk-tag-audit-batch-filter | L4488 |
-| issue-1128-audit-batchid-index-optimization | L4501 |
-| issue-998-members-publish-state-production-rollout | L4518 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4577 |
-| issue-1068-admin-tag-inline-create-ui | L4591 |
-| issue-1111-proxy-transport-util-unify | L4609 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4627 |
+| ドキュメント構成 | L4198 |
+| フェーズ構造（概要） | L4207 |
+| 品質ゲート（概要） | L4238 |
+| 出力テンプレート | L4249 |
+| 実行時のコマンド・エージェント・スキル | L4272 |
+| 昇格パターン集 | L4296 |
+| Current Active / Spec Created Tasks | L4298 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4464 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4532 |
+| issue-1007-density-toggle-help-hint-hardening | L4556 |
+| issue-1079-bulk-tag-audit-batch-filter | L4569 |
+| issue-1128-audit-batchid-index-optimization | L4582 |
+| issue-998-members-publish-state-production-rollout | L4599 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4658 |
+| issue-1068-admin-tag-inline-create-ui | L4672 |
+| issue-1111-proxy-transport-util-unify | L4690 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4708 |
 
 ### references/task-workflow-backlog-part2.md
 

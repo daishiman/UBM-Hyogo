@@ -43,7 +43,7 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
     <details
       ref={detailsRef}
       data-shell-block="user-menu"
-      className="group relative border-t border-[var(--shell-bar-border)] pt-2"
+      className="group relative w-full border-t border-[var(--shell-bar-border)] pt-2"
     >
       <summary
         role="button"
@@ -51,9 +51,11 @@ export function SidebarUserMenu({ role, user, collapsed }: SidebarUserMenuProps)
         aria-label="ユーザーメニュー"
         aria-describedby={collapsed ? tooltipId : undefined}
         data-shell-tooltip-host={collapsed ? "true" : undefined}
-        className={`relative flex cursor-pointer list-none items-center rounded-sm px-3 py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-2"}`}
+        className={`relative flex cursor-pointer list-none items-center rounded-sm py-2 hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "w-full justify-center gap-0 px-0" : "gap-2 px-3"}`}
       >
-        <SidebarUserAvatar initials={user?.initials ?? ""} role={role} size="md" />
+        <span className={collapsed ? "inline-flex h-10 w-10 shrink-0 items-center justify-center" : "inline-flex shrink-0"}>
+          <SidebarUserAvatar initials={user?.initials ?? ""} role={role} size="md" />
+        </span>
         <span className={collapsed ? "sr-only" : "flex min-w-0 flex-col leading-tight"}>
           <span className="truncate text-sm font-medium text-[var(--ubm-color-text-primary)]">
             {displayName}
