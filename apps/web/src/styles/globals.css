@@ -169,6 +169,86 @@
     background: var(--ubm-color-danger-soft);
   }
 
+  .ui-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ubm-space-2);
+    min-height: 32px;
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-sm);
+    line-height: 1.35;
+  }
+
+  .ui-checkbox__input {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    accent-color: var(--ubm-color-accent);
+  }
+
+  .ui-checkbox__input:focus-visible {
+    outline: 2px solid var(--ubm-color-accent);
+    outline-offset: 2px;
+  }
+
+  .ui-checkbox__label {
+    min-width: 0;
+  }
+
+  .bulk-attendance {
+    display: grid;
+    gap: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-bg);
+    padding: var(--ubm-space-3);
+  }
+
+  .bulk-attendance__header,
+  .bulk-attendance__toolbar,
+  .bulk-attendance__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ubm-space-2);
+    flex-wrap: wrap;
+  }
+
+  .bulk-attendance__header h4 {
+    margin: 0;
+    font-size: var(--ubm-text-sm);
+    font-weight: 700;
+  }
+
+  .bulk-attendance__list,
+  .bulk-attendance-modal__list {
+    display: grid;
+    gap: var(--ubm-space-1);
+    max-height: 240px;
+    overflow: auto;
+    border: 1px solid var(--ubm-color-border-subtle);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+    padding: var(--ubm-space-2);
+  }
+
+  .bulk-attendance__empty {
+    margin: 0;
+    color: var(--ubm-color-text-muted);
+    font-size: var(--ubm-text-sm);
+  }
+
+  .bulk-attendance-modal {
+    display: grid;
+    gap: var(--ubm-space-3);
+    width: min(720px, calc(100vw - var(--ubm-space-8)));
+    padding: var(--ubm-space-4);
+  }
+
+  .bulk-attendance-modal__list {
+    max-height: min(52vh, 520px);
+  }
+
   /* === parallel-09 G9-3 pagination === */
   .ui-pagination {
     display: inline-flex;

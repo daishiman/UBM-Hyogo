@@ -1,0 +1,102 @@
+{
+  "task_id": "admin-meeting-bulk-attendance-select",
+  "feature": "admin-meeting-bulk-attendance-select",
+  "created_at": "2026-06-09",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "edit",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "admin_ui_ux_bulk_selection",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/",
+    "scope_routes": ["/(admin)/admin/meetings"],
+    "depends_on": [],
+    "relatedIssue": null,
+    "implementation_files": [
+      "apps/web/src/lib/admin/api.ts",
+      "apps/web/src/components/ui/Checkbox.tsx",
+      "apps/web/src/features/admin/components/_meetings/useBulkAttendanceSelection.ts",
+      "apps/web/src/features/admin/components/_meetings/bulk-attendance-message.ts",
+      "apps/web/src/features/admin/components/_meetings/BulkAttendanceChecklist.tsx",
+      "apps/web/src/features/admin/components/_meetings/BulkAttendanceModal.tsx",
+      "apps/web/src/features/admin/components/_meetings/MeetingAttendanceDrawer.tsx",
+      "apps/web/src/features/admin/components/_meetings/MeetingsClientShell.tsx",
+      "apps/web/src/features/admin/components/_meetings/index.ts",
+      "apps/web/src/styles/globals.css",
+      "apps/web/src/components/ui/__tests__/Checkbox.spec.tsx",
+      "apps/web/src/features/admin/components/_meetings/__tests__/useBulkAttendanceSelection.spec.ts",
+      "apps/web/src/features/admin/components/_meetings/__tests__/bulk-attendance-message.spec.ts",
+      "apps/web/src/features/admin/components/_meetings/__tests__/BulkAttendanceChecklist.spec.tsx",
+      "apps/web/src/features/admin/components/_meetings/__tests__/BulkAttendanceModal.spec.tsx",
+      "apps/web/src/features/admin/components/_meetings/__tests__/MeetingAttendanceDrawer.spec.tsx",
+      "apps/web/src/lib/admin/__tests__/api.attendance-import.spec.ts"
+    ],
+    "reused_api_no_change": [
+      "POST /admin/meetings/:sessionId/attendance/import?dryRun=false"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:tokens",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/features/admin/components/_meetings/__tests__ apps/web/src/components/ui/__tests__/Checkbox.spec.tsx apps/web/src/lib/admin/__tests__/api.attendance-import.spec.ts",
+      "git diff --name-only -- apps/api packages",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/artifacts.json docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-09T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/outputs/phase-3/design-review-result.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored. Root cause (single-select drawer UI, RC-1..RC-3) verified by direct code reads; bulk import endpoint already exists+mounted (attendance.ts:120-175), reused with zero API change; apps/web-only scope; placement kept in-drawer per info-design + user-chosen dual UI (checklist + modal)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-09T14:31:17+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web implementation complete; focused Vitest 10 files / 38 tests PASS; typecheck/lint/verify:tokens PASS; local fixture screenshots 7 PNG present; apps/api/packages diff empty. Authenticated staging visual baseline remains user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and staging visual baseline are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "local_evidence_captured", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ]
+}
