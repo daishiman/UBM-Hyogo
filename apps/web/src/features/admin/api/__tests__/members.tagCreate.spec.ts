@@ -7,6 +7,7 @@ import {
   TagCreateError,
   type AdminTagRef,
 } from "../members";
+import { AuthRequiredError } from "../../../../lib/fetch/errors";
 
 const mockFetch = (status: number, body: unknown, bodyIsJson = true) => {
   const ok = status >= 200 && status < 300;
@@ -81,6 +82,13 @@ describe("createTag (issue-1068 task-A)", () => {
     await expect(
       createTag({ code: "vip", label: "VIP", category: "membership" }),
     ).rejects.toMatchObject({ code: null, status: 500 });
+  });
+
+  it("C-A-T2c: 401 は AuthRequiredError を throw", async () => {
+    mockFetch(401, { ok: false, error: "unauthorized" });
+    await expect(
+      createTag({ code: "vip", label: "VIP", category: "membership" }),
+    ).rejects.toBeInstanceOf(AuthRequiredError);
   });
 });
 

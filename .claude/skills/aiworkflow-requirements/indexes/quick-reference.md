@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+## admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tag-definition-unify-create-and-catalog-fix/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | admin tag definition UI を 1 画面へ統合し、catalog reduce crash・新規タグ作成導線欠落・tag-master/tag-catalog IA 分裂を解消する |
+| implementation | `apps/web/src/components/admin/{tagDefinitionView,TagDefinitionPanel,TagDefinitionCreateForm}.ts*`, `apps/web/src/features/admin/api/{tags,members}.ts`, `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, shell nav/icon, `globals.css` |
+| tests | focused Vitest 7 files / 33 tests PASS; typecheck PASS; lint PASS; design-token gate PASS; apps/api diff empty |
+| invariant | `apps/api` / D1 / Google Form unchanged. Existing `GET/POST/PATCH/DELETE /admin/tags` surface only. `/admin/tags` tag queue remains separate; `/admin/tags/catalog` redirects to `/admin/tag-master` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
+| user gate | browser/staging visual screenshots, commit, push, PR |
+
 ## admin-meeting-bulk-attendance-select（2026-06-09）
 
 | 項目 | 値 |
