@@ -1,33 +1,52 @@
 {
-  "workflow": "issue-924-style-src-attr-retirement",
-  "phase": "phase-11",
-  "visual_evidence_mode": "VISUAL",
-  "status": "pending",
-  "canonical_evidence_paths": {
-    "focused_vitest_log": "outputs/phase-11/evidence/vitest-focused.log",
-    "playwright_security_headers_log": "outputs/phase-11/evidence/playwright-security-headers.log",
-    "grep_gate_output": "outputs/phase-11/evidence/verify-no-inline-style.txt",
-    "visual_diff_report": "outputs/phase-11/evidence/visual-diff-report.md",
-    "visual_screenshot_diff_dir": "outputs/phase-11/evidence/screenshots/",
-    "staging_runtime_smoke": "outputs/phase-13/pr-gate.md"
-  },
-  "routes_under_test": [
-    "/",
-    "/(public)/members",
-    "/(public)/members/[id]",
-    "/(public)/register",
-    "/privacy",
-    "/terms",
-    "/login",
-    "/profile",
-    "/(admin)/admin",
-    "/(admin)/admin/members",
-    "/(admin)/admin/tags",
-    "/(admin)/admin/meetings",
-    "/(admin)/admin/schema",
-    "/(admin)/admin/requests",
-    "/(admin)/admin/identity-conflicts",
-    "/(admin)/admin/audit"
-  ],
-  "shared_routes": ["error.tsx", "not-found.tsx", "loading.tsx"]
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-924-style-src-attr-retirement",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-924-style-src-attr-retirement",
+  "evidence": [
+    {
+      "id": "focused-vitest-log",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/vitest-focused.log",
+      "command": "pnpm exec vitest run focused style-src-attr retirement tests",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Focused Vitest evidence log."
+    },
+    {
+      "id": "playwright-security-headers-log",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/playwright-security-headers.log",
+      "command": "pnpm exec playwright test security headers scenarios",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Security headers Playwright evidence log."
+    },
+    {
+      "id": "grep-gate-output",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/verify-no-inline-style.txt",
+      "command": "pnpm verify:no-inline-style",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Inline style retirement grep gate."
+    },
+    {
+      "id": "visual-diff-report",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/visual-diff-report.md",
+      "command": "record visual diff report",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Visual screenshot diff directory is summarized by this markdown evidence."
+    },
+    {
+      "id": "staging-runtime-smoke",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/staging-runtime-smoke.md",
+      "command": "record staging runtime smoke boundary",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Original manifest pointed at Phase 13; canonical Phase 11 manifest keeps a Phase 11-local text evidence path."
+    }
+  ]
 }

@@ -27,12 +27,12 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
   const pathname = usePathname() ?? activePath;
   const active = isNavItemActive(item.href, pathname);
   const showBadge = item.badge && item.badge.count > 0;
-  const itemClassName = `relative flex items-center rounded-sm px-3 py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "justify-center gap-0" : "gap-3"}`;
+  const itemClassName = `relative flex items-center rounded-sm py-2 text-sm text-[var(--ubm-color-text-primary)] hover:bg-[var(--shell-active-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)] ${collapsed ? "w-full justify-center gap-0 px-0" : "gap-3 px-3"}`;
   const content = (
     <>
       <span
         aria-hidden="true"
-        className="inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)]"
+        className={`inline-flex shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)] ${collapsed ? "h-10 w-10" : "h-[18px] w-[18px]"}`}
       >
         <ShellIcon id={item.icon} />
       </span>

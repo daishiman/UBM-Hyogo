@@ -10,12 +10,14 @@ import {
 import { useConfirmDialog } from "@/features/admin/hooks/useConfirmDialog";
 import {
   addAttendance,
+  importAttendance,
   updateMeeting,
 } from "../../../../lib/admin/api";
 import { MeetingCreateForm } from "./MeetingCreateForm";
 import { MeetingTimeline } from "./MeetingTimeline";
 import { MeetingAttendanceDrawer } from "./MeetingAttendanceDrawer";
 import type { MemberCandidate } from "./MeetingAttendanceDrawer";
+import { bulkFailureMessage } from "./bulk-attendance-message";
 import { computeMeetingStats, type MeetingItem } from "./meetingStats";
 
 export interface MeetingsListView {
@@ -26,6 +28,8 @@ export interface MeetingsListView {
 interface MeetingMutationResponse {
   ok?: boolean;
 }
+
+const IMPORT_ATTENDANCE_MAX_ROWS = 500;
 
 const unwrap = async <T,>(
   r: Promise<
@@ -185,6 +189,48 @@ export function MeetingsClientShell({ initial, candidates }: Props) {
     setToast("出席を追加しました");
   };
 
+  const onBulkAdd = async (
+    sessionId: string,
+    memberIds: ReadonlyArray<string>,
+  ): Promise<boolean> => {
+    const current = attended[sessionId] ?? new Set<string>();
+    const fresh = [...new Set(memberIds)].filter((memberId) => !current.has(memberId));
+    if (fresh.length === 0) {
+      setToast("追加対象がありません");
+      return false;
+    }
+    if (fresh.length > IMPORT_ATTENDANCE_MAX_ROWS) {
+      setToast(`一度に追加できるのは ${IMPORT_ATTENDANCE_MAX_ROWS} 名までです`);
+      return false;
+    }
+
+    let result: Awaited<ReturnType<typeof importAttendance>>;
+    try {
+      result = await importAttendance(sessionId, fresh);
+    } catch (e) {
+      setToast(`一括追加に失敗: ${getMessage(e)}`);
+      return false;
+    }
+    if (!result.ok) {
+      setToast(`一括追加に失敗: ${result.error}`);
+      return false;
+    }
+    if (!result.data.committed) {
+      setToast(bulkFailureMessage(result.data.summary));
+      return false;
+    }
+
+    setAttended((state) => {
+      const next = { ...state };
+      const nextSet = new Set(next[sessionId] ?? []);
+      for (const memberId of fresh) nextSet.add(memberId);
+      next[sessionId] = nextSet;
+      return next;
+    });
+    setToast(`${result.data.summary.ok} 名の出席を追加しました`);
+    return true;
+  };
+
   const onUpdate = async (
     sessionId: string,
     patch: { title: string; heldOn: string; note: string | null },
@@ -264,6 +310,7 @@ export function MeetingsClientShell({ initial, candidates }: Props) {
                 candidates={candidates}
                 attended={attended[m.sessionId] ?? new Set<string>()}
                 onAddAttendance={(memberId) => onAdd(m.sessionId, memberId)}
+                onBulkAddAttendance={(memberIds) => onBulkAdd(m.sessionId, memberIds)}
                 onRemoveAttendance={(memberId) =>
                   confirm.openConfirm("remove", { sessionId: m.sessionId, memberId })
                 }

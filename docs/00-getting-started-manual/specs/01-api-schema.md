@@ -363,18 +363,19 @@ UT-07C / UT-07C-FU-001 で追加した meeting attendance の管理用 endpoint 
 | `density` | enum | `comfy` | `comfy` / `dense` / `list`。UI 表示密度として `appliedQuery` に echo |
 | `page` | int | `1` | `>=1` |
 | `limit` | int | `24` | `1..100` に clamp |
+| `expand` | string / repeated | `[]` | `tags` 指定時のみ `items[].tags` を返す。comma separated / repeated の unknown は除外 |
 
 enum 外や過大値は 400 ではなく default / clamp に fallback し、内部例外以外は 200 を返す。
 
 ### Response
 
-Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`topTags`、`generatedAt` を返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
+Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`topTags`、`generatedAt` を返す。`items[]` は `memberId` / `fullName` / `nickname` / `occupation` / `location` / `ubmZone` / `ubmMembershipType` を基本 field とし、optional で `photoUrl`、`businessSummary`、`tags` を持つ。`businessSummary` は既存 `businessOverview` の先頭 1 行を trim し、120 文字で server cap した公開一覧用要約である。`tags` は `expand=tags` 指定時のみ `{ code, label, category }[]` として返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
 
 `topTags` は `/members` の tag chip picker 用候補であり、公開境界を通る member に紐づく active tag を `{ code, label, count }[]` として最大 20 件返す。集計は `COUNT(DISTINCT member_id)` の降順、同数時は `code ASC` とし、追加 endpoint は作らない。`tag` query による絞り込みは repeated `tag` の AND 条件を維持し、`topTags` 自体は候補提示のための補助 field として返す。
 
 ### Public boundary
 
-公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE とする。`status=private` や `status=withdrawn` のような値が来ても `status=all` に fallback し、非公開・削除済み・同意なし member を結果に混入させない。
+公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE とする。`businessSummary` は `businessOverview` が public visibility の既存 field である場合のみ projection し、D1 schema / Google Form schema / endpoint surface は変更しない。`status=private` や `status=withdrawn` のような値が来ても `status=all` に fallback し、非公開・削除済み・同意なし member を結果に混入させない。
 
 `Cache-Control` は `no-store` とし、admin 側の公開状態変更が公開一覧へ遅延反映されないようにする。
 

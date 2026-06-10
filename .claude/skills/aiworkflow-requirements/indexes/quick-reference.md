@@ -12,6 +12,82 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
 
+## admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tag-definition-unify-create-and-catalog-fix/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | admin tag definition UI を 1 画面へ統合し、catalog reduce crash・新規タグ作成導線欠落・tag-master/tag-catalog IA 分裂を解消する |
+| implementation | `apps/web/src/components/admin/{tagDefinitionView,TagDefinitionPanel,TagDefinitionCreateForm}.ts*`, `apps/web/src/features/admin/api/{tags,members}.ts`, `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, shell nav/icon, `globals.css` |
+| tests | focused Vitest 7 files / 33 tests PASS; typecheck PASS; lint PASS; design-token gate PASS; apps/api diff empty |
+| invariant | `apps/api` / D1 / Google Form unchanged. Existing `GET/POST/PATCH/DELETE /admin/tags` surface only. `/admin/tags` tag queue remains separate; `/admin/tags/catalog` redirects to `/admin/tag-master` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
+| user gate | browser/staging visual screenshots, commit, push, PR |
+
+## admin-meeting-bulk-attendance-select（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | admin 開催日ドロワーの出席追加を複数会員同時選択→一括追加へ是正する |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/ui/Checkbox.tsx`, `_meetings/{useBulkAttendanceSelection,bulk-attendance-message,BulkAttendanceChecklist,BulkAttendanceModal,MeetingAttendanceDrawer,MeetingsClientShell}.tsx?`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 10 files / 38 tests PASS; typecheck/lint/verify:tokens PASS; apps/api/packages diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md` |
+| user gate | pixel screenshot, authenticated staging visual baseline, commit, push, PR |
+
+## public-members-tag-filter-ux-refine（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 公開 `/members` のタグ絞り込み chip 横並び、filter grouping、selected tag highlight、member-grid spacing refine |
+| implementation | `legacy-public.css`, `globals.css`, `MemberFilters.client.tsx`, focused public specs |
+| evidence | focused Vitest 5 files / 28 tests PASS; web typecheck PASS; web lint PASS; `pnpm verify:tokens` PASS; local static screenshot 5 PNG present |
+| invariant | API/shared/D1/Form unchanged; no new primitive |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR |
+
+
+## admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `member_tags.source='seed'` による admin member detail 500 と MemberDrawer fetch failure の回復不能を解消 |
+| implementation | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS; shared/api/web typecheck PASS; verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / seed / Google Form unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
+## admin-sidebar-collapse-layout-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | collapsed sidebar の brand / nav item / user menu / admin return を中央軸へ揃え、expanded regression を防ぐ |
+| implementation | `apps/web/src/components/shell/{SidebarBrand,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu}.tsx` |
+| evidence | focused Vitest 3 files / 30 tests PASS; local Playwright Chromium screenshots 3 PNG present; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR |
+
+## public-home-member-card-info-and-tag-clarity（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 公開 home `/` と `/members` の member card で、名前・アイコン・事業概要・事業フェーズ/業種/スキルを一目で分かるようにし、地域タグをカードから除外する |
+| implementation | `apps/web/src/lib/tags/tag-display.ts`, `apps/web/src/components/public/MemberCard.tsx`, `apps/web/src/components/public/TagPicker.client.tsx`, `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/page.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts` |
+| contract | `GET /public/members` endpoint surface 不変。optional `businessSummary` は existing public `businessOverview` 先頭 1 行・server cap 120。`expand=tags` は既存 opt-in tags を使用。D1 schema / Google Form / seed 不変 |
+| evidence | focused Vitest 6 files / 50 tests PASS; local Playwright PNG `outputs/phase-11/screenshots/member-card-home-comfy-with-tags.png` present |
+| user gate | staging screenshot, commit, push, PR |
+
 ## issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
 
 | 項目 | 値 |

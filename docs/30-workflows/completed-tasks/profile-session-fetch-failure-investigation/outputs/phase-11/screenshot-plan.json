@@ -1,0 +1,16 @@
+{
+  "workflow_id": "profile-session-fetch-failure-investigation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "screenshots": [
+    {
+      "path": "outputs/phase-11/screenshots/profile-session-disambiguation-static-contract.png",
+      "status": "pending_user_gate",
+      "reason": "Requires runtime page capture after authenticated scenario setup."
+    },
+    {
+      "path": "outputs/phase-11/screenshots/profile-session-disambiguation-staging.png",
+      "status": "pending_user_gate",
+      "reason": "Requires authenticated staging session."
+    }
+  ]
+}

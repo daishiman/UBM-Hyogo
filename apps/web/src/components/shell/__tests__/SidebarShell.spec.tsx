@@ -42,9 +42,9 @@ describe("SidebarShell", () => {
     expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(4);
   });
 
-  it("admin は nav item 16 個（3+1+12）", () => {
+  it("admin は nav item 15 個（3+1+11）", () => {
     const { container } = renderShell("admin");
-    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(16);
+    expect(container.querySelectorAll('[data-shell-block="nav-item"]')).toHaveLength(15);
   });
 
   it("children と mobileTriggerSlot が shell 配下に render される", () => {
@@ -120,5 +120,32 @@ describe("SidebarShell", () => {
     expect(tooltip).not.toBeNull();
     expect(publicReturn?.getAttribute("title")).toBeNull();
     expect(publicReturn?.getAttribute("aria-describedby")).toBe(tooltip?.id);
+  });
+
+  it("collapsed 初期値では brand/nav/public-return/user-menu の水平 padding を剥がす", () => {
+    const { container } = renderShell("admin", true);
+    const brand = container.querySelector('[data-shell="sidebar"] [data-shell-block="brand"]');
+    const navItem = container.querySelector('[data-shell="sidebar"] [data-shell-block="nav-item"]');
+    const publicReturn = container.querySelector('[data-shell="sidebar"] [data-role="public-return"]');
+    const summary = container.querySelector('[data-shell="sidebar"] summary');
+
+    for (const node of [brand, navItem, publicReturn, summary]) {
+      expect(node?.className).toContain("w-full");
+      expect(node?.className).toContain("justify-center");
+      expect(node?.className).toContain("px-0");
+      expect(node?.className).not.toContain("px-3");
+    }
+
+    expect(brand?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
+    expect(navItem?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
+    expect(publicReturn?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
+  });
+
+  it("collapsed 初期値では nav list のブラウザ既定 padding を剥がす", () => {
+    const { container } = renderShell("admin", true);
+    const navList = container.querySelector('[data-shell="sidebar"] [data-shell-block="nav-group"] ul');
+    expect(navList?.className).toContain("m-0");
+    expect(navList?.className).toContain("p-0");
+    expect(navList?.className).toContain("list-none");
   });
 });
