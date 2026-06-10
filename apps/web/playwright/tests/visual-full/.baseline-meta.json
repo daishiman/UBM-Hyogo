@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "8bf79da0ce9e43b5362c099ba267ec507750633b",
-  "captured_at": "2026-06-10T12:51:08Z",
+  "captured_at_commit_sha": "880ed07d4e23ea1778052fcf98efe72453be4d5b",
+  "captured_at": "2026-06-10T14:34:30Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26868407587",
     "26889102142",
     "27050525423",
     "27052918274",
@@ -13,7 +12,8 @@
     "27247391142",
     "27253086349",
     "27257083636",
-    "27276848458"
+    "27276848458",
+    "27282985575"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev #1184(admin タグ定義UI統合 nav 12→11)取込で admin shell が全admin画面の描画に影響。我々保持の admin-schema baseline(12項目nav時取得+SchemaPurposeExplainer)が統合後の 11項目nav 描画とずれるため、merge 8bf79da0c で全 baseline を SchemaPurposeExplainer + 11項目nav の正しい現行描画へ再生成"
+  "last_refresh_reason": "PR #1197 × dev #1186 マージ後、/admin/schema が SchemaPurposeExplainer(dev) + SchemaReviewGuide(feature) の両方を描画。採用した dev 側 admin-schema baseline は SchemaReviewGuide 分の高さ未反映で stale のため、統合後の現行描画へ全 baseline を再生成"
 }
