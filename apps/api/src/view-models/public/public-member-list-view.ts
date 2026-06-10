@@ -26,6 +26,8 @@ export interface PublicMemberListItemSource {
   photoUrl?: string | undefined;
   // issue-224: expand=tags 指定時のみ use-case が付与。stripForbidden は素通し。
   tags?: ReadonlyArray<{ code: string; label: string; category: string }>;
+  // public-home-member-card-info-and-tag-clarity: businessOverview 先頭行の公開一覧用要約。
+  businessSummary?: string;
   // 以下は意図的に含めない (forbidden keys)。
   // responseEmail / rulesConsent / adminNotes
 }

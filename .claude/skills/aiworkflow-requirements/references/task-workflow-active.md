@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-home-member-card-info-and-tag-clarity（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/` |
+| 目的 | 公開 home `/` と `/members` の member card に curated tags と businessSummary を出し、`0to1` 系 label を `0→1` 表示へ正規化して、地域タグをカードから除外する |
+| implementation targets | `apps/web/src/lib/tags/tag-display.ts`, `apps/web/src/components/public/MemberCard.tsx`, `apps/web/src/components/public/TagPicker.client.tsx`, `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/page.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts` |
+| invariant | 新 endpoint / D1 schema / Google Form / seed 変更なし。`businessSummary` は existing public `businessOverview` 先頭 1 行・server cap 120。`expand=tags` は既存 opt-in contract を使用 |
+| evidence | focused Vitest 6 files / 50 tests PASS、local Playwright PNG present、Phase 12 strict 7 present |
+| user gate | staging screenshot、commit、push、PR |
+
 ### issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
 
 | 項目 | 値 |

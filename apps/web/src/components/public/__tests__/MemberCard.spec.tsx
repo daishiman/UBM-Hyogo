@@ -46,6 +46,42 @@ describe("MemberCard", () => {
     expect(container.querySelector('[data-role="chip-row"]')).toBeTruthy();
   });
 
+  it("renders curated tags and business summary without region tags on comfy cards", () => {
+    const member = buildMember({
+      businessSummary: "地域の小さな店舗向けに在庫管理サービスを作っています。",
+      tags: [
+        { code: "region_hanshin", label: "阪神", category: "region" },
+        { code: "int_0to1", label: "0 to 1", category: "interest" },
+        { code: "biz_retail", label: "小売", category: "business" },
+        { code: "skill_saas", label: "SaaS", category: "skill" },
+      ],
+    });
+
+    const { container } = render(<MemberCard member={member} density="comfy" />);
+
+    expect(screen.getByText("地域の小さな店舗向けに在庫管理サービスを作っています。")).toBeTruthy();
+    expect(screen.getByText("0→1")).toBeTruthy();
+    expect(screen.getByText("小売")).toBeTruthy();
+    expect(screen.queryByText("阪神")).toBeNull();
+    expect(container.querySelector('[data-role="tag-chip"][data-phase="true"]')).toBeTruthy();
+  });
+
+  it("keeps list cards compact by showing only the phase tag and no business summary", () => {
+    const member = buildMember({
+      businessSummary: "一覧では出さない説明文",
+      tags: [
+        { code: "int_10to100", label: "10 to 100", category: "interest" },
+        { code: "skill_ai", label: "AI", category: "skill" },
+      ],
+    });
+
+    render(<MemberCard member={member} density="list" />);
+
+    expect(screen.getByText("10→100")).toBeTruthy();
+    expect(screen.queryByText("AI")).toBeNull();
+    expect(screen.queryByText("一覧では出さない説明文")).toBeNull();
+  });
+
   // --- issue-1029 lane E: photoUrl → <Avatar src> 配線 ---
 
   const PHOTO = "https://r2/m1?s=x";
