@@ -6,6 +6,8 @@ import {
 } from "../../../../src/features/admin/components/_shared";
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
+import { SchemaPurposeExplainer } from "../../../../src/components/admin/SchemaPurposeExplainer";
+import { describeSchemaStat } from "../../../../src/components/admin/schemaGlossary";
 import type {
   DiffType,
   SchemaDiffItem,
@@ -41,6 +43,7 @@ function CurrentRevisionCard({ diff }: { readonly diff: FullDiff }) {
               <Chip tone="green">active</Chip>
             </span>
           </div>
+          <p className="muted">フォームの現在の版数です。設問構成の変化をこの版で確認します。</p>
           <p className="muted mono">
             hash: {hash} · 取得: {capturedAt}
           </p>
@@ -57,23 +60,27 @@ function CurrentRevisionCard({ diff }: { readonly diff: FullDiff }) {
 
 function SchemaDiffStatsGrid({ items }: { readonly items: ReadonlyArray<SchemaDiffItem> }) {
   const unresolved = countByType(items, "unresolved");
+  const unresolvedStat = describeSchemaStat("unresolved");
+  const addedStat = describeSchemaStat("added");
+  const changedStat = describeSchemaStat("changed");
+  const removedStat = describeSchemaStat("removed");
 
   return (
     <section className="grid-4" aria-label="schema diff summary">
       <AdminStat
-        label="Unresolved"
+        label={unresolvedStat.label}
         value={unresolved}
-        hint="stableKey 未割当"
+        hint={unresolvedStat.hint}
         tone={unresolved > 0 ? "warning" : "positive"}
       />
-      <AdminStat label="Added" value={countByType(items, "added")} hint="新規設問" tone="positive" />
+      <AdminStat label={addedStat.label} value={countByType(items, "added")} hint={addedStat.hint} tone="positive" />
       <AdminStat
-        label="Changed"
+        label={changedStat.label}
         value={countByType(items, "changed")}
-        hint="文言や型の変更"
+        hint={changedStat.hint}
         tone="warning"
       />
-      <AdminStat label="Removed" value={countByType(items, "removed")} hint="削除された設問" tone="critical" />
+      <AdminStat label={removedStat.label} value={countByType(items, "removed")} hint={removedStat.hint} tone="critical" />
     </section>
   );
 }
@@ -87,8 +94,9 @@ function RevisionAndAliasHistory({ diff }: { readonly diff: FullDiff }) {
       <section className="ui-card card-pad-lg" aria-labelledby="schema-revisions-h">
         <div className="eyebrow">REVISIONS</div>
         <h2 id="schema-revisions-h" className="h-section">
-          バージョン履歴
+          フォーム版数の履歴
         </h2>
+        <p className="muted">取り込んだフォーム構成の版です。どの版の差分を確認しているかを示します。</p>
         <div className="stack-sm">
           <div className="schema-field-card">
             <div>
@@ -108,10 +116,11 @@ function RevisionAndAliasHistory({ diff }: { readonly diff: FullDiff }) {
       </section>
 
       <section className="ui-card card-pad-lg" aria-labelledby="schema-alias-history-h">
-        <div className="eyebrow">ALIAS HISTORY</div>
+        <div className="eyebrow">ALIAS HISTORY / resolve log</div>
         <h2 id="schema-alias-history-h" className="h-section">
-          紐付け履歴
+          対応づけ履歴
         </h2>
+        <p className="muted">誰がいつ、どの設問をどの項目キーへ対応づけたかの記録です。</p>
         <div className="stack-sm">
           {aliases.length === 0 ? (
             <p className="muted">最近の紐付け履歴はありません。</p>
@@ -139,7 +148,7 @@ export default async function AdminSchemaPage() {
       <AdminPageHeader
         eyebrow="ADMIN / SCHEMA"
         title="スキーマ差分のレビュー"
-        description="Googleフォームの設問変更を照合し、stableKey の割り当てと履歴確認を行います。"
+        description="Google Form の設問変更を見つけ、会員データの保存先である項目キーへ対応づけます。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]}
         headingId="schema-form-h"
         actions={
@@ -147,10 +156,11 @@ export default async function AdminSchemaPage() {
             href="/admin/schema/history"
             className="text-sm text-[var(--ubm-color-link-default)] underline-offset-2 hover:underline"
           >
-            resolve 履歴を見る
+            対応づけ履歴を見る
           </Link>
         }
       />
+      <SchemaPurposeExplainer />
       {result.ok ? (
         <>
           <CurrentRevisionCard diff={result.data} />
