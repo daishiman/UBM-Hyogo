@@ -1,0 +1,147 @@
+{
+  "workflow_id": "public-members-tag-filter-ux-refine",
+  "workflow_state": "implemented_local_runtime_pending",
+  "status": "implemented_local_runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_state": "implemented_local_runtime_pending",
+    "phase11_state": "local_evidence_present_runtime_visual_pending",
+    "relatedIssue": null,
+    "origin": "staging UI/UX observation (user report)",
+    "target_url": "https://ubm-hyogo-web-staging.daishimanju.workers.dev/members",
+    "user_gated": [
+      "staging visual screenshots",
+      "commit",
+      "push",
+      "PR"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + Phase 12 strict 7 outputs aligned with implemented_local_runtime_pending"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web CSS + minimal markup + focused tests implemented locally"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy + staging runtime visual screenshots + commit/push/PR pending user-gated execution"
+      }
+    ]
+  },
+  "branch": "feat/public-members-tag-filter-ux",
+  "base_branch": "dev",
+  "implementation_mode": "existing-hardening",
+  "screenshot_mode": "VISUAL",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "phases": {
+    "phase-01": {
+      "status": "spec_created",
+      "artifact": "phase-01-requirements.md"
+    },
+    "phase-02": {
+      "status": "spec_created",
+      "artifact": "phase-02-design.md"
+    },
+    "phase-03": {
+      "status": "spec_created",
+      "artifact": "phase-03-design-review.md"
+    },
+    "phase-04": {
+      "status": "spec_created",
+      "artifact": "phase-04-test-design.md"
+    },
+    "phase-05": {
+      "status": "implemented_local",
+      "artifact": "phase-05-implementation.md"
+    },
+    "phase-06": {
+      "status": "implemented_local",
+      "artifact": "phase-06-test-expansion.md"
+    },
+    "phase-07": {
+      "status": "implemented_local",
+      "artifact": "phase-07-coverage.md"
+    },
+    "phase-08": {
+      "status": "spec_created",
+      "artifact": "phase-08-refactor.md"
+    },
+    "phase-09": {
+      "status": "implemented_local",
+      "artifact": "phase-09-qa.md"
+    },
+    "phase-10": {
+      "status": "implemented_local",
+      "artifact": "phase-10-final-review.md"
+    },
+    "phase-11": {
+      "status": "local_evidence_present_runtime_visual_pending",
+      "artifact": "phase-11-evidence-inventory.md"
+    },
+    "phase-12": {
+      "status": "spec_created",
+      "artifact": "phase-12-documentation.md"
+    },
+    "phase-13": {
+      "status": "spec_created",
+      "artifact": "phase-13-pr.md"
+    }
+  },
+  "gates": [],
+  "outputs": {
+    "artifacts_mirror": "outputs/artifacts.json",
+    "phase11": {
+      "metadata": "outputs/phase-11/metadata.json",
+      "manual_test_result": "outputs/phase-11/manual-test-result.md",
+      "manual_test_report": "outputs/phase-11/manual-test-report.md",
+      "discovered_issues": "outputs/phase-11/discovered-issues.md",
+      "ui_sanity_visual_review": "outputs/phase-11/ui-sanity-visual-review.md",
+      "screenshot_plan": "outputs/phase-11/screenshot-plan.json",
+      "capture_metadata": "outputs/phase-11/phase11-capture-metadata.json"
+    },
+    "phase12": {
+      "main": "outputs/phase-12/main.md",
+      "implementation_guide": "outputs/phase-12/implementation-guide.md",
+      "system_spec_update_summary": "outputs/phase-12/system-spec-update-summary.md",
+      "documentation_changelog": "outputs/phase-12/documentation-changelog.md",
+      "unassigned_task_detection": "outputs/phase-12/unassigned-task-detection.md",
+      "skill_feedback_report": "outputs/phase-12/skill-feedback-report.md",
+      "compliance_check": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    }
+  },
+  "tasks": [
+    {
+      "id": "tag-picker-horizontal-flex-wrap",
+      "scope": "apps/web/src/components/public/TagPicker.client.tsx + styles",
+      "status": "implemented_local"
+    },
+    {
+      "id": "filter-region-grouping",
+      "scope": "apps/web/src/components/public/MemberFilters.client.tsx + styles",
+      "status": "implemented_local"
+    },
+    {
+      "id": "member-grid-spacing-refine",
+      "scope": "apps/web/src/components/public/MemberGrid.tsx + styles",
+      "status": "implemented_local"
+    }
+  ],
+  "issue": null
+}
