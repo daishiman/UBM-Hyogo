@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | `/admin/members` mobile overflow を単一 table DOM + scoped CSS card 表示で解消 |
+| implementation | `MembersTable.tsx` mobile attributes、`globals.css` scoped `@media (max-width: 640px)`、focused component tests、Playwright mobile spec |
+| evidence | `MembersTable.spec.tsx` 25 tests PASS; Playwright desktop-chromium 5 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
 ## issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
 
 | 項目 | 値 |
