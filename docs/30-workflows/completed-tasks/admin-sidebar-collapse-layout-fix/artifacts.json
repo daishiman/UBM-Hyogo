@@ -1,0 +1,90 @@
+{
+  "task_id": "admin-sidebar-collapse-layout-fix",
+  "created_at": "2026-06-08",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "edit",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "shell_ui_ux_css_layout_fix",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/",
+    "scope_routes": [
+      "全 route 共通の sidebar shell（公開 / 会員 / 管理の 3 層で共有）"
+    ],
+    "depends_on": [],
+    "implementation_files": [
+      "apps/web/src/components/shell/SidebarNavItem.tsx",
+      "apps/web/src/components/shell/SidebarUserMenu.tsx",
+      "apps/web/src/components/shell/SidebarBrand.tsx",
+      "apps/web/src/components/shell/SidebarShell.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarUserMenu.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx"
+    ],
+    "out_of_scope_split_task": null,
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:tokens",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/components/shell/__tests__",
+      "git diff --name-only -- apps/api",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/artifacts.json docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-08T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored; root cause (collapsed 時に各行が px-3 を剥がさず内側 16px に icon/avatar/mark が溢れる + 中心軸不一致) and apps/web-only scope confirmed; Explore の avatar 40px 不整合説は legacy CSS 未配線で棄却; 未タスク分離 0 件（1 サイクル完結）"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-09T06:29:50+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web shell className 修正 + focused Vitest 3 files / 30 tests PASS + local Playwright screenshots 3 PNG captured. Browser plugin iab unavailable, so Playwright Chromium fallback used for localhost visual evidence"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, staging visual baseline は user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed_local_evidence_captured", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ]
+}
