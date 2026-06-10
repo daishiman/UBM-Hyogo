@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `member_tags.source='seed'` による admin member detail 500 と MemberDrawer fetch failure の回復不能を解消 |
+| implementation | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS; shared/api/web typecheck PASS; verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / seed / Google Form unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
 ## admin-sidebar-collapse-layout-fix（2026-06-09）
 
 | 項目 | 値 |
