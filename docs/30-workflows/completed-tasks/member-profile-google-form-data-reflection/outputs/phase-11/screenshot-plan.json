@@ -1,0 +1,25 @@
+{
+  "taskId": "TASK-MEMBER-FORM-DATA-REFLECTION-001",
+  "mode": "VISUAL",
+  "status": "pending_implementation",
+  "note": "spec_created 段階。実 screenshot capture はコード実装 + staging 復旧（schema sync -> response sync fullSync）後に user-gated で取得する。",
+  "target": {
+    "route": "/members/b0db428f-7dc0-4898-83f5-df31c7a04d69",
+    "env": "staging",
+    "baseUrl": "https://ubm-hyogo-web-staging.daishimanju.workers.dev"
+  },
+  "screenshots": [
+    {
+      "name": "member-detail-before-recovery.png",
+      "state": "before",
+      "description": "復旧前: 公開メンバー詳細ページが氏名・写真・ビジネス概要・タグ・パーソナル全項目空表示（現状の不具合状態）",
+      "captured": false
+    },
+    {
+      "name": "member-detail-after-recovery.png",
+      "state": "after",
+      "description": "復旧後: schema sync + response sync fullSync 後に known stableKey が解決され、Google Form 入力項目が公開詳細ページに反映された状態",
+      "captured": false
+    }
+  ]
+}

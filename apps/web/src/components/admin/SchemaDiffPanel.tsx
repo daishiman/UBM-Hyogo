@@ -3,7 +3,7 @@
 // 不変条件 #14: 本コンポーネントは /admin/schema/page.tsx 以外で import しない
 // UT-07B-FU-02: HTTP 202 retryable continuation を「失敗」と区別して表示する。
 //   API contract（/schema/aliases の 200/202 分岐）は変更せず、表示分岐のみで運用者に伝える。
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
   postSchemaAlias,
@@ -28,12 +28,17 @@ import {
   normalizeStableKey,
   STABLE_KEY_VALIDATION_MESSAGE,
 } from "./schemaAliasValidation";
+import {
+  describeDiffType,
+  describeSchemaStatus,
+} from "./schemaGlossary";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { Chip } from "../ui";
 import { isBrowser } from "../../lib/is-browser";
 import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
+import { plainLabel } from "./schemaReviewTerms";
 
 const BULK_LIMIT = 50;
 
@@ -65,10 +70,6 @@ const TYPE_LABELS: Record<DiffType, string> = {
   changed: "変更",
   removed: "削除",
   unresolved: "未解決",
-};
-const STATUS_LABELS: Record<SchemaDiffItem["status"], string> = {
-  queued: "未解決",
-  resolved: "解決済み",
 };
 const TYPE_CHIP_TONE: Record<DiffType, "green" | "amber" | "red" | "cool"> = {
   added: "green",
@@ -332,6 +333,7 @@ function HistoryPane(props: HistoryPaneProps) {
     return (
       <section aria-labelledby="schema-alias-history-h">
         <h2 id="schema-alias-history-h">resolve 履歴</h2>
+        <p className="muted">割り当て済みの記録です。必要に応じて取り消せます。</p>
         <p>履歴はまだありません。</p>
       </section>
     );
@@ -339,6 +341,7 @@ function HistoryPane(props: HistoryPaneProps) {
   return (
     <section aria-labelledby="schema-alias-history-h">
       <h2 id="schema-alias-history-h">resolve 履歴</h2>
+      <p className="muted">割り当て済みの記録です。必要に応じて取り消せます。</p>
       <div>
         <button
           type="button"
@@ -661,7 +664,7 @@ export function SchemaDiffPanel({
     }
   }, [active]);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!active || !active.questionId || !trimmedKey) return;
     if (!isValidStableKey) {
@@ -801,6 +804,9 @@ export function SchemaDiffPanel({
           </span>
         )}
         {bulkMode && (
+          <p className="muted">複数の設問にまとめて名前を割り当てられます。</p>
+        )}
+        {bulkMode && (
           <button
             type="button"
             onClick={onConfirmBulk}
@@ -867,6 +873,7 @@ export function SchemaDiffPanel({
 
       <div className="schema-grid">
         {TYPES.map((t) => {
+          const typeDescription = describeDiffType(t);
           const showCheckbox = bulkMode && bulkEligible(t);
           const eligibleIds = grouped[t]
             .filter((it) => it.questionId)
@@ -876,9 +883,20 @@ export function SchemaDiffPanel({
             eligibleIds.every((id) => bulk.selectedIds.has(id));
           return (
           <div key={t} aria-labelledby={`pane-${t}`}>
-            <h2 id={`pane-${t}`}>{TYPE_LABELS[t]}</h2>
+            <div className="schema-diff-pane-header">
+              <h2 id={`pane-${t}`}>{typeDescription.label}</h2>
+              <p className="muted">
+                {typeDescription.description} {typeDescription.actionHint}
+              </p>
+            </div>
             {grouped[t].length === 0 ? (
-              <EmptyState title="なし" role="presentation" />
+              <EmptyState
+                title={t === "unresolved" ? "差分はありません" : "なし"}
+                {...(t === "unresolved"
+                  ? { description: "フォームとデータベースが一致した良い状態です。" }
+                  : {})}
+                role="presentation"
+              />
             ) : (
               <div className="stack-sm">
                 {showCheckbox && (
@@ -913,24 +931,84 @@ export function SchemaDiffPanel({
                         onChange={() => bulk.toggle(it.diffId)}
                       />
                     )}
-                    <div>
-                      <div className="row">
-                        <span className="chip-row">
-                          <Chip tone={TYPE_CHIP_TONE[it.type]}>{TYPE_LABELS[it.type]}</Chip>
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => onSelect(it)}
-                          aria-pressed={active?.diffId === it.diffId}
-                        >
-                          {it.label}
-                        </button>
+                    <div className="schema-field-card__body">
+                      <div>
+                        <div className="row">
+                          <span className="chip-row">
+                            <Chip tone={TYPE_CHIP_TONE[it.type]}>{TYPE_LABELS[it.type]}</Chip>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => onSelect(it)}
+                            aria-pressed={active?.diffId === it.diffId}
+                            aria-expanded={active?.diffId === it.diffId}
+                            aria-controls={
+                              it.questionId
+                                ? `schema-assign-form-${it.diffId}`
+                                : `schema-assign-unavailable-${it.diffId}`
+                            }
+                          >
+                            {it.label}
+                          </button>
+                        </div>
+                        <p className="muted mono">
+                          {plainLabel("questionId")}: {it.questionId ?? "(no questionId)"}
+                          {it.stableKey ? ` · ${plainLabel("stableKey")}: ${it.stableKey}` : ""}
+                        </p>
+                        <p className="muted">{describeSchemaStatus(it.status)}</p>
                       </div>
-                      <p className="muted mono">
-                        questionId: {it.questionId ?? "(no questionId)"}
-                        {it.stableKey ? ` · stableKey: ${it.stableKey}` : ""}
-                      </p>
-                      <p className="muted">{STATUS_LABELS[it.status]}</p>
+                      {active?.diffId === it.diffId && active.questionId && (
+                        <form
+                          id={`schema-assign-form-${it.diffId}`}
+                          onSubmit={onSubmit}
+                          aria-label="stableKey alias 割当"
+                          className="schema-assign-inline-form"
+                          data-component="schema-assign-inline-form"
+                        >
+                          <h3>{active.label}</h3>
+                          <p data-role="assign-help">
+                            この設問に{plainLabel("stableKey")}をつけると、過去のフォーム回答が新しい設問に自動で対応づきます。
+                          </p>
+                          <p>
+                            {plainLabel("questionId")}: <code>{active.questionId}</code>
+                          </p>
+                          <div className="schema-assignment-outcome">
+                            <strong>対応づけると起きること</strong>
+                            <p>
+                              この設問の回答が項目キー <code>{trimmedKey || "stableKey"}</code> に結びつき、
+                              会員一覧・詳細・マイページで同じ項目として表示されます。対応づけ後は backfill が走り、
+                              必要な場合は5分以内に取消できます。
+                            </p>
+                          </div>
+                          <FormField name="schema-stableKey" label={`新しい${plainLabel("stableKey")}`} required>
+                            <Input
+                              ref={stableKeyInputRef}
+                              type="text"
+                              value={stableKey}
+                              onChange={(e) => setStableKey(e.target.value)}
+                              required
+                              pattern="[A-Za-z][A-Za-z0-9_]*"
+                              aria-invalid={trimmedKey.length > 0 && !isValidStableKey}
+                              aria-describedby={describedBy}
+                            />
+                          </FormField>
+                          <p id="schema-alias-stableKey-hint">
+                            英字で始まり、英数字と _ のみ使用できます。
+                          </p>
+                          <button
+                            type="submit"
+                            disabled={busy || !trimmedKey || !isValidStableKey}
+                          >
+                            名前を割り当てる
+                          </button>
+                          <button type="button" onClick={() => setActive(null)}>閉じる</button>
+                        </form>
+                      )}
+                      {active?.diffId === it.diffId && !active.questionId && (
+                        <p id={`schema-assign-unavailable-${it.diffId}`} role="alert">
+                          この diff には questionId がないため alias 割当はできません。
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -940,38 +1018,6 @@ export function SchemaDiffPanel({
           );
         })}
       </div>
-
-      {active && active.questionId && (
-        <form onSubmit={onSubmit} aria-label="stableKey alias 割当">
-          <h3>{active.label}</h3>
-          <p>questionId: <code>{active.questionId}</code></p>
-          <FormField name="schema-stableKey" label="新しい stableKey" required>
-            <Input
-              ref={stableKeyInputRef}
-              type="text"
-              value={stableKey}
-              onChange={(e) => setStableKey(e.target.value)}
-              required
-              pattern="[A-Za-z][A-Za-z0-9_]*"
-              aria-invalid={trimmedKey.length > 0 && !isValidStableKey}
-              aria-describedby={describedBy}
-            />
-          </FormField>
-          <p id="schema-alias-stableKey-hint">
-            英字で始まり、英数字と _ のみ使用できます。
-          </p>
-          <button
-            type="submit"
-            disabled={busy || !trimmedKey || !isValidStableKey}
-          >
-            割当
-          </button>
-          <button type="button" onClick={() => setActive(null)}>閉じる</button>
-        </form>
-      )}
-      {active && !active.questionId && (
-        <p role="alert">この diff には questionId がないため alias 割当はできません。</p>
-      )}
 
       <HistoryPane
         aliases={historyAliases}

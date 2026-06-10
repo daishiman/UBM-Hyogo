@@ -1,19 +1,19 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "5e0fb55ed1764b8893cce3c98dd4b89eee6c5b17",
-  "captured_at": "2026-06-10T04:39:54Z",
+  "captured_at_commit_sha": "880ed07d4e23ea1778052fcf98efe72453be4d5b",
+  "captured_at": "2026-06-10T14:34:30Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26732700618",
-    "26793911803",
-    "26857844535",
-    "26868407587",
     "26889102142",
     "27050525423",
     "27052918274",
     "27179703910",
+    "27204350643",
     "27247391142",
-    "27253086349"
+    "27253086349",
+    "27257083636",
+    "27276848458",
+    "27282985575"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "admin タグ定義UI統合(tag-catalog削除/タグ管理→タグ定義・nav 12→11)で admin サイドバーが意図的に変化。dev #1181 が再生成した tablet baseline(12-item)が feature の 11-item 描画と不一致し visual-full(tablet) 6 admin画面が diff。feature の実描画に baseline を追従させる。"
+  "last_refresh_reason": "PR #1197 × dev #1186 マージ後、/admin/schema が SchemaPurposeExplainer(dev) + SchemaReviewGuide(feature) の両方を描画。採用した dev 側 admin-schema baseline は SchemaReviewGuide 分の高さ未反映で stale のため、統合後の現行描画へ全 baseline を再生成"
 }

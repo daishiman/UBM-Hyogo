@@ -709,6 +709,7 @@ describe("fetchSchemaAliasHistory()", () => {
       targetId: null,
       from: null,
       to: null,
+      batchId: null,
       limit: 50,
     },
     ...over,
@@ -770,6 +771,50 @@ describe("fetchSchemaAliasHistory()", () => {
       questionText: "氏名",
     });
     expect(r.nextCursor).toBeNull();
+  });
+
+  it("TC-H-05b: appliedFilters.batchId を受理する", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(
+        200,
+        okPayload({
+          appliedFilters: {
+            action: "schema_diff.alias_assigned",
+            actorEmail: null,
+            targetType: null,
+            targetId: null,
+            from: null,
+            to: null,
+            batchId: "batch-1",
+            limit: 50,
+          },
+        }),
+      ),
+    );
+    const r = await adminApi.fetchSchemaAliasHistory();
+    expect(r.appliedFilters.batchId).toBe("batch-1");
+  });
+
+  it("TC-H-05c: appliedFilters.batchId null を受理する", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(
+        200,
+        okPayload({
+          appliedFilters: {
+            action: "schema_diff.alias_assigned",
+            actorEmail: null,
+            targetType: null,
+            targetId: null,
+            from: null,
+            to: null,
+            batchId: null,
+            limit: 50,
+          },
+        }),
+      ),
+    );
+    const r = await adminApi.fetchSchemaAliasHistory();
+    expect(r.appliedFilters.batchId).toBeNull();
   });
 
   it("TC-H-07: HTTP 500 で throw", async () => {
