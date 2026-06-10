@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "8bf79da0ce9e43b5362c099ba267ec507750633b",
-  "captured_at": "2026-06-10T12:51:08Z",
+  "captured_at_commit_sha": "1d4e8e872d3801c0143b3a46964b723386e6eed7",
+  "captured_at": "2026-06-10T21:57:32Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26889102142",
     "27050525423",
     "27052918274",
     "27179703910",
@@ -13,7 +12,8 @@
     "27253086349",
     "27257083636",
     "27274941450",
-    "27276848458"
+    "27276848458",
+    "27308537802"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge: member-detail を構造化 primitive (ProfileHero/PersonalSection/BusinessOverview/MemberLinks/MemberActivity) へ再設計したため member-detail.png / full-visual-members-detail-{desktop,tablet,mobile}.png を新設計 (1493px) で Linux 再生成 (PR #1195・run 27274941450) し本 feature 側で保持。取込 dev #1184 (admin タグ定義UI統合 nav 12→11) / #1186 (admin-schema SchemaPurposeExplainer + 11項目nav) が再生成した admin tablet / admin-schema baseline (merge 8bf79da0c・run 27257083636/27276848458) を採用。member-detail 系 (feature) と admin 系 (dev) で対象スナップショットが分離するため双方を union 統合。"
+  "last_refresh_reason": "会員管理(/admin/members)を640px以下で単一table DOMのままscoped CSSでカード表示化したことによりmobile描画が意図的に変化。visual-full(mobile)のadmin-members baselineを新カードレイアウトに更新するため。"
 }
