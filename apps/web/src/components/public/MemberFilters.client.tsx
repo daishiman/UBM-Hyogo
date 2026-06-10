@@ -139,59 +139,61 @@ export function MemberFilters({
         onToggle={() => setExpanded((v) => !v)}
       />
       <div data-role="filters-body">
-        <div data-role="filter-grid">
-          <FormField name="member-search" label="キーワード検索">
-            <Search
-              id="member-search-input"
-              name="member-search"
-              value={initial.q}
-              onChange={(v) => update({ q: v })}
-              placeholder="名前・職業・地域で検索"
-            />
-          </FormField>
-          <span data-role="live-filter-hint" id="member-search-live-hint">
-            入力すると即反映されます
-          </span>
-          <FormField name="member-zone" label="UBM区画">
-            <Select
-              options={ZONE_OPTIONS}
-              value={initial.zone}
-              onChange={(e) =>
-                update({ zone: e.target.value as MembersSearch["zone"] })
-              }
-              aria-label="ゾーンで絞り込み"
-            />
-          </FormField>
-          <FormField name="member-status" label="参加ステータス">
-            <Select
-              options={STATUS_OPTIONS}
-              value={initial.status}
-              onChange={(e) =>
-                update({ status: e.target.value as MembersSearch["status"] })
-              }
-              aria-label="種別で絞り込み"
-            />
-          </FormField>
-          <FormField name="member-sort" label="並び替え">
-            <Select
-              options={SORT_OPTIONS}
-              value={initial.sort}
-              onChange={(e) =>
-                update({ sort: e.target.value as MembersSearch["sort"] })
-              }
-              aria-label="並び替え"
-            />
-          </FormField>
+        <div data-role="filter-group" data-group="inputs">
+          <div data-role="filter-grid">
+            <FormField name="member-search" label="キーワード検索">
+              <Search
+                id="member-search-input"
+                name="member-search"
+                value={initial.q}
+                onChange={(v) => update({ q: v })}
+                placeholder="名前・職業・地域で検索"
+              />
+            </FormField>
+            <span data-role="live-filter-hint" id="member-search-live-hint">
+              入力すると即反映されます
+            </span>
+            <FormField name="member-zone" label="UBM区画">
+              <Select
+                options={ZONE_OPTIONS}
+                value={initial.zone}
+                onChange={(e) =>
+                  update({ zone: e.target.value as MembersSearch["zone"] })
+                }
+                aria-label="ゾーンで絞り込み"
+              />
+            </FormField>
+            <FormField name="member-status" label="参加ステータス">
+              <Select
+                options={STATUS_OPTIONS}
+                value={initial.status}
+                onChange={(e) =>
+                  update({ status: e.target.value as MembersSearch["status"] })
+                }
+                aria-label="種別で絞り込み"
+              />
+            </FormField>
+            <FormField name="member-sort" label="並び替え">
+              <Select
+                options={SORT_OPTIONS}
+                value={initial.sort}
+                onChange={(e) =>
+                  update({ sort: e.target.value as MembersSearch["sort"] })
+                }
+                aria-label="並び替え"
+              />
+            </FormField>
+          </div>
+          <output
+            id="member-result-count"
+            data-role="result-count"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {resultLabel}
+          </output>
         </div>
-        <output
-          id="member-result-count"
-          data-role="result-count"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {resultLabel}
-        </output>
         <TagPicker
           options={topTags}
           selected={initial.tag}

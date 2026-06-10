@@ -5,6 +5,9 @@
 > 目的: Progressive Disclosure原則に基づき、タスクに応じた仕様読み込み判断を支援
 
 このファイルは**タスク種別→必要リソース**の逆引きインデックスです。
+
+| public-members-tag-filter-ux-refine（implemented_local_runtime_pending / implementation / VISUAL / 2026-06-08） | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/index.md`, `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/artifacts.json`, `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/outputs/artifacts.json`, `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/outputs/phase-11/manual-test-result.md`, `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` | implementation targets `apps/web/src/styles/legacy-public.css`, `apps/web/src/styles/globals.css`, `apps/web/src/components/public/MemberFilters.client.tsx`, focused public specs; no API/D1/Form/shared change; staging screenshots, commit, push, PR are user-gated |
+
 詳細なセクション・行番号は [topic-map.md](topic-map.md) を参照してください。
 
 ---

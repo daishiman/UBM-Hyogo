@@ -2078,9 +2078,10 @@
     border-color: var(--ubm-color-border-strong);
   }
 
-  [data-component="tag-pill"][aria-selected="true"] {
-    background: var(--ubm-color-text-primary);
-    border-color: var(--ubm-color-text-primary);
+  [data-component="tag-pill"][aria-selected="true"],
+  [data-component="tag-pill"][aria-checked="true"] {
+    background: var(--ubm-color-accent);
+    border-color: var(--ubm-color-accent);
     color: var(--ubm-color-surface-panel);
   }
   /* === parallel-02 G3-1 tag pill (end) === */
