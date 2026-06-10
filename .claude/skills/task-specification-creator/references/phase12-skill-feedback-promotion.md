@@ -92,6 +92,8 @@ done
 
 実例: `issue-229-indexes-rebuild-fail-fast` では `taskType=implementation` かつ `generate-index.js` / focused spec test を明示していたにもかかわらず、初期仕様書は `spec_only` と「後続実装サイクル」を併記していた。同 wave で `.claude/skills/aiworkflow-requirements/scripts/generate-index.js` と `scripts/__tests__/generate-index-fail-fast.spec.ts` を実装し、Phase 11 evidence・root/output artifacts・aiworkflow ledgers を `implemented_local_evidence_captured` へ再分類した。CLOSED Issue mutation / commit / push / PR だけを user-gated とし、実装可能な local code は後送りしない。
 
+実例: `issue-222-search-query-parser-shared` では初期 workflow が `refactoring / NON_VISUAL / implementation_mode:new` で、`packages/shared/src/public-search/*`、`apps/api/src/_shared/search-query-parser.ts`、`apps/web/src/lib/url/members-search.ts` を implementation target として列挙しながら、`spec_created` と「コード実装・focused tests は user-gated」を併記していた。automation-30 review で CONST_004/005 違反として再分類し、同一 cycle で shared primitives / package export / api+web consumer wiring / focused tests / typecheck / lint / aiworkflow ledger まで完了、commit / push / PR / Issue mutation のみ user-gated とした。実装 target が current repo 内にあり破壊的外部操作でない場合、「実装仕様書」というラベルは local code 後送りの理由にならない。
+
 ## Same-Wave Implementation Evidence Reclassification Gate
 
 Phase 12 automation-30 / close-out review 中に local 実装差分が入った場合、既存の Phase 4〜11 が「template_created」「NOT EXECUTED」「後続実装サイクル」として生成済みでも、その文言を残したまま PASS しない。次の同期を同一 wave で完了する。

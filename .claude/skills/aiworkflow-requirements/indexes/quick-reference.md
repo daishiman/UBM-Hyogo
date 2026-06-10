@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #222 CLOSED（reopen / mutation は user-gated） |
+| purpose | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化する |
+| implementation | `packages/shared/src/public-search/{search-query-primitives,index}.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 変更なし |
+| evidence | shared public-search 12 PASS; api regression 30 PASS; web regression 11 PASS; shared/api/web typecheck PASS; root lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit, push, PR, deploy, Issue mutation |
+
 ## admin-sidebar-collapse-layout-fix（2026-06-09）
 
 | 項目 | 値 |
