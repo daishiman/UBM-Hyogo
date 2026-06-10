@@ -24,6 +24,11 @@ import { MemberStateChipRow } from "./MemberStateChip";
 import { TagPill } from "../_shared/TagPill";
 import { MemberDiagnosticsPanel } from "./MemberDiagnosticsPanel";
 import { MemberTagInlineCreate } from "./MemberTagInlineCreate";
+import {
+  MEMBER_IDENTITY_FIELD_LABELS,
+  MEMBER_SYSTEM_SECTION_LABELS,
+  formatBooleanJa,
+} from "./memberSystemFieldGlossary";
 import { Button } from "../../../../components/ui/Button";
 
 export interface MemberDrawerProps {
@@ -225,30 +230,42 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
         </div>
       </section>
 
-      {/* identity / status: 互換のため dt/dd で残す（既存テスト依存） */}
+      {/* identity / status: 日本語ラベル主・英語キー併記（英語キーは既存テスト互換で DOM に残す） */}
       <section aria-labelledby="drawer-identity-heading" className="text-xs">
         <h3
           id="drawer-identity-heading"
-          className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]"
+          className="text-xs font-semibold tracking-wide text-[var(--ubm-color-text-muted)]"
         >
-          identity (system field)
+          {MEMBER_SYSTEM_SECTION_LABELS.identity}
         </h3>
         <dl className="mt-1 space-y-1">
           <div className="flex gap-2">
-            <dt className="w-32 text-[var(--ubm-color-text-muted)]">memberId</dt>
+            <dt className="w-36 text-[var(--ubm-color-text-muted)]">
+              {MEMBER_IDENTITY_FIELD_LABELS.memberId}
+              <span className="ml-1 font-mono text-[10px] opacity-60">memberId</span>
+            </dt>
             <dd className="font-mono">{detail.identityMemberId}</dd>
           </div>
           <div className="flex gap-2">
-            <dt className="w-32 text-[var(--ubm-color-text-muted)]">responseEmail</dt>
+            <dt className="w-36 text-[var(--ubm-color-text-muted)]">
+              {MEMBER_IDENTITY_FIELD_LABELS.responseEmail}
+              <span className="ml-1 font-mono text-[10px] opacity-60">responseEmail</span>
+            </dt>
             <dd>{maskEmail(detail.identityEmail)}</dd>
           </div>
           <div className="flex gap-2">
-            <dt className="w-32 text-[var(--ubm-color-text-muted)]">notificationOptOut</dt>
-            <dd>{String(detail.status.notificationOptOut)}</dd>
+            <dt className="w-36 text-[var(--ubm-color-text-muted)]">
+              {MEMBER_IDENTITY_FIELD_LABELS.notificationOptOut}
+              <span className="ml-1 font-mono text-[10px] opacity-60">notificationOptOut</span>
+            </dt>
+            <dd>{formatBooleanJa(detail.status.notificationOptOut)}</dd>
           </div>
           <div className="flex gap-2">
-            <dt className="w-32 text-[var(--ubm-color-text-muted)]">isDeleted</dt>
-            <dd>{String(detail.status.isDeleted)}</dd>
+            <dt className="w-36 text-[var(--ubm-color-text-muted)]">
+              {MEMBER_IDENTITY_FIELD_LABELS.isDeleted}
+              <span className="ml-1 font-mono text-[10px] opacity-60">isDeleted</span>
+            </dt>
+            <dd>{formatBooleanJa(detail.status.isDeleted)}</dd>
           </div>
         </dl>
       </section>
