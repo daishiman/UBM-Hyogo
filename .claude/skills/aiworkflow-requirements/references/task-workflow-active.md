@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md` |
 | user gate | pixel screenshot、authenticated staging visual baseline、commit、push、PR |
 
+### admin-sidebar-collapse-layout-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
+| 目的 | collapsed sidebar の icon / avatar / brand mark / admin return を中央軸へ揃え、expanded regression を防ぐ |
+| implementation targets | `apps/web/src/components/shell/SidebarBrand.tsx`, `SidebarNavGroup.tsx`, `SidebarNavItem.tsx`, `SidebarShell.tsx`, `SidebarUserMenu.tsx` |
+| invariant | API / D1 schema / Google Form / endpoint / fetch URL は不変。apps/web shell className と list reset のみ |
+| evidence | focused Vitest 3 files / 30 tests PASS、local Playwright Chromium screenshots 3 PNG present、apps/api diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline、commit、push、PR |
+
 ### public-home-member-card-info-and-tag-clarity（2026-06-08）
 
 | 項目 | 値 |

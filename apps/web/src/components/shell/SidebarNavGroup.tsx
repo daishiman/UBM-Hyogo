@@ -23,7 +23,7 @@ export function SidebarNavGroup({ group, collapsed, activePath }: SidebarNavGrou
       >
         {group.label}
       </div>
-      <ul className="flex w-full flex-col gap-0.5">
+      <ul className="m-0 flex w-full list-none flex-col gap-0.5 p-0">
         {group.items.map((item) => (
           <SidebarNavItem
             key={item.id}
