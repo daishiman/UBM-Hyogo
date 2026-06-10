@@ -6,6 +6,7 @@ import {
 } from "../../../../src/features/admin/components/_shared";
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
+import { SchemaReviewGuide } from "../../../../src/components/admin/SchemaReviewGuide";
 import type {
   DiffType,
   SchemaDiffItem,
@@ -139,7 +140,7 @@ export default async function AdminSchemaPage() {
       <AdminPageHeader
         eyebrow="ADMIN / SCHEMA"
         title="スキーマ差分のレビュー"
-        description="Googleフォームの設問変更を照合し、stableKey の割り当てと履歴確認を行います。"
+        description="Googleフォームの設問が増減・変更されたとき、新しい設問に永続的な名前をつけて、過去の回答と繋がりを保つ作業をします。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]}
         headingId="schema-form-h"
         actions={
@@ -153,6 +154,7 @@ export default async function AdminSchemaPage() {
       />
       {result.ok ? (
         <>
+          <SchemaReviewGuide />
           <CurrentRevisionCard diff={result.data} />
           <SchemaDiffStatsGrid items={result.data.items} />
           <SchemaDiffPanel initial={result.data} hideInlineStats />

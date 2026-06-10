@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-schema-diff-review-resolve-ux（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/` |
+| 目的 | `/admin/schema` の差分レビューで stableKey alias 割当フォームをクリックカード直下に表示し、やさしい用語・目的説明で操作価値を明示する |
+| implementation targets | `apps/web/src/components/admin/schemaReviewTerms.ts`, `apps/web/src/components/admin/SchemaReviewGuide.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 3 files / 36 tests PASS、web typecheck PASS、lint PASS、verify-design-tokens PASS、apps/api diff 0 |
+| invariant | `apps/api` / D1 schema / Google Form / endpoint surface 不変。bulk resolve / rollback / undo / recompute / HTTP 202 retryable behavior 不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、commit、push、PR |
+
 ### member-data-source-precedence-and-profile-session-fix（2026-06-09）
 
 | 項目 | 値 |

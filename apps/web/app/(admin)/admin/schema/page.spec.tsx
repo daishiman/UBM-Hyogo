@@ -91,6 +91,12 @@ describe("AdminSchemaPage", () => {
     expect(screen.getByText("Added")).toBeTruthy();
     expect(screen.getByText("Changed")).toBeTruthy();
     expect(screen.getByText("Removed")).toBeTruthy();
+    expect(
+      screen.getByRole("heading", {
+        name: "フォームの設問変更を、過去データと繋げて整理します",
+      }),
+    ).toBeTruthy();
+    expect(screen.getByText("永続的な名前（技術名: stableKey）")).toBeTruthy();
     expect(screen.getByRole("heading", { name: "項目別の差分" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "バージョン履歴" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "紐付け履歴" })).toBeTruthy();

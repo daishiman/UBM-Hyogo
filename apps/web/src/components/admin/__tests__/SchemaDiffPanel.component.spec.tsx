@@ -144,11 +144,12 @@ describe("SchemaDiffPanel", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /lbl-x/ }));
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(document.querySelector('[data-component="schema-assign-inline-form"]')).toBeTruthy();
 
-    const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
+    const input = screen.getByLabelText(/新しい永続的な名前/) as HTMLInputElement;
     expect(document.activeElement).toBe(input);
     fireEvent.change(input, { target: { value: "new_key" } });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       expect(postSchemaAliasMock).toHaveBeenCalledWith({
@@ -162,6 +163,74 @@ describe("SchemaDiffPanel", () => {
       expect(refreshMock).toHaveBeenCalled();
       expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
     });
+  });
+
+  it("UI-UX: clicked card owns the inline assign form and contextual help", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 2,
+          items: [
+            item({ diffId: "d-a", questionId: "q-a", label: "clicked-card" }),
+            item({ diffId: "d-b", questionId: "q-b", label: "other-card" }),
+          ],
+        }}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /clicked-card/ }));
+
+    const trigger = screen.getByRole("button", { name: "clicked-card" });
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    expect(trigger.getAttribute("aria-controls")).toBe("schema-assign-form-d-a");
+    const clickedCard = screen
+      .getByRole("button", { name: "clicked-card" })
+      .closest(".schema-field-card");
+    const otherCard = screen
+      .getByRole("button", { name: "other-card" })
+      .closest(".schema-field-card");
+    expect(clickedCard?.querySelector('[data-component="schema-assign-inline-form"]')).toBeTruthy();
+    expect(clickedCard?.querySelector("#schema-assign-form-d-a")).toBeTruthy();
+    expect(otherCard?.querySelector('[data-component="schema-assign-inline-form"]')).toBeNull();
+    expect(clickedCard?.querySelector('[data-role="assign-help"]')?.textContent).toContain(
+      "過去のフォーム回答が新しい設問に自動で対応づきます",
+    );
+    expect(screen.getByText(/新しく追加された設問/)).toBeTruthy();
+    expect(screen.getByText(/まだ永続的な名前がついていない設問/)).toBeTruthy();
+  });
+
+  it("UI-UX: history copy describes assigned aliases rather than rollback-only records", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 0,
+          items: [],
+          resolvedAliases: [
+            {
+              id: "alias-1",
+              revisionId: "rev-1",
+              stableKey: "full_name",
+              aliasQuestionId: "q-old",
+              aliasLabel: "氏名",
+              resolvedAt: "2026-05-27T00:00:00Z",
+              resolvedBy: "admin@example.com",
+              version: 1,
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(screen.getByText("割り当て済みの記録です。必要に応じて取り消せます。")).toBeTruthy();
+    expect(screen.queryByText("割り当てを取り消した記録です。")).toBeNull();
+  });
+
+  it("UI-UX: empty resolve history keeps the assigned-alias meaning", () => {
+    render(<SchemaDiffPanel initial={{ total: 0, items: [], resolvedAliases: [] }} />);
+
+    expect(screen.getByText("割り当て済みの記録です。必要に応じて取り消せます。")).toBeTruthy();
+    expect(screen.getByText("履歴はまだありません。")).toBeTruthy();
+    expect(screen.queryByText("一度割り当てた名前を元に戻す操作です。")).toBeNull();
   });
 
   it("mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない", async () => {
@@ -180,10 +249,10 @@ describe("SchemaDiffPanel", () => {
     );
 
     fireEvent.click(screen.getByRole("button", { name: /lbl-y/ }));
-    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+    fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
       target: { value: "k" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       expect(screen.getByRole("alert").textContent).toContain("失敗: forbidden");
@@ -217,10 +286,10 @@ describe("SchemaDiffPanel", () => {
     );
 
     fireEvent.click(screen.getByRole("button", { name: /lbl-r/ }));
-    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+    fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
       target: { value: "k_r" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       const status = screen.getByRole("status");
@@ -231,7 +300,7 @@ describe("SchemaDiffPanel", () => {
     expect(refreshMock).not.toHaveBeenCalled();
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
     expect(
-      (screen.getByRole("button", { name: "割当" }) as HTMLButtonElement).disabled,
+      (screen.getByRole("button", { name: "名前を割り当てる" }) as HTMLButtonElement).disabled,
     ).toBe(false);
   });
 
@@ -256,10 +325,10 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-v/ }));
-    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+    fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
       target: { value: "k" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       const alert = screen.getByRole("alert");
@@ -290,10 +359,10 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-cf/ }));
-    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+    fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
       target: { value: "k" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       const alert = screen.getByRole("alert");
@@ -340,16 +409,16 @@ describe("SchemaDiffPanel", () => {
     );
 
     fireEvent.click(screen.getByRole("button", { name: /lbl-rt/ }));
-    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+    fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
       target: { value: "k_rt" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       expect(screen.getByRole("status").textContent).toContain("Back-fill 再試行可能");
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
       expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
@@ -403,10 +472,10 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-rx/ }));
-    const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
+    const input = screen.getByLabelText(/新しい永続的な名前/) as HTMLInputElement;
     fireEvent.change(input, { target: { value: "1bad-key" } });
 
-    const submit = screen.getByRole("button", { name: "割当" }) as HTMLButtonElement;
+    const submit = screen.getByRole("button", { name: "名前を割り当てる" }) as HTMLButtonElement;
     expect(submit.disabled).toBe(true);
     expect(input.getAttribute("aria-invalid")).toBe("true");
 
@@ -567,10 +636,10 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-u/ }));
-    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+    fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
       target: { value: "ukey" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
     await waitFor(() => {
       const toast = document.querySelector('[data-component="undo-toast"]');
       expect(toast).not.toBeNull();
@@ -617,10 +686,10 @@ describe("SchemaDiffPanel", () => {
         />,
       );
       fireEvent.click(screen.getByRole("button", { name: /lbl-exp/ }));
-      fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+      fireEvent.change(screen.getByLabelText(/新しい永続的な名前/), {
         target: { value: "exp_key" },
       });
-      fireEvent.click(screen.getByRole("button", { name: "割当" }));
+      fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
       await act(async () => {
         await Promise.resolve();
       });
@@ -830,7 +899,7 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-s/ }));
-    const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
+    const input = screen.getByLabelText(/新しい永続的な名前/) as HTMLInputElement;
     expect(input.value).toBe("suggested_key");
   });
 
