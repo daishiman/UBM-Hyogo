@@ -22,6 +22,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
 | user gate | browser/staging visual screenshots, commit, push, PR |
 
+### admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| 目的 | `member_tags.source='seed'` による admin member detail 500 と、MemberDrawer fetch 失敗時の回復不能状態を同一 local cycle で解消する |
+| implementation targets | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS、shared/api/web typecheck PASS、verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / migration / seed / Google Form 不変。未知 source は view/zod boundary で `manual` に fail-soft 正規化 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
 ### admin-sidebar-collapse-layout-fix（2026-06-09）
 
 | 項目 | 値 |

@@ -1,0 +1,16 @@
+# dev sync: 4 コミット取込で **union 4（index map 3 + `task-workflow-active.md`）・`keywords.json` は Auto-merge（`--ours` 非発火）・SKILL.md 非衝突（disjoint）**・`pnpm sync:resolve` 1 パス収束・CI 失敗 0（2026-06-10 `fix/admin-member-detail-500-and-render-loop`）
+
+- 日時: 2026-06-10（`fix/admin-member-detail-500-and-render-loop` への dev 取込）
+- ブランチ: `fix/admin-member-detail-500-and-render-loop` ← `origin/dev`（sub-worktree wt-3・**4 behind / 3 ahead**・ローカル dev = origin/dev 0/0 で同期不要・dev 独自コミット 0）
+- 起点: ユーザー指示「リモート dev をローカル dev にマージ → 本ブランチにマージしてコンフリクト・CI 失敗を解消して push。解消内容を `task-specification-creator` / `aiworkflow-requirements` skill へ反映」。
+- 関連: 直近 [[20260609-dev-sync-issue1146-verify-no-localhost-behind10-union4-keywords-ours-skillmd-disjoint]] / `lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` **L-DEVSYNC-097/098/107/116-B**
+- 取込: dev 新規 4 コミット = `6581abd73`(#1176 出席ダッシュボードを PRIMARY/TREND/DETAIL の3層へ UX 階層リファイン) / `db1bf4158`(#1173 verify-no-localhost-bake を required status check 化 + skill 同期 / close-out issue-1146) / `44bbfe6fc`(#1172 runtime smoke runner 共通処理を smoke-common.sh へ SSOT 抽出 issue-1138) / `21b64ef2a`(#1174 旧 PUBLIC_API_BASE_URL env を NEXT_PUBLIC_API_BASE_URL へ単一化 issue-1145)
+- 事象: content CONFLICT は **4 file**（全て union・keywords.json は非衝突）:
+  - `.claude/skills/aiworkflow-requirements/indexes/{quick-reference, resource-map, topic-map}.md`（union・計 union 3）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union・計 **union 4**）
+  - `indexes/keywords.json` / `SKILL-changelog.md` は **Auto-merging で非衝突**（`--ours` 非発火・両側 rebuild の行域が非重複で Auto-merge 成立）
+  - `SKILL.md`（両スキルとも）はマージ出力に未出現＝prepend 行域 disjoint で Auto-merge
+- 解消: `pnpm sync:resolve` 1 回で `union-resolving 4 files` + 内部 `pnpm indexes:rebuild` を完遂し `all skill / index conflicts resolved`。`taking --ours` 行は出ず（keywords.json 非衝突のため）。`--diff-filter=U` 0 / マーカー 0。
+- **核心データポイント（behind 4 で keywords.json Auto-merge ＆ SKILL.md disjoint＝前回 behind 10 wave との対比）**: 直近 behind 10 wave（[[20260609-dev-sync-issue1146-verify-no-localhost-behind10-union4-keywords-ours-skillmd-disjoint]]）は union 4 だが keywords.json が `--ours` フォールバック発火だった。本回（behind 4）は **同じ union 4 でも keywords.json は Auto-merge 成立（`--ours` 非発火）**＝確定則「union member 数も keywords.json の `--ours` 発火有無も取込 delta と feature 側 rebuild が同一行域を touch したか否かに依存し、behind 数の大小では単調に決まらない（behind 4 < behind 10 で union 数は同一・`--ours` 発火は逆転）」を再々確認。union 4 が連続したのは偶然の一致であり、件数・`--ours` 有無は毎回 resolver 出力で実確認すべき。
+- 検証順: `git fetch --prune origin`（local dev = origin/dev 0/0・同期不要）→ `git rev-list --left-right --count origin/dev...HEAD` で 4 behind / 3 ahead・dev 独自 0 確認 → `git merge origin/dev --no-edit` CONFLICT 4 → `pnpm sync:resolve`（`union-resolving 4 files` + rebuild）→ `--diff-filter=U` 0 / マーカー 0 → `git add -A && git commit --no-edit`（merge commit・lefthook 全 pass・MERGE_HEAD で staged-task-dir-guard auto-skip）→ `pnpm install --force` → `pnpm typecheck` exit 0 / `pnpm lint` exit 0 / `bash scripts/verify-pr-ready.sh`（phase12-compliance / gate-metadata / indexes:rebuild no drift）。CI コード修正 0（CI 失敗要因 0）。
+- 反映先: 本 changelog（**behind 4 で union 4 据え置き・keywords.json は Auto-merge へ反転＝`--ours` 発火が behind 数に単調でないことの追加実例**）+ `task-specification-creator` changelog（同期 wave 共通記録）。新規 lesson 番号は SSOT インフレ回避で起こさず L-DEVSYNC-097/098/107/116-B の確定データ拡張として記録。

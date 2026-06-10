@@ -26,7 +26,7 @@ export const PublishStateZ = z.enum(["public", "member_only", "hidden"]);
 export const SchemaStateZ = z.enum(["active", "superseded", "pending_review"]);
 export const FieldStatusZ = z.enum(["active", "inactive", "pending"]);
 export const FieldSourceZ = z.enum(["forms", "admin", "derived"]);
-export const TagSourceZ = z.enum(["rule", "ai", "manual"]);
+export const TagSourceZ = z.enum(["rule", "ai", "manual"]).catch("manual");
 export const ConsentStatusZ = z.enum(["consented", "declined", "unknown"]);
 export const AuthGateStateValueZ = z.enum([
   "input",
