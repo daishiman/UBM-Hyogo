@@ -60,7 +60,7 @@ export default async function HomePage() {
     ),
     safeServerFetch(
       () =>
-        listMembersRaw("limit=6&sort=recent", {
+        listMembersRaw("limit=6&sort=recent&expand=tags", {
           revalidate: PUBLIC_API_REVALIDATE.members,
         }),
       { codePrefix: "PUBLIC_FETCH" },

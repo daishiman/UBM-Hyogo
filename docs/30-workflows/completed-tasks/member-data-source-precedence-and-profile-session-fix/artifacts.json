@@ -1,0 +1,101 @@
+{
+  "task_id": "member-data-source-precedence-and-profile-session-fix",
+  "created_at": "2026-06-09",
+  "status": "implemented_local_runtime_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "local_implementation_complete_visual_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "member_data_source_precedence_and_session_fix",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/",
+    "related_issue": null,
+    "scope_routes": [
+      "/(public)/members",
+      "/(public)/members/[id]",
+      "/profile",
+      "/(admin)/admin/members/[id]"
+    ],
+    "depends_on": [],
+    "lanes": ["A:data-model", "B:ingestion", "C:projection-and-admin-write", "D:web-ui", "E:profile-session-fix"],
+    "implementation_files": [
+      "apps/api/migrations/0028_member_field_overrides.sql",
+      "apps/api/src/repository/memberFieldOverrides.ts",
+      "apps/api/src/repository/members.ts",
+      "apps/api/src/repository/_shared/builder.ts",
+      "apps/api/src/jobs/mappers/sheets-to-members.ts",
+      "apps/api/src/jobs/sync-sheets-to-d1.ts",
+      "apps/api/src/use-cases/public/list-public-members.ts",
+      "apps/api/src/use-cases/_shared/field-precedence.ts",
+      "apps/api/src/routes/admin/member-fields.ts",
+      "apps/api/src/index.ts",
+      "apps/web/app/(member)/profile/page.tsx",
+      "apps/web/src/components/admin/MemberFieldEditor.tsx",
+      "apps/web/src/features/admin/components/_members/MemberDrawer.tsx",
+      "packages/integrations/google/src/forms/mapper.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "cd apps/api && mise exec -- pnpm vitest run src/jobs src/repository src/use-cases/public src/routes/me src/routes/admin",
+      "cd apps/web && mise exec -- pnpm vitest run app/(member)/profile src/components/admin --root ../..",
+      "git diff --name-only",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/artifacts.json docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-09T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored; root causes RC-1 (sheet header map drift), RC-2 (consent value drift), RC-3 (/me 500 vs 401/404), and 3-layer precedence (L1 override > L2 form re-answer > L3 sheet seed import-once) confirmed against real spreadsheet headers and current code"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-09T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local apps/packages implementation completed. D1 migration verifier, API/web typecheck, focused Vitest, and D1 contract Vitest passed. VISUAL runtime screenshots remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, D1 migration apply, and staging deploy/visual baseline are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "implemented_local_runtime_pending", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "pending_user_approval", "output": "phase-13-pr.md" }
+  ]
+}

@@ -392,8 +392,8 @@ Next.js App Router の Server Component が SSR フェーズで実行する serv
 | 戦略 | 内容 |
 | --- | --- |
 | deterministic mock API | `scripts/e2e-mock-api.mjs` を CI で起動し `http://127.0.0.1:8787` で待受 |
-| env 注入 | `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` と `PUBLIC_API_BASE_URL=http://127.0.0.1:8787` を CI job env に設定 |
-| fetch helper の HTTP fallback 優先 | `apps/web/src/lib/fetch/public.ts` は `PUBLIC_API_BASE_URL` 明示時、Cloudflare service binding より HTTP fallback を優先する |
+| env 注入 | `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` と `NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787` を CI job env に設定 |
+| fetch helper の HTTP fallback 優先 | `apps/web/src/lib/fetch/public.ts` は test / Playwright で `NEXT_PUBLIC_API_BASE_URL` 明示時、Cloudflare service binding より HTTP fallback を優先する |
 | grep gate | ローカル限定エンドポイント（`127.0.0.1:8787` 等）の `apps/web/src` 配下への焼き込みを task-18 regression smoke の grep gate で禁止 |
 
 CI 設定例（`.github/workflows/e2e-tests.yml`）:
@@ -401,7 +401,7 @@ CI 設定例（`.github/workflows/e2e-tests.yml`）:
 ```yaml
 env:
   INTERNAL_API_BASE_URL: http://127.0.0.1:8787
-  PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:8787
   PLAYWRIGHT_EVIDENCE_DIR: playwright/evidence
 steps:
   - name: Start deterministic mock API

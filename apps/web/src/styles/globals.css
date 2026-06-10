@@ -768,6 +768,30 @@
     color: var(--ubm-color-text-secondary);
   }
 
+  .attendance-zone {
+    display: grid;
+    gap: var(--ubm-space-4);
+  }
+
+  .attendance-zone + .attendance-zone {
+    margin-top: var(--ubm-space-2);
+  }
+
+  .attendance-zone-heading {
+    display: grid;
+    gap: var(--ubm-space-1);
+  }
+
+  .attendance-zone-heading h2,
+  .attendance-analysis-card h3 {
+    margin: 0;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .attendance-zone-heading h2 {
+    font-size: var(--ubm-text-xl);
+  }
+
   .attendance-filter-bar {
     display: flex;
     flex-wrap: wrap;
@@ -850,10 +874,21 @@
     background: var(--ubm-color-accent-soft);
   }
 
-  .attendance-kpi-grid {
+  .attendance-primary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
     gap: var(--ubm-space-4);
+  }
+
+  .attendance-kpi-panel {
+    display: grid;
+    gap: var(--ubm-space-4);
+  }
+
+  .attendance-kpi-secondary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--ubm-space-3);
   }
 
   .attendance-kpi-card {
@@ -865,6 +900,18 @@
     border-radius: var(--ubm-radius-lg);
     background: var(--ubm-color-surface-panel);
     box-shadow: var(--ubm-shadow-xs);
+  }
+
+  .attendance-kpi-card--primary {
+    min-block-size: 13rem;
+    justify-content: center;
+    border-color: var(--ubm-color-border-strong);
+    background:
+      linear-gradient(135deg, var(--ubm-color-surface-panel) 0%, var(--ubm-color-accent-soft) 100%);
+  }
+
+  .attendance-kpi-card--secondary {
+    min-block-size: 7.5rem;
   }
 
   .attendance-kpi-label {
@@ -882,6 +929,10 @@
     line-height: 1.1;
   }
 
+  .attendance-kpi-value--hero {
+    font-size: var(--ubm-text-3xl);
+  }
+
   .attendance-kpi-hint,
   .attendance-zone-count,
   .attendance-top10-count {
@@ -889,18 +940,33 @@
     font-size: var(--ubm-text-sm);
   }
 
-  .attendance-charts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: var(--ubm-space-6);
+  .attendance-kpi-support {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ubm-space-2);
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
   }
 
-  .attendance-charts-grid > div {
+  .attendance-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--ubm-space-4);
+  }
+
+  .attendance-analysis-card,
+  .attendance-detail-tabs {
     padding: var(--ubm-space-4);
     border: 1px solid var(--ubm-color-border-default);
     border-radius: var(--ubm-radius-lg);
     background: var(--ubm-color-surface-panel);
     box-shadow: var(--ubm-shadow-xs);
+  }
+
+  .attendance-analysis-card {
+    display: grid;
+    align-content: start;
+    gap: var(--ubm-space-2);
   }
 
   .attendance-trend-chart {
@@ -1012,17 +1078,43 @@
     grid-column: 1 / -1;
   }
 
+  .attendance-absentee-summary,
   .attendance-absentee-alert {
-    padding: var(--ubm-space-3) var(--ubm-space-4);
+    min-block-size: 13rem;
+    padding: var(--ubm-space-4);
     border: 1px solid var(--ubm-color-warn-soft);
     border-radius: var(--ubm-radius-lg);
     background: var(--ubm-color-warn-soft);
   }
 
+  .attendance-absentee-summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--ubm-space-2);
+    border-color: var(--ubm-color-ok-soft);
+    background: var(--ubm-color-ok-soft);
+  }
+
   .attendance-absentee-alert summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-1);
     color: var(--ubm-color-text-primary);
     font-weight: 600;
     cursor: pointer;
+  }
+
+  .attendance-absentee-count {
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-3xl);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .attendance-absentee-period {
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
   }
 
   .attendance-absentee-alert ul {
@@ -1036,6 +1128,60 @@
     gap: var(--ubm-space-3);
     color: var(--ubm-color-text-secondary);
     font-size: var(--ubm-text-sm);
+  }
+
+  .attendance-detail-tabs {
+    display: grid;
+    gap: var(--ubm-space-4);
+  }
+
+  .attendance-detail-tabs__control {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--ubm-space-1);
+    inline-size: fit-content;
+    padding: var(--ubm-space-1);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-md);
+    background: var(--ubm-color-surface-panel-2);
+  }
+
+  .attendance-detail-tabs__control button {
+    min-inline-size: 7.5rem;
+    padding: var(--ubm-space-2) var(--ubm-space-3);
+    border: 0;
+    border-radius: var(--ubm-radius-sm);
+    background: transparent;
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .attendance-detail-tabs__control button[aria-checked="true"] {
+    background: var(--ubm-color-surface-panel);
+    color: var(--ubm-color-accent-ink);
+    box-shadow: var(--ubm-shadow-xs);
+  }
+
+  .attendance-detail-tabs__panel {
+    overflow-x: auto;
+  }
+
+  @media (max-width: 900px) {
+    .attendance-primary-grid,
+    .attendance-charts-grid,
+    .attendance-kpi-secondary-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .attendance-detail-tabs__control {
+      inline-size: 100%;
+    }
+
+    .attendance-detail-tabs__control button {
+      flex: 1 1 8rem;
+    }
   }
   /* === /attendance dashboard === */
 

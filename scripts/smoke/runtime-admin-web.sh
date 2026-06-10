@@ -3,6 +3,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SMOKE_REDACT="$SCRIPT_DIR/redact.sh"
+# shellcheck source=scripts/smoke/lib/smoke-common.sh
+source "$SCRIPT_DIR/lib/smoke-common.sh"
 ENVIRONMENT="${1:-}"
 shift || true
 if [[ -z "$ENVIRONMENT" ]]; then
@@ -46,7 +49,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 resolve_env_vars() {
-  ENV_PREFIX="$(printf '%s' "$ENVIRONMENT" | tr '[:lower:]' '[:upper:]')"
+  ENV_PREFIX="$(smoke_env_prefix "$ENVIRONMENT")"
   WEB_BASE_VAR="${ENV_PREFIX}_WEB_BASE"
   SESSION_COOKIE_VAR="${ENV_PREFIX}_ADMIN_SESSION_COOKIE"
   WEB_BASE="${!WEB_BASE_VAR:-}"
@@ -74,7 +77,6 @@ resolve_env_vars
 OUT_LOG="$OUT_DIR/runtime-smoke.log"
 SUMMARY_JSON="$OUT_DIR/summary.json"
 TMP_DIR="$(mktemp -d)"
-REDACT="$SCRIPT_DIR/redact.sh"
 DIGEST="${ADMIN_RENDER_ERROR_DIGEST:-167275886}"
 TAIL_FILE="$TMP_DIR/cf-tail.log"
 TAIL_PID=""
@@ -93,16 +95,10 @@ trap cleanup EXIT
 mkdir -p "$OUT_DIR"
 : > "$OUT_LOG"
 
-SUMMARY_ENTRIES=()
-OVERALL_STATUS="PASS"
+smoke_summary_init
 
 write_summary() {
-  if [[ "$CI_SUMMARY" -ne 1 ]]; then
-    return 0
-  fi
-  local entries_csv
-  entries_csv="$(IFS=,; echo "${SUMMARY_ENTRIES[*]:-}")"
-  printf '{"status":"%s","checks":[%s]}\n' "$OVERALL_STATUS" "$entries_csv" > "$SUMMARY_JSON"
+  smoke_write_summary "$CI_SUMMARY" "$SUMMARY_JSON" "checks"
 }
 
 record_check() {
@@ -110,7 +106,12 @@ record_check() {
   local status="$2"
   local http="$3"
   local reason="${4:-}"
-  SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"%s","http":"%s","reason":%s}' "$label" "$status" "$http" "$(printf '%s' "$reason" | jq -Rs .)")")
+  SMOKE_SUMMARY_ENTRIES+=("$(jq -cn \
+    --arg label "$label" \
+    --arg status "$status" \
+    --arg http "$http" \
+    --arg reason "$reason" \
+    '{label:$label,status:$status,http:$http,reason:$reason}')")
 }
 
 fail_and_exit() {
@@ -119,7 +120,7 @@ fail_and_exit() {
   local reason="$3"
   local exit_code="${4:-1}"
   collect_tail 0
-  OVERALL_STATUS="FAIL"
+  SMOKE_OVERALL_STATUS="FAIL"
   record_check "$label" "FAIL" "$http" "$reason"
   write_summary
   echo "FAIL: $label http=$http reason=$reason" >&2
@@ -127,7 +128,7 @@ fail_and_exit() {
 }
 
 assert_target() {
-  if ! printf '%s\n' "$BASE" | grep -Eiq "$TARGET_ALLOW_REGEX"; then
+  if ! smoke_assert_host_allow "$BASE" "$TARGET_ALLOW_REGEX"; then
     fail_and_exit "target-allowlist" "000" "target-not-${ENVIRONMENT}" 2
   fi
 }
@@ -161,7 +162,7 @@ collect_tail() {
     fi
   fi
   TAIL_COLLECTED=1
-  bash "$REDACT" < "$TAIL_FILE" >> "$OUT_LOG"
+  smoke_redact_filter "$OUT_LOG" < "$TAIL_FILE"
   if grep -Eiq "error\.boundary\.caught|digest[=: ]+${DIGEST}|${DIGEST}" "$TAIL_FILE"; then
     if [[ "$fail_on_render_error" -eq 0 ]]; then
       return 0
@@ -192,7 +193,7 @@ request_admin() {
   {
     printf '===== admin GET =====\n'
     printf 'status=%s\n' "$status"
-    printf 'body=%s\n\n' "$(head -c 2000 "$body_file" | tr -d '\0' | bash "$REDACT")"
+    printf 'body=%s\n\n' "$(head -c 2000 "$body_file" | tr -d '\0' | bash "$SMOKE_REDACT")"
   } >> "$OUT_LOG"
 
   case "$status" in

@@ -14,7 +14,6 @@ enabled = true
 [vars]
 ENVIRONMENT = "production"
 NEXT_PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
-PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 INTERNAL_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 OG_IMAGE_BASE_URL = "https://ubm-hyogo-og-production.daishimanju.workers.dev"
 AUTH_URL = "https://ubm-hyogo-web-production.daishimanju.workers.dev"
@@ -30,7 +29,6 @@ name = "ubm-hyogo-web-staging"
 [env.staging.vars]
 ENVIRONMENT = "staging"
 NEXT_PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
-PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
 INTERNAL_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
 OG_IMAGE_BASE_URL = "https://ubm-hyogo-og-staging.daishimanju.workers.dev"
 AUTH_URL = "https://ubm-hyogo-web-staging.daishimanju.workers.dev"
@@ -58,7 +56,6 @@ name = "ubm-hyogo-web-production"
 [env.production.vars]
 ENVIRONMENT = "production"
 NEXT_PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
-PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 INTERNAL_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 OG_IMAGE_BASE_URL = "https://ubm-hyogo-og-production.daishimanju.workers.dev"
 AUTH_URL = "https://ubm-hyogo-web-production.daishimanju.workers.dev"

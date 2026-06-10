@@ -5,6 +5,7 @@
 import type { DbCtx } from "../../repository/_shared/db";
 import { STABLE_KEY, asMemberId, asResponseId } from "@ubm-hyogo/shared";
 import { listFieldsByResponseIds } from "../../repository/responseFields";
+import { listFieldOverridesByMemberIds } from "../../repository/memberFieldOverrides";
 import { listTagsByMemberIds } from "../../repository/memberTags";
 import {
   aggregateTopTags,
@@ -33,7 +34,11 @@ const SUMMARY_KEYS = [
   STABLE_KEY.location,
   STABLE_KEY.ubmZone,
   STABLE_KEY.ubmMembershipType,
+  STABLE_KEY.businessOverview,
 ] as const;
+
+const FIRST_LINE = /\r?\n/;
+const BIZ_SUMMARY_MAX = 120;
 
 const parseJsonString = (raw: string | null): string => {
   if (raw === null) return "";
@@ -53,6 +58,14 @@ const parseJsonNullable = (raw: string | null): string | null => {
   } catch {
     return null;
   }
+};
+
+const toBusinessSummary = (raw: string): string | undefined => {
+  const first = raw.split(FIRST_LINE)[0]?.trim() ?? "";
+  if (!first) return undefined;
+  return first.length > BIZ_SUMMARY_MAX
+    ? `${first.slice(0, BIZ_SUMMARY_MAX)}…`
+    : first;
 };
 
 export const listPublicMembersUseCase = async (
@@ -107,6 +120,13 @@ export const listPublicMembersUseCase = async (
   );
   const fieldRows =
     responseIds.length > 0 ? await listFieldsByResponseIds(ctx, responseIds) : [];
+  const overrideRows =
+    memberIds.length > 0
+      ? await listFieldOverridesByMemberIds(ctx, memberIds.map((id) => asMemberId(id)))
+      : [];
+  const responseIdByMemberId = new Map(
+    memberRows.map((m) => [m.member_id, m.current_response_id]),
+  );
   const fieldsByResponseId = new Map<string, Map<string, string | null>>();
   for (const f of fieldRows) {
     if (!(SUMMARY_KEYS as readonly string[]).includes(f.stable_key)) continue;
@@ -114,10 +134,21 @@ export const listPublicMembersUseCase = async (
     fields.set(f.stable_key, f.value_json);
     fieldsByResponseId.set(f.response_id, fields);
   }
+  for (const override of overrideRows) {
+    if (!(SUMMARY_KEYS as readonly string[]).includes(override.stable_key)) continue;
+    const responseId = responseIdByMemberId.get(override.member_id);
+    if (!responseId) continue;
+    const fields = fieldsByResponseId.get(responseId) ?? new Map();
+    fields.set(override.stable_key, override.value_json);
+    fieldsByResponseId.set(responseId, fields);
+  }
 
   const items: PublicMemberListItemSource[] = [];
   for (const m of memberRows) {
     const byKey = fieldsByResponseId.get(m.current_response_id) ?? new Map();
+    const businessSummary = toBusinessSummary(
+      parseJsonString(byKey.get(STABLE_KEY.businessOverview) ?? null),
+    );
     items.push({
       memberId: m.member_id,
       fullName: parseJsonString(byKey.get(STABLE_KEY.fullName) ?? null),
@@ -129,6 +160,7 @@ export const listPublicMembersUseCase = async (
         byKey.get(STABLE_KEY.ubmMembershipType) ?? null,
       ),
       photoUrl: photoMap.get(m.member_id),
+      ...(businessSummary ? { businessSummary } : {}),
       // wantTags のときだけ tags を付与（未登録 member は空配列）。
       ...(wantTags ? { tags: tagsByMember?.get(m.member_id) ?? [] } : {}),
     });

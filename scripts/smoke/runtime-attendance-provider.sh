@@ -24,6 +24,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SMOKE_REDACT="$SCRIPT_DIR/redact.sh"
+# shellcheck source=scripts/smoke/lib/smoke-common.sh
+source "$SCRIPT_DIR/lib/smoke-common.sh"
 ENVIRONMENT="${1:-}"
 shift || true
 if [[ -z "$ENVIRONMENT" ]]; then
@@ -88,7 +91,6 @@ ME_BEARER="${!ME_BEARER_VAR:?${ME_BEARER_VAR} is required}"
 OUT_LOG="$OUT_DIR/runtime-smoke.log"
 SUMMARY_JSON="$OUT_DIR/summary.json"
 TMP_DIR="$(mktemp -d)"
-REDACT="$SCRIPT_DIR/redact.sh"
 umask 077
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -96,16 +98,10 @@ mkdir -p "$OUT_DIR"
 : > "$OUT_LOG"
 
 # summary entries (jq で結合する想定)
-SUMMARY_ENTRIES=()
-OVERALL_STATUS="PASS"
+smoke_summary_init
 
 write_summary() {
-  if [[ "$CI_SUMMARY" -ne 1 ]]; then
-    return 0
-  fi
-  local entries_csv
-  entries_csv="$(IFS=,; echo "${SUMMARY_ENTRIES[*]:-}")"
-  printf '{"status":"%s","routes":[%s]}\n' "$OVERALL_STATUS" "$entries_csv" > "$SUMMARY_JSON"
+  smoke_write_summary "$CI_SUMMARY" "$SUMMARY_JSON" "routes"
 }
 
 # production smoke は登録済み test ユーザーの bearer でしか走らせない。
@@ -140,7 +136,7 @@ assert_target() {
   local marker_body="$TMP_DIR/target-marker.body"
   local marker_status
 
-  if ! printf '%s\n' "$BASE" | grep -Eiq "$allow_regex"; then
+  if ! smoke_assert_host_allow "$BASE" "$allow_regex"; then
     fail_and_exit "target-allowlist" "000" "${API_BASE_VAR} must match $allow_regex"
   fi
 
@@ -170,12 +166,7 @@ fail_and_exit() {
   local status="$2"
   local jq_filter="$3"
   local reason="${4:-}"
-  OVERALL_STATUS="FAIL"
-  if [[ -n "$reason" ]]; then
-    SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"FAIL","http":"%s","contract":%s,"reason":%s}' "$label" "$status" "$(printf '%s' "$jq_filter" | jq -Rs .)" "$(printf '%s' "$reason" | jq -Rs .)")")
-  else
-    SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"FAIL","http":"%s","contract":%s}' "$label" "$status" "$(printf '%s' "$jq_filter" | jq -Rs .)")")
-  fi
+  smoke_summary_fail_entry "$label" "$status" "$jq_filter" "$reason"
   write_summary
   if [[ -n "$reason" ]]; then
     echo "FAIL: $label http=$status contract=$jq_filter reason=$reason" >&2
@@ -219,7 +210,7 @@ request_json() {
   if [[ "$status" != "200" ]]; then
     local redacted_body
     local failure_reason=""
-    redacted_body="$(head -c 2000 "$body_file" | tr -d '\0' | bash "$REDACT")"
+    redacted_body="$(head -c 2000 "$body_file" | tr -d '\0' | bash "$SMOKE_REDACT")"
     # reason は redact 済み body から error 種別のみを判定し JWT 文字列は出力しない（不変条件 3）。
     # 判定順: 500(auth misconfigured) → 401(unauthorized) → 403(forbidden)。
     if printf '%s' "$redacted_body" | jq -e '.error == "auth misconfigured"' >/dev/null 2>&1 ||
@@ -266,7 +257,11 @@ request_json() {
     printf 'PASS %s\n\n' "$label"
   } >> "$OUT_LOG"
 
-  SUMMARY_ENTRIES+=("$(printf '{"label":"%s","status":"PASS","http":"%s","summary":%s}' "$label" "$status" "$(printf '%s' "$summary" | jq -Rs .)")")
+  SMOKE_SUMMARY_ENTRIES+=("$(jq -cn \
+    --arg label "$label" \
+    --arg http "$status" \
+    --arg summary "$summary" \
+    '{label:$label,status:"PASS",http:$http,summary:$summary}')")
 }
 
 BASE="${API_BASE%/}"

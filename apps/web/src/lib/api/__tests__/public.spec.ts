@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const cloudflareEnv: {
   API_SERVICE?: { fetch: typeof fetch };
-  PUBLIC_API_BASE_URL?: string;
+  NEXT_PUBLIC_API_BASE_URL?: string;
 } = {};
 const cloudflareContext = vi.fn(() => ({ env: cloudflareEnv }));
 
@@ -37,10 +37,10 @@ type PublicStatsView = z.infer<typeof PublicStatsViewZ>;
 
 const reset = () => {
   delete cloudflareEnv.API_SERVICE;
-  delete cloudflareEnv.PUBLIC_API_BASE_URL;
+  delete cloudflareEnv.NEXT_PUBLIC_API_BASE_URL;
   cloudflareContext.mockImplementation(() => ({ env: cloudflareEnv }));
-  delete process.env.PUBLIC_API_BASE_URL;
-  process.env.PUBLIC_API_BASE_URL = "http://localhost:8787";
+  delete process.env.NEXT_PUBLIC_API_BASE_URL;
+  process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost:8787";
 };
 
 const baseListResponse = (
@@ -86,12 +86,13 @@ describe("public api wrapper", () => {
     await expect(getStats()).rejects.toThrow();
   });
 
-  it("listMembers: 既定値を query に乗せず公開 endpoint を叩く", async () => {
+  it("listMembers: 既定の検索値は query に乗せず expand=tags のみ付与して公開 endpoint を叩く", async () => {
     const fetchSpy = mockFetchOnce({ body: baseListResponse(), status: 200 });
     const search = membersSearchSchema.parse({});
     await listMembers(search);
     const [url] = fetchSpy.mock.calls[0] as unknown as [string];
-    expect(url.endsWith("/public/members")).toBe(true);
+    // tag chip 表示のため expand=tags は常時付与する。既定の q/zone/status/sort/density は query に乗せない。
+    expect(url.endsWith("/public/members?expand=tags")).toBe(true);
   });
 
   it("listMembers: q / density / tag を query に展開する", async () => {
