@@ -115,6 +115,8 @@ export interface PublicMemberListItem {
   photoUrl?: string;
   // issue-224: expand=tags 指定時のみ付与。
   tags?: ReadonlyArray<{ code: string; label: string; category: string }>;
+  // public-home-member-card-info-and-tag-clarity: businessOverview 先頭行の公開一覧用要約。
+  businessSummary?: string;
 }
 
 export interface PublicMemberListView {

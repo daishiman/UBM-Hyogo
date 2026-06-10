@@ -1,51 +1,97 @@
 {
-  "workflow_id": "issue-655-d7-recovery-2nd-cycle",
-  "state": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
-  "runtime_boundary": "pending_user_approval",
-  "paths": [
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-655-d7-recovery-2nd-cycle",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle",
+  "evidence": [
     {
+      "id": "hourly-run-1st-cycle-listing",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json",
-      "status": "runtime_pending_user_approval",
-      "template": "outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json.RUNTIME_PENDING_USER_APPROVAL.md"
+      "command": "record hourly run first cycle listing",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "recovery-rootcause",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/recovery-rootcause.md",
-      "status": "completed",
-      "template": "outputs/phase-11/evidence/recovery-rootcause.md.RUNTIME_PENDING_USER_APPROVAL.md"
+      "command": "record recovery root cause",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Completed local recovery analysis."
     },
     {
+      "id": "local-verify",
+      "kind": "test",
       "path": "outputs/phase-11/evidence/local-verify.log",
-      "status": "completed"
+      "command": "run local verification",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Local verification log."
     },
     {
+      "id": "ci-dry-run",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/ci-dry-run.md",
-      "status": "runtime_pending_user_approval",
-      "template": "outputs/phase-11/evidence/ci-dry-run.md.RUNTIME_PENDING_USER_APPROVAL.md"
+      "command": "record CI dry run boundary",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "recovery-d-minus-1",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/recovery-d-minus-1.log",
-      "status": "runtime_pending_user_approval"
+      "command": "record D-1 recovery observation",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "hourly-run-daily-check-recovery",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-daily-check-recovery.md",
-      "status": "runtime_pending_user_approval"
+      "command": "record hourly daily check recovery",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "hourly-run-7day-recovery",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-7day-recovery.md",
-      "status": "runtime_pending_user_approval"
+      "command": "record 7 day recovery observation",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "hourly-run-7day-summary-recovery",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json",
-      "status": "runtime_pending_user_approval",
-      "template": "outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json.RUNTIME_PENDING_USER_APPROVAL.md"
+      "command": "record 7 day summary recovery observation",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "leakage-grep-7day-recovery",
+      "kind": "grep-gate",
       "path": "outputs/phase-11/evidence/leakage-grep-7day-recovery.log",
-      "status": "runtime_pending_user_approval"
+      "command": "run leakage grep for 7 day recovery",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Runtime pending user approval at original close-out boundary."
     },
     {
+      "id": "issue-rate-comparison-recovery",
+      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/issue-rate-comparison-recovery.md",
-      "status": "runtime_pending_user_approval"
+      "command": "record issue rate comparison recovery",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "Runtime pending user approval at original close-out boundary."
     }
   ]
 }
