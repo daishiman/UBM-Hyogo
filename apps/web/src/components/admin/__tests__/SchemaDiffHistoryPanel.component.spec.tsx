@@ -41,6 +41,7 @@ const okResp = (items: ReturnType<typeof item>[], nextCursor: string | null = nu
     targetId: null,
     from: null,
     to: null,
+    batchId: null,
     limit: 50,
   },
 });
@@ -59,7 +60,7 @@ afterEach(() => {
 });
 
 describe("SchemaDiffHistoryPanel", () => {
-  it("TC-C-01/TC-C-02: 履歴行と 5 カラムを描画する", async () => {
+  it("TC-C-01/TC-C-02: 履歴をカード形式で描画する", async () => {
     fetchHistoryMock.mockResolvedValue(
       okResp([
         item({ auditId: "row1", questionText: "Q-row1" }),
@@ -69,12 +70,13 @@ describe("SchemaDiffHistoryPanel", () => {
     render(<SchemaDiffHistoryPanel initialFilters={defaultFilters} />);
     await waitFor(() => expect(screen.getByText("Q-row1")).toBeTruthy());
     expect(screen.getByText("Q-row2")).toBeTruthy();
-    // 5 カラムの header
-    expect(screen.getByRole("columnheader", { name: "操作日時" })).toBeTruthy();
-    expect(screen.getByRole("columnheader", { name: "操作者 email" })).toBeTruthy();
-    expect(screen.getByRole("columnheader", { name: "before stableKey" })).toBeTruthy();
-    expect(screen.getByRole("columnheader", { name: "after stableKey" })).toBeTruthy();
-    expect(screen.getByRole("columnheader", { name: "question text" })).toBeTruthy();
+    expect(
+      screen
+        .getAllByRole("listitem")
+        .some((element) => element.className.includes("schema-history-card")),
+    ).toBe(true);
+    expect(screen.getAllByText("旧").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("新").length).toBeGreaterThan(0);
   });
 
   it("TC-C-03: actorEmail を入力して絞り込みすると URL に小文字化された値が反映される", async () => {
@@ -139,7 +141,9 @@ describe("SchemaDiffHistoryPanel", () => {
     fetchHistoryMock.mockRejectedValue(new Error("net"));
     render(<SchemaDiffHistoryPanel initialFilters={defaultFilters} />);
     await waitFor(() => expect(screen.getByRole("alert")).toBeTruthy());
-    expect(screen.getByRole("alert").textContent).toContain("net");
+    expect(screen.getByRole("alert").textContent).toContain("履歴の取得に失敗しました");
+    expect(screen.getByRole("alert").textContent).not.toContain("net");
+    expect(screen.getByRole("alert").className).toContain("schema-history-error");
   });
 
   it("TC-C-09a: Breadcrumb landmark が admin > schema > history を含む", async () => {
@@ -149,5 +153,16 @@ describe("SchemaDiffHistoryPanel", () => {
     expect(nav.textContent).toMatch(/admin/);
     expect(nav.textContent).toMatch(/schema/);
     expect(nav.textContent).toMatch(/history/);
+  });
+
+  it("TC-C-10: 目的説明パネルに流れ 3 ステップと用語集を描画する", async () => {
+    fetchHistoryMock.mockResolvedValue(okResp([]));
+    render(<SchemaDiffHistoryPanel initialFilters={defaultFilters} />);
+    expect(screen.getByTestId("schema-history-purpose-explainer")).toBeTruthy();
+    expect(screen.getByText("この画面で分かること")).toBeTruthy();
+    expect(screen.getByText("フォーム設問の変化を確認")).toBeTruthy();
+    expect(screen.getByText("同じ意味の設問を紐付け")).toBeTruthy();
+    expect(screen.getByText("解消済みの判断を監査")).toBeTruthy();
+    expect(screen.getByText("stableKey")).toBeTruthy();
   });
 });

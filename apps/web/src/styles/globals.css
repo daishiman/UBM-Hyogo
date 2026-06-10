@@ -2813,6 +2813,145 @@
     cursor: not-allowed;
   }
 
+  .schema-history-purpose {
+    display: grid;
+    gap: var(--ubm-space-4);
+    padding: var(--ubm-space-4);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+  }
+  .schema-history-purpose__eyebrow {
+    margin: 0 0 var(--ubm-space-1);
+    color: var(--ubm-color-accent-ink);
+    font-size: var(--ubm-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .schema-history-purpose h2,
+  .schema-history-purpose h3,
+  .schema-history-purpose p,
+  .schema-history-purpose dl {
+    margin: 0;
+  }
+  .schema-history-purpose__lead {
+    margin-top: var(--ubm-space-2);
+    color: var(--ubm-color-text-secondary);
+  }
+  .schema-history-purpose__steps,
+  .schema-history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .schema-history-purpose__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--ubm-space-3);
+  }
+  .schema-history-purpose__step {
+    display: flex;
+    gap: var(--ubm-space-2);
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel-2);
+  }
+  .schema-history-purpose__step-index {
+    display: grid;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+    font-size: var(--ubm-text-xs);
+    font-weight: 700;
+  }
+  .schema-history-purpose__step h3 {
+    font-size: var(--ubm-text-sm);
+  }
+  .schema-history-purpose__step p,
+  .schema-history-purpose__term dd {
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
+  }
+  .schema-history-purpose__glossary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--ubm-space-3);
+  }
+  .schema-history-purpose__term {
+    padding-top: var(--ubm-space-2);
+    border-top: 1px solid var(--ubm-color-border-default);
+  }
+  .schema-history-purpose__term dt {
+    color: var(--ubm-color-text-primary);
+    font-weight: 700;
+  }
+  .schema-history-error {
+    margin: 0;
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-danger);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-danger-soft);
+    color: var(--ubm-color-text-primary);
+  }
+  .schema-history-list {
+    display: grid;
+    gap: var(--ubm-space-3);
+  }
+  .schema-history-card {
+    display: grid;
+    gap: var(--ubm-space-3);
+    padding: var(--ubm-space-4);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+  }
+  .schema-history-card__meta,
+  .schema-history-card__keys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ubm-space-2);
+  }
+  .schema-history-card__meta {
+    justify-content: space-between;
+    color: var(--ubm-color-text-muted);
+    font-size: var(--ubm-text-xs);
+  }
+  .schema-history-card__question {
+    margin: 0;
+    color: var(--ubm-color-text-primary);
+    font-weight: 700;
+  }
+  .schema-history-card__keys {
+    margin: 0;
+  }
+  .schema-history-card__keys div {
+    min-width: 180px;
+    padding: var(--ubm-space-2);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel-2);
+  }
+  .schema-history-card__keys dt {
+    color: var(--ubm-color-text-muted);
+    font-size: var(--ubm-text-xs);
+  }
+  .schema-history-card__keys dd {
+    margin: 0;
+    color: var(--ubm-color-text-primary);
+    font-family: var(--font-geist-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 768px) {
+    .schema-history-purpose__steps,
+    .schema-history-purpose__glossary {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* === parallel-09 G9-7 focus-visible / reduced motion === */
   :focus-visible {
     outline: 2px solid var(--ubm-color-accent);
