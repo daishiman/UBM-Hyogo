@@ -134,6 +134,8 @@ export const PublicMemberListItemZ = z
     photoUrl: z.string().url().optional(),
     // issue-224: expand=tags 指定時のみ付与（未指定時 undefined＝キー無し）。
     tags: z.array(PublicMemberTagZ).optional(),
+    // public-home-member-card-info-and-tag-clarity: businessOverview 先頭行の公開一覧用要約。
+    businessSummary: z.string().optional(),
   })
   .strict();
 

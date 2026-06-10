@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { normalizeTagSource } from "../types/common";
+import { TagSourceZ } from "./primitives";
 
 import {
   AdminDashboardViewZ,
@@ -234,6 +236,51 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
 
   it("MemberProfile requires summary + sections (#1)", () => {
     expect(MemberProfileZ.safeParse({}).success).toBe(false);
+  });
+
+  it("MemberProfile tag source falls back to manual for seed and unknown values", () => {
+    const parsed = MemberProfileZ.parse({
+      memberId: "m_1",
+      responseId: "r_1",
+      responseEmail: "a@example.com",
+      publicConsent: "consented",
+      rulesConsent: "consented",
+      publishState: "public",
+      isDeleted: false,
+      summary: {
+        fullName: "山田",
+        nickname: "y",
+        location: "兵庫",
+        occupation: "dev",
+        ubmZone: null,
+        ubmMembershipType: null,
+      },
+      sections: [],
+      attendance: [],
+      tags: [
+        { code: "seeded", label: "Seeded", category: "test", source: "seed" },
+        { code: "unknown", label: "Unknown", category: "test", source: "" },
+      ],
+      lastSubmittedAt: "2026-04-27T00:00:00Z",
+      editResponseUrl: null,
+    });
+
+    expect(parsed.tags.map((tag) => tag.source)).toEqual(["manual", "manual"]);
+  });
+
+  it("normalizeTagSource and TagSourceZ keep known values and fail soft for unknown inputs", () => {
+    expect(["rule", "ai", "manual"].map((source) => normalizeTagSource(source))).toEqual([
+      "rule",
+      "ai",
+      "manual",
+    ]);
+    expect([
+      normalizeTagSource("seed"),
+      normalizeTagSource(""),
+      normalizeTagSource(null),
+      normalizeTagSource(undefined),
+    ]).toEqual(["manual", "manual", "manual", "manual"]);
+    expect(TagSourceZ.safeParse("seed")).toEqual({ success: true, data: "manual" });
   });
 
   it("AdminDashboardView totals 4 fields + recentActions", () => {

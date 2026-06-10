@@ -105,9 +105,11 @@ export async function listPublicMembers(
       ? `ORDER BY ${fullNameExpr} ASC, mi.member_id ASC`
       : `ORDER BY mi.last_submitted_at DESC, ${fullNameExpr} ASC, mi.member_id ASC`;
   const offset = Math.max(0, (input.page - 1) * input.limit);
-  const sql = `SELECT mi.member_id, mi.current_response_id, mi.last_submitted_at
+  // 真因B 根治: GROUP BY + 非集約カラム同梱は SQLite 上で非決定的選択になりうるため
+  // SELECT DISTINCT で重複排除のみ行い、countPublicMembers の COUNT(DISTINCT mi.member_id)
+  // と集合定義を一致させる。基本 1:1:1 JOIN ゆえ取得集合は変わらない。
+  const sql = `SELECT DISTINCT mi.member_id, mi.current_response_id, mi.last_submitted_at
                ${fromWhere}
-               GROUP BY mi.member_id
                ${orderBy}
                LIMIT ? OFFSET ?`;
   const r = await c.db

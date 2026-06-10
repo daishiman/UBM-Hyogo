@@ -2,6 +2,8 @@
 
 import type { ReactNode } from "react";
 
+import { normalizeTagLabel } from "../../lib/tags/tag-display";
+
 // issue-276: 公開メンバー一覧 FilterBar の tag chip picker。
 // 候補 chip は role="switch" + aria-checked で選択状態を表す。
 // 上限到達時は未選択 chip を aria-disabled にし、polite hint を表示する。
@@ -50,7 +52,7 @@ export function TagPicker({
                   onToggle(opt.code);
                 }}
               >
-                #{opt.label} <span data-role="tag-count">({opt.count})</span>
+                #{normalizeTagLabel(opt)} <span data-role="tag-count">({opt.count})</span>
               </button>
             </li>
           );
