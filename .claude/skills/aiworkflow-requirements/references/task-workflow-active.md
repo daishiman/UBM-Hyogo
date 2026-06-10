@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### member-profile-google-form-data-reflection（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/` |
+| 目的 | `schema_questions` 空により Google Form 回答が全件 `__extra__:<questionId>` へ落ち、公開メンバー詳細が空表示になる fail-silent を恒久修正する |
+| implementation targets | `packages/integrations/google/src/forms/{mapper,client}.ts`, `apps/api/src/forms/build-qid-map.ts`, `apps/api/src/index.ts`, `apps/api/src/jobs/sync-forms-responses.ts` |
+| invariant | D1 schema / Google Form schema / cron / apps/web 表現層は不変。staging schema sync / response fullSync / screenshots は user-gated |
+| evidence | integrations-google focused 18 tests PASS、`build-qid-map.spec.ts` 2 PASS、`sync-forms-responses.contract.spec.ts` 34 PASS、api/integrations typecheck PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
+| user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
+
 ### admin-schema-diff-review-resolve-ux（2026-06-09）
 
 | 項目 | 値 |
