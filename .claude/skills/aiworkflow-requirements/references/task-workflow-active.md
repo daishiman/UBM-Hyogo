@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
 | user gate | browser/staging visual screenshots, commit, push, PR |
 
+### public-members-tag-filter-ux-refine（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/` |
+| 目的 | 公開 `/members` のタグ絞り込み chip を横並び flex-wrap 化し、フィルタ領域グルーピング、選択タグ accent 強調、member-grid comfy gap token 化で UI/UX を整える |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/styles/globals.css`, `apps/web/src/components/public/MemberFilters.client.tsx`, focused public component specs |
+| invariant | `apps/api` / `packages/shared` / D1 migration / Google Form / `GET /public/members` surface unchanged。新規 primitive 0 |
+| evidence | focused Vitest 5 files / 28 tests PASS、web typecheck PASS、web lint PASS、`pnpm verify:tokens` PASS、local static visual screenshot 5 PNG present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
+| user gate | staging data-backed screenshots, commit, push, PR |
+
+
 ### admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
 
 | 項目 | 値 |
