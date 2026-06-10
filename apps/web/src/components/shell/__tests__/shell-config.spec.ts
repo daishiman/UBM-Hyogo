@@ -22,20 +22,20 @@ describe("buildNavForRole", () => {
     const groups = buildNavForRole("admin");
     expect(groups.map((g) => g.id)).toEqual(["public", "members", "admin"]);
     const admin = groups.find((g) => g.id === "admin");
-    expect(admin?.items).toHaveLength(12);
-    expect(admin?.items.map((i) => i.id)).toContain("tag-catalog");
+    expect(admin?.items).toHaveLength(11);
+    expect(admin?.items.map((i) => i.id)).not.toContain("tag-catalog");
     expect(admin?.items.map((i) => i.id)).toContain("tag-master");
   });
 
-  it("admin は tag queue と tag catalog を別 nav として持つ", () => {
+  it("admin は tag definition と tag queue を別 nav として持つ", () => {
     const admin = buildNavForRole("admin").find((g) => g.id === "admin");
+    expect(admin?.items.find((i) => i.id === "tag-master")).toMatchObject({
+      href: "/admin/tag-master",
+      label: "タグ定義",
+    });
     expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
       href: "/admin/tags",
       label: "タグキュー",
-    });
-    expect(admin?.items.find((i) => i.id === "tag-catalog")).toMatchObject({
-      href: "/admin/tags/catalog",
-      label: "タグカタログ",
     });
   });
 
@@ -43,7 +43,7 @@ describe("buildNavForRole", () => {
     const admin = buildNavForRole("admin").find((g) => g.id === "admin");
     expect(admin?.items.find((i) => i.id === "tag-master")).toMatchObject({
       href: "/admin/tag-master",
-      label: "タグ管理",
+      label: "タグ定義",
     });
     expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
       href: "/admin/tags",
@@ -99,7 +99,6 @@ describe("isNavItemActive", () => {
 
   it("/admin/tags/catalog ではタグキュー nav を active にしない", () => {
     expect(isNavItemActive("/admin/tags", "/admin/tags/catalog")).toBe(false);
-    expect(isNavItemActive("/admin/tags/catalog", "/admin/tags/catalog")).toBe(true);
   });
 
   it("tag master は tag queue nav を active にしない", () => {

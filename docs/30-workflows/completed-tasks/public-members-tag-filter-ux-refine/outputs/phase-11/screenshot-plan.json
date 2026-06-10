@@ -1,0 +1,32 @@
+{
+  "workflow_id": "public-members-tag-filter-ux-refine",
+  "status": "pending_user_gate",
+  "route": "/members",
+  "screenshots": [
+    {
+      "tc": "TC-1",
+      "filename": "screenshots/public-members-tag-filter-horizontal.png",
+      "state": "tag filter chips horizontal flex-wrap"
+    },
+    {
+      "tc": "TC-2",
+      "filename": "screenshots/public-members-filter-region-grouped.png",
+      "state": "filter region grouping"
+    },
+    {
+      "tc": "TC-3",
+      "filename": "screenshots/public-members-grid-spacing.png",
+      "state": "member grid spacing refined"
+    },
+    {
+      "tc": "TC-4",
+      "filename": "screenshots/public-members-mobile-filter-tags.png",
+      "state": "mobile filter expanded and tags wrap"
+    },
+    {
+      "tc": "TC-5",
+      "filename": "screenshots/public-members-tags-selected.png",
+      "state": "selected tags highlighted"
+    }
+  ]
+}
