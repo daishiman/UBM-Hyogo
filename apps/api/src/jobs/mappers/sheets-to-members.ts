@@ -126,36 +126,10 @@ const CONSENT_MAP: Record<string, "consented" | "declined" | "unknown"> = {
   "false": "declined",
 };
 
-// CORR-5: 実スプレッドシート値（"0→1" / "会員"）と enum 値ドメイン（"0_to_1" / "member"）の
-// 差を取込時に吸収する。未知値は raw のまま保持（防御的・例外は投げない）。
-const UBM_ZONE_MAP: Record<string, string> = {
-  "0→1": "0_to_1",
-  "0to1": "0_to_1",
-  "0_to_1": "0_to_1",
-  "1→10": "1_to_10",
-  "1to10": "1_to_10",
-  "1_to_10": "1_to_10",
-  "10→100": "10_to_100",
-  "10to100": "10_to_100",
-  "10_to_100": "10_to_100",
-};
-
-const UBM_MEMBERSHIP_MAP: Record<string, string> = {
-  "会員": "member",
-  "member": "member",
-  "非会員": "non_member",
-  "non_member": "non_member",
-  "アカデミー": "academy",
-  "academy": "academy",
-};
-
-const normalizeFieldValue = (key: keyof MemberRow, value: string): string => {
-  if (key === STABLE_KEY.ubmZone) return UBM_ZONE_MAP[value.trim()] ?? value;
-  if (key === STABLE_KEY.ubmMembershipType) {
-    return UBM_MEMBERSHIP_MAP[value.trim()] ?? value;
-  }
-  return value;
-};
+// CORR-5 / 真因A: zone / status の enum 正規化は `@ubm-hyogo/shared` の
+// normalizeUbmZone / normalizeUbmMembershipType（field.ts zod 正本から導出・SSOT）へ一本化した。
+// ローカル重複マップ（旧 UBM_ZONE_MAP / UBM_MEMBERSHIP_MAP）は不変条件 #1（二重定義禁止）に従い削除。
+// 未知/空は raw 保持ではなく null（AC-4 誤ヒット防止・WEEKGRD-02 安全側）— mapSheetRows 内で吸収する。
 
 export interface MapResult {
   readonly rows: MemberRow[];
@@ -218,7 +192,7 @@ export function mapSheetRows(values: string[][]): MapResult {
         const membership = normalizeUbmMembershipType(value);
         if (membership !== null) partial.ubmMembershipType = membership;
       } else if (col.key !== "responseId") {
-        (partial as Record<string, string>)[col.key] = normalizeFieldValue(col.key, value);
+        (partial as Record<string, string>)[col.key] = value;
       }
     });
 

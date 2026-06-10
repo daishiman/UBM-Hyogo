@@ -106,13 +106,14 @@ describe("mapSheetRows", () => {
     expect(rows[0].rulesConsent).toBe("consented");
   });
 
-  // CORR-5: zone / status の実値を enum 値ドメインへ正規化する。
+  // CORR-5 / 真因A: zone / status の実値を enum 値ドメインへ正規化する。
+  // 会員種別ラベルは実 Google Form（設問8）の "アカデミー生" を正本とする。
   it("UBM区画/参加ステータスの実値を enum 値へ正規化する", () => {
     const values = [
       ["タイムスタンプ", "メールアドレス", "UBM区画", "UBM参加ステータス"],
       ["2026-04-27T08:00:00Z", "a@example.com", "0→1", "会員"],
       ["2026-04-27T08:00:00Z", "b@example.com", "1→10", "非会員"],
-      ["2026-04-27T08:00:00Z", "c@example.com", "10→100", "アカデミー"],
+      ["2026-04-27T08:00:00Z", "c@example.com", "10→100", "アカデミー生"],
     ];
     const { rows } = mapSheetRows(values);
     expect(rows.map((r) => r.ubmZone)).toEqual(["0_to_1", "1_to_10", "10_to_100"]);
@@ -123,13 +124,14 @@ describe("mapSheetRows", () => {
     ]);
   });
 
-  it("未知の zone 値は raw のまま保持する（防御的・例外を投げない）", () => {
+  // 真因A / AC-4: 未知ラベルは raw 保持ではなく null（誤ヒット防止・例外を投げない）。
+  it("未知の zone 値は null 格納（誤ヒット防止・例外を投げない）", () => {
     const values = [
       ["タイムスタンプ", "メールアドレス", "UBM区画"],
       ["2026-04-27T08:00:00Z", "a@example.com", "謎ゾーン"],
     ];
     const { rows } = mapSheetRows(values);
-    expect(rows[0].ubmZone).toBe("謎ゾーン");
+    expect(rows[0].ubmZone).toBeNull();
   });
 });
 
