@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
 
+### staging-test-accounts-full-data-and-detail-verify（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`（visualEvidenceStatus = `staging_visual_pending_user_gate`・PNG 0） |
+| 成果物 | `docs/30-workflows/staging-test-accounts-full-data-and-detail-verify/` |
+| 目的 | `public-member-detail-survey-fields-richness`（`TEST-MEM-01` のみ）の continuation。10 テストアカウント全件に Google Form 31 stable_key の現実的ダミーを充填し、公開メンバー詳細 5 セクションを full / all-fields-with-blanks / edge の 3 表示パターンで検証する |
+| 基盤 | `test-accounts-seed-spec`（catalog SSOT / build-seed-sql generator / 適用 CLI / drift guard）を再利用・基盤定義は不変 |
+| implemented targets | `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts` + 各 `__tests__/*.spec.ts`、`apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql` + `__tests__/test-accounts-seed.contract.spec.ts`、`apps/web/src/lib/adapters/member-detail.ts`（**gap fix**: `urlOthers` free-text URL を `LINK_STABLE_KEYS` override + `extractFirstUrl` で links へルート）+ `__tests__/member-detail.spec.ts`、`apps/web/src/fixtures/public-member-profile.ts` |
+| invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
+| evidence | focused Vitest 5 files / 39 tests PASS、web/api typecheck PASS、lint PASS。authenticated / staging screenshots（EV-01..08）は user-gated で PNG 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md`（Lessons L-STAFDV-001..007 inline） |
+| user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
+
 ### admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
 
 | 項目 | 値 |
