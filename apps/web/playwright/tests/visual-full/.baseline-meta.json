@@ -12,6 +12,7 @@
     "27050525423",
     "27052918274",
     "27179703910",
+    "27204350643",
     "27247391142",
     "27257083636"
   ],
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "/admin/schema に SchemaPurposeExplainer(目的説明UI)を追加しページ高が1341→1839pxへ変化。admin-schema-desktop/tablet/mobile の visual-full baseline を現行HEADで再生成（feat/admin-schema-page-purpose-clarity-ux 783060d3a）"
+  "last_refresh_reason": "dev sync merge: /admin/schema に SchemaPurposeExplainer(目的説明UI)を追加しページ高が1341→1839pxへ変化した admin-schema-{desktop,tablet,mobile} baseline（feat/admin-schema-page-purpose-clarity-ux 783060d3a 再生成）を保持しつつ、dev 取込で admin-sidebar-collapse-layout-fix(collapsed サイドバーアイコン18px→40px拡大で admin全ページ fullPage高さ 768x1024→768x1224 へ増加) と /members タグ絞り込み UI/UX 整形（members ページ高さ 1303→1115px 変化）の baseline を統合。admin-schema系/admin-sidebar系/members系で対象スナップショットが分離するため三者を統合"
 }

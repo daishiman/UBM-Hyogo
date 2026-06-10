@@ -8,6 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-members-tag-filter-ux-refine（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/` |
+| 目的 | 公開 `/members` のタグ絞り込み chip を横並び flex-wrap 化し、フィルタ領域グルーピング、選択タグ accent 強調、member-grid comfy gap token 化で UI/UX を整える |
+| implementation targets | `apps/web/src/styles/legacy-public.css`, `apps/web/src/styles/globals.css`, `apps/web/src/components/public/MemberFilters.client.tsx`, focused public component specs |
+| invariant | `apps/api` / `packages/shared` / D1 migration / Google Form / `GET /public/members` surface unchanged。新規 primitive 0 |
+| evidence | focused Vitest 5 files / 28 tests PASS、web typecheck PASS、web lint PASS、`pnpm verify:tokens` PASS、local static visual screenshot 5 PNG present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
+| user gate | staging data-backed screenshots, commit, push, PR |
+
+
+### admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| 目的 | `member_tags.source='seed'` による admin member detail 500 と、MemberDrawer fetch 失敗時の回復不能状態を同一 local cycle で解消する |
+| implementation targets | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS、shared/api/web typecheck PASS、verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / migration / seed / Google Form 不変。未知 source は view/zod boundary で `manual` に fail-soft 正規化 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
 ### admin-sidebar-collapse-layout-fix（2026-06-09）
 
 | 項目 | 値 |

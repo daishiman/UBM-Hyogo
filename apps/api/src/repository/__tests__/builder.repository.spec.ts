@@ -264,6 +264,17 @@ describe("builder", () => {
         { sessionId: "s_001", title: "総会", heldOn: "2026-01-15" },
       ]);
     });
+
+    it("member_tags.source の seed/未知値を manual に正規化する", async () => {
+      store.memberTags = [
+        { ...MEMBER_TAGS_M001[0], source: "seed" },
+        { ...MEMBER_TAGS_M001[0], tag_id: "tag_002", source: "legacy-import" },
+      ];
+
+      const result = await buildMemberProfile(withProvider(ctx), asMemberId("m_001"));
+
+      expect(result?.tags.map((tag) => tag.source)).toEqual(["manual", "manual"]);
+    });
   });
 
   describe("buildAdminMemberDetailView", () => {
@@ -408,6 +419,21 @@ describe("builder", () => {
       await expect(
         buildAdminMemberDetailView(ctxWithoutProvider, asMemberId("m_001"), []),
       ).rejects.toThrow(/attendanceProvider not bound/i);
+    });
+
+    it("admin 詳細でも member_tags.source の seed/未知値を manual に正規化する", async () => {
+      store.memberTags = [
+        { ...MEMBER_TAGS_M001[0], source: "seed" },
+        { ...MEMBER_TAGS_M001[0], tag_id: "tag_002", source: "" },
+      ];
+
+      const result = await buildAdminMemberDetailView(
+        withProvider(ctx),
+        asMemberId("m_001"),
+        [],
+      );
+
+      expect(result?.profile.tags.map((tag) => tag.source)).toEqual(["manual", "manual"]);
     });
   });
 

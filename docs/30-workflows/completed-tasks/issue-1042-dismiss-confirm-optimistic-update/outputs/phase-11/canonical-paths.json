@@ -1,37 +1,52 @@
 {
-  "workflow_id": "issue-1042-dismiss-confirm-optimistic-update",
-  "phase": "phase-11",
-  "status": "present",
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-1042-dismiss-confirm-optimistic-update",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update",
   "evidence": [
     {
-      "type": "focused-vitest",
-      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/focused-vitest.log",
-      "status": "present"
+      "id": "focused-vitest",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/focused-vitest.log",
+      "command": "pnpm exec vitest run focused dismiss confirm optimistic update tests",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Focused Vitest evidence log."
     },
     {
-      "type": "playwright-focused",
-      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/playwright-dismiss.log",
-      "status": "present"
+      "id": "playwright-focused",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/playwright-dismiss.log",
+      "command": "pnpm exec playwright test focused identity conflict dismiss scenarios",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Focused Playwright evidence log."
     },
     {
-      "type": "screenshot",
-      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/screenshots/identity-conflict-row-dismiss-optimistic-removed.png",
-      "status": "present"
+      "id": "screenshot-coverage",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/screenshot-coverage.md",
+      "command": "record identity conflict dismiss optimistic removed and rollback error screenshots",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Screenshot PNG files are tracked by the Phase 11 coverage document."
     },
     {
-      "type": "screenshot",
-      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/screenshots/identity-conflict-row-dismiss-rollback-error.png",
-      "status": "present"
+      "id": "playwright-results",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/playwright-report/results.json",
+      "command": "collect Playwright results JSON",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Playwright machine-readable result artifact."
     },
     {
-      "type": "playwright-results",
-      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/playwright-report/results.json",
-      "status": "present"
-    },
-    {
-      "type": "monocart-report",
-      "path": "docs/30-workflows/completed-tasks/issue-1042-dismiss-confirm-optimistic-update/outputs/phase-11/evidence/monocart/index.html",
-      "status": "present"
+      "id": "monocart-report",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/monocart-report.md",
+      "command": "record monocart report location",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": false,
+      "notes": "HTML report path is summarized in markdown because canonical paths schema only permits portable text/json evidence."
     }
   ]
 }
