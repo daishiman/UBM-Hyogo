@@ -1,35 +1,32 @@
 import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
-import { TagMasterPanel } from "../../../../src/features/admin/components/_tags/TagMasterPanel";
-import type { AdminTagRef } from "../../../../src/features/admin/api/tags";
+import { TagDefinitionPanel } from "../../../../src/components/admin/TagDefinitionPanel";
+import {
+  normalizeTagDefinitionList,
+  type TagDefinitionListView,
+} from "../../../../src/components/admin/tagDefinitionView";
 
 export const dynamic = "force-dynamic";
 
-type AdminTagsPageResponse = {
-  readonly total?: number;
-  readonly items?: readonly AdminTagRef[];
-};
-
 export default async function AdminTagMasterPage() {
-  const result = await safeServerFetch<AdminTagsPageResponse>("/admin/tags?page=1&pageSize=100");
+  const result = await safeServerFetch<TagDefinitionListView>(
+    "/admin/tags?page=1&pageSize=100",
+  );
 
   return (
     <section className="flex flex-col gap-4">
       <AdminPageHeader
-        eyebrow="ADMIN / TAG MASTER"
-        title="タグ管理"
-        description="タグ master の code、表示名、カテゴリを安全に編集します。"
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグ管理" }]}
+        eyebrow="ADMIN / TAG DEFINITIONS"
+        title="タグ定義"
+        description="タグ定義の作成、編集、有効化、停止、完全削除を1画面で管理します。"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグ定義" }]}
       />
       {result.ok ? (
-        <TagMasterPanel
-          initialTags={result.data.items ?? []}
-          total={result.data.total ?? result.data.items?.length ?? 0}
-        />
+        <TagDefinitionPanel initial={normalizeTagDefinitionList(result.data)} />
       ) : (
         <AdminSectionErrorClient
-          sectionLabel="タグ管理"
+          sectionLabel="タグ定義"
           code={result.error.code}
           message={result.error.message}
         />

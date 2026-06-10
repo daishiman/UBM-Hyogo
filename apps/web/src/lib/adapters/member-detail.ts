@@ -68,6 +68,7 @@ const LINK_KINDS: ReadonlySet<FieldKind> = new Set(
     (kind) => KIND_ROUTE[kind] === "links",
   ),
 );
+const LINK_STABLE_KEYS = new Set<string>([STABLE_KEY.urlOthers]);
 
 export interface ToMemberDetailPropsOptions {
   onUnknownKind?: ((field: RawField) => void) | undefined;
@@ -169,12 +170,14 @@ function normalizeField(
     onUnknownKind?.(field);
     return null;
   }
-  if (!routeKinds.has(parsed.data)) return null;
+  const linkOverride = LINK_STABLE_KEYS.has(field.stableKey);
+  if (linkOverride && routeKinds !== LINK_KINDS) return null;
+  if (!linkOverride && !routeKinds.has(parsed.data)) return null;
   return {
     stableKey: field.stableKey,
     label: field.label,
-    value: field.value,
-    kind: parsed.data,
+    value: linkOverride ? extractFirstUrl(field.value) : field.value,
+    kind: linkOverride ? "url" : parsed.data,
   };
 }
 
@@ -194,6 +197,11 @@ function renderValue(value: RawField["value"]): string {
   if (Array.isArray(value)) return value.filter(Boolean).join(", ");
   if (value === null || value === undefined) return "";
   return String(value).trim();
+}
+
+function extractFirstUrl(value: RawField["value"]): RawField["value"] {
+  const text = renderValue(value);
+  return text.match(/https?:\/\/\S+/)?.[0] ?? text;
 }
 
 function fieldByStableKey(

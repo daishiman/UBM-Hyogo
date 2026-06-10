@@ -1,0 +1,10 @@
+# dev sync: 6 コミット取込で **コンフリクトは全て aiworkflow-requirements 配下（union 5）に集中し task-specification-creator 配下は 0 衝突**・標準 sync-merge union 機構へ全回収・spec 生成手順への影響 0（2026-06-10 `feat/admin-tag-definition-unify-create-and-catalog-fix`）
+
+- 日時: 2026-06-10（`feat/admin-tag-definition-unify-create-and-catalog-fix` への dev 取込）
+- ブランチ: `feat/admin-tag-definition-unify-create-and-catalog-fix` ← `dev`（sub-worktree wt-12・**6 behind / 2 ahead**）
+- 起点: ユーザー指示「リモート dev をローカル dev にマージ → 本ブランチにマージしてコンフリクト・CI 失敗を解消して push。解消内容を `task-specification-creator` / `aiworkflow-requirements` skill へ反映」。
+- 関連: aiworkflow 側の詳細 = [[20260610-dev-sync-admin-tag-definition-unify-behind6-ahead2-union5-aiworkflow-only-skillmd-conflict]] / `lessons-learned/dev-sync-merge-conflict-resolution.md`
+- 取込 dev 6 コミット: `c073c59b8`(#1183 会員データソース3層プレシデンス + /profile セッション修正) / `21b64ef2a`(#1174 PUBLIC_API_BASE_URL → NEXT_PUBLIC_API_BASE_URL 単一化 issue-1145) / `44bbfe6fc`(#1172 smoke-common.sh SSOT 抽出 issue-1138) / `db1bf4158`(#1173 verify-no-localhost-bake required 化) / `6581abd73`(#1176 出席ダッシュボード3層UX) / `f0297ad71`(#1180 ホームメンバーカード情報設計改善 0→1)
+- **核心（task-spec 視点の確定則）**: 今回の content CONFLICT は **全 5 file が aiworkflow-requirements 配下のみ**（`SKILL.md` + `indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md`）で、**task-specification-creator 配下は SKILL.md / index / reference いずれも 0 衝突**（全て Auto-merge）。union 衝突は **skill ごとに独立**し、取込 delta と feature 側が同一行域を touch した skill だけに集中する。本 feature は admin タグ定義 UI 統合（apps/web 表現層）で task-spec の active workflow ledger を touch していなかったため task-spec 側は無風だった。
+- 解消: `pnpm sync:resolve` 1 パス（`union-resolving 5 files` + `pnpm indexes:rebuild`）で全解消。`--diff-filter=U` 0 / マーカー 0。merge `c306feaee`。`pnpm verify:static-manifest` OK（#1183 は apps/api 変更だが repository **spec** 非該当で manifest drift 0）/ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0。
+- 反映先: 本 changelog（**「dev sync の union 衝突は 2 skill に均等分散せず片側集中しうる」確定データ**＝衝突 0 でも sync:resolve は冪等に通り union member は touch 行域依存）。spec 生成手順（Phase 1-13）への影響 0 ゆえ新規 SSOT / lesson 番号は起こさず標準 union 機構の補強 note として記録。
