@@ -4,7 +4,6 @@
   "captured_at": "2026-06-10T12:16:20Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26793911803",
     "26857844535",
     "26868407587",
     "26889102142",
@@ -13,6 +12,7 @@
     "27179703910",
     "27204350643",
     "27247391142",
+    "27253086349",
     "27274941450"
   ],
   "viewport_dimensions": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "member-detail を flat data-section から構造化 primitive (ProfileHero/PersonalSection/BusinessOverview/MemberLinks/MemberActivity) へ再設計したため、member-detail.png / full-visual-members-detail-{desktop,tablet,mobile}.png の baseline が旧 flat 構造 (高さ1724px) のまま stale。新設計 (1493px) で Linux baseline を再生成する。PR #1195。"
+  "last_refresh_reason": "dev sync merge: member-detail を flat data-section から構造化 primitive (ProfileHero/PersonalSection/BusinessOverview/MemberLinks/MemberActivity) へ再設計したため member-detail.png / full-visual-members-detail-{desktop,tablet,mobile}.png を新設計 (1493px) で Linux 再生成 (PR #1195・run 27274941450) しつつ、取込 dev #1184 (admin タグ定義UI統合 nav 12→11) が再生成した admin tablet baseline (full-visual-admin-*-tablet) を保持。member-detail 系 (本 feature) と admin tablet 系 (dev) で対象スナップショットが分離するため双方を union 統合。"
 }
