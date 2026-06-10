@@ -36,6 +36,22 @@
 
 `pending` 行も **path 列は記述する**。path 不在 / ディレクトリ path は validator が `present` 行で fail させるため、`pending` 行であっても予約 path を明示する運用が望ましい（後続置換時の diff を最小化）。
 
+## `n/a` Screenshot の物理ファイル運用
+
+VISUAL / VISUAL_ON_EXECUTION の spec-created root や、fixture 制約により特定 state の runtime screenshot を取得しない場合は、Phase 12 compliance の inventory に screenshot 行を `n/a` として列挙してよい。このとき **物理 PNG・空 PNG・空の `screenshots/` ディレクトリを作って PASS 風に見せない**。
+
+正しい運用:
+
+- `Status=n/a` の screenshot 行に、取得しない理由を本文で明記する
+- semantic test / component test で代替確認する場合は、その test log を別行 `present` にする
+- 後続で runtime screenshot を取得したら、同 wave で物理 PNG を追加して `present` に昇格する
+
+誤った運用:
+
+- `n/a` 行のために 0 byte PNG や placeholder 画像を作る
+- 画像未取得なのに `present` と書く
+- 空ディレクトリの存在を evidence として扱う
+
 ## 表記例
 
 ```markdown
