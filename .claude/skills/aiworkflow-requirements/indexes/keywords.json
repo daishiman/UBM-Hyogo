@@ -1166,7 +1166,8 @@
       "api-internal-search.md"
     ],
     "内部": [
-      "api-internal.md"
+      "api-internal.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "一覧": [
       "api-internal.md"
@@ -3354,6 +3355,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
@@ -3396,6 +3398,8 @@
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3785,7 +3789,8 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "admin": [
       "architecture-admin-api-client.md",
@@ -3830,6 +3835,7 @@
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
@@ -4032,7 +4038,8 @@
       "interfaces-skill-verify-contract.md",
       "ui-history-search-view.md",
       "ui-ux-admin-dashboard.md",
-      "ui-ux-navigation-chat-patterns.md"
+      "ui-ux-navigation-chat-patterns.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "service": [
       "architecture-admin-api-client.md",
@@ -4874,6 +4881,7 @@
       "task-workflow-completed-recent-2026-05.md",
       "ui-ux-admin-dashboard.md",
       "ui-ux-feature-components-advanced.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -5357,6 +5365,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
@@ -5405,7 +5414,9 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -6432,6 +6443,7 @@
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-520-slack-incidents-channel-webhook-provisioning-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
@@ -6579,6 +6591,7 @@
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md",
@@ -6601,6 +6614,7 @@
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -7349,6 +7363,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-277-next-proxy-migration-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
@@ -7593,6 +7608,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
@@ -7634,6 +7650,7 @@
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -7908,6 +7925,7 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md"
     ],
@@ -8464,6 +8482,7 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -10472,6 +10491,7 @@
       "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
       "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-276-mobile-filterbar-tag-picker-artifact-inventory.md",
@@ -11408,6 +11428,7 @@
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -11711,6 +11732,7 @@
       "legacy-ordinal-family-register.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
@@ -11793,6 +11815,7 @@
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-issue-1078-bulk-tag-picker-large-catalog-ux-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
@@ -11951,6 +11974,7 @@
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
@@ -11992,7 +12016,9 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -12359,7 +12385,8 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-admin-attendance-analytics-redesign-2026-05.md",
-      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md"
+      "lessons-learned-main-merge-noop-when-dev-merged-2026-05.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md"
     ],
     "AC": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -13630,6 +13657,7 @@
       "workflow-ci-green-recovery-smoke-coverage-shard-artifact-inventory.md",
       "workflow-issue-1081-bulk-tag-real-d1-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
@@ -14339,6 +14367,7 @@
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
@@ -15106,6 +15135,7 @@
       "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
@@ -16455,7 +16485,8 @@
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-770-profile-loading-skeleton-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
-      "llm-ipc-types.md"
+      "llm-ipc-types.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "と現行": [
       "lessons-learned-docs-only-lifecycle.md"
@@ -16494,6 +16525,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-ci-staging-deploy-failure-fix-artifact-inventory.md",
       "workflow-fix-admin-fetch-cf-1042-service-binding-artifact-inventory.md",
       "workflow-fix-admin-scr-err-stg-fu-001-auth-env-via-getenv-artifact-inventory.md",
@@ -16564,6 +16596,7 @@
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
@@ -16576,6 +16609,7 @@
     "collapse": [
       "lessons-learned-issue-1024-sidebar-collapse-cookie-persistence-2026-05.md",
       "lessons-learned-issue-1063-shell-collapse-cookie-secure-attribute-2026-06.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-issue-1024-sidebar-collapse-cookie-persistence-artifact-inventory.md",
       "workflow-issue-1063-shell-collapse-cookie-secure-attribute-artifact-inventory.md"
     ],
@@ -17665,6 +17699,7 @@
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
@@ -19362,6 +19397,8 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -21210,7 +21247,8 @@
       "lessons-learned-task-24.md"
     ],
     "runner": [
-      "lessons-learned-task-24.md"
+      "lessons-learned-task-24.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "一括更新": [
       "lessons-learned-task-24.md"
@@ -21726,7 +21764,8 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "bash": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "put": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -25591,6 +25630,7 @@
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27529,6 +27569,8 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
@@ -27744,6 +27786,7 @@
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
@@ -27788,6 +27831,7 @@
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -28150,7 +28194,8 @@
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "layout": [
-      "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md"
+      "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md"
     ],
     "Implemented": [
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
@@ -28178,6 +28223,7 @@
       "workflow-issue-1105-member-status-fk-constraint-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
@@ -28336,7 +28382,8 @@
     ],
     "extraction": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md"
+      "workflow-issue-1102-usedismissable-hook-extraction-artifact-inventory.md",
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
     ],
     "実装同期ルール": [
       "workflow-ai-runtime-execution-responsibility-realignment.md"
@@ -28731,6 +28778,18 @@
     ],
     "screens": [
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md"
+    ],
+    "common": [
+      "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md"
+    ],
+    "localhost": [
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md"
+    ],
+    "bake": [
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md"
+    ],
+    "Cause": [
+      "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
