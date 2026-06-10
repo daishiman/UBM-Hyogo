@@ -4,6 +4,8 @@ import { FormField } from "../../../../components/ui/FormField";
 import { Input } from "../../../../components/ui/Input";
 import { Button } from "../../../../components/ui/Button";
 import type { MeetingItem } from "./meetingStats";
+import { BulkAttendanceChecklist } from "./BulkAttendanceChecklist";
+import { BulkAttendanceModal } from "./BulkAttendanceModal";
 
 export interface MemberCandidate {
   memberId: string;
@@ -15,6 +17,7 @@ interface Props {
   readonly candidates: ReadonlyArray<MemberCandidate>;
   readonly attended: ReadonlySet<string>;
   readonly onAddAttendance: (memberId: string) => Promise<void> | void;
+  readonly onBulkAddAttendance: (memberIds: ReadonlyArray<string>) => Promise<boolean>;
   readonly onRemoveAttendance: (memberId: string) => void;
   readonly onUpdateMeeting: (patch: {
     title: string;
@@ -29,6 +32,7 @@ export function MeetingAttendanceDrawer({
   candidates,
   attended,
   onAddAttendance,
+  onBulkAddAttendance,
   onRemoveAttendance,
   onUpdateMeeting,
   onSoftDelete,
@@ -37,6 +41,7 @@ export function MeetingAttendanceDrawer({
   const [editTitle, setEditTitle] = useState(meeting.title);
   const [editHeldOn, setEditHeldOn] = useState(meeting.heldOn);
   const [editNote, setEditNote] = useState(meeting.note ?? "");
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
   const pickedAlreadyAttended = picked !== "" && attended.has(picked);
   const candidateNameById = useMemo(
     () => new Map(candidates.map((c) => [c.memberId, c.fullName])),
@@ -113,6 +118,21 @@ export function MeetingAttendanceDrawer({
           出席を追加
         </Button>
       </div>
+      <BulkAttendanceChecklist
+        sessionId={meeting.sessionId}
+        candidates={candidates}
+        attended={attended}
+        onBulkAddAttendance={onBulkAddAttendance}
+        onOpenModal={() => setBulkModalOpen(true)}
+      />
+      <BulkAttendanceModal
+        open={bulkModalOpen}
+        sessionId={meeting.sessionId}
+        candidates={candidates}
+        attended={attended}
+        onClose={() => setBulkModalOpen(false)}
+        onBulkAddAttendance={onBulkAddAttendance}
+      />
       {attended.size > 0 && (
         <div>
           <h4 className="text-sm font-semibold">出席者</h4>

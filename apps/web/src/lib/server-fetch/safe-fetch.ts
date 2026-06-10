@@ -6,6 +6,7 @@ export interface SafeServerFetchOptions {
   readonly codePrefix?: string;
   readonly rethrowOn?: ReadonlyArray<RethrowableError>;
   readonly unknownMessage?: string;
+  readonly logPath?: string;
 }
 
 const STATUS_FROM_MESSAGE = /\bfailed:?\b.*\b(\d{3})\b/;
@@ -43,6 +44,20 @@ function normalizeError(
   };
 }
 
+function logServerFetchFailure(
+  error: SafeResultError,
+  opts: SafeServerFetchOptions,
+): void {
+  if (!opts.logPath) return;
+
+  const statusMatch = error.code.match(/_(\d{3})$/);
+  console.error("server_fetch_failed", {
+    code: error.code,
+    path: opts.logPath,
+    status: statusMatch ? Number(statusMatch[1]) : null,
+  });
+}
+
 export async function safeServerFetch<T>(
   thunk: () => Promise<T>,
   opts: SafeServerFetchOptions = {},
@@ -51,6 +66,8 @@ export async function safeServerFetch<T>(
     return { ok: true, data: await thunk() };
   } catch (err) {
     if (shouldRethrow(err, opts.rethrowOn ?? [])) throw err;
-    return { ok: false, error: normalizeError(err, opts) };
+    const error = normalizeError(err, opts);
+    logServerFetchFailure(error, opts);
+    return { ok: false, error };
   }
 }
