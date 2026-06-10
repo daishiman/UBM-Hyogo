@@ -1,0 +1,62 @@
+{
+  "taskId": "TASK-ADMIN-SCHEMA-PAGE-PURPOSE-CLARITY-UX-001",
+  "workflow": "admin-schema-page-purpose-clarity-ux",
+  "mode": "VISUAL",
+  "status": "captured_local_runtime",
+  "capturedAt": "2026-06-09T14:35:00+09:00",
+  "route": "/admin/schema",
+  "captureMethod": "local Next dev server with PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1, Playwright Chromium one-off smoke script, admin authjs.session-token cookie",
+  "screenshotsDir": "outputs/phase-11/screenshots",
+  "screenshots": [
+    {
+      "tc": "TC-VIS-01",
+      "name": "schema-purpose-explainer-default.png",
+      "sourceName": "admin-schema-purpose-clarity-runtime.png",
+      "state": "目的説明カード常時表示 (できること + 3ステップ流れ図 + 結果プレビュー + 用語集)",
+      "viewport": "1280x900",
+      "url": "/admin/schema",
+      "captured": true,
+      "status": "present"
+    },
+    {
+      "tc": "TC-VIS-01-mobile",
+      "name": "admin-schema-purpose-clarity-mobile-runtime.png",
+      "state": "mobile 390px で目的説明カード・統計・差分カテゴリが折り返し表示される",
+      "viewport": "390x844",
+      "url": "/admin/schema",
+      "captured": true,
+      "status": "present"
+    },
+    {
+      "tc": "TC-VIS-02",
+      "name": "schema-stats-plain-labels.png",
+      "sourceName": "admin-schema-purpose-clarity-runtime.png",
+      "state": "統計4枚が平易ラベル + 次アクション示唆で描画",
+      "viewport": "1280x900",
+      "url": "/admin/schema",
+      "captured": true,
+      "status": "present"
+    },
+    {
+      "tc": "TC-VIS-03",
+      "name": "schema-diff-assign-outcome.png",
+      "sourceName": "admin-schema-purpose-clarity-runtime.png",
+      "state": "割り当てフォーム展開・アウトカム説明 (反映先 + 5分以内取消可) 表示",
+      "viewport": "1280x900",
+      "url": "/admin/schema",
+      "captured": true,
+      "status": "present"
+    },
+    {
+      "tc": "TC-VIS-04",
+      "name": "schema-empty-state.png",
+      "state": "差分0件 empty state コピー表示",
+      "viewport": "1280x900",
+      "url": "/admin/schema",
+      "captured": false,
+      "status": "semantic_pass_no_runtime_fixture",
+      "semanticEvidence": "apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx",
+      "reason": "available local server fixture returns non-empty schema diff data; empty copy is covered by focused component test and no synthetic screenshot was fabricated"
+    }
+  ]
+}

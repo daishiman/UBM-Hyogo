@@ -621,6 +621,7 @@ const AppliedFiltersZ = z
     targetId: z.string().nullable(),
     from: z.string().nullable(),
     to: z.string().nullable(),
+    batchId: z.string().nullable(),
     limit: z.number(),
   })
   .strict();
@@ -662,6 +663,7 @@ function defaultAppliedFilters(): SchemaAliasHistoryResponse["appliedFilters"] {
     targetId: null,
     from: null,
     to: null,
+    batchId: null,
     limit: SCHEMA_ALIAS_HISTORY_LIMIT,
   };
 }

@@ -1,20 +1,19 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "ec0520a6c62954d386ed4851f10f5c9b79386bcd",
-  "captured_at": "2026-06-10T01:52:01Z",
+  "captured_at_commit_sha": "8bf79da0ce9e43b5362c099ba267ec507750633b",
+  "captured_at": "2026-06-10T12:51:08Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26732057120",
-    "26732700618",
-    "26793911803",
-    "26857844535",
-    "26868407587",
     "26889102142",
     "27050525423",
     "27052918274",
     "27179703910",
     "27204350643",
-    "27247391142"
+    "27247391142",
+    "27253086349",
+    "27257083636",
+    "27274941450",
+    "27276848458"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -42,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge: admin-sidebar-collapse-layout-fix(collapsed サイドバーアイコン18px→40px拡大で admin全ページ fullPage高さ 768x1024→768x1224 へ増加・Linux baseline 再生成) を取り込みつつ、feature /members タグ絞り込み UI/UX 整形（横並び flex-wrap + 選択強調）で members ページ高さが 1303→1115px に変化した members baseline を保持。admin系/members系で対象スナップショットが分離するため双方を統合"
+  "last_refresh_reason": "dev sync merge: member-detail を構造化 primitive (ProfileHero/PersonalSection/BusinessOverview/MemberLinks/MemberActivity) へ再設計したため member-detail.png / full-visual-members-detail-{desktop,tablet,mobile}.png を新設計 (1493px) で Linux 再生成 (PR #1195・run 27274941450) し本 feature 側で保持。取込 dev #1184 (admin タグ定義UI統合 nav 12→11) / #1186 (admin-schema SchemaPurposeExplainer + 11項目nav) が再生成した admin tablet / admin-schema baseline (merge 8bf79da0c・run 27257083636/27276848458) を採用。member-detail 系 (feature) と admin 系 (dev) で対象スナップショットが分離するため双方を union 統合。"
 }
