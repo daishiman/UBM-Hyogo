@@ -22,6 +22,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
 | user gate | browser/staging visual screenshots, commit, push, PR |
 
+### profile-session-fetch-failure-investigation（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-session-fetch-failure-investigation/` |
+| 目的 | staging `/profile` の `/me` fetch failure を 410 / 5xx / transport failure に切り分けられる観測性を追加し、真因確定手順を固定する |
+| implementation targets | `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/profile/_lib/session-error-display.ts`, `apps/web/src/components/member/SectionError.tsx`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `scripts/diagnose-profile-session.sh` |
+| tests | `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/app/(member)/profile/_lib/__tests__/session-error-display.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, `apps/web/src/components/member/__tests__/SectionError.spec.tsx` |
+| evidence | focused Vitest 4 files / 34 tests PASS、web typecheck PASS、web lint PASS、`bash -n scripts/diagnose-profile-session.sh` PASS、transport failure probe PASS、Phase 11 static PNG 2 files present |
+| invariant | `/me` API path / response shape / status taxonomy / D1 schema / Google Form schema unchanged; `apps/api` production source untouched; secrets and member identifiers are not logged |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-fetch-failure-investigation-artifact-inventory.md` |
+| user gate | staging authenticated `/me` status confirmation, D1 read-only root-cause confirmation, authenticated staging screenshot, staging deploy, commit, push, PR |
+
 ### admin-meeting-bulk-attendance-select（2026-06-09）
 
 | 項目 | 値 |

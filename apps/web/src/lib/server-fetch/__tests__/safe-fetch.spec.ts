@@ -1,8 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { safeServerFetch } from "../safe-fetch";
 
 class AuthRequiredError extends Error {}
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("safeServerFetch", () => {
   it("returns ok=true on success", async () => {
@@ -100,5 +104,39 @@ describe("safeServerFetch", () => {
         { rethrowOn: [AuthRequiredError] },
       ),
     ).rejects.toBeInstanceOf(AuthRequiredError);
+  });
+
+  it("logs structured diagnostics when logPath is provided", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("fetchAuthed failed: 410"), {
+          status: 410,
+        });
+      },
+      { codePrefix: "MEMBER_SESSION", logPath: "/me" },
+    );
+
+    expect(result.ok).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith("server_fetch_failed", {
+      code: "MEMBER_SESSION_410",
+      path: "/me",
+      status: 410,
+    });
+    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("memberId");
+  });
+
+  it("does not log diagnostics unless logPath is provided", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    await safeServerFetch(
+      async () => {
+        throw new Error("network timeout");
+      },
+      { codePrefix: "MEMBER_SESSION" },
+    );
+
+    expect(errorSpy).not.toHaveBeenCalled();
   });
 });
