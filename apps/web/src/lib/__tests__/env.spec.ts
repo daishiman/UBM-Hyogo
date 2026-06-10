@@ -8,7 +8,6 @@ vi.mock("@opennextjs/cloudflare", () => ({
 }));
 
 import {
-  getApiBaseEnv,
   getAuthEnv,
   getEnv,
   getPublicEnv,
@@ -21,7 +20,6 @@ import {
 const validEnv = {
   ENVIRONMENT: "local",
   NEXT_PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
-  PUBLIC_API_BASE_URL: "http://127.0.0.1:8787",
   INTERNAL_API_BASE_URL: "http://127.0.0.1:8787",
   AUTH_URL: "http://127.0.0.1:3000",
   SENTRY_ENVIRONMENT: "local",
@@ -249,41 +247,19 @@ describe("env", () => {
     ).toEqual({});
   });
 
-  it("getApiBaseEnv returns partial API base config without requiring full EnvSchema", () => {
-    expect(
-      getApiBaseEnv({
-        PUBLIC_API_BASE_URL: "https://public.example.com",
-      }),
-    ).toEqual({
-      PUBLIC_API_BASE_URL: "https://public.example.com",
-    });
-  });
-
-  it("getApiBaseEnv preserves blank strings so callers can fail fast explicitly", () => {
-    expect(
-      getApiBaseEnv({
-        INTERNAL_API_BASE_URL: "",
-        PUBLIC_API_BASE_URL: "",
-      }),
-    ).toEqual({
-      INTERNAL_API_BASE_URL: "",
-      PUBLIC_API_BASE_URL: "",
-    });
-  });
-
   it("getPublicFetchEnv keeps public fetch resolution in env.ts", () => {
     const binding = { fetch: vi.fn() as unknown as typeof fetch };
     vi.stubEnv("NODE_ENV", "test");
-    vi.stubEnv("PUBLIC_API_BASE_URL", "https://process.example.com");
+    vi.stubEnv("NEXT_PUBLIC_API_BASE_URL", "https://process.example.com");
     try {
       expect(
         getPublicFetchEnv({
           API_SERVICE: binding,
-          PUBLIC_API_BASE_URL: "https://cloudflare.example.com",
+          NEXT_PUBLIC_API_BASE_URL: "https://cloudflare.example.com",
         }),
       ).toEqual({
         API_SERVICE: binding,
-        PUBLIC_API_BASE_URL: "https://process.example.com",
+        NEXT_PUBLIC_API_BASE_URL: "https://process.example.com",
         NODE_ENV: "test",
       });
     } finally {

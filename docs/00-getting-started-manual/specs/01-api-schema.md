@@ -159,6 +159,7 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 | `meetingSessions` | D1 `meeting_sessions` | 開催日 |
 | `attendance` | D1 `member_attendance` | 参加履歴 |
 | `photo` | D1 `member_photos` + R2 `members/{memberId}/avatar` | profile 写真。`source` は `admin` / `self` |
+| `memberFieldOverrides` | D1 `member_field_overrides` | 管理者が確定編集したプロフィール項目。表示時は Form 回答より優先 |
 | `tags` | D1 `member_tags` | 付与済みタグ |
 | `tagSource` | D1 `member_tags` | `rule` / `ai` / `manual` |
 | `tagAssignmentStatus` | D1 `tag_assignment_queue` | 手動確認待ち状態 |
@@ -168,6 +169,8 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 `MemberProfile.attendance` と `PublicMemberProfile.attendance` は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile`、admin member detail、`GET /public/members/:memberId` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile`、admin member detail、public member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` または use-case の default page request 経由でのみ渡す。public member detail は公開適格判定（`public_consent='consented'`, `publish_state='public'`, `is_deleted=0`）が成立した後に attendance を読む。非公開 member の attendance 有無や soft-deleted meeting を 404 / 除外経路で漏らさない。
 
 `GET /me/profile` は本人の `member_photos` 行が存在し、R2 presign secrets が揃う場合だけ `photoUrl?: string` を同梱する。presign 失敗・secret 不足・写真未登録では `photoUrl` を省略し、profile response は 200 を維持する。`photoUrl` は `members/{memberId}/avatar` の presigned GET URL であり、D1/R2 read は `apps/api` に閉じる。
+
+`GET /me/profile`、`GET /public/members`、`GET /public/members/:memberId`、admin member detail は profile field を返す前に `member_field_overrides` を合成する。値の優先順位は L1 `member_field_overrides` > L2 Google Form 本人再回答 > L3 スプレッドシート初回 seed。L1 の field は response item の `source` を `admin` として返し、Form / Sheets 由来は `forms` として扱う。本人による本文更新は Google Form 再回答を使い、本人更新用の D1 override endpoint は設けない。
 
 ### Public Profile Attendance Contract
 
@@ -211,6 +214,7 @@ tag の write 経路を 3 つに正式分離する。
 | GET | `/admin/members/:memberId/tags` | なし | `{ assigned: TagRef[], available: TagRef[] }`（`available` は `tag_definitions WHERE active=1` 全件） | member 不在 → 404 `member_not_found` |
 | POST | `/admin/members/:memberId/tags` | `{ tagId: string }` | `{ assigned, available }`（更新後） | body 不正 → 400 / member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` / active な tag master 不在 → 404 `tag_not_found` |
 | DELETE | `/admin/members/:memberId/tags/:tagId` | なし | 204 No Content | member 不在 → 404 `member_not_found` / `is_deleted=1` → 409 `member_is_deleted` |
+| PUT | `/admin/member-fields/:memberId` | `{ stableKey: StableKey, value: AnswerValue }` | `{ ok: true }` | body 不正 → 400 `invalid_body` / member 不在 → 404 `member_not_found` |
 | GET | `/admin/tags` | query: `q?: string`, `page?: number`, `pageSize?: number` | `{ total, items: TagMasterRef[] }`（inactive 含む） | query 不正 → 400 `invalid_query` |
 | POST | `/admin/tags` | `{ code, label, category }` | `TagMasterRef` | body 不正 → 400 / code 衝突 → 409 `tag_code_conflict` |
 | PATCH | `/admin/tags/:tagId` | `{ code?, label?, category?, expectedCode? }`（`code` 指定時は `expectedCode` 必須） | `TagMasterRef` | body 不正 → 400 / 更新項目なし → 400 `no_update_fields` / tag 不在 → 404 `tag_not_found` / code 衝突 → 409 `tag_code_conflict` / expectedCode 不一致 → 409 `tag_stale_conflict` |
@@ -359,18 +363,19 @@ UT-07C / UT-07C-FU-001 で追加した meeting attendance の管理用 endpoint 
 | `density` | enum | `comfy` | `comfy` / `dense` / `list`。UI 表示密度として `appliedQuery` に echo |
 | `page` | int | `1` | `>=1` |
 | `limit` | int | `24` | `1..100` に clamp |
+| `expand` | string / repeated | `[]` | `tags` 指定時のみ `items[].tags` を返す。comma separated / repeated の unknown は除外 |
 
 enum 外や過大値は 400 ではなく default / clamp に fallback し、内部例外以外は 200 を返す。
 
 ### Response
 
-Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`topTags`、`generatedAt` を返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
+Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`topTags`、`generatedAt` を返す。`items[]` は `memberId` / `fullName` / `nickname` / `occupation` / `location` / `ubmZone` / `ubmMembershipType` を基本 field とし、optional で `photoUrl`、`businessSummary`、`tags` を持つ。`businessSummary` は既存 `businessOverview` の先頭 1 行を trim し、120 文字で server cap した公開一覧用要約である。`tags` は `expand=tags` 指定時のみ `{ code, label, category }[]` として返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
 
 `topTags` は `/members` の tag chip picker 用候補であり、公開境界を通る member に紐づく active tag を `{ code, label, count }[]` として最大 20 件返す。集計は `COUNT(DISTINCT member_id)` の降順、同数時は `code ASC` とし、追加 endpoint は作らない。`tag` query による絞り込みは repeated `tag` の AND 条件を維持し、`topTags` 自体は候補提示のための補助 field として返す。
 
 ### Public boundary
 
-公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE とする。`status=private` や `status=withdrawn` のような値が来ても `status=all` に fallback し、非公開・削除済み・同意なし member を結果に混入させない。
+公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE とする。`businessSummary` は `businessOverview` が public visibility の既存 field である場合のみ projection し、D1 schema / Google Form schema / endpoint surface は変更しない。`status=private` や `status=withdrawn` のような値が来ても `status=all` に fallback し、非公開・削除済み・同意なし member を結果に混入させない。
 
 `Cache-Control` は `no-store` とし、admin 側の公開状態変更が公開一覧へ遅延反映されないようにする。
 

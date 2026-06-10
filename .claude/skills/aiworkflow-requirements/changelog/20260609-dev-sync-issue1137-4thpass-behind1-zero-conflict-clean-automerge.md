@@ -1,0 +1,11 @@
+# dev sync 4th pass: 1 コミット取込（behind 1・#1170）で **conflict 0・skill index も含め全 Auto-merge**・CI fail 0（2026-06-09 issue-1137・通算 4 回目）
+
+- 日時: 2026-06-09（`feat/issue-1137-bulk-tag-production-runtime-smoke-spec` への dev 取込・通算 4 回目）
+- ブランチ: `feat/issue-1137-bulk-tag-production-runtime-smoke-spec` ← `origin/dev`（sub-worktree wt-6・**1 behind / 8 ahead**・前回 merge `302e79651` 後に #1170 が 1 件 land・ローカル dev = origin/dev 0/0）
+- 起点: ユーザー指示「CI が失敗していたら CI を改善・コンフリクトが発生していたら解消」。**今回は CI fail 0（PR #1171 全 pass）・conflict 0** → どちらも対応不要、merge を取り込んで PR を最新化するのみ。
+- 関連: 1〜3 回目 [[20260609-dev-sync-issue1137-behind9-union1-topicmap-only-keywords-ours]] / [[20260609-dev-sync-issue1137-2ndpass-behind1-union1-keywords-ours-ci-workflow-shell-lint-fix]] / [[20260609-dev-sync-issue1137-3rdpass-behind1-union1-keywords-ours-no-ci-fail]]
+- 取込: dev 新規 1 コミット = `66d18af1b`（#1170 公開メンバー詳細を proto 準拠 5 セクション化しアンケート全項目を表示・public-member-detail-survey-fields-richness close-out 一式同梱）
+- 事象: **content CONFLICT 0**。`git merge origin/dev --no-edit` が `--diff-filter=U` 0 で完走し post-merge hook まで自動到達。`indexes/keywords.json` / `topic-map.md` を含む skill index も全て Auto-merge。merge `43a9b2a30`。
+- **核心データポイント（routine skill-index conflict は毎 sync 保証されない・1〜3 回目との対照）**: 1〜3 回目は union 1（topic-map）+ keywords `--ours` が再現したが、**本回 #1170 は web feature（公開メンバー詳細）+ close-out が新規 completed-tasks dir と自前 changelog を追加する構成で、その index 再生成 delta が本ブランチ側の skill index 既存行と行域非重複だったため git が 3-way auto-merge を成立させ、topic-map / keywords とも衝突しなかった**。確定則の補強: skill index conflict の発生は「両側が同一行 region を touch するか」だけが支配し、**取込が close-out 同梱の大型コミットでも行域が割れれば conflict 0 になりうる**＝sync-merge コスト見積りで「skill index は毎回必ず衝突する」と固定しない（cf-token behind 1 の keywords Auto-merge と同系列の下端事例）。
+- 検証順: `git fetch --prune origin`（dev = origin/dev 0/0）→ `git rev-list HEAD...origin/dev` = 8/1 → `gh pr checks 1171`（fail 0 / pending 0）→ `git merge origin/dev --no-edit` CONFLICT 0 → 自動 merge commit `43a9b2a30`（lefthook 全 pass・MERGE_HEAD で staged-task-dir-guard auto-skip）→ `pnpm typecheck` / `pnpm lint` exit 0（#1170 の apps/web 変更が本 feature と touch 集合没交渉）。
+- 反映先: 本 changelog（**conflict 0 の clean auto-merge＝routine index conflict 非保証の対照データ点**）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避で起こさない。task-specification-creator [[dev-sync-merge-conflict-resolution]] と対。

@@ -4,7 +4,7 @@ export interface ServiceBinding {
 
 export interface OgEnv {
   API_SERVICE?: ServiceBinding;
-  PUBLIC_API_BASE_URL?: string;
+  NEXT_PUBLIC_API_BASE_URL?: string;
 }
 
 export interface MemberSummary {
@@ -63,7 +63,7 @@ async function fetchViaBaseUrl(
   env: OgEnv,
   fetchImpl: typeof fetch,
 ): Promise<Response | null> {
-  const baseUrl = env.PUBLIC_API_BASE_URL?.trim();
+  const baseUrl = env.NEXT_PUBLIC_API_BASE_URL?.trim();
   if (!baseUrl) return null;
   return fetchImpl(buildApiUrl(memberId, baseUrl), {
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),

@@ -1,7 +1,11 @@
 // UT-09: Sheets row → D1 member_responses 行 への mapping。
 // Sheets schema をコードに固定しない方針 (不変条件 #1) のため、ヘッダ行から index を構築する。
 
-import { STABLE_KEY } from "@ubm-hyogo/shared";
+import {
+  normalizeUbmMembershipType,
+  normalizeUbmZone,
+  STABLE_KEY,
+} from "@ubm-hyogo/shared";
 
 export interface MemberRow {
   responseId: string;
@@ -46,41 +50,74 @@ const DB_FIELD_MAP: Record<string, keyof MemberRow> = {
   "タイムスタンプ": "submittedAt",
   "メールアドレス": "responseEmail",
   "氏名": STABLE_KEY.fullName,
+  "お名前（フルネーム）": STABLE_KEY.fullName,
   "ニックネーム": STABLE_KEY.nickname,
+  "あだ名・ニックネーム": STABLE_KEY.nickname,
   "所在地": STABLE_KEY.location,
+  "お住まい（都道府県・市区町村）": STABLE_KEY.location,
   "生年月日": STABLE_KEY.birthDate,
   "職業": STABLE_KEY.occupation,
+  "職業・仕事内容": STABLE_KEY.occupation,
   "出身地": STABLE_KEY.hometown,
   "UBMゾーン": STABLE_KEY.ubmZone,
+  "UBM区画": STABLE_KEY.ubmZone,
   "UBM会員種別": STABLE_KEY.ubmMembershipType,
+  "UBM参加ステータス": STABLE_KEY.ubmMembershipType,
   "UBM入会日": STABLE_KEY.ubmJoinDate,
+  "UBMに入会・参加した時期": STABLE_KEY.ubmJoinDate,
   "事業概要": STABLE_KEY.businessOverview,
+  "ビジネス概要": STABLE_KEY.businessOverview,
   "強み・スキル": STABLE_KEY.skills,
+  "得意分野・スキル": STABLE_KEY.skills,
   "課題": STABLE_KEY.challenges,
+  "現在の課題・相談したいこと": STABLE_KEY.challenges,
   "提供できること": STABLE_KEY.canProvide,
+  "提供できること・協力できること": STABLE_KEY.canProvide,
   "趣味": STABLE_KEY.hobbies,
+  "趣味・好きなこと": STABLE_KEY.hobbies,
   "最近の関心": STABLE_KEY.recentInterest,
+  "最近ハマっていること": STABLE_KEY.recentInterest,
   "座右の銘": STABLE_KEY.motto,
+  "座右の銘・大切にしている言葉": STABLE_KEY.motto,
   "その他の活動": STABLE_KEY.otherActivities,
+  "仕事以外の活動": STABLE_KEY.otherActivities,
   "Webサイト": STABLE_KEY.urlWebsite,
+  "ホームページ URL": STABLE_KEY.urlWebsite,
   "Facebook": STABLE_KEY.urlFacebook,
+  "Facebook URL": STABLE_KEY.urlFacebook,
   "Instagram": STABLE_KEY.urlInstagram,
+  "Instagram URL": STABLE_KEY.urlInstagram,
   "Threads": STABLE_KEY.urlThreads,
+  "Threads URL": STABLE_KEY.urlThreads,
   "YouTube": STABLE_KEY.urlYoutube,
+  "YouTube URL": STABLE_KEY.urlYoutube,
   "TikTok": STABLE_KEY.urlTiktok,
+  "TikTok URL": STABLE_KEY.urlTiktok,
   "X": STABLE_KEY.urlX,
+  "X URL": STABLE_KEY.urlX,
+  "X（Twitter）URL": STABLE_KEY.urlX,
   "ブログ": STABLE_KEY.urlBlog,
+  "ブログ URL": STABLE_KEY.urlBlog,
   "note": STABLE_KEY.urlNote,
+  "note URL": STABLE_KEY.urlNote,
   "LinkedIn": STABLE_KEY.urlLinkedin,
+  "LinkedIn URL": STABLE_KEY.urlLinkedin,
   "その他URL": STABLE_KEY.urlOthers,
+  "その他のSNS・URL": STABLE_KEY.urlOthers,
+  "その他の SNS・URL": STABLE_KEY.urlOthers,
   "自己紹介": STABLE_KEY.selfIntroduction,
+  "自己紹介・一言メッセージ": STABLE_KEY.selfIntroduction,
   "公開同意": STABLE_KEY.publicConsent,
+  "ホームページへの掲載に同意しますか？": STABLE_KEY.publicConsent,
   "規約同意": STABLE_KEY.rulesConsent,
+  "勧誘ルール・免責事項への同意": STABLE_KEY.rulesConsent,
 };
 
 const CONSENT_MAP: Record<string, "consented" | "declined" | "unknown"> = {
   "はい": "consented",
   "同意する": "consented",
+  "同意する（掲載ok）": "consented",
+  "掲載ok": "consented",
   "yes": "consented",
   "true": "consented",
   "いいえ": "declined",
@@ -88,6 +125,11 @@ const CONSENT_MAP: Record<string, "consented" | "declined" | "unknown"> = {
   "no": "declined",
   "false": "declined",
 };
+
+// CORR-5 / 真因A: zone / status の enum 正規化は `@ubm-hyogo/shared` の
+// normalizeUbmZone / normalizeUbmMembershipType（field.ts zod 正本から導出・SSOT）へ一本化した。
+// ローカル重複マップ（旧 UBM_ZONE_MAP / UBM_MEMBERSHIP_MAP）は不変条件 #1（二重定義禁止）に従い削除。
+// 未知/空は raw 保持ではなく null（AC-4 誤ヒット防止・WEEKGRD-02 安全側）— mapSheetRows 内で吸収する。
 
 export interface MapResult {
   readonly rows: MemberRow[];
@@ -141,6 +183,14 @@ export function mapSheetRows(values: string[][]): MapResult {
       }
       if (col.key === STABLE_KEY.publicConsent || col.key === STABLE_KEY.rulesConsent) {
         partial[col.key] = CONSENT_MAP[value.trim().toLowerCase()] ?? "unknown";
+      } else if (col.key === STABLE_KEY.ubmZone) {
+        // 真因A 根治: Google Form ラベル → enum 正規化。
+        // 未知/空は格納せず fillNulls で null にし、value_json に生ラベルを残さない (AC-4)。
+        const zone = normalizeUbmZone(value);
+        if (zone !== null) partial.ubmZone = zone;
+      } else if (col.key === STABLE_KEY.ubmMembershipType) {
+        const membership = normalizeUbmMembershipType(value);
+        if (membership !== null) partial.ubmMembershipType = membership;
       } else if (col.key !== "responseId") {
         (partial as Record<string, string>)[col.key] = value;
       }

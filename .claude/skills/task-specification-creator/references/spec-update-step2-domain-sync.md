@@ -20,6 +20,7 @@
 - typo 修正
 - テストケース追加のみ
 - internal 実装だけで shared/public contract が不変な場合
+- **新規 public surface を追加するが、それが内部開発者向けの派生物（bash lib / CLI / CI script / smoke runner 等）の契約に閉じ、ドメイン正本（API / IPC / D1 / UI）契約は不変な場合** → Step 2 は「更新なし（N/A）」。新規 surface（関数シグネチャ / 公開変数 / 引数化 contract）は **workflow 内**（phase-2 関数仕様表 / implementation-guide / artifact inventory）に正本化し、aiworkflow-requirements 台帳へは workflow registration（`task-workflow-active.md` / quick-reference / resource-map）のみ同期する。「公開 surface が増えた＝ドメイン正本更新」と短絡しないこと（例: `issue-1138-smoke-runner-common-lib-extraction` の `smoke_*` 9 関数）。
 
 ## 判定メモ
 
