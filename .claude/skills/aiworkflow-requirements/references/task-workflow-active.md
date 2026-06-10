@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/` |
+| 目的 | `/admin/audit` の監査ログをカード型タイムライン、appliedFilters チップ、目的・用語ガイド、エラー親切化、datalist で読める UI にし、`/admin/tags/catalog` の reduce クラッシュを防御する |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditLogDisplay.ts`, `auditAppliedFilters.ts`, `AuditPurposeGuide.tsx`, `auditGlossary.ts`, `auditErrorMessage.ts`, `TagCatalogPanel.tsx`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 6 files / 55 tests PASS |
+| invariant | `apps/api` / D1 / Google Form / shared API response shape unchanged。`appliedFilters` は既存 surface の UI 可視化のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md` |
+| user gate | runtime screenshots, staging authenticated baseline, commit, push, PR, staging deploy |
+
 ### issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
 
 | 項目 | 値 |

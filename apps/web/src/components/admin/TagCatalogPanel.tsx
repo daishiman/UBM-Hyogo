@@ -28,7 +28,7 @@ interface PendingOperation {
 }
 
 interface TagCatalogPanelProps {
-  readonly initial: TagCatalogListView;
+  readonly initial?: Partial<TagCatalogListView> | null | undefined;
   readonly query: string;
   readonly page: number;
   readonly pageSize: number;
@@ -41,7 +41,9 @@ export function TagCatalogPanel({
   pageSize,
 }: TagCatalogPanelProps) {
   const router = useRouter();
-  const [items, setItems] = useState(initial.items);
+  const safeItems = Array.isArray(initial?.items) ? initial.items : [];
+  const safeTotal = typeof initial?.total === "number" ? initial.total : 0;
+  const [items, setItems] = useState(safeItems);
   const [searchText, setSearchText] = useState(query);
   const [pending, setPending] = useState<PendingOperation | null>(null);
   const [busy, setBusy] = useState<PendingOperation | null>(null);
@@ -161,7 +163,7 @@ export function TagCatalogPanel({
         <div className="chip-row" aria-label="タグ状態サマリ">
           <Chip tone="green">有効 {counts.active}件</Chip>
           <Chip tone="stone">停止中 {counts.inactive}件</Chip>
-          <Chip tone="warm">全体 {initial.total}件</Chip>
+          <Chip tone="warm">全体 {safeTotal}件</Chip>
         </div>
       </Card>
 
@@ -202,12 +204,12 @@ export function TagCatalogPanel({
           前へ
         </Button>
         <span>
-          page {page} / {Math.max(1, Math.ceil(initial.total / pageSize))}
+          page {page} / {Math.max(1, Math.ceil(safeTotal / pageSize))}
         </span>
         <Button
           size="sm"
           variant="soft"
-          disabled={page * pageSize >= initial.total}
+          disabled={page * pageSize >= safeTotal}
           onClick={() => onPage(page + 1)}
         >
           次へ
