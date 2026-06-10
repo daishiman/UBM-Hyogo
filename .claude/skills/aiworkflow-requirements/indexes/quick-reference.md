@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+## admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-history-purpose-clarity-and-filter-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema/history` の `appliedFilters.batchId` ZodError raw JSON 表示を根治し、目的説明 UI と ALIAS HISTORY card 表示へ整える |
+| implementation | `apps/web/src/lib/admin/api.ts`, `schemaHistoryError.ts`, `schemaHistoryGlossary.ts`, `SchemaHistoryPurposeExplainer.tsx`, `SchemaDiffHistoryPanel.tsx`, `/admin/schema/history/page.tsx`, `globals.css` |
+| key contract | `AppliedFiltersZ` accepts `batchId`; no batchId filter UI; raw ZodError JSON is converted to Japanese message; history is card list with purpose explainer |
+| evidence | focused Vitest 4 files / 60 tests PASS; web typecheck PASS; verify:tokens PASS; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
+
 ## staging-test-accounts-full-data-and-detail-verify（2026-06-09）
 
 | 項目 | 値 |
