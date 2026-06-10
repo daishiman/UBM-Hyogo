@@ -13,6 +13,7 @@
     "27257083636",
     "27274941450",
     "27276848458",
+    "27282985575",
     "27308537802"
   ],
   "viewport_dimensions": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "会員管理(/admin/members)を640px以下で単一table DOMのままscoped CSSでカード表示化したことによりmobile描画が意図的に変化。visual-full(mobile)のadmin-members baselineを新カードレイアウトに更新するため。"
+  "last_refresh_reason": "dev sync merge: 会員管理(/admin/members)を640px以下で単一table DOMのままscoped CSSでカード表示化したことによりmobile描画が意図的に変化し、visual-full(mobile)のadmin-members baselineを新カードレイアウトに更新（feature 側・run 27308537802）。取込 dev 側は /admin/schema が SchemaPurposeExplainer + SchemaReviewGuide 両方を描画する統合後描画へ admin-schema baseline を再生成（run 27282985575）。対象スナップショット（admin-members mobile / admin-schema）が分離するため双方を union 統合。"
 }

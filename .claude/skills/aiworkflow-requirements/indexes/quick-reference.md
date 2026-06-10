@@ -12,6 +12,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
 
+## admin-schema-diff-review-resolve-ux（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema` diff-review の stableKey alias 割当フォームをクリックカード直下へインライン化し、目的説明とやさしい用語で操作価値を明示する |
+| implementation | `schemaReviewTerms.ts`, `SchemaReviewGuide.tsx`, `SchemaDiffPanel.tsx`, `/admin/schema/page.tsx`, `globals.css` |
+| evidence | focused Vitest 3 files / 36 tests PASS; web typecheck PASS; lint PASS; verify-design-tokens PASS; apps/api diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR |
+
 ## admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
 
 | 項目 | 値 |
