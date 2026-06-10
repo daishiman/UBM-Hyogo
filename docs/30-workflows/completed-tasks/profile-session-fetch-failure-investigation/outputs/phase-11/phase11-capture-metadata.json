@@ -1,0 +1,10 @@
+{
+  "workflow_id": "profile-session-fetch-failure-investigation",
+  "status": "pending_implementation",
+  "reason": "Local implementation and jsdom contract tests are present; authenticated staging screenshot capture is user-gated.",
+  "local_tests": {
+    "status": "passed",
+    "files": 3,
+    "tests": 25
+  }
+}

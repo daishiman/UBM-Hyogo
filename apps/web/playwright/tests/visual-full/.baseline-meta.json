@@ -14,6 +14,7 @@
     "27179703910",
     "27204350643",
     "27247391142",
+    "27253086349",
     "27257083636"
   ],
   "viewport_dimensions": {
@@ -42,5 +43,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge: /admin/schema に SchemaPurposeExplainer(目的説明UI)を追加しページ高が1341→1839pxへ変化した admin-schema-{desktop,tablet,mobile} baseline（feat/admin-schema-page-purpose-clarity-ux 783060d3a 再生成）を保持しつつ、dev 取込で admin-sidebar-collapse-layout-fix(collapsed サイドバーアイコン18px→40px拡大で admin全ページ fullPage高さ 768x1024→768x1224 へ増加) と /members タグ絞り込み UI/UX 整形（members ページ高さ 1303→1115px 変化）の baseline を統合。admin-schema系/admin-sidebar系/members系で対象スナップショットが分離するため三者を統合"
+  "last_refresh_reason": "dev sync merge: /admin/schema に SchemaPurposeExplainer(目的説明UI)を追加しページ高が1341→1839pxへ変化した admin-schema-{desktop,tablet,mobile} baseline（feat/admin-schema-page-purpose-clarity-ux 783060d3a 再生成）を保持しつつ、dev 取込で (a) admin-sidebar-collapse-layout-fix(collapsed サイドバーアイコン18px→40px拡大で admin全ページ fullPage高さ 768x1024→768x1224 へ増加)、(b) /members タグ絞り込み UI/UX 整形（members ページ高さ 1303→1115px 変化）、(c) admin タグ定義UI統合(tag-catalog削除/タグ管理→タグ定義・nav 12→11 で tablet 6 admin画面の baseline を 11-item 描画へ追従) の baseline を統合。admin-schema系/admin-sidebar系/members系/admin-tag定義系で対象スナップショットが分離するため統合"
 }
