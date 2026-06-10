@@ -1,0 +1,69 @@
+{
+  "taskId": "admin-meeting-bulk-attendance-select",
+  "mode": "VISUAL",
+  "route": "/(admin)/admin/meetings",
+  "status": "local_fixture_screenshots_captured_staging_pending_user_gate",
+  "note": "apps/web implementation, DOM/state evidence, and local fixture PNG screenshots are captured. Staging authenticated baseline remains user-gated.",
+  "viewports": {
+    "desktop": "1280x800"
+  },
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "name": "bulk-attendance-drawer-closed.png",
+      "viewport": "desktop",
+      "state": "ドロワー閉（開催日一覧）",
+      "ac": [],
+      "status": "captured"
+    },
+    {
+      "tc": "TC-11-2",
+      "name": "bulk-attendance-checklist-expanded.png",
+      "viewport": "desktop",
+      "state": "チェックリスト展開（未出席候補一覧）",
+      "ac": ["AC-1", "AC-4"],
+      "status": "captured"
+    },
+    {
+      "tc": "TC-11-3",
+      "name": "bulk-attendance-multi-selected.png",
+      "viewport": "desktop",
+      "state": "複数選択中（aria-checked=true・件数 N 反映）",
+      "ac": ["AC-1", "AC-3"],
+      "status": "captured"
+    },
+    {
+      "tc": "TC-11-4",
+      "name": "bulk-attendance-search-filtered.png",
+      "viewport": "desktop",
+      "state": "検索絞込後の候補リスト",
+      "ac": ["AC-2"],
+      "status": "captured"
+    },
+    {
+      "tc": "TC-11-5",
+      "name": "bulk-attendance-modal-expanded.png",
+      "viewport": "desktop",
+      "state": "大量選択モーダル展開",
+      "ac": ["AC-8"],
+      "status": "captured"
+    },
+    {
+      "tc": "TC-11-6",
+      "name": "bulk-attendance-success-toast.png",
+      "viewport": "desktop",
+      "state": "一括追加成功 toast",
+      "ac": ["AC-6"],
+      "status": "captured"
+    },
+    {
+      "tc": "TC-11-7",
+      "name": "bulk-attendance-failure-toast.png",
+      "viewport": "desktop",
+      "state": "一括追加失敗 toast（committed:false・選択保持）",
+      "ac": ["AC-7"],
+      "status": "captured"
+    }
+  ],
+  "runtimeBoundary": "staging authenticated screenshot は user-gated。"
+}

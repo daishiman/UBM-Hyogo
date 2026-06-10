@@ -22,6 +22,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
 | user gate | browser/staging visual screenshots, commit, push, PR |
 
+### admin-meeting-bulk-attendance-select（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/` |
+| 目的 | admin 開催日ドロワーの出席追加を複数会員同時選択→一括追加へ是正する |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/ui/Checkbox.tsx`, `apps/web/src/features/admin/components/_meetings/{useBulkAttendanceSelection,bulk-attendance-message,BulkAttendanceChecklist,BulkAttendanceModal,MeetingAttendanceDrawer,MeetingsClientShell}.ts*`, `apps/web/src/styles/globals.css` |
+| invariant | existing import endpoint reused; API / D1 / Google Form / packages unchanged; `committed:true` の時だけ attended state を更新 |
+| evidence | focused Vitest 10 files / 38 tests PASS、typecheck PASS、lint PASS、verify:tokens PASS、apps/api/packages diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md` |
+| user gate | pixel screenshot、authenticated staging visual baseline、commit、push、PR |
+
 ### public-members-tag-filter-ux-refine（2026-06-08）
 
 | 項目 | 値 |
