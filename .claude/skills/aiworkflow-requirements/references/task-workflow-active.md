@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-history-purpose-clarity-and-filter-fix/` |
+| 目的 | `/admin/schema/history` の `appliedFilters.batchId` ZodError raw JSON 表示を根治し、目的説明 UI と ALIAS HISTORY card 表示へ整える |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/schemaHistoryError.ts`, `apps/web/src/lib/admin/schemaHistoryGlossary.ts`, `apps/web/src/components/admin/SchemaHistoryPurposeExplainer.tsx`, `apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/styles/globals.css` |
+| tests | `apps/web/src/lib/admin/__tests__/api.spec.ts`, `schemaHistoryError.spec.ts`, `SchemaDiffHistoryPanel.component.spec.tsx`, `SchemaHistoryPurposeExplainer.component.spec.tsx` |
+| evidence | focused Vitest 4 files / 60 tests PASS、local Playwright 2 tests PASS + screenshots 2 PNG present、web typecheck PASS、verify:tokens PASS、apps/api diff empty |
+| invariant | existing `GET /admin/audit?action=schema_diff.alias_assigned` only; apps/api / D1 / Google Form unchanged; batchId filter UI is not added |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
+
 ### staging-test-accounts-full-data-and-detail-verify（2026-06-09）
 
 | 項目 | 値 |

@@ -25,8 +25,8 @@ export default async function SchemaHistoryPage({
     <section className="flex flex-col gap-4">
       <AdminPageHeader
         eyebrow="ADMIN / SCHEMA"
-        title="alias resolve 履歴"
-        description="過去の解消結果を audit 経由で閲覧"
+        title="設問の紐付け履歴"
+        description="フォーム設問の変化を管理者がどう解消したかを確認します"
         breadcrumbs={[
           { label: "管理", href: "/admin" },
           { label: "Form schema", href: "/admin/schema" },
