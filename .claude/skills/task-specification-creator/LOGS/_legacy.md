@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-10 - member-profile-google-form-data-reflection same-cycle implementation
+
+`docs/30-workflows/member-profile-google-form-data-reflection/` の automation-30 改善で、実装対象が明確な `implementation / VISUAL_ON_EXECUTION` workflow を plan-only の `spec_created` で止めず、同一サイクルで `packages/integrations/google` と `apps/api` のローカル実装、focused tests、Phase 12 strict outputs、aiworkflow same-wave sync まで完了して `implemented_local_runtime_pending` へ昇格した。staging recovery mutation、before/after screenshots、deploy、commit、push、PR のみ user-gated として残した。
+
 ## 2026-06-03 - issue-1079 D1 JSON search binding / full-scan pattern
 
 `docs/30-workflows/completed-tasks/issue-1079-bulk-tag-audit-batch-filter/` の automation-30 改善で、D1 repository の JSON column 検索における SQL binding 落とし穴を task-specification-creator へ同一サイクル反映した。`references/patterns-testing-and-implementation.md` に、同一値を after/before JSON path で OR 検索する場合は単一 `?` helper を使わず 1 回だけ bind して同じ `?N` を複数箇所参照すること、破損 JSON row 混在に備えて `json_valid` guard を入れること、JSON index 不在時は Phase 2 で full-scan 緩和と schema 化境界を明記することを追加した。
