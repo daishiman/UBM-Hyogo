@@ -1072,6 +1072,14 @@ current apply API は旧 apply endpoint ではなく `/admin/schema/aliases` で
 - apply action: `alias を適用`
 - backfill label: `back-fill 状態`
 
+### 6.2.1 `/admin/schema/history` 履歴画面
+
+`/admin/schema/history` は schema alias resolve の監査履歴専用画面であり、管理者に「Google Form 設問の変化を、誰がいつどの stableKey へ紐付けたか」を説明する。page header は title `設問の紐付け履歴`、description `フォーム設問の変化を管理者がどう解消したかを確認します` を使用する。
+
+画面冒頭に `SchemaHistoryPurposeExplainer` を配置し、`ALIAS HISTORY` eyebrow、流れ 3 ステップ、用語集（設問の紐付け / stableKey / 旧→新 / batchId）を表示する。履歴一覧は table ではなく `.schema-history-card` のカードリストで描画し、各カードは日時・操作者・question text・旧 stableKey・新 stableKey を含む。取得失敗時は ZodError の raw JSON を出さず、`.schema-history-error` に human-readable な日本語メッセージを表示する。
+
+データ取得は既存 `GET /admin/audit?action=schema_diff.alias_assigned` のみを使用する。web adapter は `appliedFilters.batchId` を string/null として受理するが、history 画面に batchId filter UI は追加しない。apps/api / D1 schema / Google Form schema は不変。
+
 ### 6.3 状態遷移
 
 ```mermaid
