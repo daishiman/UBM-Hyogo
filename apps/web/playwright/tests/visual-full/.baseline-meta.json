@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "ec0520a6c62954d386ed4851f10f5c9b79386bcd",
-  "captured_at": "2026-06-10T01:52:01Z",
+  "captured_at_commit_sha": "5e0fb55ed1764b8893cce3c98dd4b89eee6c5b17",
+  "captured_at": "2026-06-10T04:39:54Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26732057120",
     "26732700618",
     "26793911803",
     "26857844535",
@@ -13,8 +12,8 @@
     "27050525423",
     "27052918274",
     "27179703910",
-    "27204350643",
-    "27247391142"
+    "27247391142",
+    "27253086349"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -42,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge: admin-sidebar-collapse-layout-fix(collapsed サイドバーアイコン18px→40px拡大で admin全ページ fullPage高さ 768x1024→768x1224 へ増加・Linux baseline 再生成) を取り込みつつ、feature /members タグ絞り込み UI/UX 整形（横並び flex-wrap + 選択強調）で members ページ高さが 1303→1115px に変化した members baseline を保持。admin系/members系で対象スナップショットが分離するため双方を統合"
+  "last_refresh_reason": "admin タグ定義UI統合(tag-catalog削除/タグ管理→タグ定義・nav 12→11)で admin サイドバーが意図的に変化。dev #1181 が再生成した tablet baseline(12-item)が feature の 11-item 描画と不一致し visual-full(tablet) 6 admin画面が diff。feature の実描画に baseline を追従させる。"
 }
