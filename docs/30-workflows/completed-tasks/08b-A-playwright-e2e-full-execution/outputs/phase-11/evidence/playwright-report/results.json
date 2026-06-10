@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright.config.ts",
-    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
     "forbidOnly": false,
     "fullyParallel": true,
     "globalSetup": null,
@@ -14,24 +14,28 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "desktop-chromium",
         "name": "desktop-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
           "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
           "/visual-full\\/.*\\.spec\\.ts$/",
           "/full-smoke\\.spec\\.ts$/",
+          "/sidebar-shell\\/.*\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -39,19 +43,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "smoke-chromium",
         "name": "smoke-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "/full-smoke\\.spec\\.ts$/"
@@ -59,13 +64,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "visual-chromium",
         "name": "visual-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/admin-shell\\/.*\\.spec\\.ts$/"
         ],
@@ -75,24 +80,70 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "setup-auth",
+        "name": "setup-auth",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/setup-auth\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "auth-slot-coverage",
+        "name": "auth-slot-coverage",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/auth-slot-coverage\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "desktop-firefox",
         "name": "desktop-firefox",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
           "/visual-staging-authenticated\\/.*\\.(spec|ts)$/",
           "/visual-full\\/.*\\.spec\\.ts$/",
           "/full-smoke\\.spec\\.ts$/",
+          "/sidebar-shell\\/.*\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -100,13 +151,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "mobile-webkit",
         "name": "mobile-webkit",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
@@ -116,11 +167,15 @@
           "/admin-pages\\.spec\\.ts$/",
           "/admin-tags-resolve-drawer\\.spec\\.ts$/",
           "/task15-admin-screenshots\\.spec\\.ts$/",
+          "/sidebar-shell\\/.*\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -128,19 +183,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "visual-full-chromium-desktop",
         "name": "visual-full-chromium-desktop",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-full",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-full",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -148,19 +204,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "visual-full-chromium-tablet",
         "name": "visual-full-chromium-tablet",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-full",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-full",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -168,19 +225,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "visual-full-chromium-mobile",
         "name": "visual-full-chromium-mobile",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-full",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-full",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -188,23 +246,110 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "sidebar-shell-visual-desktop",
+        "name": "sidebar-shell-visual-desktop",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-visual\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "sidebar-shell-visual-tablet",
+        "name": "sidebar-shell-visual-tablet",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-visual\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "sidebar-shell-visual-mobile",
+        "name": "sidebar-shell-visual-mobile",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-visual\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "sidebar-shell-smoke",
+        "name": "sidebar-shell-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/sidebar-shell",
+        "testIgnore": [
+          "**/admin-identity-conflicts.spec.ts",
+          "**/admin-requests.spec.ts",
+          "**/admin-schema-conflicts-audit.spec.ts",
+          "**/admin-member-delete.spec.ts",
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
+        ],
+        "testMatch": [
+          "/sidebar-shell-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "staging",
         "name": "staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests",
         "testIgnore": [
           "/visual\\/.*\\.spec\\.ts$/",
           "/visual-staging\\/.*\\.spec\\.ts$/",
           "/visual-full\\/.*\\.spec\\.ts$/",
           "/full-smoke\\.spec\\.ts$/",
+          "/setup-auth\\.spec\\.ts$/",
+          "/auth-slot-coverage\\.spec\\.ts$/",
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -212,19 +357,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "staging-visual",
         "name": "staging-visual",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-staging",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "/visual-staging\\/.*\\.spec\\.ts$/"
@@ -232,19 +378,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "setup-authenticated-staging",
         "name": "setup-authenticated-staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-staging-authenticated",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "/setup\\.staging-auth\\.ts$/"
@@ -252,13 +399,13 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "staging-visual-authenticated",
         "name": "staging-visual-authenticated",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-staging-authenticated",
         "testIgnore": [
           "/setup\\.staging-auth\\.ts$/",
           "/teardown\\.staging-auth\\.ts$/"
@@ -269,19 +416,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {},
         "id": "teardown-authenticated-staging",
         "name": "teardown-authenticated-staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual-staging-authenticated",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual-staging-authenticated",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "/teardown\\.staging-auth\\.ts$/"
@@ -289,19 +437,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "admin-staging-visual-mobile",
         "name": "admin-staging-visual-mobile",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -309,19 +458,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "admin-staging-visual-tablet",
         "name": "admin-staging-visual-tablet",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -329,19 +479,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "admin-staging-visual-desktop",
         "name": "admin-staging-visual-desktop",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -349,19 +500,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "admin-staging-visual-wide",
         "name": "admin-staging-visual-wide",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/playwright/tests/visual/admin-shell",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -369,19 +521,20 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {},
         "id": "staging-smoke",
         "name": "staging-smoke",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/tests/e2e",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/tests/e2e",
         "testIgnore": [
           "**/admin-identity-conflicts.spec.ts",
           "**/admin-requests.spec.ts",
           "**/admin-schema-conflicts-audit.spec.ts",
           "**/admin-member-delete.spec.ts",
-          "**/issue776-schema-bulk-resolve.spec.ts"
+          "**/issue776-schema-bulk-resolve.spec.ts",
+          "**/members-ux-clarity.spec.ts"
         ],
         "testMatch": [
           "/staging-smoke\\.spec\\.ts$/"
@@ -409,12 +562,12 @@
         null
       ],
       [
-        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/node_modules/monocart-reporter/lib/index.js",
+        "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/node_modules/monocart-reporter/lib/index.js",
         {
           "name": "UBM-Hyogo E2E",
           "outputFile": "../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/monocart/index.html",
           "coverage": {
-            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/coverage",
+            "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-153847-wt-8/apps/web/coverage",
             "reports": [
               [
                 "v8",
@@ -446,218 +599,18 @@
     "workers": 1,
     "webServer": null
   },
-  "suites": [
+  "suites": [],
+  "errors": [
     {
-      "title": "visual-staging-authenticated/teardown.staging-auth.ts",
-      "file": "visual-staging-authenticated/teardown.staging-auth.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "remove storageState",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "teardown-authenticated-staging",
-              "projectName": "teardown-authenticated-staging",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "14c2f8c54d5856e38a44-c009d074fe6487b64e4f",
-          "file": "visual-staging-authenticated/teardown.staging-auth.ts",
-          "line": 12,
-          "column": 1
-        }
-      ]
-    },
-    {
-      "title": "visual-staging-authenticated/setup.staging-auth.ts",
-      "file": "visual-staging-authenticated/setup.staging-auth.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "mint member storageState",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "setup-authenticated-staging",
-              "projectName": "setup-authenticated-staging",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "081592e5fe10c060abbe-40d0b2bbea63b2c0d374",
-          "file": "visual-staging-authenticated/setup.staging-auth.ts",
-          "line": 16,
-          "column": 1
-        },
-        {
-          "title": "mint admin storageState",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "setup-authenticated-staging",
-              "projectName": "setup-authenticated-staging",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "081592e5fe10c060abbe-c0b28a83452a0d6b24b8",
-          "file": "visual-staging-authenticated/setup.staging-auth.ts",
-          "line": 23,
-          "column": 1
-        }
-      ]
-    },
-    {
-      "title": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
-      "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "admin member drawer tag edit baseline",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [
-                {
-                  "type": "skip",
-                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
-                  "location": {
-                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
-                    "line": 7,
-                    "column": 6
-                  }
-                }
-              ],
-              "expectedStatus": "skipped",
-              "projectId": "admin-staging-visual-mobile",
-              "projectName": "admin-staging-visual-mobile",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "13bc872d5f8456f21e30-6f680fbadef80372dd7e",
-          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
-          "line": 12,
-          "column": 1
-        },
-        {
-          "title": "admin member drawer tag edit baseline",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [
-                {
-                  "type": "skip",
-                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
-                  "location": {
-                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
-                    "line": 7,
-                    "column": 6
-                  }
-                }
-              ],
-              "expectedStatus": "skipped",
-              "projectId": "admin-staging-visual-tablet",
-              "projectName": "admin-staging-visual-tablet",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "13bc872d5f8456f21e30-8cc9cb0bd467375af771",
-          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
-          "line": 12,
-          "column": 1
-        },
-        {
-          "title": "admin member drawer tag edit baseline",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [
-                {
-                  "type": "skip",
-                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
-                  "location": {
-                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
-                    "line": 7,
-                    "column": 6
-                  }
-                }
-              ],
-              "expectedStatus": "skipped",
-              "projectId": "admin-staging-visual-desktop",
-              "projectName": "admin-staging-visual-desktop",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "13bc872d5f8456f21e30-38d37b334c1e5b281143",
-          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
-          "line": 12,
-          "column": 1
-        },
-        {
-          "title": "admin member drawer tag edit baseline",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [
-                {
-                  "type": "skip",
-                  "description": "PLAYWRIGHT_ADMIN_MEMBER_DETAIL_ID is required to open the member drawer",
-                  "location": {
-                    "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260529-125308-wt-10/apps/web/playwright/tests/visual/admin-shell/member-drawer-tag-edit.spec.ts",
-                    "line": 7,
-                    "column": 6
-                  }
-                }
-              ],
-              "expectedStatus": "skipped",
-              "projectId": "admin-staging-visual-wide",
-              "projectName": "admin-staging-visual-wide",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "13bc872d5f8456f21e30-d2f118556178f80c6884",
-          "file": "visual/admin-shell/member-drawer-tag-edit.spec.ts",
-          "line": 12,
-          "column": 1
-        }
-      ]
+      "message": "Error: Timed out waiting 120000ms from config.webServer.",
+      "stack": "Error: Timed out waiting 120000ms from config.webServer."
     }
   ],
-  "errors": [],
   "stats": {
-    "startTime": "2026-05-29T10:53:36.338Z",
-    "duration": 464.64099999999985,
+    "startTime": "2026-06-10T11:32:05.577Z",
+    "duration": 120840.38100000001,
     "expected": 0,
-    "skipped": 7,
+    "skipped": 0,
     "unexpected": 0,
     "flaky": 0
   }
