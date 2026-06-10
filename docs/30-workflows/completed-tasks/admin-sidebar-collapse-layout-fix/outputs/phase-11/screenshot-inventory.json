@@ -1,0 +1,27 @@
+{
+  "taskId": "admin-sidebar-collapse-layout-fix",
+  "mode": "local-playwright-captured",
+  "route": "全 route 共通の sidebar shell（公開 / 会員 / 管理の 3 層で共有）",
+  "status": "captured_local_fixture",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "file": "screenshots/TC-11-1-sidebar-collapsed-desktop.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-2",
+      "file": "screenshots/TC-11-2-sidebar-expanded-desktop.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-3",
+      "file": "screenshots/TC-11-3-sidebar-collapsed-user-menu-open.png",
+      "viewport": "1280x800",
+      "status": "present"
+    }
+  ],
+  "runtimeBoundary": "local Playwright Chromium で 3 PNG を取得済み。staging 認証済み baseline / commit / push / PR は Phase 13 user-gated"
+}

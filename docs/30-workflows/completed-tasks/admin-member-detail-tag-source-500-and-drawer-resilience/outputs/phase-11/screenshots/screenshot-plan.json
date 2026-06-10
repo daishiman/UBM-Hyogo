@@ -1,0 +1,33 @@
+{
+  "taskId": "admin-member-detail-tag-source-500-and-drawer-resilience",
+  "mode": "VISUAL",
+  "workflowState": "implemented_local_evidence_captured",
+  "note": "Local implementation and focused tests passed. PNG screenshots remain pending_user_gate for authenticated staging capture.",
+  "captures": [
+    {
+      "id": "SC-01",
+      "target": "MemberDrawer detail fetch failure error state with retry button (data-testid=member-detail-retry)",
+      "path": "outputs/phase-11/screenshots/member-detail-error-retry.png",
+      "type": "staging_runtime",
+      "status": "staging_visual_pending_user_gate",
+      "runtimeBoundary": "staging_admin_authenticated_runtime_pending_user_gate"
+    },
+    {
+      "id": "SC-02",
+      "target": "Retry pressed -> MemberDrawer recovered detail view for TEST-MEM-09 (seed source tag visible)",
+      "path": "outputs/phase-11/screenshots/member-detail-recovered.png",
+      "type": "staging_runtime",
+      "status": "staging_visual_pending_user_gate",
+      "runtimeBoundary": "staging_admin_authenticated_runtime_pending_user_gate"
+    },
+    {
+      "id": "SC-03",
+      "target": "GET /api/admin/members/TEST-MEM-09 returns 200 in DevTools Network (500 resolved)",
+      "path": "outputs/phase-11/screenshots/member-detail-api-200.png",
+      "type": "staging_runtime_network",
+      "status": "staging_visual_pending_user_gate",
+      "runtimeBoundary": "staging_admin_authenticated_runtime_pending_user_gate"
+    }
+  ],
+  "generatedAt": "2026-06-09T11:45:00+09:00"
+}

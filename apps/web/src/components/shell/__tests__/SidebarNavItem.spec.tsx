@@ -121,7 +121,12 @@ describe("SidebarNavItem", () => {
     const dot = container.querySelector('[data-shell-block="nav-badge-dot"]');
     expect(link?.className).toContain("justify-center");
     expect(link?.className).toContain("gap-0");
+    expect(link?.className).toContain("w-full");
+    expect(link?.className).toContain("px-0");
+    expect(link?.className).not.toContain("px-3");
     expect(link?.className).toContain("relative");
+    expect(link?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
+    expect(link?.querySelector('[aria-hidden="true"]')?.className).toContain("w-10");
     expect(dot).not.toBeNull();
     expect(dot?.className).toContain("absolute");
     expect(dot?.querySelector(".sr-only")?.textContent).toBe("2");

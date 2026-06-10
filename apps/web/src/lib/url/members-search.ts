@@ -71,6 +71,7 @@ export function toApiQuery(search: MembersSearch): URLSearchParams {
   for (const t of search.tag) params.append("tag", t);
   if (search.sort !== "recent") params.set("sort", search.sort);
   if (search.density !== "comfy") params.set("density", search.density);
+  params.set("expand", "tags");
   return params;
 }
 
