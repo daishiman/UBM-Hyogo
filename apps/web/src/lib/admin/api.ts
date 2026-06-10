@@ -559,6 +559,40 @@ export const addAttendance = (sessionId: string, memberId: string) =>
     attended: true,
   });
 
+export interface ImportAttendanceSummary {
+  total: number;
+  ok: number;
+  duplicate: number;
+  deletedMember: number;
+  unknownMember: number;
+  invalid: number;
+}
+
+export interface ImportAttendanceRowResult {
+  index: number;
+  status: "ok" | "duplicate" | "deleted_member" | "unknown_member" | "invalid";
+  memberId?: string;
+  message?: string;
+}
+
+export interface ImportAttendanceResponse {
+  ok: boolean;
+  summary: ImportAttendanceSummary;
+  rows: ImportAttendanceRowResult[];
+  dryRun: boolean;
+  committed: boolean;
+}
+
+export const importAttendance = (
+  sessionId: string,
+  memberIds: ReadonlyArray<string>,
+) =>
+  call<ImportAttendanceResponse>(
+    `/meetings/${encodeURIComponent(sessionId)}/attendance/import?dryRun=false`,
+    "POST",
+    { rows: memberIds.map((memberId) => ({ memberId })) },
+  );
+
 export const removeAttendance = (sessionId: string, memberId: string) =>
   call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
     memberId,
