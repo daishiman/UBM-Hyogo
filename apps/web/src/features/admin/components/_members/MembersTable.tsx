@@ -157,7 +157,7 @@ export function MembersTable({
                     publishState={m.publishState}
                     isDeleted={m.isDeleted}
                   />
-                  {m.pendingRequestTypes.map((requestType) => (
+                  {(m.pendingRequestTypes ?? []).map((requestType) => (
                     <Link
                       key={requestType}
                       href={`/admin/requests?type=${requestType}`}
