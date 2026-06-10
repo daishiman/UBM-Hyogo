@@ -30,7 +30,7 @@
 
 ### 2026-05-26 `/members` current implementation note
 
-`members-list-prototype-alignment` では、現行 `GET /public/members` / `PublicMemberListItem` contract を変更せずに prototype density を移植する。`businessOverview` と list `tags` は一覧 item contract に存在しないため追加せず、`fullName` / `nickname` / `occupation` / `location` / `ubmZone` / `ubmMembershipType` のみで `comfy / dense / list` を構成する。
+`public-home-member-card-info-and-tag-clarity` 以降、現行 `GET /public/members` / `PublicMemberListItem` contract は optional `businessSummary` と opt-in `tags` を持つ。`businessSummary` は `businessOverview` 先頭 1 行の server-capped 要約、`tags` は `expand=tags` 指定時のみ返る `{ code, label, category }[]` である。`MemberCard` は `businessSummary` と curated tags（interest > business > skill、region/role/status 非表示）を使って `comfy / dense / list` を構成し、list density は phase chip のみに絞る。
 
 Implementation anchors:
 
@@ -271,7 +271,7 @@ const LandingPage = ({ nav, tweaks }) => {
 
 | データ | endpoint | 入力 | 出力 schema (zod) | fallback |
 |--------|----------|------|-------------------|----------|
-| `visibleMembers`, `featured` | `GET /public/members?limit=6&sort=recent` | query: `{ limit?: number; sort?: "recent"\|"name" }` | `PublicMemberListView`（`items`, `pagination`, `appliedQuery`, `generatedAt`） | `{ items: [], pagination: { total: 0 } }` |
+| `visibleMembers`, `featured` | `GET /public/members?limit=6&sort=recent&expand=tags` | query: `{ limit?: number; sort?: "recent"\|"name"; expand?: "tags" }` | `PublicMemberListView`（`items`, `pagination`, `appliedQuery`, `topTags`, `generatedAt`。items は optional `businessSummary` / `tags` を含み得る） | `{ items: [], pagination: { total: 0 }, topTags: [] }` |
 | `stats`, `recentMeetings`, `lastSync` | `GET /public/stats` | なし | `PublicStatsView`（公開 KPI / zone・membership breakdown / `recentMeetings` / `lastSync`） | `recentMeetings: []`、同期表示は `—` |
 
 `MemberPublicSchema` は `01-api-schema.md` の `visibility: "public"` 列のみで構成（`birthDate` / `challenges` / `ubmJoinDate` は除外）。`isPublic && !isDeleted` は API 側でフィルタ済み。
