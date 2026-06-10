@@ -13,6 +13,44 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
 | user gate | commit, push, PR, source PR mutation |
 
+## admin-schema-diff-review-resolve-ux（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema` diff-review の stableKey alias 割当フォームをクリックカード直下へインライン化し、目的説明とやさしい用語で操作価値を明示する |
+| implementation | `schemaReviewTerms.ts`, `SchemaReviewGuide.tsx`, `SchemaDiffPanel.tsx`, `/admin/schema/page.tsx`, `globals.css` |
+| evidence | focused Vitest 3 files / 36 tests PASS; web typecheck PASS; lint PASS; verify-design-tokens PASS; apps/api diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR |
+
+## admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-history-purpose-clarity-and-filter-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema/history` の `appliedFilters.batchId` ZodError raw JSON 表示を根治し、目的説明 UI と ALIAS HISTORY card 表示へ整える |
+| implementation | `apps/web/src/lib/admin/api.ts`, `schemaHistoryError.ts`, `schemaHistoryGlossary.ts`, `SchemaHistoryPurposeExplainer.tsx`, `SchemaDiffHistoryPanel.tsx`, `/admin/schema/history/page.tsx`, `globals.css` |
+| key contract | `AppliedFiltersZ` accepts `batchId`; no batchId filter UI; raw ZodError JSON is converted to Japanese message; history is card list with purpose explainer |
+| evidence | focused Vitest 4 files / 60 tests PASS; web typecheck PASS; verify:tokens PASS; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
+
+## staging-test-accounts-full-data-and-detail-verify（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/staging-test-accounts-full-data-and-detail-verify/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`（visualEvidenceStatus = `staging_visual_pending_user_gate`・PNG 0） |
+| purpose | `public-member-detail-survey-fields-richness`（TEST-MEM-01 のみ）の continuation。10 テストアカウント全件に Google Form 31 stable_key の現実的ダミーを充填し、公開メンバー詳細 5 セクションを full / all-fields-with-blanks / edge の 3 表示パターンで検証 |
+| implementation | `catalog.ts`（per-member `profile` を TEST-MEM-01..10 全件へ拡充 + invalid `ubmZone` を canonical enum 補正）、`build-seed-sql.ts`（31 `response_fields` + `member_field_visibility` public/member/admin 生成）、再生成 `test-accounts-{seed,cleanup}.sql` + byte-drift contract spec、`member-detail.ts`（**gap fix**: `urlOthers` free-text URL を `LINK_STABLE_KEYS` override + `extractFirstUrl` で links へ）、richer `public-member-profile.ts` fixture |
+| evidence | focused Vitest 5 files / 39 tests PASS; web/api typecheck PASS; lint PASS; authenticated staging screenshots EV-01..08 は user-gated（PNG 0） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md`（Lessons L-STAFDV-001..007 inline） |
+| invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
+| user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
+
 ## admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
 
 | 項目 | 値 |
