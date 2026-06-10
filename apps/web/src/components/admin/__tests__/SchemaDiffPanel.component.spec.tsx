@@ -116,7 +116,8 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByText("added-1").closest(".schema-field-card")?.className).toContain("diff-added");
     expect(screen.getByText("changed-1").closest(".schema-field-card")?.className).toContain("diff-changed");
     expect(screen.getByText("removed-1").closest(".schema-field-card")?.className).toContain("diff-removed");
-    expect(screen.getAllByText("未解決").length).toBeGreaterThan(0);
+    expect(screen.getByRole("heading", { name: "未対応の設問" })).toBeTruthy();
+    expect(screen.getAllByText("対応づけ待ち").length).toBeGreaterThan(0);
     expect(screen.queryByText("queued")).toBeNull();
   });
 
@@ -128,8 +129,10 @@ describe("SchemaDiffPanel", () => {
   it("empty: items=[] で各ペインに「なし」表示、total=0", () => {
     render(<SchemaDiffPanel initial={{ total: 0, items: [] }} />);
     expect(screen.getByText("0 件")).toBeTruthy();
+    expect(screen.getByText("差分はありません")).toBeTruthy();
+    expect(screen.getByText("フォームとデータベースが一致した良い状態です。")).toBeTruthy();
     const empties = screen.getAllByText("なし");
-    expect(empties.length).toBe(4);
+    expect(empties.length).toBe(3);
   });
 
   it("mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ", async () => {
@@ -145,6 +148,7 @@ describe("SchemaDiffPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: /lbl-x/ }));
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
     expect(document.querySelector('[data-component="schema-assign-inline-form"]')).toBeTruthy();
+    expect(screen.getByText("対応づけると起きること")).toBeTruthy();
 
     const input = screen.getByLabelText(/新しい永続的な名前/) as HTMLInputElement;
     expect(document.activeElement).toBe(input);
@@ -195,8 +199,8 @@ describe("SchemaDiffPanel", () => {
     expect(clickedCard?.querySelector('[data-role="assign-help"]')?.textContent).toContain(
       "過去のフォーム回答が新しい設問に自動で対応づきます",
     );
-    expect(screen.getByText(/新しく追加された設問/)).toBeTruthy();
-    expect(screen.getByText(/まだ永続的な名前がついていない設問/)).toBeTruthy();
+    expect(screen.getByText(/Google Form に追加された設問/)).toBeTruthy();
+    expect(screen.getByText(/まだ保存先が決まっていない設問/)).toBeTruthy();
   });
 
   it("UI-UX: history copy describes assigned aliases rather than rollback-only records", () => {

@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "4defd4b63d90c1aeaa3a8aca9c3d45292a8da653",
-  "captured_at": "2026-06-10T06:22:47Z",
+  "captured_at_commit_sha": "8bf79da0ce9e43b5362c099ba267ec507750633b",
+  "captured_at": "2026-06-10T12:51:08Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26857844535",
     "26868407587",
     "26889102142",
     "27050525423",
@@ -13,7 +12,8 @@
     "27204350643",
     "27247391142",
     "27253086349",
-    "27257013000"
+    "27257083636",
+    "27276848458"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "PR #1197: /admin/schema 差分レビューに SchemaReviewGuide(目的説明UI)等を追加しページ高さが増加した admin-schema baseline を更新。dev sync merge で取り込んだ admin タグ定義UI統合(#1184: nav 12→11)・admin-sidebar-collapse-layout-fix(collapsed アイコン18px→40px・admin全ページ fullPage 768x1024→768x1224)・/members タグ絞り込み整形(members 1303→1115px) による baseline 変化も統合保持。admin nav 変更で再 stale になる場合は push 後に playwright-visual-baseline-update を再実行する。"
+  "last_refresh_reason": "dev #1184(admin タグ定義UI統合 nav 12→11)取込で admin shell が全admin画面の描画に影響。我々保持の admin-schema baseline(12項目nav時取得+SchemaPurposeExplainer)が統合後の 11項目nav 描画とずれるため、merge 8bf79da0c で全 baseline を SchemaPurposeExplainer + 11項目nav の正しい現行描画へ再生成"
 }

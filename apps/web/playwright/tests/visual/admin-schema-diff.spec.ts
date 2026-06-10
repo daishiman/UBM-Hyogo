@@ -11,11 +11,13 @@ const evidenceDir = path.resolve(
 );
 
 const panes = ["added", "changed", "removed", "unresolved"] as const;
+// SchemaDiffPanel の pane 見出し h2 は schemaGlossary.describeDiffType の
+// やさしい言い換えラベル（主・技術名併記）を正本とする（be6eac855）。
 const paneHeadings = {
-  added: "追加",
-  changed: "変更",
-  removed: "削除",
-  unresolved: "未解決",
+  added: "新しく増えた設問",
+  changed: "内容が変わった設問",
+  removed: "削除された設問",
+  unresolved: "未対応の設問",
 } as const;
 
 const viewportSuffix = (projectName: string) =>

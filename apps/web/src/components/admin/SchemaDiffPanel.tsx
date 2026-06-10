@@ -28,13 +28,17 @@ import {
   normalizeStableKey,
   STABLE_KEY_VALIDATION_MESSAGE,
 } from "./schemaAliasValidation";
+import {
+  describeDiffType,
+  describeSchemaStatus,
+} from "./schemaGlossary";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { Chip } from "../ui";
 import { isBrowser } from "../../lib/is-browser";
 import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
-import { plainLabel, termDescription } from "./schemaReviewTerms";
+import { plainLabel } from "./schemaReviewTerms";
 
 const BULK_LIMIT = 50;
 
@@ -66,10 +70,6 @@ const TYPE_LABELS: Record<DiffType, string> = {
   changed: "変更",
   removed: "削除",
   unresolved: "未解決",
-};
-const STATUS_LABELS: Record<SchemaDiffItem["status"], string> = {
-  queued: "未解決",
-  resolved: "解決済み",
 };
 const TYPE_CHIP_TONE: Record<DiffType, "green" | "amber" | "red" | "cool"> = {
   added: "green",
@@ -873,6 +873,7 @@ export function SchemaDiffPanel({
 
       <div className="schema-grid">
         {TYPES.map((t) => {
+          const typeDescription = describeDiffType(t);
           const showCheckbox = bulkMode && bulkEligible(t);
           const eligibleIds = grouped[t]
             .filter((it) => it.questionId)
@@ -882,10 +883,20 @@ export function SchemaDiffPanel({
             eligibleIds.every((id) => bulk.selectedIds.has(id));
           return (
           <div key={t} aria-labelledby={`pane-${t}`}>
-            <h2 id={`pane-${t}`}>{TYPE_LABELS[t]}</h2>
-            <p className="muted">{termDescription(t)}</p>
+            <div className="schema-diff-pane-header">
+              <h2 id={`pane-${t}`}>{typeDescription.label}</h2>
+              <p className="muted">
+                {typeDescription.description} {typeDescription.actionHint}
+              </p>
+            </div>
             {grouped[t].length === 0 ? (
-              <EmptyState title="なし" role="presentation" />
+              <EmptyState
+                title={t === "unresolved" ? "差分はありません" : "なし"}
+                {...(t === "unresolved"
+                  ? { description: "フォームとデータベースが一致した良い状態です。" }
+                  : {})}
+                role="presentation"
+              />
             ) : (
               <div className="stack-sm">
                 {showCheckbox && (
@@ -944,7 +955,7 @@ export function SchemaDiffPanel({
                           {plainLabel("questionId")}: {it.questionId ?? "(no questionId)"}
                           {it.stableKey ? ` · ${plainLabel("stableKey")}: ${it.stableKey}` : ""}
                         </p>
-                        <p className="muted">{STATUS_LABELS[it.status]}</p>
+                        <p className="muted">{describeSchemaStatus(it.status)}</p>
                       </div>
                       {active?.diffId === it.diffId && active.questionId && (
                         <form
@@ -961,6 +972,14 @@ export function SchemaDiffPanel({
                           <p>
                             {plainLabel("questionId")}: <code>{active.questionId}</code>
                           </p>
+                          <div className="schema-assignment-outcome">
+                            <strong>対応づけると起きること</strong>
+                            <p>
+                              この設問の回答が項目キー <code>{trimmedKey || "stableKey"}</code> に結びつき、
+                              会員一覧・詳細・マイページで同じ項目として表示されます。対応づけ後は backfill が走り、
+                              必要な場合は5分以内に取消できます。
+                            </p>
+                          </div>
                           <FormField name="schema-stableKey" label={`新しい${plainLabel("stableKey")}`} required>
                             <Input
                               ref={stableKeyInputRef}
