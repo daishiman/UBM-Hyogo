@@ -13,6 +13,45 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
 | user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
 
+## admin-meeting-bulk-attendance-select（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | admin 開催日ドロワーの出席追加を複数会員同時選択→一括追加へ是正する |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/ui/Checkbox.tsx`, `_meetings/{useBulkAttendanceSelection,bulk-attendance-message,BulkAttendanceChecklist,BulkAttendanceModal,MeetingAttendanceDrawer,MeetingsClientShell}.tsx?`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 10 files / 38 tests PASS; typecheck/lint/verify:tokens PASS; apps/api/packages diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md` |
+| user gate | pixel screenshot, authenticated staging visual baseline, commit, push, PR |
+
+## public-members-tag-filter-ux-refine（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 公開 `/members` のタグ絞り込み chip 横並び、filter grouping、selected tag highlight、member-grid spacing refine |
+| implementation | `legacy-public.css`, `globals.css`, `MemberFilters.client.tsx`, focused public specs |
+| evidence | focused Vitest 5 files / 28 tests PASS; web typecheck PASS; web lint PASS; `pnpm verify:tokens` PASS; local static screenshot 5 PNG present |
+| invariant | API/shared/D1/Form unchanged; no new primitive |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR |
+
+
+## admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `member_tags.source='seed'` による admin member detail 500 と MemberDrawer fetch failure の回復不能を解消 |
+| implementation | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS; shared/api/web typecheck PASS; verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / seed / Google Form unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
 ## admin-sidebar-collapse-layout-fix（2026-06-09）
 
 | 項目 | 値 |

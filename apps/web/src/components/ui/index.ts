@@ -3,6 +3,7 @@ export * from "./Avatar";
 export * from "./Button";
 export * from "./Card";
 export * from "./Badge";
+export * from "./Checkbox";
 export * from "./Switch";
 export * from "./Segmented";
 export * from "./Field";

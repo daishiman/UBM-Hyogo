@@ -31,6 +31,7 @@ import type { SafeResult } from "@/lib/result";
 import { getStats } from "@/lib/api/public";
 import { safeServerFetch } from "@/lib/server-fetch/safe-fetch";
 import { pickProfileSummary } from "./_lib/profile-summary";
+import { mapProfileSessionErrorToDisplay } from "./_lib/session-error-display";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -40,7 +41,11 @@ export default async function ProfilePage() {
   try {
     meResult = await safeServerFetch(
       () => fetchAuthed<MeSessionResponse>("/me"),
-      { codePrefix: "MEMBER_SESSION", rethrowOn: [AuthRequiredError] },
+      {
+        codePrefix: "MEMBER_SESSION",
+        logPath: "/me",
+        rethrowOn: [AuthRequiredError],
+      },
     );
   } catch (err) {
     if (err instanceof AuthRequiredError) {
@@ -50,26 +55,19 @@ export default async function ProfilePage() {
   }
 
   if (!meResult.ok) {
-    if (meResult.error.code === "MEMBER_SESSION_404") {
-      return (
-        <main data-route="member" data-section-rhythm="comfortable">
-          <SectionError
-            title="セッション情報を取得できませんでした"
-            detail="アカウント情報を確認できませんでした。再ログインしてください。"
-            actionHref="/login?redirect=/profile"
-            actionLabel="再ログイン"
-          />
-        </main>
-      );
-    }
+    const display = mapProfileSessionErrorToDisplay(meResult.error.code);
+    const errorProps = {
+      title: display.title,
+      detail: display.detail,
+      dataCause: display.dataCause,
+      ...(display.retryHref ? { retryHref: display.retryHref } : {}),
+      ...(display.actionHref ? { actionHref: display.actionHref } : {}),
+      ...(display.actionLabel ? { actionLabel: display.actionLabel } : {}),
+    };
 
     return (
       <main data-route="member" data-section-rhythm="comfortable">
-        <SectionError
-          title="セッション情報を取得できませんでした"
-          detail="時間をおいて再読み込みしてください。"
-          retryHref="/profile"
-        />
+        <SectionError {...errorProps} />
       </main>
     );
   }

@@ -95,9 +95,38 @@ describe("ProfilePage safe fetch degrade", () => {
       "セッション情報を取得できませんでした",
     );
     expect(screen.getByRole("alert").textContent).toContain(
-      "時間をおいて再読み込みしてください。",
+      "サーバー側でセッション確認に失敗しました。",
+    );
+    expect(screen.getByRole("alert").getAttribute("data-cause")).toBe(
+      "session-5xx",
     );
     expect(container.innerHTML).not.toContain("fetchAuthed failed: 503");
+  });
+
+  it("distinguishes deleted-member /me failures", async () => {
+    mockedFetchAuthed.mockRejectedValueOnce(new FetchAuthedError(410, "deleted"));
+
+    render(await ProfilePage());
+
+    expect(screen.getByRole("alert").textContent).toContain(
+      "アカウントの利用状態を確認できませんでした。",
+    );
+    expect(screen.getByRole("alert").getAttribute("data-cause")).toBe(
+      "session-410",
+    );
+  });
+
+  it("distinguishes transport /me failures", async () => {
+    mockedFetchAuthed.mockRejectedValueOnce(new Error("network timeout"));
+
+    render(await ProfilePage());
+
+    expect(screen.getByRole("alert").textContent).toContain(
+      "通信経路でセッション確認に失敗しました。",
+    );
+    expect(screen.getByRole("alert").getAttribute("data-cause")).toBe(
+      "session-failed",
+    );
   });
 
   it("renders a re-login CTA for /me 404 without exposing the raw fetch error", async () => {
@@ -111,6 +140,9 @@ describe("ProfilePage safe fetch degrade", () => {
     );
     expect(screen.getByRole("link", { name: "再ログイン" }).getAttribute("href")).toBe(
       "/login?redirect=/profile",
+    );
+    expect(screen.getByRole("alert").getAttribute("data-cause")).toBe(
+      "session-404",
     );
     expect(container.innerHTML).not.toContain("fetchAuthed failed: 404");
   });
