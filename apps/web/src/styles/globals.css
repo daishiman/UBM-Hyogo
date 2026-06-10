@@ -1817,6 +1817,64 @@
     background: var(--ubm-color-surface-panel);
   }
 
+  .schema-field-card__body {
+    display: grid;
+    gap: var(--ubm-space-3);
+    width: 100%;
+  }
+
+  .schema-assign-inline-form {
+    display: grid;
+    gap: var(--ubm-space-3);
+    margin-top: var(--ubm-space-2);
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-left: 4px solid var(--ubm-color-accent);
+    border-radius: var(--ubm-radius-sm);
+    background: color-mix(in oklch, var(--ubm-color-surface-bg) 75%, var(--ubm-color-accent) 8%);
+  }
+
+  .schema-assign-inline-form [data-role="assign-help"] {
+    color: var(--ubm-color-text-secondary);
+  }
+
+  .schema-review-guide-flow {
+    display: grid;
+    gap: var(--ubm-space-2);
+    margin: var(--ubm-space-4) 0;
+    padding-left: var(--ubm-space-5);
+  }
+
+  .schema-review-guide-flow li::marker {
+    color: var(--ubm-color-accent);
+    font-weight: 700;
+  }
+
+  .schema-review-glossary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--ubm-space-3);
+    margin: 0;
+  }
+
+  .schema-review-glossary div {
+    display: grid;
+    gap: var(--ubm-space-1);
+    padding: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+  }
+
+  .schema-review-glossary dt {
+    font-weight: 600;
+  }
+
+  .schema-review-glossary dd {
+    margin: 0;
+    color: var(--ubm-color-text-secondary);
+  }
+
   .schema-field-card.diff-added {
     border-left-color: var(--ubm-color-ok);
   }

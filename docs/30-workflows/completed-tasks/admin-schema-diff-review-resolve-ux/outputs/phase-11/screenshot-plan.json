@@ -1,0 +1,28 @@
+{
+  "workflow_id": "admin-schema-diff-review-resolve-ux",
+  "mode": "VISUAL_ON_EXECUTION",
+  "source": "local Playwright fixture",
+  "route": "/admin/schema",
+  "screenshots": [
+    {
+      "tc": "TC-01",
+      "name": "schema-review-guide-default.png",
+      "state": "目的説明表示"
+    },
+    {
+      "tc": "TC-02",
+      "name": "schema-diff-card-collapsed.png",
+      "state": "フォーム未展開"
+    },
+    {
+      "tc": "TC-03",
+      "name": "schema-diff-card-inline-form-expanded.png",
+      "state": "カード直下フォーム展開"
+    },
+    {
+      "tc": "TC-04",
+      "name": "schema-assign-help-visible.png",
+      "state": "文脈ヘルプ表示"
+    }
+  ]
+}

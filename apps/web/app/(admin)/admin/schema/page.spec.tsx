@@ -94,6 +94,12 @@ describe("AdminSchemaPage", () => {
     expect(screen.getByText("新規設問")).toBeTruthy();
     expect(screen.getByText("変更候補")).toBeTruthy();
     expect(screen.getByText("削除候補")).toBeTruthy();
+    expect(
+      screen.getByRole("heading", {
+        name: "フォームの設問変更を、過去データと繋げて整理します",
+      }),
+    ).toBeTruthy();
+    expect(screen.getByText("永続的な名前（技術名: stableKey）")).toBeTruthy();
     expect(screen.getByRole("heading", { name: "項目別の差分" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "フォーム版数の履歴" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "対応づけ履歴" })).toBeTruthy();
