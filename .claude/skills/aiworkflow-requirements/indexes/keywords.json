@@ -2329,6 +2329,7 @@
       "workflow-issue-827-member-detail-adapter-and-visibility-defense-artifact-inventory.md",
       "workflow-issue-891-member-detail-kind-exhaustiveness-guard-artifact-inventory.md",
       "workflow-public-member-detail-survey-fields-richness-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md"
     ],
     "Zustand": [
@@ -3490,6 +3491,7 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -5471,6 +5473,7 @@
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
@@ -6637,6 +6640,7 @@
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "runbook": [
@@ -6705,6 +6709,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-task19-primitives-full-spec-2026-05.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-761-visual-full-required-status-check-artifact-inventory.md"
     ],
@@ -7727,6 +7732,7 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -8994,6 +9000,7 @@
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md",
@@ -11455,6 +11462,7 @@
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -11801,6 +11809,7 @@
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-test-accounts-seed-spec-artifact-inventory.md",
       "workflow-ui-prototype-design-system-foundation-artifact-inventory.md",
@@ -12086,6 +12095,7 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-b-root-page-public-header-async-artifact-inventory.md",
@@ -12199,6 +12209,7 @@
       "patterns-kv-dedup.md",
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-test-accounts-seed-spec-artifact-inventory.md"
     ],
     "契約を共有する": [
@@ -16762,7 +16773,8 @@
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
-      "workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md"
+      "workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md"
     ],
     "should": [
       "lessons-learned-issue-1027-member-dynamic-og-worker-split-2026-05.md"
@@ -16887,6 +16899,7 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -19565,6 +19578,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -21487,6 +21501,7 @@
     ],
     "accounts": [
       "lessons-learned-test-accounts-seed-spec-2026-06.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-test-accounts-seed-spec-artifact-inventory.md"
     ],
     "Short": [
@@ -27744,6 +27759,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-step-05-dashboard-chart-implementation-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
@@ -27959,6 +27975,7 @@
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -28047,6 +28064,7 @@
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
+      "workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md",
       "workflow-step-08-audit-filter-paging-verify-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",

@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
 
+## staging-test-accounts-full-data-and-detail-verify（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/staging-test-accounts-full-data-and-detail-verify/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`（visualEvidenceStatus = `staging_visual_pending_user_gate`・PNG 0） |
+| purpose | `public-member-detail-survey-fields-richness`（TEST-MEM-01 のみ）の continuation。10 テストアカウント全件に Google Form 31 stable_key の現実的ダミーを充填し、公開メンバー詳細 5 セクションを full / all-fields-with-blanks / edge の 3 表示パターンで検証 |
+| implementation | `catalog.ts`（per-member `profile` を TEST-MEM-01..10 全件へ拡充 + invalid `ubmZone` を canonical enum 補正）、`build-seed-sql.ts`（31 `response_fields` + `member_field_visibility` public/member/admin 生成）、再生成 `test-accounts-{seed,cleanup}.sql` + byte-drift contract spec、`member-detail.ts`（**gap fix**: `urlOthers` free-text URL を `LINK_STABLE_KEYS` override + `extractFirstUrl` で links へ）、richer `public-member-profile.ts` fixture |
+| evidence | focused Vitest 5 files / 39 tests PASS; web/api typecheck PASS; lint PASS; authenticated staging screenshots EV-01..08 は user-gated（PNG 0） |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md`（Lessons L-STAFDV-001..007 inline） |
+| invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
+| user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
+
 ## admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
 
 | 項目 | 値 |
