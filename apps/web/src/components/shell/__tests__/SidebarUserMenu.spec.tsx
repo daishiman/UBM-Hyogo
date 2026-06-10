@@ -73,6 +73,20 @@ describe("SidebarUserMenu", () => {
     expect(summary?.getAttribute("aria-label")).toBe("ユーザーメニュー");
   });
 
+  it("collapsed=true で summary は px-0/w-full かつ avatar を 40px 枠で中央配置する", () => {
+    const { container } = render(
+      <SidebarUserMenu role="member" user={MEMBER} collapsed={true} />,
+    );
+    const summary = container.querySelector("summary");
+    const avatarFrame = container.querySelector('[data-shell-block="user-avatar"]')?.parentElement;
+    expect(summary?.className).toContain("w-full");
+    expect(summary?.className).toContain("justify-center");
+    expect(summary?.className).toContain("px-0");
+    expect(summary?.className).not.toContain("px-3");
+    expect(avatarFrame?.className).toContain("h-10");
+    expect(avatarFrame?.className).toContain("w-10");
+  });
+
   it("外側 pointerdown で popover を閉じる", () => {
     const { container } = render(
       <div>
