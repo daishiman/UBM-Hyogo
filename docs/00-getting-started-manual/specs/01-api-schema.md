@@ -46,7 +46,7 @@
 
 | 値 | 意味 |
 |----|------|
-| `public` | 未ログインでも表示可能 |
+| `public` | 認証済み会員に表示可能（require-auth-public-access-gate 以降、未認証には UI/API とも公開しない） |
 | `member` | ログイン済み会員と管理者のみ表示 |
 | `admin` | 管理者のみ表示 |
 
@@ -176,7 +176,7 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 | Endpoint | 認証 | Response 追加 | Privacy boundary |
 | --- | --- | --- | --- |
-| `GET /public/members/:memberId` | public / session 不要 | `attendance: AttendanceRecord[]`, `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` | `responseEmail`, `audit`, `adminNotes`, member-only/admin-only field は返さない。公開適格でない member は attendance read 前に 404 |
+| `GET /public/members/:memberId` | public（`requirePublicAccess`: 会員セッション or 内部認証必須・無ければ 401） | `attendance: AttendanceRecord[]`, `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` | `responseEmail`, `audit`, `adminNotes`, member-only/admin-only field は返さない。公開適格でない member は attendance read 前に 404 |
 
 ### Attendance pagination
 
@@ -349,7 +349,7 @@ UT-07C / UT-07C-FU-001 で追加した meeting attendance の管理用 endpoint 
 
 ## Public members API: GET /public/members
 
-`GET /public/members` は公開メンバー一覧 `/members` の検索/フィルタ API である。認証は不要だが、D1 への直接アクセスは `apps/api` に閉じ、`apps/web` は API 経由でのみ取得する。
+`GET /public/members` は公開メンバー一覧 `/members` の検索/フィルタ API である。require-auth-public-access-gate 以降、`/public/*` は **`requirePublicAccess` ガードにより会員セッション または 内部サービス認証（`X-Internal-Auth: <INTERNAL_AUTH_SECRET>`）が必須**であり、いずれも無ければ 401 を返す（fail-closed）。`apps/web` の RSC は認証済みユーザーの session cookie を転送し、sitemap 生成 / OG 画像ワーカーは `X-Internal-Auth` を付与する。D1 への直接アクセスは `apps/api` に閉じ、`apps/web` は API 経由でのみ取得する。返却フィールド可視性（`public` = 認証済み会員に見せる最小フィールド・admin-only は返さない）は従来どおり。
 
 ### Query
 

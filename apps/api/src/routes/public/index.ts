@@ -3,6 +3,10 @@
 
 import { Hono } from "hono";
 
+import {
+  requirePublicAccess,
+  type RequirePublicAccessEnv,
+} from "../../middleware/require-public-access";
 import type { RepositoryProviderVariables } from "../../middleware/repository-providers";
 import { statsRoute, type StatsEnv } from "./stats";
 import { membersRoute, type MembersEnv } from "./members";
@@ -12,10 +16,15 @@ import {
 } from "./member-profile";
 import { formPreviewRoute, type FormPreviewEnv } from "./form-preview";
 
-export type PublicEnv = StatsEnv & MembersEnv & MemberProfileEnv & FormPreviewEnv;
+export type PublicEnv = StatsEnv &
+  MembersEnv &
+  MemberProfileEnv &
+  FormPreviewEnv &
+  RequirePublicAccessEnv;
 
 export const createPublicRouter = (): Hono<{ Bindings: PublicEnv }> => {
   const app = new Hono<{ Bindings: PublicEnv }>();
+  app.use("*", requirePublicAccess);
   statsRoute(app);
   membersRoute(app);
   memberProfileRoute(

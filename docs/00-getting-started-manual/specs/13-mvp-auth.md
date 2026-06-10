@@ -105,7 +105,7 @@ Auth.js / Magic Link API / D1 access boundary は変更しない。
 
 ## MVP 受け入れ条件
 
-1. 未ログインでも公開一覧・公開詳細を閲覧できる
+1. 未認証では公開一覧・公開詳細を閲覧できず、`/login` 以外では案内画面を表示する。認証済み会員は公開一覧・公開詳細を閲覧できる
 2. `responseEmail` 一致の会員だけログインできる
 3. `rulesConsent` 未同意ではログインできない
 4. マイページから Google Form 更新導線へ行ける

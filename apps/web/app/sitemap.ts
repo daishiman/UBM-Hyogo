@@ -17,7 +17,12 @@ async function fetchMemberIds(): Promise<PublicMembersResponse["items"]> {
     const env = getEnv();
     for (let page = 1; page <= 20; page += 1) {
       const url = `${env.INTERNAL_API_BASE_URL}/public/members?limit=100&page=${page}`;
-      const res = await fetch(url, { cache: "no-store" });
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: {
+          "X-Internal-Auth": env.INTERNAL_AUTH_SECRET ?? "",
+        },
+      });
       if (!res.ok) return all;
       const json = (await res.json()) as PublicMembersResponse;
       if (Array.isArray(json.items)) all.push(...json.items);
