@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "3e10d7137429a1046fca36a05e7211c07707abfa",
-  "captured_at": "2026-06-09T12:05:43Z",
+  "captured_at_commit_sha": "ec0520a6c62954d386ed4851f10f5c9b79386bcd",
+  "captured_at": "2026-06-10T01:52:01Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "26732057120",
@@ -13,7 +13,8 @@
     "27050525423",
     "27052918274",
     "27179703910",
-    "27204350643"
+    "27204350643",
+    "27247391142"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "feat /members タグ絞り込み UI/UX 整形（横並び flex-wrap + 選択強調）で members ページ高さが 1303→1115px に変化。visual / visual-full(desktop,tablet) / visual-chromium smoke の members baseline を意図変更に追従させ再生成"
+  "last_refresh_reason": "dev sync merge: admin-sidebar-collapse-layout-fix(collapsed サイドバーアイコン18px→40px拡大で admin全ページ fullPage高さ 768x1024→768x1224 へ増加・Linux baseline 再生成) を取り込みつつ、feature /members タグ絞り込み UI/UX 整形（横並び flex-wrap + 選択強調）で members ページ高さが 1303→1115px に変化した members baseline を保持。admin系/members系で対象スナップショットが分離するため双方を統合"
 }

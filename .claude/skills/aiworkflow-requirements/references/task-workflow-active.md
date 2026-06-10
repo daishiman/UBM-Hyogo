@@ -22,6 +22,44 @@
 | user gate | staging data-backed screenshots, commit, push, PR |
 
 
+### admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| 目的 | `member_tags.source='seed'` による admin member detail 500 と、MemberDrawer fetch 失敗時の回復不能状態を同一 local cycle で解消する |
+| implementation targets | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS、shared/api/web typecheck PASS、verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / migration / seed / Google Form 不変。未知 source は view/zod boundary で `manual` に fail-soft 正規化 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
+### admin-sidebar-collapse-layout-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
+| 目的 | collapsed sidebar の icon / avatar / brand mark / admin return を中央軸へ揃え、expanded regression を防ぐ |
+| implementation targets | `apps/web/src/components/shell/SidebarBrand.tsx`, `SidebarNavGroup.tsx`, `SidebarNavItem.tsx`, `SidebarShell.tsx`, `SidebarUserMenu.tsx` |
+| invariant | API / D1 schema / Google Form / endpoint / fetch URL は不変。apps/web shell className と list reset のみ |
+| evidence | focused Vitest 3 files / 30 tests PASS、local Playwright Chromium screenshots 3 PNG present、apps/api diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline、commit、push、PR |
+
+### public-home-member-card-info-and-tag-clarity（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/` |
+| 目的 | 公開 home `/` と `/members` の member card に curated tags と businessSummary を出し、`0to1` 系 label を `0→1` 表示へ正規化して、地域タグをカードから除外する |
+| implementation targets | `apps/web/src/lib/tags/tag-display.ts`, `apps/web/src/components/public/MemberCard.tsx`, `apps/web/src/components/public/TagPicker.client.tsx`, `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/page.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts` |
+| invariant | 新 endpoint / D1 schema / Google Form / seed 変更なし。`businessSummary` は existing public `businessOverview` 先頭 1 行・server cap 120。`expand=tags` は既存 opt-in contract を使用 |
+| evidence | focused Vitest 6 files / 50 tests PASS、local Playwright PNG present、Phase 12 strict 7 present |
+| user gate | staging screenshot、commit、push、PR |
+
 ### issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
 
 | 項目 | 値 |

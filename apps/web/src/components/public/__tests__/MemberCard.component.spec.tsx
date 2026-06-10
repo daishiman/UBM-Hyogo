@@ -73,4 +73,23 @@ describe("MemberCard", () => {
     ).toBe("dense");
     expect(container.querySelector('[data-role="occupation"]')).not.toBeNull();
   });
+
+  it("renders business summary and curated card tags", () => {
+    const member = buildMember({
+      businessSummary: "製造業向けの受発注支援をしています。",
+      tags: [
+        { code: "int_1to10", label: "1 to 10", category: "interest" },
+        { code: "region_hanshin", label: "阪神", category: "region" },
+      ],
+    });
+    const { container } = render(<MemberCard member={member} />);
+
+    expect(container.querySelector('[data-role="biz-summary"]')?.textContent).toBe(
+      "製造業向けの受発注支援をしています。",
+    );
+    expect(container.querySelector('[data-role="tag-chip"]')?.textContent).toBe(
+      "1→10",
+    );
+    expect(screen.queryByText("阪神")).toBeNull();
+  });
 });

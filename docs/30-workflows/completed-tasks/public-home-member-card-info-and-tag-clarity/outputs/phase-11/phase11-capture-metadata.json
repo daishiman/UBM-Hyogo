@@ -1,0 +1,42 @@
+{
+  "taskId": "public-home-member-card-info-and-tag-clarity",
+  "mode": "VISUAL",
+  "status": "local_captured_staging_pending",
+  "captured": [
+    {
+      "name": "member-card-home-comfy-with-tags.png",
+      "path": "outputs/phase-11/screenshots/member-card-home-comfy-with-tags.png",
+      "environment": "local_component_harness",
+      "capturedAt": "2026-06-08T22:55:00+09:00",
+      "ac": ["AC-1", "AC-2", "AC-4", "AC-5", "AC-6"],
+      "notes": "Playwright local harness using implemented member-card DOM and legacy-public.css. Shows businessSummary, 0→1 phase chip, business/skill chips, and no region tag."
+    }
+  ],
+  "planned": [
+    {
+      "name": "member-card-home-comfy-with-tags.png",
+      "tc": "TC-MC-COMFY",
+      "ac": ["AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "name": "member-card-tag-phase-emphasis.png",
+      "tc": "TC-MC-PHASE",
+      "ac": ["AC-1", "AC-2", "AC-4"]
+    },
+    {
+      "name": "member-card-dense.png",
+      "tc": "TC-MC-DENSE",
+      "ac": ["AC-4", "AC-5"]
+    },
+    {
+      "name": "member-card-list.png",
+      "tc": "TC-MC-LIST",
+      "ac": ["AC-4"]
+    },
+    {
+      "name": "tag-picker-arrow-normalized.png",
+      "tc": "TC-TP-NORM",
+      "ac": ["AC-1", "AC-7"]
+    }
+  ]
+}

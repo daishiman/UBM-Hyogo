@@ -1,0 +1,30 @@
+{
+  "taskId": "admin-member-detail-tag-source-500-and-drawer-resilience",
+  "status": "staging_visual_pending_user_gate",
+  "workflowState": "implemented_local_evidence_captured",
+  "generatedAt": "2026-06-09T07:12:23+09:00",
+  "tool": "pending (staging runtime capture after implementation)",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "screenshots": [],
+  "plannedScreenshots": [
+    {
+      "id": "SC-01",
+      "path": "outputs/phase-11/screenshots/member-detail-error-retry.png",
+      "status": "staging_visual_pending_user_gate"
+    },
+    {
+      "id": "SC-02",
+      "path": "outputs/phase-11/screenshots/member-detail-recovered.png",
+      "status": "staging_visual_pending_user_gate"
+    },
+    {
+      "id": "SC-03",
+      "path": "outputs/phase-11/screenshots/member-detail-api-200.png",
+      "status": "staging_visual_pending_user_gate"
+    }
+  ],
+  "note": "Local implementation and focused tests passed. PNG count is 0 because authenticated staging runtime capture remains user-gated. The .gitkeep file is intentionally absent to avoid leaving an empty screenshots directory that fails the validator."
+}

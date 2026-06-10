@@ -44,6 +44,18 @@ describe("TagPicker", () => {
     expect(selected?.getAttribute("aria-selected")).toBeNull();
   });
 
+  it("phase tag labels are normalized to arrow notation", () => {
+    render(
+      <TagPicker
+        options={[{ code: "int_0to1", label: "0 to 1", count: 2 }]}
+        selected={[]}
+        max={5}
+        onToggle={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole("switch", { name: /0→1/ })).toBeTruthy();
+  });
+
   it("クリックすると onToggle(code) が呼ばれる", () => {
     const onToggle = vi.fn();
     render(
