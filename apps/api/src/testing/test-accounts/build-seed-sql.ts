@@ -1,4 +1,5 @@
 import { STABLE_KEY } from "@ubm-hyogo/shared";
+import type { FieldVisibility } from "@ubm-hyogo/shared";
 
 import {
   TEST_ACCOUNT_ACTOR,
@@ -58,6 +59,73 @@ const PUBLIC_RESPONSE_FIELD_KEYS = [
   STABLE_KEY.selfIntroduction,
 ] as const;
 
+const MEMBER_RESPONSE_FIELD_KEYS = [
+  STABLE_KEY.birthDate,
+  STABLE_KEY.ubmJoinDate,
+  STABLE_KEY.challenges,
+] as const;
+
+const ADMIN_RESPONSE_FIELD_KEYS = [
+  STABLE_KEY.publicConsent,
+  STABLE_KEY.rulesConsent,
+] as const;
+
+const RESPONSE_FIELD_KEYS = [
+  ...PUBLIC_RESPONSE_FIELD_KEYS,
+  ...MEMBER_RESPONSE_FIELD_KEYS,
+  ...ADMIN_RESPONSE_FIELD_KEYS,
+] as const;
+
+const FIELD_VISIBILITY = {
+  ...Object.fromEntries(PUBLIC_RESPONSE_FIELD_KEYS.map((stableKey) => [stableKey, "public"])),
+  ...Object.fromEntries(MEMBER_RESPONSE_FIELD_KEYS.map((stableKey) => [stableKey, "member"])),
+  ...Object.fromEntries(ADMIN_RESPONSE_FIELD_KEYS.map((stableKey) => [stableKey, "admin"])),
+} as Record<(typeof RESPONSE_FIELD_KEYS)[number], FieldVisibility>;
+
+interface SchemaQuestionSeed {
+  readonly stableKey: (typeof RESPONSE_FIELD_KEYS)[number];
+  readonly sectionKey: string;
+  readonly sectionTitle: string;
+  readonly label: string;
+  readonly kind: string;
+  readonly required: boolean;
+  readonly visibility: FieldVisibility;
+}
+
+const SCHEMA_QUESTIONS: readonly SchemaQuestionSeed[] = [
+  { stableKey: STABLE_KEY.fullName, sectionKey: "basic_profile", sectionTitle: "基本プロフィール", label: "お名前（フルネーム）", kind: "shortText", required: true, visibility: "public" },
+  { stableKey: STABLE_KEY.nickname, sectionKey: "basic_profile", sectionTitle: "基本プロフィール", label: "あだ名・ニックネーム", kind: "shortText", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.location, sectionKey: "basic_profile", sectionTitle: "基本プロフィール", label: "お住まい", kind: "shortText", required: true, visibility: "public" },
+  { stableKey: STABLE_KEY.birthDate, sectionKey: "basic_profile", sectionTitle: "基本プロフィール", label: "生年月日", kind: "date", required: false, visibility: "member" },
+  { stableKey: STABLE_KEY.occupation, sectionKey: "basic_profile", sectionTitle: "基本プロフィール", label: "職業・仕事内容", kind: "shortText", required: true, visibility: "public" },
+  { stableKey: STABLE_KEY.hometown, sectionKey: "basic_profile", sectionTitle: "基本プロフィール", label: "出身地", kind: "shortText", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.ubmZone, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "UBM区画", kind: "radio", required: true, visibility: "public" },
+  { stableKey: STABLE_KEY.ubmMembershipType, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "UBM参加ステータス", kind: "radio", required: true, visibility: "public" },
+  { stableKey: STABLE_KEY.ubmJoinDate, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "UBMに入会・参加した時期", kind: "shortText", required: false, visibility: "member" },
+  { stableKey: STABLE_KEY.businessOverview, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "ビジネス概要", kind: "paragraph", required: true, visibility: "public" },
+  { stableKey: STABLE_KEY.skills, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "得意分野・スキル", kind: "paragraph", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.challenges, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "現在の課題・相談したいこと", kind: "paragraph", required: false, visibility: "member" },
+  { stableKey: STABLE_KEY.canProvide, sectionKey: "ubm_profile", sectionTitle: "UBMプロフィール", label: "提供できること・協力できること", kind: "paragraph", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.hobbies, sectionKey: "personal_profile", sectionTitle: "パーソナル", label: "趣味・好きなこと", kind: "shortText", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.recentInterest, sectionKey: "personal_profile", sectionTitle: "パーソナル", label: "最近ハマっていること", kind: "shortText", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.motto, sectionKey: "personal_profile", sectionTitle: "パーソナル", label: "座右の銘", kind: "shortText", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.otherActivities, sectionKey: "personal_profile", sectionTitle: "パーソナル", label: "仕事以外の活動", kind: "paragraph", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlWebsite, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "ホームページ URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlFacebook, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "Facebook URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlInstagram, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "Instagram URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlThreads, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "Threads URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlYoutube, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "YouTube URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlTiktok, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "TikTok URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlX, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "X（Twitter）URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlBlog, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "ブログ URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlNote, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "note URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlLinkedin, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "LinkedIn URL", kind: "url", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.urlOthers, sectionKey: "social_links", sectionTitle: "SNS・Web", label: "その他のSNS・URL", kind: "paragraph", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.selfIntroduction, sectionKey: "message", sectionTitle: "メッセージ", label: "自己紹介・一言メッセージ", kind: "paragraph", required: false, visibility: "public" },
+  { stableKey: STABLE_KEY.publicConsent, sectionKey: "consent", sectionTitle: "同意", label: "ホームページへの掲載に同意", kind: "consent", required: true, visibility: "admin" },
+  { stableKey: STABLE_KEY.rulesConsent, sectionKey: "consent", sectionTitle: "同意", label: "勧誘ルール・免責事項への同意", kind: "consent", required: true, visibility: "admin" },
+] as const;
+
 const sqlString = (value: string): string => `'${value.replaceAll("'", "''")}'`;
 const sqlNullableString = (value: string | null | undefined): string =>
   value == null ? "NULL" : sqlString(value);
@@ -81,6 +149,8 @@ const answersFor = (member: TestMemberAccount): Record<string, string | null> =>
   [STABLE_KEY.occupation]: member.occupation,
   [STABLE_KEY.ubmZone]: member.ubmZone,
   ...member.profile,
+  [STABLE_KEY.publicConsent]: member.publicConsent,
+  [STABLE_KEY.rulesConsent]: member.rulesConsent,
   notificationOptOut: member.notificationOptOut ? "true" : "false",
 });
 
@@ -90,7 +160,7 @@ const searchTextFor = (member: TestMemberAccount): string =>
 const responseFieldRows = (catalog: TestAccountsCatalog): string[][] =>
   catalog.members.flatMap((member) => {
     const answers = answersFor(member);
-    return PUBLIC_RESPONSE_FIELD_KEYS.filter((stableKey) =>
+    return RESPONSE_FIELD_KEYS.filter((stableKey) =>
       Object.hasOwn(answers, stableKey),
     ).map((stableKey) => [
       sqlString(member.responseId),
@@ -99,6 +169,35 @@ const responseFieldRows = (catalog: TestAccountsCatalog): string[][] =>
       sqlJson(answers[stableKey]),
     ]);
   });
+
+const visibilityRows = (catalog: TestAccountsCatalog): string[][] =>
+  catalog.members.flatMap((member) =>
+    RESPONSE_FIELD_KEYS.map((stableKey) => [
+      sqlString(member.memberId),
+      sqlString(stableKey),
+      sqlString(FIELD_VISIBILITY[stableKey]),
+      sqlString(catalog.submittedAt),
+    ]),
+  );
+
+const schemaQuestionRows = (catalog: TestAccountsCatalog): string[][] =>
+  SCHEMA_QUESTIONS.map((question, index) => [
+    sqlString(`${catalog.revisionId}:${question.stableKey}`),
+    sqlString(catalog.revisionId),
+    sqlString(question.stableKey),
+    sqlString(`TEST-Q-${String(index + 1).padStart(2, "0")}`),
+    sqlString(`TEST-ITEM-${String(index + 1).padStart(2, "0")}`),
+    sqlString(question.sectionKey),
+    sqlString(question.sectionTitle),
+    sqlString(question.label),
+    sqlString(question.kind),
+    sqlNumber(index + 1),
+    sqlNumber(question.required),
+    sqlString(question.visibility),
+    "1",
+    sqlString("active"),
+    sqlJson([]),
+  ]);
 
 export const buildSeedSql = (catalog: TestAccountsCatalog = testAccountsCatalog): string => {
   // Cloudflare D1 の remote 実行は SQL の BEGIN TRANSACTION / COMMIT を拒否する
@@ -114,10 +213,15 @@ export const buildSeedSql = (catalog: TestAccountsCatalog = testAccountsCatalog)
         sqlString(catalog.schemaHash),
         sqlString("active"),
         sqlString(catalog.submittedAt),
-        sqlNumber(PUBLIC_RESPONSE_FIELD_KEYS.length),
+        sqlNumber(RESPONSE_FIELD_KEYS.length),
         "0",
         sqlString("seed:test-accounts"),
       ]],
+    ),
+    buildInsert(
+      "schema_questions",
+      ["question_pk", "revision_id", "stable_key", "question_id", "item_id", "section_key", "section_title", "label", "kind", "position", "required", "visibility", "searchable", "status", "choice_labels_json"],
+      schemaQuestionRows(catalog),
     ),
     buildInsert(
       "member_responses",
@@ -138,6 +242,11 @@ export const buildSeedSql = (catalog: TestAccountsCatalog = testAccountsCatalog)
       ]),
     ),
     buildInsert("response_fields", ["response_id", "stable_key", "value_json", "raw_value_json"], responseFieldRows(catalog)),
+    buildInsert(
+      "member_field_visibility",
+      ["member_id", "stable_key", "visibility", "updated_at"],
+      visibilityRows(catalog),
+    ),
     buildInsert(
       "member_identities",
       ["member_id", "response_email", "current_response_id", "first_response_id", "last_submitted_at", "created_at", "updated_at"],
@@ -283,12 +392,14 @@ export const buildCleanupSql = (catalog: TestAccountsCatalog = testAccountsCatal
     `DELETE FROM member_tags WHERE member_id IN (${memberIds});`,
     `DELETE FROM admin_member_notes WHERE note_id LIKE 'TEST-NOTE-%';`,
     `DELETE FROM deleted_members WHERE member_id IN (${memberIds});`,
+    `DELETE FROM member_field_visibility WHERE member_id IN (${memberIds});`,
     `DELETE FROM member_status WHERE member_id IN (${memberIds});`,
     `DELETE FROM member_identities WHERE member_id IN (${memberIds});`,
     `DELETE FROM response_fields WHERE response_id IN (${responseIds});`,
     `DELETE FROM member_responses WHERE response_id IN (${responseIds});`,
     `DELETE FROM meeting_sessions WHERE session_id IN (${meetingIds});`,
     `DELETE FROM admin_users WHERE admin_id IN (${adminIds});`,
+    `DELETE FROM schema_questions WHERE revision_id = ${sqlString(catalog.revisionId)};`,
     `DELETE FROM schema_versions WHERE revision_id = ${sqlString(catalog.revisionId)};`,
   ];
   return `${statements.join("\n")}\n`;

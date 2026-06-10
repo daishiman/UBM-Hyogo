@@ -43,7 +43,7 @@ const shots: Shot[] = [
   {
     name: '05-admin-schema-history.png',
     route: '/admin/schema/history',
-    heading: 'alias resolve 履歴',
+    heading: '設問の紐付け履歴',
     state: 'schema history page header',
   },
   {

@@ -21,6 +21,61 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
 | user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
 
+### admin-schema-diff-review-resolve-ux（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/` |
+| 目的 | `/admin/schema` の差分レビューで stableKey alias 割当フォームをクリックカード直下に表示し、やさしい用語・目的説明で操作価値を明示する |
+| implementation targets | `apps/web/src/components/admin/schemaReviewTerms.ts`, `apps/web/src/components/admin/SchemaReviewGuide.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 3 files / 36 tests PASS、web typecheck PASS、lint PASS、verify-design-tokens PASS、apps/api diff 0 |
+| invariant | `apps/api` / D1 schema / Google Form / endpoint surface 不変。bulk resolve / rollback / undo / recompute / HTTP 202 retryable behavior 不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、commit、push、PR |
+
+### admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-history-purpose-clarity-and-filter-fix/` |
+| 目的 | `/admin/schema/history` の `appliedFilters.batchId` ZodError raw JSON 表示を根治し、目的説明 UI と ALIAS HISTORY card 表示へ整える |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/schemaHistoryError.ts`, `apps/web/src/lib/admin/schemaHistoryGlossary.ts`, `apps/web/src/components/admin/SchemaHistoryPurposeExplainer.tsx`, `apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/styles/globals.css` |
+| tests | `apps/web/src/lib/admin/__tests__/api.spec.ts`, `schemaHistoryError.spec.ts`, `SchemaDiffHistoryPanel.component.spec.tsx`, `SchemaHistoryPurposeExplainer.component.spec.tsx` |
+| evidence | focused Vitest 4 files / 60 tests PASS、local Playwright 2 tests PASS + screenshots 2 PNG present、web typecheck PASS、verify:tokens PASS、apps/api diff empty |
+| invariant | existing `GET /admin/audit?action=schema_diff.alias_assigned` only; apps/api / D1 / Google Form unchanged; batchId filter UI is not added |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
+
+### staging-test-accounts-full-data-and-detail-verify（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`（visualEvidenceStatus = `staging_visual_pending_user_gate`・PNG 0） |
+| 成果物 | `docs/30-workflows/staging-test-accounts-full-data-and-detail-verify/` |
+| 目的 | `public-member-detail-survey-fields-richness`（`TEST-MEM-01` のみ）の continuation。10 テストアカウント全件に Google Form 31 stable_key の現実的ダミーを充填し、公開メンバー詳細 5 セクションを full / all-fields-with-blanks / edge の 3 表示パターンで検証する |
+| 基盤 | `test-accounts-seed-spec`（catalog SSOT / build-seed-sql generator / 適用 CLI / drift guard）を再利用・基盤定義は不変 |
+| implemented targets | `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts` + 各 `__tests__/*.spec.ts`、`apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql` + `__tests__/test-accounts-seed.contract.spec.ts`、`apps/web/src/lib/adapters/member-detail.ts`（**gap fix**: `urlOthers` free-text URL を `LINK_STABLE_KEYS` override + `extractFirstUrl` で links へルート）+ `__tests__/member-detail.spec.ts`、`apps/web/src/fixtures/public-member-profile.ts` |
+| invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
+| evidence | focused Vitest 5 files / 39 tests PASS、web/api typecheck PASS、lint PASS。authenticated / staging screenshots（EV-01..08）は user-gated で PNG 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md`（Lessons L-STAFDV-001..007 inline） |
+| user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
+
+### admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tag-definition-unify-create-and-catalog-fix/` |
+| 目的 | admin tag definition UI を 1 画面「タグ定義」へ統合し、catalog reduce crash・新規タグ作成導線欠落・tag-master/tag-catalog IA 分裂を解消する |
+| implementation targets | `apps/web/src/components/admin/{tagDefinitionView,TagDefinitionPanel,TagDefinitionCreateForm}.ts*`, `apps/web/src/features/admin/api/{tags,members}.ts`, `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, `apps/web/src/components/shell/{shell-config,icons}.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/styles/globals.css` |
+| tests | `apps/web/src/components/admin/__tests__/{tagDefinitionView,TagDefinitionPanel.component}.spec.tsx?`, `apps/web/src/features/admin/api/__tests__/{tags.create,members.tagCreate}.spec.ts`, `apps/web/app/(admin)/admin/tag-master/page.spec.tsx`, `apps/web/app/(admin)/admin/tags/catalog/page.spec.tsx`, `apps/web/src/components/shell/__tests__/shell-config.spec.ts` |
+| evidence | focused Vitest 7 files / 33 tests PASS; `mise exec -- pnpm typecheck` PASS; `mise exec -- pnpm lint` PASS; `mise exec -- pnpm exec tsx scripts/verify-design-tokens.ts` PASS; `git -C apps/api diff --stat` empty |
+| invariant | `apps/api` / D1 / Google Form unchanged. Existing tag API surface only. `/admin/tags` TagQueuePanel remains separate; `/admin/tags/catalog` redirects to `/admin/tag-master` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
+| user gate | browser/staging visual screenshots, commit, push, PR |
+
 ### profile-session-fetch-failure-investigation（2026-06-09）
 
 | 項目 | 値 |

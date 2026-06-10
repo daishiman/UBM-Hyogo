@@ -3,6 +3,8 @@
 //   POST/DELETE の mutation は MemberDrawer 側で useAdminMutation 経由に配線するが、
 //   非 hook な呼び出し（テスト・将来の再利用）向けに raw helper も併せて export する。
 
+import { AuthRequiredError } from "../../../lib/fetch/errors";
+
 export type AdminTagRef = {
   tagId: string;
   code: string;
@@ -252,6 +254,9 @@ export async function createTag(input: {
     body: JSON.stringify(input),
     credentials: "same-origin",
   });
+  if (res.status === 401) {
+    throw new AuthRequiredError();
+  }
   if (!res.ok) {
     const bodyText = await res.text().catch(() => "");
     throw new TagCreateError(res.status, parseTagErrorCode(bodyText), bodyText);
