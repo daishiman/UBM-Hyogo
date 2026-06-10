@@ -60,16 +60,18 @@ test.describe('issue-1116 admin tag master code edit UI Phase 11 screenshots', (
     await capture(adminPage, 'tag-master-list.png')
 
     await adminPage.getByRole('button', { name: '編集対象' }).first().click()
-    await expect(adminPage.getByRole('form', { name: /メンター を編集/ })).toBeVisible()
+    // 作成フォーム（タグ作成）にも「コード」ラベルがあるため、編集フォームへ明示的にスコープする
+    const editForm = adminPage.getByRole('form', { name: /メンター を編集/ })
+    await expect(editForm).toBeVisible()
     await capture(adminPage, 'tag-master-edit-form.png')
 
-    await adminPage.getByLabel('コード').fill('vip')
-    await adminPage.getByRole('button', { name: '保存' }).click()
+    await editForm.getByLabel('コード').fill('vip')
+    await editForm.getByRole('button', { name: '保存' }).click()
     await expect(adminPage.locator('.tag-master-error')).toContainText('同じコード')
     await capture(adminPage, 'tag-master-code-conflict.png')
 
-    await adminPage.getByLabel('コード').fill('mentor_stale')
-    await adminPage.getByRole('button', { name: '保存' }).click()
+    await editForm.getByLabel('コード').fill('mentor_stale')
+    await editForm.getByRole('button', { name: '保存' }).click()
     await expect(adminPage.locator('.tag-master-error')).toContainText('別の変更')
     await capture(adminPage, 'tag-master-stale-conflict.png')
   })
