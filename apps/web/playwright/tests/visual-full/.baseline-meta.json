@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "ec0520a6c62954d386ed4851f10f5c9b79386bcd",
-  "captured_at": "2026-06-10T01:52:01Z",
+  "captured_at_commit_sha": "783060d3a09829d0133a5cc2bbf68655313e4a9c",
+  "captured_at": "2026-06-10T06:24:31Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26732057120",
     "26732700618",
     "26793911803",
     "26857844535",
@@ -13,7 +12,8 @@
     "27050525423",
     "27052918274",
     "27179703910",
-    "27247391142"
+    "27247391142",
+    "27257083636"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "admin-sidebar-collapse-layout-fix: collapsed サイドバーアイコンを18px→40px(中央枠化)へ意図的拡大した結果、tablet幅でcollapsedサイドバー列が縦に伸び admin全ページのfullPage高さが768x1024→768x1224へ増加。意図的なレイアウト是正に伴う正当な視覚変化のため Linux baseline を再生成"
+  "last_refresh_reason": "/admin/schema に SchemaPurposeExplainer(目的説明UI)を追加しページ高が1341→1839pxへ変化。admin-schema-desktop/tablet/mobile の visual-full baseline を現行HEADで再生成（feat/admin-schema-page-purpose-clarity-ux 783060d3a）"
 }
