@@ -1,6 +1,6 @@
 // followup-001 T-5.6: drawer head/body/foot プロトタイプ準拠仕様
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, screen, waitFor, render } from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor, render } from "@testing-library/react";
 import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
 import { asAdminId, asMemberId, asResponseEmail, asResponseId } from "@ubm-hyogo/shared";
 
@@ -118,5 +118,31 @@ describe("MemberDrawer (followup-001)", () => {
     expect(screen.getByText(/ユーザー希望/)).toBeDefined();
     // redesign では「退会処理」ボタンは廃止されている
     expect(screen.queryByRole("button", { name: /退会処理/ })).toBeNull();
+  });
+
+  it("fetch 失敗時に再試行ボタンから同一 memberId を再取得して回復する", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce({ ok: false, status: 500 } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => mkDetail(),
+      } as Response);
+
+    render(<MemberDrawer memberId="m1" onClose={() => {}} />);
+
+    const retry = await screen.findByRole("button", { name: "再試行" });
+    expect(screen.getByRole("alert").textContent).toContain("HTTP 500");
+
+    fireEvent.click(retry);
+
+    await waitFor(() => expect(screen.getByText("山田 太郎")).toBeDefined());
+    const detailFetches = fetchMock.mock.calls.filter(
+      ([url]) => url === "/api/admin/members/m1",
+    );
+    expect(detailFetches).toHaveLength(2);
+    expect(detailFetches).toEqual([
+      ["/api/admin/members/m1", { cache: "no-store" }],
+      ["/api/admin/members/m1", { cache: "no-store" }],
+    ]);
   });
 });

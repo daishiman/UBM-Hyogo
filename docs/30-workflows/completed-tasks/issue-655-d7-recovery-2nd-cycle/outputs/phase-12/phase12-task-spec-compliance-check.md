@@ -35,20 +35,22 @@ are not used as canonical workflow states.
 
 ## Phase 11 evidence file inventory
 
-| File | Status | Notes |
+| Classification | Path | Status |
 | --- | --- | --- |
-| `outputs/phase-11/main.md` | completed (index) | Evidence boundary |
-| `outputs/phase-11/canonical-paths.json` | completed (manifest) | Runtime template mapping |
-| `hourly-run-1st-cycle-listing.json.RUNTIME_PENDING_USER_APPROVAL.md` | runtime_pending | Read-only GitHub evidence template |
-| `recovery-rootcause.md` | completed | Read-only GitHub Actions evidence classifies current blocker as GitHub environment protection configuration |
-| `local-verify.log` | completed | PR-A focused tests / targeted typecheck / actionlint ledger |
-| `ci-dry-run.md.RUNTIME_PENDING_USER_APPROVAL.md` | runtime_pending | Workflow dry-run template |
-| `recovery-d-minus-1.log` | runtime_pending | D'-1 success confirmation |
-| `hourly-run-daily-check-recovery.md` | runtime_pending | D'+1 / D'+3 / D'+5 checks |
-| `hourly-run-7day-recovery.md` | runtime_pending | 168 recovery run URL list |
-| `hourly-run-7day-summary-recovery.json.RUNTIME_PENDING_USER_APPROVAL.md` | runtime_pending | D'+7 aggregate template |
-| `leakage-grep-7day-recovery.log` | runtime_pending | 168 hour leakage grep |
-| `issue-rate-comparison-recovery.md` | runtime_pending | Baseline / 1st cycle / recovery comparison |
+| Phase 11 evidence index | outputs/phase-11/main.md | present |
+| canonical evidence manifest | outputs/phase-11/canonical-paths.json | present |
+| recovery root cause analysis | outputs/phase-11/evidence/recovery-rootcause.md | present |
+| local verification ledger (runtime-pending template) | outputs/phase-11/evidence/local-verify.log.RUNTIME_PENDING_USER_APPROVAL.md | present |
+| hourly-run 1st cycle listing (runtime-pending template) | outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json.RUNTIME_PENDING_USER_APPROVAL.md | present |
+| ci dry-run boundary (runtime-pending template) | outputs/phase-11/evidence/ci-dry-run.md.RUNTIME_PENDING_USER_APPROVAL.md | present |
+| D'+7 aggregate (runtime-pending template) | outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json.RUNTIME_PENDING_USER_APPROVAL.md | present |
+| D'-1 success confirmation | outputs/phase-11/evidence/recovery-d-minus-1.log | pending |
+| D'+1 / D'+3 / D'+5 daily checks | outputs/phase-11/evidence/hourly-run-daily-check-recovery.md | pending |
+| 168 recovery run URL list | outputs/phase-11/evidence/hourly-run-7day-recovery.md | pending |
+| 168 hour leakage grep | outputs/phase-11/evidence/leakage-grep-7day-recovery.log | pending |
+| baseline / 1st cycle / recovery comparison | outputs/phase-11/evidence/issue-rate-comparison-recovery.md | pending |
+
+> Status legend: `present` = evidence/template file committed in-repo; `pending` = runtime evidence is user-gated (D'+1..D'+7 windows) and not yet captured at close-out. Statuses normalized to the strict `present|pending|n/a` vocabulary required by the current `verify:phase12-compliance` Phase 11 inventory parser (prior `completed`/`runtime_pending` labels predate the strict gate).
 
 ## Phase 12 strict 7 file inventory
 
