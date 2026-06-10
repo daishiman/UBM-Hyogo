@@ -1,0 +1,49 @@
+{
+  "taskId": "admin-sidebar-collapse-layout-fix",
+  "mode": "VISUAL",
+  "status": "captured_local_fixture",
+  "route": "全 route 共通の sidebar shell（公開 / 会員 / 管理の 3 層で共有）",
+  "targetComponents": [
+    "apps/web/src/components/shell/SidebarNavItem.tsx",
+    "apps/web/src/components/shell/SidebarUserMenu.tsx",
+    "apps/web/src/components/shell/SidebarBrand.tsx",
+    "apps/web/src/components/shell/SidebarShell.tsx"
+  ],
+  "screenshotDir": "outputs/phase-11/screenshots",
+  "naming": "<component>-<state>.png",
+  "captureGated": "local Playwright fixture screenshot は取得済み。staging 認証済み baseline / commit / push / PR は user-gated",
+  "evidenceStrategy": "two-tier: tier1 = local jsdom render + focused vitest（shell collapsed/expanded className contract）, tier2 = local Playwright screenshot（captured）",
+  "pngPolicy": "3 PNG present。TC-11-3 は popover が aside 外へ出るため viewport screenshot とする",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "name": "sidebar-collapsed-desktop.png",
+      "viewport": "1280x800",
+      "route": "全 route 共通 shell（collapsed 状態）",
+      "status": "present",
+      "acceptance": ["AC-1", "AC-2", "AC-3", "AC-4"],
+      "state": "collapsed-desktop: 折りたたみ時に brand / nav-item / user-menu / admin-return の水平パディングが除去され、icon(18px)/mark(32px)/avatar(36px) が 64px 幅内に収まり、全要素のアイコン水平中心が aside 縦中心線に一致（collapse-toggle と軸が揃う）。active nav-item の左ボーダーが破綻しないことも同フレームで確認"
+    },
+    {
+      "tc": "TC-11-2",
+      "name": "sidebar-expanded-desktop.png",
+      "viewport": "1280x800",
+      "route": "全 route 共通 shell（expanded 状態）",
+      "status": "present",
+      "acceptance": ["AC-5"],
+      "state": "expanded-desktop: 展開時に brand/nav-item/user-menu のテキストとアイコンが既存 baseline どおり整列し、regression（崩れ・余白増減）がないこと"
+    },
+    {
+      "tc": "TC-11-3",
+      "name": "sidebar-collapsed-user-menu-open.png",
+      "viewport": "1280x800",
+      "route": "全 route 共通 shell（collapsed + user-menu popover open）",
+      "status": "present",
+      "acceptance": ["AC-6"],
+      "state": "collapsed-user-menu-open: 折りたたみ時に user-menu の <details> popover を open し、displayName/role が popover に表示される意味的可視性を確認。collapsed hover tooltip（ubm-shell-tooltip）が aside 右外で clip されないか（OOS-1）も同フレームで実機目視する"
+    }
+  ],
+  "supplementaryViewports": {
+    "mobile": "390x844（必要に応じ mobile drawer の参考撮影。collapse トグルは md:flex の desktop aside のみ対象のため主証跡は desktop）"
+  }
+}
