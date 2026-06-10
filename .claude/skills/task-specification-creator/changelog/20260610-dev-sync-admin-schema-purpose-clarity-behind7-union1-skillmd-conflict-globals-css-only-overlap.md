@@ -1,0 +1,11 @@
+# dev sync: `feat/admin-schema-page-purpose-clarity-ux` ← `origin/dev`（behind 7・SKILL.md union 1・両側 touch feature = `globals.css` のみ＝L-DEVSYNC-127 是正運用適用で CI 緑確定）（2026-06-10）
+
+- 日時: 2026-06-10（`feat/admin-schema-page-purpose-clarity-ux` の dev 取込）
+- 関連: aiworkflow-requirements 同名 changelog / [[20260610-dev-sync-members-zone-status-normalization-2ndpass-semantic-conflict-correction]]（L-DEVSYNC-127 起点）/ SP-DEVSYNC-089/098 / `lessons-learned/dev-sync-merge-conflict-resolution.md`
+- SHA: merge-base `c073c59b8` / dev tip `64af1891d` / merge commit `a3b950a99`（HEAD 独自 1 = `be6eac855`）
+- 事象: **7 behind / 1 ahead** の sync-merge。conflict は本 skill の **`SKILL.md` 1 ファイルのみ**（description keyword 行と changelog table 行を `pnpm sync:resolve` の `union-resolving 1 files` で両側保持解消）。feature コードで両側が touch した積集合は **`apps/web/src/styles/globals.css` の 1 ファイルのみ**（CSS・変更行域 disjoint・ロジックなし）。
+- **Phase 11/12 sync-merge 節への確定データ追補（SP-DEVSYNC: L-DEVSYNC-127 是正運用の成功適用）**: 直前の members-zone-status 2ndpass で確立した「`git merge` conflict 0 + typecheck/lint 緑は『CI 緑』の十分条件でない／両側が同一 feature `.ts` を touch する sync は test まで実行して断定する」を、本回で**前向きに守って緑を確定**した実例として記録:
+  1. **断定前に積集合を実測**: HEAD 側 touch（`apps/web/app/(admin)/admin/schema/**` + `SchemaDiffPanel`/`SchemaPurposeExplainer`/`schemaGlossary` + `globals.css`）と dev 側 touch（`apps/api/**`・`apps/og/**`・公開/shell 系多数 + `globals.css`）の積 = `globals.css` のみ。dev が変更した `sheets-to-members.ts`（L-DEVSYNC-127 元凶）を HEAD は **0 touch** → 意味的コンフリクトの構造的前提（同一 .ts 両側 touch）が今回は不成立と確認。
+  2. **唯一の積集合が CSS なら意味的競合は不能**（CSS は実行時分岐を持たない）が、それでも該当 feature の vitest（schema 4 files / 34 tests）を実行して全 pass を確認してから緑を断定。spec 生成手順（Phase 1-13 / 単一責務分解 / Phase 12 中学生レベル説明）自体への影響 0。
+  3. 教訓の運用形: **sync-merge 後の「CI fail 0」断定は (a) 両側 touch feature 積集合を実測 → (b) 積に `.ts`（ロジック）があれば該当 package の test:coverage を実行 / 積が CSS・doc・設定のみならその確認をログ化 → (c) typecheck/lint/該当 test 緑で確定**、の 3 段で行う。
+- 検証順: `git diff --name-only merge-base..ORIG_HEAD` / `..dev` で積集合特定 → `globals.css` marker 0 / 行域 disjoint 確認 → `pnpm typecheck` exit 0 → `pnpm lint` exit 0 → schema vitest 34 pass（root cwd 相対フルパスで実行・`apps/web` cwd 個別パスは include 不一致で 0 件になる点に注意）→ `pnpm indexes:rebuild` 冪等（5502 kw）。SP-DEVSYNC-089/098 の確定データ拡張として記録（新規 lesson 番号は起こさない）。

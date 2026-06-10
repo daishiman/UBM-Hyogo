@@ -19,6 +19,13 @@ describe("member SectionError", () => {
     expect(screen.getByRole("link").getAttribute("href")).toBe("/profile");
   });
 
+  it("renders an optional diagnostic cause as a data attribute", () => {
+    render(<SectionError detail="profile failed" dataCause="session-410" />);
+    expect(screen.getByRole("alert").getAttribute("data-cause")).toBe(
+      "session-410",
+    );
+  });
+
   it("renders an optional action link when href and label are provided", () => {
     render(
       <SectionError

@@ -25,7 +25,23 @@ describe("TagPicker", () => {
       '[data-component="tag-pill"]',
     );
     expect(chips).toHaveLength(2);
+    expect(container.querySelector('[data-role="tag-picker-options"]')).toBeTruthy();
     expect(chips[0]?.getAttribute("aria-checked")).toBe("false");
+  });
+
+  it("選択済み chip は aria-checked=true で表現する", () => {
+    const { container } = render(
+      <TagPicker
+        options={options}
+        selected={["ai"]}
+        max={5}
+        onToggle={vi.fn()}
+      />,
+    );
+    const selected = container.querySelector('[data-tag-code="ai"]');
+    expect(selected?.getAttribute("role")).toBe("switch");
+    expect(selected?.getAttribute("aria-checked")).toBe("true");
+    expect(selected?.getAttribute("aria-selected")).toBeNull();
   });
 
   it("phase tag labels are normalized to arrow notation", () => {
