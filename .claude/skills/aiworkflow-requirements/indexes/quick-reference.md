@@ -13,6 +13,20 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
 | user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
 
+## public-members-tag-filter-ux-refine（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 公開 `/members` のタグ絞り込み chip 横並び、filter grouping、selected tag highlight、member-grid spacing refine |
+| implementation | `legacy-public.css`, `globals.css`, `MemberFilters.client.tsx`, focused public specs |
+| evidence | focused Vitest 5 files / 28 tests PASS; web typecheck PASS; web lint PASS; `pnpm verify:tokens` PASS; local static screenshot 5 PNG present |
+| invariant | API/shared/D1/Form unchanged; no new primitive |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR |
+
+
 ## admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
 
 | 項目 | 値 |

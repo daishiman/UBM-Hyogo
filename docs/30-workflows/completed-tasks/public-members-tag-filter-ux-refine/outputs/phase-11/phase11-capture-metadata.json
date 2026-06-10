@@ -1,0 +1,23 @@
+{
+  "status": "local_static_visual_present_staging_pending",
+  "runtimeVisual": "staging_pending_user_gate",
+  "localEvidence": {
+    "focusedVitest": "PASS: 5 files / 28 tests",
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "tokens": "PASS"
+  },
+  "screenshotsCaptured": 5,
+  "screenshotsDirectory": "outputs/phase-11/screenshots",
+  "localStaticVisual": {
+    "status": "present",
+    "capturedAt": "2026-06-08T20:00:00+09:00",
+    "note": "Captured on localhost:3000 /members with injected tag fixture after API topTags was unavailable."
+  },
+  "computedStyle": {
+    "display": "flex",
+    "flexWrap": "wrap",
+    "gap": "8px",
+    "selectedBackground": "lab(43.5021 33.1221 48.6461)"
+  }
+}
