@@ -13,6 +13,18 @@
 | invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
 | user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
 
+## admin-meeting-bulk-attendance-select（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | admin 開催日ドロワーの出席追加を複数会員同時選択→一括追加へ是正する |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/ui/Checkbox.tsx`, `_meetings/{useBulkAttendanceSelection,bulk-attendance-message,BulkAttendanceChecklist,BulkAttendanceModal,MeetingAttendanceDrawer,MeetingsClientShell}.tsx?`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 10 files / 38 tests PASS; typecheck/lint/verify:tokens PASS; apps/api/packages diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md` |
+| user gate | pixel screenshot, authenticated staging visual baseline, commit, push, PR |
+
 ## public-members-tag-filter-ux-refine（2026-06-08）
 
 | 項目 | 値 |

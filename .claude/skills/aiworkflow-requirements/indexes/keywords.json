@@ -3828,6 +3828,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
@@ -4969,6 +4970,7 @@
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
@@ -5361,6 +5363,7 @@
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -7609,6 +7612,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -11982,6 +11986,7 @@
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -13387,6 +13392,7 @@
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
@@ -16459,6 +16465,7 @@
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "task-workflow-active.md",
       "ui-ux-admin-dashboard.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
@@ -19367,6 +19374,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
@@ -26455,7 +26463,8 @@
       "task-workflow-completed-skill-lifecycle-ui-verify.md"
     ],
     "select": [
-      "task-workflow-completed-skill-lifecycle-ui-verify.md"
+      "task-workflow-completed-skill-lifecycle-ui-verify.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md"
     ],
     "ユーザー入力種別追加": [
       "task-workflow-completed-skill-lifecycle-ui-verify.md"
@@ -27539,6 +27548,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
@@ -27807,6 +27817,7 @@
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
@@ -28244,6 +28255,9 @@
     ],
     "Dependency": [
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md"
+    ],
+    "meeting": [
+      "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md"
     ],
     "Notes": [
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
