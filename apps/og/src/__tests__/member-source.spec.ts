@@ -24,7 +24,7 @@ describe("fetchMemberSummary", () => {
     );
     const env: OgEnv = {
       API_SERVICE: { fetch: serviceFetch },
-      PUBLIC_API_BASE_URL: "https://api.example.invalid",
+      NEXT_PUBLIC_API_BASE_URL: "https://api.example.invalid",
     };
 
     await expect(fetchMemberSummary("m-1", env)).resolves.toMatchObject({
@@ -35,7 +35,7 @@ describe("fetchMemberSummary", () => {
     expect(serviceFetch).toHaveBeenCalledTimes(1);
   });
 
-  it("falls back to PUBLIC_API_BASE_URL without a service binding", async () => {
+  it("falls back to NEXT_PUBLIC_API_BASE_URL without a service binding", async () => {
     const fetchImpl = vi.fn().mockResolvedValue(
       jsonResponse({
         memberId: "m-2",
@@ -46,7 +46,7 @@ describe("fetchMemberSummary", () => {
     await expect(
       fetchMemberSummary(
         "m 2",
-        { PUBLIC_API_BASE_URL: "https://api.example.test/" },
+        { NEXT_PUBLIC_API_BASE_URL: "https://api.example.test/" },
         fetchImpl,
       ),
     ).resolves.toMatchObject({ id: "m-2", fullName: "佐藤 花子" });
@@ -57,17 +57,17 @@ describe("fetchMemberSummary", () => {
 
   it("returns null for 404, broken json, network error, missing config, or missing summary", async () => {
     await expect(
-      fetchMemberSummary("m", { PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockResolvedValue(new Response("{}", { status: 404 })) as unknown as typeof fetch),
+      fetchMemberSummary("m", { NEXT_PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockResolvedValue(new Response("{}", { status: 404 })) as unknown as typeof fetch),
     ).resolves.toBeNull();
     await expect(
-      fetchMemberSummary("m", { PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockResolvedValue(new Response("{")) as unknown as typeof fetch),
+      fetchMemberSummary("m", { NEXT_PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockResolvedValue(new Response("{")) as unknown as typeof fetch),
     ).resolves.toBeNull();
     await expect(
-      fetchMemberSummary("m", { PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockRejectedValue(new Error("boom")) as unknown as typeof fetch),
+      fetchMemberSummary("m", { NEXT_PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockRejectedValue(new Error("boom")) as unknown as typeof fetch),
     ).resolves.toBeNull();
     await expect(fetchMemberSummary("m", {})).resolves.toBeNull();
     await expect(
-      fetchMemberSummary("m", { PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockResolvedValue(jsonResponse({ summary: { occupation: "Engineer" } })) as unknown as typeof fetch),
+      fetchMemberSummary("m", { NEXT_PUBLIC_API_BASE_URL: "https://api.example.test" }, vi.fn().mockResolvedValue(jsonResponse({ summary: { occupation: "Engineer" } })) as unknown as typeof fetch),
     ).resolves.toBeNull();
   });
 });
