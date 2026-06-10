@@ -12,6 +12,31 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
 | user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
 
+## admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tag-definition-unify-create-and-catalog-fix/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | admin tag definition UI を 1 画面へ統合し、catalog reduce crash・新規タグ作成導線欠落・tag-master/tag-catalog IA 分裂を解消する |
+| implementation | `apps/web/src/components/admin/{tagDefinitionView,TagDefinitionPanel,TagDefinitionCreateForm}.ts*`, `apps/web/src/features/admin/api/{tags,members}.ts`, `apps/web/app/(admin)/admin/tag-master/page.tsx`, `apps/web/app/(admin)/admin/tags/catalog/page.tsx`, shell nav/icon, `globals.css` |
+| tests | focused Vitest 7 files / 33 tests PASS; typecheck PASS; lint PASS; design-token gate PASS; apps/api diff empty |
+| invariant | `apps/api` / D1 / Google Form unchanged. Existing `GET/POST/PATCH/DELETE /admin/tags` surface only. `/admin/tags` tag queue remains separate; `/admin/tags/catalog` redirects to `/admin/tag-master` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md` |
+| user gate | browser/staging visual screenshots, commit, push, PR |
+
+## admin-meeting-bulk-attendance-select（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meeting-bulk-attendance-select/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | admin 開催日ドロワーの出席追加を複数会員同時選択→一括追加へ是正する |
+| implementation | `apps/web/src/lib/admin/api.ts`, `apps/web/src/components/ui/Checkbox.tsx`, `_meetings/{useBulkAttendanceSelection,bulk-attendance-message,BulkAttendanceChecklist,BulkAttendanceModal,MeetingAttendanceDrawer,MeetingsClientShell}.tsx?`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 10 files / 38 tests PASS; typecheck/lint/verify:tokens PASS; apps/api/packages diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md` |
+| user gate | pixel screenshot, authenticated staging visual baseline, commit, push, PR |
+
 ## public-members-tag-filter-ux-refine（2026-06-08）
 
 | 項目 | 値 |

@@ -6,6 +6,7 @@ export interface SectionErrorProps {
   retryHref?: string;
   actionHref?: string;
   actionLabel?: string;
+  dataCause?: string;
   className?: string;
 }
 
@@ -15,6 +16,7 @@ export function SectionError({
   retryHref,
   actionHref,
   actionLabel,
+  dataCause,
   className,
 }: SectionErrorProps) {
   return (
@@ -23,6 +25,7 @@ export function SectionError({
       aria-live="polite"
       data-component="section-error"
       data-variant="member"
+      data-cause={dataCause}
       className={cn("section-error section-error--member", className)}
     >
       <p data-role="title">{title}</p>
