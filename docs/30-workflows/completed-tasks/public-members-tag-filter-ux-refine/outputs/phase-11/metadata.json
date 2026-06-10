@@ -1,0 +1,46 @@
+{
+  "status": "local_static_visual_present_staging_pending",
+  "note": "Local static visual screenshots were captured on the live Next /members page with injected tag fixture because the current API response omitted topTags. Staging data-backed screenshots remain pending user approval.",
+  "screenshots": [
+    {
+      "tc": "TC-1",
+      "route": "/members",
+      "state": "tag filter chips horizontal flex-wrap (after)",
+      "filename": "screenshots/public-members-tag-filter-horizontal.png",
+      "evidenceType": "local-static-visual",
+      "capturedAt": "2026-06-08T20:00:00+09:00"
+    },
+    {
+      "tc": "TC-2",
+      "route": "/members",
+      "state": "filter region grouping (search/zone/status/tags)",
+      "filename": "screenshots/public-members-filter-region-grouped.png",
+      "evidenceType": "local-static-visual",
+      "capturedAt": "2026-06-08T20:00:00+09:00"
+    },
+    {
+      "tc": "TC-3",
+      "route": "/members",
+      "state": "member grid spacing refined (comfy density)",
+      "filename": "screenshots/public-members-grid-spacing.png",
+      "evidenceType": "local-static-visual",
+      "capturedAt": "2026-06-08T20:00:00+09:00"
+    },
+    {
+      "tc": "TC-4",
+      "route": "/members",
+      "state": "mobile filter expanded + tags wrap",
+      "filename": "screenshots/public-members-mobile-filter-tags.png",
+      "evidenceType": "local-static-visual",
+      "capturedAt": "2026-06-08T20:00:00+09:00"
+    },
+    {
+      "tc": "TC-5",
+      "route": "/members",
+      "state": "selected tags highlighted (aria-checked=true)",
+      "filename": "screenshots/public-members-tags-selected.png",
+      "evidenceType": "local-static-visual",
+      "capturedAt": "2026-06-08T20:00:00+09:00"
+    }
+  ]
+}

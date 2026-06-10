@@ -45,6 +45,12 @@ describe("MemberFilters", () => {
     expect(
       container.querySelector('[data-role="filter-grid"]'),
     ).toBeTruthy();
+    const filterGroup = container.querySelector(
+      '[data-role="filter-group"][data-group="inputs"]',
+    );
+    expect(filterGroup).toBeTruthy();
+    expect(filterGroup?.querySelector('[data-role="filter-grid"]')).toBeTruthy();
+    expect(filterGroup?.querySelector('[data-role="result-count"]')).toBeTruthy();
     const form = container.querySelector(
       '[data-component="member-filters"]',
     ) as HTMLElement;

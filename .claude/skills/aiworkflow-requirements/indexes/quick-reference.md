@@ -13,6 +13,45 @@
 | invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
 | user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
 
+## public-members-tag-filter-ux-refine（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-members-tag-filter-ux-refine/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 公開 `/members` のタグ絞り込み chip 横並び、filter grouping、selected tag highlight、member-grid spacing refine |
+| implementation | `legacy-public.css`, `globals.css`, `MemberFilters.client.tsx`, focused public specs |
+| evidence | focused Vitest 5 files / 28 tests PASS; web typecheck PASS; web lint PASS; `pnpm verify:tokens` PASS; local static screenshot 5 PNG present |
+| invariant | API/shared/D1/Form unchanged; no new primitive |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
+| user gate | staging screenshots, commit, push, PR |
+
+
+## admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-member-detail-tag-source-500-and-drawer-resilience/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `member_tags.source='seed'` による admin member detail 500 と MemberDrawer fetch failure の回復不能を解消 |
+| implementation | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts`, `apps/api/src/repository/_shared/builder.ts`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| evidence | focused Vitest 4 files / 69 tests PASS; shared/api/web typecheck PASS; verify:no-inline-style PASS |
+| invariant | `TagSource` union / endpoint surface / D1 schema / seed / Google Form unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, deploy, commit, push, PR |
+
+## admin-sidebar-collapse-layout-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | collapsed sidebar の brand / nav item / user menu / admin return を中央軸へ揃え、expanded regression を防ぐ |
+| implementation | `apps/web/src/components/shell/{SidebarBrand,SidebarNavGroup,SidebarNavItem,SidebarShell,SidebarUserMenu}.tsx` |
+| evidence | focused Vitest 3 files / 30 tests PASS; local Playwright Chromium screenshots 3 PNG present; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
+| user gate | staging authenticated visual baseline, commit, push, PR |
+
 ## public-home-member-card-info-and-tag-clarity（2026-06-08）
 
 | 項目 | 値 |
