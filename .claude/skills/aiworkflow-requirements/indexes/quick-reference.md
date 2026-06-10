@@ -1,5 +1,30 @@
 # クイックリファレンス
 
+## public-home-member-card-info-and-tag-clarity（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 公開 home `/` と `/members` の member card で、名前・アイコン・事業概要・事業フェーズ/業種/スキルを一目で分かるようにし、地域タグをカードから除外する |
+| implementation | `apps/web/src/lib/tags/tag-display.ts`, `apps/web/src/components/public/MemberCard.tsx`, `apps/web/src/components/public/TagPicker.client.tsx`, `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/page.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts` |
+| contract | `GET /public/members` endpoint surface 不変。optional `businessSummary` は existing public `businessOverview` 先頭 1 行・server cap 120。`expand=tags` は既存 opt-in tags を使用。D1 schema / Google Form / seed 不変 |
+| evidence | focused Vitest 6 files / 50 tests PASS; local Playwright PNG `outputs/phase-11/screenshots/member-card-home-comfy-with-tags.png` present |
+| user gate | staging screenshot, commit, push, PR |
+
+## issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| issue | #1146 CLOSED（`Refs #1146` のみ） |
+| purpose | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation | `.github/workflows/verify-no-localhost-bake.yml` の `on.pull_request.paths` 除去のみ |
+| evidence | actionlint 1.7.7 PASS; focused Vitest 1 file / 2 tests PASS; `bash scripts/verify-no-localhost-bake.sh --src-only` PASS; `--self-test` PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT, after evidence, commit, push, PR, Issue mutation |
+
 ## issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
 
 | 項目 | 値 |

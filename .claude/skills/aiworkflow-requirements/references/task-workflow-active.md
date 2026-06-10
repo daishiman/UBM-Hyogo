@@ -8,6 +8,33 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-home-member-card-info-and-tag-clarity（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-home-member-card-info-and-tag-clarity/` |
+| 目的 | 公開 home `/` と `/members` の member card に curated tags と businessSummary を出し、`0to1` 系 label を `0→1` 表示へ正規化して、地域タグをカードから除外する |
+| implementation targets | `apps/web/src/lib/tags/tag-display.ts`, `apps/web/src/components/public/MemberCard.tsx`, `apps/web/src/components/public/TagPicker.client.tsx`, `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/page.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/api/src/use-cases/public/list-public-members.ts`, `apps/api/src/view-models/public/public-member-list-view.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts` |
+| invariant | 新 endpoint / D1 schema / Google Form / seed 変更なし。`businessSummary` は existing public `businessOverview` 先頭 1 行・server cap 120。`expand=tags` は既存 opt-in contract を使用 |
+| evidence | focused Vitest 6 files / 50 tests PASS、local Playwright PNG present、Phase 12 strict 7 present |
+| user gate | staging screenshot、commit、push、PR |
+
+### issue-1146-verify-no-localhost-bake-required-status-check（2026-06-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / branch_protection_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1146-verify-no-localhost-bake-required-status-check/` |
+| Issue | #1146 CLOSED（`Refs #1146` のみ） |
+| 親 workflow | `docs/30-workflows/completed-tasks/staging-api-url-and-session-recovery/` |
+| 目的 | `verify-no-localhost-bake` を dev/main required status check に登録可能な常時実行 workflow にし、localhost / loopback API URL の再焼き込みを merge gate で防ぐ |
+| implementation targets | `.github/workflows/verify-no-localhost-bake.yml`（`on.pull_request.paths` 除去のみ） |
+| invariant | `scripts/verify-no-localhost-bake.sh` / `.spec.ts` の grep LOGIC 不変。apps runtime / API / D1 / Google Form 不変 |
+| evidence | actionlint 1.7.7 PASS、focused Vitest 1 file / 2 tests PASS、`verify-no-localhost-bake.sh --src-only` PASS、`--self-test` PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md` |
+| user gate | dev/main branch protection PUT、after evidence、commit、push、PR、Issue mutation |
+
 ### issue-1138-smoke-runner-common-lib-extraction（2026-06-08）
 
 | 項目 | 値 |
