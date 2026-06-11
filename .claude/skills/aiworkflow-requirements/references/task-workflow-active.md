@@ -21,6 +21,58 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
 | user gate | staging deploy、runtime screenshots、`INTERNAL_AUTH_SECRET` secret placement、commit、push、PR |
 
+### admin-requests-queue-rename-and-publish-dependency（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` |
+| 目的 | `/admin/requests` を「会員からの申請」として平易化し、会員本人発の申請承認フローと `/admin/members` 管理者起点の即時公開トグルの違いを UI / API / seed で可視化する |
+| implementation targets | `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts`, `apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql`, `apps/api/src/routes/admin/members.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts`, `packages/contracts/src/admin.mjs`, `apps/web/app/(admin)/admin/{requests,members}/page.tsx`, `apps/web/src/components/admin/{RequestQueuePanel,RequestQueueDetail,RequestConfirmDialog}.tsx`, `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/components/shell/shell-config.ts` |
+| evidence | focused API / shared / web Vitest 実行。API 86 files / 549 tests PASS、shared 21 files / 257 tests PASS、web 238 files passed, 1 skipped; 1752 tests passed, 1 skipped。API/web/shared typecheck PASS、seed drift guard PASS、lint PASS、HEX token grep PASS |
+| invariant | route path `/admin/requests`、API path、component filename、`id` / `data-*` / test selectors unchanged。新 endpoint / D1 schema 変更なし。apps/web は API/proxy 経由のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+### admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/` |
+| 目的 | `/admin/audit` の監査ログをカード型タイムライン、appliedFilters チップ、目的・用語ガイド、エラー親切化、datalist で読める UI にし、`/admin/tags/catalog` の reduce クラッシュを防御する |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditLogDisplay.ts`, `auditAppliedFilters.ts`, `AuditPurposeGuide.tsx`, `auditGlossary.ts`, `auditErrorMessage.ts`, `TagCatalogPanel.tsx`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 6 files / 55 tests PASS |
+| invariant | `apps/api` / D1 / Google Form / shared API response shape unchanged。`appliedFilters` は既存 surface の UI 可視化のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md` |
+| user gate | runtime screenshots, staging authenticated baseline, commit, push, PR, staging deploy |
+
+### admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| 目的 | `/admin/members` の mobile overflow を単一 table DOM + scoped CSS card 表示で解消する |
+| implementation targets | `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx`, `apps/web/playwright/tests/admin-members-mobile.spec.ts` |
+| invariant | API / D1 / Google Form / auth middleware unchanged。Desktop table layout and existing row testids remain stable |
+| evidence | focused Vitest 25 tests PASS、Playwright desktop-chromium 5 tests PASS、CSS-contract screenshots 3 PNG + metrics captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | authenticated route screenshots、staging deploy、commit、push、PR |
+
+### member-profile-google-form-data-reflection（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/` |
+| 目的 | `schema_questions` 空により Google Form 回答が全件 `__extra__:<questionId>` へ落ち、公開メンバー詳細が空表示になる fail-silent を恒久修正する |
+| implementation targets | `packages/integrations/google/src/forms/{mapper,client}.ts`, `apps/api/src/forms/build-qid-map.ts`, `apps/api/src/index.ts`, `apps/api/src/jobs/sync-forms-responses.ts` |
+| invariant | D1 schema / Google Form schema / cron / apps/web 表現層は不変。staging schema sync / response fullSync / screenshots は user-gated |
+| evidence | integrations-google focused 18 tests PASS、`build-qid-map.spec.ts` 2 PASS、`sync-forms-responses.contract.spec.ts` 34 PASS、api/integrations typecheck PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
+| user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
+
 ### admin-schema-diff-review-resolve-ux（2026-06-09）
 
 | 項目 | 値 |
