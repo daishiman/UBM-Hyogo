@@ -226,11 +226,7 @@ export default defineConfig({
     {
       name: 'desktop-chromium',
       testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...fixtureGatedTestIgnore],
-      // 公開層を全ルート認証必須化（require-auth-public-access-gate）したため、未認証では
-      // 公開ルートが LoginRequiredNotice に閉じる。default は会員ログイン済み storageState とし、
-      // guest 挙動を検証する spec（login-smoke / public-auth-gate）は test.use で個別 override する。
-      dependencies: ['setup-auth'],
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 }, storageState: 'playwright/.auth/member.json' },
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
       name: 'smoke-chromium',
@@ -260,8 +256,7 @@ export default defineConfig({
     {
       name: 'desktop-firefox',
       testIgnore: [/visual\/.*\.spec\.ts$/, /visual-staging\/.*\.spec\.ts$/, /visual-staging-authenticated\/.*\.(spec|ts)$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, /sidebar-shell\/.*\.spec\.ts$/, /setup-auth\.spec\.ts$/, /auth-slot-coverage\.spec\.ts$/, ...membersUxClarityNonPrimaryIgnore, ...fixtureGatedTestIgnore],
-      dependencies: ['setup-auth'],
-      use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 }, storageState: 'playwright/.auth/member.json' },
+      use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
       name: 'mobile-webkit',
@@ -284,8 +279,7 @@ export default defineConfig({
         ...membersUxClarityNonPrimaryIgnore,
         ...fixtureGatedTestIgnore,
       ],
-      dependencies: ['setup-auth'],
-      use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 }, storageState: 'playwright/.auth/member.json' },
+      use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
     },
     {
       name: 'visual-full-chromium-desktop',

@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '../fixtures/coverage'
+import { memberLogin } from '../fixtures/auth'
 import AxeBuilder from '@axe-core/playwright'
 import { HomePage } from '../page-objects/HomePage'
 import { MembersListPage } from '../page-objects/MembersListPage'
@@ -13,6 +14,11 @@ async function expectPublicBodyHasNoEmail(page: Page): Promise<void> {
 }
 
 test.describe('public flow (landing → 一覧 → 詳細 → 登録)', () => {
+  // 公開層は全ルート認証必須化されたため、巡回前に会員認証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context())
+  })
+
   test('desktop: full flow', async ({ page }) => {
     const home = new HomePage(page)
     await home.visit()
