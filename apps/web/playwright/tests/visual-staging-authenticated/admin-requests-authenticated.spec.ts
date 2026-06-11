@@ -22,7 +22,7 @@ const disableAnimations =
 
 test("staging /admin/requests authenticated read-only baseline", async ({ page }) => {
   await page.goto("/admin/requests", { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { name: "依頼キュー" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "会員からの申請" })).toBeVisible({
     timeout: 10_000,
   });
   await expect(page.getByRole("dialog")).toHaveCount(0);

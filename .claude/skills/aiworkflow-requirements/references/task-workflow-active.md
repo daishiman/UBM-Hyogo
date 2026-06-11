@@ -21,6 +21,33 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
 | user gate | staging visual baseline, commit, push, PR |
 
+### vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| 成果物 | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| source PR | #1177 `chore(deps-dev): bump vitest from 2.1.9 to 3.2.6`（OPEN, base `dev`, head `dependabot/npm_and_yarn/vitest-3.2.6`） |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation targets | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / affected `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged. `vitest` and `@vitest/coverage-v8` resolve to 3.2.6 together; D1 config keeps `pool: forks` and `singleFork: true` |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence present; Phase 12 strict 7 present; PR #1177 checked with `gh pr view 1177` on 2026-06-10 JST |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
+### admin-requests-queue-rename-and-publish-dependency（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` |
+| 目的 | `/admin/requests` を「会員からの申請」として平易化し、会員本人発の申請承認フローと `/admin/members` 管理者起点の即時公開トグルの違いを UI / API / seed で可視化する |
+| implementation targets | `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts`, `apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql`, `apps/api/src/routes/admin/members.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts`, `packages/contracts/src/admin.mjs`, `apps/web/app/(admin)/admin/{requests,members}/page.tsx`, `apps/web/src/components/admin/{RequestQueuePanel,RequestQueueDetail,RequestConfirmDialog}.tsx`, `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/components/shell/shell-config.ts` |
+| evidence | focused API / shared / web Vitest 実行。API 86 files / 549 tests PASS、shared 21 files / 257 tests PASS、web 238 files passed, 1 skipped; 1752 tests passed, 1 skipped。API/web/shared typecheck PASS、seed drift guard PASS、lint PASS、HEX token grep PASS |
+| invariant | route path `/admin/requests`、API path、component filename、`id` / `data-*` / test selectors unchanged。新 endpoint / D1 schema 変更なし。apps/web は API/proxy 経由のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
 ### admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
 
 | 項目 | 値 |
