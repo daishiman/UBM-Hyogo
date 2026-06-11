@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { expect, test } from "../fixtures/auth";
+import { expect, memberLogin, test } from "../fixtures/auth";
 
 const workflowRoot = join(
   process.cwd(),
@@ -17,6 +17,10 @@ const screenshotPath = (name: string) => {
 
 test.describe("members prototype alignment", () => {
   test.setTimeout(120_000);
+
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
 
   test("captures required Phase 11 screenshots and verifies public selectors", async ({
     mockApi,
