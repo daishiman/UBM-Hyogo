@@ -17,8 +17,8 @@ test.describe("/admin/requests × admin mutation flow", () => {
   test.describe("admin role", () => {
     test("成功系: pending list 表示", async ({ adminPage }) => {
       await adminPage.goto("/admin/requests");
-      await expect(adminPage.getByRole("heading", { name: /依頼キュー/ })).toBeVisible();
-      const list = adminPage.getByRole("list", { name: /依頼一覧/ });
+      await expect(adminPage.getByRole("heading", { name: /会員からの申請/ })).toBeVisible();
+      const list = adminPage.getByRole("list", { name: /申請一覧/ });
       await expect(list.getByRole("listitem")).toHaveCount(3);
       await expect(adminPage.getByText("pending")).toBeVisible();
     });
@@ -27,10 +27,10 @@ test.describe("/admin/requests × admin mutation flow", () => {
       mkdirSync(SCREENSHOT_DIR, { recursive: true });
       await adminPage.goto("/admin/requests?type=visibility_request");
       await expect(adminPage.locator(".page-enter.stack-lg")).toBeVisible();
-      await expect(adminPage.locator(".page-head")).toContainText("依頼キュー");
+      await expect(adminPage.locator(".page-head")).toContainText("会員からの申請");
       await expect(adminPage.locator(".card.card-pad")).toBeVisible();
       await expect(adminPage.locator(".card.card-pad-lg").first()).toBeVisible();
-      await expect(adminPage.locator(".h-card").first()).toContainText("依頼一覧");
+      await expect(adminPage.locator(".h-card").first()).toContainText("申請一覧");
       await adminPage.addStyleTag({
         content:
           "*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }",

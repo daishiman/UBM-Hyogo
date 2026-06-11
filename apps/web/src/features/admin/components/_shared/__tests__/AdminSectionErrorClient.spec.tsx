@@ -43,9 +43,9 @@ describe("AdminSectionErrorClient", () => {
   });
 
   it("AC-5: aria-label に sectionLabel が含まれる", () => {
-    render(<AdminSectionErrorClient sectionLabel="依頼キュー" />);
+    render(<AdminSectionErrorClient sectionLabel="会員からの申請" />);
     const btn = screen.getByTestId("admin-section-error-retry");
-    expect(btn.getAttribute("aria-label")).toContain("依頼キュー");
+    expect(btn.getAttribute("aria-label")).toContain("会員からの申請");
   });
 
   it("AC-6: retryLabel が button text に反映される", () => {

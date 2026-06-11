@@ -14,6 +14,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
 | user gate | commit, push, PR, deploy, Issue mutation |
 
+## admin-requests-queue-rename-and-publish-dependency（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `/admin/requests` を表示名「会員からの申請」へ平易化し、会員本人発の承認申請と管理者起点の即時公開トグルを相互リンク・申請中バッジ・seedで可視化する |
+| implementation | test account pending request seed、`GET /admin/members` `pendingRequestTypes` projection、shared/contracts schema、requests/members admin UI labels and links |
+| evidence | API 86 files / 549 tests PASS; shared 21 files / 257 tests PASS; web 238 files passed, 1 skipped; 1752 tests passed, 1 skipped; typecheck/lint/seed drift/HEX grep PASS |
+| invariant | no new endpoint, no D1 schema, `/admin/requests` path unchanged, apps/web D1 direct accessなし |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
 ## admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
 
 | 項目 | 値 |
