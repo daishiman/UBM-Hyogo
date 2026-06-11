@@ -978,7 +978,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L254 |
 | Conversation DB 初期化パターン | L285 |
 | UBM-Hyogo Schema Sync Contract（03a） | L287 |
-| ベクトル検索実装（DiskANN） | L407 |
+| ベクトル検索実装（DiskANN） | L409 |
 
 ### references/database-implementation-details.md
 
@@ -4207,6 +4207,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L19 |
+
+### references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L14 |
 
 ### references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md
 
@@ -9202,23 +9208,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4252 |
-| フェーズ構造（概要） | L4261 |
-| 品質ゲート（概要） | L4292 |
-| 出力テンプレート | L4303 |
-| 実行時のコマンド・エージェント・スキル | L4326 |
-| 昇格パターン集 | L4350 |
-| Current Active / Spec Created Tasks | L4352 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4518 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4586 |
-| issue-1007-density-toggle-help-hint-hardening | L4610 |
-| issue-1079-bulk-tag-audit-batch-filter | L4623 |
-| issue-1128-audit-batchid-index-optimization | L4636 |
-| issue-998-members-publish-state-production-rollout | L4653 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4712 |
-| issue-1068-admin-tag-inline-create-ui | L4726 |
-| issue-1111-proxy-transport-util-unify | L4744 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4762 |
+| ドキュメント構成 | L4265 |
+| フェーズ構造（概要） | L4274 |
+| 品質ゲート（概要） | L4305 |
+| 出力テンプレート | L4316 |
+| 実行時のコマンド・エージェント・スキル | L4339 |
+| 昇格パターン集 | L4363 |
+| Current Active / Spec Created Tasks | L4365 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4531 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4599 |
+| issue-1007-density-toggle-help-hint-hardening | L4623 |
+| issue-1079-bulk-tag-audit-batch-filter | L4636 |
+| issue-1128-audit-batchid-index-optimization | L4649 |
+| issue-998-members-publish-state-production-rollout | L4666 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4725 |
+| issue-1068-admin-tag-inline-create-ui | L4739 |
+| issue-1111-proxy-transport-util-unify | L4757 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4775 |
 
 ### references/task-workflow-backlog-part2.md
 

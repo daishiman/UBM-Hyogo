@@ -5,6 +5,7 @@ import { RetryableError, withBackoff, type BackoffOptions } from "./backoff";
 import {
   mapFormResponse,
   mapFormSchema,
+  rawFormToStableKeyMap,
   type RawForm,
   type RawFormResponse,
 } from "./mapper";
@@ -12,6 +13,7 @@ import {
 export interface GoogleFormsClient {
   getRawForm(formId: string): Promise<RawForm>;
   getForm(formId: string): Promise<FormSchema>;
+  getQuestionIdToStableKey(formId: string): Promise<Record<string, string>>;
   listResponses(
     formId: string,
     opts?: { pageToken?: string; since?: string },
@@ -63,13 +65,7 @@ function defaultSchemaHash(raw: RawForm): string {
 }
 
 function defaultQuestionIdMap(raw: RawForm): Record<string, string> {
-  const map: Record<string, string> = {};
-  for (const item of raw.items ?? []) {
-    const qid = item.questionItem?.question?.questionId;
-    if (!qid || !item.title) continue;
-    map[qid] = (raw.items ?? []).find((it) => it === item)?.title ?? qid;
-  }
-  return map;
+  return rawFormToStableKeyMap(raw);
 }
 
 export function createGoogleFormsClient(
@@ -81,14 +77,7 @@ export function createGoogleFormsClient(
   const tokenSource = createTokenSource(env, deps.authDeps);
   const schemaHashFn = deps.schemaHash ?? defaultSchemaHash;
   const now = deps.now ?? (() => new Date());
-  const qidMapFn = deps.questionIdToStableKey ?? ((raw: RawForm) => {
-    const map: Record<string, string> = {};
-    for (const item of raw.items ?? []) {
-      const qid = item.questionItem?.question?.questionId;
-      if (qid && item.title) map[qid] = item.title;
-    }
-    return map;
-  });
+  const qidMapFn = deps.questionIdToStableKey ?? rawFormToStableKeyMap;
 
   async function authedFetch(url: string): Promise<unknown> {
     return withBackoff(async () => {
@@ -111,6 +100,10 @@ export function createGoogleFormsClient(
         schemaHash: schemaHashFn(raw),
         syncedAt: now().toISOString(),
       });
+    },
+    async getQuestionIdToStableKey(formId) {
+      const raw = await this.getRawForm(formId);
+      return qidMapFn(raw);
     },
     async listResponses(formId, opts = {}) {
       const params = new URLSearchParams();
