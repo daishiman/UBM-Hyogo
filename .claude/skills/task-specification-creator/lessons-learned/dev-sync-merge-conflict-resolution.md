@@ -1457,3 +1457,12 @@
   - 判定コマンドは `git log <pre-merge HEAD>..dev --oneline`（reachability で真の取込デルタを同定・SP-DEVSYNC-130 の tree-diff 対称性汚染を避ける）。
 - Why: 依存メジャー昇格は conflict を 1 件も増やさず検証環境の前提（インストール済みバイナリ）だけを変えるため、conflict happy-path のチェックリストに `pnpm install` 段が無いと「衝突は綺麗に解けたのに CI で落ちる」最も気付きにくい乖離になる。task 仕様書側で検証コマンドを lock 変更有無で分岐させておけば、実装者が install を飛ばす事故を仕様レベルで封じられる。
 - 詳細根拠と実測: aiworkflow-requirements 配下の L-DEVSYNC-132（merge `e239271bd`・取込 #1203/#1205/#1193・install 後 7 packages typecheck Done / lint exit 0 / indexes 5511 kw 冪等・CI コード修正ゼロ）を参照。
+
+### SP-DEVSYNC-133: 共有 contract 関数を変える Phase は「全 consumer spec」を Phase 5 で列挙する — sync happy-path（typecheck/lint）は vitest を走らせず CI coverage-gate でしか落ちない
+- 症状/背景: feature コミットが `resolveApiFetch`（複数 route から呼ぶ transport 解決関数）を fail-closed 化（localhost fallback を明示 local 環境のみ許可・未注入は throw）したが、直接編集した unit spec（`transport.spec.ts`）だけ更新し、同関数を消費する route 統合 spec（`apps/web/app/api/auth/magic-link/route.route.spec.ts` ほか）の旧契約テスト（localhost fallback 期待）を更新し忘れ。型は整合するため typecheck/lint は緑、sync-merge の happy-path も緑、push 後の CI `ci / coverage-gate-shard (web)` だけが 2 件 fail。
+- 仕様書への反映: 共有 contract（戻り値分岐・throw 条件・例外型）を変える task の Phase 5（実装）/ Phase 11（手動・自動テスト）に以下を逐語化する:
+  - **consumer 列挙コマンド**: `grep -rln '<対象関数>' apps/<app> --include='*.spec.ts'` で contract を exercise する **全 spec を列挙**し、直接編集 module の unit spec だけでなく route/統合 spec も同契約へ更新する旨を明示。正本契約は対象関数の unit spec（本件 `transport.spec.ts`：explicit local のみ fallback / それ以外 throw）に置き、consumer spec はそれへ整合させる。
+  - **検証コマンドは静的 gate だけにしない**: Phase 11 に「focused vitest（`cd apps/web && pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/<対象ディレクトリ>`）で consumer spec を実走」を必須化。`apps/web/vitest.config.ts` は不在で config は monorepo root（package.json test script 準拠）。
+  - **sync-merge クローズの最後に CI 結論確認**: sync-merge は typecheck+lint までしか回さない。task のクローズ DoD に「push 後 `gh run list --branch <b>` で `ci` の結論を確認し、`failure` なら `gh run view <id> --log` で落ちた shard spec を修正」を含める。
+- Why: CI coverage-gate は shard 化した full vitest suite を回す独立レイヤーで、sync-merge の静的 happy-path（typecheck/lint）とは検出範囲が交わらない。共有 contract 変更は型を保ったまま実行時挙動だけ変えるため、consumer spec 更新漏れは「型緑・静的 gate 緑・CI test 赤」という最も気付きにくい乖離になる。Phase 5 で consumer 列挙を強制すれば実装者が一部 spec を取りこぼす事故を仕様レベルで封じられる。
+- 詳細根拠と実測: aiworkflow-requirements 配下の L-DEVSYNC-133（feat `7b46350cd` の fail-closed 化が magic-link 2 spec の契約追従漏れ → CI `coverage-gate-shard (web)` fail → 両 spec に `vi.stubEnv("ENVIRONMENT","local")` 追加で `transport.spec.ts` 契約へ整合 → focused 12 files 116 tests 緑 → 修正 `fe5371f86`）を参照。
