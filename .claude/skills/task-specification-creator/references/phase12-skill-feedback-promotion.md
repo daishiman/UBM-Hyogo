@@ -70,6 +70,25 @@ done
 
 実例: `admin-attendance-analytics-redesign` では `skill-feedback-report.md` が `spec_created (no impl yet)` 前提で no-op としたが、実際には `apps/api` / `apps/web` / `packages/shared` と `01-api-schema.md` に実装差分があった。既存の state vocabulary が既に禁止しているため template 追加は最小に留め、workflow artifacts と aiworkflow ledgers を `implemented_local_runtime_pending` へ同 wave 再分類した。
 
+## `[CONFIRMED-IMMUTABLE]` Decision Marker for Parallel Lanes
+
+並列 lane / SubAgent が同一ファイルまたは同一論点に触れる workflow では、ユーザー確定済み・上書き禁止の配置/挙動/境界判断に `[CONFIRMED-IMMUTABLE]` を付ける。
+
+適用条件:
+
+- AskUser / user instruction / SSOT で「常時表示」「三項の外」「API 不変」などの決定が確定している
+- 複数 lane が同一 component / route / shared CSS / workflow state を編集または検証する
+- fail-path DoD など別観点の推論が、確定済み decision を逆算で上書きし得る
+
+運用:
+
+1. Phase 1 / shared context に `[CONFIRMED-IMMUTABLE] <decision>` と根拠を記録する。
+2. Phase 4 / 6 の tests は、その decision を成功時だけでなく fail path にも固定する。
+3. Phase 5 の実装手順では、decision の配置層（例: `result.ok` 三項の外）をコード形状で明記する。
+4. Phase 12 では、`skill-feedback-report.md` に marker 対応の有無と実ファイル反映先を記録する。
+
+この marker は仕様の置き換えではなく、並列実行時の優先順位を明示するための軽量 guard である。確定 decision を変える必要が出た場合は、同 wave 内でユーザー承認または明示的な SSOT 更新を先に行う。
+
 ## Implementation Target Physical Existence Gate
 
 `taskType=implementation` の workflow が `artifacts.json.metadata.implementation_files`、Phase 3 task breakdown、Phase 5 implementation guide、Phase 8 DoD のいずれかで実コード対象を列挙した場合、Phase 12 は「仕様書がある」だけで PASS にしない。同一 wave で次のどちらかへ必ず正規化する。

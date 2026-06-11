@@ -14,6 +14,8 @@ import { Pagination } from "../ui/Pagination";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
+import { SchemaHistoryPurposeExplainer } from "./SchemaHistoryPurposeExplainer";
+import { formatSchemaHistoryError } from "../../lib/admin/schemaHistoryError";
 
 export interface SchemaDiffHistoryFilters {
   actorEmail: string;
@@ -39,6 +41,7 @@ const EMPTY_RESPONSE: SchemaAliasHistoryResponse = {
     targetId: null,
     from: null,
     to: null,
+    batchId: null,
     limit: 50,
   },
 };
@@ -78,7 +81,7 @@ export function SchemaDiffHistoryPanel({
         const r = await fetchSchemaAliasHistory(params);
         setResponse(r);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "履歴の取得に失敗しました");
+        setError(formatSchemaHistoryError(e));
       } finally {
         setIsFetching(false);
       }
@@ -117,7 +120,7 @@ export function SchemaDiffHistoryPanel({
       setResponse(r);
       setError(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "履歴の取得に失敗しました");
+      setError(formatSchemaHistoryError(e));
     }
   }, [response.nextCursor, filters.actorEmail, filters.from, filters.to]);
 
@@ -138,9 +141,11 @@ export function SchemaDiffHistoryPanel({
               { label: "history" },
             ]}
           />
-          <h1 id="schema-history-h">schema alias resolve 履歴</h1>
+          <h1 id="schema-history-h">設問の紐付け履歴</h1>
         </>
       ) : null}
+
+      <SchemaHistoryPurposeExplainer />
 
       <form role="search" aria-label="履歴フィルタ" onSubmit={applyFilters}>
         <FormField name="actorEmail" label="操作者 email">
@@ -182,36 +187,37 @@ export function SchemaDiffHistoryPanel({
         </button>
       </form>
 
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p role="alert" className="schema-history-error">
+          {error}
+        </p>
+      ) : null}
 
       {displayItems.length === 0 ? (
         <EmptyState title="該当する履歴がありません" />
       ) : (
         <>
-          <div aria-busy={isFetching}>
-            <table aria-label="resolve 履歴">
-              <thead>
-                <tr>
-                  <th scope="col">操作日時</th>
-                  <th scope="col">操作者 email</th>
-                  <th scope="col">before stableKey</th>
-                  <th scope="col">after stableKey</th>
-                  <th scope="col">question text</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displayItems.map((it) => (
-                  <tr key={it.auditId} data-audit-id={it.auditId}>
-                    <td>{it.createdAt}</td>
-                    <td>{it.actorEmail ?? "(unknown)"}</td>
-                    <td>{it.beforeStableKey ?? "—"}</td>
-                    <td>{it.afterStableKey ?? "—"}</td>
-                    <td>{it.questionText ?? "—"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ol className="schema-history-list" aria-label="設問の紐付け履歴" aria-busy={isFetching}>
+            {displayItems.map((it) => (
+              <li key={it.auditId} className="schema-history-card" data-audit-id={it.auditId}>
+                <div className="schema-history-card__meta">
+                  <time dateTime={it.createdAt}>{it.createdAt}</time>
+                  <span>{it.actorEmail ?? "操作者不明"}</span>
+                </div>
+                <p className="schema-history-card__question">{it.questionText ?? "設問文なし"}</p>
+                <dl className="schema-history-card__keys" aria-label="stableKey の変更">
+                  <div>
+                    <dt>旧</dt>
+                    <dd>{it.beforeStableKey ?? "未設定"}</dd>
+                  </div>
+                  <div>
+                    <dt>新</dt>
+                    <dd>{it.afterStableKey ?? "未設定"}</dd>
+                  </div>
+                </dl>
+              </li>
+            ))}
+          </ol>
           <Pagination
             current={1}
             hasNext={response.nextCursor !== null}

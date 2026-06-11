@@ -1,0 +1,46 @@
+{
+  "taskId": "TASK-ADMIN-SCHEMA-PAGE-PURPOSE-CLARITY-UX-001",
+  "workflow": "admin-schema-page-purpose-clarity-ux",
+  "mode": "VISUAL",
+  "status": "captured_local_runtime",
+  "reason": "Implementation completed in this cycle. Local Next dev server was launched with PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 and admin session cookie; desktop and mobile runtime screenshots were captured. Empty state remains semantic-only because the available server fixture supplies non-empty schema diff data; no synthetic empty screenshot was fabricated.",
+  "route": "/admin/schema",
+  "outputDir": "outputs/phase-11/screenshots",
+  "plan": [
+    {
+      "tc": "TC-VIS-01",
+      "name": "schema-purpose-explainer-default.png",
+      "viewport": { "width": 1280, "height": 900 },
+      "mobileName": "admin-schema-purpose-clarity-mobile-runtime.png",
+      "mobileViewport": { "width": 390, "height": 844 },
+      "url": "/admin/schema",
+      "assertion": "AdminPageHeader 直下に SchemaPurposeExplainer (できること見出し + 3ステップ流れ図 + 結果プレビュー + 用語集) が圧迫感なく常時表示される (AC-1)",
+      "status": "captured"
+    },
+    {
+      "tc": "TC-VIS-02",
+      "name": "schema-stats-plain-labels.png",
+      "viewport": { "width": 1280, "height": 900 },
+      "url": "/admin/schema",
+      "assertion": "SchemaDiffStatsGrid の各 AdminStat が平易日本語 label/hint + 次アクション示唆で描画される (AC-3)",
+      "status": "captured"
+    },
+    {
+      "tc": "TC-VIS-03",
+      "name": "schema-diff-assign-outcome.png",
+      "viewport": { "width": 1280, "height": 900 },
+      "url": "/admin/schema",
+      "assertion": "SchemaDiffPanel の割り当てフォーム展開時にアウトカム説明 (会員回答が項目キーへ紐づき一覧/詳細/マイページへ反映 / 5分以内取消可) が表示される (AC-5)",
+      "status": "captured"
+    },
+    {
+      "tc": "TC-VIS-04",
+      "name": "schema-empty-state.png",
+      "viewport": { "width": 1280, "height": 900 },
+      "url": "/admin/schema",
+      "assertion": "差分0件時に empty コピー (差分はありません。フォームとデータベースが一致した良い状態です) が表示される (AC-5)",
+      "status": "semantic_pass_no_runtime_fixture",
+      "semanticEvidence": "apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx"
+    }
+  ]
+}
