@@ -2271,3 +2271,13 @@ dev → feature の sync-merge で、取り込む dev デルタに**新規 works
 - **SP-DEVSYNC-089-B (安全側は常に install --force を通す)**: 新 workspace が新依存を持つか否かは Phase 11 段階で事前判定が難しい。resolution skip なら no-op で安価なため、`pnpm install --force` は常に通し、出力の `resolution step is skipped` で「実質 no-op だった」と事後確認する分岐に統一する。これにより SP-DEVSYNC-082 / 088-C のケース分けを実行前に下す必要がなくなる。
 - **SP-DEVSYNC-089-C (conflict 集合は skill-index 限定・keywords は Auto-merge 側)**: 本ケースの衝突は `aiworkflow-requirements/`（SKILL.md + map 3 + task-workflow-active）の 5 file・`apps/**` source conflict 0。keywords.json は Auto-merge 側（behind 6・git 自動結合）= SP-DEVSYNC-088-A「keywords は behind 深さの関数で union コアと別系統」の再確認。`pnpm sync:resolve` 単一パスで完結・merge 後 `indexes:rebuild` drift 0。
 - 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-101（正本）, SP-DEVSYNC-082（新規 workspace → install 必須・本節はその境界条件＝新依存有無を明示）, SP-DEVSYNC-088-C（新 workspace 持込なし → install 省略・本節はその対概念＝持込ありでも lockfile 反映済なら no-op）, SP-DEVSYNC-088-A（keywords は別系統）, SP-DEVSYNC-047/073（`git ls-files -u` 正本則）。
+
+## SP-AMCUX VISUAL_ON_EXECUTION の same-cycle 実装昇格と wrapper 移動 contract 検証（2026-06-10 admin-meetings-card-ux-clarity）
+
+`taskType=implementation` / `visualEvidence=VISUAL_ON_EXECUTION` で、apps/web の具体 target と focused tests が明確な場合の close-out rule。
+
+- **SP-AMCUX-A (implementation target 明確時は spec_created で閉じない)**: Phase 5 / shared context に `apps/` 実ファイルと focused tests が明記され、外部承認なしに local 実装・typecheck・lint・unit test・token gate まで進められる場合は、仕様書作成のみで close せず同一サイクルで `implemented_local_evidence_captured` へ昇格する。staging screenshot / deploy / commit / PR だけを user-gated として残す。
+- **SP-AMCUX-B (未定義 token 参照は新規 token 追加より正本 token 収束を優先)**: `verify:tokens` が design-token 正本（09b）を gate している場合、既存 CSS の未定義 token 参照を補正するときに安易に token を追加しない。新規 token が正本 drift になるなら、既存正本 token（例 `--ubm-color-border-default`）へ収束させる。
+- **SP-AMCUX-C (wrapper 移動後の data-testid contract は集合保持で見る)**: UI wrapper 追加では `data-testid` 行が diff 上の削除/追加として現れる。単純な `grep '^-'` だけを AC にすると false fail になるため、削除側 ID が追加後にも存在すること、かつ focused tests が同じ ID を使えることを contract evidence にする。
+- **SP-AMCUX-D (参照あり・CSS 実体なしは参照 grep と定義 grep を分離する)**: `.tsx` の `className` 参照と `globals.css` の定義行を同じ grep 結果で数えると、定義ファイル自身のヒットを「実体あり」と誤認する。`rg "admin-timeline" apps/web/src --glob '*.tsx'` と `rg "^\\s*\\.admin-timeline" apps/web/src/styles/globals.css` を分け、参照あり・定義なしを CSS 実体化漏れとして確定する。
+- **SP-AMCUX-E (jsdom 構造検証と screenshot 視覚検証を混同しない)**: 表現層 CSS タスクでは vitest/jsdom は class 付与・見出し・人数・role などの構造 contract に限定し、余白・影・境界線・レスポンシブの視覚判定は Playwright screenshot に委譲する。Phase 11 inventory は local Playwright screenshot と staging screenshot pending を別行で管理する。

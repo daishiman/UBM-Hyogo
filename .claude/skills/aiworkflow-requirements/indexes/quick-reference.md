@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| evidence | focused Vitest 4 files / 18 tests PASS; local Playwright visual 1 test PASS / 5 PNG present; typecheck/lint/verify:tokens PASS; HEX grep 0; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, deploy, commit, push, PR |
+
 ## admin-meeting-bulk-attendance-select（2026-06-09）
 
 | 項目 | 値 |

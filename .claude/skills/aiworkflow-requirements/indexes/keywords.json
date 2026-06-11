@@ -3828,6 +3828,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
@@ -5362,6 +5363,7 @@
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -6321,6 +6323,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
@@ -14379,6 +14382,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
@@ -15872,6 +15876,7 @@
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
       "ui-ux-admin-dashboard.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-step-06-meetings-attendance-implementation-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
@@ -17416,6 +17421,7 @@
       "task-workflow-active.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
@@ -17714,6 +17720,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
@@ -20882,7 +20889,8 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "card": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md"
     ],
     "css": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
@@ -26153,6 +26161,7 @@
     ],
     "clarity": [
       "task-workflow-active.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md"
     ],
     "toggle": [
