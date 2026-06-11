@@ -199,6 +199,7 @@ export interface AdminMemberListItem {
   ubmZone?: string | null;
   ubmMembershipType?: string | null;
   tags?: Array<{ code: string; label: string }>;
+  pendingRequestTypes: Array<"visibility_request" | "delete_request">;
   updatedAt?: string;
 }
 

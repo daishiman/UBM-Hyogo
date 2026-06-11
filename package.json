@@ -83,7 +83,7 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^4.0.0",
-    "@vitest/coverage-v8": "^2.1.9",
+    "@vitest/coverage-v8": "^3.2.6",
     "esbuild": "0.27.3",
     "jsdom": "^25.0.0",
     "lefthook": "^1.7.0",
@@ -91,7 +91,7 @@
     "react-dom": "19.2.5",
     "tsx": "^4.19.0",
     "typescript": "6.0.3",
-    "vitest": "^2.0.0",
+    "vitest": "^3.2.6",
     "wrangler": "4.85.0"
   },
   "dependencies": {

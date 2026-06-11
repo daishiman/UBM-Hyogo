@@ -1,0 +1,13 @@
+# dev sync 3rd-pass: `feat/admin-members-mobile-responsive-layout` ← `dev`（behind 1・**dev が API ソースコード変更(#1199)を持ち込むが feature との積集合ゼロでクリーン auto-merge**＝L-DEVSYNC-127 構造的前提の不成立を実データで確証）（2026-06-11）
+
+- 日時: 2026-06-11（`feat/admin-members-mobile-responsive-layout` の dev 取込・同ブランチ 3 回目）
+- 関連: [[20260611-dev-sync-admin-members-mobile-2ndpass-behind1-skillindex-union4-baseline-meta-manual-3way-union]]（同ブランチ 2nd-pass）/ task-specification-creator 同名 changelog / `lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` L-DEVSYNC-127
+- SHA: merge-base `8be57b92a` / dev tip `49e32b129` / feature 取込前 tip `0a52bd7ca`（HEAD 独自 = `76638ee3d` skill 反映 + `0a52bd7ca` identity-conflicts-tablet baseline 安定版復元）→ merge commit `4ec5b8d6d`
+- 取込デルタ（**1 behind / ローカル dev = origin/dev 0/0 同期済み・独自コミット 0**）: #1199 公開メンバー詳細の全項目空表示根治（`schema_questions` 空時の raw-form fallback）。**変更層 = `apps/api/src/forms/{build-qid-map.ts,build-qid-map.spec.ts}` + `apps/api/src/jobs/sync-forms-responses.ts` + `apps/api/src/index.ts` + `packages/integrations/{google/src/forms/{client,mapper}.ts,src/index.ts}` の 10 code files**（API / integrations 層）。
+- conflict: **skill index/reference 系 3 ファイルのみ**（`indexes/{quick-reference,resource-map}.md` + `references/task-workflow-active.md` の content CONFLICT）。`SKILL-changelog.md`（両 skill）/ `keywords.json` / `indexes/topic-map.md` は Auto-merge（**非衝突**）。`pnpm sync:resolve` 単発収束（`union-resolving 3 files` + indexes:rebuild）→ `--diff-filter=U` 0・marker 0。**keywords.json `--ours` 非発火**（取込側が keywords を再生成衝突させなかった）＝union 件数は取込デルタ依存で 3〜4 変動の再確認。
+- **🔴 L-DEVSYNC-127（git conflict 0 ≠ 意味的安全）構造的前提の "不成立" 側の実データ**: 本回は **dev が初めてソースコード（API/integrations）の実変更を持ち込んだ** sync。それでも意味的競合が起きないことを `comm -12` で確証:
+  1. feature touch（`apps/**`/`packages/**`・merge-base→`0a52bd7ca`）= **6 files**（admin/members UI + visual baseline 系）。
+  2. #1199 touch（同範囲）= **10 files**（API forms / integrations 層）。
+  3. **積集合 = 空（0 files）**。会員管理モバイル化（web 表現層）と公開メンバー詳細 fallback 根治（api/integrations 層）はレイヤーが完全分離 → **「両側が同一ファイルを touch する」という意味的コンフリクトの構造的前提自体が成立しない**。よって個別 vitest 実行は不要（L-DEVSYNC-127 の運用形 b: 積に同一ファイルが無ければ確認をログ化のみ）。#1199 の test（`build-qid-map.spec.ts` 等）は dev 側で既に緑＝本 feature の責務外。
+- CI 検証（全緑・コード修正なし）: `pnpm typecheck` exit 0（7 projects）/ `pnpm lint` exit 0 / `pnpm sync:resolve` の indexes:rebuild 冪等 / `--diff-filter=U` 0・marker 0。**今回は `.baseline-meta.json` 衝突なし**（#1199 は visual baseline を再生成しないため 2nd-pass のような 3-way union は発生せず）。
+- 反映先: 本 changelog（**dev がソースコード変更を持ち込む sync でも feature との touch 積集合が空なら L-DEVSYNC-127 の構造的前提が不成立＝意味的競合リスクなしと確証でき、個別 test 実行を省略してよい判断則**。union 件数は取込デルタ依存で keywords --ours 発火有無も含め 3〜4 変動）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避で起こさず L-DEVSYNC-127 の "不成立" 側確証データとして記録。
