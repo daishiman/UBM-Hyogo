@@ -5,6 +5,10 @@
 
 import { expect, test } from '../fixtures/auth'
 
+// このファイルは未認証(guest)での認証ゲート挙動を検証する。e2e project の default
+// member storageState を打ち消し、guest 状態で実行する。
+test.use({ storageState: { cookies: [], origins: [] } })
+
 // 認証ゲート配下の公開ルート（/login を除く公開 6 ルート）。
 const GATED_PUBLIC_ROUTES = [
   '/',
