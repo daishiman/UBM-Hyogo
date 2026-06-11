@@ -15,6 +15,7 @@ import type {
   SchemaDiffListView,
 } from "../../../../src/components/admin/SchemaDiffPanel";
 import { Chip } from "../../../../src/components/ui";
+import { formatJstDate } from "../../../../src/lib/format/datetime";
 
 export const dynamic = "force-dynamic";
 
@@ -27,27 +28,25 @@ const countByType = (items: ReadonlyArray<SchemaDiffItem>, type: DiffType) =>
   items.filter((item) => item.type === type).length;
 
 function CurrentRevisionCard({ diff }: { readonly diff: FullDiff }) {
-  const revisionId = diff.items[0]?.revisionId ?? "current";
-  const hash = diff.hash ?? "schema-diff-queue";
-  const capturedAt = diff.capturedAt ?? diff.items[0]?.createdAt ?? "latest local data";
+  const capturedAt = formatJstDate(diff.capturedAt ?? diff.items[0]?.createdAt);
 
   return (
     <section className="ui-card card-pad-lg" aria-labelledby="schema-current-revision-h">
       <div className="row-between">
         <div>
-          <div className="eyebrow">CURRENT REVISION</div>
+          <div className="eyebrow">現在のフォーム構成</div>
           <div className="row">
-            <h2 id="schema-current-revision-h" className="h-section mono">
-              {revisionId}
+            <h2 id="schema-current-revision-h" className="h-section">
+              最新版
             </h2>
             <span className="chip-row">
-              <Chip tone="green">active</Chip>
+              <Chip tone="green">適用中</Chip>
             </span>
           </div>
-          <p className="muted">フォームの現在の版数です。設問構成の変化をこの版で確認します。</p>
-          <p className="muted mono">
-            hash: {hash} · 取得: {capturedAt}
+          <p className="muted">
+            いま会員サイトに反映されているフォームの構成です。設問の変化はこの構成を基準に確認します。
           </p>
+          {capturedAt ? <p className="muted">（取得: {capturedAt}）</p> : null}
         </div>
         <div className="btn-row">
           <Link className="ui-button ui-button-ghost" href="/admin/schema/history">
@@ -74,40 +73,51 @@ function SchemaDiffStatsGrid({ items }: { readonly items: ReadonlyArray<SchemaDi
         hint={unresolvedStat.hint}
         tone={unresolved > 0 ? "warning" : "positive"}
       />
-      <AdminStat label={addedStat.label} value={countByType(items, "added")} hint={addedStat.hint} tone="positive" />
+      <AdminStat
+        label={addedStat.label}
+        value={countByType(items, "added")}
+        hint={addedStat.hint}
+        tone="positive"
+      />
       <AdminStat
         label={changedStat.label}
         value={countByType(items, "changed")}
         hint={changedStat.hint}
         tone="warning"
       />
-      <AdminStat label={removedStat.label} value={countByType(items, "removed")} hint={removedStat.hint} tone="critical" />
+      <AdminStat
+        label={removedStat.label}
+        value={countByType(items, "removed")}
+        hint={removedStat.hint}
+        tone="critical"
+      />
     </section>
   );
 }
 
 function RevisionAndAliasHistory({ diff }: { readonly diff: FullDiff }) {
-  const revisionId = diff.items[0]?.revisionId ?? "current";
   const aliases = diff.resolvedAliases ?? [];
 
   return (
     <div className="grid-2" data-region="schema-revision-alias-history">
       <section className="ui-card card-pad-lg" aria-labelledby="schema-revisions-h">
-        <div className="eyebrow">REVISIONS</div>
+        <div className="eyebrow">フォーム構成の履歴</div>
         <h2 id="schema-revisions-h" className="h-section">
-          フォーム版数の履歴
+          フォーム構成の履歴
         </h2>
-        <p className="muted">取り込んだフォーム構成の版です。どの版の差分を確認しているかを示します。</p>
+        <p className="muted">
+          取り込んだフォーム構成の版です。どの版の差分を確認しているかを示します。
+        </p>
         <div className="stack-sm">
           <div className="schema-field-card">
             <div>
               <div className="row">
-                <span className="mono">{revisionId}</span>
+                <span>最新版</span>
                 <span className="chip-row">
-                  <Chip tone="green">active</Chip>
+                  <Chip tone="green">適用中</Chip>
                 </span>
               </div>
-              <p className="muted mono">{diff.total} diff items</p>
+              <p className="muted">{diff.total} 件の変更点</p>
             </div>
             <Link className="ui-button ui-button-ghost" href="/admin/schema/history">
               開く
@@ -117,7 +127,7 @@ function RevisionAndAliasHistory({ diff }: { readonly diff: FullDiff }) {
       </section>
 
       <section className="ui-card card-pad-lg" aria-labelledby="schema-alias-history-h">
-        <div className="eyebrow">ALIAS HISTORY / resolve log</div>
+        <div className="eyebrow">対応づけの記録</div>
         <h2 id="schema-alias-history-h" className="h-section">
           対応づけ履歴
         </h2>
@@ -145,12 +155,16 @@ export default async function AdminSchemaPage() {
   const result = await safeServerFetch<FullDiff>("/admin/schema/diff");
 
   return (
-    <section className="flex flex-col gap-4" aria-labelledby="schema-form-h" data-page="admin-schema">
+    <section
+      className="flex flex-col gap-4"
+      aria-labelledby="schema-form-h"
+      data-page="admin-schema"
+    >
       <AdminPageHeader
-        eyebrow="ADMIN / SCHEMA"
-        title="スキーマ差分のレビュー"
-        description="Googleフォームの設問が増減・変更されたとき、新しい設問に永続的な名前をつけて、過去の回答と繋がりを保つ作業をします。"
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]}
+        eyebrow="管理 / フォーム項目"
+        title="フォーム項目の対応づけ"
+        description="Googleフォームの設問が増減・変更されたとき、新しい設問に項目名をつけて、過去の回答とのつながりを保つ作業をします。"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "フォーム項目" }]}
         headingId="schema-form-h"
         actions={
           <Link

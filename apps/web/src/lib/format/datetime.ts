@@ -8,8 +8,22 @@ const JST_FORMATTER = new Intl.DateTimeFormat("ja-JP", {
   minute: "2-digit",
 });
 
+const JST_DATE_FORMATTER = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 export function formatJstDateTime(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
   return JST_FORMATTER.format(d);
+}
+
+export function formatJstDate(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return JST_DATE_FORMATTER.format(d);
 }

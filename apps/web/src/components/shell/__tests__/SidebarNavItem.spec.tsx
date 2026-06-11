@@ -64,8 +64,8 @@ describe("SidebarNavItem", () => {
         <SidebarNavItem item={item} collapsed activePath="/admin" />
       </ul>,
     );
-    const labelSpan = Array.from(container.querySelectorAll("span")).find((s) =>
-      s.textContent === "メンバー" && s.className.includes("sr-only"),
+    const labelSpan = Array.from(container.querySelectorAll("span")).find(
+      (s) => s.textContent === "メンバー" && s.className.includes("sr-only"),
     );
     expect(labelSpan?.className).toContain("sr-only");
   });
@@ -108,7 +108,7 @@ describe("SidebarNavItem", () => {
     const item: ShellNavItem = {
       id: "schema",
       href: "/admin/schema",
-      label: "スキーマ",
+      label: "フォーム項目",
       icon: "schema",
       badge: { count: 2, tone: "warn" },
     };

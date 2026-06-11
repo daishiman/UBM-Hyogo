@@ -37,7 +37,7 @@ const shots: Shot[] = [
   {
     name: '04-admin-schema.png',
     route: '/admin/schema',
-    heading: 'スキーマ差分のレビュー',
+    heading: 'フォーム項目の対応づけ',
     state: 'schema diff page header',
   },
   {
