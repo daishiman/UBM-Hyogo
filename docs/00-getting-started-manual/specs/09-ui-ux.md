@@ -118,6 +118,8 @@ All colors must use OKLch design tokens. Local static visual evidence is present
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | admin | admin layout | MembersTable, MemberDrawer | GET `/admin/members?...`; POST `/admin/member-status`; POST `/admin/member-delete`; GET `/admin/member-notes/:id` | page standard, drawer-open | query, items, selectedMember, notes | table header と drawer dialog | color, space, radius, shadow | 09g | profile body edit |
 
+Responsive rule: `MembersTable` keeps one table DOM. At `max-width: 640px`, scoped CSS under `[data-component="admin-members-table"]` presents each row as a card; at `min-width: 641px`, the desktop table layout remains the source visual form. API / D1 / Google Form contracts are unchanged.
+
 ### 2.3.3 `/(admin)/admin/tags`
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
@@ -301,7 +303,7 @@ Task-05 implemented-local contract: `app/loading.tsx` uses `role="status"`, `ari
 | ZoneChart | byZone | text summary | loading, success | color, space | 09g | feature-zone-chart |
 | StatusChart | byStatus | text summary | loading, success | color, space | 09g | feature-status-chart |
 | RecentActions | actions | list semantics | loading, empty, success | color, space | 09g | feature-recent-actions |
-| MembersTable | items, total, query | table caption | loading, empty, success | color, space, text | 09g | feature-members-table |
+| MembersTable | items, total, query | table caption + mobile card labels | loading, empty, success, mobile-card | color, space, text | 09g | feature-members-table |
 | MemberDrawer | member, notes | dialog contract | closed, open, submitting | color, space, shadow | 09g | feature-member-drawer |
 | TagsQueue | items, selectedId | queue item buttons | loading, empty, reviewing | color, space | 09g | feature-tags-queue |
 | MeetingsCalendar | meetings | grouped list label | loading, empty, success | color, space | 09g | feature-meetings-calendar |

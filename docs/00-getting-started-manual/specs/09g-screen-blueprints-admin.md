@@ -604,6 +604,14 @@ stateDiagram-v2
 
 ## 3. Members `/admin/members`
 
+### 3.0 Mobile Responsive Contract
+
+- `MembersTable` は単一 `<table>` DOM を維持する。
+- `@media (max-width: 640px)` では `[data-component="admin-members-table"]` 配下だけを CSS card 表示へ切り替える。
+- 375px / 640px では、選択 + メンバー、メール、区画 / ステータス、タグ、最終更新、公開 + 操作が画面内に収まる。
+- 641px 以上では従来の table 表示を維持する。
+- `/admin/members` API、D1 schema、Google Form schema、auth middleware は不変。
+
 ### 3.1 prototype 由来
 
 `pages-admin.jsx` `AdminMembersPage` の FilterBar、Table、Drawer 語彙を採用する。

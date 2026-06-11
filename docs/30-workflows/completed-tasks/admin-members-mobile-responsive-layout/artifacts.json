@@ -1,0 +1,74 @@
+{
+  "task_id": "admin-members-mobile-responsive-layout",
+  "created_at": "2026-06-10",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "related_issue": null,
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "implementation_detail": "ui_responsive_table_to_card",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/",
+    "source_task": "staging observation: /admin/members mobile layout overflow",
+    "branch": "feat/admin-members-mobile-responsive-layout",
+    "scope_files": [
+      "apps/web/src/features/admin/components/_members/MembersTable.tsx",
+      "apps/web/src/styles/globals.css",
+      "apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx",
+      "apps/web/playwright/tests/admin-members-mobile.spec.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-10T11:13:19+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec presence and Phase 12 strict 7 outputs"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-10T14:36:55+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local implementation + focused vitest + Playwright CSS contract + CSS-contract screenshots present; authenticated route screenshots user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR — user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "phase-1-requirements.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "phase-2-design.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "phase-3-design-review.md" },
+    { "phase": 4, "name": "テスト計画", "status": "completed", "output": "phase-4-test-plan.md" },
+    { "phase": 5, "name": "実装手順", "status": "completed", "output": "phase-5-implementation.md" },
+    { "phase": 6, "name": "テスト追加", "status": "completed", "output": "phase-6-test-additions.md" },
+    { "phase": 7, "name": "カバレッジ", "status": "completed", "output": "phase-7-coverage.md" },
+    { "phase": 8, "name": "リファクタ", "status": "completed", "output": "phase-8-refactor.md" },
+    { "phase": 9, "name": "QA", "status": "completed", "output": "phase-9-qa.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "phase-10-final-review.md" },
+    { "phase": 11, "name": "手動テスト", "status": "evidence_captured", "output": "phase-11-manual-test.md" },
+    { "phase": 12, "name": "ドキュメント同期", "status": "completed", "output": "phase-12-documentation.md" },
+    { "phase": 13, "name": "commit-pr-release", "status": "spec_created", "output": "phase-13-pr.md" }
+  ],
+  "implementation_targets": [
+    "apps/web/src/features/admin/components/_members/MembersTable.tsx",
+    "apps/web/src/styles/globals.css",
+    "apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx",
+    "apps/web/playwright/tests/admin-members-mobile.spec.ts"
+  ]
+}
