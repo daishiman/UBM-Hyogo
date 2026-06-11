@@ -1351,6 +1351,7 @@
       "lessons-learned-issue-827-member-detail-adapter-and-visibility-defense-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "パッケージ移動": [
@@ -5444,6 +5445,7 @@
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -6660,6 +6662,7 @@
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -7711,6 +7714,7 @@
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -8554,6 +8558,7 @@
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -12106,6 +12111,7 @@
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-264-cron-schedule-free-tier-guard-artifact-inventory.md",
@@ -13553,7 +13559,8 @@
       "lessons-learned-issue-1039-admin-audit-identity-action-presets-2026-06.md",
       "lessons-learned-issue-1059-public-members-fields-batch-fetch-n1-prevention-2026-06.md",
       "lessons-learned-issue-224-public-members-tags-batch-fetch-2026-05.md",
-      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
+      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md"
     ],
     "date": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -19553,6 +19560,7 @@
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -23796,6 +23804,7 @@
     ],
     "search": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
@@ -25794,6 +25803,7 @@
       "workflow-issue-1126-bulk-tag-picker-viewport-baseline-expansion-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -27746,6 +27756,7 @@
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
@@ -28016,6 +28027,7 @@
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -28284,6 +28296,7 @@
       "workflow-issue-1103-globals-css-shell-block-consolidation-artifact-inventory.md",
       "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
       "workflow-issue-274-public-pages-ogp-sitemap-robots-artifact-inventory.md",
@@ -28372,6 +28385,7 @@
       "workflow-issue-1104-member-creation-path-unification-artifact-inventory.md",
       "workflow-issue-1117-tag-physical-delete-force-migration-artifact-inventory.md",
       "workflow-issue-1119-member-tags-referential-integrity-guard-artifact-inventory.md",
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -29031,6 +29045,9 @@
     ],
     "文書": [
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "parser": [
+      "workflow-issue-222-search-query-parser-shared-artifact-inventory.md"
     ],
     "fast": [
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md"

@@ -3188,6 +3188,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L10 |
+| Evidence | L21 |
+| Invariants | L33 |
+| User-Gated | L42 |
+| Lessons Learned | L46 |
+
 ### references/workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md
 
 | セクション | 行 |
