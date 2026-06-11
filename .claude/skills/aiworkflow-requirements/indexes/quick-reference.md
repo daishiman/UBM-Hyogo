@@ -1,5 +1,45 @@
 # クイックリファレンス
 
+## issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #222 CLOSED（reopen / mutation は user-gated） |
+| purpose | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化する |
+| implementation | `packages/shared/src/public-search/{search-query-primitives,index}.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 変更なし |
+| evidence | shared public-search 12 PASS; api regression 30 PASS; web regression 11 PASS; shared/api/web typecheck PASS; root lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit, push, PR, deploy, Issue mutation |
+
+## vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation 対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged; `vitest` と `@vitest/coverage-v8` は 3.2.6 で揃える（version parity）; D1 config は `pool: forks` / `singleFork: true` を維持 |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence（shard results / version-parity / deprecation-grep）present; Phase 12 strict 7 present; source PR #1177 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
+## admin-requests-queue-rename-and-publish-dependency（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `/admin/requests` を表示名「会員からの申請」へ平易化し、会員本人発の承認申請と管理者起点の即時公開トグルを相互リンク・申請中バッジ・seedで可視化する |
+| implementation | test account pending request seed、`GET /admin/members` `pendingRequestTypes` projection、shared/contracts schema、requests/members admin UI labels and links |
+| evidence | API 86 files / 549 tests PASS; shared 21 files / 257 tests PASS; web 238 files passed, 1 skipped; 1752 tests passed, 1 skipped; typecheck/lint/seed drift/HEX grep PASS |
+| invariant | no new endpoint, no D1 schema, `/admin/requests` path unchanged, apps/web D1 direct accessなし |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
 ## admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
 
 | 項目 | 値 |
