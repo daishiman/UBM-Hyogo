@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-06-10 - member-profile-google-form-data-reflection same-cycle implementation
+
+`docs/30-workflows/member-profile-google-form-data-reflection/` の automation-30 改善で、実装対象が明確な `implementation / VISUAL_ON_EXECUTION` workflow を plan-only の `spec_created` で止めず、同一サイクルで `packages/integrations/google` と `apps/api` のローカル実装、focused tests、Phase 12 strict outputs、aiworkflow same-wave sync まで完了して `implemented_local_runtime_pending` へ昇格した。staging recovery mutation、before/after screenshots、deploy、commit、push、PR のみ user-gated として残した。
+
 ## 2026-06-08 - public-members-tag-filter-ux-refine close-out
 
 `implementation / VISUAL` workflow を `spec_created` のまま閉じると CONST_004/005 と矛盾するため、同一サイクルで `apps/web` 実装、focused tests、Phase 11 evidence、Phase 12 strict 7、aiworkflow sync まで完了し `implemented_local_runtime_pending` に再分類した。root token gate は `pnpm verify:tokens` が正本。
