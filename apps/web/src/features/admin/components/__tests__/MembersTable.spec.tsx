@@ -226,6 +226,49 @@ describe("MembersTable", () => {
     expect(screen.queryByText("undefined")).toBeNull();
   });
 
+  it("TC-MT-LM-01: 最終更新を ISO 生ではなく JST の年月日漢字・秒までで描画する", () => {
+    render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            lastSubmittedAt: "2026-06-09T10:34:19.996603Z",
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(screen.getByText("2026年6月9日 19:34:19")).toBeDefined();
+    expect(screen.queryByText("2026-06-09T10:34:19.996603Z")).toBeNull();
+  });
+
+  it("TC-MT-LM-02: 最終更新が不正値でも fail-soft で元入力を表示する", () => {
+    render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            lastSubmittedAt: "not-a-date",
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(screen.getByText("not-a-date")).toBeDefined();
+  });
+
   it("TC-MT-08: zone chip を text + data-tone + dot 付きで描画する", () => {
     const { container } = render(
       <MembersTable
