@@ -1,0 +1,53 @@
+{
+  "task_id": "admin-members-mobile-responsive-layout",
+  "state": "implemented_local_evidence_captured",
+  "runtime_visual_state": "css_contract_screenshots_captured",
+  "screenshots": [
+    {
+      "id": "mobile-card-375",
+      "viewport": "375x812",
+      "route": "synthetic:/admin/members-css-contract",
+      "path": "outputs/phase-11/screenshots/admin-members-table-mobile-card-375.png",
+      "status": "captured",
+      "overflowPass": true
+    },
+    {
+      "id": "mobile-card-640",
+      "viewport": "640x844",
+      "route": "synthetic:/admin/members-css-contract",
+      "path": "outputs/phase-11/screenshots/admin-members-table-mobile-card-640.png",
+      "status": "captured",
+      "overflowPass": true
+    },
+    {
+      "id": "desktop-table-1280",
+      "viewport": "1280x800",
+      "route": "synthetic:/admin/members-css-contract",
+      "path": "outputs/phase-11/screenshots/admin-members-table-desktop-table-1280.png",
+      "status": "captured",
+      "overflowPass": true
+    },
+    {
+      "id": "metrics",
+      "viewport": "375x812, 640x844, 1280x800",
+      "route": "synthetic:/admin/members-css-contract",
+      "path": "outputs/phase-11/screenshots/screenshot-metrics.json",
+      "status": "captured",
+      "overflowPass": true
+    }
+  ],
+  "local_evidence": [
+    {
+      "kind": "vitest",
+      "command": "pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx",
+      "result": "25 passed",
+      "status": "present"
+    },
+    {
+      "kind": "playwright-list",
+      "command": "PLAYWRIGHT_SKIP_WEB_SERVER=1 PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/outputs/phase-11 pnpm --filter @ubm-hyogo/web exec playwright test apps/web/playwright/tests/admin-members-mobile.spec.ts --project=desktop-chromium",
+      "result": "5 passed",
+      "status": "present"
+    }
+  ]
+}

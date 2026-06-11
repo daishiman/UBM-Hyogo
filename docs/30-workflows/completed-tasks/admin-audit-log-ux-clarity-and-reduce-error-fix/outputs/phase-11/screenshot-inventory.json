@@ -1,0 +1,61 @@
+{
+  "taskId": "admin-audit-log-ux-clarity-and-reduce-error-fix",
+  "mode": "implemented-local-runtime-pending",
+  "routes": [
+    "/(admin)/admin/audit",
+    "/(admin)/admin/tags/catalog"
+  ],
+  "status": "runtime_screenshot_pending",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "file": "screenshots/TC-11-1-audit-timeline-desktop.png",
+      "route": "/(admin)/admin/audit",
+      "viewport": "1280x800",
+      "ac": "AC-1",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-2",
+      "file": "screenshots/TC-11-2-audit-applied-filters.png",
+      "route": "/(admin)/admin/audit",
+      "viewport": "1280x800",
+      "ac": "AC-2",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-3",
+      "file": "screenshots/TC-11-3-audit-purpose-guide.png",
+      "route": "/(admin)/admin/audit",
+      "viewport": "1280x800",
+      "ac": "AC-3",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-4",
+      "file": "screenshots/TC-11-4-audit-error-banner.png",
+      "route": "/(admin)/admin/audit",
+      "viewport": "1280x800",
+      "ac": "AC-4",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-5",
+      "file": "screenshots/TC-11-5-audit-datalist.png",
+      "route": "/(admin)/admin/audit",
+      "viewport": "1280x800",
+      "ac": "AC-5",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-6",
+      "file": "screenshots/TC-11-6-catalog-empty-guard.png",
+      "route": "/(admin)/admin/tags/catalog",
+      "viewport": "1280x800",
+      "ac": "AC-6",
+      "status": "pending"
+    }
+  ],
+  "captureReason": "Local apps/web implementation and focused Vitest are present. Actual PNG capture remains pending runtime visual evidence; staging authenticated screenshots are user-gated.",
+  "runtimeBoundary": "local/staging runtime screenshots remain user-gated; focused component and pure tests are the local primary evidence for this cycle"
+}

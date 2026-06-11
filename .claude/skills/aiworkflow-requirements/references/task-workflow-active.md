@@ -8,6 +8,32 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/` |
+| 目的 | `/admin/audit` の監査ログをカード型タイムライン、appliedFilters チップ、目的・用語ガイド、エラー親切化、datalist で読める UI にし、`/admin/tags/catalog` の reduce クラッシュを防御する |
+| implementation targets | `apps/web/src/components/admin/AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditLogDisplay.ts`, `auditAppliedFilters.ts`, `AuditPurposeGuide.tsx`, `auditGlossary.ts`, `auditErrorMessage.ts`, `TagCatalogPanel.tsx`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 6 files / 55 tests PASS |
+| invariant | `apps/api` / D1 / Google Form / shared API response shape unchanged。`appliedFilters` は既存 surface の UI 可視化のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md` |
+| user gate | runtime screenshots, staging authenticated baseline, commit, push, PR, staging deploy |
+
+### admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| 目的 | `/admin/members` の mobile overflow を単一 table DOM + scoped CSS card 表示で解消する |
+| implementation targets | `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx`, `apps/web/playwright/tests/admin-members-mobile.spec.ts` |
+| invariant | API / D1 / Google Form / auth middleware unchanged。Desktop table layout and existing row testids remain stable |
+| evidence | focused Vitest 25 tests PASS、Playwright desktop-chromium 5 tests PASS、CSS-contract screenshots 3 PNG + metrics captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | authenticated route screenshots、staging deploy、commit、push、PR |
+
 ### member-profile-google-form-data-reflection（2026-06-10）
 
 | 項目 | 値 |
