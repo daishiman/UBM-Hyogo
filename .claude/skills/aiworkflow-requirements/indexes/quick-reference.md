@@ -14,6 +14,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
 | user gate | commit, push, PR, deploy, Issue mutation |
 
+## vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation 対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged; `vitest` と `@vitest/coverage-v8` は 3.2.6 で揃える（version parity）; D1 config は `pool: forks` / `singleFork: true` を維持 |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence（shard results / version-parity / deprecation-grep）present; Phase 12 strict 7 present; source PR #1177 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
 ## admin-requests-queue-rename-and-publish-dependency（2026-06-09）
 
 | 項目 | 値 |
