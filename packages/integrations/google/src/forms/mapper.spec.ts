@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  deriveStableKey,
   mapFormResponse,
   mapFormSchema,
+  rawFormToStableKeyMap,
+  STABLE_KEY_BY_LABEL,
   type RawForm,
   type RawFormResponse,
 } from "./mapper";
@@ -13,6 +16,37 @@ const baseInput = {
 };
 
 describe("mapFormSchema branch coverage", () => {
+  it("exports stableKey derivation helpers for raw form fallback", () => {
+    expect(STABLE_KEY_BY_LABEL["お名前（フルネーム）"]).toBe("fullName");
+    expect(deriveStableKey("お名前（フルネーム）")).toBe("fullName");
+    expect(deriveStableKey("Custom Question Title")).toBe("custom_question_title");
+    expect(deriveStableKey(undefined)).toBe("unknown");
+  });
+
+  it("builds qid to stableKey map from raw form labels", () => {
+    const map = rawFormToStableKeyMap({
+      formId: "form_raw",
+      items: [
+        {
+          title: "お名前（フルネーム）",
+          questionItem: { question: { questionId: "q_full_name" } },
+        },
+        {
+          title: "Custom Question Title",
+          questionItem: { question: { questionId: "q_custom" } },
+        },
+        {
+          title: "No Question",
+          questionItem: { question: {} },
+        },
+      ],
+    });
+    expect(map).toEqual({
+      q_full_name: "fullName",
+      q_custom: "custom_question_title",
+    });
+  });
+
   it("handles raw with no items / no info / no responderUri", () => {
     const raw: RawForm = { formId: "form_x" };
     const out = mapFormSchema({ ...baseInput, raw });
@@ -143,5 +177,31 @@ describe("mapFormResponse branch coverage", () => {
       questionIdToStableKey: { q_n: "nickname" },
     });
     expect(out.answersByStableKey.nickname).toBeNull();
+  });
+
+  it("resolves known stableKeys when raw form fallback map is used", () => {
+    const qidMap = rawFormToStableKeyMap({
+      formId: "form_1",
+      items: [
+        {
+          title: "お名前（フルネーム）",
+          questionItem: { question: { questionId: "q_name" } },
+        },
+      ],
+    });
+    const out = mapFormResponse({
+      ...common,
+      raw: {
+        responseId: "r_fallback",
+        lastSubmittedTime: "2026-04-30T00:00:00Z",
+        respondentEmail: "x@example.com",
+        answers: {
+          q_name: { textAnswers: { answers: [{ value: "山田" }] } },
+        },
+      },
+      questionIdToStableKey: qidMap,
+    });
+    expect(out.answersByStableKey.fullName).toBe("山田");
+    expect(out.unmappedQuestionIds).toEqual([]);
   });
 });

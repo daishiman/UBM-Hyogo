@@ -12,6 +12,107 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md` |
 | user gate | Chromium screenshot, staging verification, commit, push, PR, OOS-1 Issue creation |
 
+## issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #222 CLOSED（reopen / mutation は user-gated） |
+| purpose | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化する |
+| implementation | `packages/shared/src/public-search/{search-query-primitives,index}.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 変更なし |
+| evidence | shared public-search 12 PASS; api regression 30 PASS; web regression 11 PASS; shared/api/web typecheck PASS; root lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit, push, PR, deploy, Issue mutation |
+
+## vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation 対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged; `vitest` と `@vitest/coverage-v8` は 3.2.6 で揃える（version parity）; D1 config は `pool: forks` / `singleFork: true` を維持 |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence（shard results / version-parity / deprecation-grep）present; Phase 12 strict 7 present; source PR #1177 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
+## admin-requests-queue-rename-and-publish-dependency（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `/admin/requests` を表示名「会員からの申請」へ平易化し、会員本人発の承認申請と管理者起点の即時公開トグルを相互リンク・申請中バッジ・seedで可視化する |
+| implementation | test account pending request seed、`GET /admin/members` `pendingRequestTypes` projection、shared/contracts schema、requests/members admin UI labels and links |
+| evidence | API 86 files / 549 tests PASS; shared 21 files / 257 tests PASS; web 238 files passed, 1 skipped; 1752 tests passed, 1 skipped; typecheck/lint/seed drift/HEX grep PASS |
+| invariant | no new endpoint, no D1 schema, `/admin/requests` path unchanged, apps/web D1 direct accessなし |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
+## admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | `/admin/audit` をカード型タイムライン、appliedFilters チップ、目的・用語ガイド、親切なエラー表示へ刷新し、`/admin/tags/catalog` の reduce クラッシュを防御する |
+| implementation | `AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditLogDisplay.ts`, `auditAppliedFilters.ts`, `AuditPurposeGuide.tsx`, `auditGlossary.ts`, `auditErrorMessage.ts`, `TagCatalogPanel.tsx`, `globals.css` |
+| evidence | focused Vitest 6 files / 59 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md` |
+| user gate | runtime screenshots, staging authenticated baseline, commit, push, PR, staging deploy |
+
+## admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | `/admin/members` mobile overflow を単一 table DOM + scoped CSS card 表示で解消 |
+| implementation | `MembersTable.tsx` mobile attributes、`globals.css` scoped `@media (max-width: 640px)`、focused component tests、Playwright mobile spec |
+| evidence | `MembersTable.spec.tsx` 25 tests PASS; Playwright desktop-chromium 5 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
+## member-profile-google-form-data-reflection（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `schema_questions` 空で Google Form 回答が全件 unmapped になり公開メンバー詳細が空表示になる fail-silent を修正する |
+| implementation | `rawFormToStableKeyMap` fallback、API `buildQuestionIdToStableKey` merge、`GoogleFormsClient.getQuestionIdToStableKey` qidMapSize 実測、response sync `qid_map_empty` / fully-unmapped alert、recovery runbook |
+| evidence | integrations-google focused 18 PASS; build-qid-map 2 PASS; response sync contract 34 PASS; api/integrations typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
+| user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
+
+## admin-schema-diff-review-resolve-ux（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema` diff-review の stableKey alias 割当フォームをクリックカード直下へインライン化し、目的説明とやさしい用語で操作価値を明示する |
+| implementation | `schemaReviewTerms.ts`, `SchemaReviewGuide.tsx`, `SchemaDiffPanel.tsx`, `/admin/schema/page.tsx`, `globals.css` |
+| evidence | focused Vitest 3 files / 36 tests PASS; web typecheck PASS; lint PASS; verify-design-tokens PASS; apps/api diff 0 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR |
+
+## admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-schema-history-purpose-clarity-and-filter-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema/history` の `appliedFilters.batchId` ZodError raw JSON 表示を根治し、目的説明 UI と ALIAS HISTORY card 表示へ整える |
+| implementation | `apps/web/src/lib/admin/api.ts`, `schemaHistoryError.ts`, `schemaHistoryGlossary.ts`, `SchemaHistoryPurposeExplainer.tsx`, `SchemaDiffHistoryPanel.tsx`, `/admin/schema/history/page.tsx`, `globals.css` |
+| key contract | `AppliedFiltersZ` accepts `batchId`; no batchId filter UI; raw ZodError JSON is converted to Japanese message; history is card list with purpose explainer |
+| evidence | focused Vitest 4 files / 60 tests PASS; web typecheck PASS; verify:tokens PASS; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
+
 ## staging-test-accounts-full-data-and-detail-verify（2026-06-09）
 
 | 項目 | 値 |

@@ -1,0 +1,21 @@
+=== typecheck ===
+
+> ubm-hyogo@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260610-090030-wt-15
+> pnpm -r typecheck
+
+Scope: 7 of 8 workspace projects
+packages/contracts typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+apps/og typecheck$ tsc -p tsconfig.json --noEmit
+packages/contracts typecheck: Done
+apps/og typecheck: Done
+packages/shared typecheck: Done
+apps/web typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations/google typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck: Done
+packages/integrations/google typecheck: Done
+apps/web typecheck: Done
+apps/api typecheck$ tsc -p tsconfig.json --noEmit
+apps/api typecheck: Done
+exit: 0

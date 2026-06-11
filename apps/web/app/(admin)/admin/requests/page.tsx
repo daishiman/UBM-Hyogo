@@ -40,9 +40,9 @@ export default async function AdminRequestsPage({
     <section className="flex flex-col gap-4">
       <AdminPageHeader
         eyebrow="ADMIN / REQUESTS"
-        title="依頼キュー"
-        description="公開状態の変更依頼・退会依頼を確認・承認します。"
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "依頼キュー" }]}
+        title="会員からの申請"
+        description="会員本人がマイページから出した「公開の停止/再開」「退会」の申請を、ここで承認・却下します。管理者が公開/非公開をすぐ切り替えたいときは「会員管理」から操作してください。"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "会員からの申請" }]}
         headingId="admin-requests-h"
       />
       {result.ok ? (
@@ -57,7 +57,7 @@ export default async function AdminRequestsPage({
         />
       ) : (
         <AdminSectionErrorClient
-          sectionLabel="依頼キュー"
+          sectionLabel="会員からの申請"
           code={result.error.code}
           message={result.error.message}
         />

@@ -187,6 +187,12 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字列で、sort は `held_on DESC, session_id DESC`。不正 cursor は 400、`limit < 1` は 400、`limit > 200` は 200 に clamp する。既存 `createAttendanceProvider(ctx).findByMemberIds(ids)` は bulk read の後方互換 API として維持し、個人ページングは `findByMemberId(id, { limit, cursor })` を使う。
 
+## Admin Member List API
+
+`GET /admin/members` の member item は、会員管理一覧で申請中状態を表示するため `pendingRequestTypes: ("visibility_request" | "delete_request")[]` を返す。値は `admin_member_notes` の同一 `member_id` で `note_type IN ('visibility_request','delete_request')` かつ `request_status='pending'` の種別だけを相関サブクエリで集約する。pending が無い会員は空配列を返す。
+
+このフィールドは `/admin/requests`（表示名「会員からの申請」）への相互リンク用であり、`publishState` / `isDeleted` を直接変更しない。承認フローによる変更は既存 `POST /admin/requests/:noteId/resolve` が所有し、管理者起点の即時公開切替は既存 `PATCH /admin/members/:memberId/status` が所有する。新 endpoint と D1 schema 変更は追加しない。
+
 ## Admin Member Tag Write API（issue-982）
 
 管理者が `MemberDrawer` 内で member へ tag を手動付与 / 解除するための専用 endpoint。すべて admin gate 配下で実行し、apps/web は `/api/admin/...` proxy 経由で呼ぶ（D1 直接参照禁止）。

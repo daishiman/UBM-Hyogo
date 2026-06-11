@@ -1,0 +1,36 @@
+{
+  "mode": "VISUAL",
+  "taskId": "admin-members-mobile-responsive-layout",
+  "route": "synthetic:/admin/members-css-contract",
+  "status": "css_contract_screenshots_captured",
+  "note": "Authenticated /admin/members screenshot is user-gated. CSS-contract screenshots were captured in Chromium using the same selector contract as the Playwright mobile smoke; dummy PNGs were not used.",
+  "screenshots": [
+    {
+      "name": "admin-members-table-mobile-card-375.png",
+      "viewport": { "width": 375, "height": 812 },
+      "route": "synthetic:/admin/members-css-contract",
+      "state": "mobile-card",
+      "path": "outputs/phase-11/screenshots/admin-members-table-mobile-card-375.png",
+      "captured": true,
+      "overflowPass": true
+    },
+    {
+      "name": "admin-members-table-mobile-card-640.png",
+      "viewport": { "width": 640, "height": 844 },
+      "route": "synthetic:/admin/members-css-contract",
+      "state": "mobile-card",
+      "path": "outputs/phase-11/screenshots/admin-members-table-mobile-card-640.png",
+      "captured": true,
+      "overflowPass": true
+    },
+    {
+      "name": "admin-members-table-desktop-table-1280.png",
+      "viewport": { "width": 1280, "height": 800 },
+      "route": "synthetic:/admin/members-css-contract",
+      "state": "desktop-table",
+      "path": "outputs/phase-11/screenshots/admin-members-table-desktop-table-1280.png",
+      "captured": true,
+      "overflowPass": true
+    }
+  ]
+}

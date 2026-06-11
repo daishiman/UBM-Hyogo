@@ -50,7 +50,7 @@ export interface RawFormResponse {
   >;
 }
 
-const STABLE_KEY_BY_LABEL: Record<string, string> = {
+export const STABLE_KEY_BY_LABEL: Record<string, string> = {
   "お名前（フルネーム）": "fullName",
   "あだ名・ニックネーム": "nickname",
   "お住まい（都道府県・市区町村）": "location",
@@ -86,9 +86,19 @@ const STABLE_KEY_BY_LABEL: Record<string, string> = {
   "勧誘ルール・免責事項への同意": "rulesConsent",
 };
 
-function deriveStableKey(label: string | undefined): string {
+export function deriveStableKey(label: string | undefined): string {
   if (!label) return "unknown";
   return STABLE_KEY_BY_LABEL[label] ?? slugify(label);
+}
+
+export function rawFormToStableKeyMap(raw: RawForm): Record<string, string> {
+  const map: Record<string, string> = {};
+  for (const item of raw.items ?? []) {
+    const qid = item.questionItem?.question?.questionId;
+    if (!qid || !item.title) continue;
+    map[qid] = deriveStableKey(item.title);
+  }
+  return map;
 }
 
 function slugify(label: string): string {
