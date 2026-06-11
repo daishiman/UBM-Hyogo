@@ -21,6 +21,34 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
 | user gate | staging deploy、runtime screenshots、`INTERNAL_AUTH_SECRET` secret placement、commit、push、PR |
 
+### issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| Issue | #222 CLOSED（reopen / mutation は user-gated） |
+| 目的 | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化し、drift を防ぐ |
+| implementation targets | `packages/shared/src/public-search/search-query-primitives.ts`, `packages/shared/src/public-search/index.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の公開 shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 不変 |
+| evidence | shared public-search 12 PASS、apps/api 回帰 30 PASS、apps/web 回帰 11 PASS、shared/api/web typecheck PASS、root lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit、push、PR、deploy、Issue mutation |
+
+### vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| 成果物 | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| source PR | #1177 `chore(deps-dev): bump vitest from 2.1.9 to 3.2.6`（OPEN, base `dev`, head `dependabot/npm_and_yarn/vitest-3.2.6`） |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation targets | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / affected `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged. `vitest` and `@vitest/coverage-v8` resolve to 3.2.6 together; D1 config keeps `pool: forks` and `singleFork: true` |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence present; Phase 12 strict 7 present; PR #1177 checked with `gh pr view 1177` on 2026-06-10 JST |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
 ### admin-requests-queue-rename-and-publish-dependency（2026-06-09）
 
 | 項目 | 値 |
