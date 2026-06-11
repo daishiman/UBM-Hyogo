@@ -109,8 +109,16 @@ describe("AuditLogPanel", () => {
     expect(actionInput.getAttribute("list")).toBe("audit-action-presets");
     const actionPresets = document.getElementById("audit-action-presets") as HTMLDataListElement;
     expect(Array.from(actionPresets.options).map((option) => option.value)).toEqual([
+      "attendance.add",
+      "attendance.remove",
       "identity.merge",
       "identity.dismiss",
+      "admin.member.tag_assigned",
+      "admin.member.tag_unassigned",
+      "admin.member.status_updated",
+      "admin.tag.created",
+      "admin.request.approve",
+      "admin.meeting.created",
     ]);
     expect(screen.getByLabelText("actorEmail")).toBeTruthy();
     expect(screen.getByLabelText("targetType")).toBeTruthy();
@@ -136,6 +144,49 @@ describe("AuditLogPanel", () => {
     );
 
     expect(screen.getByRole("alert").textContent).toContain("staging deploy");
+  });
+
+  it("renders purpose guide, applied filters, and timeline cards", () => {
+    render(
+      <AuditLogPanel
+        values={{ action: "admin.member.tag_assigned", limit: "50" }}
+        data={{
+          nextCursor: null,
+          appliedFilters: {
+            action: "admin.member.tag_assigned",
+            targetType: "member",
+            limit: 50,
+          },
+          items: [
+            {
+              auditId: "audit-1",
+              actorEmail: "admin@example.com",
+              action: "admin.member.tag_assigned",
+              targetType: "member",
+              targetId: "mem-1",
+              maskedBefore: null,
+              maskedAfter: { batchId: "batch-1", tagId: "tag-a" },
+              createdAt: "2026-04-30T15:00:00.000Z",
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(screen.getByText("誰が、いつ、何を変えたかを追跡します")).toBeTruthy();
+    expect(screen.getByTestId("audit-applied-filters").textContent).toContain(
+      "action: admin.member.tag_assigned",
+    );
+    expect(screen.getByRole("list", { name: "監査ログ一覧" })).toBeTruthy();
+    expect(screen.getByTestId("audit-log-card")).toBeTruthy();
+  });
+
+  it("shows the fallback applied filter message when no filters were applied", () => {
+    render(<AuditLogPanel values={{ limit: "25" }} data={{ items: [], nextCursor: null }} />);
+
+    expect(screen.getByTestId("audit-applied-filters").textContent).toContain(
+      "なし（直近 25 件を新しい順に表示）",
+    );
   });
 });
 
@@ -386,8 +437,7 @@ describe("AuditLogPanel — render 分岐", () => {
         }}
       />,
     );
-    // td 内の span と code に - が出る
-    const dashes = screen.getAllByText("-");
+    const dashes = screen.getAllByText("—");
     expect(dashes.length).toBeGreaterThanOrEqual(2);
   });
 

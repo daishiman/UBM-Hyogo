@@ -58,12 +58,14 @@ describe("RequestQueuePanel", () => {
 
   it("TC-21: 初期表示で pending 一覧と type タブを描画", () => {
     render(<RequestQueuePanel initial={baseView} type="visibility_request" />);
-    // page.tsx 側に h1 "依頼キュー" を集約。Panel 自身は prototype
-    // primitive の h-section + visually-hidden h2 "依頼種別" を担う。
+    expect(screen.getByRole("heading", { name: "会員からの申請" })).toBeDefined();
+    expect(screen.getByRole("link", { name: "会員管理" }).getAttribute("href")).toBe(
+      "/admin/members",
+    );
     const filterHeading = screen.getByRole("heading", { name: "依頼種別" });
     expect(filterHeading.className).toContain("h-section");
     expect(filterHeading.className).toContain("visually-hidden");
-    expect(screen.getByRole("heading", { name: "依頼一覧" }).className).toContain("h-card");
+    expect(screen.getByRole("heading", { name: "申請一覧" }).className).toContain("h-card");
     expect(screen.getAllByText(/m_alice/).length).toBeGreaterThan(0);
     expect(screen.getByText(/desiredState: hidden/)).toBeDefined();
   });
@@ -72,7 +74,7 @@ describe("RequestQueuePanel", () => {
     render(<RequestQueuePanel initial={baseView} type="visibility_request" />);
     fireEvent.click(screen.getByText("承認する"));
     expect(screen.getByRole("dialog")).toBeDefined();
-    expect(screen.getByText("依頼を承認します")).toBeDefined();
+    expect(screen.getByText("申請を承認します")).toBeDefined();
   });
 
   it("TC-23: delete_request 承認で破壊的操作の警告が出る", () => {
@@ -131,7 +133,7 @@ describe("RequestQueuePanel", () => {
         type="visibility_request"
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "次の依頼ページ" }));
+    fireEvent.click(screen.getByRole("button", { name: "次の申請ページ" }));
     expect(mockPush).toHaveBeenCalledWith(
       "/admin/requests?type=visibility_request&cursor=cursor%2B%2F%3D",
     );

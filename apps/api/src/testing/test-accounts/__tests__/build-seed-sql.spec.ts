@@ -15,6 +15,7 @@ describe("test account seed builder", () => {
     expect(sql).not.toMatch(/(^|\n)INSERT INTO /);
     expect(sql).toContain("INSERT OR REPLACE INTO member_identities");
     expect(sql).toContain("INSERT OR IGNORE INTO member_tags");
+    expect(sql).toContain("INSERT OR REPLACE INTO admin_member_notes");
     expect(sql).toContain("[TEST] 山田''太郎😀");
     expect(sql).toContain(sqlFragment("TEST-RES-01", STABLE_KEY.selfIntroduction));
     expect(sql).toContain(sqlFragment("TEST-RES-01", STABLE_KEY.urlLinkedin));
@@ -28,11 +29,23 @@ describe("test account seed builder", () => {
     expect(sql).toContain("'TEST-MEM-06', 'publicConsent', 'admin'");
   });
 
+  it("builds pending admin request notes for existing test members", () => {
+    const sql = buildSeedSql();
+    expect(sql).toContain("'TEST-NOTE-V01', 'TEST-MEM-01'");
+    expect(sql).toContain("'TEST-NOTE-V02', 'TEST-MEM-02'");
+    expect(sql).toContain("'TEST-NOTE-D01', 'TEST-MEM-07'");
+    expect(sql).toContain("'visibility_request', 'pending'");
+    expect(sql).toContain("'delete_request', 'pending'");
+    expect(sql).toContain("json_object('reason', '都合により一時的に掲載を止めたいです'");
+    expect(sql).toContain("'payload', json('{\"desiredState\":\"hidden\"}')");
+  });
+
   it("builds cleanup SQL scoped to TEST account ids only", () => {
     const sql = buildCleanupSql();
     expect(sql).toContain("DELETE FROM member_identities WHERE member_id IN ('TEST-MEM-01'");
     expect(sql).toContain("DELETE FROM member_field_visibility WHERE member_id IN ('TEST-MEM-01'");
     expect(sql).toContain("DELETE FROM admin_users WHERE admin_id IN ('TEST-ADM-01'");
+    expect(sql).toContain("DELETE FROM admin_member_notes WHERE note_id LIKE 'TEST-NOTE-%';");
     expect(sql).not.toContain("LIKE '%'");
   });
 

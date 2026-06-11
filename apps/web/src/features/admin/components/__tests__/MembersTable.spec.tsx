@@ -23,6 +23,7 @@ const mkMember = (id: string, name: string, overrides: Partial<Member> = {}): Me
   publishState: "public",
   isDeleted: false,
   lastSubmittedAt: "2026-05-01T00:00:00.000Z",
+  pendingRequestTypes: [],
   ...overrides,
 });
 
@@ -120,6 +121,57 @@ describe("MembersTable", () => {
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
+  it("pendingRequestTypes がある行に申請中バッジリンクを描画する", () => {
+    render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            pendingRequestTypes: ["visibility_request", "delete_request"],
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "公開申請中（会員からの申請へ）" }).getAttribute("href")).toBe(
+      "/admin/requests?type=visibility_request",
+    );
+    expect(screen.getByRole("link", { name: "退会申請中（会員からの申請へ）" }).getAttribute("href")).toBe(
+      "/admin/requests?type=delete_request",
+    );
+  });
+
+  it("pendingRequestTypes が未定義(API レスポンス欠落)でもクラッシュせず描画する", () => {
+    // safeServerFetch は zod parse を通さない型アサーション経路のため、
+    // API レスポンスに pendingRequestTypes キーが欠落すると実体は undefined になりうる。
+    // schema 上は .default([]) 設計だが表示層で防御する回帰ガード。
+    const member = mkMember("a", "山田");
+    delete (member as { pendingRequestTypes?: unknown }).pendingRequestTypes;
+    expect(() =>
+      render(
+        <MembersTable
+          items={[member]}
+          selected={new Set()}
+          onToggleSelect={() => {}}
+          onToggleSelectAll={() => {}}
+          onOpenRow={() => {}}
+          page={1}
+          pageSize={50}
+          total={1}
+          onPageChange={() => {}}
+        />,
+      ),
+    ).not.toThrow();
+    expect(screen.queryByRole("link", { name: /会員からの申請へ/ })).toBeNull();
+  });
+
   it("a11y violations 0", async () => {
     const { container } = render(
       <MembersTable
@@ -172,6 +224,49 @@ describe("MembersTable", () => {
     );
     expect(screen.queryByText("会社員")).toBeNull();
     expect(screen.queryByText("undefined")).toBeNull();
+  });
+
+  it("TC-MT-LM-01: 最終更新を ISO 生ではなく JST の年月日漢字・秒までで描画する", () => {
+    render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            lastSubmittedAt: "2026-06-09T10:34:19.996603Z",
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(screen.getByText("2026年6月9日 19:34:19")).toBeDefined();
+    expect(screen.queryByText("2026-06-09T10:34:19.996603Z")).toBeNull();
+  });
+
+  it("TC-MT-LM-02: 最終更新が不正値でも fail-soft で元入力を表示する", () => {
+    render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            lastSubmittedAt: "not-a-date",
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(screen.getByText("not-a-date")).toBeDefined();
   });
 
   it("TC-MT-08: zone chip を text + data-tone + dot 付きで描画する", () => {
@@ -501,6 +596,109 @@ describe("MembersTable", () => {
         page={1}
         pageSize={50}
         total={3}
+        onPageChange={() => {}}
+      />,
+    );
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
+
+  it("TC-MT-21: モバイルカード化用の data-component と data-mobile-label を持つ", () => {
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(container.querySelector('[data-component="admin-members-table"]')).toBeDefined();
+    expect(screen.getByTestId("admin-members-table").tagName).toBe("TABLE");
+    expect(
+      Array.from(container.querySelectorAll("tbody td")).map((cell) =>
+        [cell.getAttribute("data-cell"), cell.getAttribute("data-mobile-label")],
+      ),
+    ).toEqual([
+      ["select", "選択"],
+      ["member", "メンバー"],
+      ["email", "メール"],
+      ["status", "区画 / ステータス"],
+      ["tags", "タグ"],
+      ["updated", "最終更新"],
+      ["publish", "公開"],
+      ["actions", "操作"],
+    ]);
+  });
+
+  it("TC-MT-22: 行・セル数と既存 testid を変えずに単一 table を維持する", () => {
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田"), mkMember("b", "鈴木")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={2}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(container.querySelectorAll("table")).toHaveLength(1);
+    expect(container.querySelectorAll("tbody tr")).toHaveLength(2);
+    expect(container.querySelectorAll("tbody tr:first-child td")).toHaveLength(8);
+    expect(screen.getByTestId("admin-members-row-a")).toBeDefined();
+    expect(screen.getByTestId("admin-members-row-b")).toBeDefined();
+  });
+
+  it("TC-MT-23: 公開セルのクリックは行編集を開かず publish switch 操作を保つ", () => {
+    const onOpenRow = vi.fn();
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={onOpenRow}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    const publishCell = container.querySelector('td[data-mobile-label="公開"]');
+    expect(publishCell).toBeDefined();
+    fireEvent.click(publishCell as HTMLElement);
+    expect(onOpenRow).not.toHaveBeenCalled();
+  });
+
+  it("TC-MT-24: モバイルラベル追加後も a11y violations 0", async () => {
+    const { container } = render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            occupation: "会社員",
+            ubmZone: "0_to_1",
+            ubmMembershipType: "member",
+            tags: [
+              { code: "sales", label: "営業" },
+              { code: "engineering", label: "技術" },
+              { code: "pr", label: "広報" },
+            ],
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
         onPageChange={() => {}}
       />,
     );
