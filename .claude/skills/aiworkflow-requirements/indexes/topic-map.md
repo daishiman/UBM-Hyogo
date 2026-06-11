@@ -978,7 +978,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L254 |
 | Conversation DB 初期化パターン | L285 |
 | UBM-Hyogo Schema Sync Contract（03a） | L287 |
-| ベクトル検索実装（DiskANN） | L407 |
+| ベクトル検索実装（DiskANN） | L409 |
 
 ### references/database-implementation-details.md
 
@@ -2146,6 +2146,13 @@ node scripts/list-specs.js --topics
 | System Boundary | L40 |
 | Lessons Learned | L44 |
 
+### references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Four-condition notes | L14 |
+| Lessons Learned | L21 |
+
 ### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2234,6 +2241,17 @@ node scripts/list-specs.js --topics
 | Invariants | L37 |
 | Lessons Learned | L44 |
 
+### references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L10 |
+| Evidence | L19 |
+| System Specs | L29 |
+| Lessons | L34 |
+| User Gate | L40 |
+
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2245,6 +2263,28 @@ node scripts/list-specs.js --topics
 | Local Evidence | L61 |
 | Boundary | L69 |
 | Lessons Learned | L75 |
+
+### references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L9 |
+| Evidence | L20 |
+| Invariants | L29 |
+| Lessons | L36 |
+
+### references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Implementation Boundary | L31 |
+| Evidence | L48 |
+| Invariants | L58 |
+| User Gate | L65 |
 
 ### references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md
 
@@ -4192,6 +4232,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L19 |
 
+### references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L14 |
+
 ### references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md
 
 | セクション | 行 |
@@ -4579,6 +4625,16 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | User-Gated | L34 |
 | Lessons Learned | L41 |
+
+### references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Evidence | L31 |
+| Invariants | L41 |
+| Lessons Learned | L45 |
 
 ### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
 
@@ -9176,23 +9232,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4212 |
-| フェーズ構造（概要） | L4221 |
-| 品質ゲート（概要） | L4252 |
-| 出力テンプレート | L4263 |
-| 実行時のコマンド・エージェント・スキル | L4286 |
-| 昇格パターン集 | L4310 |
-| Current Active / Spec Created Tasks | L4312 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4478 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4546 |
-| issue-1007-density-toggle-help-hint-hardening | L4570 |
-| issue-1079-bulk-tag-audit-batch-filter | L4583 |
-| issue-1128-audit-batchid-index-optimization | L4596 |
-| issue-998-members-publish-state-production-rollout | L4613 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4672 |
-| issue-1068-admin-tag-inline-create-ui | L4686 |
-| issue-1111-proxy-transport-util-unify | L4704 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4722 |
+| ドキュメント構成 | L4292 |
+| フェーズ構造（概要） | L4301 |
+| 品質ゲート（概要） | L4332 |
+| 出力テンプレート | L4343 |
+| 実行時のコマンド・エージェント・スキル | L4366 |
+| 昇格パターン集 | L4390 |
+| Current Active / Spec Created Tasks | L4392 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4558 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4626 |
+| issue-1007-density-toggle-help-hint-hardening | L4650 |
+| issue-1079-bulk-tag-audit-batch-filter | L4663 |
+| issue-1128-audit-batchid-index-optimization | L4676 |
+| issue-998-members-publish-state-production-rollout | L4693 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4752 |
+| issue-1068-admin-tag-inline-create-ui | L4766 |
+| issue-1111-proxy-transport-util-unify | L4784 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4802 |
 
 ### references/task-workflow-backlog-part2.md
 

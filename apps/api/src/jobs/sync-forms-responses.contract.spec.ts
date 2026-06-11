@@ -38,10 +38,13 @@ const makeResp = (overrides: RespOverrides = {}): MemberResponse => {
 
 const makeClient = (
   pages: Array<{ responses: MemberResponse[]; nextPageToken?: string }>,
+  qidMap: Record<string, string> | null = { q_name: "fullName" },
 ): GoogleFormsClient => {
   let i = 0;
   return {
     getForm: vi.fn(),
+    getQuestionIdToStableKey:
+      qidMap === null ? undefined : vi.fn(async () => qidMap),
     listResponses: vi.fn(async (_formId: string, _opts?) => {
       const page = pages[i] ?? { responses: [] };
       i += 1;
@@ -303,6 +306,80 @@ describe("runResponseSync", () => {
     expect(writeDataPoint).not.toHaveBeenCalled();
   });
 
+  it("mapping guard: all processed responses fully unmapped emits alert without failing sync", async () => {
+    const writeDataPoint = vi.fn();
+    const resp = makeResp({
+      rawAnswersByQuestionId: {
+        q_unknown: { textAnswers: { answers: [{ value: "山田" }] } },
+      },
+      unmappedQuestionIds: ["q_unknown"],
+      answersByStableKey: {},
+    });
+    const client = makeClient([{ responses: [resp] }], {});
+    const result = await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        SYNC_ALERTS: { writeDataPoint } as unknown as AnalyticsEngineDataset,
+      },
+      { trigger: "admin", client },
+    );
+    expect(result.status).toBe("succeeded");
+    expect(result.fullyUnmappedResponses).toBe(1);
+    expect(result.qidMapSize).toBe(0);
+    expect(writeDataPoint).toHaveBeenCalledWith(
+      expect.objectContaining({
+        blobs: ["response_sync_mapping_alert", "qid_map_empty"],
+        doubles: [0, 1, 1],
+      }),
+    );
+    expect(writeDataPoint).toHaveBeenCalledWith(
+      expect.objectContaining({
+        blobs: ["response_sync_mapping_alert", "all_responses_unmapped"],
+        doubles: [0, 1, 1],
+      }),
+    );
+  });
+
+  it("mapping guard: partial unmapped does not emit all-responses alert", async () => {
+    const writeDataPoint = vi.fn();
+    const fullyUnmapped = makeResp({
+      responseId: "r-unmapped",
+      rawAnswersByQuestionId: {
+        q_unknown: { textAnswers: { answers: [{ value: "山田" }] } },
+      },
+      unmappedQuestionIds: ["q_unknown"],
+      answersByStableKey: {},
+    });
+    const mapped = makeResp({
+      responseId: "r-mapped",
+      responseEmail: asResponseEmail("mapped@example.com"),
+      submittedAt: "2026-01-02T00:00:00Z",
+      rawAnswersByQuestionId: {
+        q_name: { textAnswers: { answers: [{ value: "佐藤" }] } },
+      },
+      unmappedQuestionIds: [],
+      answersByStableKey: { fullName: "佐藤" },
+    });
+    const client = makeClient([{ responses: [fullyUnmapped, mapped] }]);
+    const result = await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        SYNC_ALERTS: { writeDataPoint } as unknown as AnalyticsEngineDataset,
+      },
+      { trigger: "admin", client },
+    );
+    expect(result.status).toBe("succeeded");
+    expect(result.fullyUnmappedResponses).toBe(1);
+    expect(result.qidMapSize).toBe(1);
+    expect(writeDataPoint).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        blobs: ["response_sync_mapping_alert", "all_responses_unmapped"],
+      }),
+    );
+  });
+
   it("S-3: 直近 3 件すべて cap 到達 → emit 1 回 (03b-followup-006)", async () => {
     // 既存 succeeded job 2 件を writeCapHit=true で seed（直前 window は未達）
     db.syncJobs.push({
@@ -504,6 +581,25 @@ describe("runResponseSync", () => {
     expect(result.status).toBe("failed");
     expect(result.durationMs).toBe(64);
     expect(db.syncJobs[0]?.["status"]).toBe("failed");
+  });
+
+  it("mapping guard: qid map lookup failure is recorded as failed sync and releases the lock", async () => {
+    const client = {
+      getForm: vi.fn(),
+      getQuestionIdToStableKey: vi.fn(async () => {
+        throw new Error("forms-api: 503 schema unavailable");
+      }),
+      listResponses: vi.fn(),
+    } as unknown as GoogleFormsClient;
+    const result = await runResponseSync(
+      { DB: db as unknown as D1Database, GOOGLE_FORM_ID: "form-1" },
+      { trigger: "admin", client },
+    );
+    expect(result.status).toBe("failed");
+    expect(result.qidMapSize).toBeNull();
+    expect(db.syncJobs[0]?.["status"]).toBe("failed");
+    expect(db.syncLocks).toHaveLength(0);
+    expect(client.listResponses).not.toHaveBeenCalled();
   });
 
   it("Issue #1088: succeeded path は durationMs を返す", async () => {

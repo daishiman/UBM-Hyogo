@@ -4,6 +4,9 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setupD1, type InMemoryD1 } from "../../../src/repository/__tests__/_setup";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
+import type { AttendanceProvider } from "../../../src/repository/attendance";
+import { getPublicMemberProfileUseCase } from "../../../src/use-cases/public/get-public-member-profile";
 import { buildCleanupSql, buildManifestJson, buildSeedSql } from "../../../src/testing/test-accounts";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -42,6 +45,15 @@ const count = async (env: InMemoryD1, table: string, column: string): Promise<nu
   return row?.c ?? -1;
 };
 
+const emptyAttendanceProvider: AttendanceProvider = {
+  async findByMemberIds() {
+    return new Map();
+  },
+  async findByMemberId() {
+    return { records: [], hasMore: false, nextCursor: null };
+  },
+};
+
 describe("test accounts seed SQL", () => {
   let env: InMemoryD1;
 
@@ -60,14 +72,34 @@ describe("test accounts seed SQL", () => {
     await execAll(env, SEED_SQL);
     expect(await count(env, "member_identities", "member_id")).toBe(10);
     expect(await count(env, "member_status", "member_id")).toBe(10);
+    expect(await count(env, "member_field_visibility", "member_id")).toBe(310);
+    expect(await count(env, "schema_questions", "question_pk")).toBe(31);
     expect(await count(env, "admin_users", "admin_id")).toBe(3);
     expect(await count(env, "meeting_sessions", "session_id")).toBe(3);
   });
 
-  it("persists visibility, photos, and escaped answer edge cases", async () => {
+  it("persists all response fields, visibility, photos, and escaped answer edge cases", async () => {
     const publicRows = await env.db
       .prepare(
         "SELECT COUNT(*) AS c FROM member_status WHERE member_id LIKE 'TEST-MEM-%' AND public_consent='consented' AND publish_state='public' AND is_deleted=0",
+      )
+      .first<{ c: number }>();
+    const responseFields = await env.db
+      .prepare("SELECT COUNT(*) AS c FROM response_fields WHERE response_id LIKE 'TEST-RES-%'")
+      .first<{ c: number }>();
+    const publicVisibility = await env.db
+      .prepare(
+        "SELECT COUNT(*) AS c FROM member_field_visibility WHERE member_id LIKE 'TEST-MEM-%' AND visibility='public'",
+      )
+      .first<{ c: number }>();
+    const memberVisibility = await env.db
+      .prepare(
+        "SELECT COUNT(*) AS c FROM member_field_visibility WHERE member_id LIKE 'TEST-MEM-%' AND visibility='member'",
+      )
+      .first<{ c: number }>();
+    const adminVisibility = await env.db
+      .prepare(
+        "SELECT COUNT(*) AS c FROM member_field_visibility WHERE member_id LIKE 'TEST-MEM-%' AND visibility='admin'",
       )
       .first<{ c: number }>();
     const photos = await env.db
@@ -83,6 +115,10 @@ describe("test accounts seed SQL", () => {
       .first<{ answers_json: string }>();
 
     expect(publicRows?.c).toBe(5);
+    expect(responseFields?.c).toBe(310);
+    expect(publicVisibility?.c).toBe(260);
+    expect(memberVisibility?.c).toBe(30);
+    expect(adminVisibility?.c).toBe(20);
     expect(photos?.c).toBe(4);
     expect(selfPhoto).toEqual({
       source: "self",
@@ -92,11 +128,50 @@ describe("test accounts seed SQL", () => {
     expect(JSON.parse(edge?.answers_json ?? "{}").fullName).toBe("[TEST] 山田'太郎😀 長い名前エッジケース");
   });
 
+  it("builds public member detail sections from seeded schema_questions", async () => {
+    const result = await getPublicMemberProfileUseCase("TEST-MEM-06", {
+      ctx: {
+        db: env.db,
+        var: { attendanceProvider: emptyAttendanceProvider },
+      },
+    });
+    const publicKeys = new Set(
+      result.publicSections.flatMap((section) =>
+        section.fields.map((field) => field.stableKey),
+      ),
+    );
+
+    expect(publicKeys).toContain(STABLE_KEY.businessOverview);
+    expect(publicKeys).toContain(STABLE_KEY.urlWebsite);
+    expect(publicKeys).toContain(STABLE_KEY.selfIntroduction);
+    expect(publicKeys).not.toContain(STABLE_KEY.birthDate);
+    expect(publicKeys).not.toContain(STABLE_KEY.challenges);
+    expect(publicKeys).not.toContain(STABLE_KEY.publicConsent);
+  });
+
+  it("keeps public visibility restricted to public stable keys for TEST-MEM-06", async () => {
+    const rows = await env.db
+      .prepare(
+        "SELECT rf.stable_key, mfv.visibility FROM response_fields rf JOIN member_field_visibility mfv ON mfv.member_id = 'TEST-MEM-06' AND mfv.stable_key = rf.stable_key WHERE rf.response_id = 'TEST-RES-06'",
+      )
+      .all<{ stable_key: string; visibility: string }>();
+    const byKey = new Map(rows.results.map((row) => [row.stable_key, row.visibility]));
+
+    expect(rows.results).toHaveLength(31);
+    expect(byKey.get(STABLE_KEY.businessOverview)).toBe("public");
+    expect(byKey.get(STABLE_KEY.birthDate)).toBe("member");
+    expect(byKey.get(STABLE_KEY.challenges)).toBe("member");
+    expect(byKey.get(STABLE_KEY.publicConsent)).toBe("admin");
+    expect(byKey.get(STABLE_KEY.rulesConsent)).toBe("admin");
+  });
+
   it("cleanup is idempotent and removes only TEST rows", async () => {
     await execAll(env, CLEANUP_SQL);
     await execAll(env, CLEANUP_SQL);
     expect(await count(env, "member_identities", "member_id")).toBe(0);
     expect(await count(env, "member_status", "member_id")).toBe(0);
+    expect(await count(env, "member_field_visibility", "member_id")).toBe(0);
+    expect(await count(env, "schema_questions", "question_pk")).toBe(0);
     expect(await count(env, "admin_users", "admin_id")).toBe(0);
     expect(await count(env, "meeting_sessions", "session_id")).toBe(0);
   });
