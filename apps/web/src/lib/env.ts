@@ -142,6 +142,19 @@ export function getEnvironment(rawEnv: RawEnv = readRawEnv()): "local" | "stagin
   return value === "staging" || value === "production" ? value : "local";
 }
 
+export interface EnvironmentResolution {
+  readonly environment: "local" | "staging" | "production";
+  readonly explicit: boolean;
+}
+
+export function getEnvironmentResolution(rawEnv: RawEnv = readRawEnv()): EnvironmentResolution {
+  const value = rawEnv["ENVIRONMENT"];
+  if (value === "local" || value === "staging" || value === "production") {
+    return { environment: value, explicit: true };
+  }
+  return { environment: "local", explicit: false };
+}
+
 export function getTransportRuntimeIsTest(rawEnv: RawEnv = readRawEnv()): boolean {
   const processEnv = readProcessEnv();
   const nodeEnv =
