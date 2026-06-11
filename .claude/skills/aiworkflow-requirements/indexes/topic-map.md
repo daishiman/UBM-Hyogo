@@ -978,7 +978,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L254 |
 | Conversation DB 初期化パターン | L285 |
 | UBM-Hyogo Schema Sync Contract（03a） | L287 |
-| ベクトル検索実装（DiskANN） | L407 |
+| ベクトル検索実装（DiskANN） | L409 |
 
 ### references/database-implementation-details.md
 
@@ -2146,6 +2146,13 @@ node scripts/list-specs.js --topics
 | System Boundary | L40 |
 | Lessons Learned | L44 |
 
+### references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Four-condition notes | L14 |
+| Lessons Learned | L21 |
+
 ### references/workflow-admin-audit-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2240,6 +2247,17 @@ node scripts/list-specs.js --topics
 | Invariants | L37 |
 | Lessons Learned | L44 |
 
+### references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L10 |
+| Evidence | L19 |
+| System Specs | L29 |
+| Lessons | L34 |
+| User Gate | L40 |
+
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2251,6 +2269,34 @@ node scripts/list-specs.js --topics
 | Local Evidence | L61 |
 | Boundary | L69 |
 | Lessons Learned | L75 |
+
+### references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L15 |
+
+### references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L9 |
+| Evidence | L20 |
+| Invariants | L29 |
+| Lessons | L36 |
+
+### references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Workflow Artifacts | L11 |
+| Implementation Boundary | L31 |
+| Evidence | L48 |
+| Invariants | L58 |
+| User Gate | L65 |
 
 ### references/workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md
 
@@ -2282,6 +2328,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L20 |
+
+### references/workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L11 |
+| Implementation Artifacts | L23 |
+| Evidence | L44 |
+| Lessons Learned | L52 |
+| User-Gated | L58 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -4175,6 +4232,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L19 |
 
+### references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L14 |
+
 ### references/workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md
 
 | セクション | 行 |
@@ -4328,6 +4391,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Strict 7 | L35 |
 | Evidence | L47 |
 | Lessons Learned | L58 |
+
+### references/workflow-profile-session-fetch-failure-investigation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L16 |
+| Evidence | L22 |
+| Invariants | L31 |
+| User Gate | L37 |
+| Lessons Learned | L41 |
 
 ### references/workflow-public-dashboard-prototype-alignment-artifact-inventory.md
 
@@ -4552,6 +4625,16 @@ node scripts/list-specs.js --topics
 | Evidence | L23 |
 | User-Gated | L34 |
 | Lessons Learned | L41 |
+
+### references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Evidence | L31 |
+| Invariants | L41 |
+| Lessons Learned | L45 |
 
 ### references/workflow-step-05-dashboard-chart-implementation-artifact-inventory.md
 
@@ -5498,6 +5581,20 @@ node scripts/list-specs.js --topics
 | 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
 | 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
 | 8. 不変条件 touched | L95 |
+
+### references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| state classification | L7 |
+| source | L16 |
+| root artifacts | L25 |
+| planned implementation artifacts | L35 |
+| phase 12 required artifacts | L46 |
+| invariants | L58 |
+| same-wave skill sync | L65 |
+| Lessons Learned | L76 |
 
 ### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
 
@@ -9149,23 +9246,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4183 |
-| フェーズ構造（概要） | L4192 |
-| 品質ゲート（概要） | L4223 |
-| 出力テンプレート | L4234 |
-| 実行時のコマンド・エージェント・スキル | L4257 |
-| 昇格パターン集 | L4281 |
-| Current Active / Spec Created Tasks | L4283 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4449 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4517 |
-| issue-1007-density-toggle-help-hint-hardening | L4541 |
-| issue-1079-bulk-tag-audit-batch-filter | L4554 |
-| issue-1128-audit-batchid-index-optimization | L4567 |
-| issue-998-members-publish-state-production-rollout | L4584 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4643 |
-| issue-1068-admin-tag-inline-create-ui | L4657 |
-| issue-1111-proxy-transport-util-unify | L4675 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4693 |
+| ドキュメント構成 | L4318 |
+| フェーズ構造（概要） | L4327 |
+| 品質ゲート（概要） | L4358 |
+| 出力テンプレート | L4369 |
+| 実行時のコマンド・エージェント・スキル | L4392 |
+| 昇格パターン集 | L4416 |
+| Current Active / Spec Created Tasks | L4418 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4584 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4652 |
+| issue-1007-density-toggle-help-hint-hardening | L4676 |
+| issue-1079-bulk-tag-audit-batch-filter | L4689 |
+| issue-1128-audit-batchid-index-optimization | L4702 |
+| issue-998-members-publish-state-production-rollout | L4719 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4778 |
+| issue-1068-admin-tag-inline-create-ui | L4792 |
+| issue-1111-proxy-transport-util-unify | L4810 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4828 |
 
 ### references/task-workflow-backlog-part2.md
 

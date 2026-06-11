@@ -1,7 +1,7 @@
 // serial-06-form-response-binding: adapter unit spec (10 cases / branch coverage 100% 目標)
 import { describe, expect, it, vi } from "vitest";
 
-import { FieldKindZ, PublicMemberProfileZ } from "@ubm-hyogo/shared";
+import { FieldKindZ, PublicMemberProfileZ, STABLE_KEY } from "@ubm-hyogo/shared";
 
 import { samplePublicMemberProfile } from "../../../fixtures/public-member-profile";
 import {
@@ -23,6 +23,7 @@ describe("toMemberDetailProps", () => {
     expect(result.summary).toEqual(samplePublicMemberProfile.summary);
     expect(result.attendance).toEqual(samplePublicMemberProfile.attendance);
     expect(result.tags).toEqual(samplePublicMemberProfile.tags);
+    expect(result.photoUrl).toBe(samplePublicMemberProfile.photoUrl);
     expect(result.sections.length).toBeGreaterThan(0);
     expect(result.hero.hometown).toBe("兵庫県明石市");
     expect(result.business).toEqual({
@@ -37,6 +38,50 @@ describe("toMemberDetailProps", () => {
       "otherActivities",
     ]);
     expect(result.message).toBe("兵庫支部会で機械学習を学んでいます。");
+  });
+
+  it("visibility=public の詳細項目とURLリンクを全て保持する", () => {
+    const result = toMemberDetailProps(samplePublicMemberProfile);
+    const detailKeys = new Set(result.sections.flatMap((section) => section.fields.map((field) => field.stableKey)));
+    const linkKeys = new Set(result.links.map((link) => link.stableKey));
+
+    expect(detailKeys).toEqual(
+      new Set([
+        STABLE_KEY.fullName,
+        STABLE_KEY.nickname,
+        STABLE_KEY.location,
+        STABLE_KEY.occupation,
+        STABLE_KEY.hometown,
+        STABLE_KEY.selfIntroduction,
+        STABLE_KEY.ubmZone,
+        STABLE_KEY.ubmMembershipType,
+        STABLE_KEY.businessOverview,
+        STABLE_KEY.skills,
+        STABLE_KEY.canProvide,
+        STABLE_KEY.hobbies,
+        STABLE_KEY.recentInterest,
+        STABLE_KEY.motto,
+        STABLE_KEY.otherActivities,
+      ]),
+    );
+    expect(linkKeys).toEqual(
+      new Set([
+        STABLE_KEY.urlWebsite,
+        STABLE_KEY.urlFacebook,
+        STABLE_KEY.urlInstagram,
+        STABLE_KEY.urlThreads,
+        STABLE_KEY.urlYoutube,
+        STABLE_KEY.urlTiktok,
+        STABLE_KEY.urlX,
+        STABLE_KEY.urlBlog,
+        STABLE_KEY.urlNote,
+        STABLE_KEY.urlLinkedin,
+        STABLE_KEY.urlOthers,
+      ]),
+    );
+    expect(result.links.find((link) => link.stableKey === STABLE_KEY.urlOthers)?.href).toBe(
+      "https://example.com/podcast",
+    );
   });
 
   it("visibility=member field を除外する", () => {
@@ -117,15 +162,30 @@ describe("toMemberDetailProps", () => {
   });
 
   it("固定セクション未割当の public field は other fallback に残す", () => {
-    const result = toMemberDetailProps(samplePublicMemberProfile);
+    const profile = structuredClone(samplePublicMemberProfile);
+    profile.publicSections.push({
+      key: "interests",
+      title: "興味関心",
+      fields: [
+        {
+          stableKey: "favoriteTool",
+          label: "よく使う道具",
+          value: "Notion",
+          kind: "shortText",
+          visibility: "public",
+          source: "forms",
+        },
+      ],
+    });
+    const result = toMemberDetailProps(profile);
     expect(result.other).toEqual([
       expect.objectContaining({
         key: "interests",
         title: "興味関心",
         fields: [
           expect.objectContaining({
-            stableKey: "urlOthers",
-            value: "Podcast: https://example.com/podcast",
+            stableKey: "favoriteTool",
+            value: "Notion",
           }),
         ],
       }),
@@ -135,14 +195,28 @@ describe("toMemberDetailProps", () => {
   it("固定セクション未割当の public field が複数 section に分散しても元 section 構造を保持する", () => {
     const profile = structuredClone(samplePublicMemberProfile);
     profile.publicSections.push({
+      key: "interests",
+      title: "興味関心",
+      fields: [
+        {
+          stableKey: "favoriteTool",
+          label: "よく使う道具",
+          value: "Notion",
+          kind: "shortText",
+          visibility: "public",
+          source: "forms",
+        },
+      ],
+    });
+    profile.publicSections.push({
       key: "extra",
       title: "追加情報",
       fields: [
         {
-          stableKey: "urlOthers",
+          stableKey: "favoriteTool",
           label: "その他リンク 2",
           value: "追加リンク: https://example.com/extra",
-          kind: "paragraph",
+          kind: "shortText",
           visibility: "public",
           source: "forms",
         },
@@ -157,7 +231,7 @@ describe("toMemberDetailProps", () => {
         title: "興味関心",
         fields: [
           expect.objectContaining({
-            stableKey: "urlOthers",
+            stableKey: "favoriteTool",
           }),
         ],
       }),
@@ -166,7 +240,7 @@ describe("toMemberDetailProps", () => {
         title: "追加情報",
         fields: [
           expect.objectContaining({
-            stableKey: "urlOthers",
+            stableKey: "favoriteTool",
             value: "追加リンク: https://example.com/extra",
           }),
         ],

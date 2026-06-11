@@ -102,6 +102,8 @@ export interface ResponseSyncResult {
   readonly writeCount: number;
   readonly cursor: string | null;
   readonly durationMs: number;
+  readonly qidMapSize?: number | null;
+  readonly fullyUnmappedResponses?: number;
   readonly skippedReason?: string;
   readonly error?: string;
 }
@@ -179,6 +181,8 @@ export async function runResponseSync(
       writeCount: 0,
       cursor: null,
       durationMs: durationMs(),
+      qidMapSize: null,
+      fullyUnmappedResponses: 0,
       skippedReason: "another response sync is in progress",
     };
   }
@@ -197,8 +201,11 @@ export async function runResponseSync(
   let highWater = parseHighWaterCursor(cursor);
   const tagQueuePaused = parsePaused(env);
   const autoPublishEnabled = parseAutoPublishFlag(env);
+  let fullyUnmappedResponses = 0;
+  let qidMapSize: number | null = null;
 
   try {
+    qidMapSize = await readQidMapSize(options.client, formId);
     let nextPageToken: string | undefined;
     let stopDueToCap = false;
     let safetyCounter = 0;
@@ -222,6 +229,9 @@ export async function runResponseSync(
           tagQueuePaused,
           autoPublishEnabled,
         });
+        if (isFullyUnmappedResponse(resp)) {
+          fullyUnmappedResponses += 1;
+        }
         processed += 1;
         writes += stats.writeCount;
         highWater = maxHighWater(highWater, resp);
@@ -251,15 +261,31 @@ export async function runResponseSync(
       writeCount: writes,
       cursor,
       durationMs: durationMs(),
+      qidMapSize,
+      fullyUnmappedResponses,
       error: err instanceof Error ? err.message : String(err),
     };
   }
+
+  await emitQidMapEmptyAlert(env, {
+    jobId,
+    qidMapSize,
+    processed,
+    fullyUnmappedResponses,
+  });
+  await emitFullyUnmappedAlert(env, {
+    jobId,
+    qidMapSize,
+    processed,
+    fullyUnmappedResponses,
+  });
 
   await succeed(dbCtx, jobId, {
     cursor,
     writes,
     processed,
     writeCapHit,
+    fullyUnmappedResponses,
   });
   if (writeCapHit) {
     try {
@@ -295,6 +321,8 @@ export async function runResponseSync(
     writeCount: writes,
     cursor,
     durationMs: durationMs(),
+    qidMapSize,
+    fullyUnmappedResponses,
   };
 }
 
@@ -608,6 +636,85 @@ function estimateResponseWrites(
   // member/member_response/status ensure/consent/tag candidate の基礎 write + known fields + unknown field/diff。
   // auto-publish policy 有効時は publish_state UPDATE 用に +1 を見込む。
   return 5 + knownCount + unknownCount * 2 + (autoPublishEnabled ? 1 : 0);
+}
+
+function isFullyUnmappedResponse(resp: MemberResponse): boolean {
+  const rawAnswerCount = Object.keys(resp.rawAnswersByQuestionId).length;
+  if (rawAnswerCount === 0) return false;
+  if (Object.keys(resp.answersByStableKey).length > 0) return false;
+  return resp.unmappedQuestionIds.length >= rawAnswerCount;
+}
+
+async function readQidMapSize(
+  client: GoogleFormsClient,
+  formId: string,
+): Promise<number | null> {
+  const maybeClient = client as Partial<GoogleFormsClient>;
+  if (typeof maybeClient.getQuestionIdToStableKey !== "function") return null;
+  const qidMap = await maybeClient.getQuestionIdToStableKey(formId);
+  return Object.keys(qidMap).length;
+}
+
+async function emitQidMapEmptyAlert(
+  env: ResponseSyncEnv,
+  args: {
+    readonly jobId: string;
+    readonly qidMapSize: number | null;
+    readonly processed: number;
+    readonly fullyUnmappedResponses: number;
+  },
+): Promise<void> {
+  if (args.qidMapSize !== 0) return;
+  if (!env.SYNC_ALERTS) {
+    console.warn(
+      "[response-sync] questionIdToStableKey map is empty; SYNC_ALERTS binding is not configured",
+    );
+    return;
+  }
+  try {
+    env.SYNC_ALERTS.writeDataPoint({
+      blobs: ["response_sync_mapping_alert", "qid_map_empty"],
+      doubles: [args.qidMapSize, args.fullyUnmappedResponses, args.processed],
+      indexes: [args.jobId],
+    });
+  } catch (err) {
+    console.warn(
+      "[response-sync] mapping alert emit failed",
+      err instanceof Error ? err.message : String(err),
+    );
+  }
+}
+
+async function emitFullyUnmappedAlert(
+  env: ResponseSyncEnv,
+  args: {
+    readonly jobId: string;
+    readonly qidMapSize: number | null;
+    readonly processed: number;
+    readonly fullyUnmappedResponses: number;
+  },
+): Promise<void> {
+  if (args.processed === 0 || args.fullyUnmappedResponses !== args.processed) {
+    return;
+  }
+  if (!env.SYNC_ALERTS) {
+    console.warn(
+      "[response-sync] all responses were fully unmapped; SYNC_ALERTS binding is not configured",
+    );
+    return;
+  }
+  try {
+    env.SYNC_ALERTS.writeDataPoint({
+      blobs: ["response_sync_mapping_alert", "all_responses_unmapped"],
+      doubles: [args.qidMapSize ?? -1, args.fullyUnmappedResponses, args.processed],
+      indexes: [args.jobId],
+    });
+  } catch (err) {
+    console.warn(
+      "[response-sync] mapping alert emit failed",
+      err instanceof Error ? err.message : String(err),
+    );
+  }
 }
 
 function parseAutoPublishFlag(env: ResponseSyncEnv): boolean {

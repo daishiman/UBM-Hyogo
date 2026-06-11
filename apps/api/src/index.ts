@@ -29,6 +29,7 @@ import { adminRequestsRoute } from "./routes/admin/requests";
 import { createAdminIdentityConflictsRoute } from "./routes/admin/identity-conflicts";
 import { ctx as dbCtx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
+import { buildQuestionIdToStableKey } from "./forms/build-qid-map";
 import type { Env } from "./env";
 import {
   manualSyncRoute,
@@ -178,11 +179,7 @@ function buildFormsClient(env: FormsClientEnv): GoogleFormsClient {
           env.GOOGLE_FORM_ID ?? env.FORM_ID ?? "",
           raw.revisionId ?? "unknown",
         );
-        return Object.fromEntries(
-          rows
-            .filter((row) => row.questionId)
-            .map((row) => [row.questionId as string, row.stableKey]),
-        );
+        return buildQuestionIdToStableKey(raw, rows);
       },
     },
   );

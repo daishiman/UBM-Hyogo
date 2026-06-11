@@ -1,0 +1,8 @@
+# deprecation / config 非推奨検出 (2026-06-10)
+C4 deps.inline: OK なし
+C5 workspace: OK なし (vitest.workspace.* 不在)
+C8 第3引数オブジェクト記法: ヒットなし
+
+# 実行時 deprecation 警告:
+- 'The CJS build of Vite Node API is deprecated' のみ (上流Vite由来・vite5系から既存・本upgradeで新規発生せず)
+- vitest config 由来 (deps.inline/workspace) の警告: 0 件

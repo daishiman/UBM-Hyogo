@@ -1,0 +1,10 @@
+# vitest version parity (2026-06-10)
+$ vitest --version
+vitest/3.2.6 darwin-arm64 node-v24.15.0
+
+$ pnpm why vitest
+vitest@3.2.6
+
+$ pnpm why @vitest/coverage-v8
+@vitest/coverage-v8@3.2.6 (Found 1 version)
+lock.yaml: @vitest/coverage-v8 3.2.6(vitest@3.2.6(...)) peer 完全一致

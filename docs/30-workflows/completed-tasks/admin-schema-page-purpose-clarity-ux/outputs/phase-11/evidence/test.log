@@ -1,0 +1,13 @@
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260609-122345-wt-1
+
+ ✓ apps/web/src/components/admin/__tests__/schemaGlossary.spec.ts (2 tests) 2ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaPurposeExplainer.component.spec.tsx (1 test) 87ms
+ ✓ apps/web/app/(admin)/admin/schema/page.spec.tsx (2 tests) 101ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (29 tests) 1542ms
+
+ Test Files  4 passed (4)
+      Tests  34 passed (34)
+   Start at  14:37:15
+   Duration  3.98s (transform 472ms, setup 0ms, collect 1.58s, tests 1.73s, environment 3.41s, prepare 801ms)
+

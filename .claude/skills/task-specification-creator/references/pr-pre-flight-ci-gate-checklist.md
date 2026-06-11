@@ -434,3 +434,59 @@ git grep -nE '^(<<<<<<< |>>>>>>> |\|\|\|\|\|\|\| )' -- \
 2. pre-push hook (`scripts/hooks/*`) に同 grep gate を追加（CI 到達前にローカル fail させる）
 
 詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-049。事例: 2026-05-26 `feat/issue-247-...` PR #966。
+
+## 19. `playwright-visual-full` baseline stale fail と「bot push が CI を再走させない」罠（SP-DEVSYNC / L-DEVSYNC-128）
+
+VISUAL タスクで画面に意図的な DOM/レイアウト追加（説明 UI・カード化等）を行うと、`visual-full`(desktop/tablet/mobile) が `toHaveScreenshot(full-visual-<slug>-<viewport>.png)` で `Expected an image WxH1, received WxH2 ... ratio X different` と fail する。これは**バグでなく baseline stale**。
+
+### 一次判定（バグ vs baseline 追従）
+
+```bash
+# 失敗 job の slug とサイズ差を確認
+gh run view --job <job-id> --log | grep -E "✘|toHaveScreenshot|Expected an image"
+```
+
+- 失敗 slug が今回変更した画面と一致 かつ サイズ差（高さ増）が出ている → **意図的変更による stale**（baseline 追従が正解）
+- 手動でスナップショット PNG を編集・差し替えしない（Linux ランナーの決定論レンダリングを正本にする）
+
+### baseline 更新の正規経路（workflow_dispatch）
+
+```bash
+gh workflow run playwright-visual-baseline-update.yml -f reason="<なぜ更新が必要か>" -r <feature-branch>
+```
+
+- `--update-snapshots` で全 baseline 再生成 → `.baseline-meta.json` 更新 → **feature ブランチへ github-actions[bot] が直接 push**（`environment: visual-baseline-approval` 承認ゲートあり・owner は自動通過）。
+- `reason` 必須。
+
+### 罠1: bot push（GITHUB_TOKEN）は `pull_request` CI を再走させない
+
+- github-actions[bot] が `GITHUB_TOKEN` で push した baseline commit は再帰実行防止仕様で `pull_request` workflow を発火させない（`gh run list --commit <bot-sha>` が空）。
+- **空コミット（`git commit --allow-empty`）でも PR close→reopen でも `pull_request` 系は再走しない**（reopen は `pull_request_target` の triage のみ発火）。
+- 確実に再走させるのは**実ファイル変更を伴う通常コミット**。実運用では「dev を sync-merge して push」がそれを兼ねる（baseline 取り込みと CI 再走を同時解決）。
+- `pull_request` workflow の run は head commit でなく merge ref(`refs/pull/N/merge`) の SHA に紐づくため、状態確認は `gh run list --commit <head-sha>` でなく `gh pr view <N> --json statusCheckRollup` を使う。
+
+### 罠2: `visual-full` は dev の required check ではない
+
+```bash
+gh api repos/<owner>/<repo>/branches/dev/protection \
+  | python3 -c "import sys,json;print(json.load(sys.stdin)['required_status_checks']['contexts'])"
+# => ['ci','Validate Build','coverage-gate','lighthouse-ci','e2e-tests-coverage-gate']
+```
+
+- `visual-full` は含まれない＝fail してもマージはブロックされない（`mergeStateStatus` は required の充足で決定）。
+- 「マージブロッカーか否か」と「緑にすべきか」を分けて判断する。ユーザーが「CI 失敗を解消」と指示したら visual-full も baseline 更新で緑化する。
+
+### 罠3: `.baseline-meta.json` は `pnpm sync:resolve` 非対応（手動 union）
+
+- dev sync-merge で `apps/web/playwright/tests/visual-full/.baseline-meta.json` が `captured_at_commit_sha` / `captured_run_ids` / `last_refresh_reason` の 3 ブロックで 3-way 衝突。`sync:resolve` は `WARN unhandled conflict` として残す。
+- 手動解消: `captured_run_ids` は**和集合を時系列昇順で last 10**、`last_refresh_reason` は両意図を結合、`captured_at_commit_sha`/`captured_at` は最新タイムスタンプ側。`python3 -m json.tool` で JSON 妥当性を確認。次回 baseline-update で全面再生成されるため当面は妥当 JSON で可。
+
+### 罠4: dev の admin shell（nav）変更は admin 系 baseline を再 stale 化
+
+- dev デルタが admin 共通シェル（sidebar/nav 項目数等）を変えると、sync-merge 後に admin 系全画面の baseline が再 stale になる。feature 側で更新済みでも、admin shell を触る dev コミット取り込み後は push 後 `gh pr checks` で visual-full を再確認し、必要なら baseline-update を再実行する。
+
+### 補足: branch-sync 系の lock/log パス
+
+ワークツリーでは `.git` が file（gitdir ポインタ）なので `mkdir .git/...` は "Not a directory" で失敗。lock/log は `git rev-parse --git-common-dir` が返す共有 git dir に配置する。
+
+詳細: `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` §L-DEVSYNC-128。事例: 2026-06-10 `feat/admin-schema-diff-review-resolve-ux` PR #1197。

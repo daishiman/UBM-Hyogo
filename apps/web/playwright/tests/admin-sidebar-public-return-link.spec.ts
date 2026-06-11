@@ -176,7 +176,7 @@ const fixtureHtml = String.raw`
                 <li><a href="/admin/tags">タグキュー</a></li>
                 <li><a href="/admin/schema">スキーマ</a></li>
                 <li><a href="/admin/meetings">開催日</a></li>
-                <li><a href="/admin/requests">依頼キュー</a></li>
+                <li><a href="/admin/requests">会員からの申請</a></li>
                 <li><a href="/admin/identity-conflicts">Identity重複</a></li>
                 <li><a href="/admin/audit">監査ログ</a></li>
               </ul>

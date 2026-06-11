@@ -1,0 +1,104 @@
+{
+  "workflow_id": "admin-schema-diff-review-resolve-ux",
+  "feature": "admin-schema-diff-review-resolve-ux",
+  "status": "runtime_pending",
+  "created": "2026-06-09T19:36:00+09:00",
+  "lastUpdated": "2026-06-09T20:30:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ADMIN-SCHEMA-DIFF-REVIEW-RESOLVE-UX-001",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "standard",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "local_code_and_focused_tests_passed_staging_visual_pending",
+    "branch": "feat/admin-schema-diff-review-resolve-ux",
+    "scope": "Make the /admin/schema diff-review and stableKey-resolve interaction intuitive in the apps/web presentation layer only. Move the alias-assign form from the panel bottom to an inline expansion directly under the clicked diff card, add a page-level purpose guide and per-action contextual help, and present technical terms (stableKey/questionId/alias/resolve/backfill/recompute) with plain-Japanese primary labels and the technical name in parentheses. No API, D1 schema, Google Form, or endpoint surface changes.",
+    "canonical_root": "docs/30-workflows/admin-schema-diff-review-resolve-ux",
+    "runtime_boundary": "This wave implemented the apps/web presentation-layer UX change, focused component/unit tests, web typecheck, design-token verification, apps/api non-touch check, Phase 12 strict outputs, and aiworkflow-requirements sync. Authenticated staging visual evidence, screenshots, commit, push, and PR remain user-gated.",
+    "real_cause": "apps/web presentation-layer information-design gap. The schema-diff feature and its API contract (POST /admin/schema/aliases 200/202 branch, bulk resolve, rollback, undo, recompute) are already complete. The pain is that clicking a diff card opens the assign form at the far bottom of the panel (causality invisible), the technical vocabulary is unexplained, and there is no per-action 'what does this accomplish' help.",
+    "implementation_files": [
+      "apps/web/src/components/admin/schemaReviewTerms.ts",
+      "apps/web/src/components/admin/SchemaReviewGuide.tsx",
+      "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+      "apps/web/app/(admin)/admin/schema/page.tsx",
+      "apps/web/src/styles/globals.css"
+    ],
+    "test_files": [
+      "apps/web/src/components/admin/__tests__/schemaReviewTerms.spec.ts",
+      "apps/web/src/components/admin/__tests__/SchemaReviewGuide.spec.tsx",
+      "apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm exec vitest run apps/web/src/components/admin/__tests__/schemaReviewTerms.spec.ts apps/web/src/components/admin/__tests__/SchemaReviewGuide.spec.tsx apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx",
+      "mise exec -- pnpm verify:tokens",
+      "git diff --quiet -- apps/api"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-09T20:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification, strict Phase 12 outputs, 30-method compact evidence, and aiworkflow-requirements sync are present for the schema diff-review resolve UX task."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-09T21:50:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web SchemaDiffPanel inline assign form, SchemaReviewGuide, schemaReviewTerms, styles, and focused tests are implemented locally. Focused Vitest 36 PASS, web typecheck PASS, verify:tokens PASS, apps/api diff 0."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: authenticated staging visual evidence, screenshots, commit, push, and PR are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "name": "手動テスト", "status": "runtime_pending", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "name": "ドキュメント更新", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "PR作成", "status": "pending_user_approval", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}

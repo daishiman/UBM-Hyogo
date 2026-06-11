@@ -104,11 +104,11 @@ describe("AdminSectionError", () => {
   });
 
   it("AS-7: aria-label が '{sectionLabel} を再読み込み' 形式", () => {
-    render(<AdminSectionError sectionLabel="依頼キュー" onRetry={() => {}} />);
+    render(<AdminSectionError sectionLabel="会員からの申請" onRetry={() => {}} />);
     expect(
       screen
         .getByTestId("admin-section-error-retry")
         .getAttribute("aria-label"),
-    ).toBe("依頼キュー を再読み込み");
+    ).toBe("会員からの申請 を再読み込み");
   });
 });

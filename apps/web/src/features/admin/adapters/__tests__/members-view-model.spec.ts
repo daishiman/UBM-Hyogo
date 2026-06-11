@@ -17,6 +17,7 @@ const baseListItem = (overrides: Partial<AdminMemberListItem> = {}): AdminMember
   publishState: "public",
   isDeleted: false,
   lastSubmittedAt: "2026-05-11T00:00:00.000Z",
+  pendingRequestTypes: [],
   ...overrides,
 });
 

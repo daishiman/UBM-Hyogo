@@ -2281,3 +2281,8 @@ dev → feature の sync-merge で、取り込む dev デルタに**新規 works
 - **SP-AMCUX-C (wrapper 移動後の data-testid contract は集合保持で見る)**: UI wrapper 追加では `data-testid` 行が diff 上の削除/追加として現れる。単純な `grep '^-'` だけを AC にすると false fail になるため、削除側 ID が追加後にも存在すること、かつ focused tests が同じ ID を使えることを contract evidence にする。
 - **SP-AMCUX-D (参照あり・CSS 実体なしは参照 grep と定義 grep を分離する)**: `.tsx` の `className` 参照と `globals.css` の定義行を同じ grep 結果で数えると、定義ファイル自身のヒットを「実体あり」と誤認する。`rg "admin-timeline" apps/web/src --glob '*.tsx'` と `rg "^\\s*\\.admin-timeline" apps/web/src/styles/globals.css` を分け、参照あり・定義なしを CSS 実体化漏れとして確定する。
 - **SP-AMCUX-E (jsdom 構造検証と screenshot 視覚検証を混同しない)**: 表現層 CSS タスクでは vitest/jsdom は class 付与・見出し・人数・role などの構造 contract に限定し、余白・影・境界線・レスポンシブの視覚判定は Playwright screenshot に委譲する。Phase 11 inventory は local Playwright screenshot と staging screenshot pending を別行で管理する。
+### Implementation workflow の same-cycle local implementation gate（SP-MPFR-001）
+
+`implementation / VISUAL_ON_EXECUTION` で `apps/` / `packages/` の変更対象、テストファイル、DoD が Phase 5 に具体列挙されている場合、runtime screenshot / staging mutation / deploy が user-gated でも、ローカル実コード・focused tests・Phase 12 strict outputs・aiworkflow same-wave sync は同一サイクルで完了させる。`コード実装は後続プロンプト` という plan-only 記述は CONST_004/005 と矛盾するため、user-gated に残せるのは commit / push / PR / deploy / external mutation / runtime screenshots に限定する。
+
+適用例: `docs/30-workflows/member-profile-google-form-data-reflection/` は `schema_questions` 空による response qid map fail-silent に対し、`packages/integrations/google` の raw form fallback、`apps/api` の qid map builder、response sync alert、recovery runbook を同一サイクルで実装し、staging recovery mutation と before/after screenshots だけを user-gated に残した。

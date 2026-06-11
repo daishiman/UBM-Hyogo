@@ -1,12 +1,22 @@
 import {
   fetchTagMaster,
   type AdminTagRef,
+  parseTagErrorCode,
+  TagCreateError,
   type FetchTagMasterOptions,
   type TagMasterPage,
 } from "./members";
 import { AuthRequiredError } from "../../../lib/fetch/errors";
+import type { TagDefinitionItem } from "../../../components/admin/tagCatalogLifecycle";
 
 export type { AdminTagRef, FetchTagMasterOptions, TagMasterPage };
+export { TagCreateError, parseTagErrorCode };
+
+export type AdminTagCreateInput = {
+  readonly code: string;
+  readonly label: string;
+  readonly category: string;
+};
 
 export type AdminTagUpdateInput = {
   readonly code?: string;
@@ -78,6 +88,35 @@ export async function updateTag(
     throw new TagUpdateError(res.status, parseTagUpdateErrorCode(bodyText), bodyText);
   }
   return (await res.json()) as AdminTagRef;
+}
+
+export async function createTag(input: AdminTagCreateInput): Promise<TagDefinitionItem> {
+  const res = await fetch("/api/admin/tags", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(input),
+    credentials: "same-origin",
+  });
+  if (res.status === 401) {
+    throw new AuthRequiredError();
+  }
+  if (!res.ok) {
+    const bodyText = await res.text().catch(() => "");
+    throw new TagCreateError(res.status, parseTagErrorCode(bodyText), bodyText);
+  }
+  const json = (await res.json()) as AdminTagRef & { active?: boolean | number };
+  return {
+    tagId: json.tagId,
+    code: json.code,
+    label: json.label,
+    category: json.category,
+    active:
+      typeof json.active === "boolean"
+        ? json.active
+        : typeof json.active === "number"
+          ? json.active !== 0
+          : true,
+  };
 }
 
 export { fetchTagMaster };

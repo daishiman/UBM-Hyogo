@@ -1,0 +1,16 @@
+# dev sync: 4 コミット取込（behind 4 / ahead 2）で **skill index union 4 + keywords.json `--ours`**・実 content conflict 0・CI fail 0（2026-06-10 feat/admin-schema-history-purpose-and-filter-fix）
+
+- 日時: 2026-06-10（`feat/admin-schema-history-purpose-and-filter-fix` への dev 取込・sub-worktree task-20260609-184646-wt-4）
+- ブランチ: `feat/admin-schema-history-purpose-and-filter-fix` ← `dev`（**4 behind / 2 ahead**・ローカル dev = origin/dev `78df4dea0` で `0/0` 同期済み → ff 不要・dev 独自コミット 0）
+- 起点: ユーザー指示「リモート dev をローカル dev にマージ → 本ブランチにマージし conflict・CI fail を解消して push、解消内容を `task-specification-creator` / `aiworkflow-requirements` skill へ反映」。スコープ = 現在 WT・現在ブランチのみ（`--all-worktrees` / `--target-worktrees` フラグ不在ゆえ単一スコープ S-SUB 自動確定）。
+- 取込: dev 新規 4 コミット = `78df4dea0`(#1194 /profile セッション取得失敗を 410/5xx/transport に切り分ける観測性向上) / `38f114081`(#1185 開催日ドロワー出席追加を複数会員同時選択→一括追加に是正) / `da55dd22f`(#1179 /members タグ絞り込み UI/UX 整形 flex-wrap + 選択強調) / `35f11255d`(#1187 メンバー詳細 tag source 500 fail-soft 正規化 + 再試行導線)。
+- 事象: `git merge dev --no-edit` で **5 ファイル CONFLICT**（全 skill index/生成物系）:
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - `.claude/skills/aiworkflow-requirements/indexes/keywords.json`（`--ours` + rebuild）
+  - → `pnpm sync:resolve`（`union-resolving 4 files` + `taking --ours for 1 derived file` + `pnpm indexes:rebuild`）で **全自動解消**（残 unmerged 0・マーカー 0・drift 0・冪等）。`apps/web` / `apps/api` の content conflict は **0 件**（dev 側 apps 変更 4 件と feature 側 ahead 2 件 = `/admin/schema/history` 目的明確化 + batchId 絞り込み ZodError 根治 + カード化が触る領域と分離していたため自動マージで衝突せず）。
+- 検証順: `git fetch --prune origin`（dev = origin/dev `78df4dea0` 0/0 同期済み）→ `git rev-list --left-right --count origin/dev...HEAD` = 4/2 → `git merge dev --no-edit` CONFLICT 5（index 系のみ）→ `pnpm sync:resolve`（union 4 + keywords `--ours` + rebuild 冪等・WARN unhandled 0 = 手動委譲なし）→ `git add -A && git commit --no-edit` merge commit `e8a76f20b`（lefthook pre-commit 全 pass: main-branch-guard / block-test-suffix / staged-task-dir-guard auto-skip(MERGE_HEAD) / block-stable-key-update）→ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0（depcruise 0 violation・eslint OK・verify-no-inline-style OK）/ `pnpm indexes:rebuild` 冪等 drift 0（5505 キーワード）。**CI コード修正なしで全緑**。
+- **核心データポイント**: 同一 feature が skill index/reference の生成物 4 ファイルすべて（quick-reference + resource-map + topic-map + task-workflow-active）を touch していた wave では union member が 4 に膨らみ、さらに keywords.json も両側 rebuild で `--ours` フォールバック発火する。直前 profile-session wave（同 behind 5 で union 2・keywords Auto-merge）と比べ **behind は減ったのに union member は増え keywords `--ours` も発火**＝union member 件数・keywords の `--ours`/Auto-merge は behind 数に単調でなく、feature 側が生成物索引のどれを同一行域で touch したかだけで決まる（L-DEVSYNC-116-B/117-B 確定データ拡張）。`apps/**` content conflict 0 は feature 側 ahead 2（apps/web 表現層 `/admin/schema/history`）と dev 側 apps 4 コミットの触領域分離による（「feature 側 skill のみ衝突＝apps 領域分離なら content conflict 0」則の再実証）。
+- 反映先: 本 changelog + task-specification-creator 側ミラー changelog + 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避で起こさず既存 sync:resolve 委譲境界則の確定データ拡張として記録。
