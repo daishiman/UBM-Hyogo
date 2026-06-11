@@ -2,33 +2,34 @@
 // 不変条件: #1 (stableKey 互換 enum のみ), #6 (browser-storage 不採用), #8 (URL query 正本)
 // AC-3, AC-4, AC-5, AC-6 の根拠実装。
 
+import {
+  PUBLIC_MEMBER_DENSITY_VALUES,
+  PUBLIC_MEMBER_SEARCH_LIMITS,
+  PUBLIC_MEMBER_SORT_VALUES,
+  PUBLIC_MEMBER_STATUS_VALUES,
+  PUBLIC_MEMBER_ZONE_VALUES,
+  normalizePublicMemberQ,
+  normalizePublicMemberTags,
+} from "@ubm-hyogo/shared/public-search";
 import { z } from "zod";
-
-const ZONE_VALUES = ["all", "0_to_1", "1_to_10", "10_to_100"] as const;
-const STATUS_VALUES = ["all", "member", "non_member", "academy"] as const;
-const SORT_VALUES = ["recent", "name"] as const;
-const DENSITY_VALUES = ["comfy", "dense", "list"] as const;
-
-const TAG_LIMIT = 5;
-const Q_LIMIT = 200;
 
 const QSchema = z
   .string()
-  .transform((s) => s.trim().replace(/\s+/g, " ").slice(0, Q_LIMIT))
+  .transform((s) => normalizePublicMemberQ(s))
   .catch("");
 
 const TagSchema = z
   .array(z.string().min(1))
-  .transform((arr) => Array.from(new Set(arr)).slice(0, TAG_LIMIT))
+  .transform((arr) => normalizePublicMemberTags(arr))
   .catch([]);
 
 export const membersSearchSchema = z.object({
   q: QSchema,
-  zone: z.enum(ZONE_VALUES).catch("all"),
-  status: z.enum(STATUS_VALUES).catch("all"),
+  zone: z.enum(PUBLIC_MEMBER_ZONE_VALUES).catch("all"),
+  status: z.enum(PUBLIC_MEMBER_STATUS_VALUES).catch("all"),
   tag: TagSchema,
-  sort: z.enum(SORT_VALUES).catch("recent"),
-  density: z.enum(DENSITY_VALUES).catch("comfy"),
+  sort: z.enum(PUBLIC_MEMBER_SORT_VALUES).catch("recent"),
+  density: z.enum(PUBLIC_MEMBER_DENSITY_VALUES).catch("comfy"),
 });
 
 export type MembersSearch = z.infer<typeof membersSearchSchema>;
@@ -76,6 +77,6 @@ export function toApiQuery(search: MembersSearch): URLSearchParams {
 }
 
 export const MEMBERS_SEARCH_LIMITS = {
-  TAG_LIMIT,
-  Q_LIMIT,
+  TAG_LIMIT: PUBLIC_MEMBER_SEARCH_LIMITS.TAG_LIMIT,
+  Q_LIMIT: PUBLIC_MEMBER_SEARCH_LIMITS.Q_LIMIT,
 } as const;
