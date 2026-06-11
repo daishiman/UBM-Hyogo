@@ -13,6 +13,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
 | user gate | apps/web implementation execution, screenshot capture after implementation, staging visual baseline, commit, push, PR |
 
+## admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-members-timestamp-jst-and-identity-label-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/members` の最終更新列を JST 秒付き表記へ変更し、MemberDrawer の IDENTITY / DIAGNOSTICS を日本語ラベル主・英語キー併記へ変更する |
+| implementation | `apps/web/src/lib/format/datetime.ts`, `apps/web/src/features/admin/components/_members/memberSystemFieldGlossary.ts`, `MembersTable.tsx`, `MemberDrawer.tsx`, `MemberDiagnosticsPanel.tsx` |
+| evidence | focused Vitest 5 files / 41 tests PASS; local Playwright fixture 1 test PASS; local screenshots 3 PNG present |
+| invariant | apps/api / D1 migration / Google Form schema / endpoint surface / shared response schema unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, staging deploy, commit, push, PR |
+
 ## issue-222-search-query-parser-shared（2026-06-10）
 
 | 項目 | 値 |
