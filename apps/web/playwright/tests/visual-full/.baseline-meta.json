@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "880ed07d4e23ea1778052fcf98efe72453be4d5b",
-  "captured_at": "2026-06-10T14:34:30Z",
+  "captured_at_commit_sha": "5064d5d9541bd382a157c1748dc00a203f2b857b",
+  "captured_at": "2026-06-11T01:30:45Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "26889102142",
     "27050525423",
     "27052918274",
     "27179703910",
@@ -13,7 +12,8 @@
     "27253086349",
     "27257083636",
     "27276848458",
-    "27282985575"
+    "27282985575",
+    "27317315197"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "PR #1197 × dev #1186 マージ後、/admin/schema が SchemaPurposeExplainer(dev) + SchemaReviewGuide(feature) の両方を描画。採用した dev 側 admin-schema baseline は SchemaReviewGuide 分の高さ未反映で stale のため、統合後の現行描画へ全 baseline を再生成"
+  "last_refresh_reason": "admin-audit をカード型タイムライン化したことで画面高さが増加（mobile 1186→2211px 等）。本ブランチの正当な実装変更に対し visual-full baseline が旧実装のままのため再生成する"
 }
