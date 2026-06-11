@@ -4,7 +4,7 @@
 
 import type { NextRequest } from "next/server";
 
-import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "@/lib/env";
+import { getAuthEnv, getEnvironmentResolution, getTransportRuntimeIsTest } from "@/lib/env";
 import { fetchViaApiTransport, resolveApiFetch } from "@/lib/fetch/transport";
 
 export async function GET(req: NextRequest): Promise<Response> {
@@ -15,11 +15,13 @@ export async function GET(req: NextRequest): Promise<Response> {
   const headers: Record<string, string> = {};
   if (ip) headers["cf-connecting-ip"] = ip.split(",")[0]?.trim() ?? ip;
   const env = getAuthEnv();
+  const environment = getEnvironmentResolution();
   const res = await fetchViaApiTransport(
     resolveApiFetch({
       API_SERVICE: env.API_SERVICE,
       baseUrl: env.INTERNAL_API_BASE_URL,
-      environment: getEnvironment(),
+      environment: environment.environment,
+      environmentExplicit: environment.explicit,
       isTest: getTransportRuntimeIsTest(),
     }),
     upstreamPath,
