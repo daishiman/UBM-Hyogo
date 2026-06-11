@@ -158,7 +158,7 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
           <p className="text-sm text-[var(--ubm-color-text-secondary)]">
             会員本人がマイページから出した「公開の停止/再開」「退会」の申請を、ここで承認・却下します。
             管理者が公開/非公開をすぐ切り替える場合は
-            <Link className="link" href="/admin/members">会員管理</Link>
+            <Link className="text-[var(--ubm-color-link-default)] underline underline-offset-2" href="/admin/members">会員管理</Link>
             から操作してください。
           </p>
         </div>

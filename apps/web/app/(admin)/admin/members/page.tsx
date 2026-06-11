@@ -90,7 +90,7 @@ export default async function AdminMembersPage({
       </h1>
       <p className="rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] px-3 py-2 text-sm text-[var(--ubm-color-text-secondary)]">
         会員本人からの「公開停止/再開」「退会」の申請は
-        <Link className="link" href="/admin/requests">会員からの申請</Link>
+        <Link className="text-[var(--ubm-color-link-default)] underline underline-offset-2" href="/admin/requests">会員からの申請</Link>
         で承認します。ここでの公開/非公開トグルは管理者がすぐに切り替えるための操作です。
       </p>
       {result.ok ? (
