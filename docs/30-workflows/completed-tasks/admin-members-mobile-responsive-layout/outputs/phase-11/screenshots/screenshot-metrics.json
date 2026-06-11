@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-06-10T05:36:55.096Z",
+  "metrics": [
+    {
+      "file": "admin-members-table-mobile-card-375.png",
+      "width": 375,
+      "height": 812,
+      "bodyScrollWidth": 375,
+      "documentScrollWidth": 375,
+      "viewportWidth": 375,
+      "theadDisplay": "block",
+      "firstRowDisplay": "grid",
+      "overflowPass": true
+    },
+    {
+      "file": "admin-members-table-mobile-card-640.png",
+      "width": 640,
+      "height": 844,
+      "bodyScrollWidth": 640,
+      "documentScrollWidth": 640,
+      "viewportWidth": 640,
+      "theadDisplay": "block",
+      "firstRowDisplay": "grid",
+      "overflowPass": true
+    },
+    {
+      "file": "admin-members-table-desktop-table-1280.png",
+      "width": 1280,
+      "height": 800,
+      "bodyScrollWidth": 1280,
+      "documentScrollWidth": 1280,
+      "viewportWidth": 1280,
+      "theadDisplay": "table-header-group",
+      "firstRowDisplay": "table-row",
+      "overflowPass": true
+    }
+  ]
+}
