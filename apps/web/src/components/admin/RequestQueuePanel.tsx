@@ -5,6 +5,7 @@
 // 不変条件 #4 / #5 / #11: D1 直接アクセスは行わず、admin gate 配下の proxy 経由で
 // `/admin/requests/:noteId/resolve` を呼ぶ。HTML5 <dialog> による二段確認を使う。
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { resolveAdminRequest } from "../../lib/admin/api";
 import { EmptyState } from "../ui/EmptyState";
@@ -102,7 +103,7 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
       setToast(`処理に失敗しました: ${e instanceof Error ? e.message : "unknown error"}`);
       return;
     }
-    setToast(kind === "approve" ? "依頼を承認しました" : "依頼を却下しました");
+    setToast(kind === "approve" ? "申請を承認しました" : "申請を却下しました");
     setItems((prev) => {
       const next = prev.filter((item) => item.noteId !== targetItem.noteId);
       setSelectedId(next[0]?.noteId ?? null);
@@ -142,8 +143,8 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
   const destructiveMessage =
     dialogKind === "approve" && dialogItem
       ? dialogItem.noteType === "delete_request"
-        ? "退会依頼を承認すると、当該会員は論理削除されます（公開ディレクトリから削除）。この操作は取り消しできません。"
-        : "公開状態を依頼内容に応じて変更します。会員へ即時反映されます。"
+        ? "退会申請を承認すると、当該会員は論理削除されます（公開ディレクトリから削除）。この操作は取り消しできません。"
+        : "公開状態を申請内容に応じて変更します。会員へ即時反映されます。"
       : undefined;
 
   return (
@@ -151,7 +152,17 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
       aria-labelledby={showHeading ? "admin-requests-h" : "admin-requests-filter-h"}
       className="stack-lg"
     >
-      {showHeading ? <h1 id="admin-requests-h">依頼キュー</h1> : null}
+      {showHeading ? (
+        <div className="stack-sm">
+          <h1 id="admin-requests-h">会員からの申請</h1>
+          <p className="text-sm text-[var(--ubm-color-text-secondary)]">
+            会員本人がマイページから出した「公開の停止/再開」「退会」の申請を、ここで承認・却下します。
+            管理者が公開/非公開をすぐ切り替える場合は
+            <Link className="text-[var(--ubm-color-link-default)] underline underline-offset-2" href="/admin/members">会員管理</Link>
+            から操作してください。
+          </p>
+        </div>
+      ) : null}
       <div className="card card-pad">
         <h2 id="admin-requests-filter-h" className="h-section visually-hidden">
           依頼種別
@@ -168,11 +179,11 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
 
       <div className="admin-requests-grid">
         <div className="card card-pad-lg">
-          <h3 className="h-card">依頼一覧</h3>
-          <ul aria-label="依頼一覧">
+          <h3 className="h-card">申請一覧</h3>
+          <ul aria-label="申請一覧">
             {items.length === 0 && (
               <li>
-                <EmptyState title="未処理の依頼はありません" />
+                <EmptyState title="未処理の申請はありません" />
               </li>
             )}
             {items.map((it) => (
@@ -210,8 +221,8 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
           hasNext={Boolean(initial.nextCursor)}
           onPrev={() => {}}
           onNext={onNextPage}
-          nextLabel="次の依頼ページ"
-          nextAriaLabel="次の依頼ページ"
+          nextLabel="次の申請ページ"
+          nextAriaLabel="次の申請ページ"
         />
       )}
 

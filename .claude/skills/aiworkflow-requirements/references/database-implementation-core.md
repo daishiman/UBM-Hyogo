@@ -304,6 +304,8 @@ Turso の Embedded Replicas は、ローカルの SQLite ファイルとクラ�
 | #10 | schema cron は 1 日 1 回に制限する |
 | #14 | schema 変更の人手解決は `/admin/schema` 系 workflow（後続 06c/07b）へ集約する |
 
+2026-06-10 の `member-profile-google-form-data-reflection` 以後、response sync は `schema_questions` が空または一部欠落していても live Google Form item title から `deriveStableKey` で fallback qid map を構築する。`schema_questions` rows が存在する場合は schema rows を優先し、raw fallback は fail-silent 回避の安全網として扱う。D1 schema は変更しない。
+
 ### Schema Alias Resolution Contract（issue-191 / 07b wiring）
 
 `issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring` で、07b alias assignment workflow の正本書き込み先を

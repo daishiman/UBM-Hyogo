@@ -1,0 +1,69 @@
+{
+  "title": "member-profile-google-form-data-reflection",
+  "type": "implementation",
+  "status": "implemented_local_runtime_pending",
+  "feature": "member-profile-google-form-data-reflection",
+  "created": "2026-06-10",
+  "lastUpdated": "2026-06-10",
+  "branch": "fix/member-profile-google-form-data-reflection",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "relatedIssue": null,
+    "scope": "Google Form 入力済み会員情報が公開メンバー詳細ページに全く反映されない問題の調査と恒久修正の実装仕様書（Phase 1-13）。3 Lane: (A) questionId->stableKey 解決を deriveStableKey の raw form fallback で schema_questions 非依存化 (B) response sync の fail-silent 検知ガード（qidMap 空 / 全 unmapped を warning + SYNC_ALERTS、sync は非中断） (C) 復旧 runbook + 診断。",
+    "workflow_state": "implemented_local_runtime_pending",
+    "investigationConclusion": "staging ubm-hyogo-db-staging の schema_questions テーブルが空（0 行）であることが根本原因。response sync の questionIdToStableKey map（apps/api/src/index.ts:175）が listFieldsByVersion(revisionId) で schema_questions を引くが空のため常に空 map を返し、mapFormResponse で全 questionId が unmapped になる。結果 member_responses.answers_json='{}'、response_fields は全 16 件が __extra__:<qid>（known stableKey 0 件）となり、公開詳細 API の visibility lookup も空で全フィールドが skip され全項目空表示。エラーを出さず成功扱いで終わる fail-silent。会員の生回答自体は D1 に届いている（raw 16 件）。対象メンバー b0db428f-7dc0-4898-83f5-df31c7a04d69、revision_id=00000006 で staging 実データ確認済み（2026-06-10）。",
+    "userGated": [
+      "staging での schema sync / response sync fullSync 実行（復旧 mutation）",
+      "staging authenticated runtime screenshot capture（Phase 11 before/after 視覚証跡）",
+      "commit",
+      "push",
+      "PR creation",
+      "deploy"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/phase-3.md",
+        "approver": "daishiman",
+        "notes": "design_review: Phase 1-3（要件定義・設計・設計レビュー）完了。真因 staging 実データ確定、3 Lane 設計、simpler alternative 検討、MINOR 追跡。Phase 4 進行可（gate PASS）。"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-10T00:18:34Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/phase-12.md",
+        "approver": "daishiman",
+        "notes": "implementation: Lane A/B/C をローカル実装済み。stableKey fallback、fully-unmapped alert、復旧 runbook、focused tests、api/integrations typecheck が完了。"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR / staging 復旧 mutation / runtime screenshot / deploy はすべて user 明示承認後のみ。"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "Requirements", "file": "phase-1.md", "status": "completed" },
+    "phase-2": { "name": "Design", "file": "phase-2.md", "status": "completed" },
+    "phase-3": { "name": "Design Review", "file": "phase-3.md", "status": "completed" },
+    "phase-4": { "name": "Test Creation", "file": "phase-4.md", "status": "completed" },
+    "phase-5": { "name": "Implementation", "file": "phase-5.md", "status": "completed" },
+    "phase-6": { "name": "Test Expansion", "file": "phase-6.md", "status": "completed" },
+    "phase-7": { "name": "Coverage Check", "file": "phase-7.md", "status": "completed" },
+    "phase-8": { "name": "Refactoring", "file": "phase-8.md", "status": "completed" },
+    "phase-9": { "name": "Quality Assurance", "file": "phase-9.md", "status": "completed" },
+    "phase-10": { "name": "Final Review", "file": "phase-10.md", "status": "completed" },
+    "phase-11": { "name": "Manual Test", "file": "phase-11.md", "status": "runtime_pending_user_gate" },
+    "phase-12": { "name": "Documentation", "file": "phase-12.md", "status": "completed" },
+    "phase-13": { "name": "PR Creation", "file": "phase-13.md", "status": "pending_user_approval" }
+  }
+}

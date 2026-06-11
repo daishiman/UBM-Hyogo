@@ -23,7 +23,7 @@ const ROUTES: SmokeRoute[] = [
   { path: '/admin/tags', auth: 'admin', landmark: ['main h1', 'text=タグキュー'] },
   { path: '/admin/meetings', auth: 'admin', landmark: ['main h1', 'text=開催日'] },
   { path: '/admin/schema', auth: 'admin', landmark: ['main h1', '[data-page="admin-schema"]'] },
-  { path: '/admin/requests', auth: 'admin', landmark: ['main h1', 'text=依頼キュー'] },
+  { path: '/admin/requests', auth: 'admin', landmark: ['main h1', 'text=会員からの申請'] },
   { path: '/admin/identity-conflicts', auth: 'admin', landmark: ['main h1'] },
   { path: '/admin/audit', auth: 'admin', landmark: ['main h1', '[data-component="admin-audit"]'] },
   { path: '/__not_found_canary', auth: 'public', landmark: ['[data-testid="not-found"]'], expectedStatus: 404 },

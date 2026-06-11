@@ -1,0 +1,12 @@
+{
+  "taskId": "admin-schema-diff-review-resolve-ux",
+  "mode": "local Playwright fixture",
+  "status": "captured",
+  "capturedAt": "2026-06-10T00:35:17.588Z",
+  "screenshots": [
+    "schema-review-guide-default.png",
+    "schema-diff-card-collapsed.png",
+    "schema-diff-card-inline-form-expanded.png",
+    "schema-assign-help-visible.png"
+  ]
+}

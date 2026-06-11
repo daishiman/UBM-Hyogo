@@ -349,6 +349,23 @@ export const buildSeedSql = (catalog: TestAccountsCatalog = testAccountsCatalog)
         ]),
     ),
     buildInsert(
+      "admin_member_notes",
+      ["note_id", "member_id", "body", "created_by", "updated_by", "created_at", "updated_at", "note_type", "request_status", "resolved_at", "resolved_by_admin_id"],
+      catalog.requests.map((request) => [
+        sqlString(request.noteId),
+        sqlString(request.memberId),
+        `json_object('reason', ${sqlString(request.reason)}, 'payload', json(${sqlJson(request.payload)}))`,
+        sqlString(TEST_ACCOUNT_ACTOR),
+        sqlString(TEST_ACCOUNT_ACTOR),
+        sqlString(catalog.submittedAt),
+        sqlString(catalog.submittedAt),
+        sqlString(request.noteType),
+        sqlString("pending"),
+        "NULL",
+        "NULL",
+      ]),
+    ),
+    buildInsert(
       "admin_users",
       ["admin_id", "email", "display_name", "active", "created_at"],
       catalog.admins.map((admin) => [
@@ -373,6 +390,7 @@ export const buildCleanupSql = (catalog: TestAccountsCatalog = testAccountsCatal
     `DELETE FROM member_photos WHERE member_id IN (${memberIds});`,
     `DELETE FROM member_attendance WHERE member_id IN (${memberIds}) OR session_id IN (${meetingIds});`,
     `DELETE FROM member_tags WHERE member_id IN (${memberIds});`,
+    `DELETE FROM admin_member_notes WHERE note_id LIKE 'TEST-NOTE-%';`,
     `DELETE FROM deleted_members WHERE member_id IN (${memberIds});`,
     `DELETE FROM member_field_visibility WHERE member_id IN (${memberIds});`,
     `DELETE FROM member_status WHERE member_id IN (${memberIds});`,

@@ -1,0 +1,11 @@
+{
+  "taskId": "TASK-MEMBER-FORM-DATA-REFLECTION-001",
+  "mode": "VISUAL",
+  "status": "pending_implementation",
+  "capturedAt": null,
+  "reason": "spec_created。コード実装・staging 復旧 mutation・authenticated runtime screenshot capture はすべて user-gated。本タスク（仕様書作成）では capture を実行しない。",
+  "screenshots": [
+    { "name": "member-detail-before-recovery.png", "tc": "TC-VIS-01", "captured": false },
+    { "name": "member-detail-after-recovery.png", "tc": "TC-VIS-02", "captured": false }
+  ]
+}

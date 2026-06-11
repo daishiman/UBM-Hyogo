@@ -1,0 +1,262 @@
+{
+  "workflow_id": "admin-requests-queue-rename-and-publish-dependency",
+  "feature": "admin-requests-queue-rename-and-publish-dependency",
+  "parent_workflow": null,
+  "status": "runtime_pending",
+  "created": "2026-06-09T14:30:00+09:00",
+  "lastUpdated": "2026-06-09T14:30:00+09:00",
+  "metadata": {
+    "taskId": "TASK-ADMIN-REQUESTS-QUEUE-RENAME-AND-PUBLISH-DEPENDENCY",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "standard",
+    "implementationDomain": "admin-web-requests-queue-and-member-publish-dependency",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "local_implementation_complete_staging_runtime_pending",
+    "relatedIssue": null,
+    "issue_state": null,
+    "spec_only": false,
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "bash scripts/seed-test-accounts.sh --env staging --action apply",
+      "git commit",
+      "git push",
+      "gh pr create --base dev"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "mise exec -- pnpm --filter @ubm-hyogo/api test --run src/testing/test-accounts src/routes/admin/members.contract.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/shared test --run src/zod/viewmodel.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/web test --run src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx src/components/admin/__tests__/RequestQueueDetail.spec.tsx src/features/admin/components/__tests__/MembersTable.spec.tsx",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/shared typecheck",
+      "mise exec -- pnpm seed:test-accounts:gen -- --check",
+      "mise exec -- pnpm lint",
+      "rg -n \"bg-\\[#|text-\\[#|#[0-9a-fA-F]{6}\" apps/web/src/components/admin apps/web/src/features/admin/components apps/web/app/'(admin)'/admin"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-<timestamp>.md",
+    "scope": "Keep (do NOT delete) the admin requests queue (/admin/requests) and make it self-explanatory that it is the place where MEMBER-INITIATED requests (公開停止/再開 = visibility_request, 退会 = delete_request, submitted by the member from /me/visibility-request and /me/delete-request) are approved/rejected by an admin, which is a DIFFERENT axis from the admin-initiated immediate publish toggle in 会員管理 (/admin/members PATCH /admin/members/:id/status). Three lanes, all completable in one implementation cycle: (A) SEED — add 3 pending requests (1 visibility_request desiredState=hidden on a currently-public TEST member, 1 visibility_request desiredState=public on a currently-hidden TEST member, 1 delete_request on a currently-undeleted TEST member) to existing TEST-MEM accounts via apps/api/src/testing/test-accounts/catalog.ts + build-seed-sql.ts, regenerate committed test-accounts-seed.sql / test-accounts-cleanup.sql (note_id TEST-NOTE-V01/V02/D01, created_by seed:test-accounts), so staging shows live rows in the requests queue. (B) RENAME + ROLE CLARITY — change ONLY human-readable display text + aria-labels: sidebar nav / page title / panel h1 / breadcrumb (ja) / 依頼一覧 / 依頼詳細 / empty-state from 依頼キュー family to 会員からの申請 / 申請一覧 / 申請詳細; add explanatory copy distinguishing member-initiated approval from admin-initiated immediate toggle; add a cross-link to 会員管理. Route path /admin/requests, API paths, component file names, ids, data-* attributes and test selectors stay UNCHANGED. (C) MEMBER MGMT 申請中 BADGE + CROSS-LINK + API — add a correlated subquery to GET /members projecting pendingRequestTypes (json_group_array(DISTINCT note_type) where request_status='pending'), extend AdminMemberListViewZ member item with pendingRequestTypes: string[] and mirror the web zod; render a 申請中 badge on member rows that have a pending request, linking to /admin/requests?type=<noteType>; add an explanatory line + cross-link on 会員管理 page. No new endpoint, no D1 schema change (admin_member_notes already exists; seed-only), apps/web never touches D1 directly, OKLch tokens only (no HEX). Out of scope (Q4 not selected): GET /api/admin/members/TEST-MEM-01 500 fix, approval before->after publish-state diff display — recorded as Phase 12 baseline candidates only.",
+    "canonical_root": "docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency",
+    "runtime_boundary": "Lane A/B/C are implemented locally and verified with API/shared/web tests, typecheck, lint, seed drift guard, and HEX token grep. Staging seed apply, authenticated runtime screenshots, commit, push, and PR remain user-gated Phase 13 operations.",
+    "decision_log": [
+      "Q1 機能の扱い = 存続+役割明確化 (do not delete)",
+      "Q2 新名称 = 会員からの申請",
+      "Q3 テスト依頼 seed = 既存 TEST 会員に依頼を紐付け",
+      "Q4 依存関係可視化 = 会員管理に申請中バッジ + 相互リンク+説明文 (500 fix / before->after diff は非選択=スコープ外)"
+    ],
+    "implementation_files": [
+      "apps/api/src/testing/test-accounts/catalog.ts",
+      "apps/api/src/testing/test-accounts/build-seed-sql.ts",
+      "apps/api/migrations/seed/test-accounts-seed.sql",
+      "apps/api/migrations/seed/test-accounts-cleanup.sql",
+      "apps/api/src/routes/admin/members.ts",
+      "packages/shared/src/zod/viewmodel.ts",
+      "packages/shared/src/types/viewmodel/index.ts",
+      "packages/contracts/src/admin.mjs",
+      "apps/web/app/(admin)/admin/requests/page.tsx",
+      "apps/web/app/(admin)/admin/members/page.tsx",
+      "apps/web/src/components/admin/RequestQueuePanel.tsx",
+      "apps/web/src/components/admin/RequestQueueDetail.tsx",
+      "apps/web/src/components/admin/RequestConfirmDialog.tsx",
+      "apps/web/src/components/shell/shell-config.ts",
+      "apps/web/src/features/admin/components/_members/MembersTable.tsx",
+      "docs/00-getting-started-manual/specs/11-admin-management.md",
+      "docs/00-getting-started-manual/specs/01-api-schema.md",
+      ".claude/skills/aiworkflow-requirements/references/ui-ux-admin-dashboard.md",
+      ".claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
+      ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+      ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+      ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+      ".claude/skills/aiworkflow-requirements/SKILL-changelog.md",
+      ".claude/skills/aiworkflow-requirements/LOGS/_legacy.md"
+    ],
+    "test_files": [
+      "apps/api/src/testing/test-accounts/__tests__/build-seed-sql.spec.ts",
+      "apps/api/src/routes/admin/members.contract.spec.ts",
+      "packages/shared/src/zod/viewmodel.spec.ts",
+      "apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx",
+      "apps/web/src/components/admin/__tests__/RequestQueueDetail.spec.tsx",
+      "apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx",
+      "apps/web/src/features/admin/adapters/__tests__/members-view-model.spec.ts",
+      "apps/web/src/features/admin/components/_shared/__tests__/AdminSectionError.spec.tsx",
+      "apps/web/src/features/admin/components/_shared/__tests__/AdminSectionErrorClient.spec.tsx",
+      "apps/web/playwright/tests/full-smoke.spec.ts",
+      "apps/web/playwright/tests/admin-requests.spec.ts",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-requests-authenticated.spec.ts",
+      "apps/web/playwright/tests/admin-pageheader-task-c.spec.ts",
+      "apps/web/playwright/tests/admin-sidebar-public-return-link.spec.ts"
+    ],
+    "regression_test_files": [
+      "apps/api/src/routes/admin/requests.contract.spec.ts",
+      "apps/web/src/components/admin/__tests__/RequestQueueDetail.spec.tsx",
+      "apps/web/playwright/tests/admin-requests.spec.ts",
+      "apps/web/playwright/tests/full-smoke.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm --filter @ubm-hyogo/api test --run src/testing/test-accounts src/routes/admin/members.contract.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/shared test --run src/zod/viewmodel.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/web test --run src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx src/components/admin/__tests__/RequestQueueDetail.spec.tsx src/features/admin/components/__tests__/MembersTable.spec.tsx",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/shared typecheck",
+      "mise exec -- pnpm seed:test-accounts:gen -- --check",
+      "mise exec -- pnpm lint",
+      "rg -n \"bg-\\[#|text-\\[#|#[0-9a-fA-F]{6}\" apps/web/src/components/admin apps/web/src/features/admin/components apps/web/app/'(admin)'/admin"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-09T14:30:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/outputs/phase-3/phase-3.md",
+        "approver": "daishiman",
+        "notes": "Spec/design complete. RCA, naming map, seed data contract, GET /members pendingRequestTypes projection, badge + cross-link design, and AC-1..13 are fixed."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-09T14:30:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Local implementation gate passed. Lane A/B/C implemented; API/shared/web tests, typecheck, lint, seed drift guard, and HEX token grep passed. Authenticated screenshots remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Close-out gate. Pending: staging seed apply, authenticated screenshots, commit, push, PR. User-gated."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "status": "completed",
+      "output": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "status": "completed",
+      "output": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "output": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "output": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "output": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "output": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "outputs/phase-11/manual-test-result.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending",
+      "output": "outputs/phase-13/phase-13.md",
+      "user_approval_required": true
+    }
+  ],
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  }
+}

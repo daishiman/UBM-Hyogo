@@ -36,16 +36,16 @@ export function RequestQueueDetail({
 }: RequestQueueDetailProps) {
   if (!item) {
     return (
-      <aside aria-label="依頼詳細" className="card-flat card-pad-lg">
-        <EmptyState title="左の一覧から依頼を選択してください。" />
+      <aside aria-label="申請詳細" className="card-flat card-pad-lg">
+        <EmptyState title="左の一覧から申請を選択してください。" />
       </aside>
     );
   }
   return (
-    <aside aria-label="依頼詳細" className="card card-pad-lg">
+    <aside aria-label="申請詳細" className="card card-pad-lg">
       <article aria-labelledby="admin-request-detail-h">
         <h3 id="admin-request-detail-h" className="h-card">
-          依頼詳細
+          申請詳細
         </h3>
         <dl>
           <dt>noteId</dt>
@@ -67,7 +67,7 @@ export function RequestQueueDetail({
               <dd>{item.requestedReason}</dd>
             </>
           )}
-          <dt>依頼内容</dt>
+          <dt>申請内容</dt>
           <dd>
             <code>{summarizePayload(item.requestedPayload)}</code>
           </dd>

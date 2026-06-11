@@ -1,0 +1,10 @@
+# dev sync: `feat/admin-members-mobile-responsive-layout` ← `dev`（behind 2 / ahead 2・skill index union 4・両側 touch feature = `globals.css` のみ＝L-DEVSYNC-127 是正運用を適用し該当 vitest 6 files/78 tests 緑確定）（2026-06-11）
+
+- 日時: 2026-06-11（`feat/admin-members-mobile-responsive-layout` の dev 取込）
+- 関連: [[20260610-dev-sync-admin-schema-purpose-clarity-behind7-union1-skillmd-conflict-globals-css-only-overlap]]（**globals.css 単独 overlap の直近同型回**）/ aiworkflow-requirements 同名 changelog / `lessons-learned/dev-sync-merge-conflict-resolution.md`
+- SHA: merge-base `2c49dda42` / dev tip `03341ee80` / feature 取込前 tip `288770379` → merge commit `fe02f468a`
+- 取込デルタ（**2 behind / 2 ahead**・ローカル dev = origin/dev 0/0 同期済み・独自コミット 0）: #1195 staging テストアカウント全10件に Google Form 全31項目投入（公開詳細表示検証）/ #1186 /admin/schema 目的明確化 UI/UX（SchemaPurposeExplainer + schemaGlossary）。
+- conflict: **skill index/reference 系 4 ファイルのみ**（aiworkflow-requirements 配下 `indexes/{quick-reference,resource-map,topic-map}.md` + `references/task-workflow-active.md` の content CONFLICT）。task-spec `SKILL.md` / 配下は全て Auto-merging（**非衝突**）。`pnpm sync:resolve` 単発収束（`union-resolving 4 files` + indexes:rebuild）→ `--diff-filter=U` 0・marker 0。
+- **🔴 spec 観点の含意（gate 入力判断）**: 本回 dev 取込は **#1186 = /admin/schema 目的明確化 spec（SchemaPurposeExplainer + schemaGlossary）の実装が dev へ landed したもの**。本 feature ブランチ（会員管理モバイルカード化）とはルート/責務が独立（admin/schema vs admin/members）で **Phase 11 evidence / canonical 9 headings に相互依存なし**。両側 touch の積集合は `globals.css`（CSS）1 件のみ＝spec 由来の test SSOT 衝突なし。**merge 後に該当 spec の test が緑であることを確認する（gate 入力 = 実装済み feature の test 集合）** という L-DEVSYNC-127 是正運用を適用: schema 系 4 files + members 系 + member-detail adapter = 6 files / 78 tests 全 pass。
+- CI 検証（全緑）: `pnpm typecheck` exit 0（7 projects）/ `pnpm lint` exit 0 / design-token HEX gate = `globals.css` 0 / 該当 vitest 6 files 78 tests pass / `pnpm indexes:rebuild` 冪等（5505 kw・drift 0）。CI コード修正なしで全緑。
+- 反映先: 本 changelog（**独立ルートの spec landed を取り込む sync-merge では Phase 11/canonical heading の相互依存は生じず、両側 touch の実積集合（CSS 1 件）と該当 test 緑のみ確認すれば足りる判断則**）+ 両 SKILL-changelog.md 1 行。新規 lesson 番号は起こさず L-DEVSYNC-127 是正適用データとして記録。
