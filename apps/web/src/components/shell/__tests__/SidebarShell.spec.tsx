@@ -137,8 +137,10 @@ describe("SidebarShell", () => {
     }
 
     expect(brand?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
-    expect(navItem?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
-    expect(publicReturn?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
+    expect(navItem?.querySelector('[aria-hidden="true"]')?.className).toContain("h-[18px]");
+    expect(publicReturn?.querySelector('[aria-hidden="true"]')?.className).toContain("h-[18px]");
+    expect(navItem?.querySelector('[aria-hidden="true"]')?.className).toContain("w-10");
+    expect(publicReturn?.querySelector('[aria-hidden="true"]')?.className).toContain("w-10");
   });
 
   it("collapsed 初期値では nav list のブラウザ既定 padding を剥がす", () => {
