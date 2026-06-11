@@ -22,6 +22,73 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
 | user gate | commit、push、PR、deploy、Issue mutation |
 
+### admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| 目的 | `/admin/members` の mobile overflow を単一 table DOM + scoped CSS card 表示で解消する |
+| implementation targets | `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx`, `apps/web/playwright/tests/admin-members-mobile.spec.ts` |
+| invariant | API / D1 / Google Form / auth middleware unchanged。Desktop table layout and existing row testids remain stable |
+| evidence | focused Vitest 25 tests PASS、Playwright desktop-chromium 5 tests PASS、CSS-contract screenshots 3 PNG + metrics captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | authenticated route screenshots、staging deploy、commit、push、PR |
+
+### member-profile-google-form-data-reflection（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/` |
+| 目的 | `schema_questions` 空により Google Form 回答が全件 `__extra__:<questionId>` へ落ち、公開メンバー詳細が空表示になる fail-silent を恒久修正する |
+| implementation targets | `packages/integrations/google/src/forms/{mapper,client}.ts`, `apps/api/src/forms/build-qid-map.ts`, `apps/api/src/index.ts`, `apps/api/src/jobs/sync-forms-responses.ts` |
+| invariant | D1 schema / Google Form schema / cron / apps/web 表現層は不変。staging schema sync / response fullSync / screenshots は user-gated |
+| evidence | integrations-google focused 18 tests PASS、`build-qid-map.spec.ts` 2 PASS、`sync-forms-responses.contract.spec.ts` 34 PASS、api/integrations typecheck PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
+| user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
+
+### admin-schema-diff-review-resolve-ux（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-diff-review-resolve-ux/` |
+| 目的 | `/admin/schema` の差分レビューで stableKey alias 割当フォームをクリックカード直下に表示し、やさしい用語・目的説明で操作価値を明示する |
+| implementation targets | `apps/web/src/components/admin/schemaReviewTerms.ts`, `apps/web/src/components/admin/SchemaReviewGuide.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/src/styles/globals.css` |
+| evidence | focused Vitest 3 files / 36 tests PASS、web typecheck PASS、lint PASS、verify-design-tokens PASS、apps/api diff 0 |
+| invariant | `apps/api` / D1 schema / Google Form / endpoint surface 不変。bulk resolve / rollback / undo / recompute / HTTP 202 retryable behavior 不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、commit、push、PR |
+
+### admin-schema-history-purpose-clarity-and-filter-fix（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-history-purpose-clarity-and-filter-fix/` |
+| 目的 | `/admin/schema/history` の `appliedFilters.batchId` ZodError raw JSON 表示を根治し、目的説明 UI と ALIAS HISTORY card 表示へ整える |
+| implementation targets | `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/schemaHistoryError.ts`, `apps/web/src/lib/admin/schemaHistoryGlossary.ts`, `apps/web/src/components/admin/SchemaHistoryPurposeExplainer.tsx`, `apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/styles/globals.css` |
+| tests | `apps/web/src/lib/admin/__tests__/api.spec.ts`, `schemaHistoryError.spec.ts`, `SchemaDiffHistoryPanel.component.spec.tsx`, `SchemaHistoryPurposeExplainer.component.spec.tsx` |
+| evidence | focused Vitest 4 files / 60 tests PASS、local Playwright 2 tests PASS + screenshots 2 PNG present、web typecheck PASS、verify:tokens PASS、apps/api diff empty |
+| invariant | existing `GET /admin/audit?action=schema_diff.alias_assigned` only; apps/api / D1 / Google Form unchanged; batchId filter UI is not added |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md` |
+| user gate | staging deploy, authenticated screenshots 2, commit, push, PR |
+
+### staging-test-accounts-full-data-and-detail-verify（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`（visualEvidenceStatus = `staging_visual_pending_user_gate`・PNG 0） |
+| 成果物 | `docs/30-workflows/staging-test-accounts-full-data-and-detail-verify/` |
+| 目的 | `public-member-detail-survey-fields-richness`（`TEST-MEM-01` のみ）の continuation。10 テストアカウント全件に Google Form 31 stable_key の現実的ダミーを充填し、公開メンバー詳細 5 セクションを full / all-fields-with-blanks / edge の 3 表示パターンで検証する |
+| 基盤 | `test-accounts-seed-spec`（catalog SSOT / build-seed-sql generator / 適用 CLI / drift guard）を再利用・基盤定義は不変 |
+| implemented targets | `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts` + 各 `__tests__/*.spec.ts`、`apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql` + `__tests__/test-accounts-seed.contract.spec.ts`、`apps/web/src/lib/adapters/member-detail.ts`（**gap fix**: `urlOthers` free-text URL を `LINK_STABLE_KEYS` override + `extractFirstUrl` で links へルート）+ `__tests__/member-detail.spec.ts`、`apps/web/src/fixtures/public-member-profile.ts` |
+| invariant | 新規 API endpoint / response contract / D1 migration / Google Form schema / 公開型なし; member/admin field はデータ投入するが `member_field_visibility` で公開 view 非漏洩; web は D1 直接アクセスなし; stableKey は `STABLE_KEY` 経由; `manifest.json` は実差分なしで再生成不要 |
+| evidence | focused Vitest 5 files / 39 tests PASS、web/api typecheck PASS、lint PASS。authenticated / staging screenshots（EV-01..08）は user-gated で PNG 0 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-staging-test-accounts-full-data-and-detail-verify-artifact-inventory.md`（Lessons L-STAFDV-001..007 inline） |
+| user gate | staging D1 seed apply、authenticated / staging screenshots、commit、push、PR |
+
 ### admin-tag-definition-unify-create-and-catalog-fix（2026-06-09）
 
 | 項目 | 値 |

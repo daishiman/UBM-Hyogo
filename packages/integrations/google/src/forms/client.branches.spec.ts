@@ -44,7 +44,7 @@ describe("defaultSchemaHash / defaultQuestionIdMap (exported helpers)", () => {
     expect(a).not.toBe(b);
   });
 
-  it("defaultQuestionIdMap maps qid → title and skips items without title or qid", () => {
+  it("defaultQuestionIdMap maps qid to derived stableKey and skips items without title or qid", () => {
     const map = defaultQuestionIdMap({
       formId: "f",
       items: [
@@ -53,7 +53,21 @@ describe("defaultSchemaHash / defaultQuestionIdMap (exported helpers)", () => {
         { itemId: "i_3", title: "Q3", questionItem: { question: {} } }, // no qid
       ],
     } as RawForm);
-    expect(map).toEqual({ q_1: "Q1" });
+    expect(map).toEqual({ q_1: "q1" });
+  });
+
+  it("defaultQuestionIdMap resolves known Japanese labels to canonical stableKeys", () => {
+    const map = defaultQuestionIdMap({
+      formId: "f",
+      items: [
+        {
+          itemId: "i_1",
+          title: "お名前（フルネーム）",
+          questionItem: { question: { questionId: "q_1" } },
+        },
+      ],
+    } as RawForm);
+    expect(map).toEqual({ q_1: "fullName" });
   });
 });
 
@@ -99,6 +113,27 @@ describe("createGoogleFormsClient error path coverage", () => {
     const out = await client.listResponses("form_1");
     expect(out.responses).toEqual([]);
     expect(out).not.toHaveProperty("nextPageToken");
+  });
+
+  it("getQuestionIdToStableKey returns the configured qid map", async () => {
+    const fetchImpl = vi.fn(async (url) => {
+      const u = String(url);
+      if (u.includes("oauth2")) return tokenResponse();
+      return new Response(JSON.stringify(formBody), { status: 200 });
+    }) as unknown as typeof fetch;
+    const client = createGoogleFormsClient(env, {
+      fetchImpl,
+      authDeps: {
+        fetchImpl,
+        signer: { sign: async () => "jwt" },
+        now: () => 0,
+      },
+      backoff: { maxRetry: 0, sleep: async () => {} },
+      now: () => new Date("2026-04-30T00:00:00Z"),
+    });
+    await expect(client.getQuestionIdToStableKey("form_1")).resolves.toEqual({
+      q_1: "fullName",
+    });
   });
 
   it("listResponses applies pageToken and since query params via default qid map", async () => {

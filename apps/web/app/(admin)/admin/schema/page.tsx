@@ -6,6 +6,7 @@ import {
 } from "../../../../src/features/admin/components/_shared";
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { SchemaDiffPanel } from "../../../../src/components/admin/SchemaDiffPanel";
+import { SchemaReviewGuide } from "../../../../src/components/admin/SchemaReviewGuide";
 import { SchemaPurposeExplainer } from "../../../../src/components/admin/SchemaPurposeExplainer";
 import { describeSchemaStat } from "../../../../src/components/admin/schemaGlossary";
 import type {
@@ -148,7 +149,7 @@ export default async function AdminSchemaPage() {
       <AdminPageHeader
         eyebrow="ADMIN / SCHEMA"
         title="スキーマ差分のレビュー"
-        description="Google Form の設問変更を見つけ、会員データの保存先である項目キーへ対応づけます。"
+        description="Googleフォームの設問が増減・変更されたとき、新しい設問に永続的な名前をつけて、過去の回答と繋がりを保つ作業をします。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Form schema" }]}
         headingId="schema-form-h"
         actions={
@@ -163,6 +164,7 @@ export default async function AdminSchemaPage() {
       <SchemaPurposeExplainer />
       {result.ok ? (
         <>
+          <SchemaReviewGuide />
           <CurrentRevisionCard diff={result.data} />
           <SchemaDiffStatsGrid items={result.data.items} />
           <SchemaDiffPanel initial={result.data} hideInlineStats />
