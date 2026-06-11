@@ -14,17 +14,17 @@ export function SchemaAlertCard({ count }: SchemaAlertCardProps) {
     >
       <div>
         <strong className="block text-sm font-semibold text-[var(--ubm-color-warn)]">
-          スキーマ未解決: {count} 件
+          要対応のフォーム項目: {count} 件
         </strong>
         <p className="text-xs text-[var(--ubm-color-text-secondary)]">
-          alias の確定が必要なフォーム項目があります。
+          フォームの設問と、会員データの保存先との対応づけが必要です。
         </p>
       </div>
       <Link
         href="/admin/schema"
         className="text-sm font-medium text-[var(--ubm-color-warn)] hover:underline"
       >
-        schema 管理を開く →
+        フォーム項目の対応づけを開く →
       </Link>
     </div>
   );

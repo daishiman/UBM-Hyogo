@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-dashboard-jp-clarity-and-card-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-dashboard-jp-clarity-and-card-ux/` |
+| 目的 | 管理ダッシュボード `/(admin)/admin` の KPI / schema alert / zone/status distribution / recent actions を、非エンジニア運営者向けの日本語ラベルとカード型 UI へ整える |
+| implementation targets | `apps/web/src/lib/admin/dashboardGlossary.ts`, `apps/web/src/features/admin/components/_dashboard/{KpiGrid,KpiCard,SchemaAlertCard,ZoneDistribution,RecentActionsTable,StatusDistribution}.tsx`, focused component specs |
+| evidence | focused Vitest 7 files / 77 tests PASS、web typecheck PASS、web lint PASS、verify:tokens PASS、apps/api / migrations / manual specs diff empty。local `/admin` は `/login?gate=admin_required` へ 307 のため authenticated screenshot は user-gated |
+| invariant | `apps/api` / D1 schema / Google Form / shared API surface unchanged。`/admin/audit` glossary reuse は同 workflow の unassigned-task spec へ分離 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR |
+
 ### member-profile-google-form-data-reflection（2026-06-10）
 
 | 項目 | 値 |

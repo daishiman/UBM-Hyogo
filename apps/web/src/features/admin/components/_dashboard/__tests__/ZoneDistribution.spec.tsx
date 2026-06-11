@@ -24,6 +24,8 @@ describe("ZoneDistribution", () => {
     const { container } = render(<ZoneDistribution slices={slices} />);
     const items = container.querySelectorAll("li");
     expect(items.length).toBe(3);
+    expect(screen.getByText("会員分布")).toBeDefined();
+    expect(screen.queryByText("DISTRIBUTION")).toBeNull();
     expect(container.textContent).toContain("0→1");
     expect(container.textContent).toContain("立ち上げ");
     expect(container.textContent).toContain("3名");
@@ -34,6 +36,7 @@ describe("ZoneDistribution", () => {
   it("slices=undefined で placeholder のみ表示", () => {
     render(<ZoneDistribution slices={undefined} />);
     expect(screen.queryByRole("img", { name: /zone 別人数/i })).toBeNull();
+    expect(screen.getByText("会員分布")).toBeDefined();
     expect(screen.getByRole("status").textContent).toMatch(/集計対象外/);
   });
 

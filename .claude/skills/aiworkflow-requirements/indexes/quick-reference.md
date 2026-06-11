@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## admin-dashboard-jp-clarity-and-card-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-dashboard-jp-clarity-and-card-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 管理ダッシュボード `/(admin)/admin` の英語 KPI、technical schema wording、raw audit action 表示、600px 固定 status SVG を日本語・カード型 UI に是正する |
+| implementation | `dashboardGlossary.ts`, `_dashboard/{KpiGrid,KpiCard,SchemaAlertCard,ZoneDistribution,RecentActionsTable,StatusDistribution}.tsx`, focused specs |
+| evidence | focused Vitest 7 files / 77 tests PASS; web typecheck PASS; web lint PASS; verify:tokens PASS; apps/api/migrations/manual specs diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, commit, push, PR |
+
 ## member-profile-google-form-data-reflection（2026-06-10）
 
 | 項目 | 値 |

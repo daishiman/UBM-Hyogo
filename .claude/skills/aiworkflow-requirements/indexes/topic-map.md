@@ -2154,6 +2154,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L32 |
 | Unassigned tasks (filed at Phase 12 close-out) | L42 |
 
+### references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implemented Artifacts | L12 |
+| Evidence | L22 |
+| User-Gated Items | L33 |
+| Lessons Learned | L39 |
+
 ### references/workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md
 
 | セクション | 行 |
@@ -9202,23 +9212,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4252 |
-| フェーズ構造（概要） | L4261 |
-| 品質ゲート（概要） | L4292 |
-| 出力テンプレート | L4303 |
-| 実行時のコマンド・エージェント・スキル | L4326 |
-| 昇格パターン集 | L4350 |
-| Current Active / Spec Created Tasks | L4352 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4518 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4586 |
-| issue-1007-density-toggle-help-hint-hardening | L4610 |
-| issue-1079-bulk-tag-audit-batch-filter | L4623 |
-| issue-1128-audit-batchid-index-optimization | L4636 |
-| issue-998-members-publish-state-production-rollout | L4653 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4712 |
-| issue-1068-admin-tag-inline-create-ui | L4726 |
-| issue-1111-proxy-transport-util-unify | L4744 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4762 |
+| ドキュメント構成 | L4265 |
+| フェーズ構造（概要） | L4274 |
+| 品質ゲート（概要） | L4305 |
+| 出力テンプレート | L4316 |
+| 実行時のコマンド・エージェント・スキル | L4339 |
+| 昇格パターン集 | L4363 |
+| Current Active / Spec Created Tasks | L4365 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4531 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4599 |
+| issue-1007-density-toggle-help-hint-hardening | L4623 |
+| issue-1079-bulk-tag-audit-batch-filter | L4636 |
+| issue-1128-audit-batchid-index-optimization | L4649 |
+| issue-998-members-publish-state-production-rollout | L4666 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4725 |
+| issue-1068-admin-tag-inline-create-ui | L4739 |
+| issue-1111-proxy-transport-util-unify | L4757 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4775 |
 
 ### references/task-workflow-backlog-part2.md
 

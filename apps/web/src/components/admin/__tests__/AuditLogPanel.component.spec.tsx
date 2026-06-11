@@ -56,6 +56,8 @@ describe("AuditLogPanel", () => {
 
     expect(screen.queryByRole("heading", { name: "監査ログ" })).toBeNull();
     expect(screen.getByText(/2026\/05\/01/)).toBeTruthy();
+    expect(screen.getByText("出席を記録")).toBeTruthy();
+    expect(screen.getByText("開催回")).toBeTruthy();
     expect(screen.getByText("after: email, count")).toBeTruthy();
     expect(document.body.textContent).not.toContain(rawEmail);
     expect(screen.queryByRole("button", { name: /編集|削除|再実行|実行/i })).toBeNull();
@@ -97,6 +99,46 @@ describe("AuditLogPanel", () => {
 
     rerender(<AuditLogPanel values={{ limit: "50" }} data={null} error="status 500" />);
     expect(screen.getByRole("alert").textContent).toContain("status 500");
+  });
+
+  it("renders known action and target type as Japanese labels while preserving raw codes", () => {
+    render(
+      <AuditLogPanel
+        values={{ limit: "50" }}
+        data={{
+          nextCursor: null,
+          items: [
+            {
+              auditId: "audit-1",
+              actorEmail: "admin@example.com",
+              action: "admin.member.status_updated",
+              targetType: "member",
+              targetId: "member-1",
+              maskedBefore: null,
+              maskedAfter: null,
+              createdAt: "2026-04-30T15:00:00.000Z",
+            },
+            {
+              auditId: "audit-2",
+              actorEmail: "admin@example.com",
+              action: "custom.raw_action",
+              targetType: "external_system",
+              targetId: "external-1",
+              maskedBefore: null,
+              maskedAfter: null,
+              createdAt: "2026-04-30T15:01:00.000Z",
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(screen.getByText("会員の公開状態を変更").getAttribute("title")).toBe(
+      "admin.member.status_updated",
+    );
+    expect(screen.getByText("会員").getAttribute("title")).toBe("member");
+    expect(screen.getByText("custom.raw_action")).toBeTruthy();
+    expect(screen.getByText("external_system")).toBeTruthy();
   });
 
   it("renders the filter form with existing UI primitives", () => {

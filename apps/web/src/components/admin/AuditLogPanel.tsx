@@ -9,6 +9,7 @@ import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
 import { Select } from "../ui/Select";
 import { BatchIdCopyButton } from "./BatchIdCopyButton";
+import { describeAuditAction, describeTargetType } from "../../lib/admin/dashboardGlossary";
 
 export interface AuditSearchValues {
   readonly action?: string;
@@ -137,6 +138,8 @@ function AuditRow({ item }: { readonly item: AdminAuditListItem }) {
   const beforeValue = item.maskedBefore ?? item.beforeJson ?? null;
   const afterValue = item.maskedAfter ?? item.afterJson ?? null;
   const batchId = extractBatchId(item);
+  const actionLabel = describeAuditAction(item.action);
+  const targetTypeLabel = item.targetType ? describeTargetType(item.targetType) : "-";
   return (
     <tr>
       <td>
@@ -145,12 +148,14 @@ function AuditRow({ item }: { readonly item: AdminAuditListItem }) {
         <code>{item.auditId}</code>
       </td>
       <td>
-        <strong>{item.action}</strong>
+        <strong title={actionLabel === item.action ? undefined : item.action}>{actionLabel}</strong>
         <br />
         <span>{maskAuditText(item.actorEmail, "actorEmail")}</span>
       </td>
       <td>
-        <span>{item.targetType ?? "-"}</span>
+        <span title={item.targetType && targetTypeLabel !== item.targetType ? item.targetType : undefined}>
+          {targetTypeLabel}
+        </span>
         <br />
         <code>{item.targetId ?? "-"}</code>
       </td>
