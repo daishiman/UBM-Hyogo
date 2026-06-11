@@ -2813,6 +2813,13 @@
     cursor: not-allowed;
   }
 
+  .ui-search__input::-webkit-search-cancel-button,
+  .ui-search__input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
   /* === parallel-09 G9-7 focus-visible / reduced motion === */
   :focus-visible {
     outline: 2px solid var(--ubm-color-accent);

@@ -6,7 +6,7 @@ import { z } from "zod";
 
 const ZONE_VALUES = ["all", "0_to_1", "1_to_10", "10_to_100"] as const;
 const STATUS_VALUES = ["all", "member", "non_member", "academy"] as const;
-const SORT_VALUES = ["recent", "name"] as const;
+const SORT_VALUES = ["recent", "oldest", "name", "name_desc"] as const;
 const DENSITY_VALUES = ["comfy", "dense", "list"] as const;
 
 const TAG_LIMIT = 5;

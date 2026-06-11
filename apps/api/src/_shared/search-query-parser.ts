@@ -4,7 +4,7 @@
 
 import { z } from "zod";
 
-export const SortZ = z.enum(["recent", "name"]);
+export const SortZ = z.enum(["recent", "oldest", "name", "name_desc"]);
 export const DensityZ = z.enum(["comfy", "dense", "list"]);
 
 // expand whitelist。現時点で受理する値は "tags" のみ。未知値は黙って除外する。
