@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| 成果物 | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| source PR | #1177 `chore(deps-dev): bump vitest from 2.1.9 to 3.2.6`（OPEN, base `dev`, head `dependabot/npm_and_yarn/vitest-3.2.6`） |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation targets | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / affected `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged. `vitest` and `@vitest/coverage-v8` resolve to 3.2.6 together; D1 config keeps `pool: forks` and `singleFork: true` |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence present; Phase 12 strict 7 present; PR #1177 checked with `gh pr view 1177` on 2026-06-10 JST |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
 ### admin-requests-queue-rename-and-publish-dependency（2026-06-09）
 
 | 項目 | 値 |
