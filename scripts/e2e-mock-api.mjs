@@ -13,10 +13,16 @@ import { schemas, fixtures } from "../packages/contracts/src/index.mjs";
 const PORT = Number(process.env.E2E_MOCK_API_PORT ?? 8787);
 const NOW = "2026-05-09T00:00:00.000Z";
 // 会員一覧「最終更新」列の JST 秒表記を検証する e2e
-// (admin-members-timestamp-jst-identity-labels.spec.ts) は、UTC 正午 =
-// JST 21:00:00 を期待値として固定している。auth.ts フィクスチャ側と値を
-// 揃えるため、会員の lastSubmittedAt は NOW(深夜0時)ではなくこの定数を使う。
-const MEMBER_LAST_SUBMITTED_AT = "2026-05-09T12:00:00.000Z";
+// (admin-members-timestamp-jst-identity-labels.spec.ts) は mem_alpha の
+// UTC 正午 = JST「2026年5月9日 21:00:00」が一覧に一意で現れることを assert する。
+// auth.ts フィクスチャと同じく base 会員ごとに異なる日付を与え、mem_alpha の
+// 値が他会員・seed 会員(NOW=深夜0時)と重複しないようにする（重複すると
+// getByText が strict mode violation になる）。
+const MEMBER_LAST_SUBMITTED_AT = {
+  alpha: "2026-05-09T12:00:00.000Z", // → 2026年5月9日 21:00:00 (e2e の一意期待値)
+  beta: "2026-05-08T12:00:00.000Z", // → 2026年5月8日 21:00:00
+  gamma: "2026-05-07T12:00:00.000Z", // → 2026年5月7日 21:00:00
+};
 
 const primaryMember = fixtures.public.memberList.items[0];
 const publicPhotoUrl =
@@ -401,7 +407,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "public",
     isDeleted: false,
-    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT.alpha,
   },
   {
     memberId: "mem_beta",
@@ -411,7 +417,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "hidden",
     isDeleted: false,
-    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT.beta,
   },
   {
     memberId: "mem_gamma",
@@ -421,7 +427,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "member_only",
     isDeleted: false,
-    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT.gamma,
   },
 ];
 
@@ -434,7 +440,7 @@ const seedMembersAsAdmin = () => {
     rulesConsent: "consented",
     publishState: "public",
     isDeleted: m.isDeleted === true,
-    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
+    lastSubmittedAt: NOW,
   }));
 };
 
