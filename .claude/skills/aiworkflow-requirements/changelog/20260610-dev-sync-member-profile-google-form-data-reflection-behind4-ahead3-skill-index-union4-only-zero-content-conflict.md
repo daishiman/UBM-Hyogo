@@ -1,0 +1,16 @@
+# dev sync: 4 コミット取込（behind 4 / ahead 3）で **skill index union 4 件のみ**・実 content conflict 0・CI fail 0（2026-06-10 fix/member-profile-google-form-data-reflection）
+
+- 日時: 2026-06-10（`fix/member-profile-google-form-data-reflection` への dev 取込・sub-worktree task-20260609-204017-wt-9）
+- ブランチ: `fix/member-profile-google-form-data-reflection` ← `dev`（**4 behind / 3 ahead**・ローカル dev = origin/dev `d0dd40069` で `0/0` 同期済み → ff 不要・dev 独自コミット 0）
+- 起点: ユーザー指示「リモート dev をローカル dev にマージ → 本ブランチにマージし conflict・CI fail を解消して push、解消内容を skill へ反映」。スコープ = 現在 WT・現在ブランチのみ（`--all-worktrees` / `--target-worktrees` フラグ不在ゆえ単一スコープ S-SUB 自動確定）。
+- 関連: feature 側 skill index は **本タスク skill-sync で touch 済み**（member-profile-google-form-data-reflection の artifact-inventory + 手書き index quick-reference/resource-map + 生成 index topic-map/keywords 追従）ゆえ behind に対し index/reference 系のみ衝突。`lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md` の sync:resolve 委譲境界則 + task-specification-creator [[dev-sync-merge-conflict-resolution]] と対。content conflict 0 の確定則 [[20260610-dev-sync-profile-session-fetch-failure-investigation-behind5-ahead2-two-skill-index-union-only-zero-content-conflict]] の派生。
+- 取込: dev 新規 4 コミット = `d0dd40069`(#1186 /admin/schema 目的明確化UI/UX改善 SchemaPurposeExplainer + schemaGlossary) / `2c49dda42`(#1184 タグ定義UIを1画面に統合 作成UI追加 + カタログクラッシュ修正 + IA統合) / `78df4dea0`(#1194 /profile セッション取得失敗を 410/5xx/transport に切り分ける観測性向上) / `38f114081`(#1185 開催日ドロワーの出席追加を複数会員同時選択→一括追加に是正)。
+- 事象: `git merge dev --no-edit` で **4 ファイル CONFLICT**（いずれも aiworkflow-requirements の skill index/reference 系・全 union）:
+  - `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（union・手書き index）
+  - `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`（union・手書き index）
+  - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（union・生成 index）
+  - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`（union）
+  - → `pnpm sync:resolve` が union-resolve 4 + `pnpm indexes:rebuild` で **全自動解消**（残 unmerged 0・drift 0・冪等）。`apps/web` / `apps/api` の content conflict は **0 件**（dev 側の apps 変更 4 件と feature 側 ahead 3 件 = 公開メンバー詳細の raw-form fallback が触る領域が分離していたため自動マージで衝突せず）。
+- 検証順: `git fetch --prune origin`（dev = origin/dev `d0dd40069` 0/0 同期済み）→ `git rev-list --left-right --count` = behind 4 / ahead 3 → `git merge dev --no-edit` CONFLICT 4（index/reference 系のみ）→ `pnpm sync:resolve`（union 4 + rebuild 冪等・unhandled 0 = 手動委譲なし）→ `git add -A && git commit --no-edit` merge commit `25d178114`（lefthook pre-commit 全 pass: main-branch-guard / staged-task-dir-guard auto-skip(MERGE_HEAD) / block-test-suffix / block-stable-key-update）→ `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0（depcruise 0 violation・eslint OK・verify-no-inline-style OK・stablekey-lint OK）。**CI コード修正なしで全緑**。
+- **核心データポイント**: feature 側が `apps/**` を一切 touch せず skill index/reference のみ touch している場合、衝突は **skill index union に限局**する則の追加データ点。前回 profile-session（2 ファイル衝突）との差は、本タスクの skill-sync が **手書き index（quick-reference / resource-map）まで更新済み**だったため union 対象が 2 → 4 に拡大した点。手書き index も生成 index と同様 `pnpm sync:resolve` の union 対象に含まれ自動解消されることを確認（手動委譲 0）。content conflict の手動解消判断（自律判断ルール B-3 の両側併存）は今回発火せず。
+- 反映先: 本 changelog + task-specification-creator 側ミラー changelog + 両 SKILL-changelog.md 1 行。新規 lesson 番号は SSOT インフレ回避で起こさず既存 sync:resolve 委譲境界則の確定データ拡張として記録。
