@@ -4,6 +4,13 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-129: `union-resolving 2 files` = union core が SKILL.md / map を含まず 2 file まで縮小しても 1 回収束（union member は delta 依存・「core 4 固定」は誤り）
+- 2026-06-11 `docs/public-member-common-ui-card-unification-spec` ← dev（sub-worktree wt-17, feature 2 ahead / 1 behind, merge `a762c7bbb`）。取込 1 件 = dev 側 `admin-audit-log-ux-clarity-and-reduce-error-fix` の close-out。
+- `git merge dev --no-edit` の CONFLICT は **2 file**（`indexes/quick-reference.md` + `references/task-workflow-active.md` のみ）。**両 skill の `SKILL.md` / `resource-map.md` / `topic-map.md` / `keywords.json` は全て Auto-merge**＝衝突 0。`pnpm sync:resolve` 1 回（`union-resolving 2 files` + rebuild）exit 0・手動解消ゼロ。
+- How to apply: `union-resolving N files` の N は **2〜6 の全域で正常**。SP-DEVSYNC は過去に「union core 4 = SKILL.md + 3 map が安定」と記した観測があるが、それは取込 delta が毎回 SKILL.md 変更履歴表＋3 map を touch した特性に過ぎない。close-out 1 件取込のように index 登録行 2 file しか触らない場合は core が 2 まで縮む。収束判定は `all skill / index conflicts resolved` + `git ls-files -u` 0 + `pnpm indexes:rebuild` 冪等の 3 点のみで、N の下限値で異常判定しない。
+- Why: dev 側 close-out（`30-workflows/<slug>` → `completed-tasks/<slug>` 移動）は移動先 path が feature に無い新規ファイル群（A=add）ゆえ本体 0 衝突。衝突するのは close-out が quick-reference / task-workflow-active に追記した登録行だけで、これは union で機械解消できる。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-132（本 lesson の正本）。
+
 ### SP-DEVSYNC-001: SKILL.md / SKILL-changelog.md の表 conflict
 - changelog 表は append-only。HEAD と dev の追加行を**両方採用**し、`||||||| base` セクションは破棄。
 - 自動 regex（diff3 base optional）:
