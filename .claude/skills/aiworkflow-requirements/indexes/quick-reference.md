@@ -12,6 +12,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
 | user gate | runtime screenshots, staging deploy, commit, push, PR |
 
+## member-profile-google-form-data-reflection（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `schema_questions` 空で Google Form 回答が全件 unmapped になり公開メンバー詳細が空表示になる fail-silent を修正する |
+| implementation | `rawFormToStableKeyMap` fallback、API `buildQuestionIdToStableKey` merge、`GoogleFormsClient.getQuestionIdToStableKey` qidMapSize 実測、response sync `qid_map_empty` / fully-unmapped alert、recovery runbook |
+| evidence | integrations-google focused 18 PASS; build-qid-map 2 PASS; response sync contract 34 PASS; api/integrations typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
+| user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
+
 ## admin-schema-diff-review-resolve-ux（2026-06-09）
 
 | 項目 | 値 |
