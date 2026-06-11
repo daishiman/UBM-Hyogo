@@ -76,7 +76,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | `/admin/tags` | タグキュー |
 | `/admin/schema` | schema |
 | `/admin/meetings` | 開催日 |
-| `/admin/requests` | 依頼キュー |
+| `/admin/requests` | 会員からの申請 |
 | `/admin/identity-conflicts` | Identity重複 |
 | `/admin/audit` | 監査ログ |
 

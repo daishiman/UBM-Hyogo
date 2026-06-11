@@ -42,7 +42,7 @@ describe("RequestQueueDetail", () => {
       />,
     );
     expect(
-      screen.getByText("左の一覧から依頼を選択してください。"),
+      screen.getByText("左の一覧から申請を選択してください。"),
     ).toBeDefined();
   });
 

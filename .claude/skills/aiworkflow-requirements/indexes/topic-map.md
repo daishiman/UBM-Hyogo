@@ -2264,6 +2264,12 @@ node scripts/list-specs.js --topics
 | Boundary | L69 |
 | Lessons Learned | L75 |
 
+### references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L15 |
+
 ### references/workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -5579,6 +5585,20 @@ node scripts/list-specs.js --topics
 | 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
 | 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
 | 8. 不変条件 touched | L95 |
+
+### references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| state classification | L7 |
+| source | L16 |
+| root artifacts | L25 |
+| planned implementation artifacts | L35 |
+| phase 12 required artifacts | L46 |
+| invariants | L58 |
+| same-wave skill sync | L65 |
+| Lessons Learned | L76 |
 
 ### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
 
@@ -9230,23 +9250,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4292 |
-| フェーズ構造（概要） | L4301 |
-| 品質ゲート（概要） | L4332 |
-| 出力テンプレート | L4343 |
-| 実行時のコマンド・エージェント・スキル | L4366 |
-| 昇格パターン集 | L4390 |
-| Current Active / Spec Created Tasks | L4392 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4558 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4626 |
-| issue-1007-density-toggle-help-hint-hardening | L4650 |
-| issue-1079-bulk-tag-audit-batch-filter | L4663 |
-| issue-1128-audit-batchid-index-optimization | L4676 |
-| issue-998-members-publish-state-production-rollout | L4693 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4752 |
-| issue-1068-admin-tag-inline-create-ui | L4766 |
-| issue-1111-proxy-transport-util-unify | L4784 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4802 |
+| ドキュメント構成 | L4319 |
+| フェーズ構造（概要） | L4328 |
+| 品質ゲート（概要） | L4359 |
+| 出力テンプレート | L4370 |
+| 実行時のコマンド・エージェント・スキル | L4393 |
+| 昇格パターン集 | L4417 |
+| Current Active / Spec Created Tasks | L4419 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4585 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4653 |
+| issue-1007-density-toggle-help-hint-hardening | L4677 |
+| issue-1079-bulk-tag-audit-batch-filter | L4690 |
+| issue-1128-audit-batchid-index-optimization | L4703 |
+| issue-998-members-publish-state-production-rollout | L4720 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4779 |
+| issue-1068-admin-tag-inline-create-ui | L4793 |
+| issue-1111-proxy-transport-util-unify | L4811 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4829 |
 
 ### references/task-workflow-backlog-part2.md
 
