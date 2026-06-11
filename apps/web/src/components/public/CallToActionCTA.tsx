@@ -22,7 +22,7 @@ export function CallToActionCTA({
   ctaLabel = "回答フォームを開く",
 }: CallToActionCTAProps): ReactElement {
   return (
-    <SectionCard as="section" tone="accent" data-component="call-to-action-cta" data-variant="dark">
+    <SectionCard as="section" data-component="call-to-action-cta" data-variant="dark">
       <div data-role="inner">
         <div data-role="copy">
           <p data-role="eyebrow">FOR MEMBERS</p>
