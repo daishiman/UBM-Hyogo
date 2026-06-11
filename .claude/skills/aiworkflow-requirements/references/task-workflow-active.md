@@ -21,6 +21,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
 | user gate | authenticated staging screenshots、deploy、commit、push、PR |
 
+### issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| Issue | #222 CLOSED（reopen / mutation は user-gated） |
+| 目的 | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化し、drift を防ぐ |
+| implementation targets | `packages/shared/src/public-search/search-query-primitives.ts`, `packages/shared/src/public-search/index.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の公開 shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 不変 |
+| evidence | shared public-search 12 PASS、apps/api 回帰 30 PASS、apps/web 回帰 11 PASS、shared/api/web typecheck PASS、root lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit、push、PR、deploy、Issue mutation |
+
 ### vitest-2-to-3-major-upgrade（2026-06-10）
 
 | 項目 | 値 |

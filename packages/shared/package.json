@@ -8,6 +8,7 @@
     "./browser-storage": "./src/browser-storage.ts",
     "./errors": "./src/errors.ts",
     "./logging": "./src/logging.ts",
+    "./public-search": "./src/public-search/index.ts",
     "./gate-metadata": "./src/gate-metadata/index.ts"
   },
   "scripts": {
