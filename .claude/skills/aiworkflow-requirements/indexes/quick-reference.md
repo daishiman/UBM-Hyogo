@@ -13,6 +13,42 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md` |
 | user gate | staging authenticated screenshot, staging deploy, commit, push, PR |
 
+## admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | `/admin/audit` をカード型タイムライン、appliedFilters チップ、目的・用語ガイド、親切なエラー表示へ刷新し、`/admin/tags/catalog` の reduce クラッシュを防御する |
+| implementation | `AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditLogDisplay.ts`, `auditAppliedFilters.ts`, `AuditPurposeGuide.tsx`, `auditGlossary.ts`, `auditErrorMessage.ts`, `TagCatalogPanel.tsx`, `globals.css` |
+| evidence | focused Vitest 6 files / 59 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md` |
+| user gate | runtime screenshots, staging authenticated baseline, commit, push, PR, staging deploy |
+
+## admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | `/admin/members` mobile overflow を単一 table DOM + scoped CSS card 表示で解消 |
+| implementation | `MembersTable.tsx` mobile attributes、`globals.css` scoped `@media (max-width: 640px)`、focused component tests、Playwright mobile spec |
+| evidence | `MembersTable.spec.tsx` 25 tests PASS; Playwright desktop-chromium 5 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | runtime screenshots, staging deploy, commit, push, PR |
+
+## member-profile-google-form-data-reflection（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/member-profile-google-form-data-reflection/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | `schema_questions` 空で Google Form 回答が全件 unmapped になり公開メンバー詳細が空表示になる fail-silent を修正する |
+| implementation | `rawFormToStableKeyMap` fallback、API `buildQuestionIdToStableKey` merge、`GoogleFormsClient.getQuestionIdToStableKey` qidMapSize 実測、response sync `qid_map_empty` / fully-unmapped alert、recovery runbook |
+| evidence | integrations-google focused 18 PASS; build-qid-map 2 PASS; response sync contract 34 PASS; api/integrations typecheck PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-member-profile-google-form-data-reflection-artifact-inventory.md` |
+| user gate | staging recovery mutation, staging screenshots, deploy, commit, push, PR |
+
 ## admin-schema-diff-review-resolve-ux（2026-06-09）
 
 | 項目 | 値 |

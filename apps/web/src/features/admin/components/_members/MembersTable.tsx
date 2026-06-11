@@ -78,8 +78,11 @@ export function MembersTable({
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
-    <div className="ui-card overflow-hidden rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)]">
-      <table className="w-full text-left text-sm">
+    <div
+      className="ui-card admin-members-table-card overflow-hidden rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)]"
+      data-component="admin-members-table"
+    >
+      <table className="w-full text-left text-sm" data-testid="admin-members-table">
         <caption className="sr-only">会員一覧</caption>
         <thead>
           <tr className="border-b border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] text-xs uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
@@ -107,7 +110,7 @@ export function MembersTable({
               className="border-b border-[var(--ubm-color-border-default)] last:border-b-0 hover:bg-[var(--ubm-color-surface-panel-2)]"
               data-testid={`admin-members-row-${m.memberId}`}
             >
-              <td className="px-3 py-2">
+              <td className="px-3 py-2" data-cell="select" data-mobile-label="選択">
                 <input
                   type="checkbox"
                   aria-label={`${m.fullName} を選択`}
@@ -116,7 +119,7 @@ export function MembersTable({
                   onClick={(e) => e.stopPropagation()}
                 />
               </td>
-              <td className="px-3 py-2">
+              <td className="px-3 py-2" data-cell="member" data-mobile-label="メンバー">
                 <div className="flex items-center gap-2">
                   <MemberAvatar memberId={m.memberId} fullName={m.fullName} size="sm" />
                   <div className="flex flex-col">
@@ -135,10 +138,14 @@ export function MembersTable({
                   </div>
                 </div>
               </td>
-              <td className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)]">
+              <td
+                className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-secondary)]"
+                data-cell="email"
+                data-mobile-label="メール"
+              >
                 {maskEmail(m.responseEmail)}
               </td>
-              <td className="px-3 py-2">
+              <td className="px-3 py-2" data-cell="status" data-mobile-label="区画 / ステータス">
                 <div className="flex flex-wrap gap-1.5">
                   {m.ubmZone ? (
                     <Chip tone={zoneTone(m.ubmZone)} dot>
@@ -156,20 +163,29 @@ export function MembersTable({
                   />
                 </div>
               </td>
-              <td className="px-3 py-2">
+              <td className="px-3 py-2" data-cell="tags" data-mobile-label="タグ">
                 <div className="flex flex-wrap gap-1.5">{memberTagPills(m.tags)}</div>
               </td>
-              <td className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]">
+              <td
+                className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]"
+                data-cell="updated"
+                data-mobile-label="最終更新"
+              >
                 {formatJstDateTimeWithSeconds(m.lastSubmittedAt)}
               </td>
-              <td className="px-3 py-2" onClick={(e) => e.stopPropagation()}>
+              <td
+                className="px-3 py-2"
+                data-cell="publish"
+                data-mobile-label="公開"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <MemberPublishSwitch
                   memberId={m.memberId}
                   publishState={m.publishState}
                   isDeleted={m.isDeleted}
                 />
               </td>
-              <td className="px-3 py-2">
+              <td className="px-3 py-2" data-cell="actions" data-mobile-label="操作">
                 <button
                   type="button"
                   aria-label={`${m.fullName} を編集`}
