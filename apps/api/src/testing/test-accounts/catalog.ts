@@ -7,6 +7,7 @@ export const TEST_ACCOUNT_PREFIX = "TEST-";
 export type PublishState = "public" | "member_only" | "hidden";
 export type ConsentState = "consented" | "declined" | "unknown";
 export type PhotoSource = "admin" | "self";
+export type TestRequestNoteType = "visibility_request" | "delete_request";
 
 export interface TestMemberAccount {
   readonly memberId: `TEST-MEM-${string}`;
@@ -43,6 +44,14 @@ export interface TestMeeting {
   readonly heldOn: string;
 }
 
+export interface TestMemberRequest {
+  readonly noteId: `TEST-NOTE-${string}`;
+  readonly memberId: TestMemberAccount["memberId"];
+  readonly noteType: TestRequestNoteType;
+  readonly payload: Record<string, unknown>;
+  readonly reason: string;
+}
+
 export interface TestAccountsCatalog {
   readonly formId: string;
   readonly revisionId: string;
@@ -51,6 +60,7 @@ export interface TestAccountsCatalog {
   readonly members: readonly TestMemberAccount[];
   readonly admins: readonly TestAdminAccount[];
   readonly meetings: readonly TestMeeting[];
+  readonly requests: readonly TestMemberRequest[];
 }
 
 type TestMemberProfile = NonNullable<TestMemberAccount["profile"]>;
@@ -118,6 +128,29 @@ export const testAccountsCatalog = {
     { sessionId: "TEST-MTG-01", title: "[TEST] 交流会", heldOn: "2026-06-10" },
     { sessionId: "TEST-MTG-02", title: "[TEST] 勉強会", heldOn: "2026-07-10" },
     { sessionId: "TEST-MTG-03", title: "[TEST] 相談会", heldOn: "2026-08-10" },
+  ],
+  requests: [
+    {
+      noteId: "TEST-NOTE-V01",
+      memberId: "TEST-MEM-01",
+      noteType: "visibility_request",
+      payload: { desiredState: "hidden" },
+      reason: "都合により一時的に掲載を止めたいです",
+    },
+    {
+      noteId: "TEST-NOTE-V02",
+      memberId: "TEST-MEM-02",
+      noteType: "visibility_request",
+      payload: { desiredState: "public" },
+      reason: "公開できるようになったので掲載をお願いします",
+    },
+    {
+      noteId: "TEST-NOTE-D01",
+      memberId: "TEST-MEM-07",
+      noteType: "delete_request",
+      payload: {},
+      reason: "退会を希望します",
+    },
   ],
   admins: [
     {
