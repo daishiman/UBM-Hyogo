@@ -4,9 +4,9 @@
 
 import { cookies } from "next/headers";
 
-import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "@/lib/env";
+import { getAuthEnv, getEnvironmentResolution, getTransportRuntimeIsTest } from "@/lib/env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
-import { fetchViaApiTransport, resolveApiFetch } from "./transport";
+import { describeTransport, fetchViaApiTransport, resolveApiFetch } from "./transport";
 
 export { AuthRequiredError, FetchAuthedError };
 
@@ -28,12 +28,15 @@ export const fetchAuthed = async <T>(
     throw new Error(`fetchAuthed: path must start with '/': ${path}`);
   }
   const env = getAuthEnv();
+  const environment = getEnvironmentResolution();
   const transport = resolveApiFetch({
     API_SERVICE: env.API_SERVICE,
     baseUrl: env.INTERNAL_API_BASE_URL,
-    environment: getEnvironment(),
+    environment: environment.environment,
+    environmentExplicit: environment.explicit,
     isTest: getTransportRuntimeIsTest(),
   });
+  const transportDescriptor = describeTransport(transport);
   const cookieHeader = await buildCookieHeader();
   const headers = new Headers(init?.headers);
   if (cookieHeader.length > 0) headers.set("cookie", cookieHeader);
@@ -50,7 +53,7 @@ export const fetchAuthed = async <T>(
   }
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new FetchAuthedError(res.status, text);
+    throw new FetchAuthedError(res.status, text, transportDescriptor);
   }
   return (await res.json()) as T;
 };
