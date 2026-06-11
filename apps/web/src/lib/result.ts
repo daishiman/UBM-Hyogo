@@ -5,6 +5,10 @@ export interface SafeResultError {
   code: string;
   message: string;
   correlationId?: string;
+  transport?: {
+    transportKind: "service-binding" | "http";
+    baseHost: string;
+  };
 }
 
 export type SafeResult<T> =
