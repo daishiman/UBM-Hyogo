@@ -559,4 +559,107 @@ describe("MembersTable", () => {
     const results = await axe(container);
     expect(results.violations).toHaveLength(0);
   });
+
+  it("TC-MT-21: モバイルカード化用の data-component と data-mobile-label を持つ", () => {
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(container.querySelector('[data-component="admin-members-table"]')).toBeDefined();
+    expect(screen.getByTestId("admin-members-table").tagName).toBe("TABLE");
+    expect(
+      Array.from(container.querySelectorAll("tbody td")).map((cell) =>
+        [cell.getAttribute("data-cell"), cell.getAttribute("data-mobile-label")],
+      ),
+    ).toEqual([
+      ["select", "選択"],
+      ["member", "メンバー"],
+      ["email", "メール"],
+      ["status", "区画 / ステータス"],
+      ["tags", "タグ"],
+      ["updated", "最終更新"],
+      ["publish", "公開"],
+      ["actions", "操作"],
+    ]);
+  });
+
+  it("TC-MT-22: 行・セル数と既存 testid を変えずに単一 table を維持する", () => {
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田"), mkMember("b", "鈴木")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={2}
+        onPageChange={() => {}}
+      />,
+    );
+    expect(container.querySelectorAll("table")).toHaveLength(1);
+    expect(container.querySelectorAll("tbody tr")).toHaveLength(2);
+    expect(container.querySelectorAll("tbody tr:first-child td")).toHaveLength(8);
+    expect(screen.getByTestId("admin-members-row-a")).toBeDefined();
+    expect(screen.getByTestId("admin-members-row-b")).toBeDefined();
+  });
+
+  it("TC-MT-23: 公開セルのクリックは行編集を開かず publish switch 操作を保つ", () => {
+    const onOpenRow = vi.fn();
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={onOpenRow}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    const publishCell = container.querySelector('td[data-mobile-label="公開"]');
+    expect(publishCell).toBeDefined();
+    fireEvent.click(publishCell as HTMLElement);
+    expect(onOpenRow).not.toHaveBeenCalled();
+  });
+
+  it("TC-MT-24: モバイルラベル追加後も a11y violations 0", async () => {
+    const { container } = render(
+      <MembersTable
+        items={[
+          mkMember("a", "山田", {
+            occupation: "会社員",
+            ubmZone: "0_to_1",
+            ubmMembershipType: "member",
+            tags: [
+              { code: "sales", label: "営業" },
+              { code: "engineering", label: "技術" },
+              { code: "pr", label: "広報" },
+            ],
+          }),
+        ]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
 });

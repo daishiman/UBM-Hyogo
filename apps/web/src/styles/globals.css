@@ -2866,6 +2866,124 @@
       display: none;
     }
   }
+
+  /* === admin-members mobile responsive table-to-card === */
+  @media (max-width: 640px) {
+    [data-component="admin-members-table"] {
+      overflow: visible;
+      border: 0;
+      background: transparent;
+    }
+
+    [data-component="admin-members-table"] table,
+    [data-component="admin-members-table"] tbody,
+    [data-component="admin-members-table"] td {
+      display: block;
+      width: 100%;
+    }
+
+    [data-component="admin-members-table"] thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    [data-component="admin-members-table"] tbody {
+      display: grid;
+      gap: var(--ubm-space-3);
+    }
+
+    [data-component="admin-members-table"] tbody tr {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      border: 1px solid var(--ubm-color-border-default);
+      border-radius: var(--ubm-radius-md);
+      background: var(--ubm-color-surface-panel);
+      box-shadow: var(--ubm-shadow-sm);
+      overflow: hidden;
+    }
+
+    [data-component="admin-members-table"] tbody tr:hover {
+      background: var(--ubm-color-surface-panel);
+    }
+
+    [data-component="admin-members-table"] tbody td {
+      display: grid;
+      grid-template-columns: minmax(var(--ubm-space-24), 36%) minmax(0, 1fr);
+      gap: var(--ubm-space-3);
+      align-items: start;
+      grid-column: 1 / -1;
+      border-bottom: 1px solid var(--ubm-color-border-subtle);
+      padding: var(--ubm-space-2) var(--ubm-space-3);
+      overflow-wrap: anywhere;
+    }
+
+    [data-component="admin-members-table"] tbody td:last-child {
+      border-bottom: 0;
+    }
+
+    [data-component="admin-members-table"] tbody td::before {
+      content: attr(data-mobile-label);
+      color: var(--ubm-color-text-muted);
+      font-size: var(--ubm-text-xs);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="select"],
+    [data-component="admin-members-table"] tbody td[data-cell="actions"] {
+      grid-template-columns: auto;
+      align-items: center;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="select"],
+    [data-component="admin-members-table"] tbody td[data-cell="actions"] {
+      grid-column: 1;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="member"],
+    [data-component="admin-members-table"] tbody td[data-cell="publish"] {
+      grid-column: 2;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="select"]::before,
+    [data-component="admin-members-table"] tbody td[data-cell="actions"]::before {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="select"] {
+      border-bottom: 1px solid var(--ubm-color-border-subtle);
+      padding-right: 0;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="member"] {
+      border-bottom: 1px solid var(--ubm-color-border-subtle);
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="actions"] {
+      justify-content: end;
+      border-bottom: 0;
+      padding-left: 0;
+    }
+
+    [data-component="admin-members-table"] tbody td[data-cell="publish"] {
+      border-bottom: 0;
+    }
+  }
   [data-component="tag-picker"] button[aria-disabled="true"] {
     opacity: 0.45;
     cursor: not-allowed;
