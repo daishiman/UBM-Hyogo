@@ -9260,23 +9260,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4319 |
-| フェーズ構造（概要） | L4328 |
-| 品質ゲート（概要） | L4359 |
-| 出力テンプレート | L4370 |
-| 実行時のコマンド・エージェント・スキル | L4393 |
-| 昇格パターン集 | L4417 |
-| Current Active / Spec Created Tasks | L4419 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4585 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4653 |
-| issue-1007-density-toggle-help-hint-hardening | L4677 |
-| issue-1079-bulk-tag-audit-batch-filter | L4690 |
-| issue-1128-audit-batchid-index-optimization | L4703 |
-| issue-998-members-publish-state-production-rollout | L4720 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4779 |
-| issue-1068-admin-tag-inline-create-ui | L4793 |
-| issue-1111-proxy-transport-util-unify | L4811 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4829 |
+| ドキュメント構成 | L4333 |
+| フェーズ構造（概要） | L4342 |
+| 品質ゲート（概要） | L4373 |
+| 出力テンプレート | L4384 |
+| 実行時のコマンド・エージェント・スキル | L4407 |
+| 昇格パターン集 | L4431 |
+| Current Active / Spec Created Tasks | L4433 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4599 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4667 |
+| issue-1007-density-toggle-help-hint-hardening | L4691 |
+| issue-1079-bulk-tag-audit-batch-filter | L4704 |
+| issue-1128-audit-batchid-index-optimization | L4717 |
+| issue-998-members-publish-state-production-rollout | L4734 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4793 |
+| issue-1068-admin-tag-inline-create-ui | L4807 |
+| issue-1111-proxy-transport-util-unify | L4825 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4843 |
 
 ### references/task-workflow-backlog-part2.md
 

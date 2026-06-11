@@ -1453,6 +1453,7 @@
 - 仕様書への反映: dev sync を伴う task の Phase 検証設計（Phase 5 / Phase 11）で、検証コマンド列を「取込デルタに `pnpm-lock.yaml` / `package.json` deps 変更が含まれるか」で分岐させる:
   - lock 不変（docs/UI のみ取込）→ 最小 happy-path: resolver → typecheck → lint（SP-DEVSYNC-117/127）。
   - **lock 変更あり（deps メジャー同梱）→ resolver → `pnpm install`（必要なら `--force`）→ typecheck → lint → `indexes:rebuild` 冪等** を逐語列挙する。`pnpm install` を省く検証手順は偽陰性（ローカル緑 / CI 赤）リスクとして明示。
+  - **判定は `pnpm-lock.yaml` だけでなく `packages/*/package.json` 変更も含める**: workspace 内 package の `exports` / subpath 追加（例: #1206 で `@ubm-hyogo/shared/public-search` を新設）は lock を変えないが新 subpath import の解決に install が要る。`git diff --name-only ORIG_HEAD..HEAD | grep -E 'package\.json$'` を install 要否の判定コマンドとして Phase 5 に明記する（2026-06-13 二巡目 merge `523c18b89` ← #1206 で実測: shared/package.json のみ変更・lock 不変・install 後 typecheck/lint 緑）。
   - 判定コマンドは `git log <pre-merge HEAD>..dev --oneline`（reachability で真の取込デルタを同定・SP-DEVSYNC-130 の tree-diff 対称性汚染を避ける）。
 - Why: 依存メジャー昇格は conflict を 1 件も増やさず検証環境の前提（インストール済みバイナリ）だけを変えるため、conflict happy-path のチェックリストに `pnpm install` 段が無いと「衝突は綺麗に解けたのに CI で落ちる」最も気付きにくい乖離になる。task 仕様書側で検証コマンドを lock 変更有無で分岐させておけば、実装者が install を飛ばす事故を仕様レベルで封じられる。
 - 詳細根拠と実測: aiworkflow-requirements 配下の L-DEVSYNC-132（merge `e239271bd`・取込 #1203/#1205/#1193・install 後 7 packages typecheck Done / lint exit 0 / indexes 5511 kw 冪等・CI コード修正ゼロ）を参照。
