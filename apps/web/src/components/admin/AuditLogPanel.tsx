@@ -1,14 +1,26 @@
 import Link from "next/link";
-import type { AdminAuditListItem, AdminAuditListResponse } from "../../lib/admin/types";
+import type { AdminAuditListResponse } from "../../lib/admin/types";
 import { Banner } from "../ui/Banner";
 import { Button, buttonVariants } from "../ui/Button";
 import { Card } from "../ui/Card";
+import { Chip } from "../ui/Chip";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
 import { Select } from "../ui/Select";
-import { BatchIdCopyButton } from "./BatchIdCopyButton";
+import { AuditLogCard } from "./AuditLogCard";
+import { AuditPurposeGuide } from "./AuditPurposeGuide";
+import { toAppliedFilterChips } from "./auditAppliedFilters";
+import { AUDIT_ACTION_PRESETS, AUDIT_TARGET_TYPE_PRESETS } from "./auditGlossary";
+import { toAuditErrorView } from "./auditErrorMessage";
+export {
+  extractBatchId,
+  formatJst,
+  maskAuditJson,
+  maskAuditText,
+  summarizeAuditJson,
+} from "./auditLogDisplay";
 
 export interface AuditSearchValues {
   readonly action?: string;
@@ -20,74 +32,6 @@ export interface AuditSearchValues {
   readonly batchId?: string;
   readonly limit?: string;
   readonly cursor?: string;
-}
-
-const JST_FORMATTER = new Intl.DateTimeFormat("ja-JP", {
-  timeZone: "Asia/Tokyo",
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
-
-const PII_KEY_PATTERN =
-  /(^|_|\b)(email|mail|phone|tel|mobile|address|addr|name|fullname|firstname|lastname|displayname|kana|postal|zip)(_|$|\b)/i;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_PATTERN = /^\+?[\d\s().-]{8,}$/;
-
-const isPiiKey = (key: string): boolean => {
-  const normalized = key.toLowerCase().replace(/[-_\s]/g, "");
-  return PII_KEY_PATTERN.test(key) || normalized.includes("name");
-};
-
-const maskString = (value: string): string => {
-  if (EMAIL_PATTERN.test(value)) return "[masked-email]";
-  if (PHONE_PATTERN.test(value)) return "[masked-phone]";
-  return "[masked]";
-};
-
-export function maskAuditJson(value: unknown, key = ""): unknown {
-  if (value === null || value === undefined) return value;
-  if (typeof value === "string") {
-    if (isPiiKey(key) || EMAIL_PATTERN.test(value) || PHONE_PATTERN.test(value)) {
-      return maskString(value);
-    }
-    return value;
-  }
-  if (typeof value !== "object") return value;
-  if (Array.isArray(value)) return value.map((v) => maskAuditJson(v, key));
-  return Object.fromEntries(
-    Object.entries(value as Record<string, unknown>).map(([k, v]) => [
-      k,
-      isPiiKey(k) ? maskAuditJson(String(v), k) : maskAuditJson(v, k),
-    ]),
-  );
-}
-
-export function summarizeAuditJson(value: unknown): string {
-  if (value === null || value === undefined) return "なし";
-  if (Array.isArray(value)) return `${value.length} items`;
-  if (typeof value === "object") {
-    const keys = Object.keys(value as Record<string, unknown>);
-    if (keys.length === 0) return "empty object";
-    return keys.slice(0, 4).join(", ") + (keys.length > 4 ? ` +${keys.length - 4}` : "");
-  }
-  return typeof value;
-}
-
-export function formatJst(iso: string): string {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return iso;
-  return `${JST_FORMATTER.format(date)} JST`;
-}
-
-export function maskAuditText(value: string | null | undefined, key: string): string {
-  if (!value) return "system";
-  const masked = maskAuditJson(value, key);
-  return typeof masked === "string" ? masked : "[masked]";
 }
 
 export function buildAuditHref(values: AuditSearchValues, cursor?: string | null): string {
@@ -109,66 +53,6 @@ export function buildAuditHref(values: AuditSearchValues, cursor?: string | null
   return `/admin/audit${qs ? `?${qs}` : ""}`;
 }
 
-function JsonDisclosure({ label, value }: { readonly label: string; readonly value: unknown }) {
-  const safeValue = maskAuditJson(value);
-  const json = JSON.stringify(safeValue, null, 2);
-  return (
-    <details>
-      <summary>
-        {label}: {summarizeAuditJson(safeValue)}
-      </summary>
-      <pre data-testid={`${label}-json`}>{json}</pre>
-    </details>
-  );
-}
-
-export function extractBatchId(item: AdminAuditListItem): string | null {
-  const sources = [item.maskedAfter, item.afterJson, item.maskedBefore, item.beforeJson];
-  for (const source of sources) {
-    if (source && typeof source === "object" && !Array.isArray(source)) {
-      const value = (source as Record<string, unknown>).batchId;
-      if (typeof value === "string" && value.length > 0) return value;
-    }
-  }
-  return null;
-}
-
-function AuditRow({ item }: { readonly item: AdminAuditListItem }) {
-  const beforeValue = item.maskedBefore ?? item.beforeJson ?? null;
-  const afterValue = item.maskedAfter ?? item.afterJson ?? null;
-  const batchId = extractBatchId(item);
-  return (
-    <tr>
-      <td>
-        <time dateTime={item.createdAt}>{formatJst(item.createdAt)}</time>
-        <br />
-        <code>{item.auditId}</code>
-      </td>
-      <td>
-        <strong>{item.action}</strong>
-        <br />
-        <span>{maskAuditText(item.actorEmail, "actorEmail")}</span>
-      </td>
-      <td>
-        <span>{item.targetType ?? "-"}</span>
-        <br />
-        <code>{item.targetId ?? "-"}</code>
-      </td>
-      <td>
-        {batchId ? (
-          <p data-testid="audit-batch-id">
-            batchId: <code>{batchId}</code>
-            <BatchIdCopyButton batchId={batchId} />
-          </p>
-        ) : null}
-        <JsonDisclosure label="before" value={beforeValue} />
-        <JsonDisclosure label="after" value={afterValue} />
-        {item.parseError ? <p role="note">JSON parse warning: {item.parseError}</p> : null}
-      </td>
-    </tr>
-  );
-}
-
 export function AuditLogPanel({
   data,
   values,
@@ -181,6 +65,9 @@ export function AuditLogPanel({
   readonly showHeading?: boolean;
 }) {
   const items = data?.items ?? [];
+  const fallbackLimit = values.limit ?? "50";
+  const appliedFilterChips = toAppliedFilterChips(data?.appliedFilters, fallbackLimit);
+  const errorView = error ? toAuditErrorView(error) : null;
   return (
     <section
       aria-labelledby={showHeading ? "admin-audit-h" : undefined}
@@ -193,6 +80,7 @@ export function AuditLogPanel({
           <h1 id="admin-audit-h">監査ログ</h1>
         </header>
       ) : null}
+      <AuditPurposeGuide />
       <Card>
         <form
           action="/admin/audit"
@@ -208,15 +96,26 @@ export function AuditLogPanel({
             />
           </FormField>
           <datalist id="audit-action-presets">
-            <option value="identity.merge" />
-            <option value="identity.dismiss" />
+            {AUDIT_ACTION_PRESETS.map((value) => (
+              <option key={value} value={value} />
+            ))}
           </datalist>
           <FormField name="actorEmail" label="actorEmail">
             <Input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
           </FormField>
           <FormField name="targetType" label="targetType">
-            <Input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting | admin_member_note" />
+            <Input
+              name="targetType"
+              defaultValue={values.targetType ?? ""}
+              placeholder="meeting | admin_member_note"
+              list="audit-target-type-presets"
+            />
           </FormField>
+          <datalist id="audit-target-type-presets">
+            {AUDIT_TARGET_TYPE_PRESETS.map((value) => (
+              <option key={value} value={value} />
+            ))}
+          </datalist>
           <FormField name="targetId" label="targetId">
             <Input name="targetId" defaultValue={values.targetId ?? ""} />
           </FormField>
@@ -259,13 +158,25 @@ export function AuditLogPanel({
         </form>
       </Card>
 
-      {error ? (
-        <Banner tone="warning">
-          <p>監査ログを読み込めませんでした: {error}</p>
-          {error.includes("404") ? (
-            <p className="mt-1 text-sm text-[var(--ubm-color-text-secondary)]">
-              API endpoint への疎通、staging deploy 状態、admin 認可を確認してください。
-            </p>
+      <Card className="admin-audit-applied-filters" data-testid="audit-applied-filters">
+        <h2>現在の絞り込み</h2>
+        {appliedFilterChips.length > 0 ? (
+          <div className="chip-row" aria-label="現在の絞り込み条件">
+            {appliedFilterChips.map((chip) => (
+              <Chip key={chip.key} tone="info">
+                {chip.label}: {chip.value}
+              </Chip>
+            ))}
+          </div>
+        ) : (
+          <p>なし（直近 {fallbackLimit} 件を新しい順に表示）</p>
+        )}
+      </Card>
+
+      {errorView ? (
+        <Banner tone="warning" title={errorView.title}>
+          {errorView.hint ? (
+            <p className="mt-1 text-sm text-[var(--ubm-color-text-secondary)]">{errorView.hint}</p>
           ) : null}
         </Banner>
       ) : null}
@@ -275,23 +186,11 @@ export function AuditLogPanel({
 
       {items.length > 0 ? (
         <Card>
-          <div className="admin-audit-table-scroll">
-            <table className="tbl">
-              <thead>
-                <tr>
-                  <th scope="col">日時 / ID</th>
-                  <th scope="col">action / actor</th>
-                  <th scope="col">target</th>
-                  <th scope="col">JSON</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <AuditRow key={item.auditId} item={item} />
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ol className="admin-audit-timeline" aria-label="監査ログ一覧">
+            {items.map((item) => (
+              <AuditLogCard key={item.auditId} item={item} />
+            ))}
+          </ol>
           <Pagination
             current={1}
             hasPrev={false}
