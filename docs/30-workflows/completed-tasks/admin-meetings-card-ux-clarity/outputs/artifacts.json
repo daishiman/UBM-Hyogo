@@ -12,7 +12,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-06-10T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/admin-meetings-card-ux-clarity/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "daishiman",
         "notes": "spec_review: Phase 1-13 と Phase 12 strict 7 outputs 作成済。automation-30 改善で実コード実装済"
       },
@@ -20,7 +20,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-06-10T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/admin-meetings-card-ux-clarity/outputs/phase-11/evidence/local-validation-summary.txt",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/outputs/phase-11/evidence/local-validation-summary.txt",
         "approver": "daishiman",
         "notes": "implementation_review: pnpm typecheck / pnpm lint / focused _meetings Vitest 18 tests / verify:tokens / apps-api diff 空 / HEX grep 0 を確認"
       },
@@ -28,7 +28,7 @@
         "gate_id": "Gate-C",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/admin-meetings-card-ux-clarity/outputs/phase-13/phase-13.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/outputs/phase-13/phase-13.md",
         "approver": "daishiman",
         "notes": "external_ops: staging visual smoke / screenshot / commit / push / PR は user-gated"
       }
