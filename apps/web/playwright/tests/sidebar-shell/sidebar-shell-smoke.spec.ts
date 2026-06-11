@@ -6,19 +6,18 @@
 import { expect, test } from "../../fixtures/auth";
 import { openDrawer, toggleCollapse, waitShellReady } from "./_helpers";
 
-// S1: viewer / desktop — PUBLIC group only + ログイン link
-test("viewer sees public-only sidebar at /", async ({ anonymousPage, mockApi }) => {
-  // anonymousPage は mockApi を依存しないため、public home の GET（/public/stats・/public/members）が
-  // 解決できず error boundary に落ちる。mockApi を明示注入して 127.0.0.1:8787 を起動する。
+// S1: viewer / desktop — 公開層は全ルート認証必須化（require-auth-public-access-gate）。
+// 未認証で / にアクセスすると公開サイドバー shell は描画されず LoginRequiredNotice に閉じる
+// （旧「guest 用 public-only サイドバー」UI は到達不能になった）。
+test("viewer is gated at / and sees LoginRequiredNotice instead of the shell", async ({
+  anonymousPage,
+  mockApi,
+}) => {
   void mockApi;
   await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  const sidebar = anonymousPage.locator('[data-shell="sidebar"]');
-  // viewer の login は user-menu popover（<details>）内。summary を開いてから確認する。
-  await sidebar.locator('[data-shell-block="user-menu"] summary').click();
-  await expect(sidebar.locator('[data-action="login"]')).toBeVisible();
-  await expect(sidebar.locator('[data-shell-block="nav-group"][data-group="members"]')).toHaveCount(0);
-  await expect(sidebar.locator('[data-shell-block="nav-group"][data-group="admin"]')).toHaveCount(0);
+  await expect(anonymousPage.locator('[data-testid="login-required-notice"]')).toBeVisible();
+  await expect(anonymousPage.locator('[data-shell="sidebar"]')).toHaveCount(0);
+  await expect(anonymousPage.locator('[data-testid="public-shell"]')).toHaveCount(0);
 });
 
 // S2: member / desktop — popover に プロフィール / 編集申請 / ログアウト
@@ -47,34 +46,33 @@ test("admin sees 15 nav items and admin dashboard action at /admin", async ({ ad
   ).toBeVisible();
 });
 
-// S4: viewer / mobile 375 — sidebar hidden, drawer opens on hamburger
-test("mobile hides sidebar and opens drawer on hamburger", async ({ anonymousPage, mockApi }) => {
-  void mockApi;
-  await anonymousPage.setViewportSize({ width: 375, height: 812 });
-  await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  await expect(anonymousPage.locator('[data-shell="sidebar"]')).not.toBeVisible();
-  await openDrawer(anonymousPage);
-  await expect(anonymousPage.locator('[data-shell-block="drawer"]')).toBeVisible();
+// S4: member / mobile 375 — sidebar hidden, drawer opens on hamburger
+// 認証必須化により公開ホーム shell は会員ログイン済みでのみ描画される。shell 機構
+// （drawer / collapse / ナビ自動クローズ）は role 非依存のため member 文脈で検証する。
+test("mobile hides sidebar and opens drawer on hamburger", async ({ memberPage }) => {
+  await memberPage.setViewportSize({ width: 375, height: 812 });
+  await memberPage.goto("/");
+  await waitShellReady(memberPage);
+  await expect(memberPage.locator('[data-shell="sidebar"]')).not.toBeVisible();
+  await openDrawer(memberPage);
+  await expect(memberPage.locator('[data-shell-block="drawer"]')).toBeVisible();
 });
 
-// S5: viewer / 1024 — collapse toggle + cookie reflection
+// S5: member / 1024 — collapse toggle + cookie reflection
 // issue-1024: 永続化先は localStorage から cookie(ubm_shell_collapsed) へ移行。
 test("collapse toggle collapses sidebar and persists to cookie", async ({
-  anonymousPage,
-  mockApi,
+  memberPage,
 }) => {
-  void mockApi;
-  await anonymousPage.setViewportSize({ width: 1024, height: 800 });
-  await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  await toggleCollapse(anonymousPage);
-  await expect(anonymousPage.locator('[data-shell="sidebar"]')).toHaveAttribute(
+  await memberPage.setViewportSize({ width: 1024, height: 800 });
+  await memberPage.goto("/");
+  await waitShellReady(memberPage);
+  await toggleCollapse(memberPage);
+  await expect(memberPage.locator('[data-shell="sidebar"]')).toHaveAttribute(
     "data-collapsed",
     "true",
   );
   // collapse 状態は cookie(ubm_shell_collapsed=true) へ永続化される。
-  const persisted = await anonymousPage.evaluate(() =>
+  const persisted = await memberPage.evaluate(() =>
     document.cookie
       .split("; ")
       .find((entry) => entry.startsWith("ubm_shell_collapsed=")),
@@ -82,16 +80,15 @@ test("collapse toggle collapses sidebar and persists to cookie", async ({
   expect(persisted).toBe("ubm_shell_collapsed=true");
 });
 
-// S6: viewer / mobile 375 — drawer auto-close on route navigation
-test("drawer auto-closes after navigating via a drawer link", async ({ anonymousPage, mockApi }) => {
-  void mockApi;
-  await anonymousPage.setViewportSize({ width: 375, height: 812 });
-  await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  await openDrawer(anonymousPage);
-  await anonymousPage
+// S6: member / mobile 375 — drawer auto-close on route navigation
+test("drawer auto-closes after navigating via a drawer link", async ({ memberPage }) => {
+  await memberPage.setViewportSize({ width: 375, height: 812 });
+  await memberPage.goto("/");
+  await waitShellReady(memberPage);
+  await openDrawer(memberPage);
+  await memberPage
     .locator('[data-shell-block="drawer"]')
     .getByRole("link", { name: "会員ディレクトリ" })
     .click();
-  await expect(anonymousPage.locator('[data-shell-block="drawer"]')).not.toBeVisible();
+  await expect(memberPage.locator('[data-shell-block="drawer"]')).not.toBeVisible();
 });
