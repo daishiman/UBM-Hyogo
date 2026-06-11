@@ -3832,6 +3832,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -5375,6 +5376,7 @@
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
@@ -8432,6 +8434,7 @@
       "lessons-learned-task-24.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "task-workflow-active.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-1079-bulk-tag-audit-batch-filter-artifact-inventory.md",
@@ -8462,6 +8465,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "logging-migration-guide.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-987-identity-conflicts-audit-log-admin-ui-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
@@ -12034,6 +12038,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
@@ -12618,6 +12623,7 @@
       "lessons-learned-parallel-i06-root-error-focus-2026-05.md",
       "lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
       "workflow-fix-admin-server-components-render-error-stg-artifact-inventory.md",
       "workflow-i02-admin-error-type-unify-artifact-inventory.md",
@@ -13355,6 +13361,7 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
@@ -14448,6 +14455,7 @@
       "observability-monitoring.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
@@ -16615,6 +16623,7 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "observability-monitoring.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
@@ -16926,6 +16935,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "task-workflow-active.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
@@ -17506,6 +17516,7 @@
       "spec-splitting-guidelines.md",
       "task-workflow-active.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
@@ -17802,6 +17813,7 @@
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
@@ -26263,6 +26275,7 @@
     ],
     "clarity": [
       "task-workflow-active.md",
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md"
     ],
@@ -28284,6 +28297,15 @@
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
+    ],
+    "reduce": [
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md"
+    ],
+    "Four": [
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md"
+    ],
+    "condition": [
+      "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md"
     ],
     "filed": [
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md"
