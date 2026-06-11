@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| purpose | `/admin/audit` をカード型タイムライン、appliedFilters チップ、目的・用語ガイド、親切なエラー表示へ刷新し、`/admin/tags/catalog` の reduce クラッシュを防御する |
+| implementation | `AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditLogDisplay.ts`, `auditAppliedFilters.ts`, `AuditPurposeGuide.tsx`, `auditGlossary.ts`, `auditErrorMessage.ts`, `TagCatalogPanel.tsx`, `globals.css` |
+| evidence | focused Vitest 6 files / 59 tests PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md` |
+| user gate | runtime screenshots, staging authenticated baseline, commit, push, PR, staging deploy |
+
 ## admin-members-mobile-responsive-layout（2026-06-10）
 
 | 項目 | 値 |
