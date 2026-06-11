@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-131: 同一ブランチ後続 pass の union member は非単調（1st union 2→2nd union 3・topic-map が auto-merge→union 反転）＋ 依存変更の有無は「取込 dev デルタ」で判定し dev デルタ内包の依存 bump マージは docs ブランチでも lockfile を変える
+- 2026-06-11 `docs/public-member-common-ui-card-unification-spec` ← dev（sub-worktree wt-17, behind 3 / ahead 4, merge `57f5f5a50`・SP-DEVSYNC-129 の `a762c7bbb` に続く同一ブランチ 2nd pass）。取込 3 件 = #1193(/admin/requests 命名平易化 + seed) / #1205(Vitest 2→3 アップグレード + coverage-v8 parity) / #1203(通知統合スコープ整合 + 仕様書)。
+- `git merge dev --no-edit` の CONFLICT は **3 file**（`indexes/quick-reference.md` + `indexes/topic-map.md` + `references/task-workflow-active.md`・全 union）。`resource-map.md` / `keywords.json` / 両 skill `SKILL-changelog.md` / `lessons-learned/*` は Auto-merge。apps/api・apps/web・apps/og・root 取込コードは全 Auto-merge で content conflict 0。`pnpm sync:resolve` 1 回（`union-resolving 3 files` + rebuild）exit 0・手動解消ゼロ。
+- How to apply（仕様書 Phase 11 sync-merge 検証手順への逐語化）:
+  - **union member を「同一ブランチの前回 pass と同じ」と予断しない**: 1st pass（SP-DEVSYNC-129・`a762c7bbb`）は union 2 = `{quick-reference, task-workflow-active}`、本 2nd pass は union 3 = `{quick-reference, topic-map, task-workflow-active}`（`topic-map` が auto-merge→union 反転・`resource-map` は据置 auto-merge）。`union-resolving N files` の N は毎 pass 取込 delta で再算定する（N=2〜6 全域正常）。
+  - **依存変更の有無は feature ブランチ性質でなく取込 dev デルタで判定**: sync-merge 後に `git diff <pre-merge HEAD>..<merge commit> --name-only | grep -E 'package\.json|pnpm-lock\.yaml'` で「dev デルタが依存を touch したか」を確認し、ヒット時は標準 3 検証（typecheck/lint/install）の install を **`pnpm install --frozen-lockfile`** とし exit 0 で lockfile 整合を機械裏取りする。本件 feature は docs-only で依存を一切触らないが、取込 dev デルタに #1205 Vitest 2→3 が含まれ root `package.json` / `pnpm-lock.yaml` が変化した（「自分は依存を触っていないから検証不要」は誤判断）。
+- Why: 並列 worktree で各 workflow が共有 skill-index に additive 行を書くため union 衝突面は取込 delta が touch した index file に毎回依存し、同一ブランチでも pass ごとに増減する。依存 bump マージは dev デルタに 1 コミットとして入るだけで lockfile を巻き込むため、feature 側が依存に無関係でも merge 後の lockfile 検証が要る。
+- 検証: `git fetch --prune origin`（dev=origin/dev 0/0）→ `git rev-list --left-right --count origin/dev...HEAD`=3/4 → `git merge dev --no-edit` CONFLICT 3 → `pnpm sync:resolve` exit 0（`union-resolving 3 files` + rebuild）→ `--diff-filter=U` 0 / 実マーカー 0 → merge `57f5f5a50`（lefthook 全 pass）→ `pnpm typecheck` exit 0 / `pnpm lint` exit 0 → lockfile touch 検出 → `pnpm install --frozen-lockfile` exit 0（53s）。CI コード修正 0。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-133（本 lesson の正本）。SP-DEVSYNC-129（同一ブランチ 1st pass・union 2）/ SP-DEVSYNC-127（frozen-lockfile 検証の原型）と対。
+
 ### SP-DEVSYNC-129: `union-resolving 2 files` = union core が SKILL.md / map を含まず 2 file まで縮小しても 1 回収束（union member は delta 依存・「core 4 固定」は誤り）
 - 2026-06-11 `docs/public-member-common-ui-card-unification-spec` ← dev（sub-worktree wt-17, feature 2 ahead / 1 behind, merge `a762c7bbb`）。取込 1 件 = dev 側 `admin-audit-log-ux-clarity-and-reduce-error-fix` の close-out。
 - `git merge dev --no-edit` の CONFLICT は **2 file**（`indexes/quick-reference.md` + `references/task-workflow-active.md` のみ）。**両 skill の `SKILL.md` / `resource-map.md` / `topic-map.md` / `keywords.json` は全て Auto-merge**＝衝突 0。`pnpm sync:resolve` 1 回（`union-resolving 2 files` + rebuild）exit 0・手動解消ゼロ。
