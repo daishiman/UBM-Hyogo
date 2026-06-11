@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-requests-queue-rename-and-publish-dependency（2026-06-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` |
+| 目的 | `/admin/requests` を「会員からの申請」として平易化し、会員本人発の申請承認フローと `/admin/members` 管理者起点の即時公開トグルの違いを UI / API / seed で可視化する |
+| implementation targets | `apps/api/src/testing/test-accounts/{catalog,build-seed-sql}.ts`, `apps/api/migrations/seed/test-accounts-{seed,cleanup}.sql`, `apps/api/src/routes/admin/members.ts`, `packages/shared/src/zod/viewmodel.ts`, `packages/shared/src/types/viewmodel/index.ts`, `packages/contracts/src/admin.mjs`, `apps/web/app/(admin)/admin/{requests,members}/page.tsx`, `apps/web/src/components/admin/{RequestQueuePanel,RequestQueueDetail,RequestConfirmDialog}.tsx`, `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/components/shell/shell-config.ts` |
+| evidence | focused API / shared / web Vitest 実行。API 86 files / 549 tests PASS、shared 21 files / 257 tests PASS、web 238 files passed, 1 skipped; 1752 tests passed, 1 skipped。API/web/shared typecheck PASS、seed drift guard PASS、lint PASS、HEX token grep PASS |
+| invariant | route path `/admin/requests`、API path、component filename、`id` / `data-*` / test selectors unchanged。新 endpoint / D1 schema 変更なし。apps/web は API/proxy 経由のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md` |
+| user gate | staging seed apply, authenticated staging screenshots, commit, push, PR |
+
 ### admin-audit-log-ux-clarity-and-reduce-error-fix（2026-06-10）
 
 | 項目 | 値 |

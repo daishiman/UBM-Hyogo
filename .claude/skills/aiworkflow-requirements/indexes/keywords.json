@@ -3844,6 +3844,7 @@
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-members-mobile-responsive-layout-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
@@ -5382,6 +5383,7 @@
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-members-mobile-responsive-layout-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
@@ -6350,6 +6352,7 @@
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-members-mobile-responsive-layout-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
@@ -7872,6 +7875,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
     ],
@@ -12037,6 +12041,7 @@
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
@@ -14447,6 +14452,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
@@ -16924,6 +16930,7 @@
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
@@ -17802,6 +17809,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
@@ -18267,6 +18275,7 @@
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md",
       "lessons-learned-task-24.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md"
     ],
     "の状態同期漏れリスク": [
@@ -20532,6 +20541,7 @@
       "lessons-learned-member-publish-recovery-form-ops-and-admin-link-2026-05.md",
       "lessons-learned-publish-state-backfill-admin-ui-2026-06.md",
       "task-workflow-active.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-issue-998-members-publish-state-production-rollout-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md"
@@ -21006,6 +21016,7 @@
     "requests": [
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-step-07-requests-approve-reject-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
@@ -28436,6 +28447,9 @@
     "Specs": [
       "workflow-admin-members-mobile-responsive-layout-artifact-inventory.md",
       "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md"
+    ],
+    "dependency": [
+      "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md"
     ],
     "purpose": [
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md"

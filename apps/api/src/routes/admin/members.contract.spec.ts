@@ -85,6 +85,42 @@ describe("admin members route", () => {
     const body = (await res.json()) as { total: number; members: unknown[] };
     expect(body.total).toBe(1);
     expect(body.members.length).toBe(1);
+    expect(body.members[0]).toMatchObject({ pendingRequestTypes: [] });
+  });
+
+  it("GET /members: pending 申請種別を member item に載せる", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO admin_member_notes
+         (note_id, member_id, body, created_by, updated_by, created_at, updated_at, note_type, request_status)
+         VALUES
+         ('note_visibility_pending', 'm1', json_object('reason','公開したい','payload',json_object('desiredState','public')), 'member', 'member', '2026-04-01T00:00:00Z', '2026-04-01T00:00:00Z', 'visibility_request', 'pending'),
+         ('note_delete_resolved', 'm1', json_object('reason','退会','payload',json_object()), 'member', 'member', '2026-04-01T00:00:00Z', '2026-04-01T00:00:00Z', 'delete_request', 'resolved')`,
+      )
+      .run();
+    await seedMember(
+      env,
+      "m2",
+      "r2",
+      { fullName: "No Pending" },
+      "2026-04-02T00:00:00Z",
+    );
+
+    const app = createAdminMembersRoute();
+    const res = await app.request(
+      "/members",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      members: Array<{ memberId: string; pendingRequestTypes: string[] }>;
+    };
+    expect(body.members.find((member) => member.memberId === "m1")?.pendingRequestTypes).toEqual([
+      "visibility_request",
+    ]);
+    expect(body.members.find((member) => member.memberId === "m2")?.pendingRequestTypes).toEqual([]);
   });
 
   it("GET /members: prototype list fields are additively derived from answers_json and tags", async () => {
