@@ -139,14 +139,14 @@ export default async function MemberDetailPage({
   return (
     <main data-route="public" data-section-rhythm="comfortable">
       <PageShell>
-        <PageHeader
-          title={profileResult.data.summary.fullName}
-          lead={
-            <a href="/members" data-role="back" className="back-link">
-              ← メンバー一覧に戻る
-            </a>
-          }
-        />
+        {/* 詳細ページの h1 は ProfileHero（会員名）が正本。PageHeader で title に氏名を渡すと
+            h1 が二重化し getByRole(heading, { level: 1 }) の strict-mode 違反になるため、
+            ここは戻る導線のみを nav として置き、見出しは ProfileHero に一本化する。 */}
+        <nav aria-label="パンくず" className="ui-page-header__lead">
+          <a href="/members" data-role="back" className="back-link">
+            ← メンバー一覧に戻る
+          </a>
+        </nav>
         <MemberDetail {...props} />
       </PageShell>
     </main>
