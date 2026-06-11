@@ -12,6 +12,11 @@ import { schemas, fixtures } from "../packages/contracts/src/index.mjs";
 
 const PORT = Number(process.env.E2E_MOCK_API_PORT ?? 8787);
 const NOW = "2026-05-09T00:00:00.000Z";
+// 会員一覧「最終更新」列の JST 秒表記を検証する e2e
+// (admin-members-timestamp-jst-identity-labels.spec.ts) は、UTC 正午 =
+// JST 21:00:00 を期待値として固定している。auth.ts フィクスチャ側と値を
+// 揃えるため、会員の lastSubmittedAt は NOW(深夜0時)ではなくこの定数を使う。
+const MEMBER_LAST_SUBMITTED_AT = "2026-05-09T12:00:00.000Z";
 
 const primaryMember = fixtures.public.memberList.items[0];
 const publicPhotoUrl =
@@ -396,7 +401,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "public",
     isDeleted: false,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
   },
   {
     memberId: "mem_beta",
@@ -406,7 +411,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "hidden",
     isDeleted: false,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
   },
   {
     memberId: "mem_gamma",
@@ -416,7 +421,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "member_only",
     isDeleted: false,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
   },
 ];
 
@@ -429,7 +434,7 @@ const seedMembersAsAdmin = () => {
     rulesConsent: "consented",
     publishState: "public",
     isDeleted: m.isDeleted === true,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT,
   }));
 };
 
