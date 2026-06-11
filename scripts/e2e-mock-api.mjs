@@ -452,6 +452,37 @@ const adminMembersResponse = (search) => {
   return { total: members.length, page: 1, pageSize: 50, members };
 };
 
+// 会員ドロワーの「診断情報」パネル(MemberDiagnosticsPanel)は
+// GET /admin/diagnostics/member/:id を browser fetch する。route が無いと 404 で
+// パネルがエラー表示になり「診断情報」見出しが描画されない
+// (admin-members-timestamp-jst-identity-labels.spec.ts:99 が fail)。
+// auth.ts フィクスチャの diagnosticsMemberBody と同形状で 200 を返す。
+const adminMemberDiagnosis = (memberId) => ({
+  capturedAt: NOW,
+  memberId,
+  identityMatches: {
+    byEmail: true,
+    byExternalId: true,
+    matchedFormResponseId: `response-${memberId}`,
+  },
+  responseFieldCount: 29,
+  expectedFieldCount: 31,
+  missingFieldKeys: ["ubm_membership_type", "introduction"],
+  consent: {
+    publicConsent: true,
+    rulesConsent: true,
+  },
+  publishState: {
+    published: true,
+    visibleOnPublicDirectory: true,
+  },
+  hypothesisFlags: {
+    H2_identityMissing: false,
+    H3_hiddenByConsentOrPublish: false,
+    H4_missingFieldsNonEmpty: true,
+  },
+});
+
 const adminMemberDetail = (memberId) => ({
   identityMemberId: memberId,
   identityEmail: `${memberId}@example.test`,
@@ -819,6 +850,12 @@ const server = createServer(async (req, res) => {
         { memberId: detail[1], updatedAt: NOW },
         schemas.AdminMemberPatchResponseZ,
       );
+    }
+  }
+  {
+    const diagnosis = pathname.match(/^\/admin\/diagnostics\/member\/([^/]+)$/);
+    if (req.method === "GET" && diagnosis?.[1]) {
+      return writeJson(res, 200, adminMemberDiagnosis(decodeURIComponent(diagnosis[1])));
     }
   }
   if (req.method === "GET" && pathname === "/admin/tags/queue") {
