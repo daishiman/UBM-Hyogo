@@ -4,6 +4,7 @@
 
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from '../fixtures/coverage';
+import { memberLogin } from '../fixtures/auth';
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -28,6 +29,13 @@ const assertNoCriticalAxe = async (page: import("@playwright/test").Page) => {
 };
 
 test.describe("public top & members list @critical-route", () => {
+  // 公開層は全ルート認証必須化（require-auth-public-access-gate）。
+  // 公開コンテンツの検証には会員ログイン済みで訪問する。未認証ゲートは
+  // public-auth-gate.spec.ts で別途検証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test("`/` shows prototype-aligned public dashboard sections", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
