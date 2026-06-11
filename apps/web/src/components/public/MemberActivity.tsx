@@ -1,7 +1,10 @@
 // task-12: section.key === "activity" を timeline 表示
+// Lane B: SectionCard でラップ。data-section は SectionCard data-section 透過で維持（I-7）。
 import type { z } from "zod";
 
 import type { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 type Section = z.infer<typeof PublicMemberProfileZ>["publicSections"][number];
 type Field = Section["fields"][number];
@@ -20,12 +23,13 @@ export function MemberActivity({ sections }: MemberActivityProps) {
   const activity = sections.find((s) => s.key === "activity");
   if (!activity || activity.fields.length === 0) return null;
   return (
-    <section
+    <SectionCard
+      as="section"
       data-component="member-activity"
       data-section="activity"
       className="activity-root"
+      title={activity.title}
     >
-      <h2 className="activity-title">{activity.title}</h2>
       <ol className="activity-timeline">
         {activity.fields.map((f) => (
           <li
@@ -38,6 +42,6 @@ export function MemberActivity({ sections }: MemberActivityProps) {
           </li>
         ))}
       </ol>
-    </section>
+    </SectionCard>
   );
 }
