@@ -22,6 +22,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
 | user gate | commit, push, PR, source PR mutation |
 
+### admin-members-mobile-responsive-layout（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-members-mobile-responsive-layout/` |
+| 目的 | `/admin/members` の mobile overflow を単一 table DOM + scoped CSS card 表示で解消する |
+| implementation targets | `apps/web/src/features/admin/components/_members/MembersTable.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx`, `apps/web/playwright/tests/admin-members-mobile.spec.ts` |
+| invariant | API / D1 / Google Form / auth middleware unchanged。Desktop table layout and existing row testids remain stable |
+| evidence | focused Vitest 25 tests PASS、Playwright desktop-chromium 5 tests PASS、CSS-contract screenshots 3 PNG + metrics captured |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-mobile-responsive-layout-artifact-inventory.md` |
+| user gate | authenticated route screenshots、staging deploy、commit、push、PR |
+
 ### member-profile-google-form-data-reflection（2026-06-10）
 
 | 項目 | 値 |
