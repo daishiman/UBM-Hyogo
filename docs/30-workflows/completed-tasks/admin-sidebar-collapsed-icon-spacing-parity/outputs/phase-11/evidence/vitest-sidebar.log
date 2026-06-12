@@ -1,0 +1,26 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260610-210953-wt-6
+
+ ✓ apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx (6 tests) 3078ms
+   ✓ SidebarNavItem > external item は target/rel 付き anchor で描画し active 扱いにしない 1006ms
+   ✓ SidebarNavItem > 内部 item は pathname 一致時に active（aria-current/data-active）を出す 815ms
+   ✓ SidebarNavItem > expanded のとき tooltip を描画しない 452ms
+ ✓ apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx (14 tests) 10501ms
+   ✓ SidebarShell > viewer は nav item 3 個 2194ms
+   ✓ SidebarShell > member は nav item 4 個 625ms
+   ✓ SidebarShell > admin は nav item 15 個（3+1+11） 1868ms
+   ✓ SidebarShell > children と mobileTriggerSlot が shell 配下に render される 937ms
+   ✓ SidebarShell > mobile-bar は sticky top-0 z-30 かつ md:hidden を維持する 615ms
+   ✓ SidebarShell > active path の nav item に aria-current=page が付く 327ms
+   ✓ SidebarShell > nav landmark に aria-label='サイドバー' が付く 689ms
+   ✓ SidebarShell > desktop aside は tooltip をクリップせず nav と footer 固定領域を分離する 796ms
+   ✓ SidebarShell > main は public footer sticky 用の flex column 契約を持つ 468ms
+   ✓ SidebarShell > collapsed 初期値では aside が collapsed 幅状態になり footer control も残る 896ms
+   ✓ SidebarShell > collapsed 初期値では brand/nav/public-return/user-menu の水平 padding を剥がす 625ms
+
+ Test Files  2 passed (2)
+      Tests  20 passed (20)
+   Start at  00:29:24
+   Duration  87.63s (transform 17.90s, setup 0ms, collect 40.37s, tests 13.58s, environment 33.41s, prepare 11.48s)
+

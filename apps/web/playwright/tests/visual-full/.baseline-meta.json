@@ -1,19 +1,19 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "b67f28607633e4bc5c6bc7b8f3971330f365169a",
-  "captured_at": "2026-06-11T02:48:15Z",
+  "captured_at_commit_sha": "6f7788ea4588f426607be71d523db13769d8899c",
+  "captured_at": "2026-06-12T07:20:54Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "27204350643",
-    "27247391142",
-    "27253086349",
-    "27257083636",
     "27274941450",
     "27276848458",
     "27282985575",
     "27308537802",
     "27317315197",
-    "27320055437"
+    "27320055437",
+    "27338498326",
+    "27340194772",
+    "27341009167",
+    "27400529754"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge union: (1) feature 側=/admin/requests 命名平易化（会員からの申請）+ 見出し/説明文追加 + 申請中バッジ + インラインリンク常時下線化(a11y link-in-text-block 修正) による意図的な視覚変更で admin-requests の desktop/tablet/mobile baseline を再生成（run 27320055437・PR #1193）。(2) 取込 dev 側=/admin/audit をカード型タイムライン化し画面高さ増加（mobile 1186→2211px 等）で admin-audit baseline 再生成（run 27317315197）+ 会員管理(/admin/members)を640px以下で単一table DOMのままscoped CSSでカード表示化し admin-members(mobile) baseline 更新（run 27308537802）+ /admin/schema 統合後描画へ admin-schema baseline 再生成（run 27282985575）。対象スナップショット（admin-requests / admin-audit / admin-members mobile / admin-schema）が分離するため双方を union 統合。"
+  "last_refresh_reason": "公開・会員8画面を共通レイアウト層(PageShell/SectionCard/ButtonLink等)へ統一した本ブランチの意図的UI刷新により、公開/会員ルート(root/members/members-detail/register/privacy/terms/login/profile)のvisual-full・smoke visual baselineがstale化(playwright-visual-full/playwright-smoke両CIがブランチ全runでfail)。刷新後の表示で再生成する"
 }

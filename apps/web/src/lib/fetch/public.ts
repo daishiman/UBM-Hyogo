@@ -19,6 +19,49 @@
 import { getEnvironment, getPublicFetchEnv } from "../env";
 import { resolveServiceBinding, selectAndFetch } from "./transport-select";
 
+const SESSION_COOKIE_NAMES = [
+  "__Secure-authjs.session-token",
+  "authjs.session-token",
+  "__Secure-next-auth.session-token",
+  "next-auth.session-token",
+];
+
+async function getSessionCookieHeader(): Promise<string | undefined> {
+  try {
+    const { cookies } = await import("next/headers");
+    const store = await cookies();
+    const values = SESSION_COOKIE_NAMES.flatMap((name) => {
+      const cookie = store.get(name);
+      return cookie ? [`${cookie.name}=${encodeURIComponent(cookie.value)}`] : [];
+    });
+    return values.length > 0 ? values.join("; ") : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+async function buildHeaders(
+  headers: HeadersInit | undefined,
+): Promise<Record<string, string>> {
+  const merged: Record<string, string> = { Accept: "application/json" };
+  if (headers instanceof Headers) {
+    for (const [key, value] of headers.entries()) {
+      merged[key] = value;
+    }
+  } else if (Array.isArray(headers)) {
+    for (const [key, value] of headers) {
+      merged[key] = value;
+    }
+  } else if (headers) {
+    Object.assign(merged, headers);
+  }
+  const cookie = await getSessionCookieHeader();
+  if (cookie && !("Cookie" in merged) && !("cookie" in merged)) {
+    merged.Cookie = cookie;
+  }
+  return merged;
+}
+
 function getBaseUrl(): string {
   const env = getPublicFetchEnv();
   const baseUrl = env.NEXT_PUBLIC_API_BASE_URL;
@@ -93,13 +136,11 @@ export async function fetchPublic<T>(
   options: FetchPublicOptions = {},
 ): Promise<T> {
   const { revalidate = 30, headers, ...rest } = options;
+  const mergedHeaders = await buildHeaders(headers);
   const r = await doFetch(path, {
     ...rest,
     next: { revalidate },
-    headers: {
-      Accept: "application/json",
-      ...(headers ?? {}),
-    },
+    headers: mergedHeaders,
   });
   if (!r.ok) {
     throw new Error(`fetchPublic failed: ${path} ${r.status}`);
@@ -123,13 +164,11 @@ export async function fetchPublicOrNotFound<T>(
   options: FetchPublicOptions = {},
 ): Promise<T> {
   const { revalidate = 30, headers, ...rest } = options;
+  const mergedHeaders = await buildHeaders(headers);
   const r = await doFetch(path, {
     ...rest,
     next: { revalidate },
-    headers: {
-      Accept: "application/json",
-      ...(headers ?? {}),
-    },
+    headers: mergedHeaders,
   });
   if (r.status === 404) throw new FetchPublicNotFoundError(path);
   if (!r.ok) throw new Error(`fetchPublic failed: ${path} ${r.status}`);

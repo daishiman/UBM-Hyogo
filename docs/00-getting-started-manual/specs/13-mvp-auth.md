@@ -78,6 +78,14 @@ LoginPage を正本として整合する。
 実装 wave: `docs/30-workflows/login-page-prototype-alignment/`。
 Auth.js / Magic Link API / D1 access boundary は変更しない。
 
+## `/profile` session transport observability（2026-06-11）
+
+`/profile` の初回 `/me` server fetch は `fetchAuthed()` → `resolveApiFetch()` → `safeServerFetch()` の境界で扱う。staging / production では `API_SERVICE` service binding を優先し、`ENVIRONMENT` が明示されず service binding / internal base URL も無い場合は localhost fallback せず fail-closed する。
+
+`server_fetch_failed` log は `{ code, path, status, transportKind, baseHost }` を出す。これにより実機 staging で、失敗が 410（削除済み member）、5xx、または transport failure のどれかを切り分けられる。ログは host と status のみで、memberId / responseId / cookie / token / secret は出さない。
+
+この観測性強化は UI 文言、`/me` API response、session JWT claims、D1 schema、Google Form schema を変更しない。
+
 ### `/login` balance / brand-icon fix（2026-05-26）
 
 後続 wave `docs/30-workflows/completed-tasks/login-ui-balance-and-runtime-fix/` で、`.auth-card .ui-input[data-size="lg"]` は button と同じ 44px 高さ / `--ubm-space-4` horizontal padding に揃えた。`legacy-public.css` の汎用 `[data-size]` 円形スタイルは `data-component="google-brand-icon"`、`.ui-input`、`.ui-button` を除外し、Google 公式 4 色 SVG を CSS で改変しない。
@@ -105,7 +113,7 @@ Auth.js / Magic Link API / D1 access boundary は変更しない。
 
 ## MVP 受け入れ条件
 
-1. 未ログインでも公開一覧・公開詳細を閲覧できる
+1. 未認証では公開一覧・公開詳細を閲覧できず、`/login` 以外では案内画面を表示する。認証済み会員は公開一覧・公開詳細を閲覧できる
 2. `responseEmail` 一致の会員だけログインできる
 3. `rulesConsent` 未同意ではログインできない
 4. マイページから Google Form 更新導線へ行ける

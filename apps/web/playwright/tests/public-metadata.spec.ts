@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { memberLogin } from "../fixtures/auth";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -16,6 +17,11 @@ async function writePhase11Evidence(fileName: string, data: Buffer | string) {
 }
 
 test.describe("public pages OGP / sitemap / robots", () => {
+  // 公開層は全ルート認証必須化されたため、page でルートを訪問するテスト前に会員認証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   for (const path of PUBLIC_ROUTES) {
     test(`${path} exposes OG and Twitter meta tags`, async ({ page }) => {
       await page.goto(path);

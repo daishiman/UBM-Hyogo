@@ -1,5 +1,7 @@
 // task-12: 公開会員詳細の tag chip 群
+// Lane B: SectionCard でラップ。
 import { Badge } from "../ui/Badge";
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface MemberTagsProps {
   tags: ReadonlyArray<{ code: string; label: string; category: string }>;
@@ -7,8 +9,7 @@ export interface MemberTagsProps {
 
 export function MemberTags({ tags }: MemberTagsProps) {
   return (
-    <section data-component="member-tags" className="tags-root">
-      <h2 className="tags-title">タグ</h2>
+    <SectionCard as="section" data-component="member-tags" className="tags-root" title="タグ">
       {tags.length === 0 ? (
         <p data-role="empty-tags">タグ未設定</p>
       ) : (
@@ -22,6 +23,6 @@ export function MemberTags({ tags }: MemberTagsProps) {
           ))}
         </ul>
       )}
-    </section>
+    </SectionCard>
   );
 }

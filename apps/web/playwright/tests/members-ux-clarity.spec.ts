@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import { expect, test } from "../fixtures/auth";
+import { expect, memberLogin, test } from "../fixtures/auth";
 
 const workflowRoot =
   process.env.MEMBERS_UX_EVIDENCE_DIR !== undefined
@@ -67,9 +67,14 @@ async function expandFiltersIfCollapsed(page: import("@playwright/test").Page) {
 test.describe("members UX clarity visual baseline", () => {
   test.setTimeout(180_000);
 
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test.beforeAll(async ({ browser, baseURL }, testInfo) => {
     testInfo.setTimeout(180_000);
     const page = await browser.newPage();
+    await memberLogin(page.context());
     try {
       await page.goto(`${baseURL ?? "http://localhost:3000"}/members`, {
         waitUntil: "domcontentloaded",
