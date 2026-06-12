@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-137: UI 刷新 task の仕様書には「branch 常駐 visual 赤の切り分け→baseline-update dispatch→bot push 後 action_required の空コミット re-trigger」を CI 緑化のワンセット手順として Phase 11 に逐語化する（L-DEVSYNC-137 の task-spec 版）
+- 2026-06-12 `docs/public-member-common-ui-card-unification-spec`（wt-17・5th pass sync 後の CI 緑化）。`playwright-visual-full` / `playwright-smoke` failure は sync 起因でなく本ブランチの意図的 8 画面 UI 刷新による baseline 陳腐化（push 前から全 run failure・失敗 spec＝刷新対象 8 画面と完全一致）。
+- How to apply（公開/会員/管理画面の見た目を変える task の Phase 11 検証手順への逐語化）:
+  - **切り分けコマンドを明記**: 「visual CI failure 時は `gh run list --branch <b> --workflow <wf> --limit 6` で push 前 conclusion を遡り、push 前から全 failure なら本 task の意図的変更による baseline 陳腐化と判定（merge 起因の調査へ進まない）」。
+  - **解消手順は dispatch 一発**: `gh workflow run playwright-visual-baseline-update.yml --ref <branch> -f reason="<UI 変更内容と stale 化理由>"`（approval gate 付き・visual-full + smoke + sidebar-shell 3 系統一括再生成・source branch へ bot が直接 commit/push）。手動 `--update-snapshots` + commit の手順を仕様書に書かない。
+  - **bot push 後の action_required 対応まで含めてワンセット**: bot commit の pull_request CI は全件 `action_required` で止まる（GITHUB_TOKEN 連鎖防止・approve API は fork PR 専用 403・`gh run rerun` 不可）。「`git merge --ff-only @{u}` でローカル追従 → `git commit --allow-empty` → `git push` で再トリガー → 新 HEAD の visual 系 success を確認」までを Phase 11 の DoD に記載する。
+- 検証: dispatch run `27400529754` success → bot `fb38a8d27`（baseline 65 件 + meta）→ 20 run 全 action_required / approve 403 → 空コミット `b040f2bfb` push → `playwright-visual-full` / `playwright-smoke` / `ci` / `PR Build Test` / `lighthouse-ci` 全 success。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-137（本 lesson の正本）。SP-DEVSYNC-128（sync 緑でも visual-full 別レイヤー落ち）/ SP-DEVSYNC-134/135（baseline メタの sync 衝突）と対。
+
 ### SP-DEVSYNC-136: local dev 同期手段は毎 pass 再判定（前 pass の二重ブロックは恒久でない・5th pass は dev 非 checkout 化で `git fetch origin dev:dev` 直接成功）＋ 衝突集合サイズも非単調（4th=4 → 5th=1・topic-map 単独）＋ baseline 非生成側ブランチは VISUAL delta 取込でも `.baseline-meta.json` 衝突なし（条件付き衝突の負例実証）
 - 2026-06-12 `docs/public-member-common-ui-card-unification-spec` ← dev（sub-worktree wt-17, behind 1 / ahead 16, merge `8783cf5fa`・SP-DEVSYNC-135 の `202bffa80` に続く同一ブランチ 5th pass）。取込 1 件 = #1215（admin サイドバー折りたたみ時 nav アイコン縦間隔 parity・VISUAL feature＝tablet baseline png 7 件 + `.baseline-meta.json` 再生成を含む 65 files）。
 - 4th pass で二重ブロック（dev が main WT checkout 済 + main WT dirty）された local dev 同期が、5th pass では `git worktree list` 確認で **dev がどの WT にも非 checkout**（main WT は別 docs ブランチへ切替済）と判明し、sub-worktree から `git fetch origin dev:dev`（ff）が直接成功・フォールバック不要。CONFLICT は **1 file** = `indexes/topic-map.md` のみ（union core 3 + keywords.json + apps + baseline png/メタ全 Auto-merge）。`pnpm sync:resolve` 1 回 exit 0・手動解消ゼロ。
