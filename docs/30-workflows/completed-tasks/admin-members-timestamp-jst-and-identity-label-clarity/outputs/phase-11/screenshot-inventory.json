@@ -1,0 +1,26 @@
+{
+  "taskId": "admin-members-timestamp-jst-and-identity-label-clarity",
+  "mode": "VISUAL",
+  "captureDate": "2026-06-10",
+  "environment": "local-playwright-fixture",
+  "screenshots": [
+    {
+      "id": "TC-11-1",
+      "file": "screenshots/members-last-updated-jst.png",
+      "route": "/admin/members",
+      "viewport": "1280x720"
+    },
+    {
+      "id": "TC-11-2-3",
+      "file": "screenshots/member-drawer-identity-ja.png",
+      "route": "/admin/members",
+      "viewport": "1280x720"
+    },
+    {
+      "id": "TC-11-4-5",
+      "file": "screenshots/member-diagnostics-ja.png",
+      "route": "/admin/members",
+      "viewport": "1280x720"
+    }
+  ]
+}

@@ -9,13 +9,17 @@ interface SmokeRoute {
   expectedStatus?: number
 }
 
+// 公開層は全ルート認証必須化（require-auth-public-access-gate）。未認証では
+// (public)/layout が LoginRequiredNotice を返すため、公開コンテンツの landmark を
+// 検証するには会員ログイン済みで訪問する。/login だけは認証不要のまま。
+// 未認証ゲートの挙動は public-auth-gate.spec.ts で別途検証する。
 const ROUTES: SmokeRoute[] = [
-  { path: '/', auth: 'public', landmark: ['main h1', '[data-testid="public-hero"]'] },
-  { path: '/members', auth: 'public', landmark: ['main h1', '[data-testid="member-grid"]'] },
-  { path: '/members/sample-001', auth: 'public', landmark: ['main h1'] },
-  { path: '/register', auth: 'public', landmark: ['main h1'] },
-  { path: '/privacy', auth: 'public', landmark: ['main h1'] },
-  { path: '/terms', auth: 'public', landmark: ['main h1'] },
+  { path: '/', auth: 'member', landmark: ['main h1', '[data-testid="public-hero"]'] },
+  { path: '/members', auth: 'member', landmark: ['main h1', '[data-testid="member-grid"]'] },
+  { path: '/members/sample-001', auth: 'member', landmark: ['main h1'] },
+  { path: '/register', auth: 'member', landmark: ['main h1'] },
+  { path: '/privacy', auth: 'member', landmark: ['main h1'] },
+  { path: '/terms', auth: 'member', landmark: ['main h1'] },
   { path: '/login', auth: 'public', landmark: ['main h1'] },
   { path: '/profile', auth: 'member', landmark: ['main h1'] },
   { path: '/admin', auth: 'admin', landmark: ['main h1', '[aria-labelledby="admin-dashboard-h"]'] },
@@ -26,7 +30,7 @@ const ROUTES: SmokeRoute[] = [
   { path: '/admin/requests', auth: 'admin', landmark: ['main h1', 'text=会員からの申請'] },
   { path: '/admin/identity-conflicts', auth: 'admin', landmark: ['main h1'] },
   { path: '/admin/audit', auth: 'admin', landmark: ['main h1', '[data-component="admin-audit"]'] },
-  { path: '/__not_found_canary', auth: 'public', landmark: ['[data-testid="not-found"]'], expectedStatus: 404 },
+  { path: '/__not_found_canary', auth: 'member', landmark: ['[data-testid="not-found"]'], expectedStatus: 404 },
 ]
 
 for (const route of ROUTES) {

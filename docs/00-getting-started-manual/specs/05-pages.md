@@ -25,6 +25,8 @@
 | 管理 | `/admin/schema` | スキーマ差分レビュー。Google Form の変更差分と `stableKey` 未割当項目を処理する |
 | 管理 | `/admin/meetings` | 開催日と参加履歴の管理。開催日追加と会員ごとの参加付与/解除を行う |
 
+> require-auth-public-access-gate 以降、`/login` 以外の公開レイヤ画面は認証済み会員向けである。未認証ユーザーには `(public)/layout.tsx` が `LoginRequiredNotice` を表示し、各 page の本来コンテンツと RSC data fetch は実行しない。
+
 ---
 
 ## Issue #958 H3 public filter UX
@@ -52,7 +54,7 @@ Phase 11 local static screenshots are present; staging visual capture remains pe
 
 #### `/members`
 
-- 未ログインでも閲覧できる
+- ログイン済み会員だけが閲覧できる。未認証時は「ログインが必要です」案内画面を表示する
 - 表示対象は `掲載同意済み` かつ `管理上公開中` のメンバーだけに限定する
 - 一覧の主要操作は検索、絞り込み、並び替え、表示密度切替に絞る
 - 空状態では「該当メンバーなし」と絞り込み解除導線を出す
@@ -63,7 +65,7 @@ Phase 11 local static screenshots are present; staging visual capture remains pe
 
 #### `/members/[id]`
 
-- 一覧と同じ公開条件で閲覧可能にする
+- 一覧と同じ公開条件（ログイン済み会員 + 掲載同意済み + 管理上公開中）で閲覧可能にする
 - Hero で `氏名 / 職業 / UBM区画 / 参加ステータス / 所在地 / 主タグ` を先頭表示する
 - 本文は `ビジネス概要 / スキル / 提供できること / 人となり / SNS・連絡先` の順で出す
 - 管理操作や本人編集導線は混在させない
