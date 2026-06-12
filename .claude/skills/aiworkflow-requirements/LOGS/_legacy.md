@@ -1286,3 +1286,9 @@ production env monitor secret cleanup は user-gated。
 ## 2026-06-09 member-data-source-precedence-and-profile-session-fix
 
 `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` を `implemented_local_runtime_pending / implementation / VISUAL` として同一 wave 同期。`member_field_overrides`、Sheets seed import-once、L1>L2>L3 precedence、admin override endpoint/UI、`/profile` auth fail-safe を実装し、system specs / artifact inventory / indexes / changelog を更新。remote D1 apply、staging deploy、authenticated visual capture、commit、push、PR は user-gated。
+# 2026-06-10 public-member-common-ui-card-unification
+
+- Registered `docs/30-workflows/public-member-common-ui-card-unification/` as `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` (promoted from `spec_created` after apps/web implementation diffs appeared).
+- Added Phase 12 strict 7, plus aiworkflow quick-reference, resource-map, task-workflow-active, artifact inventory (with Lessons Learned L-PMCUC-001..005), dated changelog, and SKILL-changelog entries.
+- Implementation verified locally: focused Vitest 62 tests / 7 files PASS, root typecheck (7 projects) + apps/web eslint + verify-no-inline-style OK, HEX 0, apps/api UNTOUCHED.
+- Boundary: full screenshots, staging visual baseline, commit, push, and PR remain user-gated; apps/api / D1 / Google Form / API surface unchanged.

@@ -1,7 +1,9 @@
 // task-13 Phase 5: /login の非 input 状態（sent/unregistered/deleted/rules_declined/error）の本文。
-// 不変条件 #6: ui-primitives Banner 経由で OKLch tokens のみ使用。
+// Lane C: <a> 直書き → ButtonLink（AC-3）。
+// 不変条件 #6: ui-primitives Banner / ButtonLink 経由で OKLch tokens のみ使用。
 
 import { Banner } from "../../../../src/components/ui/Banner";
+import { ButtonLink } from "../../../../src/components/ui/ButtonLink";
 import { Icon } from "../../../../src/components/ui/Icon";
 import { FORM_RESPONDER_URL } from "../../../../src/lib/constants/form";
 import type { LoginGateState } from "../../../../src/lib/url/login-query";
@@ -30,10 +32,14 @@ export function LoginStatus({ state, redirect, email, error }: LoginStatusProps)
             <br />
             数分以内に届かない場合は迷惑メールをご確認ください。
           </p>
-          <a className="ui-button ui-button-ghost ui-button-sm" href={inputHref}>
-            <Icon name="arrow-left" size="sm" />
+          <ButtonLink
+            href={inputHref}
+            variant="ghost"
+            size="sm"
+            leftIcon={<Icon name="arrow-left" size="sm" />}
+          >
             戻る
-          </a>
+          </ButtonLink>
         </div>
       );
     case "unregistered":
