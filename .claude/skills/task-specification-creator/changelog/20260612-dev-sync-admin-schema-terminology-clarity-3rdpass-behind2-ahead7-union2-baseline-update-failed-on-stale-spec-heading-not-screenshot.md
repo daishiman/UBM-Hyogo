@@ -1,0 +1,10 @@
+# dev sync 3rd pass: behind 2 / ahead 7・union 2 自動解消・**baseline-update workflow failure の真因 = 見出しリネームへの Playwright spec 文言追従漏れ（機能 assertion fail・screenshot 以前）**→ 仕様書の文言リネーム追従範囲に「Playwright getByRole heading アサーション」を含めるべき実証（2026-06-12 feat/admin-schema-terminology-clarity）
+
+- 日時: 2026-06-12（sub-worktree task-20260611-071903-wt-5・3rd pass）
+- ブランチ: `feat/admin-schema-terminology-clarity` ← `dev`（**2 behind / 7 ahead**・merge `9a650985f`・取込 #1213 公開/会員 8 画面レイアウト統一 + #1233 docs 整理）。CONFLICT = aiworkflow union 2（quick-reference + task-workflow-active・sync:resolve 単発）のみ・task-spec 側衝突 0・`apps/**` 0（公開/会員層 vs admin 層のレイヤー分離）。
+- **🔴 spec 設計への教訓（文言リネームの追従範囲指定が不足していた実証）**: 本 feature の見出しリネーム `項目別の差分`→`項目別の変更点`（commit `3bc0054a5`）は component spec を同 wave 追従させたが、**Playwright spec 2 ファイル 6 アサーション（visual/admin-schema-diff.spec.ts ×5 + admin-schema-conflicts-audit.spec.ts ×1）を取りこぼし**、baseline-update workflow（run `27399708618`・user 承認済み）が `getByRole("heading", { name: "項目別の差分" })` の `toBeVisible` timeout で failure（**screenshot 比較に到達する前の機能 fail = baseline 再生成経路自体が塞がる**）。Issue #1219（fixture 文言整合漏れ・cosmetic）と同型だが本件は blocking。
+- 仕様書テンプレへの反映指針:
+  1. 画面文言（heading/eyebrow/label）リネームを含むタスクの Phase 5 同期チェックリストは「component spec / Playwright fixture / **Playwright `getByRole` 文言アサーション**」の 3 系統を明示し、`grep -rn '<旧文言>' apps/web/playwright apps/web/src --include='*.ts*'` 0 件を AC に含める。
+  2. baseline-update workflow failure の切り分け手順を Phase 11 に逐語化: `gh run view <id> --log-failed` の `✘` 行 error 種別が `toHaveScreenshot`（=baseline 差分）か `toBeVisible`/`element(s) not found`（=文言・構造追従漏れ）かで対応を分岐。
+- 解消: spec 6 箇所を新文言へ追従 → 旧文言 grep 0 → typecheck/lint exit 0 → push → baseline-update 再 dispatch（user 承認 gate）。
+- 参照: aiworkflow-requirements [[20260612-dev-sync-admin-schema-terminology-clarity-3rdpass-behind2-ahead7-union2-baseline-update-failed-on-stale-spec-heading-not-screenshot]]（正本）, SP-DEVSYNC-131（baseline 1:N 波及）, Issue #1219（同型 fixture 漏れ）。
