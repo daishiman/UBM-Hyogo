@@ -1,0 +1,11 @@
+PASS mise exec -- pnpm exec vitest run apps/web/src/features/admin/components/_meetings/__tests__/MeetingAttendanceDrawer.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/MeetingTimeline.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/MeetingsClientShell.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/BulkAttendanceChecklist.spec.tsx
+
+Observed result:
+- Test Files: 4 passed
+- Tests: 18 passed
+- MeetingAttendanceDrawer.spec.tsx: 3 passed
+- MeetingTimeline.spec.tsx: 9 passed
+- MeetingsClientShell.spec.tsx: 4 passed
+- BulkAttendanceChecklist.spec.tsx: 2 passed
+
+Note: the repo-root path command above is the canonical focused Vitest command and passed.
