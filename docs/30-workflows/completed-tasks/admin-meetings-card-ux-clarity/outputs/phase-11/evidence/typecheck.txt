@@ -1,0 +1,10 @@
+PASS mise exec -- pnpm typecheck
+
+Observed result:
+- packages/shared typecheck: Done
+- packages/contracts typecheck: Done
+- apps/og typecheck: Done
+- apps/web typecheck: Done
+- apps/api typecheck: Done
+
+Note: mise printed the local trust warning for .mise.toml; command still completed exit 0.

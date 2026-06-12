@@ -28,7 +28,7 @@ export function MeetingTimeline({
     );
   }
   return (
-    <ul role="list" className="admin-timeline flex flex-col gap-2">
+    <ul role="list" className="admin-timeline">
       {items.map((m) => {
         const isSelected = selectedId === m.sessionId;
         const attendanceCount = getAttendanceCount?.(m) ?? m.attendance?.length ?? 0;

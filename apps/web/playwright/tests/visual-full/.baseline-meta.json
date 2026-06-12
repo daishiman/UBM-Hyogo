@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "c54790932f7fe58e8d8a5c387c5b7ec32e885e8e",
-  "captured_at": "2026-06-11T10:32:57Z",
+  "captured_at_commit_sha": "0a9559eb9f1d74152c1da5ee39c512f8a62d233a",
+  "captured_at": "2026-06-11T10:50:02Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "27247391142",
@@ -13,7 +13,8 @@
     "27308537802",
     "27317315197",
     "27320055437",
-    "27340194772"
+    "27340194772",
+    "27341009167"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "require-auth-public-access-gate: 公開層を全ルート認証必須化したため、公開ルートのvisual baseline(visual-full/visual-chromium/sidebar-shell)を会員ログイン済みの表示で再生成する"
+  "last_refresh_reason": "dev sync merge union: (1) feature 側=admin-meetings カードUI実体化(カード間スペース/枠/サブカード化)で描画高さ +20px。full-visual-admin-meetings-{desktop,mobile,tablet} baseline を再生成 (run 27341009167・PR #1217)。(2) 取込 dev 側=require-auth-public-access-gate で公開層を全ルート認証必須化したため、公開ルートの visual baseline(visual-full/visual-chromium/sidebar-shell)を会員ログイン済みの表示で再生成 (run 27340194772)。対象スナップショット(admin-meetings / 公開ルート)が分離するため双方を union 統合。"
 }

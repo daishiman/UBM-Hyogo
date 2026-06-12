@@ -1,0 +1,7 @@
+PASS mise exec -- pnpm verify:tokens
+
+Observed result:
+design tokens in sync (91 tracked)
+
+Implementation note:
+`--ubm-color-border-subtle` was not added because that produced 09b design-token drift. The existing undefined reference was instead changed to `--ubm-color-border-default`.
