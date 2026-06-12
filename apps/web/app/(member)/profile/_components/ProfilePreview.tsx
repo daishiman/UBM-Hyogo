@@ -1,9 +1,10 @@
 // workflow: mypage-prototype-alignment / Phase 5 / ST-3
-// 役割: Avatar hero-split + displayName / subtitle / chips を描画する Server Component。
-// 不変条件: 新規 primitive ゼロ（既存 Avatar / Chip / Card の合成のみ）。HEX 直書き禁止。
+// Lane C: SectionCard(hero-split) へ移行（AC-4）。
+// 不変条件: HEX 直書き禁止。aria-label / data-region は I-7 保全。
 
 import { Avatar } from "@/components/ui/Avatar";
 import { Chip } from "@/components/ui/Chip";
+import { SectionCard } from "@/components/ui/layout";
 
 export interface ProfilePreviewChip {
   readonly label: string;
@@ -25,10 +26,11 @@ export function ProfilePreview({
 }: ProfilePreviewProps) {
   const name = displayName.length > 0 ? displayName : "会員";
   return (
-    <section
+    <SectionCard
       aria-label="プロフィールプレビュー"
       data-region="profile-preview"
-      className="ui-card card-pad-lg hero-split"
+      className="hero-split"
+      padding="lg"
     >
       <Avatar memberId={memberId} name={name} size="xl" />
       <div>
@@ -47,6 +49,6 @@ export function ProfilePreview({
           </div>
         ) : null}
       </div>
-    </section>
+    </SectionCard>
   );
 }

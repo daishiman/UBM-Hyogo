@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+### public-member-common-ui-card-unification（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/` |
+| 目的 | 公開層・会員層・login の8画面を共通レイアウトプリミティブ層へ統一し、カード・背景・ボタン・本文タイポを単一の改善起点へ集約する |
+| implementation plan | Lane A（PageShell/PageHeader/SectionCard/ContentCard/Prose/ButtonLink + layout CSS）を先行し、Lane B（公開6画面）と Lane C（profile/login）を Lane A 後に並列適用する |
+| strict evidence | Phase 12 strict 7 present under `outputs/phase-12/`; local apps/web implementation is present, visual screenshot PASS is still pending |
+| invariant | apps/api / D1 schema / Google Form / public API response surface unchanged |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
 ### admin-meetings-card-ux-clarity（2026-06-10）
 
 | 項目 | 値 |
