@@ -13,6 +13,58 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-japanese-clarity-and-filter-collapse-artifact-inventory.md` |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+## admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| evidence | focused Vitest 4 files / 18 tests PASS; local Playwright visual 1 test PASS / 5 PNG present; typecheck/lint/verify:tokens PASS; HEX grep 0; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, deploy, commit, push, PR |
+
+## require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| purpose | `/login` 以外の公開 UI と `/public/*` API を認証必須化し、未認証 UI は `LoginRequiredNotice`、API は 401 にする |
+| implementation | `LoginRequiredNotice.tsx`, `(public)/layout.tsx`, `fetch/public.ts`, `sitemap.ts`, `require-public-access.ts`, `public/index.ts`, `member-source.ts`, `require-admin.ts` helper |
+| evidence | focused web/api/og specs, web/api/og typecheck/lint recorded in workflow Phase 11; runtime screenshots user-gated |
+| invariant | `/login` は未認証可、`/profile` / `/admin/*` gate 不変、D1 / Google Form / response fields 不変 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy, runtime screenshots, `INTERNAL_AUTH_SECRET` secret placement, commit, push, PR |
+
+## admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-members-timestamp-jst-and-identity-label-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/members` の最終更新列を JST 秒付き表記へ変更し、MemberDrawer の IDENTITY / DIAGNOSTICS を日本語ラベル主・英語キー併記へ変更する |
+| implementation | `apps/web/src/lib/format/datetime.ts`, `apps/web/src/features/admin/components/_members/memberSystemFieldGlossary.ts`, `MembersTable.tsx`, `MemberDrawer.tsx`, `MemberDiagnosticsPanel.tsx` |
+| evidence | focused Vitest 5 files / 41 tests PASS; local Playwright fixture 1 test PASS; local screenshots 3 PNG present |
+| invariant | apps/api / D1 migration / Google Form schema / endpoint surface / shared response schema unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, staging deploy, commit, push, PR |
+
+## issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| status | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| issue | #222 CLOSED（reopen / mutation は user-gated） |
+| purpose | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化する |
+| implementation | `packages/shared/src/public-search/{search-query-primitives,index}.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 変更なし |
+| evidence | shared public-search 12 PASS; api regression 30 PASS; web regression 11 PASS; shared/api/web typecheck PASS; root lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit, push, PR, deploy, Issue mutation |
+
 ## vitest-2-to-3-major-upgrade（2026-06-10）
 
 | 項目 | 値 |
