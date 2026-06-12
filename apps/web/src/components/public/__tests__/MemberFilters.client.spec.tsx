@@ -71,6 +71,23 @@ describe("MemberFilters", () => {
     expect(lastCall).toContain("zone=0_to_1");
   });
 
+  it("並び替えは4選択肢を表示し、recent の接頭辞を付けない", () => {
+    render(<MemberFilters initial={baseInitial} />);
+    const sortSelect = screen.getByLabelText("並び替え") as HTMLSelectElement;
+
+    expect([...sortSelect.options].map((option) => option.textContent)).toEqual([
+      "新しい順",
+      "古い順",
+      "名前順",
+      "名前の逆順",
+    ]);
+
+    fireEvent.change(sortSelect, { target: { value: "name_desc" } });
+    expect(replaceMock).toHaveBeenCalled();
+    const lastCall = replaceMock.mock.calls.at(-1)?.[0] as string;
+    expect(lastCall).toContain("sort=name_desc");
+  });
+
   it("tag が指定済みの場合 active-tags リストを描画し × ボタンで削除できる", () => {
     const { container } = render(
       <MemberFilters
