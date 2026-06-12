@@ -1,6 +1,7 @@
 export * from "./Chip";
 export * from "./Avatar";
 export * from "./Button";
+export * from "./ButtonLink";
 export * from "./Card";
 export * from "./Badge";
 export * from "./Checkbox";

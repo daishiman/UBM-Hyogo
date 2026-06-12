@@ -1,9 +1,12 @@
 // task-12: 公開会員詳細の publicSections を <section data-section> + KVList で展開する
 // 不変条件 #1: 全 KV row に data-stable-key を必ず付与する
 // 不変条件 #5: API 経由のみで取得した shape をそのまま render する
+// Lane B: SectionCard でラップ。data-section は SectionCard の data-section 透過で維持（I-7）。
 import type { z } from "zod";
 
 import type { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 type Section = z.infer<typeof PublicMemberProfileZ>["publicSections"][number];
 type Field = Section["fields"][number];
@@ -24,12 +27,13 @@ export function MemberDetailSections({ sections }: MemberDetailSectionsProps) {
       {sections.map((section) => {
         if (section.fields.length === 0) return null;
         return (
-          <section
+          <SectionCard
             key={section.key}
+            as="section"
             data-section={section.key}
             className="detail-section"
+            title={section.title}
           >
-            <h2 className="detail-section-title">{section.title}</h2>
             <dl className="kv-list">
               {section.fields.map((field) => (
                 <div
@@ -43,7 +47,7 @@ export function MemberDetailSections({ sections }: MemberDetailSectionsProps) {
                 </div>
               ))}
             </dl>
-          </section>
+          </SectionCard>
         );
       })}
     </>

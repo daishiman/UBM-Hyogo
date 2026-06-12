@@ -1,11 +1,13 @@
 "use client";
 // 06b: 参加履歴（read-only）。
+// Lane C: SectionCard へ移行（AC-4）。aria-label / data-testid は I-7 保全。
 // issue-372: 直近 N 件 + cursor で「もっと見る」追加読み込みに対応する。
 // hasMore=false の場合は従来通り一覧のみを表示する。
 
 import { useState } from "react";
 import type { MemberProfile } from "@ubm-hyogo/shared";
 import type { MeAttendancePageResponse } from "@/lib/api/me-types";
+import { SectionCard } from "@/components/ui/layout";
 
 export interface AttendanceListProps {
   readonly attendance: MemberProfile["attendance"];
@@ -46,15 +48,13 @@ export function AttendanceList({ attendance, attendanceMeta }: AttendanceListPro
 
   if (items.length === 0) {
     return (
-      <section aria-label="参加履歴">
-        <h2>参加履歴</h2>
+      <SectionCard title="参加履歴" aria-label="参加履歴">
         <p data-state="empty">まだ参加履歴がありません。</p>
-      </section>
+      </SectionCard>
     );
   }
   return (
-    <section aria-label="参加履歴">
-      <h2>参加履歴</h2>
+    <SectionCard title="参加履歴" aria-label="参加履歴">
       <ul>
         {items.map((item) => (
           <li key={item.sessionId}>
@@ -78,6 +78,6 @@ export function AttendanceList({ attendance, attendanceMeta }: AttendanceListPro
           {error}
         </p>
       )}
-    </section>
+    </SectionCard>
   );
 }

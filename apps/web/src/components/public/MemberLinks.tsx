@@ -1,8 +1,11 @@
 // task-12: publicSections から url kind の field のみ抽出してリンク pill 群として描画する
 // 不変条件 #1: data-stable-key を li に焼く
+// Lane B: SectionCard でラップ。
 import type { z } from "zod";
 
 import type { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 type Section = z.infer<typeof PublicMemberProfileZ>["publicSections"][number];
 
@@ -22,8 +25,7 @@ export function MemberLinks({ sections }: MemberLinksProps) {
   );
   if (links.length === 0) return null;
   return (
-    <section data-component="member-links" className="links-root">
-      <h2 className="links-title">SNS / WEB</h2>
+    <SectionCard as="section" data-component="member-links" className="links-root" title="SNS / WEB">
       <ul className="links-list" role="list">
         {links.map((l) => (
           <li key={l.stableKey} data-stable-key={l.stableKey}>
@@ -38,6 +40,6 @@ export function MemberLinks({ sections }: MemberLinksProps) {
           </li>
         ))}
       </ul>
-    </section>
+    </SectionCard>
   );
 }

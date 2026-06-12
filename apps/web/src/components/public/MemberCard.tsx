@@ -6,6 +6,7 @@ import { phaseTone, selectCardTags } from "../../lib/tags/tag-display";
 import { statusTone, zoneTone } from "../../lib/tones";
 import { Avatar } from "../ui/Avatar";
 import { Icon } from "../ui/Icon";
+// Lane B: ContentCard 基盤に準拠（ui-content-card クラス適用）。data-component/data-density は I-7 維持。
 
 export type PublicMemberListItem = z.infer<typeof PublicMemberListItemZ>;
 
@@ -39,7 +40,7 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
     ) : null;
 
   return (
-    <article data-component="member-card" data-density={density}>
+    <article data-component="member-card" data-density={density} className="ui-content-card">
       <a
         href={`/members/${member.memberId}`}
         aria-label={`${member.fullName} の詳細`}
