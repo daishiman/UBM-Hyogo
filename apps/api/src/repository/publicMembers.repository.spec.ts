@@ -155,6 +155,72 @@ describe("publicMembers canonical alias exclusion", () => {
     ]);
   });
 
+  it("sorts by last_submitted_at ascending for public sort=oldest", async () => {
+    await seedPublicMember(
+      env,
+      "m_oldest_late",
+      "r_oldest_late",
+      "2026-04-01T00:00:00.000Z",
+      "Late User",
+    );
+    await seedPublicMember(
+      env,
+      "m_oldest_early",
+      "r_oldest_early",
+      "2026-01-15T00:00:00.000Z",
+      "Early User",
+    );
+
+    const rows = await listPublicMembers(env.ctx, {
+      q: "",
+      zone: "all",
+      status: "all",
+      tagCodes: [],
+      sort: "oldest",
+      page: 1,
+      limit: 10,
+    });
+
+    expect(rows.map((r) => r.member_id).slice(0, 3)).toEqual([
+      "m_target",
+      "m_oldest_early",
+      "m_oldest_late",
+    ]);
+  });
+
+  it("sorts by fullName descending for public sort=name_desc", async () => {
+    await seedPublicMember(
+      env,
+      "m_beta_desc",
+      "r_beta_desc",
+      "2026-03-01T00:00:00.000Z",
+      "Beta User",
+    );
+    await seedPublicMember(
+      env,
+      "m_alpha_desc",
+      "r_alpha_desc",
+      "2026-04-01T00:00:00.000Z",
+      "Alpha User",
+    );
+
+    const rows = await listPublicMembers(env.ctx, {
+      q: "",
+      zone: "all",
+      status: "all",
+      tagCodes: [],
+      sort: "name_desc",
+      page: 1,
+      limit: 10,
+    });
+
+    expect(rows.map((r) => r.member_id).slice(0, 3)).toEqual([
+      "m_target",
+      "m_beta_desc",
+      "m_alpha_desc",
+    ]);
+  });
+
   it("keeps q, zone, status, and tag binds aligned for compound filters", async () => {
     await seedPublicMember(
       env,

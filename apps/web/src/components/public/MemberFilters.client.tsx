@@ -37,8 +37,10 @@ const STATUS_OPTIONS = [
 ];
 
 const SORT_OPTIONS = [
-  { value: "recent", label: "並び替え: 新着順" },
-  { value: "name", label: "並び替え: 名前順" },
+  { value: "recent", label: "新しい順" },
+  { value: "oldest", label: "古い順" },
+  { value: "name", label: "名前順" },
+  { value: "name_desc", label: "名前の逆順" },
 ];
 
 export interface MemberFiltersProps {
