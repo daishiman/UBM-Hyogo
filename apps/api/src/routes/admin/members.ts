@@ -82,6 +82,7 @@ const BulkTagBodyZ = z.object({
 
 type ConsentValue = "consented" | "declined" | "unknown";
 type PublishStateValue = "public" | "member_only" | "hidden";
+type PendingRequestType = "visibility_request" | "delete_request";
 
 const normalizeConsent = (v: string | null | undefined): ConsentValue =>
   v === "consented" || v === "declined" ? v : "unknown";
@@ -107,6 +108,7 @@ interface MemberListRow {
   last_submitted_at: string;
   answers_json: string | null;
   tags_json: string | null;
+  pending_request_types_json: string | null;
   public_consent: string | null;
   rules_consent: string | null;
   publish_state: string | null;
@@ -143,6 +145,19 @@ const parseTagsJson = (raw: string | null): Array<{ code: string; label: string 
       }
       return [];
     });
+  } catch {
+    return [];
+  }
+};
+
+const parsePendingRequestTypes = (raw: string | null): PendingRequestType[] => {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((value): value is PendingRequestType =>
+      value === "visibility_request" || value === "delete_request",
+    );
   } catch {
     return [];
   }
@@ -400,6 +415,13 @@ export const createAdminMembersRoute = () => {
                   JOIN tag_definitions td ON td.tag_id = mt.tag_id
                   WHERE mt.member_id = mi.member_id
                 ) AS tags_json,
+                (
+                  SELECT json_group_array(DISTINCT amn.note_type)
+                  FROM admin_member_notes amn
+                  WHERE amn.member_id = mi.member_id
+                    AND amn.note_type IN ('visibility_request', 'delete_request')
+                    AND amn.request_status = 'pending'
+                ) AS pending_request_types_json,
                 ms.public_consent, ms.rules_consent, ms.publish_state, ms.is_deleted
          FROM member_identities mi
          LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
@@ -442,6 +464,7 @@ export const createAdminMembersRoute = () => {
           ubmZone,
           ubmMembershipType,
           tags: parseTagsJson(row.tags_json),
+          pendingRequestTypes: parsePendingRequestTypes(row.pending_request_types_json),
           updatedAt: normalizeIso(row.last_submitted_at),
         };
       });

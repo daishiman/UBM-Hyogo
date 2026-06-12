@@ -1,10 +1,12 @@
 // followup-003 Lane C: プロトタイプ準拠テーブル (pages-admin.jsx L223-276)
 "use client";
+import Link from "next/link";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
 import { Chip } from "../../../../components/ui/Chip";
 import { EmptyState } from "../../../../components/ui/EmptyState";
 import { Pagination } from "../../../../components/ui/Pagination";
 import { statusTone, zoneTone } from "../../../../lib/tones";
+import { formatJstDateTimeWithSeconds } from "../../../../lib/format/datetime";
 import { MemberAvatar } from "./MemberAvatar";
 import { MemberStateChipRow } from "./MemberStateChip";
 import { MemberPublishSwitch } from "./MemberPublishSwitch";
@@ -57,6 +59,9 @@ function memberTagPills(tags: Member["tags"]) {
     </>
   );
 }
+
+const pendingRequestLabel = (type: Member["pendingRequestTypes"][number]): string =>
+  type === "delete_request" ? "退会申請中" : "公開申請中";
 
 export function MembersTable({
   items,
@@ -160,17 +165,29 @@ export function MembersTable({
                     publishState={m.publishState}
                     isDeleted={m.isDeleted}
                   />
+                  {(m.pendingRequestTypes ?? []).map((requestType) => (
+                    <Link
+                      key={requestType}
+                      href={`/admin/requests?type=${requestType}`}
+                      aria-label={`${pendingRequestLabel(requestType)}（会員からの申請へ）`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Chip tone="warning" dot>
+                        {pendingRequestLabel(requestType)}
+                      </Chip>
+                    </Link>
+                  ))}
                 </div>
               </td>
               <td className="px-3 py-2" data-cell="tags" data-mobile-label="タグ">
                 <div className="flex flex-wrap gap-1.5">{memberTagPills(m.tags)}</div>
               </td>
               <td
-                className="px-3 py-2 font-mono text-xs text-[var(--ubm-color-text-muted)]"
+                className="px-3 py-2 text-xs text-[var(--ubm-color-text-muted)]"
                 data-cell="updated"
                 data-mobile-label="最終更新"
               >
-                {m.lastSubmittedAt}
+                {formatJstDateTimeWithSeconds(m.lastSubmittedAt)}
               </td>
               <td
                 className="px-3 py-2"

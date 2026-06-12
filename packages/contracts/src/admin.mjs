@@ -25,6 +25,7 @@ const AdminMemberItemZ = z
     publishState: z.string(),
     isDeleted: z.boolean(),
     lastSubmittedAt: z.string().optional(),
+    pendingRequestTypes: z.array(z.enum(["visibility_request", "delete_request"])).optional(),
   })
   .passthrough();
 

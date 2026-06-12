@@ -137,11 +137,15 @@ Audit action:
 
 ### `/admin/requests`
 
-- 会員本人が `/me/visibility-request` / `/me/delete-request` から作った依頼を処理する queue
+- 表示名は「会員からの申請」。URL `/admin/requests` と API path は内部識別子として維持する
+- 会員本人が `/me/visibility-request` / `/me/delete-request` から作った申請を処理する queue
+- `/admin/requests` は会員本人発の「公開停止/再開」「退会」申請を管理者が approve / reject する承認フローで、`/admin/members` の公開/非公開トグルは管理者起点の即時変更である。両者は起点と承認有無が異なるため冗長ではない
 - `visibility_request` と `delete_request` を切り替え、pending 行を FIFO で確認する
 - 詳細 panel で理由・最小化済み payload・現在の公開状態 / 削除状態を確認する
 - approve / reject は confirmation modal 経由で実行する
 - delete approve と visibility approve は破壊的操作として alert 表示し、二重 resolve は 409 toast で再読込する
+- 画面上部に「会員本人がマイページから出した申請を承認・却下する場所」「管理者がすぐ公開/非公開を切り替える場合は会員管理から操作する」旨の説明と `/admin/members` への相互リンクを表示する
+- `/admin/members` は pending 申請を持つ会員行に「公開申請中」「退会申請中」バッジを表示し、`/admin/requests?type=visibility_request|delete_request` へリンクする。バッジは `member_status.publish_state` と独立に、`admin_member_notes.request_status='pending'` の存在で表示する
 - 初回 local visual evidence は admin session + D1 fixture が必要なため staging smoke task へ委譲する
 
 ---
@@ -158,7 +162,7 @@ Audit action:
 | 開催日追加 | `Form` |
 | 参加履歴付与/解除 | `Button` または `Checkbox` |
 | 監査ログ閲覧 | `Filter + Table + Disclosure` |
-| 依頼キュー処理 | `Queue + Detail panel + Confirmation dialog` |
+| 会員からの申請処理 | `Queue + Detail panel + Confirmation dialog` |
 | identity conflict merge | `List + two-step confirmation + dismiss` |
 
 ---

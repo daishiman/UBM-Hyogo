@@ -49,7 +49,7 @@ const shots: Shot[] = [
   {
     name: '06-admin-requests.png',
     route: '/admin/requests',
-    heading: '依頼キュー',
+    heading: '会員からの申請',
     state: 'request queue page header',
   },
   {

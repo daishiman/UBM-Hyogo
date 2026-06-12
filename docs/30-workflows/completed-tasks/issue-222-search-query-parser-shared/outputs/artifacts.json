@@ -1,0 +1,105 @@
+{
+  "workflow_id": "issue-222-search-query-parser-shared",
+  "feature": "issue-222-search-query-parser-shared",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-10T12:45:00+09:00",
+  "lastUpdated": "2026-06-10T12:45:00+09:00",
+  "metadata": {
+    "taskId": "ISSUE-222-SEARCH-QUERY-PARSER-SHARED",
+    "taskType": "refactoring",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "public-search-query-shared-primitives",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implemented_local_evidence_captured",
+    "relatedIssue": 222,
+    "scope": "Extract the duplicated public-member search query primitives (zone/status/sort/density value sets, TAG_LIMIT/Q_LIMIT/LIMIT bounds, q-normalization, tag-normalization, limit-clamp) into a new packages/shared/src/public-search module and rewire apps/api/src/_shared/search-query-parser.ts and apps/web/src/lib/url/members-search.ts to import the single source of truth. This is the current-code-optimized resolution of issue #222: not a whole-parser move (the two parsers have distinct responsibilities) but a shared-primitive extraction. Existing parsePublicMemberQuery / parseSearchParams / toApiQuery behavior stays identical (silent fallback, not 400 — issue AC-3 stale wording corrected). No D1 schema, no new API endpoint, no Google Form change.",
+    "canonical_root": "docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared",
+    "runtime_boundary": "Local implementation, focused Vitest, package typecheck, and root lint are complete. Commit, push, PR, deploy, and Issue mutation are user-gated.",
+    "implementation_files": [
+      "packages/shared/src/public-search/search-query-primitives.ts",
+      "packages/shared/src/public-search/index.ts",
+      "packages/shared/package.json",
+      "apps/api/src/_shared/search-query-parser.ts",
+      "apps/web/src/lib/url/members-search.ts"
+    ],
+    "test_files": [
+      "packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts",
+      "apps/api/src/_shared/__tests__/search-query-parser.spec.ts",
+      "apps/web/src/lib/url/__tests__/members-search.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm exec vitest run packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts",
+      "mise exec -- pnpm exec vitest run apps/api/src/_shared/__tests__/search-query-parser.spec.ts apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts",
+      "mise exec -- pnpm exec vitest run apps/web/src/lib/url/__tests__/members-search.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/shared typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/api typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm lint"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-10T12:45:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification, three-lane CONST-005 design, strict Phase 12 outputs, and artifacts parity are present for the issue-222 shared search-query primitives extraction."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-10T16:05:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: shared public-search primitives, api/web rewiring, focused Vitest, package typecheck, and root lint passed locally."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, deploy, and Issue mutation are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "name": "手動テスト", "status": "completed", "output": "outputs/phase-11/manual-test-result.md" },
+    { "phase": 12, "name": "ドキュメント更新", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "PR作成", "status": "pending_user_approval", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}
