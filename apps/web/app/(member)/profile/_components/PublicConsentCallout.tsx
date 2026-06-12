@@ -1,12 +1,15 @@
 // issue-958 Track A: profile に publicConsent 状態カードを表示する。
+// Lane C: SectionCard へ移行（AC-4）。buttonVariants 直書き → ButtonLink（AC-3）。
 // 不変条件: mutation を持たない（表示のみ）。Google Form 再回答 URL への外部リンクのみ。
+// I-7: data-testid="public-consent-cta" / aria-label / data-region は保全。
 // INV-4 (CLAUDE.md #7): publicConsent の更新経路は Google Form 再回答が正規経路。
 
 import type { JSX } from "react";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import type { MeProfileStatusSummary } from "@/lib/api/me-types";
 import { Banner } from "@/components/ui/Banner";
-import { buttonVariants } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionCard } from "@/components/ui/layout";
 
 export interface PublicConsentCalloutProps {
   readonly publicConsent: MeProfileStatusSummary[typeof STABLE_KEY.publicConsent];
@@ -67,28 +70,30 @@ export function PublicConsentCallout(
   const href = props.editResponseUrl ?? props.responderUrl;
 
   return (
-    <section
+    <SectionCard
       aria-label={view.title}
       data-region="public-consent-callout"
       data-public-consent={props.publicConsent}
+      tone="subtle"
     >
       <Banner
         tone={view.tone}
         title={view.title}
         action={
-          <a
+          <ButtonLink
             href={href}
             target="_blank"
             rel="noreferrer noopener"
-            className={buttonVariants({ variant: "primary", size: "sm" })}
+            variant="primary"
+            size="sm"
             data-testid="public-consent-cta"
           >
             {view.ctaLabel}
-          </a>
+          </ButtonLink>
         }
       >
         <p>{view.description}</p>
       </Banner>
-    </section>
+    </SectionCard>
   );
 }

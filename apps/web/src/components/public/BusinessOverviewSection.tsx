@@ -1,4 +1,7 @@
+// Lane B: SectionCard でラップ。
 import { STABLE_KEY } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface BusinessOverviewSectionProps {
   businessOverview: string;
@@ -12,12 +15,13 @@ export function BusinessOverviewSection({
   canProvide,
 }: BusinessOverviewSectionProps) {
   return (
-    <section
+    <SectionCard
+      as="section"
       data-component="business-overview"
-      className="card-flat card-pad-lg stack-sm"
+      className="stack-sm"
+      title="ビジネス概要"
     >
       <p className="eyebrow">BUSINESS OVERVIEW</p>
-      <h2 className="h-section">ビジネス概要</h2>
       <p data-stable-key={STABLE_KEY.businessOverview}>
         {businessOverview.trim() || "—"}
       </p>
@@ -33,6 +37,6 @@ export function BusinessOverviewSection({
           <p>{canProvide}</p>
         </div>
       ) : null}
-    </section>
+    </SectionCard>
   );
 }
