@@ -123,6 +123,32 @@ describe("safeServerFetch", () => {
       code: "MEMBER_SESSION_410",
       path: "/me",
       status: 410,
+      transportKind: null,
+      baseHost: null,
+    });
+    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("memberId");
+  });
+
+  it("logs transport diagnostics when the error carries transportKind/baseHost", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("API transport fetch failed"), {
+          transportKind: "service-binding",
+          baseHost: "service-binding.local",
+        });
+      },
+      { codePrefix: "MEMBER_SESSION", logPath: "/me" },
+    );
+
+    expect(result.ok).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith("server_fetch_failed", {
+      code: "MEMBER_SESSION_FAILED",
+      path: "/me",
+      status: null,
+      transportKind: "service-binding",
+      baseHost: "service-binding.local",
     });
     expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("memberId");
   });

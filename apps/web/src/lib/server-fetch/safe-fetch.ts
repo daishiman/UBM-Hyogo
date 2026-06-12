@@ -47,14 +47,24 @@ function normalizeError(
 function logServerFetchFailure(
   error: SafeResultError,
   opts: SafeServerFetchOptions,
+  rawError?: unknown,
 ): void {
   if (!opts.logPath) return;
 
   const statusMatch = error.code.match(/_(\d{3})$/);
+  const transport =
+    rawError instanceof Error
+      ? {
+          kind: (rawError as { readonly transportKind?: unknown }).transportKind ?? null,
+          baseHost: (rawError as { readonly baseHost?: unknown }).baseHost ?? null,
+        }
+      : { kind: null, baseHost: null };
   console.error("server_fetch_failed", {
     code: error.code,
     path: opts.logPath,
     status: statusMatch ? Number(statusMatch[1]) : null,
+    transportKind: transport.kind,
+    baseHost: transport.baseHost,
   });
 }
 
@@ -67,7 +77,7 @@ export async function safeServerFetch<T>(
   } catch (err) {
     if (shouldRethrow(err, opts.rethrowOn ?? [])) throw err;
     const error = normalizeError(err, opts);
-    logServerFetchFailure(error, opts);
+    logServerFetchFailure(error, opts, err);
     return { ok: false, error };
   }
 }

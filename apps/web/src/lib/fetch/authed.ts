@@ -6,9 +6,9 @@ import { cookies } from "next/headers";
 
 import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "@/lib/env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
-import { fetchViaApiTransport, resolveApiFetch } from "./transport";
+import { ApiTransportError, fetchViaApiTransportChain, resolveApiFetchChain } from "./transport";
 
-export { AuthRequiredError, FetchAuthedError };
+export { ApiTransportError, AuthRequiredError, FetchAuthedError };
 
 const buildCookieHeader = async (): Promise<string> => {
   const store = await cookies();
@@ -28,9 +28,10 @@ export const fetchAuthed = async <T>(
     throw new Error(`fetchAuthed: path must start with '/': ${path}`);
   }
   const env = getAuthEnv();
-  const transport = resolveApiFetch({
+  const transports = resolveApiFetchChain({
     API_SERVICE: env.API_SERVICE,
     baseUrl: env.INTERNAL_API_BASE_URL,
+    publicBaseUrl: env.NEXT_PUBLIC_API_BASE_URL,
     environment: getEnvironment(),
     isTest: getTransportRuntimeIsTest(),
   });
@@ -39,7 +40,7 @@ export const fetchAuthed = async <T>(
   if (cookieHeader.length > 0) headers.set("cookie", cookieHeader);
   if (!headers.has("accept")) headers.set("accept", "application/json");
 
-  const res = await fetchViaApiTransport(transport, path, {
+  const res = await fetchViaApiTransportChain(transports, path, {
     ...init,
     headers,
     cache: "no-store",

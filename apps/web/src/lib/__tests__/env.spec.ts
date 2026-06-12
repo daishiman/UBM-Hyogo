@@ -237,14 +237,44 @@ describe("env", () => {
     });
   });
 
-  it("getAuthEnv fail-closes to an empty object on invalid auth config", () => {
-    expect(
-      getAuthEnv({
-        ENVIRONMENT: "qa",
-        AUTH_URL: "not-a-url",
-        INTERNAL_API_BASE_URL: "also-not-a-url",
-      }),
-    ).toEqual({});
+  it("getAuthEnv keeps valid fields when unrelated auth config is invalid", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    try {
+      expect(
+        getAuthEnv({
+          ENVIRONMENT: "qa",
+          AUTH_URL: "not-a-url",
+          INTERNAL_API_BASE_URL: "https://api.example.com",
+          NEXT_PUBLIC_API_BASE_URL: "https://public-api.example.com",
+        }),
+      ).toEqual({
+        INTERNAL_API_BASE_URL: "https://api.example.com",
+        NEXT_PUBLIC_API_BASE_URL: "https://public-api.example.com",
+      });
+      expect(warn).toHaveBeenCalledWith("auth_env_field_dropped", {
+        keys: ["ENVIRONMENT", "AUTH_URL"],
+      });
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it("getAuthEnv omits only the invalid fields", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    try {
+      expect(
+        getAuthEnv({
+          ENVIRONMENT: "qa",
+          AUTH_URL: "not-a-url",
+          INTERNAL_API_BASE_URL: "also-not-a-url",
+        }),
+      ).toEqual({});
+      expect(warn).toHaveBeenCalledWith("auth_env_field_dropped", {
+        keys: ["ENVIRONMENT", "AUTH_URL", "INTERNAL_API_BASE_URL"],
+      });
+    } finally {
+      warn.mockRestore();
+    }
   });
 
   it("getPublicFetchEnv keeps public fetch resolution in env.ts", () => {
