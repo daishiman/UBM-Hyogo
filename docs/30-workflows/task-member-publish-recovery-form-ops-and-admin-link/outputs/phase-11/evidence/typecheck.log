@@ -1,5 +1,0 @@
-$ pnpm --filter @ubm-hyogo/web typecheck
-
-> @ubm-hyogo/web@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260531-134250-wt-3/apps/web
-> tsc -p tsconfig.json --noEmit
-

@@ -1,8 +1,11 @@
 // public-dashboard-prototype-alignment: Timeline (chip + tl-row + graceful fallback)
 // プロトタイプ pages-public.jsx LandingPage Recent Meetings 整合。
 // note / attendees は API response に無い場合あり → optional + 要素ごと omit。
+// Lane B: SectionCard でラップ。
 
 import { EmptyState } from "../feedback/EmptyState";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface TimelineEntry {
   sessionId: string;
@@ -45,7 +48,7 @@ export function Timeline({
   cadenceLabel = "毎月第2木曜開催",
 }: TimelineProps) {
   return (
-    <section data-component="timeline">
+    <SectionCard as="section" data-component="timeline">
       <header data-role="header">
         <div>
           <h2 data-role="section-heading">最近の支部会</h2>
@@ -81,6 +84,6 @@ export function Timeline({
           ))}
         </ol>
       )}
-    </section>
+    </SectionCard>
   );
 }

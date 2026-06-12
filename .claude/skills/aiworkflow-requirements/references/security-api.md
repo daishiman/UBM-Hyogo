@@ -13,10 +13,14 @@
 
 | 分類     | 認証要件     | 例                             |
 | -------- | ------------ | ------------------------------ |
-| 公開     | 不要         | ヘルスチェック、公開情報取得   |
-| 認証必須 | ログイン済み | ユーザー情報、ワークフロー操作 |
+| 公開     | 不要         | ヘルスチェック等、情報を返さない公開生存確認 |
+| 認証必須 | ログイン済み | ユーザー情報、ワークフロー操作、公開情報取得（`/public/*`） |
 | 管理者   | 管理者権限   | システム設定、ユーザー管理     |
-| 内部     | Agent認証    | Local Agent通信                |
+| 内部     | Agent認証 / `X-Internal-Auth` | Local Agent通信、sitemap / OG などの Worker-to-Worker 消費 |
+
+### `/public/*` 認証境界（2026-06-10）
+
+`require-auth-public-access-gate` 以降、`/public/stats`、`/public/members`、`/public/members/:memberId`、`/public/form-preview` は `requirePublicAccess` で保護する。外部ブラウザ/RSC 経路は Auth.js session JWT（Cookie または `Authorization: Bearer`）を必須とし、sitemap 生成と OG 画像ワーカーなどのサーバー間経路だけ `X-Internal-Auth: <INTERNAL_AUTH_SECRET>` を許可する。どちらも無い場合、または検証不能な場合は 401 で fail-closed する。
 
 **認証チェックの実装場所**:
 

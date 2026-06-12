@@ -1,0 +1,13 @@
+PASS PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/admin-meetings-card-ux-clarity/outputs/phase-11 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test --project=desktop-chromium playwright/tests/admin-meetings-card-ux-clarity.spec.ts
+
+Observed result:
+- Project: desktop-chromium
+- Test file: apps/web/playwright/tests/admin-meetings-card-ux-clarity.spec.ts
+- Tests: 1 passed
+- Screenshots: 5 PNG files captured under outputs/phase-11/screenshots/
+- Local visual review: outputs/phase-11/local-visual-review.md
+
+Notes:
+- First attempt failed because the local Playwright Chromium binary was missing.
+- Remediation: `mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install chromium`.
+- Re-run passed. Next/Turbopack printed existing middleware / edge runtime / Sentry instrumentation warnings; they did not fail the Playwright test.

@@ -1219,6 +1219,12 @@ production env monitor secret cleanup は user-gated。
 
 - `serial-06-form-response-binding` standalone root drift を canonical parent sub-workflow へ統合。
 - Parent artifacts / outputs artifacts の `metadata.sub_workflows` に serial-06 を登録。
+## 2026-06-10 require-auth-public-access-gate
+
+- `docs/30-workflows/require-auth-public-access-gate/` を `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` として同期。
+- `/login` 以外の公開 UI を `LoginRequiredNotice` gate へ変更し、`/public/*` API を Auth.js session JWT OR `X-Internal-Auth` 必須へ変更。sitemap / OG worker は内部認証ヘッダで継続動作。
+- specs 7 本、`security-api.md` / `api-endpoints.md` / `environment-variables.md` / quick-reference / resource-map / task-workflow-active / artifact inventory / SKILL-changelog を同一 wave で更新。staging deploy、runtime screenshots、secret placement、commit、push、PR は user-gated。
+
 - `workflow-ui-prototype-design-system-foundation-artifact-inventory.md` と SKILL-changelog に strict7-parent-aggregated 状態を同期。
 
 # 2026-05-23 ut-dsf-07-staging-visual-runtime-evidence
@@ -1280,3 +1286,9 @@ production env monitor secret cleanup は user-gated。
 ## 2026-06-09 member-data-source-precedence-and-profile-session-fix
 
 `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` を `implemented_local_runtime_pending / implementation / VISUAL` として同一 wave 同期。`member_field_overrides`、Sheets seed import-once、L1>L2>L3 precedence、admin override endpoint/UI、`/profile` auth fail-safe を実装し、system specs / artifact inventory / indexes / changelog を更新。remote D1 apply、staging deploy、authenticated visual capture、commit、push、PR は user-gated。
+# 2026-06-10 public-member-common-ui-card-unification
+
+- Registered `docs/30-workflows/public-member-common-ui-card-unification/` as `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` (promoted from `spec_created` after apps/web implementation diffs appeared).
+- Added Phase 12 strict 7, plus aiworkflow quick-reference, resource-map, task-workflow-active, artifact inventory (with Lessons Learned L-PMCUC-001..005), dated changelog, and SKILL-changelog entries.
+- Implementation verified locally: focused Vitest 62 tests / 7 files PASS, root typecheck (7 projects) + apps/web eslint + verify-no-inline-style OK, HEX 0, apps/api UNTOUCHED.
+- Boundary: full screenshots, staging visual baseline, commit, push, and PR remain user-gated; apps/api / D1 / Google Form / API surface unchanged.

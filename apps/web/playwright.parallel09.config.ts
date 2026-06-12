@@ -18,7 +18,7 @@ export default defineConfig({
   projects: [
     {
       name: "visual-chromium",
-      testMatch: /visual\/parallel-09-primitives\.spec\.ts$/,
+      testMatch: /visual\/(parallel-09-primitives|admin-sidebar-spacing)\.spec\.ts$/,
       use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } },
     },
   ],

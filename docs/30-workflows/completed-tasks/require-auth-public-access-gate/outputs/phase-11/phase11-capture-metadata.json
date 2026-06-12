@@ -1,0 +1,17 @@
+{
+  "taskId": "require-auth-public-access-gate",
+  "mode": "VISUAL",
+  "status": "local_visual_evidence_captured_staging_authenticated_pending",
+  "captureStatus": "partial_captured",
+  "screenshots": [
+    {
+      "name": "screenshots/members-unauth-login-required-local.png",
+      "tc": "P11-1",
+      "status": "captured",
+      "route": "http://localhost:3001/members",
+      "capturedAt": "2026-06-10"
+    },
+    { "name": "public-members-authenticated.png", "tc": "P11-3", "status": "pending" }
+  ],
+  "reason_pending": "未認証 visual evidence はローカルで取得済み。認証済み screenshot は staging 認証経路が必要で user-gated。"
+}
