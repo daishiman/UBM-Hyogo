@@ -3247,6 +3247,13 @@
     cursor: not-allowed;
   }
 
+  .ui-search__input::-webkit-search-cancel-button,
+  .ui-search__input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+
   .schema-history-purpose {
     display: grid;
     gap: var(--ubm-space-4);

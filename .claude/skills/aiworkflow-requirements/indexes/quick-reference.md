@@ -13,6 +13,18 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
 | user gate | authenticated staging screenshots 4, commit, push, PR |
 
+## members-search-clear-and-sort-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/members-search-clear-and-sort-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 公開 `/members` の検索 clear 二重表示を native cancel 抑止で解消し、sort を `recent / oldest / name / name_desc` の4値へ拡張 |
+| implementation | `apps/web/src/components/ui/Search.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/lib/url/members-search.ts`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/repository/publicMembers.ts`, `packages/shared/src/zod/viewmodel.ts` |
+| evidence | focused Vitest 6 files / 61 tests PASS; typecheck PASS; lint PASS; `pnpm verify:tokens` PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md` |
+| user gate | Chromium screenshot, staging verification, commit, push, PR, OOS-1 Issue creation |
+
 ## public-member-common-ui-card-unification（2026-06-10）
 
 | 項目 | 値 |

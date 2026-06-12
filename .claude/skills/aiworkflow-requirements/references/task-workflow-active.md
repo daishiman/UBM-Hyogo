@@ -4931,3 +4931,16 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | contract | `NEXT_PUBLIC_API_BASE_URL` が current public API base URL の単一正本。`API_SERVICE` service binding は production/staging primary transport、HTTP fallback は local/test/Playwright のみ。`getApiBaseEnv()` / `ApiBaseEnv` は削除済み |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
 | user gate | commit、push、PR、staging/production deploy、Issue mutation |
+
+## members-search-clear-and-sort-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/members-search-clear-and-sort-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | public `/members` search clear native/custom duplicate fix + sort options expansion to `recent / oldest / name / name_desc` |
+| implementation targets | `apps/web/src/components/ui/Search.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/lib/url/members-search.ts`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/repository/publicMembers.ts`, `packages/shared/src/zod/viewmodel.ts` |
+| evidence | web focused Vitest 3 files / 27 tests PASS; api/shared focused Vitest 2 files / 28 tests PASS; D1 repository 1 file / 6 tests PASS; typecheck/lint/verify:tokens PASS |
+| invariant | no new endpoint, no D1 schema change, no Google Form schema change. Gojuon ordering requires furigana schema/backfill and is OOS-1 |
+| inventory | `references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md` |
+| user gate | Chromium screenshot, staging verification, commit, push, PR, OOS-1 Issue creation |
