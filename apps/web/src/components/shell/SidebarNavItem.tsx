@@ -32,7 +32,7 @@ export function SidebarNavItem({ item, collapsed, activePath }: SidebarNavItemPr
     <>
       <span
         aria-hidden="true"
-        className={`inline-flex shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)] ${collapsed ? "h-10 w-10" : "h-[18px] w-[18px]"}`}
+        className={`inline-flex shrink-0 items-center justify-center text-[var(--ubm-color-text-secondary)] ${collapsed ? "h-[18px] w-10" : "h-[18px] w-[18px]"}`}
       >
         <ShellIcon id={item.icon} />
       </span>

@@ -6,7 +6,7 @@
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-collapse-layout-fix/` |
 | status | `implemented_local_evidence_captured / implementation / VISUAL` |
-| purpose | collapsed sidebar の brand / nav item / user menu / admin return を 40px 中央軸へ揃え、expanded regression を防ぐ |
+| purpose | collapsed sidebar の brand / nav item / user menu / admin return を中央軸へ揃え、expanded regression を防ぐ |
 | user gate | staging authenticated visual baseline, commit, push, PR |
 
 ## Implementation
@@ -33,3 +33,7 @@
 | --- | --- |
 | L-ASCL-001 | collapsed sidebar alignment must reset both component padding and browser default list padding. `px-0 w-full justify-center` alone leaves `ul` default `padding-left: 20px` able to collapse nav item width and shift icon center. |
 | L-ASCL-002 | Element-only screenshots can clip popovers that intentionally escape the sidebar. Use viewport screenshot for popover-open evidence while keeping collapsed/expanded sidebar screenshots element-scoped. |
+
+## Follow-up relationship
+
+`admin-sidebar-collapsed-icon-spacing-parity` is a later refinement, not a duplicate. This inventory fixed the collapsed center axis and list padding. The follow-up keeps that center axis while shrinking only nav/public-return icon-box height from `h-10` to `h-[18px]`; brand mark and user avatar keep their intentional `h-10 w-10` boxes.
