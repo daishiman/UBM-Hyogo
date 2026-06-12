@@ -1,0 +1,90 @@
+{
+  "taskId": "admin-attendance-dashboard-jp-clarity-and-ux",
+  "mode": "VISUAL",
+  "status": "captured_local_fixture",
+  "captureState": "implemented_local_visual_present_staging_pending",
+  "visualEvidence": "VISUAL",
+  "reason": "apps/web 実装・focused Vitest・typecheck・lint・token gate・local Playwright fixture screenshot capture は本サイクルで完了。6 canonical PNG は outputs/phase-11/screenshots/ に present。staging deploy + admin 認証を伴う authenticated staging baseline capture のみ user-gated として残る。",
+  "screenshots": [
+    {
+      "name": "attendance-dashboard-full-jp",
+      "tc": "TC-V-01",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "file": "screenshots/attendance-dashboard-full-jp.png",
+      "status": "present",
+      "state": "3 ゾーン全体（全体の状況 / 出席の移り変わり / くわしい一覧）が日本語見出しで表示される after 状態",
+      "ac": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ]
+    },
+    {
+      "name": "attendance-overview-zone-jp",
+      "tc": "TC-V-02",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "file": "screenshots/attendance-overview-zone-jp.png",
+      "status": "present",
+      "state": "「全体の状況」ゾーン（全体出席率 / 前の期間とくらべて / 一度でも参加した人の割合 / 開催回数 / 要フォロー対象）が日本語表示",
+      "ac": [
+        "AC-1",
+        "AC-2",
+        "AC-3"
+      ]
+    },
+    {
+      "name": "attendance-trend-zone-jp",
+      "tc": "TC-V-03",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "file": "screenshots/attendance-trend-zone-jp.png",
+      "status": "present",
+      "state": "「出席の移り変わり」ゾーン（月ごとの移り変わり + 出席回数べつの人数）が日本語表示",
+      "ac": [
+        "AC-1",
+        "AC-3"
+      ]
+    },
+    {
+      "name": "attendance-detail-tabs-jp",
+      "tc": "TC-V-04",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "file": "screenshots/attendance-detail-tabs-jp.png",
+      "status": "present",
+      "state": "「くわしい一覧」タブ（開催回ごと / 会員別 / 出席が多い順）が日本語ラベルで切替表示",
+      "ac": [
+        "AC-1",
+        "AC-2"
+      ]
+    },
+    {
+      "name": "attendance-filter-bar-jp",
+      "tc": "TC-V-05",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "file": "screenshots/attendance-filter-bar-jp.png",
+      "status": "present",
+      "state": "フィルタ（期間: 全期間/今月/3か月/6か月/1年・累計の出席回数・表計算ファイルで書き出す）が日本語表示",
+      "ac": [
+        "AC-1",
+        "AC-3"
+      ]
+    },
+    {
+      "name": "attendance-dashboard-mobile-jp",
+      "tc": "TC-V-06",
+      "route": "/admin/dashboard/attendance",
+      "viewport": "mobile",
+      "file": "screenshots/attendance-dashboard-mobile-jp.png",
+      "status": "present",
+      "state": "モバイル幅・3 ゾーンが 1 カラム縦積みで日本語表示が成立",
+      "ac": [
+        "AC-4"
+      ]
+    }
+  ]
+}

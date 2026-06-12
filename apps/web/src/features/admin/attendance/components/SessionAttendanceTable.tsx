@@ -14,7 +14,7 @@ export function SessionAttendanceTable({ rows }: Props) {
   if (rows.length === 0) {
     return (
       <p className="attendance-list-empty" data-testid="attendance-by-session-empty">
-        セッションデータがありません
+        開催回のデータがありません
       </p>
     );
   }
@@ -29,7 +29,7 @@ export function SessionAttendanceTable({ rows }: Props) {
           <tr>
             <th scope="col">開催日</th>
             <th scope="col">タイトル</th>
-            <th scope="col">出席者数</th>
+            <th scope="col">人数</th>
             <th scope="col">出席率</th>
             <th scope="col" aria-label="詳細" />
           </tr>

@@ -39,7 +39,8 @@ describe("AttendanceDetailTabs", () => {
     expect(screen.getByTestId("attendance-ranking-table")).toBeTruthy();
     expect(screen.queryByTestId("attendance-by-session-table")).toBeNull();
 
-    fireEvent.click(screen.getByRole("radio", { name: "TOP10" }));
+    expect(screen.getByRole("radio", { name: "開催回ごと" })).toBeTruthy();
+    fireEvent.click(screen.getByRole("radio", { name: "出席が多い順" }));
     expect(screen.getByTestId("attendance-top10")).toBeTruthy();
   });
 
@@ -51,12 +52,12 @@ describe("AttendanceDetailTabs", () => {
       />,
     );
 
-    expect(screen.getByText(/セッション別出席状況.*読み込みに失敗しました/)).toBeTruthy();
+    expect(screen.getByText(/開催回ごとの出席状況.*読み込みに失敗しました/)).toBeTruthy();
 
     fireEvent.click(screen.getByRole("radio", { name: "会員別" }));
     expect(screen.getByTestId("attendance-ranking-table")).toBeTruthy();
 
-    fireEvent.click(screen.getByRole("radio", { name: "TOP10" }));
+    fireEvent.click(screen.getByRole("radio", { name: "出席が多い順" }));
     expect(screen.getByTestId("attendance-top10")).toBeTruthy();
   });
 
@@ -73,7 +74,7 @@ describe("AttendanceDetailTabs", () => {
     fireEvent.click(screen.getByRole("radio", { name: "会員別" }));
     expect(screen.getByText(/会員別出席率.*読み込みに失敗しました/)).toBeTruthy();
 
-    fireEvent.click(screen.getByRole("radio", { name: "TOP10" }));
-    expect(screen.getByText(/出席ランキング TOP 10.*読み込みに失敗しました/)).toBeTruthy();
+    fireEvent.click(screen.getByRole("radio", { name: "出席が多い順" }));
+    expect(screen.getByText(/出席が多い人の一覧.*読み込みに失敗しました/)).toBeTruthy();
   });
 });

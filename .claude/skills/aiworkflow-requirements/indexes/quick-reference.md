@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| purpose | `/admin/dashboard/attendance` の英語見出し・専門語を平易な日本語へ統一し、長い日本語ラベルの折返しを最小 CSS で補強する |
+| implementation | attendance dashboard route header、attendance components、`format-attendance.ts` label constants、`globals.css` rhythm、focused tests、Playwright assertion |
+| evidence | focused Vitest 8 files / 23 tests PASS; local Playwright fixture screenshot 6 PNG present; verify:tokens PASS; phase12 implementation-guide validator 12/12 PASS; apps/api/packages/shared diff empty |
+| invariant | no API/D1/Form/shared/design-token/primitive change; apps/web presentation layer only |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
+| user gate | authenticated staging baseline screenshots, commit, push, PR |
+
 ## admin-requests-queue-rename-and-publish-dependency（2026-06-09）
 
 | 項目 | 値 |

@@ -9,7 +9,7 @@ export function AttendanceZoneDistributionChart({ data }: Props) {
   if (data.rows.length === 0) {
     return (
       <div className="attendance-zone-empty" data-testid="attendance-zone-empty">
-        区画別分布データがありません
+        出席回数べつのデータがありません
       </div>
     );
   }
@@ -17,7 +17,7 @@ export function AttendanceZoneDistributionChart({ data }: Props) {
     <div
       className="attendance-zone-distribution"
       role="group"
-      aria-label="出席回数帯別分布"
+      aria-label="出席回数べつの人数"
       data-testid="attendance-zone-distribution"
     >
       <p className="attendance-zone-legend">{ZONE_HELP}</p>
