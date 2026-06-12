@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| 目的 | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| invariant | apps/api / D1 / Google Form / endpoint surface unchanged。既存 `data-testid` / aria / role / useAdminMutation / FormField contract preserved |
+| evidence | focused Vitest 4 files / 18 tests PASS、local Playwright visual 1 test PASS / 5 PNG present、typecheck PASS、lint PASS、verify:tokens PASS、HEX grep 0、apps/api diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、deploy、commit、push、PR |
+
 ### require-auth-public-access-gate（2026-06-10）
 
 | 項目 | 値 |
