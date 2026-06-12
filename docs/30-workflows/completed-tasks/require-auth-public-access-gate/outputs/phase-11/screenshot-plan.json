@@ -1,0 +1,22 @@
+{
+  "taskId": "require-auth-public-access-gate",
+  "mode": "VISUAL",
+  "status": "local_unauthenticated_captured_staging_authenticated_pending",
+  "note": "未認証 visual evidence はローカルで取得済み。認証済み screenshot は staging 認証経路で取得する（user-gated）。",
+  "screenshots": [
+    {
+      "name": "screenshots/members-unauth-login-required-local.png",
+      "route": "/members",
+      "state": "unauthenticated",
+      "description": "未認証で /members へアクセスした際に表示される『ログインが必要です』案内画面（LoginRequiredNotice）",
+      "status": "captured"
+    },
+    {
+      "name": "public-members-authenticated.png",
+      "route": "/members",
+      "state": "authenticated",
+      "description": "認証済みで /members の本来の会員一覧コンテンツが従来どおり表示される状態",
+      "status": "pending"
+    }
+  ]
+}

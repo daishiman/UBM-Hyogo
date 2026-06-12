@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Locator } from "@playwright/test";
 
-import { expect, test } from "../fixtures/auth";
+import { expect, memberLogin, test } from "../fixtures/auth";
 
 const PHASE11_DIR = path.resolve(
   process.cwd(),
@@ -13,6 +13,10 @@ const SCREENSHOT_DIR = path.join(PHASE11_DIR, "screenshots");
 const photoImg = (scope: Locator) => scope.locator(".ui-avatar--photo img");
 
 test.describe("issue-1029 public member photo display", () => {
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test("captures list and detail screenshots with public-safe photoUrl", async ({
     page,
     mockApi,

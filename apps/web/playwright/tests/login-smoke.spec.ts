@@ -53,6 +53,9 @@ async function hideDevOverlay(page: Page) {
 }
 
 test.describe('login-page-prototype-alignment /login state machine smoke', () => {
+  // /login は認証済みを /profile へリダイレクトする。e2e project の default member
+  // storageState を打ち消し、未認証(guest)で login state machine を検証する。
+  test.use({ storageState: { cookies: [], origins: [] } })
   test.setTimeout(180_000)
 
   test.beforeAll(() => {
