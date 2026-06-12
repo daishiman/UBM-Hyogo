@@ -9,9 +9,14 @@ const cloudflareEnv: {
   ENVIRONMENT?: string;
 } = {};
 const cloudflareContext = vi.fn(() => ({ env: cloudflareEnv }));
+const cookieStore = { get: vi.fn() };
 
 vi.mock("@opennextjs/cloudflare", () => ({
   getCloudflareContext: () => cloudflareContext(),
+}));
+
+vi.mock("next/headers", () => ({
+  cookies: vi.fn(async () => cookieStore),
 }));
 
 import {
@@ -32,6 +37,8 @@ const reset = () => {
   cloudflareContext.mockImplementation(() => ({ env: cloudflareEnv }));
   delete process.env.NEXT_PUBLIC_API_BASE_URL;
   delete process.env.ENVIRONMENT;
+  cookieStore.get.mockReset();
+  cookieStore.get.mockReturnValue(undefined);
 };
 
 describe("fetchPublic", () => {
@@ -128,6 +135,27 @@ describe("fetchPublic", () => {
     expect((init.headers as Record<string, string>)["x-custom"]).toBe("1");
     expect((init.headers as Record<string, string>)["Accept"]).toBe(
       "application/json",
+    );
+  });
+
+  it("RSC session cookie があれば Cookie ヘッダへ転送する", async () => {
+    cookieStore.get.mockImplementation((name: string) =>
+      name === "authjs.session-token"
+        ? { name, value: "jwt.value" }
+        : undefined,
+    );
+    const bindingFetch = vi.fn(
+      async () =>
+        new Response("{}", {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    );
+    cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
+    await fetchPublic("/x");
+    const [, init] = bindingFetch.mock.calls[0] as unknown as [string, RequestInit];
+    expect((init.headers as Record<string, string>)["Cookie"]).toBe(
+      "authjs.session-token=jwt.value",
     );
   });
 

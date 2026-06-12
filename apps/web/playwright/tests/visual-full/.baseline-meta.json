@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "ec4a9632513a5b8134f7813c219b1f0e37e3e4eb",
-  "captured_at": "2026-06-11T10:02:38Z",
+  "captured_at_commit_sha": "c54790932f7fe58e8d8a5c387c5b7ec32e885e8e",
+  "captured_at": "2026-06-11T10:32:57Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "27247391142",
@@ -13,7 +13,8 @@
     "27308537802",
     "27317315197",
     "27320055437",
-    "27338498326"
+    "27338498326",
+    "27340194772"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "collapsed sidebar nav icon-box h-10→h-[18px] 変更により tablet viewport の admin 5画面(identity-conflicts/meetings/members/requests/tags)のサイドバー全高が約142px縮小(768x1166→768x1024)。feature 実装の正当な視覚変更で Linux baseline が stale 化したため再生成。desktop(展開)/mobile(ドロワー)は非該当で緑。"
+  "last_refresh_reason": "dev sync merge union: (1) feature 側=collapsed sidebar nav icon-box h-10→h-[18px] 変更により tablet viewport の admin 5画面(identity-conflicts/meetings/members/requests/tags)のサイドバー全高が約142px縮小(768x1166→768x1024)。feature 実装の正当な視覚変更で Linux baseline が stale 化したため再生成（run 27338498326）。desktop(展開)/mobile(ドロワー)は非該当。(2) 取込 dev 側=require-auth-public-access-gate: 公開層を全ルート認証必須化したため、公開ルートの visual baseline(visual-full/visual-chromium/sidebar-shell)を会員ログイン済みの表示で再生成（run 27340194772・#1209）。対象スナップショット（admin tablet 群 / 公開ルート群）が分離するため双方を union 統合。"
 }

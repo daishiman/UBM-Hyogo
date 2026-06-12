@@ -42,6 +42,9 @@ describe("POST /api/auth/magic-link/verify", () => {
 
   it("falls back to local API when INTERNAL_API_BASE_URL is not configured", async () => {
     vi.unstubAllEnvs();
+    // fail-closed 契約: localhost fallback は明示 local 環境でのみ許可される。
+    // ENVIRONMENT 未注入だと resolveApiFetch は throw する (transport.spec.ts の契約参照)。
+    vi.stubEnv("ENVIRONMENT", "local");
     const fetchMock = vi.fn(async (..._args: unknown[]) => new Response("{}", { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
 

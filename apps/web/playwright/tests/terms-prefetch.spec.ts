@@ -1,4 +1,5 @@
 import { expect, test } from "../fixtures/coverage";
+import { memberLogin } from "../fixtures/auth";
 
 // issue-882 の責務は「/terms の RSC prefetch が env validation で 5xx / Zod throw を露出しない」こと。
 // CSP report-only / nonce / stylesheet 系の console.error（origin/dev の issue-869 由来）は本テストの対象外。
@@ -13,6 +14,10 @@ const TERMS_ENV_ERROR_PATTERNS: RegExp[] = [
 
 const isTermsEnvError = (text: string): boolean =>
   TERMS_ENV_ERROR_PATTERNS.some((pattern) => pattern.test(text));
+
+test.beforeEach(async ({ page }) => {
+  await memberLogin(page.context());
+});
 
 test("home page does not surface terms prefetch env-validation errors", async ({ page }) => {
   const errors: string[] = [];

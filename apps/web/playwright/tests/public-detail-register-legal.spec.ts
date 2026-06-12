@@ -2,6 +2,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { test, expect } from '../fixtures/coverage';
 import type { Page } from '../fixtures/coverage';
+import { memberLogin } from '../fixtures/auth';
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -37,6 +38,10 @@ async function captureEvidence(page: Page, name: string) {
 }
 
 test.describe("public detail / register / legal", () => {
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test("/members/[id] renders profile hero and sections", async ({ page }) => {
     const res = await page.goto(`/members/${SEED_MEMBER_ID}`);
     expect(res?.status()).toBe(200);

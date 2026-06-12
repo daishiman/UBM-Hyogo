@@ -33,12 +33,23 @@ vi.mock("next/headers", () => ({
   headers: vi.fn(async () => headerStore),
 }));
 
+const getSessionMock = vi.fn();
+vi.mock("../../src/lib/session", () => ({
+  getSession: () => getSessionMock(),
+}));
+
 import PublicLayout from "./layout";
 
 afterEach(() => cleanup());
 beforeEach(() => {
   headerStore.get.mockReset();
   headerStore.get.mockReturnValue(null);
+  getSessionMock.mockReset();
+  getSessionMock.mockResolvedValue({
+    memberId: "m-1",
+    email: "member@example.com",
+    isAdmin: false,
+  });
 });
 
 async function renderLayout() {
@@ -48,6 +59,28 @@ async function renderLayout() {
 }
 
 describe("PublicLayout (sidebar shell 統合)", () => {
+  it("Auth-1: 未認証ではログイン案内だけを render し shell / children を出さない", async () => {
+    getSessionMock.mockResolvedValue(null);
+    headerStore.get.mockReturnValue("/members");
+    const { container } = await renderLayout();
+
+    expect(container.querySelector('[data-testid="login-required-notice"]')).not.toBeNull();
+    expect(container.querySelector('[data-testid="sidebar-shell-stub"]')).toBeNull();
+    expect(container.querySelector('[data-testid="child"]')).toBeNull();
+    expect(
+      container
+        .querySelector('[data-testid="login-required-notice-cta"]')
+        ?.getAttribute("href"),
+    ).toBe("/login?redirect=%2Fmembers");
+  });
+
+  it("Auth-2: session 解決が throw しても fail-closed でログイン案内を出す", async () => {
+    getSessionMock.mockRejectedValue(new Error("auth unavailable"));
+    const { container } = await renderLayout();
+    expect(container.querySelector('[data-testid="login-required-notice"]')).not.toBeNull();
+    expect(container.querySelector('[data-testid="sidebar-shell-stub"]')).toBeNull();
+  });
+
   it("P-1: SidebarShell が mount される", async () => {
     const { container } = await renderLayout();
     expect(container.querySelector('[data-testid="sidebar-shell-stub"]')).not.toBeNull();

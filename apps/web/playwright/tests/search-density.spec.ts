@@ -1,8 +1,14 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
 import { expect, test } from '../fixtures/coverage'
+import { memberLogin } from '../fixtures/auth'
 import { MembersListPage } from '../page-objects/MembersListPage'
 
 test.describe('search × density (6 パラメータ + density 3 値)', () => {
+  // 公開層は全ルート認証必須化されたため /members 訪問前に会員認証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context())
+  })
+
   test('q parameter', async ({ page }) => {
     const list = new MembersListPage(page)
     await list.applyQuery({ q: 'tanaka' })

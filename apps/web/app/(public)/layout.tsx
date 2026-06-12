@@ -4,9 +4,11 @@
 import type { ReactNode } from "react";
 import { headers } from "next/headers";
 
+import { LoginRequiredNotice } from "../../src/components/auth/LoginRequiredNotice";
 import { PublicFooter } from "../../src/components/public/PublicFooter";
 import { SidebarMobileTrigger } from "../../src/components/shell/SidebarMobileTrigger";
 import { SidebarShellServer } from "../../src/components/shell/SidebarShell.server";
+import { getSession } from "../../src/lib/session";
 
 export default async function PublicLayout({
   children,
@@ -15,6 +17,16 @@ export default async function PublicLayout({
 }) {
   // x-pathname は middleware 注入値を優先し、fallback は middleware 未経由のテスト経路を支える。
   const pathname = (await headers()).get("x-pathname") ?? "/";
+  let session: Awaited<ReturnType<typeof getSession>> | null = null;
+  try {
+    session = await getSession();
+  } catch {
+    session = null;
+  }
+  if (!session) {
+    return <LoginRequiredNotice redirectTo={pathname} />;
+  }
+
   return (
     <div
       data-theme="warm"

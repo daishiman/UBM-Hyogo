@@ -102,7 +102,7 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 | `AUTH_SECRET` | Auth.js JWT 署名共有秘密 (HS256)。apps/web + apps/api secret。同一値必須。Auth.js v5 と API 側 `verifySessionJwt`、1Password→Cloudflare Secrets |
 | `AUTH_GOOGLE_ID` | Google OAuth client id。apps/web secret。Google Cloud Console OAuth client |
 | `AUTH_GOOGLE_SECRET` | Google OAuth client secret。apps/web secret。漏洩時 fail-closed |
-| `INTERNAL_AUTH_SECRET` | apps/web → apps/api `/auth/session-resolve` 共有秘密。両 worker secret に同値、service-binding 経由 internal-only |
+| `INTERNAL_AUTH_SECRET` | apps/web / apps/og → apps/api の内部サービス認証共有秘密。`/auth/session-resolve` に加え、require-auth-public-access-gate 以降は sitemap 生成・OG 画像ワーカー・`/public/*` の Worker-to-Worker 消費で `X-Internal-Auth` として使う。apps/web / apps/api / apps/og に同値を置き、未設定時は内部経路を 401 fail-closed |
 | `NEXT_PUBLIC_API_BASE_URL` | public API host の単一正本名。apps/web の public fetch / CSP と apps/og の HTTP fallback が参照する。Workers runtime では `API_SERVICE` service binding を優先し、HTTP fallback は local/test/Playwright の mock API 差し替え用。`apps/web/src/lib/fetch/public.ts` は direct env read を持たず `getPublicFetchEnv()` 経由で解決する |
 | `INTERNAL_API_BASE_URL` | internal endpoint host。apps/web var。service-binding 配下で host 不要、local 互換のみ |
 | `OG_IMAGE_BASE_URL` | apps/web public metadata var。member detail の `og:image` / `twitter:image` を `apps/og` 専用 Worker URL へ向ける任意値。未設定時は既存 static OG fallback を維持し、参照は `getPublicEnv()` 経由に限定する |

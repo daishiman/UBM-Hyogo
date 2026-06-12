@@ -87,6 +87,12 @@ https://www.googleapis.com/auth/drive.readonly
 
 登録・未同意・削除済みを別画面へ飛ばさず、ログイン導線の中で吸収する。
 
+## 認証境界（require-auth-public-access-gate・2026-06-10）
+
+`/login` を除く全ルート（`/`, `/members`, `/members/[id]`, `/register`, `/privacy`, `/terms`）は**認証必須**である。
+未認証ユーザーには `(public)/layout.tsx` の server 側 `getSession()` ゲートが「ログインが必要です」案内画面（`LoginRequiredNotice`）を返し、本来コンテンツと子ページの RSC データ取得を遮断する（fail-closed: `getSession()` throw 時も未認証扱い）。案内画面の「ログインする」ボタンは `/login?redirect=<元の pathname>` へ遷移する。
+公開 API `/public/*` も `requirePublicAccess` ガード（会員セッション or 内部サービス認証 `X-Internal-Auth`）で保護し、UI ゲートと併せた二層防御とする。詳細は [01-api-schema.md](./01-api-schema.md) の Public members API 節を参照。
+
 ## PublicHeader auth-view contract（2026-05-28）
 
 公開ヘッダは session 本文や PII を DOM に出さず、`AuthView` view model だけで auth CTA を出し分ける。
@@ -111,6 +117,14 @@ type AuthView =
 ### Magic Link web proxy env contract（2026-05-26）
 
 `apps/web/app/api/auth/magic-link/route.ts`、`verify/route.ts`、`gate-state/route.ts`、`/api/admin/*`、`/api/me/*`、`verifyMagicLink()`、`fetchAuthed()` は `INTERNAL_API_BASE_URL` を `apps/web/src/lib/env.ts` の accessor（`getAuthEnv()` / 必要時 `getPublicFetchEnv()`）経由で解決する。production code の `process.env.INTERNAL_API_BASE_URL` 直参照は禁止し、`scripts/verify-no-process-env-internal-api.sh` で回帰検出する。
+
+### Profile session transport fail-closed contract（2026-06-11）
+
+`apps/web` の server-side API transport は `apps/web/src/lib/env.ts#getEnvironmentResolution()` と `apps/web/src/lib/fetch/transport.ts#resolveApiFetch()` を組み合わせて解決する。`ENVIRONMENT` が `local | staging | production` のいずれかとして明示されていない場合、`environmentExplicit=false` として扱い、`API_SERVICE` service binding も `INTERNAL_API_BASE_URL` も無い経路では localhost fallback へ落とさず `API transport unresolved` で fail-closed する。
+
+`fetchAuthed()` は解決済み transport を `describeTransport()` で診断メタ化し、非 2xx の `FetchAuthedError` に `transport: { transportKind, baseHost }` を添付する。transport 自体の fetch 失敗は `ApiTransportError` として同じ `transport` 診断メタを持つ。`safeServerFetch()` は `server_fetch_failed` structured log に `code` / `path` / `status` と合わせ、Error 内部の `transport` を `transportKind` / `baseHost` としてフラットに出す。memberId、cookie、token、secret は出力しない。
+
+この変更は `/me` path・response shape・status taxonomy・apps/api・D1 schema・Google Form schema を変更しない。staging / production の primary transport は `API_SERVICE` service binding であり、HTTP fallback は明示設定された base URL または local/test 用に限定する。
 
 ---
 
