@@ -1,0 +1,12 @@
+# dev sync: 4 コミット取込（behind 4 / ahead 2）で **skill index 計 6 file conflict（union 5 = SKILL.md + フル index セット、keywords.json `--ours`+rebuild）**・content conflict 0・CI fail 0（2026-06-12 feat/admin-dashboard-jp-clarity-and-card-ux・task-spec ミラー）
+
+- 日時: 2026-06-12（sub-worktree task-20260611-085747-wt-9）
+- ブランチ: `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（**4 behind / 2 ahead**・ローカル dev = origin/dev `0d505ee52` 0/0・独自 0 → dev 同期は冪等スキップ）
+- 起点: ユーザー指示「リモート dev → ローカル dev → 本ブランチへマージし conflict・CI fail を解消して push、解消内容を skill 反映」。スコープ = 現在 WT・現在ブランチのみ（単一スコープ S-SUB 自動確定）。
+- 取込: dev 新規 4 コミット = #1215(サイドバー折りたたみ nav アイコン縦間隔) / #1217(/admin/meetings カード・展開編集・出席者一覧) / #1209(公開層全ルート認証必須化) / #1214(/profile transport 可観測性 + localhost fail-closed)。
+- **task-spec 側ファイルは衝突 0**（SKILL.md / changelog / index / reference / lessons すべて Auto-merge）。content CONFLICT **6 file は全 aiworkflow 配下＝過去 pass 最多級のフル index セット + SKILL.md** = `SKILL.md` + `indexes/{keywords.json,quick-reference.md,resource-map.md,topic-map.md}` + `references/task-workflow-active.md`。`apps/**` / packages content conflict **0**（feature ahead 2 = `/admin` ダッシュボード日本語化 + カード UX の web 表現層と、取込 4 コミットの touch 領域が分離）。
+- **Phase 11 sync-merge 手順への確定データ 2 点**:
+  1. **union 件数の天井側も事前確定不可（SP-DEVSYNC-089/098/111 系の上限側拡張）**: 同じ behind 4 で前 pass union 1〜3 → 本 pass union 5 + `--ours` 1 ＝ resolver 対象全カテゴリ一斉衝突。決定因子は behind 数でなく「取込デルタの skill index touch 量」（dev 側で skill close-out 追記が連続すると天井に振れる）。`sync:resolve` は 6 件一斉でも 1 パス収束＝最悪ケースでも resolver で足り、手動解消の見積りを仕様書に積まない。
+  2. **keywords.json の Auto-merge / `--ours` 振れ再確認**: 前 pass Auto-merge → 本 pass conflict（`--ours`+rebuild・5519 kw・drift 0）。仕様書 Phase 11 では keywords は「衝突したら resolver、しなければ rebuild 冪等確認のみ」の分岐記載が正。
+- 検証: stale branch-sync lock（105 分）上書き続行 → fetch 0/0 → merge CONFLICT 6（index のみ）→ `pnpm sync:resolve`（union 5 + ours 1 + rebuild・exit 0）→ マーカー検証→add→commit 1 Bash 原子連結（SP-DEVSYNC-135 準拠）で merge `8d93fb3b9` → committed blob マーカー 0 → 取込デルタ lock/package.json 変更なし＝install 省略可 → `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / indexes:rebuild 冪等（5519 kw・drift 0）。CI コード修正 0・spec 生成手順（Phase 1-13 / 単一責務分解 / Phase 12 中学生レベル説明）への影響 0 ゆえ新規 SSOT 不要。
+- 反映先: aiworkflow changelog `20260612-dev-sync-admin-dashboard-jp-clarity-behind4-ahead2-union5-skillmd-fullindex-keywords-ours-automerge.md` が正本・本ファイルはミラー + 両 SKILL-changelog.md 1 行。新規 lesson は起こさず L-DEVSYNC-123-A（上限側）+ L-DEVSYNC-135-C（原子的 commit 適用実績）の確定データ拡張。
