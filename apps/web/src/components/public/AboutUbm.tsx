@@ -47,13 +47,11 @@ export function AboutUbm({
   return (
     <section data-component="about-ubm" data-role="grid-2">
       <article data-role="about-card">
-        <p data-role="eyebrow">ABOUT</p>
         <h2 data-role="section-heading">事業支援コミュニティ「UBM」</h2>
         {aboutCopy}
       </article>
       {showZones ? (
         <article data-role="zones-card">
-          <p data-role="eyebrow">THREE ZONES</p>
           <h2 data-role="section-heading">UBM区画</h2>
           <ul data-role="zone-rows">
             {ZONES.map((z) => (

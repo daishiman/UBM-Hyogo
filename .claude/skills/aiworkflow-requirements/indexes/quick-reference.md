@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## home-dashboard-japanese-localization（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/home-dashboard-japanese-localization/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 公開トップ `/` の英語表記を非エンジニア向け日本語へ整える |
+| implementation | `page.tsx`, `Stats.tsx`, `AboutUbm.tsx`, `Timeline.tsx`, `CallToActionCTA.tsx`, `legacy-public.css`, `lib/api/public.ts`, focused specs |
+| evidence | focused Vitest 7 files / 44 tests PASS; typecheck/lint/verify:tokens PASS; English residual grep 0; local Playwright screenshots 3 PNG + DOM verification PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-dashboard-japanese-localization-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
 ## admin-members-mobile-responsive-layout（2026-06-10）
 
 | 項目 | 値 |

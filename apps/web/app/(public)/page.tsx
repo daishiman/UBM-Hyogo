@@ -72,7 +72,6 @@ export default async function HomePage() {
     <main data-page="home" data-route="public" data-section-rhythm="comfortable">
         <Hero
           variant="card"
-          eyebrow="UBM HYOGO · CHAPTER SITE"
           title="兵庫で、事業を育てる人のつながりを可視化する。"
           subtitle="UBM兵庫支部会メンバーサイトは、Googleフォームから集めた支部会メンバーの自己紹介情報を、公開情報と会員限定情報に分けて整理・公開するサイトです。"
           primaryCta={{ label: "メンバー一覧を見る", href: "/members" }}
@@ -91,7 +90,6 @@ export default async function HomePage() {
         <section data-component="featured-members">
           <header data-role="header">
             <div>
-              <p data-role="eyebrow">FEATURED MEMBERS</p>
               <h2 data-role="section-heading">参加している事業者たち</h2>
             </div>
             <a href="/members" data-role="cta-link">

@@ -31,6 +31,18 @@ const MEMBERS_REVALIDATE = 30;
 const PROFILE_REVALIDATE = 30;
 const FORM_PREVIEW_REVALIDATE = 300;
 
+function normalizePublicMemberList(raw: unknown): unknown {
+  if (
+    raw &&
+    typeof raw === "object" &&
+    !Array.isArray(raw) &&
+    !("topTags" in raw)
+  ) {
+    return { ...raw, topTags: [] };
+  }
+  return raw;
+}
+
 function withRevalidate(
   options: PublicApiOptions | undefined,
   fallback: number,
@@ -58,7 +70,7 @@ export async function listMembers(
     path,
     withRevalidate(options, MEMBERS_REVALIDATE),
   );
-  return PublicMemberListViewZ.parse(raw);
+  return PublicMemberListViewZ.parse(normalizePublicMemberList(raw));
 }
 
 export async function listMembersRaw(
@@ -70,7 +82,7 @@ export async function listMembersRaw(
     path,
     withRevalidate(options, MEMBERS_REVALIDATE),
   );
-  return PublicMemberListViewZ.parse(raw);
+  return PublicMemberListViewZ.parse(normalizePublicMemberList(raw));
 }
 
 export async function getMemberProfile(
