@@ -1,7 +1,0 @@
-{
-  "status": "runtime_visual_pending",
-  "attemptedAt": "2026-05-31T00:00:00Z",
-  "attemptedCommand": "PLAYWRIGHT_MEMBER_PUBLISH_RECOVERY=1 pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/member-publish-recovery-form-ops-and-admin-link.spec.ts --project=desktop-chromium",
-  "attemptResult": "terminated_after_no_screenshot_output",
-  "screenshotsPresent": false
-}
