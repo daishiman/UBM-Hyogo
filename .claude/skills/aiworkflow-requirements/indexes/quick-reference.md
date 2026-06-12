@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## responsive-mobile-tablet-ui-fixes（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| purpose | 全 19 ルートの携帯・タブレット幅での横スクロール、固定幅はみ出し、breakpoint drift、drawer/popover 収納不備を `apps/web` 表現層で是正する |
+| implementation | `apps/web/src/styles/{tokens,globals,legacy-public,auth}.css`, `apps/web/src/components/shell/SidebarDrawer.tsx`, `apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx`, `apps/web/playwright/tests/visual-full/full-visual.spec.ts`, `apps/web/playwright/fixtures/viewports.ts` |
+| evidence | SidebarDrawer focused Vitest 5 PASS; design-token gate 9 PASS; typecheck/lint PASS; local runtime smoke 36 checks PASS; local Playwright PNG 5 present |
+| invariant | apps/api / D1 schema / Google Form / shared API contract unchanged; new primitive and color redesignなし; authenticated admin staging screenshots / commit / push / PR are user-gated |
+| workflow evidence | `docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/outputs/phase-11/screenshot-coverage.md`, `docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ## issue-222-search-query-parser-shared（2026-06-10）
 
 | 項目 | 値 |

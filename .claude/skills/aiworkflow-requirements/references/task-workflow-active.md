@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### responsive-mobile-tablet-ui-fixes（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/` |
+| 目的 | 全 19 ルートの mobile/tablet レスポンシブ崩れ、横スクロール、固定幅はみ出し、overlay 収納不備を apps/web 表現層のみで是正する |
+| implementation targets | `apps/web/src/styles/tokens.css`, `apps/web/src/styles/globals.css`, `apps/web/src/styles/legacy-public.css`, `apps/web/src/styles/auth.css`, `apps/web/src/components/shell/SidebarDrawer.tsx`, `apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx`, `apps/web/playwright/tests/visual-full/full-visual.spec.ts`, `apps/web/playwright/fixtures/viewports.ts` |
+| evidence | focused Vitest 5 PASS、design-token gate 9 PASS、typecheck/lint PASS、local runtime smoke 36 checks PASS、Phase 11 local PNG 5 present |
+| invariant | API endpoint / D1 schema / Google Form / shared API contract / design token color contract 不変。新規 primitive なし |
+| user gate | authenticated admin staging screenshots、commit、push、PR |
+
 ### issue-222-search-query-parser-shared（2026-06-10）
 
 | 項目 | 値 |

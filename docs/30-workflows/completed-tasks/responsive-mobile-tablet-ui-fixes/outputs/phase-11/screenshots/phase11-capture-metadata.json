@@ -1,0 +1,117 @@
+{
+  "taskId": "responsive-mobile-tablet-ui-fixes",
+  "generated_at": "2026-06-12T00:25:17.447Z",
+  "capture_method": "local Playwright Chromium without DOM/style mutation",
+  "server": "AUTH_SECRET=local-dev-secret pnpm --filter @ubm-hyogo/web dev --hostname 127.0.0.1 --port 3210",
+  "base_url": "http://127.0.0.1:3210",
+  "status": "passed",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "file": "screenshots/TC-11-1-public-home-mobile.png",
+      "route": "/",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "metrics": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "scrollHeight": 3821,
+        "clientHeight": 812,
+        "overflowX": false,
+        "hasNextDevOverlay": false,
+        "title": "ホーム | UBM 兵庫支部会",
+        "url": "/",
+        "hasVisibleNextDevOverlay": false
+      }
+    },
+    {
+      "tc": "TC-11-2",
+      "file": "screenshots/TC-11-2-public-members-mobile.png",
+      "route": "/members",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "metrics": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "scrollHeight": 1095,
+        "clientHeight": 812,
+        "overflowX": false,
+        "hasNextDevOverlay": false,
+        "title": "メンバー一覧 | UBM 兵庫支部会",
+        "url": "/members",
+        "hasVisibleNextDevOverlay": false
+      }
+    },
+    {
+      "tc": "TC-11-3",
+      "file": "screenshots/TC-11-3-login-mobile.png",
+      "route": "/login",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "metrics": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "scrollHeight": 812,
+        "clientHeight": 812,
+        "overflowX": false,
+        "hasNextDevOverlay": false,
+        "title": "UBM 兵庫支部会",
+        "url": "/login",
+        "hasVisibleNextDevOverlay": false
+      }
+    },
+    {
+      "tc": "TC-11-4",
+      "file": "screenshots/TC-11-4-privacy-tablet.png",
+      "route": "/privacy",
+      "viewportName": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "metrics": {
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "scrollHeight": 1273,
+        "clientHeight": 1024,
+        "overflowX": false,
+        "hasNextDevOverlay": false,
+        "title": "プライバシーポリシー | UBM 兵庫支部会 | UBM 兵庫支部会",
+        "url": "/privacy",
+        "hasVisibleNextDevOverlay": false
+      }
+    },
+    {
+      "tc": "TC-11-5",
+      "file": "screenshots/TC-11-5-not-found-mobile.png",
+      "route": "/__not_found_smoke__",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "metrics": {
+        "scrollWidth": 375,
+        "clientWidth": 375,
+        "scrollHeight": 812,
+        "clientHeight": 812,
+        "overflowX": false,
+        "hasNextDevOverlay": false,
+        "title": "UBM 兵庫支部会",
+        "url": "/__not_found_smoke__",
+        "hasVisibleNextDevOverlay": false
+      }
+    }
+  ],
+  "authenticated_admin_visual_baseline": "pending_user_approval",
+  "note": "nextjs-portal may exist as a hidden dev runtime container; visual inspection confirmed no visible red dev issue overlay after recapture without DOM/style mutation."
+}

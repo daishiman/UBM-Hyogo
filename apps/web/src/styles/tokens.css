@@ -108,6 +108,11 @@
   --ubm-ease-decelerate: cubic-bezier(0, 0, 0, 1);
   --ubm-ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
 
+  /* Responsive breakpoints: documentation anchors. Media queries inline px values. */
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
   /* Sidebar shell (Task A — unified-sidebar-shell-public-and-admin) */
   --shell-bar-w: 17rem;          /* 272px */
   --shell-bar-w-collapsed: 4rem; /* 64px  */

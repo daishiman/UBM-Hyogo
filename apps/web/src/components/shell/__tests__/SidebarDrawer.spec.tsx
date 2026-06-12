@@ -31,6 +31,17 @@ describe("SidebarDrawer", () => {
     expect(document.body.getAttribute("data-shell-drawer-open")).toBe("true");
   });
 
+  it("drawer panel は小型 viewport で収まる幅 class を持つ", () => {
+    const { container } = render(
+      <SidebarDrawer open onClose={vi.fn()}>
+        <a href="/x">link</a>
+      </SidebarDrawer>,
+    );
+    expect(
+      container.querySelector('[data-shell-block="drawer-panel"]')?.getAttribute("class"),
+    ).toContain("w-[min(17rem,88vw)]");
+  });
+
   it("Esc キーで onClose が呼ばれる", () => {
     const onClose = vi.fn();
     render(

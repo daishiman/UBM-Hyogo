@@ -1,0 +1,63 @@
+{
+  "taskId": "responsive-mobile-tablet-ui-fixes",
+  "generated_at": "2026-06-12T00:25:17.447Z",
+  "capture_method": "local Playwright Chromium against Next dev server without DOM/style mutation",
+  "base_url": "http://127.0.0.1:3210",
+  "cases": [
+    {
+      "tc": "TC-11-1",
+      "name": "public-home-mobile",
+      "route": "/",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "priority": "A"
+    },
+    {
+      "tc": "TC-11-2",
+      "name": "public-members-mobile",
+      "route": "/members",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "priority": "A"
+    },
+    {
+      "tc": "TC-11-3",
+      "name": "login-mobile",
+      "route": "/login",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "priority": "A"
+    },
+    {
+      "tc": "TC-11-4",
+      "name": "privacy-tablet",
+      "route": "/privacy",
+      "viewportName": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "priority": "A"
+    },
+    {
+      "tc": "TC-11-5",
+      "name": "not-found-mobile",
+      "route": "/__not_found_smoke__",
+      "viewportName": "mobile-narrow",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "priority": "A"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-06-12T07:35:00+09:00",
+  "server": "AUTH_SECRET=local-dev-secret pnpm exec next dev --hostname 127.0.0.1 --port 3210",
+  "status": "passed",
+  "browser_backend": "playwright-chromium-headless",
+  "note": "Phase 5 仕様との突合で検出した残ギャップ（globals.css max-width:720px → 767.98px / viewports.ts mobileNarrow additive）の是正後に再実行した post-gap-fix smoke。9 ルート × 4 viewport = 36 checks 全て overflow=false。/profile・/admin は未認証セッションのため login リダイレクト後の描画を計測（前回 smoke と同経路）。boundary-740 (740px) は 720→767.98px 境界是正帯の単カラム化を確認する追加 viewport。",
+  "supersedes": "2026-06-11T22:34:00+09:00 run (4 checks, port 3000)",
+  "viewports": ["375x812 (mobile-narrow)", "390x844 (mobile)", "740x900 (boundary-740)", "768x1024 (tablet)"],
+  "routes": ["/", "/members", "/register", "/privacy", "/terms", "/login", "/profile (unauthenticated redirect)", "/admin (unauthenticated redirect)", "/__not_found_smoke__ (not-found.tsx)"],
+  "checks_total": 36,
+  "checks_failed": 0,
+  "checks": [
+    { "viewport": "375x812", "routes_overflow_false": 9 },
+    { "viewport": "390x844", "routes_overflow_false": 9 },
+    { "viewport": "740x900", "routes_overflow_false": 9 },
+    { "viewport": "768x1024", "routes_overflow_false": 9 }
+  ],
+  "raw_result_sample": {
+    "viewport": "tablet",
+    "route": "/",
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "overflow": false
+  },
+  "authenticated_admin_visual_baseline": "pending_user_approval"
+}

@@ -1,0 +1,180 @@
+{
+  "task_id": "responsive-mobile-tablet-ui-fixes",
+  "created_at": "2026-06-11",
+  "status": "implemented_local_visual_present_staging_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_visual_present_staging_pending",
+    "implementation_status": "implemented_local_visual_present_staging_pending",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "web_responsive_mobile_tablet_ui_ux",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/",
+    "scope_routes": [
+      "/",
+      "/(public)/members",
+      "/(public)/members/[id]",
+      "/(public)/register",
+      "/privacy",
+      "/terms",
+      "/login",
+      "/profile",
+      "/(admin)/admin",
+      "/(admin)/admin/members",
+      "/(admin)/admin/tags",
+      "/(admin)/admin/meetings",
+      "/(admin)/admin/schema",
+      "/(admin)/admin/requests",
+      "/(admin)/admin/identity-conflicts",
+      "/(admin)/admin/audit",
+      "error.tsx",
+      "not-found.tsx",
+      "loading.tsx"
+    ],
+    "depends_on": [],
+    "implementation_files": [
+      "apps/web/src/styles/tokens.css",
+      "apps/web/src/styles/globals.css",
+      "apps/web/src/styles/legacy-public.css",
+      "apps/web/src/styles/auth.css",
+      "apps/web/src/components/shell/SidebarDrawer.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx",
+      "apps/web/playwright/tests/visual-full/full-visual.spec.ts",
+      "apps/web/playwright/fixtures/viewports.ts"
+    ],
+    "out_of_scope": [
+      "apps/api endpoint 追加・D1 schema 変更・Google Form 仕様変更（不変条件 #1 #5）",
+      "配色・タイポグラフィの再設計（design token 正本据置・不変条件 #2）",
+      "新規デザイン primitive の追加（不変条件 #3）"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/components/shell/__tests__/SidebarDrawer.spec.tsx",
+      "mise exec -- pnpm --filter @ubm-hyogo/web verify-design-tokens",
+      "git diff --name-only -- apps/api",
+      "rg -n \"max-width: 767px|max-width: 768px|max-width: 900px|minmax\\(18rem|minmax\\(22rem|min\\(1120px, calc|w-\\[17rem\\]|max-w-\\[85vw\\]\" apps/web/src/styles apps/web/src/components/shell apps/web/playwright/tests/visual-full/full-visual.spec.ts",
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm --filter @ubm-hyogo/web lint",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/artifacts.json docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-11T17:37:08+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored and reconciled with same-cycle apps/web implementation for responsive mobile/tablet UI fixes"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-11T21:59:36+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/outputs/phase-11/screenshot-coverage.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web responsive CSS/drawer/visual guard changes landed locally; focused Vitest PASS (5 tests), token gate PASS (9 tests), typecheck/lint PASS, runtime smoke PASS (36 checks), local physical PNG 5 present; authenticated admin staging visual baseline remains user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/responsive-mobile-tablet-ui-fixes/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, and authenticated staging visual baseline remain user-gated"
+      }
+    ],
+    "implementation_mode": "new"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "phase-1-requirements.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "phase-2-design.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "phase-3-design-review.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "status": "completed",
+      "output": "phase-4-test-plan.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装手順",
+      "status": "completed",
+      "output": "phase-5-implementation.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト追加",
+      "status": "completed",
+      "output": "phase-6-test-additions.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ",
+      "status": "completed",
+      "output": "phase-7-coverage.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタ",
+      "status": "completed",
+      "output": "phase-8-refactor.md"
+    },
+    {
+      "phase": 9,
+      "name": "QA",
+      "status": "completed",
+      "output": "phase-9-qa.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "phase-10-final-review.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed_local_evidence",
+      "output": "phase-11-manual-test.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed",
+      "output": "phase-12-documentation.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending_user_approval",
+      "output": "phase-13-pr.md"
+    }
+  ]
+}
