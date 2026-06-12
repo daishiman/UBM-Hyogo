@@ -2204,6 +2204,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Notes | L13 |
 
+### references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L15 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -9299,6 +9305,23 @@ node scripts/list-specs.js --topics
 | issue-1068-admin-tag-inline-create-ui | L4847 |
 | issue-1111-proxy-transport-util-unify | L4865 |
 | issue-1145-public-api-base-url-env-unification（2026-06-08） | L4883 |
+| ドキュメント構成 | L4372 |
+| フェーズ構造（概要） | L4381 |
+| 品質ゲート（概要） | L4412 |
+| 出力テンプレート | L4423 |
+| 実行時のコマンド・エージェント・スキル | L4446 |
+| 昇格パターン集 | L4470 |
+| Current Active / Spec Created Tasks | L4472 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4638 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4706 |
+| issue-1007-density-toggle-help-hint-hardening | L4730 |
+| issue-1079-bulk-tag-audit-batch-filter | L4743 |
+| issue-1128-audit-batchid-index-optimization | L4756 |
+| issue-998-members-publish-state-production-rollout | L4773 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4832 |
+| issue-1068-admin-tag-inline-create-ui | L4846 |
+| issue-1111-proxy-transport-util-unify | L4864 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4882 |
 
 ### references/task-workflow-backlog-part2.md
 

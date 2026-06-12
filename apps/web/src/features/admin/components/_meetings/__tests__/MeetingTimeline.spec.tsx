@@ -34,7 +34,9 @@ describe("MeetingTimeline", () => {
 
   it("attendance-list-session-<id> testid が維持される", () => {
     render(<MeetingTimeline items={[item]} selectedId={null} onSelect={() => {}} />);
-    expect(screen.getByTestId("attendance-list-session-sess-1")).toBeTruthy();
+    const card = screen.getByTestId("attendance-list-session-sess-1");
+    expect(card).toBeTruthy();
+    expect(card.classList.contains("ui-card--flat")).toBe(true);
   });
 
   it("出席人数バッジと出席記録導線を表示する", () => {
