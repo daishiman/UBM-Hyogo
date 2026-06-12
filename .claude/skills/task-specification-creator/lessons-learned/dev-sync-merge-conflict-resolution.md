@@ -1611,3 +1611,13 @@
   3. **commit コマンドの逐語形**: hook 有効 commit は `git commit -m "..."`（オプション無し）。`--no-verify=false` は `error: option 'no-verify' takes no value` で不発になるため仕様書のコマンド例に値付き boolean を書かない。不発時は `git log -1` で HEAD 不変を確認してから再実行（merge 状態は継続しているので merge --abort 不要）。
 - 検証: merge `6eb588b0c`（CONFLICT 1 = keywords.json → resolver 1 パス → BLOB_CLEAN）→ install skip（lock/package.json 変更 0）→ typecheck/lint exit 0 → indexes:rebuild 冪等 diff 0 → CI コード修正 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-136（本 lesson の正本）, SP-DEVSYNC-134（ハンク単位衝突判定）, SP-DEVSYNC-135（lock 競合 worst-case・本件はその非発生 happy-path）, SP-DEVSYNC-132（install 要否の正本）。
+
+## SP-DEVSYNC-138: **仕様書 Phase 5/11 の dev sync 手順に「並列セッション lock 待機プロトコル」を逐語化する — `.branch-sync.lock` 等の相互排除 lock を別セッションが保持中でも即中断/即 stale 削除せず、(1) 30 秒間隔ポーリングで解放待ち (2) `git reflog dev --date=iso` で保持者活動を間接観測 (3) 30 分閾値で stale 削除続行、の 3 段で扱い、待機中に read-only 調査（remote ref 照合・衝突予測・install 要否）を済ませる。衝突ファイル集合は波ごとに反転する前提で「resolver 対象内なら集合によらず `pnpm sync:resolve` 1 パス」と書く（L-DEVSYNC-138 の task-spec 版）** （2026-06-12 feat/admin-tag-management-clarity-and-code-autogen ← dev, sub-worktree wt-4, behind 2 / ahead 8）
+
+- 教訓: 15+ 並列 worktree 運用では sync フロー同士の lock 競合が定常的に起こる。仕様書が「有効 lock = 中断」だけを書くと、保持者が数分後に正常終了するケースで不要な手戻りになる。逆に即 stale 削除を書くと保持者の書込と衝突して index.lock 競合（SP-DEVSYNC-135）を誘発する。「ポーリング待機 → 閾値超過で削除」の中間プロトコルを逐語化するのが正。
+- 仕様書への反映（Phase 5/11）:
+  1. **lock 検出時の分岐を 3 段で明記**: age < 閾値 → 30 秒ポーリング（保持者の正常終了で解放される前提）／reflog で活動間接観測（ref 更新時刻 vs lock 作成時刻）／age ≥ 30 分 → `find <gitdir> -maxdepth 1 -name '<lock>' -delete` で削除し自 lock 取得。
+  2. **待機中の read-only 先行調査を手順化**: `git ls-remote origin refs/heads/dev refs/heads/<branch>`（残作業の確定）・`git diff HEAD...dev --name-only`（衝突予測 + `grep -E '(pnpm-lock|package\.json)'` で install 要否）。書込クリティカルセクションを最短化する。
+  3. **衝突集合の非安定性を前提に書く**: 「keywords.json が衝突する」等の固定列挙でなく「resolver 対象（SKILL.md / task-workflow-active.md / indexes/*-map.md / quick-reference.md / keywords.json）内の任意の部分集合が波ごとに衝突しうる。集合によらず `pnpm sync:resolve` 1 パス → U 残 0 確認 → 原子 1-Bash commit」と手順を集合非依存で逐語化する。
+- 検証: lock 待機約 23 分 → 解放検知 → CONFLICT 4（前波の keywords.json 単独から反転）→ resolver 1 パス → merge `d01b07b9f` blob marker 0 → install skip → typecheck/lint exit 0 → rebuild 冪等 diff 0 → CI コード修正 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）, SP-DEVSYNC-136（happy-path 判定）, SP-DEVSYNC-135（index.lock 競合 worst-case・即 stale 削除を避ける根拠）。
