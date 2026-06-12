@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### admin-audit-log-japanese-clarity-and-filter-collapse（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/` |
+| 目的 | `/admin/audit` の英語表記・技術キー露出を日本語ラベル化し、フィルタを常時表示 + 詳細な絞り込みへ段階開示し、監査ログカードのメタ情報を整列する |
+| implementation targets | `apps/web/src/components/admin/auditGlossary.ts`, `AuditLogPanel.tsx`, `AuditLogCard.tsx`, `auditAppliedFilters.ts`, `apps/web/src/styles/globals.css`, focused admin audit specs |
+| invariant | apps/api / D1 / Google Form / packages/shared unchanged. Query param keys and `<input name>` remain English API contract; visible labels only are localized |
+| evidence | focused Vitest 4 files / 57 tests PASS、typecheck PASS、lint PASS、verify:tokens PASS、verify:phase12-compliance PASS、gate-metadata ERROR 0、apps/api / packages/shared diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-japanese-clarity-and-filter-collapse-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
 ### vitest-2-to-3-major-upgrade（2026-06-10）
 
 | 項目 | 値 |

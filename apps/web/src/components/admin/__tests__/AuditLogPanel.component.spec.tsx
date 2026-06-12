@@ -103,10 +103,11 @@ describe("AuditLogPanel", () => {
     render(<AuditLogPanel values={{ limit: "50" }} data={{ items: [], nextCursor: null }} />);
 
     expect(screen.getByRole("form", { name: "監査ログフィルター" })).toBeTruthy();
-    const actionInput = screen.getByLabelText("action") as HTMLInputElement;
+    const actionInput = screen.getByLabelText("操作の種類") as HTMLInputElement;
     expect(actionInput).toBeTruthy();
     expect(actionInput.getAttribute("name")).toBe("action");
     expect(actionInput.getAttribute("list")).toBe("audit-action-presets");
+    expect(actionInput.getAttribute("placeholder")).toBe("例: 出席を追加");
     const actionPresets = document.getElementById("audit-action-presets") as HTMLDataListElement;
     expect(Array.from(actionPresets.options).map((option) => option.value)).toEqual([
       "attendance.add",
@@ -120,16 +121,20 @@ describe("AuditLogPanel", () => {
       "admin.request.approve",
       "admin.meeting.created",
     ]);
-    expect(screen.getByLabelText("actorEmail")).toBeTruthy();
-    expect(screen.getByLabelText("targetType")).toBeTruthy();
-    expect(screen.getByLabelText("targetId")).toBeTruthy();
-    expect(screen.getByLabelText("from (JST)")).toBeTruthy();
-    expect(screen.getByLabelText("to (JST)")).toBeTruthy();
-    const batchIdInput = screen.getByLabelText("batchId") as HTMLInputElement;
+    expect(screen.getByLabelText("実行者（メール）")).toBeTruthy();
+    expect(screen.getByLabelText("対象の種類")).toBeTruthy();
+    expect(screen.getByLabelText("対象ID")).toBeTruthy();
+    expect(screen.getByLabelText("期間（開始）")).toBeTruthy();
+    expect(screen.getByLabelText("期間（終了）")).toBeTruthy();
+    const advanced = document.querySelector(".admin-audit-filter-advanced") as HTMLDetailsElement;
+    expect(advanced).toBeTruthy();
+    expect(advanced.open).toBe(false);
+    expect(screen.getByText("詳細な絞り込み（対象・一括処理ID）").tagName).toBe("SUMMARY");
+    const batchIdInput = screen.getByLabelText("一括処理ID") as HTMLInputElement;
     expect(batchIdInput.getAttribute("name")).toBe("batchId");
-    expect(batchIdInput.getAttribute("placeholder")).toBe("batch-id (uuid)");
-    expect(screen.getByText(/併用推奨/)).toBeTruthy();
-    expect(screen.getByLabelText("limit").className).toContain("ui-select");
+    expect(batchIdInput.getAttribute("placeholder")).toBe("例: 1f3a…（一括処理の目印）");
+    expect(screen.getByText(/速く絞り込めます/)).toBeTruthy();
+    expect(screen.getByLabelText("表示件数").className).toContain("ui-select");
     expect(screen.getByRole("button", { name: "検索" }).className).toContain("ui-button");
     expect(screen.getByRole("link", { name: "リセット" }).className).toContain("ui-button");
   });
@@ -175,7 +180,7 @@ describe("AuditLogPanel", () => {
 
     expect(screen.getByText("誰が、いつ、何を変えたかを追跡します")).toBeTruthy();
     expect(screen.getByTestId("audit-applied-filters").textContent).toContain(
-      "action: admin.member.tag_assigned",
+      "操作の種類: タグを割り当て",
     );
     expect(screen.getByRole("list", { name: "監査ログ一覧" })).toBeTruthy();
     expect(screen.getByTestId("audit-log-card")).toBeTruthy();
@@ -508,12 +513,13 @@ describe("AuditLogPanel — render 分岐", () => {
         data={{ items: [], nextCursor: null }}
       />,
     );
-    expect((screen.getByLabelText(/action/) as HTMLInputElement).value).toBe("attendance.add");
-    expect((screen.getByLabelText(/actorEmail/) as HTMLInputElement).value).toBe("a@b.com");
-    expect((screen.getByLabelText(/targetType/) as HTMLInputElement).value).toBe("meeting");
-    expect((screen.getByLabelText(/targetId/) as HTMLInputElement).value).toBe("s1");
-    expect((screen.getByLabelText(/batchId/) as HTMLInputElement).value).toBe("batch-1079");
-    expect((screen.getByLabelText(/limit/) as HTMLSelectElement).value).toBe("100");
+    expect((screen.getByLabelText("操作の種類") as HTMLInputElement).value).toBe("attendance.add");
+    expect((screen.getByLabelText("実行者（メール）") as HTMLInputElement).value).toBe("a@b.com");
+    expect((screen.getByLabelText("対象の種類") as HTMLInputElement).value).toBe("meeting");
+    expect((screen.getByLabelText("対象ID") as HTMLInputElement).value).toBe("s1");
+    expect((screen.getByLabelText("一括処理ID") as HTMLInputElement).value).toBe("batch-1079");
+    expect((screen.getByLabelText("表示件数") as HTMLSelectElement).value).toBe("100");
+    expect((document.querySelector(".admin-audit-filter-advanced") as HTMLDetailsElement).open).toBe(true);
   });
 
   it("identity action preset でも自由入力値でも action filter を同じ input に復元する", () => {
@@ -524,7 +530,7 @@ describe("AuditLogPanel — render 分岐", () => {
       />,
     );
 
-    const actionInput = screen.getByLabelText(/action/) as HTMLInputElement;
+    const actionInput = screen.getByLabelText("操作の種類") as HTMLInputElement;
     expect(actionInput.value).toBe("identity.dismiss");
     expect(actionInput.getAttribute("list")).toBe("audit-action-presets");
 
@@ -535,14 +541,14 @@ describe("AuditLogPanel — render 分岐", () => {
         data={{ items: [], nextCursor: null }}
       />,
     );
-    expect((screen.getByLabelText(/action/) as HTMLInputElement).value).toBe("member.delete");
+    expect((screen.getByLabelText("操作の種類") as HTMLInputElement).value).toBe("member.delete");
   });
 
   it("values 未指定 (undefined) でも空文字 default で描画", () => {
     render(<AuditLogPanel values={{}} data={{ items: [], nextCursor: null }} />);
-    expect((screen.getByLabelText(/action/) as HTMLInputElement).value).toBe("");
-    expect(screen.getByPlaceholderText("meeting | admin_member_note")).toBeTruthy();
-    expect((screen.getByLabelText(/limit/) as HTMLSelectElement).value).toBe("50");
+    expect((screen.getByLabelText("操作の種類") as HTMLInputElement).value).toBe("");
+    expect(screen.getByPlaceholderText("例: 開催日")).toBeTruthy();
+    expect((screen.getByLabelText("表示件数") as HTMLSelectElement).value).toBe("50");
   });
 
   it("error なし & items 空のときに empty 表示、items 有のときは empty 非表示", () => {

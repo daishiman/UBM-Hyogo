@@ -14,22 +14,40 @@ describe("toAppliedFilterChips", () => {
         cursor: "internal-cursor",
       }, "25"),
     ).toEqual([
-      { key: "action", label: "action", value: "admin.member.tag_assigned" },
-      { key: "targetType", label: "target type", value: "member" },
+      { key: "action", label: "操作の種類", value: "タグを割り当て" },
+      { key: "targetType", label: "対象の種類", value: "会員" },
       { key: "period", label: "期間", value: "2026-06-01〜2026-06-09" },
-      { key: "limit", label: "limit", value: "50" },
+      { key: "limit", label: "表示件数", value: "50" },
     ]);
   });
 
   it("formats one-sided periods and uses fallback limit when the API omits limit", () => {
     expect(toAppliedFilterChips({ from: "not-a-date-value" }, "50")).toEqual([
       { key: "period", label: "期間", value: "not-a-date 以降" },
-      { key: "limit", label: "limit", value: "50" },
+      { key: "limit", label: "表示件数", value: "50" },
     ]);
     expect(toAppliedFilterChips({ to: "2026-06-09T23:59:59.000Z" }, "100")).toEqual([
       { key: "period", label: "期間", value: "2026-06-09 まで" },
-      { key: "limit", label: "limit", value: "100" },
+      { key: "limit", label: "表示件数", value: "100" },
     ]);
+  });
+
+  it("uses Japanese chip labels without exposing common English keys", () => {
+    const chips = toAppliedFilterChips({
+      action: "attendance.add",
+      actorEmail: "admin@example.com",
+      targetType: "meeting",
+      targetId: "meeting_123",
+      batchId: "batch-1",
+    }, "50");
+
+    expect(chips).toContainEqual({ key: "action", label: "操作の種類", value: "出席を追加" });
+    expect(chips).toContainEqual({ key: "actorEmail", label: "実行者（メール）", value: "admin@example.com" });
+    expect(chips).toContainEqual({ key: "targetType", label: "対象の種類", value: "開催日" });
+    expect(chips).toContainEqual({ key: "batchId", label: "一括処理ID", value: "batch-1" });
+    expect(chips.map((chip) => chip.label)).not.toEqual(
+      expect.arrayContaining(["action", "actor", "target type", "batchId", "limit"]),
+    );
   });
 
   it("returns an empty list when no filters were applied", () => {

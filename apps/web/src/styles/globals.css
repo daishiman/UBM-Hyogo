@@ -1932,20 +1932,40 @@
 
   .admin-audit-glossary {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
     gap: var(--ubm-space-3);
     margin: 0;
   }
 
   .admin-audit-glossary div,
   .admin-audit-card {
-    border: 1px solid var(--ubm-color-border-subtle);
-    border-radius: 6px;
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
     background: var(--ubm-color-surface-panel);
   }
 
   .admin-audit-glossary div {
+    display: grid;
+    align-content: start;
     padding: var(--ubm-space-3);
+  }
+
+  .admin-audit-filter-advanced {
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel-2);
+    padding: var(--ubm-space-3);
+  }
+
+  .admin-audit-filter-advanced summary {
+    cursor: pointer;
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-sm);
+    font-weight: 700;
+  }
+
+  .admin-audit-filter-advanced > div {
+    margin-top: var(--ubm-space-3);
   }
 
   .admin-audit-glossary dt,
@@ -1997,7 +2017,7 @@
   }
 
   .admin-audit-card__meta {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
     margin: var(--ubm-space-3) 0;
   }
 
@@ -2019,14 +2039,14 @@
   }
 
   .admin-audit-json {
-    border-top: 1px solid var(--ubm-color-border-subtle);
+    border-top: 1px solid var(--ubm-color-border-default);
     padding-top: var(--ubm-space-2);
   }
 
   .admin-audit-json pre {
     max-height: 18rem;
     overflow: auto;
-    border-radius: 6px;
+    border-radius: var(--ubm-radius-sm);
     background: var(--ubm-color-surface-bg-2);
     padding: var(--ubm-space-3);
   }

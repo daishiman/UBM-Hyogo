@@ -12,7 +12,7 @@ import { Select } from "../ui/Select";
 import { AuditLogCard } from "./AuditLogCard";
 import { AuditPurposeGuide } from "./AuditPurposeGuide";
 import { toAppliedFilterChips } from "./auditAppliedFilters";
-import { AUDIT_ACTION_PRESETS, AUDIT_TARGET_TYPE_PRESETS } from "./auditGlossary";
+import { AUDIT_ACTION_PRESETS, AUDIT_TARGET_TYPE_PRESETS, describeAuditField } from "./auditGlossary";
 import { toAuditErrorView } from "./auditErrorMessage";
 export {
   extractBatchId,
@@ -68,6 +68,9 @@ export function AuditLogPanel({
   const fallbackLimit = values.limit ?? "50";
   const appliedFilterChips = toAppliedFilterChips(data?.appliedFilters, fallbackLimit);
   const errorView = error ? toAuditErrorView(error) : null;
+  const advancedHasValue = Boolean(
+    values.targetType?.trim() || values.targetId?.trim() || values.batchId?.trim(),
+  );
   return (
     <section
       aria-labelledby={showHeading ? "admin-audit-h" : undefined}
@@ -87,11 +90,11 @@ export function AuditLogPanel({
           aria-label="監査ログフィルター"
           className="grid grid-cols-1 items-end gap-3 md:grid-cols-2 lg:grid-cols-4"
         >
-          <FormField name="action" label="action">
+          <FormField name="action" label={describeAuditField("action")}>
             <Input
               name="action"
               defaultValue={values.action ?? ""}
-              placeholder="attendance.add"
+              placeholder="例: 出席を追加"
               list="audit-action-presets"
             />
           </FormField>
@@ -100,49 +103,57 @@ export function AuditLogPanel({
               <option key={value} value={value} />
             ))}
           </datalist>
-          <FormField name="actorEmail" label="actorEmail">
+          <FormField name="actorEmail" label={describeAuditField("actorEmail")}>
             <Input name="actorEmail" defaultValue={values.actorEmail ?? ""} inputMode="email" />
           </FormField>
-          <FormField name="targetType" label="targetType">
-            <Input
-              name="targetType"
-              defaultValue={values.targetType ?? ""}
-              placeholder="meeting | admin_member_note"
-              list="audit-target-type-presets"
-            />
-          </FormField>
-          <datalist id="audit-target-type-presets">
-            {AUDIT_TARGET_TYPE_PRESETS.map((value) => (
-              <option key={value} value={value} />
-            ))}
-          </datalist>
-          <FormField name="targetId" label="targetId">
-            <Input name="targetId" defaultValue={values.targetId ?? ""} />
-          </FormField>
-          <FormField name="from" label="from (JST)">
+          <FormField name="from" label={describeAuditField("from")}>
             <Input name="from" type="datetime-local" defaultValue={values.fromLocal ?? ""} />
           </FormField>
-          <FormField name="to" label="to (JST)">
+          <FormField name="to" label={describeAuditField("to")}>
             <Input name="to" type="datetime-local" defaultValue={values.toLocal ?? ""} />
           </FormField>
-          <FormField
-            name="batchId"
-            label="batchId"
-            helper="batchId は from/to や action と併用推奨（full scan 回避）"
-          >
-            <Input
-              name="batchId"
-              defaultValue={values.batchId ?? ""}
-              placeholder="batch-id (uuid)"
-            />
-          </FormField>
-          <FormField name="limit" label="limit">
+          <FormField name="limit" label={describeAuditField("limit")}>
             <Select name="limit" defaultValue={values.limit ?? "50"}>
               <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
             </Select>
           </FormField>
+          <details
+            className="admin-audit-filter-advanced col-span-full"
+            open={advancedHasValue}
+          >
+            <summary>詳細な絞り込み（対象・一括処理ID）</summary>
+            <div className="grid grid-cols-1 items-end gap-3 md:grid-cols-2 lg:grid-cols-3">
+              <FormField name="targetType" label={describeAuditField("targetType")}>
+                <Input
+                  name="targetType"
+                  defaultValue={values.targetType ?? ""}
+                  placeholder="例: 開催日"
+                  list="audit-target-type-presets"
+                />
+              </FormField>
+              <datalist id="audit-target-type-presets">
+                {AUDIT_TARGET_TYPE_PRESETS.map((value) => (
+                  <option key={value} value={value} />
+                ))}
+              </datalist>
+              <FormField name="targetId" label={describeAuditField("targetId")}>
+                <Input name="targetId" defaultValue={values.targetId ?? ""} />
+              </FormField>
+              <FormField
+                name="batchId"
+                label={describeAuditField("batchId")}
+                helper="一括処理IDは期間や操作の種類と一緒に使うと速く絞り込めます"
+              >
+                <Input
+                  name="batchId"
+                  defaultValue={values.batchId ?? ""}
+                  placeholder="例: 1f3a…（一括処理の目印）"
+                />
+              </FormField>
+            </div>
+          </details>
           <div className="col-span-full flex justify-end gap-2">
             <Button type="submit" variant="primary">
               検索
