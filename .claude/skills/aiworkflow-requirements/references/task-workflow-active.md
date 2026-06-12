@@ -277,6 +277,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
 | user gate | staging authenticated visual baseline、commit、push、PR |
 
+### admin-sidebar-collapsed-icon-spacing-parity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-collapsed-icon-spacing-parity/` |
+| 目的 | collapsed sidebar の nav / public-return icon-box 高さを `h-[18px]` にし、expanded と縦ピッチを揃える |
+| implementation targets | `apps/web/src/components/shell/SidebarNavItem.tsx`, `apps/web/src/components/shell/SidebarShell.tsx` |
+| tests | `apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx`, `apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx` |
+| invariant | API / D1 schema / Google Form / auth / route topology 不変。Brand/User avatar の `h-10` は意図的に維持 |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web lint PASS、design-token gate 9 tests PASS、apps/api diff empty、local screenshot capture spec added but Next dev webServer timed out before PNG capture |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md` |
+| user gate | staging authenticated screenshots、commit、push、PR |
+
 ### public-home-member-card-info-and-tag-clarity（2026-06-08）
 
 | 項目 | 値 |
