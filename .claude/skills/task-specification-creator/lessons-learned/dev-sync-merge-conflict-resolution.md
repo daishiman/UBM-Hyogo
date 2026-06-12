@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-138: sync-merge を伴う仕様書の Phase 11 検証には「取込デルタ × feature 主編集ファイルの交差判定 → 交差時は focused Vitest 再実行」を逐語化する（L-DEVSYNC-138 の task-spec 版）
+- 2026-06-12 `feat/members-search-clear-and-sort-ux` 3rd-pass（wt-8・behind 2 / ahead 10・merge `feb39dca1`）。取込 #1213（公開・会員 8 画面共通レイアウト層統一・833 files）が feature 主編集ファイル `(public)/members/page.tsx` + `globals.css` 自体を改変し textual auto-merge（conflict 0）。
+- How to apply（仕様書 Phase 11 の sync-merge 検証コマンド列への逐語化）:
+  1. `git diff HEAD^1 HEAD --name-only` と feature 主編集ファイル集合（仕様書 Phase 5 の実装対象一覧）を突合し交差を判定する。
+  2. 交差ありなら typecheck/lint/tokens に加えて **feature の focused Vitest をリポジトリルートから再実行**（`pnpm vitest run <feature-filter>`・サブディレクトリ起動は include glob 不一致で "No test files found" になる）。本件 4 files / 41 tests PASS で Search clear・IME・sort 挙動の保持を機械確認。
+  3. auto-merge 成功（textual）と挙動互換（semantic）は別問題であることを仕様書に明記し、「conflict 0 だから検証省略」を禁じる。
+  4. VISUAL feature の場合は push 後 CI の visual 赤に備え SP-DEVSYNC-137 のワンセット手順（切り分け→baseline-update dispatch→空コミット re-trigger）への参照を Phase 11 に併記する。
+- Why: UI 統一 wave のような全画面横断 PR は feature の編集ファイルを構造的に書き換える。focused テスト再実行が push 前ローカルで意味的破綻を捕捉する最小コストの gate になる。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138 が正本。SP-DEVSYNC-137（visual 赤ワンセット手順）, SP-DEVSYNC-136（pre-flight 判定順序）。
+
 ### SP-DEVSYNC-137: UI 刷新 task の仕様書には「branch 常駐 visual 赤の切り分け→baseline-update dispatch→bot push 後 action_required の空コミット re-trigger」を CI 緑化のワンセット手順として Phase 11 に逐語化する（L-DEVSYNC-137 の task-spec 版）
 - 2026-06-12 `docs/public-member-common-ui-card-unification-spec`（wt-17・5th pass sync 後の CI 緑化）。`playwright-visual-full` / `playwright-smoke` failure は sync 起因でなく本ブランチの意図的 8 画面 UI 刷新による baseline 陳腐化（push 前から全 run failure・失敗 spec＝刷新対象 8 画面と完全一致）。
 - How to apply（公開/会員/管理画面の見た目を変える task の Phase 11 検証手順への逐語化）:
