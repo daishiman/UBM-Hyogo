@@ -1,0 +1,163 @@
+{
+  "task_id": "public-member-common-ui-card-unification",
+  "created_at": "2026-06-10",
+  "status": "implemented_local_visual_pending",
+  "task_type": "implementation",
+  "visual_category": "VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_visual_pending",
+    "implementation_status": "implemented_local",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "public_member_common_layout_primitive_layer",
+    "spec_classification": "implementation_spec",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/",
+    "scope_routes": [
+      "/",
+      "/members",
+      "/members/[id]",
+      "/register",
+      "/privacy",
+      "/terms",
+      "/profile",
+      "/login"
+    ],
+    "depends_on": [],
+    "implementation_files": [
+      "apps/web/src/components/ui/layout/PageShell.tsx",
+      "apps/web/src/components/ui/layout/PageHeader.tsx",
+      "apps/web/src/components/ui/layout/SectionCard.tsx",
+      "apps/web/src/components/ui/layout/ContentCard.tsx",
+      "apps/web/src/components/ui/layout/Prose.tsx",
+      "apps/web/src/components/ui/layout/index.ts",
+      "apps/web/src/components/ui/ButtonLink.tsx"
+    ],
+    "out_of_scope_split_task": "docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/outputs/phase-12/unassigned-task-detection.md",
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:tokens",
+      "mise exec -- pnpm --filter @ubm/web test",
+      "mise exec -- pnpm build",
+      "git diff --name-only -- apps/api",
+      "pnpm verify:phase12-compliance",
+      "pnpm gate-metadata:validate --require-gates-for-changed docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/artifacts.json docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/outputs/artifacts.json"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec exists and same-wave apps/web implementation is present for the common layout primitive layer. Phase 12 evidence updated after review drift detection."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local apps/web implementation is present. Focused apps/web Vitest/typecheck/lint/token gates and local screenshots remain to be verified in this review cycle; staging visual baseline remains user-gated runtime evidence."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/outputs/phase-13/pr-creation-result.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR (base=dev), and staging visual baseline are user-gated. Not executed in spec-authoring task."
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "phase-1-requirements.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "phase-2-design.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "phase-3-design-review.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "status": "completed_local",
+      "output": "phase-4-test-plan.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装手順",
+      "status": "completed_local",
+      "output": "phase-5-implementation.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト追加",
+      "status": "completed_local",
+      "output": "phase-6-test-additions.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ",
+      "status": "completed_local",
+      "output": "phase-7-coverage.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタ",
+      "status": "completed_local",
+      "output": "phase-8-refactor.md"
+    },
+    {
+      "phase": 9,
+      "name": "QA",
+      "status": "completed_local",
+      "output": "phase-9-qa.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed_local",
+      "output": "phase-10-final-review.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "visual_evidence_pending",
+      "output": "phase-11-manual-test.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント同期",
+      "status": "completed_local",
+      "output": "phase-12-documentation.md"
+    },
+    {
+      "phase": 13,
+      "name": "commit-pr-release",
+      "status": "pending",
+      "output": "phase-13-pr.md"
+    }
+  ]
+}

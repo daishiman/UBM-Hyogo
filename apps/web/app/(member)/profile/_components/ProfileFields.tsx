@@ -1,15 +1,14 @@
 // workflow: mypage-prototype-alignment / Phase 5 / ST-3
-// 役割: profile.sections を Card + KVList で section ごとに表示する Server Component。
+// Lane C: SectionCard + KVList へ移行（AC-4）。aria-label / data-region は I-7 保全。
 // 不変条件 #1: stableKey 経由参照のみ（questionId 依存禁止）。
 // 不変条件 #4: 編集 form / input / textarea は配置しない。
-// 不変条件: 新規 primitive ゼロ（Card / KVList の合成）。
 
 import type {
   MemberProfileSection,
   MemberProfileSectionField,
 } from "@ubm-hyogo/shared";
-import { Card } from "@/components/ui/Card";
 import { KVList } from "@/components/ui/KVList";
+import { SectionCard } from "@/components/ui/layout";
 
 const renderValue = (value: MemberProfileSectionField["value"]): string => {
   if (value === null || value === undefined) return "（未回答）";
@@ -28,13 +27,13 @@ export interface ProfileFieldsProps {
 
 export function ProfileFields({ sections }: ProfileFieldsProps) {
   return (
-    <section
+    <SectionCard
+      title="プロフィール情報"
       aria-label="プロフィール情報"
       data-region="profile-fields"
     >
-      <h2>プロフィール情報</h2>
       {sections.map((section) => (
-        <Card key={section.key} className="card-pad-lg">
+        <SectionCard key={section.key} padding="lg" as="div">
           <div className="eyebrow">{section.title}</div>
           <KVList
             items={section.fields.map((field) => ({
@@ -42,8 +41,8 @@ export function ProfileFields({ sections }: ProfileFieldsProps) {
               value: renderValue(field.value),
             }))}
           />
-        </Card>
+        </SectionCard>
       ))}
-    </section>
+    </SectionCard>
   );
 }

@@ -1,0 +1,10 @@
+{
+  "taskId": "admin-sidebar-collapsed-icon-spacing-parity",
+  "mode": "VISUAL",
+  "screenshots": [
+    {"name": "sidebar-collapsed-before.png", "state": "collapsed-before-fix", "desc": "修正前の折りたたみサイドバー（アイコン縦間隔が広い）"},
+    {"name": "sidebar-collapsed-after.png", "state": "collapsed-after-fix", "desc": "修正後の折りたたみサイドバー（展開時と同じ縦間隔）"},
+    {"name": "sidebar-expanded-reference.png", "state": "expanded-reference", "desc": "展開サイドバー（目標の縦リズム基準）"},
+    {"name": "sidebar-collapsed-after-footer.png", "state": "collapsed-after-footer", "desc": "公開サイトに戻るリンクを含むフッター部の修正後"}
+  ]
+}
