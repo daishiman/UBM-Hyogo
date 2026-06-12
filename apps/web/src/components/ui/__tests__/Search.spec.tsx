@@ -40,4 +40,13 @@ describe("Search", () => {
     fireEvent.click(screen.getByRole("button", { name: "クリア" }));
     expect(onChange).toHaveBeenCalledWith("");
   });
+
+  it("native cancel を CSS で抑止するため search input を維持する", () => {
+    render(<Search value="山田" onChange={vi.fn()} />);
+
+    const input = screen.getByRole("searchbox");
+    expect(input.getAttribute("type")).toBe("search");
+    expect(input.getAttribute("class")).toBe("ui-search__input");
+    expect(screen.getAllByRole("button", { name: "クリア" })).toHaveLength(1);
+  });
 });

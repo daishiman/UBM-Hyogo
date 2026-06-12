@@ -57,6 +57,15 @@ describe("search-query-parser", () => {
     expect(parsePublicMemberQuery({ sort: "__proto__" }).sort).toBe("recent");
   });
 
+  it("accepts all public member sort values", () => {
+    expect(parsePublicMemberQuery({ sort: "recent" }).sort).toBe("recent");
+    expect(parsePublicMemberQuery({ sort: "oldest" }).sort).toBe("oldest");
+    expect(parsePublicMemberQuery({ sort: "name" }).sort).toBe("name");
+    expect(parsePublicMemberQuery({ sort: "name_desc" }).sort).toBe(
+      "name_desc",
+    );
+  });
+
   it("AC-6: invalid zone/status fall back to all", () => {
     const r = parsePublicMemberQuery({ zone: "invalid", status: "ghost" });
     expect(r.zone).toBe("all");
