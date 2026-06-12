@@ -7,4 +7,5 @@
   1. 画面文言（heading/eyebrow/label）リネームを含むタスクの Phase 5 同期チェックリストは「component spec / Playwright fixture / **Playwright `getByRole` 文言アサーション**」の 3 系統を明示し、`grep -rn '<旧文言>' apps/web/playwright apps/web/src --include='*.ts*'` 0 件を AC に含める。
   2. baseline-update workflow failure の切り分け手順を Phase 11 に逐語化: `gh run view <id> --log-failed` の `✘` 行 error 種別が `toHaveScreenshot`（=baseline 差分）か `toBeVisible`/`element(s) not found`（=文言・構造追従漏れ）かで対応を分岐。
 - 解消: spec 6 箇所を新文言へ追従 → 旧文言 grep 0 → typecheck/lint exit 0 → push → baseline-update 再 dispatch（user 承認 gate）。
+- **🔴追補（2 回目 dispatch も 1 件 fail = 文言リネームは 3 層波及）**: heading 修正後の再 dispatch（run `27419890292`）が `toContainText` で fail — spec 期待 `alias を割当てました` vs 実 UI `項目キーを割り当てました`（操作後 feedback メッセージ層）。仕様書の rename 追従 AC は「heading / ボタン label / **操作後 feedback・toast メッセージ**」3 層を列挙し、grep は対応表の**全旧語彙（単語レベル: alias・割当て等）**で `apps/web/playwright` を掃くと逐語指定する。文言1種ずつの逐次修正は CI 1 サイクル（≒15 分）× 漏れ件数の浪費。
 - 参照: aiworkflow-requirements [[20260612-dev-sync-admin-schema-terminology-clarity-3rdpass-behind2-ahead7-union2-baseline-update-failed-on-stale-spec-heading-not-screenshot]]（正本）, SP-DEVSYNC-131（baseline 1:N 波及）, Issue #1219（同型 fixture 漏れ）。

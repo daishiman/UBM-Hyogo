@@ -148,7 +148,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
     await adminPage.getByLabel(/新しい永続的な名前/).fill("member_department_new");
     await adminPage.getByRole("button", { name: "名前を割り当てる" }).click();
     await expect(adminPage.locator('[data-feedback-kind="success"]')).toContainText(
-      "alias を割当てました",
+      "項目キーを割り当てました",
     );
     await adminPage.screenshot({
       path: path.join(evidenceDir, "admin-schema-diff-resolve-success.png"),
