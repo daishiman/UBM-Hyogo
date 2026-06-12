@@ -7,7 +7,7 @@
 
 import type { NextRequest } from "next/server";
 import { getAuth } from "../../../../src/lib/auth";
-import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "../../../../src/lib/env";
+import { getAuthEnv, getEnvironmentResolution, getTransportRuntimeIsTest } from "../../../../src/lib/env";
 import { fetchViaApiTransport, resolveApiFetch } from "../../../../src/lib/fetch/transport";
 
 async function requireSession(): Promise<Response | null> {
@@ -50,11 +50,13 @@ async function proxy(
     init.body = await req.text();
   }
   const env = getAuthEnv();
+  const environment = getEnvironmentResolution();
   const upstream = await fetchViaApiTransport(
     resolveApiFetch({
       API_SERVICE: env.API_SERVICE,
       baseUrl: env.INTERNAL_API_BASE_URL,
-      environment: getEnvironment(),
+      environment: environment.environment,
+      environmentExplicit: environment.explicit,
       isTest: getTransportRuntimeIsTest(),
     }),
     targetPath,

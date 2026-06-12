@@ -1220,6 +1220,12 @@ production env monitor secret cleanup は user-gated。
 
 - `serial-06-form-response-binding` standalone root drift を canonical parent sub-workflow へ統合。
 - Parent artifacts / outputs artifacts の `metadata.sub_workflows` に serial-06 を登録。
+## 2026-06-10 require-auth-public-access-gate
+
+- `docs/30-workflows/require-auth-public-access-gate/` を `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` として同期。
+- `/login` 以外の公開 UI を `LoginRequiredNotice` gate へ変更し、`/public/*` API を Auth.js session JWT OR `X-Internal-Auth` 必須へ変更。sitemap / OG worker は内部認証ヘッダで継続動作。
+- specs 7 本、`security-api.md` / `api-endpoints.md` / `environment-variables.md` / quick-reference / resource-map / task-workflow-active / artifact inventory / SKILL-changelog を同一 wave で更新。staging deploy、runtime screenshots、secret placement、commit、push、PR は user-gated。
+
 - `workflow-ui-prototype-design-system-foundation-artifact-inventory.md` と SKILL-changelog に strict7-parent-aggregated 状態を同期。
 
 # 2026-05-23 ut-dsf-07-staging-visual-runtime-evidence

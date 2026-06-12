@@ -12,6 +12,31 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+## admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| evidence | focused Vitest 4 files / 18 tests PASS; local Playwright visual 1 test PASS / 5 PNG present; typecheck/lint/verify:tokens PASS; HEX grep 0; apps/api diff empty |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots, deploy, commit, push, PR |
+
+## require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| purpose | `/login` 以外の公開 UI と `/public/*` API を認証必須化し、未認証 UI は `LoginRequiredNotice`、API は 401 にする |
+| implementation | `LoginRequiredNotice.tsx`, `(public)/layout.tsx`, `fetch/public.ts`, `sitemap.ts`, `require-public-access.ts`, `public/index.ts`, `member-source.ts`, `require-admin.ts` helper |
+| evidence | focused web/api/og specs, web/api/og typecheck/lint recorded in workflow Phase 11; runtime screenshots user-gated |
+| invariant | `/login` は未認証可、`/profile` / `/admin/*` gate 不変、D1 / Google Form / response fields 不変 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy, runtime screenshots, `INTERNAL_AUTH_SECRET` secret placement, commit, push, PR |
+
 ## admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
 
 | 項目 | 値 |
@@ -202,6 +227,19 @@
 | evidence | focused Vitest 3 files / 30 tests PASS; local Playwright Chromium screenshots 3 PNG present; apps/api diff empty |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
 | user gate | staging authenticated visual baseline, commit, push, PR |
+
+## admin-sidebar-collapsed-icon-spacing-parity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-sidebar-collapsed-icon-spacing-parity/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| purpose | collapsed sidebar の nav / public-return icon-box 高さを `h-[18px]` にし、expanded と縦ピッチを揃える |
+| implementation | `apps/web/src/components/shell/{SidebarNavItem,SidebarShell}.tsx` |
+| evidence | focused Vitest 2 files / 20 tests PASS; web typecheck PASS; web lint PASS; design-token gate 9 tests PASS; apps/api diff empty; local screenshot capture spec added but Next dev webServer timed out before PNG capture |
+| invariant | API / D1 schema / Google Form / auth / route topology 不変。Brand/User avatar の `h-10` は意図的に維持 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
 
 ## public-home-member-card-info-and-tag-clarity（2026-06-08）
 

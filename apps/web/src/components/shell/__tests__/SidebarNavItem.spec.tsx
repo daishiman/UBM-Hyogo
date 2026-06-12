@@ -125,7 +125,7 @@ describe("SidebarNavItem", () => {
     expect(link?.className).toContain("px-0");
     expect(link?.className).not.toContain("px-3");
     expect(link?.className).toContain("relative");
-    expect(link?.querySelector('[aria-hidden="true"]')?.className).toContain("h-10");
+    expect(link?.querySelector('[aria-hidden="true"]')?.className).toContain("h-[18px]");
     expect(link?.querySelector('[aria-hidden="true"]')?.className).toContain("w-10");
     expect(dot).not.toBeNull();
     expect(dot?.className).toContain("absolute");

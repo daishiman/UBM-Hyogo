@@ -2,7 +2,9 @@
 
 import type { ReactNode } from "react";
 import { Breadcrumb } from "@/components/admin/Breadcrumb";
+import { SidebarShell } from "@/components/shell/SidebarShell";
 import { SidebarUserMenu } from "@/components/shell/SidebarUserMenu";
+import { buildNavForRole } from "@/components/shell/shell-config";
 import { Button, EmptyState, FormField, Icon, Input } from "@/components/ui";
 import { Pagination } from "@/components/ui/Pagination";
 
@@ -161,6 +163,27 @@ export function Parallel09VisualScenario({ name }: { readonly name: string }) {
           </section>
         </div>
       </VisualShell>
+    );
+  }
+
+  if (name === "admin-sidebar-spacing-collapsed" || name === "admin-sidebar-spacing-expanded") {
+    const collapsed = name === "admin-sidebar-spacing-collapsed";
+    const adminUser = { displayName: "管理者 A", email: "admin@example.com", initials: "管" };
+
+    return (
+      <SidebarShell
+        role="admin"
+        user={adminUser}
+        navGroups={buildNavForRole("admin", { schemaDiffCount: 2 })}
+        activePath="/admin/members"
+        mobileTriggerSlot={<button type="button">menu</button>}
+        routeKey="visual-harness"
+        initialCollapsed={collapsed}
+      >
+        <section aria-label="visual harness content" className="p-6">
+          <h1 className="text-lg font-semibold">Sidebar spacing visual harness</h1>
+        </section>
+      </SidebarShell>
     );
   }
 
