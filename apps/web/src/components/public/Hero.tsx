@@ -1,6 +1,11 @@
 // public-dashboard-prototype-alignment: Hero card-on-canvas variant
 // プロトタイプ pages-public.jsx LandingPage の eyebrow + serif h1 + accent + 2 CTA を再現。
 // 既存 panel variant は task-11 互換のため残置。
+// Lane B: SectionCard(tone=accent) でラップ。CTA は ButtonLink 経由へ統一。
+
+import { ButtonLink } from "@/components/ui";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface HeroProps {
   title: string;
@@ -22,27 +27,27 @@ export function Hero({
 }: HeroProps) {
   if (variant === "panel") {
     return (
-      <section data-component="hero" data-variant="panel">
+      <SectionCard as="section" tone="accent" data-component="hero" data-variant="panel" className="ui-hero">
         {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
         <h1>{title}</h1>
         {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}
         <div data-role="cta">
           {primaryCta ? (
-            <a href={primaryCta.href} data-variant="primary">
+            <ButtonLink href={primaryCta.href} variant="primary">
               {primaryCta.label}
-            </a>
+            </ButtonLink>
           ) : null}
           {secondaryCta ? (
-            <a href={secondaryCta.href} data-variant="secondary">
+            <ButtonLink href={secondaryCta.href} variant="secondary">
               {secondaryCta.label}
-            </a>
+            </ButtonLink>
           ) : null}
         </div>
-      </section>
+      </SectionCard>
     );
   }
   return (
-    <section data-component="hero" data-variant="card">
+    <SectionCard as="section" tone="accent" data-component="hero" data-variant="card" className="ui-hero">
       <div data-role="accent" aria-hidden="true" />
       <div data-role="body">
         {eyebrow ? <p data-role="eyebrow">{eyebrow}</p> : null}
@@ -50,17 +55,17 @@ export function Hero({
         {subtitle ? <p data-role="subtitle">{subtitle}</p> : null}
         <div data-role="cta">
           {primaryCta ? (
-            <a href={primaryCta.href} data-variant="primary">
+            <ButtonLink href={primaryCta.href} variant="primary">
               {primaryCta.label}
-            </a>
+            </ButtonLink>
           ) : null}
           {secondaryCta ? (
-            <a href={secondaryCta.href} data-variant="secondary">
+            <ButtonLink href={secondaryCta.href} variant="secondary">
               {secondaryCta.label}
-            </a>
+            </ButtonLink>
           ) : null}
         </div>
       </div>
-    </section>
+    </SectionCard>
   );
 }

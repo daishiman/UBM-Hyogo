@@ -1,12 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "0a9559eb9f1d74152c1da5ee39c512f8a62d233a",
-  "captured_at": "2026-06-11T10:50:02Z",
+  "captured_at_commit_sha": "6f7788ea4588f426607be71d523db13769d8899c",
+  "captured_at": "2026-06-12T07:20:54Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "27247391142",
-    "27253086349",
-    "27257083636",
     "27274941450",
     "27276848458",
     "27282985575",
@@ -15,7 +12,8 @@
     "27320055437",
     "27338498326",
     "27340194772",
-    "27341009167"
+    "27341009167",
+    "27400529754"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -43,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge union: (1) feature 側=collapsed sidebar nav icon-box h-10→h-[18px] 変更により tablet viewport の admin 5画面(identity-conflicts/meetings/members/requests/tags)のサイドバー全高が約142px縮小(768x1166→768x1024)。feature 実装の正当な視覚変更で Linux baseline が stale 化したため再生成 (run 27338498326)。desktop(展開)/mobile(ドロワー)は非該当。(2) dev 取込=admin-meetings カードUI実体化(カード間スペース/枠/サブカード化)で描画高さ +20px。full-visual-admin-meetings-{desktop,mobile,tablet} baseline を再生成 (run 27341009167・PR #1217)。(3) dev 取込=require-auth-public-access-gate で公開層を全ルート認証必須化したため、公開ルートの visual baseline(visual-full/visual-chromium/sidebar-shell)を会員ログイン済みの表示で再生成 (run 27340194772・#1209)。対象スナップショット(admin tablet 群 / admin-meetings / 公開ルート群)が分離するため三者を union 統合。"
+  "last_refresh_reason": "公開・会員8画面を共通レイアウト層(PageShell/SectionCard/ButtonLink等)へ統一した本ブランチの意図的UI刷新により、公開/会員ルート(root/members/members-detail/register/privacy/terms/login/profile)のvisual-full・smoke visual baselineがstale化(playwright-visual-full/playwright-smoke両CIがブランチ全runでfail)。刷新後の表示で再生成する"
 }

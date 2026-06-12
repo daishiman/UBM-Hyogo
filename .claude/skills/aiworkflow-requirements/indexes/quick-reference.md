@@ -13,6 +13,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
 | user gate | authenticated staging screenshots 4, commit, push, PR |
 
+## public-member-common-ui-card-unification（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/` |
+| status | `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` |
+| purpose | 公開層・会員層・login の8画面を共通レイアウトプリミティブ層（PageShell/PageHeader/SectionCard/ContentCard/Prose/ButtonLink）へ統一し、カード・背景・ボタン・本文タイポの改善起点を単一化する |
+| implementation plan | Lane A: `apps/web/src/components/ui/layout/*` + `ButtonLink` + CSS。Lane B: `/`, `/members`, `/members/[id]`, `/register`, `/privacy`, `/terms`。Lane C: `/profile`, `/login`。Lane A -> B/C の依存順 |
+| evidence | implemented locally: focused Vitest 62 tests / 7 files PASS, typecheck/lint/verify-no-inline-style OK, HEX 0, apps/api UNTOUCHED; full screenshots, staging visual, commit, push, PR are pending/user-gated |
+| invariant | apps/api / D1 schema / Google Form / public API response surface unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
+| user gate | apps/web implementation execution, screenshot capture after implementation, staging visual baseline, commit, push, PR |
+
 ## admin-meetings-card-ux-clarity（2026-06-10）
 
 | 項目 | 値 |

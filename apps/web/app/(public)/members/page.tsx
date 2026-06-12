@@ -3,6 +3,7 @@
 // AC-2 / AC-3 / AC-5 / AC-6 — searchParams を zod parse → listMembers 経由で取得
 // 不変条件 #5: public API 経由のみ
 // 不変条件 #8: density / sort / tag / q / zone / status は URL query 正本
+// Lane B: PageShell + PageHeader(actions=DensityToggle) + MemberFilters を SectionCard(subtle) でラップ。
 
 import type { Metadata } from "next";
 import { connection } from "next/server";
@@ -16,6 +17,9 @@ import { MemberFilters } from "../../../src/components/public/MemberFilters.clie
 import { MemberGrid } from "../../../src/components/public/MemberGrid";
 import { ReflectionTimingNote } from "../../../src/components/public/ReflectionTimingNote";
 import { SectionError } from "../../../src/components/public/SectionError";
+import { PageHeader } from "../../../src/components/ui/layout/PageHeader";
+import { PageShell } from "../../../src/components/ui/layout/PageShell";
+import { SectionCard } from "../../../src/components/ui/layout/SectionCard";
 import {
   PUBLIC_API_REVALIDATE,
   getStats,
@@ -83,52 +87,52 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
       data-route="public"
       data-section-rhythm="comfortable"
     >
-      <header className="page-head">
-        <div>
-          <div className="eyebrow">MEMBERS</div>
-          <h1>メンバー一覧</h1>
-          <p data-role="lead">
-            UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます。
-          </p>
-        </div>
-        <DensityToggle value={search.density} />
-      </header>
-      <MemberFilters
-        initial={search}
-        topTags={listResult.ok ? listResult.data.topTags : []}
-        totalCount={listResult.ok ? listResult.data.pagination.total : undefined}
-        displayedCount={listResult.ok ? listResult.data.items.length : undefined}
-      />
-      <ReflectionTimingNote
-        surface="members"
-        lastSyncAt={
-          statsResult.ok ? statsResult.data.lastSync.responseSyncFinishedAt : null
-        }
-        statsUnavailable={!statsResult.ok}
-      />
-      {!listResult.ok ? (
-        <SectionError
-          title="メンバー一覧を読み込めませんでした"
-          detail={listResult.error.message}
-          retryHref="/members"
+      <PageShell>
+        <PageHeader
+          eyebrow="MEMBERS"
+          title="メンバー一覧"
+          lead="UBM 兵庫支部会のメンバー紹介。職種・拠点・関心領域から探せます。"
+          actions={<DensityToggle value={search.density} />}
         />
-      ) : allHidden && !hasSearchFilters && statsResult.ok ? (
-        <AllHiddenFallback memberCount={statsResult.data.memberCount} />
-      ) : listResult.data.items.length === 0 ? (
-        <EmptyState
-          title="該当するメンバーがいません"
-          description="検索条件を変更するか、絞り込みをクリアしてください。"
-          variant="compact"
-          resetHref="/members"
+        <SectionCard as="section" tone="subtle">
+          <MemberFilters
+            initial={search}
+            topTags={listResult.ok ? listResult.data.topTags : []}
+            totalCount={listResult.ok ? listResult.data.pagination.total : undefined}
+            displayedCount={listResult.ok ? listResult.data.items.length : undefined}
+          />
+        </SectionCard>
+        <ReflectionTimingNote
+          surface="members"
+          lastSyncAt={
+            statsResult.ok ? statsResult.data.lastSync.responseSyncFinishedAt : null
+          }
+          statsUnavailable={!statsResult.ok}
         />
-      ) : (
-        <MemberGrid items={listResult.data.items} density={search.density} />
-      )}
-      <p data-role="pagination-meta" aria-hidden="true">
-        {listResult.ok
-          ? `${listResult.data.pagination.total} 件中 ${listResult.data.items.length} 件表示`
-          : "メンバー件数を読み込めませんでした"}
-      </p>
+        {!listResult.ok ? (
+          <SectionError
+            title="メンバー一覧を読み込めませんでした"
+            detail={listResult.error.message}
+            retryHref="/members"
+          />
+        ) : allHidden && !hasSearchFilters && statsResult.ok ? (
+          <AllHiddenFallback memberCount={statsResult.data.memberCount} />
+        ) : listResult.data.items.length === 0 ? (
+          <EmptyState
+            title="該当するメンバーがいません"
+            description="検索条件を変更するか、絞り込みをクリアしてください。"
+            variant="compact"
+            resetHref="/members"
+          />
+        ) : (
+          <MemberGrid items={listResult.data.items} density={search.density} />
+        )}
+        <p data-role="pagination-meta" aria-hidden="true">
+          {listResult.ok
+            ? `${listResult.data.pagination.total} 件中 ${listResult.data.items.length} 件表示`
+            : "メンバー件数を読み込めませんでした"}
+        </p>
+      </PageShell>
     </main>
   );
 }
