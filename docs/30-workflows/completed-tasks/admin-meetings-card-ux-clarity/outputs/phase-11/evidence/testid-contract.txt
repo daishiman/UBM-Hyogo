@@ -1,0 +1,9 @@
+PASS data-testid contract
+
+Observed diff movement:
+- attendance-select-${meeting.sessionId}
+- add-attendance-${meeting.sessionId}
+- attendance-attendee-${meeting.sessionId}
+- remove-attendance-${meeting.sessionId}
+
+The same identifiers remain in the added JSX after wrapper restructuring. Focused tests assert the attendee and remove testids remain usable. No data-testid name was removed from the component contract.

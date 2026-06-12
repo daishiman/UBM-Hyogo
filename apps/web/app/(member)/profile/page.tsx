@@ -32,6 +32,7 @@ import { getStats } from "@/lib/api/public";
 import { safeServerFetch } from "@/lib/server-fetch/safe-fetch";
 import { pickProfileSummary } from "./_lib/profile-summary";
 import { mapProfileSessionErrorToDisplay } from "./_lib/session-error-display";
+import { PageShell, SectionCard, ContentCard } from "@/components/ui/layout";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -67,7 +68,9 @@ export default async function ProfilePage() {
 
     return (
       <main data-route="member" data-section-rhythm="comfortable">
-        <SectionError {...errorProps} />
+        <PageShell>
+          <SectionError {...errorProps} />
+        </PageShell>
       </main>
     );
   }
@@ -101,17 +104,19 @@ export default async function ProfilePage() {
 
     return (
       <main data-route="member" data-section-rhythm="comfortable">
-        <ProfileHeader
-          memberId={me.user.memberId}
-          publishState="hidden"
-          editResponseUrl={null}
-          fallbackResponderUrl=""
-        />
-        <SectionError
-          title="プロフィールを読み込めませんでした"
-          detail={profileResult.error.message}
-          retryHref="/profile"
-        />
+        <PageShell>
+          <ProfileHeader
+            memberId={me.user.memberId}
+            publishState="hidden"
+            editResponseUrl={null}
+            fallbackResponderUrl=""
+          />
+          <SectionError
+            title="プロフィールを読み込めませんでした"
+            detail={profileResult.error.message}
+            retryHref="/profile"
+          />
+        </PageShell>
       </main>
     );
   }
@@ -123,55 +128,61 @@ export default async function ProfilePage() {
 
   return (
     <div data-testid="profile-authenticated-root">
-      <ProfileHeader
-        memberId={me.user.memberId}
-        publishState={statusSummary.publishState}
-        editResponseUrl={editResponseUrl}
-        fallbackResponderUrl={fallbackResponderUrl}
-      />
-      <PhotoUpload
-        memberId={me.user.memberId}
-        name={summary.displayName}
-        photoUrl={profileRes.photoUrl}
-      />
-      <StatusBanner
-        statusSummary={statusSummary}
-        authGateState={me.authGateState}
-      />
-      <PublicConsentCallout
-        publicConsent={statusSummary.publicConsent}
-        editResponseUrl={editResponseUrl}
-        responderUrl={FORM_RESPONDER_URL}
-      />
-      <ReflectionTimingNote
-        surface="profile"
-        lastSyncAt={
-          statsResult.ok ? statsResult.data.lastSync.responseSyncFinishedAt : null
-        }
-        statsUnavailable={!statsResult.ok}
-      />
-      <VisibilitySummary sections={profile.sections} />
-      <ProfilePreview
-        memberId={me.user.memberId}
-        displayName={summary.displayName}
-        subtitle={summary.subtitle}
-        chips={summary.chips}
-      />
-      <ProfileFields sections={profile.sections} />
-      <EditCta
-        editResponseUrl={editResponseUrl}
-        fallbackResponderUrl={fallbackResponderUrl}
-        variant="inline"
-      />
-      <RequestActionPanel
-        publishState={statusSummary.publishState}
-        rulesConsent={statusSummary.rulesConsent}
-        pendingRequests={profileRes.pendingRequests}
-      />
-      <AttendanceList
-        attendance={profile.attendance}
-        attendanceMeta={profile.attendanceMeta}
-      />
+      <PageShell>
+        <ProfileHeader
+          memberId={me.user.memberId}
+          publishState={statusSummary.publishState}
+          editResponseUrl={editResponseUrl}
+          fallbackResponderUrl={fallbackResponderUrl}
+        />
+        <SectionCard aria-label="プロフィール写真">
+          <PhotoUpload
+            memberId={me.user.memberId}
+            name={summary.displayName}
+            photoUrl={profileRes.photoUrl}
+          />
+        </SectionCard>
+        <StatusBanner
+          statusSummary={statusSummary}
+          authGateState={me.authGateState}
+        />
+        <PublicConsentCallout
+          publicConsent={statusSummary.publicConsent}
+          editResponseUrl={editResponseUrl}
+          responderUrl={FORM_RESPONDER_URL}
+        />
+        <ContentCard tone="subtle">
+          <ReflectionTimingNote
+            surface="profile"
+            lastSyncAt={
+              statsResult.ok ? statsResult.data.lastSync.responseSyncFinishedAt : null
+            }
+            statsUnavailable={!statsResult.ok}
+          />
+        </ContentCard>
+        <VisibilitySummary sections={profile.sections} />
+        <ProfilePreview
+          memberId={me.user.memberId}
+          displayName={summary.displayName}
+          subtitle={summary.subtitle}
+          chips={summary.chips}
+        />
+        <ProfileFields sections={profile.sections} />
+        <EditCta
+          editResponseUrl={editResponseUrl}
+          fallbackResponderUrl={fallbackResponderUrl}
+          variant="inline"
+        />
+        <RequestActionPanel
+          publishState={statusSummary.publishState}
+          rulesConsent={statusSummary.rulesConsent}
+          pendingRequests={profileRes.pendingRequests}
+        />
+        <AttendanceList
+          attendance={profile.attendance}
+          attendanceMeta={profile.attendanceMeta}
+        />
+      </PageShell>
     </div>
   );
 }

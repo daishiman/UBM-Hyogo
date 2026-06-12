@@ -25,6 +25,7 @@ describe("fetchMemberSummary", () => {
     const env: OgEnv = {
       API_SERVICE: { fetch: serviceFetch },
       NEXT_PUBLIC_API_BASE_URL: "https://api.example.invalid",
+      INTERNAL_AUTH_SECRET: "internal-secret",
     };
 
     await expect(fetchMemberSummary("m-1", env)).resolves.toMatchObject({
@@ -33,6 +34,8 @@ describe("fetchMemberSummary", () => {
       occupation: "Engineer",
     });
     expect(serviceFetch).toHaveBeenCalledTimes(1);
+    const request = serviceFetch.mock.calls[0]?.[0] as Request;
+    expect(request.headers.get("X-Internal-Auth")).toBe("internal-secret");
   });
 
   it("falls back to NEXT_PUBLIC_API_BASE_URL without a service binding", async () => {
@@ -46,13 +49,19 @@ describe("fetchMemberSummary", () => {
     await expect(
       fetchMemberSummary(
         "m 2",
-        { NEXT_PUBLIC_API_BASE_URL: "https://api.example.test/" },
+        {
+          NEXT_PUBLIC_API_BASE_URL: "https://api.example.test/",
+          INTERNAL_AUTH_SECRET: "internal-secret",
+        },
         fetchImpl,
       ),
     ).resolves.toMatchObject({ id: "m-2", fullName: "佐藤 花子" });
     expect(vi.mocked(fetchImpl).mock.calls[0]?.[0]).toBe(
       "https://api.example.test/public/members/m%202",
     );
+    expect(vi.mocked(fetchImpl).mock.calls[0]?.[1]).toMatchObject({
+      headers: { "X-Internal-Auth": "internal-secret" },
+    });
   });
 
   it("returns null for 404, broken json, network error, missing config, or missing summary", async () => {

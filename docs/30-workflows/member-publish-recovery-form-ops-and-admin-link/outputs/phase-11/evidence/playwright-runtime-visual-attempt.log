@@ -1,4 +1,0 @@
-$ PLAYWRIGHT_MEMBER_PUBLISH_RECOVERY=1 pnpm --filter @ubm-hyogo/web exec playwright test playwright/tests/member-publish-recovery-form-ops-and-admin-link.spec.ts --project=desktop-chromium
-WARN Unsupported engine: wanted node 24.x, current node v22.21.1
-Result: terminated with SIGTERM after the Playwright process stayed running without producing screenshot output.
-Screenshot files were not created and are not claimed as present.

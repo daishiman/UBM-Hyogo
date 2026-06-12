@@ -2,7 +2,7 @@
 // 不変条件 #5: web は D1 を直接参照しない。verify は API worker に委譲する。
 // AC-3: 失敗 reason は /login?error=<mapped> に対応する識別子へ正規化する。
 
-import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "../env";
+import { getAuthEnv, getEnvironmentResolution, getTransportRuntimeIsTest } from "../env";
 import { fetchViaApiTransport, resolveApiFetch } from "../fetch/transport";
 
 export interface VerifyMagicLinkUser {
@@ -89,11 +89,13 @@ export const verifyMagicLink = async (
       const baseUrl = (input.apiBaseUrl ?? env.INTERNAL_API_BASE_URL ?? "").replace(/\/$/, "");
       res = await input.fetchImpl(`${baseUrl}/auth/magic-link/verify`, init);
     } else {
+      const environment = getEnvironmentResolution();
       res = await fetchViaApiTransport(
         resolveApiFetch({
           API_SERVICE: env.API_SERVICE,
           baseUrl: input.apiBaseUrl ?? env.INTERNAL_API_BASE_URL,
-          environment: getEnvironment(),
+          environment: environment.environment,
+          environmentExplicit: environment.explicit,
           isTest: getTransportRuntimeIsTest(),
         }),
         "/auth/magic-link/verify",

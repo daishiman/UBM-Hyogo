@@ -8,6 +8,86 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### public-member-common-ui-card-unification（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/` |
+| 目的 | 公開層・会員層・login の8画面を共通レイアウトプリミティブ層へ統一し、カード・背景・ボタン・本文タイポを単一の改善起点へ集約する |
+| implementation plan | Lane A（PageShell/PageHeader/SectionCard/ContentCard/Prose/ButtonLink + layout CSS）を先行し、Lane B（公開6画面）と Lane C（profile/login）を Lane A 後に並列適用する |
+| strict evidence | Phase 12 strict 7 present under `outputs/phase-12/`; local apps/web implementation is present, visual screenshot PASS is still pending |
+| invariant | apps/api / D1 schema / Google Form / public API response surface unchanged |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
+### admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| 目的 | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| invariant | apps/api / D1 / Google Form / endpoint surface unchanged。既存 `data-testid` / aria / role / useAdminMutation / FormField contract preserved |
+| evidence | focused Vitest 4 files / 18 tests PASS、local Playwright visual 1 test PASS / 5 PNG present、typecheck PASS、lint PASS、verify:tokens PASS、HEX grep 0、apps/api diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、deploy、commit、push、PR |
+
+### require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| 目的 | `/login` を除く全公開 UI と `/public/*` API を認証必須化し、未認証ユーザーへ情報を返さない |
+| implementation targets | `apps/web/src/components/auth/LoginRequiredNotice.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/src/lib/fetch/public.ts`, `apps/web/app/sitemap.ts`, `apps/api/src/middleware/require-public-access.ts`, `apps/api/src/routes/public/index.ts`, `apps/api/src/middleware/require-admin.ts`, `apps/og/src/member-source.ts` |
+| invariant | `/login` は未認証可。`/profile` / `/admin/*` gate、D1 schema、Google Form schema、response field shape は不変。公開 API の field visibility は従来どおりだが、未認証には返さない |
+| evidence | focused web/api/og specs、web/api/og typecheck/lint、Phase 12 strict docs present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy、runtime screenshots、`INTERNAL_AUTH_SECRET` secret placement、commit、push、PR |
+
+### profile-session-transport-observability-fail-closed（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/profile-session-transport-observability-fail-closed/` |
+| 目的 | staging `/profile` の session fetch failure を transportKind/baseHost/status 付きログで診断可能にし、ENVIRONMENT 未注入時の暗黙 localhost fallback を fail-closed にする |
+| implementation targets | `apps/web/src/lib/fetch/{transport,errors,authed}.ts`, `apps/web/src/lib/{env,result}.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/auth/{gate-state,magic-link,magic-link/verify}/route.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/src/lib/auth/verify-magic-link.ts`, `scripts/diagnose-profile-session.sh` |
+| tests | `apps/web/src/lib/fetch/transport.spec.ts`, `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`, `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| evidence | focused Vitest 5 files / 70 tests PASS、`bash -n scripts/diagnose-profile-session.sh` PASS、apps/api production source unchanged |
+| invariant | `/me` path / response shape / status taxonomy / D1 schema / Google Form schema unchanged。`server_fetch_failed` は `transportKind` / `baseHost` / `status` のみを追加し memberId / cookie / token / secret を出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md` |
+| user gate | staging deploy、wrangler tail 実機確認、真因別の本格修正、commit、push、PR |
+
+### admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-members-timestamp-jst-and-identity-label-clarity/` |
+| 目的 | `/admin/members` の最終更新列を JST 秒付き表記へ変更し、MemberDrawer の IDENTITY / DIAGNOSTICS を日本語ラベル主・英語キー併記へ変更する |
+| implementation targets | `apps/web/src/lib/format/datetime.ts`, `apps/web/src/features/admin/components/_members/memberSystemFieldGlossary.ts`, `MembersTable.tsx`, `MemberDrawer.tsx`, `MemberDiagnosticsPanel.tsx` |
+| evidence | focused Vitest 5 files / 41 tests PASS、local Playwright fixture 1 test PASS、local screenshots 3 PNG present |
+| invariant | apps/api / D1 migration / Google Form schema / endpoint surface / shared response schema 不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md` |
+| user gate | staging authenticated screenshot、staging deploy、commit、push、PR |
+
+### issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| Issue | #222 CLOSED（reopen / mutation は user-gated） |
+| 目的 | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化し、drift を防ぐ |
+| implementation targets | `packages/shared/src/public-search/search-query-primitives.ts`, `packages/shared/src/public-search/index.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の公開 shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 不変 |
+| evidence | shared public-search 12 PASS、apps/api 回帰 30 PASS、apps/web 回帰 11 PASS、shared/api/web typecheck PASS、root lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit、push、PR、deploy、Issue mutation |
+
 ### vitest-2-to-3-major-upgrade（2026-06-10）
 
 | 項目 | 値 |
@@ -195,6 +275,20 @@
 | evidence | focused Vitest 3 files / 30 tests PASS、local Playwright Chromium screenshots 3 PNG present、apps/api diff empty |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
 | user gate | staging authenticated visual baseline、commit、push、PR |
+
+### admin-sidebar-collapsed-icon-spacing-parity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-collapsed-icon-spacing-parity/` |
+| 目的 | collapsed sidebar の nav / public-return icon-box 高さを `h-[18px]` にし、expanded と縦ピッチを揃える |
+| implementation targets | `apps/web/src/components/shell/SidebarNavItem.tsx`, `apps/web/src/components/shell/SidebarShell.tsx` |
+| tests | `apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx`, `apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx` |
+| invariant | API / D1 schema / Google Form / auth / route topology 不変。Brand/User avatar の `h-10` は意図的に維持 |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web lint PASS、design-token gate 9 tests PASS、apps/api diff empty、local screenshot capture spec added but Next dev webServer timed out before PNG capture |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md` |
+| user gate | staging authenticated screenshots、commit、push、PR |
 
 ### public-home-member-card-info-and-tag-clarity（2026-06-08）
 

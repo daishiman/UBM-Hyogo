@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { test, expect } from "../fixtures/auth";
+import { test, expect, memberLogin } from "../fixtures/auth";
 
 const PHASE11_DIR = path.resolve(
   process.cwd(),
@@ -12,6 +12,10 @@ const SCREENSHOT_DIR = path.join(PHASE11_DIR, "screenshots");
 // 公開会員詳細は構造化 primitive (ProfileHero / PersonalSection / BusinessOverview /
 // MemberLinks / MemberActivity) へ再設計済み。visual baseline は再生成済み (member-detail.png)。
 test.describe("serial-06 public member detail binding", () => {
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test("renders API-backed public fields and captures Phase 11 screenshot", async ({
     page,
     mockApi,

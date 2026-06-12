@@ -1,0 +1,14 @@
+PASS mise exec -- pnpm lint
+
+Observed result:
+- dependency-cruiser: no dependency violations found
+- stablekey-literal-lint: OK
+- stable-key-update-lint: OK
+- verify-no-inline-style: OK
+- apps/og lint: Done
+- packages/contracts lint: Done
+- packages/shared lint: Done
+- apps/web lint: Done
+- apps/api lint: Done
+
+Note: mise printed the local trust warning for .mise.toml; command still completed exit 0.
