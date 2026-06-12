@@ -60,6 +60,7 @@ export type AuthEnv = z.infer<typeof AuthEnvSchema> & {
 export interface PublicFetchEnv {
   API_SERVICE?: ServiceBinding;
   NEXT_PUBLIC_API_BASE_URL?: string;
+  INTERNAL_AUTH_SECRET?: string;
   NODE_ENV?: string;
   PLAYWRIGHT_TEST?: string;
 }
@@ -180,9 +181,14 @@ export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv
         ? rawEnv["NEXT_PUBLIC_API_BASE_URL"]
         : undefined;
   const binding = rawEnv["API_SERVICE"];
+  const internalAuthSecret =
+    typeof rawEnv["INTERNAL_AUTH_SECRET"] === "string"
+      ? rawEnv["INTERNAL_AUTH_SECRET"]
+      : undefined;
   return {
     ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
     ...(nextPublicBaseUrl === undefined ? {} : { NEXT_PUBLIC_API_BASE_URL: nextPublicBaseUrl }),
+    ...(internalAuthSecret === undefined ? {} : { INTERNAL_AUTH_SECRET: internalAuthSecret }),
     ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
     ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
       ? { PLAYWRIGHT_TEST: processEnv["PLAYWRIGHT_TEST"] }
