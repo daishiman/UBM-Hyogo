@@ -16,6 +16,28 @@ import {
   VIEWMODEL_PARSER_LIST,
 } from "./viewmodel";
 
+const publicMemberListPayload = (sort: string) => ({
+  items: [],
+  pagination: {
+    total: 0,
+    page: 1,
+    limit: 24,
+    totalPages: 0,
+    hasNext: false,
+    hasPrev: false,
+  },
+  appliedQuery: {
+    q: "",
+    zone: "all",
+    status: "all",
+    tags: [],
+    sort,
+    density: "comfy",
+  },
+  topTags: [],
+  generatedAt: "2026-04-27T00:00:00Z",
+});
+
 describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
   it("VIEWMODEL_PARSER_LIST has 10 entries", () => {
     expect(VIEWMODEL_PARSER_LIST).toHaveLength(10);
@@ -122,6 +144,18 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
       generatedAt: "2026-04-27T00:00:00Z",
     });
     expect(tooMany.success).toBe(false);
+  });
+
+  it("PublicMemberListView accepts all public member sort values and rejects invalid sort", () => {
+    for (const sort of ["recent", "oldest", "name", "name_desc"]) {
+      expect(PublicMemberListViewZ.safeParse(publicMemberListPayload(sort)).success).toBe(
+        true,
+      );
+    }
+
+    expect(
+      PublicMemberListViewZ.safeParse(publicMemberListPayload("bogus")).success,
+    ).toBe(false);
   });
 
   it("PublicMemberListView accepts optional item tags and rejects leaked tag fields", () => {
