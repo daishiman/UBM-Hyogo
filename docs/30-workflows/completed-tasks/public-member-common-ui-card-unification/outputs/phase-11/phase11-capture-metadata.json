@@ -1,0 +1,116 @@
+{
+  "taskId": "public-member-common-ui-card-unification",
+  "mode": "VISUAL",
+  "status": "partial_local_screenshot_captured",
+  "note": "Local apps/web implementation is present. Representative local screenshots were captured for home desktop/mobile, members desktop, and login mobile. Remaining planned local screenshots and staging/profile authenticated baselines are pending.",
+  "viewports": [
+    {
+      "id": "desktop",
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "id": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "screen": "/",
+      "file": "screenshots/home-desktop.png",
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-1",
+      "screen": "/",
+      "file": "screenshots/home-mobile.png",
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-2",
+      "screen": "/members",
+      "file": "screenshots/members-desktop.png",
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-2",
+      "screen": "/members",
+      "file": "screenshots/members-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-3",
+      "screen": "/members/[id]",
+      "file": "screenshots/member-detail-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-3",
+      "screen": "/members/[id]",
+      "file": "screenshots/member-detail-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-4",
+      "screen": "/register",
+      "file": "screenshots/register-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-4",
+      "screen": "/register",
+      "file": "screenshots/register-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-5",
+      "screen": "/privacy",
+      "file": "screenshots/privacy-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-5",
+      "screen": "/privacy",
+      "file": "screenshots/privacy-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-6",
+      "screen": "/terms",
+      "file": "screenshots/terms-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-6",
+      "screen": "/terms",
+      "file": "screenshots/terms-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-7",
+      "screen": "/profile",
+      "file": "screenshots/profile-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-7",
+      "screen": "/profile",
+      "file": "screenshots/profile-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-8",
+      "screen": "/login",
+      "file": "screenshots/login-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-8",
+      "screen": "/login",
+      "file": "screenshots/login-mobile.png",
+      "status": "present"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const cookieList: Array<{ name: string; value: string }> = [];
 const mockGetAuthEnv = vi.hoisted(() => vi.fn());
-const mockGetEnvironment = vi.hoisted(() => vi.fn());
+const mockGetEnvironmentResolution = vi.hoisted(() => vi.fn());
 const mockGetTransportRuntimeIsTest = vi.hoisted(() => vi.fn());
 vi.mock("next/headers", () => ({
   cookies: async () => ({
@@ -18,7 +18,7 @@ vi.mock("next/headers", () => ({
 }));
 vi.mock("@/lib/env", () => ({
   getAuthEnv: mockGetAuthEnv,
-  getEnvironment: mockGetEnvironment,
+  getEnvironmentResolution: mockGetEnvironmentResolution,
   getTransportRuntimeIsTest: mockGetTransportRuntimeIsTest,
 }));
 
@@ -54,13 +54,13 @@ describe("fetchAuthed", () => {
   beforeEach(() => {
     setCookies();
     mockGetAuthEnv.mockReturnValue(makeEnv());
-    mockGetEnvironment.mockReturnValue("local");
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "local", explicit: true });
     mockGetTransportRuntimeIsTest.mockReturnValue(false);
   });
   afterEach(() => {
     restoreFetch();
     mockGetAuthEnv.mockReset();
-    mockGetEnvironment.mockReset();
+    mockGetEnvironmentResolution.mockReset();
     mockGetTransportRuntimeIsTest.mockReset();
   });
 
@@ -119,9 +119,12 @@ describe("fetchAuthed", () => {
     }
   });
 
-  it("network failure は素通しで throw", async () => {
+  it("network failure は transport 診断付きで throw", async () => {
     mockFetchNetworkError();
-    await expect(fetchAuthed("/me")).rejects.toBeInstanceOf(ApiTransportError);
+    await expect(fetchAuthed("/me")).rejects.toMatchObject({
+      name: "ApiTransportError",
+      transport: { transportKind: "http", baseHost: "api.example.com" },
+    });
   });
 
   it("INTERNAL_API_BASE_URL 末尾 / を取り除く", async () => {
@@ -146,7 +149,13 @@ describe("fetchAuthed", () => {
 
   it("非 local で transport 未解決なら fail-fast", async () => {
     mockGetAuthEnv.mockReturnValue({ INTERNAL_API_BASE_URL: "" });
-    mockGetEnvironment.mockReturnValue("staging");
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "staging", explicit: true });
+    await expect(fetchAuthed("/x")).rejects.toThrow(/API transport unresolved/);
+  });
+
+  it("ENVIRONMENT 未注入の暗黙 local は localhost fallback せず fail-closed", async () => {
+    mockGetAuthEnv.mockReturnValue({ INTERNAL_API_BASE_URL: "" });
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "local", explicit: false });
     await expect(fetchAuthed("/x")).rejects.toThrow(/API transport unresolved/);
   });
 
@@ -159,7 +168,7 @@ describe("fetchAuthed", () => {
       INTERNAL_API_BASE_URL: "",
       NEXT_PUBLIC_API_BASE_URL: "https://public-api.example.com",
     });
-    mockGetEnvironment.mockReturnValue("staging");
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "staging", explicit: true });
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const spy = mockFetchOnce({ status: 200, body: { id: 1 } });
     try {
@@ -184,7 +193,7 @@ describe("fetchAuthed", () => {
       INTERNAL_API_BASE_URL: "",
       NEXT_PUBLIC_API_BASE_URL: "https://public-api.example.com",
     });
-    mockGetEnvironment.mockReturnValue("staging");
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "staging", explicit: true });
     await expect(fetchAuthed("/me/delete-request", { method: "POST" })).rejects.toBeInstanceOf(
       ApiTransportError,
     );
@@ -216,10 +225,14 @@ describe("Error classes", () => {
     expect(e.message).toBe("AUTH_REQUIRED");
   });
   it("FetchAuthedError は status / bodyText を保持", () => {
-    const e = new FetchAuthedError(503, "down");
+    const e = new FetchAuthedError(503, "down", {
+      transportKind: "http",
+      baseHost: "api.example.com",
+    });
     expect(e.name).toBe("FetchAuthedError");
     expect(e.status).toBe(503);
     expect(e.bodyText).toBe("down");
+    expect(e.transport).toEqual({ transportKind: "http", baseHost: "api.example.com" });
     expect(e.message).toContain("503");
   });
 });

@@ -3,12 +3,18 @@ export interface ApiTransportEnv {
   baseUrl?: string | undefined;
   publicBaseUrl?: string | undefined;
   environment?: "local" | "staging" | "production" | undefined;
+  environmentExplicit?: boolean | undefined;
   isTest?: boolean | undefined;
 }
 
 export type ApiTransport =
   | { kind: "service-binding"; fetch: typeof fetch }
   | { kind: "http"; baseUrl: string };
+
+export interface ApiTransportDescriptor {
+  readonly transportKind: ApiTransport["kind"];
+  readonly baseHost: string;
+}
 
 export const SERVICE_BINDING_ORIGIN = "https://service-binding.local";
 // localhost-allow:local-fallback
@@ -17,47 +23,37 @@ export const LOCAL_API_FALLBACK_BASE_URL = "http://localhost:8787";
 const trimTrailingSlash = (value: string): string => value.replace(/\/$/, "");
 const transportKey = (transport: ApiTransport): string =>
   transport.kind === "service-binding" ? "service-binding" : `http:${transport.baseUrl}`;
-const transportHost = (transport: ApiTransport): string => {
-  if (transport.kind === "service-binding") return "service-binding.local";
-  try {
-    return new URL(transport.baseUrl).host;
-  } catch {
-    return transport.baseUrl;
-  }
-};
 
-export const describeTransport = (transport: ApiTransport): {
-  readonly transportKind: ApiTransport["kind"];
-  readonly baseHost: string;
-} => ({
-  transportKind: transport.kind,
-  baseHost: transportHost(transport),
-});
+export function describeTransport(transport: ApiTransport): ApiTransportDescriptor {
+  if (transport.kind === "service-binding") {
+    return {
+      transportKind: "service-binding",
+      baseHost: new URL(SERVICE_BINDING_ORIGIN).host,
+    };
+  }
+
+  return {
+    transportKind: "http",
+    baseHost: new URL(transport.baseUrl).host,
+  };
+}
 
 export class ApiTransportError extends Error {
-  readonly transportKind: ApiTransport["kind"];
-  readonly baseHost: string;
-
-  constructor(transport: ApiTransport, cause: unknown) {
-    super(
-      `API transport failed via ${transport.kind} (${transportHost(transport)}): ${
-        cause instanceof Error ? cause.message : String(cause)
-      }`,
-      { cause },
-    );
+  readonly transport: ApiTransportDescriptor;
+  constructor(message: string, transport: ApiTransportDescriptor, cause?: unknown) {
+    super(message, cause === undefined ? undefined : { cause });
     this.name = "ApiTransportError";
-    this.transportKind = transport.kind;
-    this.baseHost = transportHost(transport);
+    this.transport = transport;
   }
 }
 
 export function resolveApiFetch(env: ApiTransportEnv): ApiTransport {
-  return resolveApiFetchChain(env)[0] ?? (() => {
+  const [first] = resolveApiFetchChain(env);
+  if (first === undefined) {
     throw new Error("resolveApiFetch: API transport unresolved");
-  })();
+  }
+  return first;
 }
-
-export const resolveApiTransportChain = resolveApiFetchChain;
 
 export function resolveApiFetchChain(env: ApiTransportEnv): ApiTransport[] {
   const baseUrl =
@@ -88,7 +84,7 @@ export function resolveApiFetchChain(env: ApiTransportEnv): ApiTransport[] {
   if (deduped.length > 0) {
     return deduped;
   }
-  if (env.environment === "local") {
+  if ((env.environment ?? "local") === "local" && env.environmentExplicit === true) {
     return [{
       kind: "http",
       // localhost-allow:local-fallback
@@ -100,19 +96,22 @@ export function resolveApiFetchChain(env: ApiTransportEnv): ApiTransport[] {
   );
 }
 
+export const resolveApiTransportChain = resolveApiFetchChain;
+
 export async function fetchViaApiTransport(
   transport: ApiTransport,
   path: string,
   init?: RequestInit,
 ): Promise<Response> {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const descriptor = describeTransport(transport);
   try {
     if (transport.kind === "service-binding") {
       return await transport.fetch(`${SERVICE_BINDING_ORIGIN}${normalizedPath}`, init);
     }
     return await fetch(`${transport.baseUrl}${normalizedPath}`, init);
-  } catch (err) {
-    throw new ApiTransportError(transport, err);
+  } catch (error) {
+    throw new ApiTransportError("API transport fetch failed", descriptor, error);
   }
 }
 

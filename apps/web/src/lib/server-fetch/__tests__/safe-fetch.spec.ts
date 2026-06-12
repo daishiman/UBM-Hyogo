@@ -113,6 +113,7 @@ describe("safeServerFetch", () => {
       async () => {
         throw Object.assign(new Error("fetchAuthed failed: 410"), {
           status: 410,
+          transport: { transportKind: "service-binding", baseHost: "service-binding.local" },
         });
       },
       { codePrefix: "MEMBER_SESSION", logPath: "/me" },
@@ -123,34 +124,38 @@ describe("safeServerFetch", () => {
       code: "MEMBER_SESSION_410",
       path: "/me",
       status: 410,
-      transportKind: null,
-      baseHost: null,
+      transportKind: "service-binding",
+      baseHost: "service-binding.local",
     });
     expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("memberId");
   });
 
-  it("logs transport diagnostics when the error carries transportKind/baseHost", async () => {
+  it("logs transport diagnostics for transport failures without status", async () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const result = await safeServerFetch(
       async () => {
         throw Object.assign(new Error("API transport fetch failed"), {
-          transportKind: "service-binding",
-          baseHost: "service-binding.local",
+          transport: { transportKind: "http", baseHost: "api.example.com" },
         });
       },
       { codePrefix: "MEMBER_SESSION", logPath: "/me" },
     );
 
     expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error.transport).toEqual({
+        transportKind: "http",
+        baseHost: "api.example.com",
+      });
+    }
     expect(errorSpy).toHaveBeenCalledWith("server_fetch_failed", {
       code: "MEMBER_SESSION_FAILED",
       path: "/me",
       status: null,
-      transportKind: "service-binding",
-      baseHost: "service-binding.local",
+      transportKind: "http",
+      baseHost: "api.example.com",
     });
-    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("memberId");
   });
 
   it("does not log diagnostics unless logPath is provided", async () => {

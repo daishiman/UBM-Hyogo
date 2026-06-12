@@ -10,6 +10,7 @@ vi.mock("@opennextjs/cloudflare", () => ({
 import {
   getAuthEnv,
   getEnv,
+  getEnvironmentResolution,
   getPublicEnv,
   getPublicEnvSafe,
   getPublicFetchEnv,
@@ -275,6 +276,21 @@ describe("env", () => {
     } finally {
       warn.mockRestore();
     }
+  });
+
+  it("getEnvironmentResolution marks valid ENVIRONMENT as explicit", () => {
+    expect(getEnvironmentResolution({ ENVIRONMENT: "staging" })).toEqual({
+      environment: "staging",
+      explicit: true,
+    });
+  });
+
+  it("getEnvironmentResolution marks missing or invalid ENVIRONMENT as implicit local", () => {
+    expect(getEnvironmentResolution({})).toEqual({ environment: "local", explicit: false });
+    expect(getEnvironmentResolution({ ENVIRONMENT: "qa" })).toEqual({
+      environment: "local",
+      explicit: false,
+    });
   });
 
   it("getPublicFetchEnv keeps public fetch resolution in env.ts", () => {

@@ -4,9 +4,9 @@
 
 import { cookies } from "next/headers";
 
-import { getAuthEnv, getEnvironment, getTransportRuntimeIsTest } from "@/lib/env";
+import { getAuthEnv, getEnvironmentResolution, getTransportRuntimeIsTest } from "@/lib/env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
-import { ApiTransportError, fetchViaApiTransportChain, resolveApiFetchChain } from "./transport";
+import { ApiTransportError, describeTransport, fetchViaApiTransportChain, resolveApiFetchChain } from "./transport";
 
 export { ApiTransportError, AuthRequiredError, FetchAuthedError };
 
@@ -28,13 +28,20 @@ export const fetchAuthed = async <T>(
     throw new Error(`fetchAuthed: path must start with '/': ${path}`);
   }
   const env = getAuthEnv();
+  const environment = getEnvironmentResolution();
   const transports = resolveApiFetchChain({
     API_SERVICE: env.API_SERVICE,
     baseUrl: env.INTERNAL_API_BASE_URL,
     publicBaseUrl: env.NEXT_PUBLIC_API_BASE_URL,
-    environment: getEnvironment(),
+    environment: environment.environment,
+    environmentExplicit: environment.explicit,
     isTest: getTransportRuntimeIsTest(),
   });
+  const [primaryTransport] = transports;
+  if (primaryTransport === undefined) {
+    throw new Error("fetchAuthed: API transport unresolved");
+  }
+  const transportDescriptor = describeTransport(primaryTransport);
   const cookieHeader = await buildCookieHeader();
   const headers = new Headers(init?.headers);
   if (cookieHeader.length > 0) headers.set("cookie", cookieHeader);
@@ -51,7 +58,7 @@ export const fetchAuthed = async <T>(
   }
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new FetchAuthedError(res.status, text);
+    throw new FetchAuthedError(res.status, text, transportDescriptor);
   }
   return (await res.json()) as T;
 };

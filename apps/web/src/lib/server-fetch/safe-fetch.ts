@@ -1,4 +1,5 @@
 import type { SafeResult, SafeResultError } from "../result";
+import type { ApiTransportDescriptor } from "../fetch/transport";
 
 type RethrowableError = new (...args: never[]) => Error;
 
@@ -19,6 +20,25 @@ function statusFromError(err: Error): number | null {
   return match ? Number(match[1]) : null;
 }
 
+function transportFromError(err: Error): ApiTransportDescriptor | undefined {
+  const transport = (err as { readonly transport?: unknown }).transport;
+  if (transport === null || typeof transport !== "object") return undefined;
+  const candidate = transport as {
+    readonly transportKind?: unknown;
+    readonly baseHost?: unknown;
+  };
+  if (
+    (candidate.transportKind === "service-binding" || candidate.transportKind === "http") &&
+    typeof candidate.baseHost === "string"
+  ) {
+    return {
+      transportKind: candidate.transportKind,
+      baseHost: candidate.baseHost,
+    };
+  }
+  return undefined;
+}
+
 function shouldRethrow(
   err: unknown,
   rethrowOn: ReadonlyArray<RethrowableError>,
@@ -32,9 +52,11 @@ function normalizeError(
 ): SafeResultError {
   if (err instanceof Error) {
     const status = statusFromError(err);
+    const transport = transportFromError(err);
     return {
       code: status ? `${codePrefix}_${status}` : `${codePrefix}_FAILED`,
       message: err.message,
+      ...(transport === undefined ? {} : { transport }),
     };
   }
 
@@ -47,24 +69,15 @@ function normalizeError(
 function logServerFetchFailure(
   error: SafeResultError,
   opts: SafeServerFetchOptions,
-  rawError?: unknown,
 ): void {
   if (!opts.logPath) return;
 
   const statusMatch = error.code.match(/_(\d{3})$/);
-  const transport =
-    rawError instanceof Error
-      ? {
-          kind: (rawError as { readonly transportKind?: unknown }).transportKind ?? null,
-          baseHost: (rawError as { readonly baseHost?: unknown }).baseHost ?? null,
-        }
-      : { kind: null, baseHost: null };
   console.error("server_fetch_failed", {
     code: error.code,
     path: opts.logPath,
     status: statusMatch ? Number(statusMatch[1]) : null,
-    transportKind: transport.kind,
-    baseHost: transport.baseHost,
+    ...((error as { readonly transport?: ApiTransportDescriptor }).transport ?? {}),
   });
 }
 
@@ -77,7 +90,7 @@ export async function safeServerFetch<T>(
   } catch (err) {
     if (shouldRethrow(err, opts.rethrowOn ?? [])) throw err;
     const error = normalizeError(err, opts);
-    logServerFetchFailure(error, opts, err);
+    logServerFetchFailure(error, opts);
     return { ok: false, error };
   }
 }

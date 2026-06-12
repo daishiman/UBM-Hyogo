@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { expect, test } from "../fixtures/auth";
+import { expect, memberLogin, test } from "../fixtures/auth";
 
 const workflowRoot = join(
   process.cwd(),
@@ -49,6 +49,7 @@ test.describe("member publish recovery local visual evidence", () => {
   });
 
   test("captures Task C public members reflection timing note", async ({ page }) => {
+    await memberLogin(page.context());
     await page.goto("/members", { waitUntil: "domcontentloaded" });
     await expect(
       page.getByLabel("Google Form 反映タイミング"),

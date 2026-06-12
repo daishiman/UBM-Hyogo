@@ -1,0 +1,89 @@
+{
+  "title": "require-auth-public-access-gate",
+  "type": "implementation",
+  "status": "implemented_local_evidence_captured",
+  "feature": "require-auth-public-access-gate",
+  "created": "2026-06-10",
+  "lastUpdated": "2026-06-10",
+  "branch": "docs/require-auth-public-access-gate-spec",
+  "base": "dev",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationDivision": "実装仕様書",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "visualEvidence": "VISUAL",
+    "scope": "Implemented authentication for all routes except /login. Unauthenticated users see a 'login required' notice instead of content (no redirect). C1: (public)/layout.tsx server-side session gate + new LoginRequiredNotice component. C2: gate /public/* API (member session OR internal X-Internal-Auth) with internal-auth bypass for sitemap.ts and the apps/og worker. Commit, push, PR, staging deploy, and runtime screenshots remain user-gated.",
+    "userConfirmedScope": {
+      "gateScope": "all routes except /login (/, /members, /members/[id], /register, /privacy, /terms)",
+      "unauthenticatedBehavior": "in-place login-required notice (no redirect)"
+    },
+    "concerns": [
+      "C1: Web UI auth gate (apps/web)",
+      "C2: API access gate + server-to-server internal auth (apps/api, apps/web sitemap, apps/og)"
+    ],
+    "investigationConclusion": "Public layer (6 routes) and public API (/public/*) were intentionally unauthenticated per specs. User requires login for all information. UI gate alone leaves /public/* directly reachable; API gate alone breaks sitemap.ts and the apps/og worker (server-to-server consumers with no user session). Design uses a single 'member session OR internal auth' guard reusing the existing INTERNAL_AUTH_SECRET mechanism, completed in one cycle (CONST_007).",
+    "changedFilesPlanned": [
+      "apps/web/src/components/auth/LoginRequiredNotice.tsx (new)",
+      "apps/web/app/(public)/layout.tsx (edit)",
+      "apps/api/src/middleware/require-public-access.ts (new)",
+      "apps/api/src/routes/public/index.ts (edit)",
+      "apps/web/src/lib/api/public.ts (edit)",
+      "apps/web/src/lib/fetch/public.ts (edit)",
+      "apps/web/app/sitemap.ts (edit)",
+      "apps/og/src/member-source.ts (edit)",
+      "docs/00-getting-started-manual/specs/00-overview.md (edit)",
+      "docs/00-getting-started-manual/specs/02-auth.md (edit)",
+      "docs/00-getting-started-manual/specs/06-member-auth.md (edit)",
+      "docs/00-getting-started-manual/specs/01-api-schema.md (edit)"
+    ],
+    "userGated": [
+      "commit",
+      "push",
+      "PR creation",
+      "staging deploy",
+      "authenticated runtime screenshot capture (Phase 11 visual evidence)"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/require-auth-public-access-gate/phase-3.md",
+        "approver": "daishiman",
+        "notes": "design_review: Phase 1-3 design (C1/C2 topology, signatures, dataflow, doc-update plan) validated. AC-1..AC-13 fixed."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/require-auth-public-access-gate/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web, apps/api, apps/og implementation plus focused tests, typecheck, lint, and Phase 12 docs are complete locally."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/require-auth-public-access-gate/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit/push/PR, staging deploy, authenticated runtime screenshots are user-gated (CONST_002)."
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": { "name": "Requirements", "file": "phase-1.md", "status": "completed" },
+    "phase-2": { "name": "Design", "file": "phase-2.md", "status": "completed" },
+    "phase-3": { "name": "Design Review", "file": "phase-3.md", "status": "completed" },
+    "phase-4": { "name": "Test Creation", "file": "phase-4.md", "status": "completed" },
+    "phase-5": { "name": "Implementation", "file": "phase-5.md", "status": "completed" },
+    "phase-6": { "name": "Test Expansion", "file": "phase-6.md", "status": "completed" },
+    "phase-7": { "name": "Coverage Check", "file": "phase-7.md", "status": "completed" },
+    "phase-8": { "name": "Refactoring", "file": "phase-8.md", "status": "completed" },
+    "phase-9": { "name": "Quality Assurance", "file": "phase-9.md", "status": "completed" },
+    "phase-10": { "name": "Final Review", "file": "phase-10.md", "status": "completed" },
+    "phase-11": { "name": "Manual Test", "file": "phase-11.md", "status": "local_evidence_captured_runtime_pending" },
+    "phase-12": { "name": "Documentation", "file": "phase-12.md", "status": "completed" },
+    "phase-13": { "name": "PR Creation", "file": "phase-13.md", "status": "pending_user_approval" }
+  }
+}
