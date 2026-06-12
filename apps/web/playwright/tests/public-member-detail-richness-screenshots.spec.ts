@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
-import { expect, test } from '../fixtures/auth'
+import { expect, memberLogin, test } from '../fixtures/auth'
 
 const PHASE11_DIR = path.resolve(
   process.cwd(),
@@ -35,6 +35,11 @@ async function capture(
 }
 
 test.describe('public-member-detail-survey-fields-richness Phase 11 screenshots', () => {
+  // 公開層は全ルート認証必須化されたため /members/:id 訪問前に会員認証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context())
+  })
+
   test('captures canonical full / sparse / message-hidden screenshots', async ({
     page,
     mockApi,

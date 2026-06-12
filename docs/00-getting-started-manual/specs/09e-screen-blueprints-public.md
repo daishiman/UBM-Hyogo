@@ -26,7 +26,7 @@
 | `/privacy` | プライバシーポリシー | prototype 未掲載 | 派生ルール |
 | `/terms` | 利用規約 | prototype 未掲載 | 派生ルール |
 
-認可方針: 全 6 画面とも **public**（未ログインで全フィールド閲覧可能・ただし `isPublic && !isDeleted` のメンバーのみ表示）。
+認可方針: `/login` を除く全 6 画面は **authenticated public**（認証済み会員だけが閲覧可能・ただし `isPublic && !isDeleted` のメンバーのみ表示）。未認証ユーザーには `LoginRequiredNotice` を表示し、本来コンテンツと `/public/*` RSC fetch は実行しない。`/public/*` API は `requirePublicAccess` により会員セッションまたは `X-Internal-Auth` が必須。
 
 ### 2026-05-26 `/members` current implementation note
 

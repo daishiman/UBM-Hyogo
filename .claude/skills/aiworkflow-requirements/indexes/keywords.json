@@ -3489,6 +3489,7 @@
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
@@ -3841,6 +3842,7 @@
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
@@ -4210,6 +4212,7 @@
       "workflow-issue-1010-auth-view-session-contract-integration-test-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
@@ -4257,6 +4260,7 @@
       "workflow-issue-864-admin-staging-runtime-smoke-ci-gate-artifact-inventory.md",
       "workflow-issue-922-production-admin-runtime-smoke-gate-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "実装時の苦戦した箇所・知見": [
@@ -5387,6 +5391,7 @@
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-members-mobile-responsive-layout-artifact-inventory.md",
@@ -5486,11 +5491,13 @@
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-member-detail-survey-fields-richness-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-sentry-extension-noise-filter-spec-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
@@ -5662,6 +5669,7 @@
       "workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md",
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md"
     ],
@@ -6364,6 +6372,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-members-mobile-responsive-layout-artifact-inventory.md",
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -6673,6 +6682,7 @@
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-956-h1-ingest-recovery-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-member-detail-survey-fields-richness-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
@@ -7438,6 +7448,7 @@
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-parallel-i02b-admin-mutation-error-finalize-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
@@ -7768,6 +7779,7 @@
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-member-detail-survey-fields-richness-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
@@ -9175,7 +9187,8 @@
       "workflow-task-staging-auth-secret-binding-recovery-001-artifact-inventory.md"
     ],
     "observability": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md"
     ],
     "preflight": [
       "deployment-cloudflare-opennext-workers.md",
@@ -10635,6 +10648,7 @@
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md",
@@ -12145,10 +12159,12 @@
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-member-detail-survey-fields-richness-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-publish-state-backfill-admin-ui-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-sentry-extension-noise-filter-spec-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
@@ -12221,7 +12237,8 @@
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md",
       "task-workflow-active.md",
-      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md"
+      "workflow-issue-1111-proxy-transport-util-unify-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md"
     ],
     "label": [
       "lessons-fetch-service-binding-testing.md",
@@ -13643,6 +13660,7 @@
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
@@ -14181,6 +14199,7 @@
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
       "workflow-public-member-detail-survey-fields-richness-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
@@ -14297,7 +14316,8 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md"
+      "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md"
     ],
     "closed": [
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
@@ -14305,7 +14325,8 @@
       "lessons-learned-issue-747-vitest-esbuild-node-arch-2026-05.md",
       "lessons-learned-issue-891-member-detail-kind-exhaustiveness-guard-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md"
     ],
     "live": [
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
@@ -14486,6 +14507,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-schema-terminology-clarity-artifact-inventory.md",
@@ -14565,6 +14587,7 @@
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
@@ -15987,6 +16010,7 @@
       "lessons-learned-admin-meetings-prototype-alignment-2026-05.md",
       "ui-ux-admin-dashboard.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-step-06-meetings-attendance-implementation-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
@@ -17550,6 +17574,7 @@
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
@@ -17850,6 +17875,7 @@
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-member-detail-status-404-fix-artifact-inventory.md",
       "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-schema-terminology-clarity-artifact-inventory.md",
@@ -17929,6 +17955,7 @@
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md",
       "workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
@@ -18692,7 +18719,8 @@
     ],
     "access": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md"
+      "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md",
+      "workflow-require-auth-public-access-gate-artifact-inventory.md"
     ],
     "も同": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -19669,6 +19697,7 @@
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
@@ -21035,7 +21064,8 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "card": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md"
     ],
     "css": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
@@ -25844,6 +25874,7 @@
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-parallel-i06-root-error-focus-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-staging-mint-bearer-env-contract-guard-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-b-manual-form-resync-admin-ui-spec-artifact-inventory.md",
@@ -26317,6 +26348,7 @@
     "clarity": [
       "task-workflow-active.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
+      "workflow-admin-meetings-card-ux-clarity-artifact-inventory.md",
       "workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-terminology-clarity-artifact-inventory.md",
@@ -27866,6 +27898,7 @@
       "workflow-profile-reload-session-404-fix-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
       "workflow-profile-session-fetch-failure-investigation-artifact-inventory.md",
+      "workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md",
       "workflow-public-header-auth-slot-e2e-artifact-inventory.md",
       "workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md",
       "workflow-public-header-session-aware-auth-view-base-artifact-inventory.md",
@@ -29518,6 +29551,9 @@
     ],
     "Ownership": [
       "workflow-regression-evidence-ci-gate-foundation-artifact-inventory.md"
+    ],
+    "require": [
+      "workflow-require-auth-public-access-gate-artifact-inventory.md"
     ],
     "mint": [
       "workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md",

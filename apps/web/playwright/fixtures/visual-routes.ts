@@ -11,13 +11,16 @@ export interface VisualRoute {
   waitFor?: string
 }
 
+// 公開層は全ルート認証必須化（require-auth-public-access-gate）。未認証では
+// LoginRequiredNotice になるため、公開コンテンツの visual baseline は会員ログイン
+// 済みで撮影する。/login だけは認証不要のまま。
 export const VISUAL_ROUTES = [
-  { slug: 'root', path: '/', auth: 'none' },
-  { slug: 'members', path: '/members', auth: 'none' },
-  { slug: 'members-detail', path: '/members/sample-001', auth: 'none' },
-  { slug: 'register', path: '/register', auth: 'none' },
-  { slug: 'privacy', path: '/privacy', auth: 'none' },
-  { slug: 'terms', path: '/terms', auth: 'none' },
+  { slug: 'root', path: '/', auth: 'member' },
+  { slug: 'members', path: '/members', auth: 'member' },
+  { slug: 'members-detail', path: '/members/sample-001', auth: 'member' },
+  { slug: 'register', path: '/register', auth: 'member' },
+  { slug: 'privacy', path: '/privacy', auth: 'member' },
+  { slug: 'terms', path: '/terms', auth: 'member' },
   { slug: 'login', path: '/login', auth: 'none' },
   { slug: 'profile', path: '/profile', auth: 'member' },
   { slug: 'admin', path: '/admin', auth: 'admin' },
@@ -28,7 +31,7 @@ export const VISUAL_ROUTES = [
   { slug: 'admin-requests', path: '/admin/requests', auth: 'admin' },
   { slug: 'admin-identity-conflicts', path: '/admin/identity-conflicts', auth: 'admin' },
   { slug: 'admin-audit', path: '/admin/audit', auth: 'admin' },
-  { slug: 'not-found', path: '/__not_found_canary', auth: 'none' },
+  { slug: 'not-found', path: '/__not_found_canary', auth: 'member' },
 ] as const satisfies readonly VisualRoute[]
 
 export const EXPECTED_VISUAL_ROUTE_COUNT = 17

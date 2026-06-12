@@ -21,6 +21,46 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
 | user gate | authenticated staging screenshots 4, commit, push, PR |
 
+### admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| 目的 | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| invariant | apps/api / D1 / Google Form / endpoint surface unchanged。既存 `data-testid` / aria / role / useAdminMutation / FormField contract preserved |
+| evidence | focused Vitest 4 files / 18 tests PASS、local Playwright visual 1 test PASS / 5 PNG present、typecheck PASS、lint PASS、verify:tokens PASS、HEX grep 0、apps/api diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、deploy、commit、push、PR |
+
+### require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| 目的 | `/login` を除く全公開 UI と `/public/*` API を認証必須化し、未認証ユーザーへ情報を返さない |
+| implementation targets | `apps/web/src/components/auth/LoginRequiredNotice.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/src/lib/fetch/public.ts`, `apps/web/app/sitemap.ts`, `apps/api/src/middleware/require-public-access.ts`, `apps/api/src/routes/public/index.ts`, `apps/api/src/middleware/require-admin.ts`, `apps/og/src/member-source.ts` |
+| invariant | `/login` は未認証可。`/profile` / `/admin/*` gate、D1 schema、Google Form schema、response field shape は不変。公開 API の field visibility は従来どおりだが、未認証には返さない |
+| evidence | focused web/api/og specs、web/api/og typecheck/lint、Phase 12 strict docs present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy、runtime screenshots、`INTERNAL_AUTH_SECRET` secret placement、commit、push、PR |
+
+### profile-session-transport-observability-fail-closed（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/profile-session-transport-observability-fail-closed/` |
+| 目的 | staging `/profile` の session fetch failure を transportKind/baseHost/status 付きログで診断可能にし、ENVIRONMENT 未注入時の暗黙 localhost fallback を fail-closed にする |
+| implementation targets | `apps/web/src/lib/fetch/{transport,errors,authed}.ts`, `apps/web/src/lib/{env,result}.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/auth/{gate-state,magic-link,magic-link/verify}/route.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/src/lib/auth/verify-magic-link.ts`, `scripts/diagnose-profile-session.sh` |
+| tests | `apps/web/src/lib/fetch/transport.spec.ts`, `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`, `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| evidence | focused Vitest 5 files / 70 tests PASS、`bash -n scripts/diagnose-profile-session.sh` PASS、apps/api production source unchanged |
+| invariant | `/me` path / response shape / status taxonomy / D1 schema / Google Form schema unchanged。`server_fetch_failed` は `transportKind` / `baseHost` / `status` のみを追加し memberId / cookie / token / secret を出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md` |
+| user gate | staging deploy、wrangler tail 実機確認、真因別の本格修正、commit、push、PR |
+
 ### admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
 
 | 項目 | 値 |

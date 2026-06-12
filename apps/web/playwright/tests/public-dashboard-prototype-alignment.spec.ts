@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { expect, test } from "../fixtures/auth";
+import { expect, memberLogin, test } from "../fixtures/auth";
 
 const PHASE11_DIR = join(
   process.cwd(),
@@ -31,6 +31,10 @@ async function assertHomeSections(page: import("@playwright/test").Page) {
 
 test.describe("public-dashboard-prototype-alignment Phase 11", () => {
   test.setTimeout(120_000);
+
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
 
   test("captures canonical home screenshots", async ({ mockApi, page }) => {
     await mockApi.setPublicHomeEmpty(false);
