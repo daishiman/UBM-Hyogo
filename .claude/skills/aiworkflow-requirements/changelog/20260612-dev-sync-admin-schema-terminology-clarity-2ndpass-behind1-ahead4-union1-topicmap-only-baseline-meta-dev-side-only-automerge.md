@@ -1,0 +1,14 @@
+# dev sync 2nd pass: 1 コミット取込（behind 1 / ahead 4）で **CONFLICT 1 = `indexes/topic-map.md`（union）のみ・keywords.json / SKILL-changelog / lessons-learned / `.baseline-meta.json` は Auto-merge**・apps content conflict 0・CI fail 0（2026-06-12 feat/admin-schema-terminology-clarity）
+
+- 日時: 2026-06-12（sub-worktree task-20260611-071903-wt-5）
+- ブランチ: `feat/admin-schema-terminology-clarity` ← `dev` 2nd pass（**1 behind / 4 ahead**・ローカル dev = origin/dev `0d505ee52` 0/0・独自コミット 0）。merge `4f86baeab`。
+- 起点: ユーザー指示「リモート dev → ローカル dev → 本ブランチへマージし conflict・CI fail を解消して push、解消内容を skill 反映」。スコープ = 現在 WT・現在ブランチのみ（フラグ不在ゆえ単一スコープ S-SUB 自動確定）。
+- 取込: dev 新規 1 コミット = #1215 サイドバー折りたたみ時 nav アイコン縦間隔 parity（`SidebarNavItem.tsx` / `SidebarShell.tsx` + admin tablet visual baseline png 群 + `.baseline-meta.json` 再生成 + 両 skill の dev-sync 知見 changelog/lessons）。
+- **前回 pass との対比（ローカル dev ref 復旧）**: 1st pass（merge `d6c124ebe`）ではメイン WT が dev checkout + dirty で `git fetch origin dev:dev` 不能 → `origin/dev` 直接マージで回避した。本回はメイン WT が `docs/workflow-docs-cleanup-and-lessons-sync` へ切替済み + 並列セッションがローカル dev ref を `origin/dev` まで前進済み → **dev 同期フェーズは冪等スキップ（0/0）で正規経路に復帰**。「dev ref 遅延は cosmetic・後続 pass で自然回復する」の実証。
+- **`.baseline-meta.json` Auto-merge（L-DEVSYNC-134 条件付き衝突の負例・dev 片側再生成方向）**: 取込 #1215 は admin tablet baseline png 5 枚 + `.baseline-meta.json` を再生成したが、feature 側は前回 sync 以降 baseline を再生成していない → **片側のみの再生成は 3-way conflict にならず auto-merge clean**（png は M として取込・メタも自動統合）。L-DEVSYNC-134/135 の「双方再生成時のみ衝突」を **dev 側のみ再生成** の方向から補強（3rd-pass 記録の「feature 側のみ再生成」方向と対になる負例データ）。
+- CONFLICT: **`indexes/topic-map.md` 1 file（union）のみ**。keywords.json / quick-reference / resource-map / SKILL-changelog / LOGS / lessons-learned / task-workflow-active は全 Auto-merge。`apps/**` content conflict 0（feature ahead 4 = 前回マージ + skill 知見 docs のみで #1215 touch 領域と非重複）。union 件数の床 = 1 再々確認（L-DEVSYNC-123-A）。
+- 解消: `pnpm sync:resolve`（union-resolving 1 file + indexes:rebuild）単発収束。commit は **原子的 1-Bash（作業ツリー marker grep → `.baseline-meta.json` marker 0 確認 → `git add -A` → `git commit --no-edit` → `git show HEAD:` で topic-map / baseline-meta の committed blob marker 0 直接検証）** で確定（L-DEVSYNC-135-C 適用・parallel-reverter 混入なし）。
+- **branch-sync lock 競合（運用注記）**: `.git/.branch-sync.lock` が並列セッションにより 04:08Z（stale）→ 05:55Z → 05:58Z と連続再生成された。lock 記載 PID はコマンド単位サブシェルゆえ即時終了し生存判定に使えない → **`ps -p <PID>` 死亡確認 + 30 秒×6 回ポーリングで解放待ち → 孤児 lock と判定して takeover** で多重実行リスクを最小化しつつ前進（スコープ非重複が安全性の実体）。
+- 品質検証: lock/package.json 変更なしで install skip（L-DEVSYNC-132 happy-path）。`pnpm typecheck` exit 0 / `pnpm lint` exit 0（7 package Done）/ `pnpm indexes:rebuild` 冪等（5519 kw・drift 0）。CI コード修正なしで全緑。
+- 分類: 新規 lesson は起こさず **L-DEVSYNC-123-A（union 非単調・床 1）+ L-DEVSYNC-134/135（条件付き衝突の負例方向）+ L-DEVSYNC-135-C（原子的 commit 手順の適用実証）** の確定データ拡張。
+- 参照: [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-123-A / L-DEVSYNC-134 / L-DEVSYNC-135, task-specification-creator 同日 changelog（同 sync の task-spec 視点）。
