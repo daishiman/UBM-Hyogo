@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
+import { memberLogin } from "../fixtures/auth";
 
 const screenshotDir = join(
   process.cwd(),
@@ -13,6 +14,10 @@ const screenshotPath = (name: string) => {
 };
 
 test.describe("(public) error boundary @smoke", () => {
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test("force throw renders (public)/error.tsx within public AppShell", async ({ page }) => {
     await page.goto("/error-boundary-smoke");
 

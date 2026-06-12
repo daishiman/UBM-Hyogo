@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '../fixtures/coverage'
+import { memberLogin } from '../fixtures/auth'
 import AxeBuilder from '@axe-core/playwright'
 import { HomePage } from '../page-objects/HomePage'
 import { MembersListPage } from '../page-objects/MembersListPage'
@@ -8,11 +9,20 @@ import { RegisterPage } from '../page-objects/RegisterPage'
 const LEAK_PROBE_EMAIL = 'system+responseEmail@example.test'
 
 async function expectPublicBodyHasNoEmail(page: Page): Promise<void> {
-  await expect(page.locator('body')).not.toContainText(LEAK_PROBE_EMAIL)
-  await expect(page.locator('body')).not.toContainText(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)
+  // 公開層は全ルート認証必須化され、shell の user-menu に閲覧者自身の email が表示される
+  // （これは responseEmail 漏洩ではない）。漏洩検証は shell のコンテンツ領域 [data-shell="main"]
+  // に限定し、sidebar user-menu などの shell chrome を除外する（page 側の <main data-page> も内包）。
+  const content = page.locator('[data-shell="main"]')
+  await expect(content).not.toContainText(LEAK_PROBE_EMAIL)
+  await expect(content).not.toContainText(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)
 }
 
 test.describe('public flow (landing → 一覧 → 詳細 → 登録)', () => {
+  // 公開層は全ルート認証必須化されたため、巡回前に会員認証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context())
+  })
+
   test('desktop: full flow', async ({ page }) => {
     const home = new HomePage(page)
     await home.visit()

@@ -3,6 +3,7 @@
 ## 概要
 LOGS は archive index 方式へ再編した。最新更新は本ファイル、詳細 log は references/archive から参照する。
 ## 最新更新ヘッドライン
+| 2026-06-10 - admin-members-timestamp-jst-and-identity-label-clarity sync（`docs/30-workflows/admin-members-timestamp-jst-and-identity-label-clarity/` を `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` として同期。`/admin/members` の最終更新列を JST 秒付き日本語表記へ変更し、MemberDrawer の IDENTITY / DIAGNOSTICS を日本語ラベル主・英語キー併記へ統一。`apps/web/src/lib/format/datetime.ts`、`memberSystemFieldGlossary.ts`、`MembersTable.tsx`、`MemberDrawer.tsx`、`MemberDiagnosticsPanel.tsx` と focused specs / Playwright evidence spec を同一 wave 反映。focused Vitest 5 files / 41 tests PASS、local Playwright fixture 1 test PASS、local screenshots 3 PNG present。apps/api / D1 migration / Google Form schema / endpoint surface / shared response schema は不変。staging authenticated screenshot、staging deploy、commit、push、PR は user-gated） |
 | 2026-06-09 - admin requests queue rename and publish dependency sync（`docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency/` を `implemented_local_evidence_captured / implementation / VISUAL / staging_runtime_pending_user_gate` として同期。`/admin/requests` の表示名を「会員からの申請」へ平易化し、会員本人発の公開停止/再開・退会申請承認フローと `/admin/members` 管理者起点の即時公開トグルの違いを UI 上で明示。test account seed に `TEST-NOTE-V01/V02/D01` pending 申請を追加し、`GET /admin/members` に `pendingRequestTypes` projection、shared/contracts schema、requests/members UI、focused tests、`11-admin-management.md` / `01-api-schema.md` / discovery surface を同一 wave 反映。API 86 files / 549 tests PASS、shared 21 files / 257 tests PASS、web target specs PASS。staging seed apply、authenticated screenshots、commit、push、PR は user-gated） |
 | 2026-06-10 - admin-audit-log-ux-clarity-and-reduce-error-fix sync（`docs/30-workflows/admin-audit-log-ux-clarity-and-reduce-error-fix/` を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`/admin/audit` をカード型タイムライン、appliedFilters チップ、目的・用語ガイド常時表示、エラー親切化、action/targetType datalist へ刷新。`/admin/tags/catalog` の `TagCatalogPanel` は `initial?.items ?? []` / `initial?.total ?? 0` で reduce クラッシュを防御。循環依存を避けるため audit helper は `auditLogDisplay.ts` へ抽出し `AuditLogPanel.tsx` は既存 signature re-export を維持。focused Vitest 6 files / 55 tests PASS。apps/api / D1 / Google Form / response shape は不変。runtime screenshots、staging baseline、commit、push、PR は user-gated） |
 | 2026-06-10 - member-profile-google-form-data-reflection sync（`docs/30-workflows/member-profile-google-form-data-reflection/` を `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` として同期。Google Form response sync の qid map を `schema_questions` 依存のみから raw form label fallback + schema row precedence へ変更し、fully-unmapped response batch の `SYNC_ALERTS` emit を正本化した。D1 schema / Google Form schema / cron / apps/web は不変。staging recovery mutation、screenshots、deploy、commit、push、PR は user-gated） |
@@ -1218,6 +1219,12 @@ production env monitor secret cleanup は user-gated。
 
 - `serial-06-form-response-binding` standalone root drift を canonical parent sub-workflow へ統合。
 - Parent artifacts / outputs artifacts の `metadata.sub_workflows` に serial-06 を登録。
+## 2026-06-10 require-auth-public-access-gate
+
+- `docs/30-workflows/require-auth-public-access-gate/` を `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` として同期。
+- `/login` 以外の公開 UI を `LoginRequiredNotice` gate へ変更し、`/public/*` API を Auth.js session JWT OR `X-Internal-Auth` 必須へ変更。sitemap / OG worker は内部認証ヘッダで継続動作。
+- specs 7 本、`security-api.md` / `api-endpoints.md` / `environment-variables.md` / quick-reference / resource-map / task-workflow-active / artifact inventory / SKILL-changelog を同一 wave で更新。staging deploy、runtime screenshots、secret placement、commit、push、PR は user-gated。
+
 - `workflow-ui-prototype-design-system-foundation-artifact-inventory.md` と SKILL-changelog に strict7-parent-aggregated 状態を同期。
 
 # 2026-05-23 ut-dsf-07-staging-visual-runtime-evidence

@@ -1,0 +1,23 @@
+# vitest 3.2.6 shard 別実行結果 (2026-06-10)
+
+| shard | config | files | tests | exit |
+|---|---|---|---|---|
+| api-unit | vitest.config.ts | 87 | 561 passed | 0 |
+| api-d1 | vitest.d1.config.ts (forks/singleFork) | 115 | 1007 passed (port exhaustion なし) | 0 |
+| web | vitest.config.ts | 244 | 1773 passed / 1 skipped(既存) | 0 |
+| og | vitest.config.ts | 6 | 23 passed | 0 |
+| packages | vitest.config.ts | 33 | 335 passed | 0 |
+| scripts | vitest.config.ts | 58 | 478 passed | 0(--no-file-parallelism) |
+| infra | vitest.config.ts | 10 | 56 passed | 0 |
+
+RED (v2→v3破壊的変更による実テスト失敗): 0件 / テスト・config 修正: ゼロ
+skip件数: bump前から増加なし (web 1 skip は既存) → AC-8 充足
+
+# coverage 集約閾値 (coverage-guard --no-run, exit 0, all packages >= 80%)
+apps/api(unit+d1): lines 86.82 / branches 86.11 / functions 90.51 / statements 85.03
+apps/og: 99.47 / 96.77 / 100 / 99.47
+apps/web: 86.56 / 85.91 / 82.83 / 86.56
+packages/contracts: 100 / 100 / 100 / 100
+packages/integrations: 100 / 100 / 100 / 100
+packages/shared: 94.33 / 86.27 / 95.91 / 94.33
+packages/integrations/google: 89.2 / 80.6 / 88.23 / 89.2

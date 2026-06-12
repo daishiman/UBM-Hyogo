@@ -6,15 +6,15 @@ import { freezeAnimations, openDrawer, waitShellReady } from "./_helpers";
 
 const SHOT = { fullPage: true, maxDiffPixelRatio: 0.02 } as const;
 
-// V1: viewer / desktop
-test("viewer home desktop visual", async ({ anonymousPage, mockApi }, testInfo) => {
+// V1: member home / desktop
+// 公開層は全ルート認証必須化（require-auth-public-access-gate）。未認証では公開ホームに
+// shell が描画されないため、公開ホーム shell の baseline は会員ログイン済みで撮影する。
+test("member home desktop visual", async ({ memberPage }, testInfo) => {
   test.skip(testInfo.project.name !== "sidebar-shell-visual-desktop");
-  // anonymousPage は mockApi 非依存。public home GET を mock するため明示注入する。
-  void mockApi;
-  await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  await freezeAnimations(anonymousPage);
-  await expect(anonymousPage).toHaveScreenshot("home-1280.png", SHOT);
+  await memberPage.goto("/");
+  await waitShellReady(memberPage);
+  await freezeAnimations(memberPage);
+  await expect(memberPage).toHaveScreenshot("home-1280.png", SHOT);
 });
 
 // V2: member / desktop
@@ -35,14 +35,13 @@ test("admin desktop visual", async ({ adminPage }, testInfo) => {
   await expect(adminPage).toHaveScreenshot("admin-1280.png", SHOT);
 });
 
-// V4: viewer / tablet
-test("viewer home tablet visual", async ({ anonymousPage, mockApi }, testInfo) => {
+// V4: member home / tablet
+test("member home tablet visual", async ({ memberPage }, testInfo) => {
   test.skip(testInfo.project.name !== "sidebar-shell-visual-tablet");
-  void mockApi;
-  await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  await freezeAnimations(anonymousPage);
-  await expect(anonymousPage).toHaveScreenshot("home-768.png", SHOT);
+  await memberPage.goto("/");
+  await waitShellReady(memberPage);
+  await freezeAnimations(memberPage);
+  await expect(memberPage).toHaveScreenshot("home-768.png", SHOT);
 });
 
 // V5: admin / tablet
@@ -54,14 +53,13 @@ test("admin tablet visual", async ({ adminPage }, testInfo) => {
   await expect(adminPage).toHaveScreenshot("admin-768.png", SHOT);
 });
 
-// V6: viewer / mobile
-test("viewer home mobile visual", async ({ anonymousPage, mockApi }, testInfo) => {
+// V6: member home / mobile
+test("member home mobile visual", async ({ memberPage }, testInfo) => {
   test.skip(testInfo.project.name !== "sidebar-shell-visual-mobile");
-  void mockApi;
-  await anonymousPage.goto("/");
-  await waitShellReady(anonymousPage);
-  await freezeAnimations(anonymousPage);
-  await expect(anonymousPage).toHaveScreenshot("home-375.png", SHOT);
+  await memberPage.goto("/");
+  await waitShellReady(memberPage);
+  await freezeAnimations(memberPage);
+  await expect(memberPage).toHaveScreenshot("home-375.png", SHOT);
 });
 
 // V7: admin / mobile（drawer open）

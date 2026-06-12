@@ -21,6 +21,74 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
 | user gate | authenticated staging baseline screenshots, commit, push, PR |
 
+### require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| 目的 | `/login` を除く全公開 UI と `/public/*` API を認証必須化し、未認証ユーザーへ情報を返さない |
+| implementation targets | `apps/web/src/components/auth/LoginRequiredNotice.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/src/lib/fetch/public.ts`, `apps/web/app/sitemap.ts`, `apps/api/src/middleware/require-public-access.ts`, `apps/api/src/routes/public/index.ts`, `apps/api/src/middleware/require-admin.ts`, `apps/og/src/member-source.ts` |
+| invariant | `/login` は未認証可。`/profile` / `/admin/*` gate、D1 schema、Google Form schema、response field shape は不変。公開 API の field visibility は従来どおりだが、未認証には返さない |
+| evidence | focused web/api/og specs、web/api/og typecheck/lint、Phase 12 strict docs present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy、runtime screenshots、`INTERNAL_AUTH_SECRET` secret placement、commit、push、PR |
+
+### profile-session-transport-observability-fail-closed（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/profile-session-transport-observability-fail-closed/` |
+| 目的 | staging `/profile` の session fetch failure を transportKind/baseHost/status 付きログで診断可能にし、ENVIRONMENT 未注入時の暗黙 localhost fallback を fail-closed にする |
+| implementation targets | `apps/web/src/lib/fetch/{transport,errors,authed}.ts`, `apps/web/src/lib/{env,result}.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/auth/{gate-state,magic-link,magic-link/verify}/route.ts`, `apps/web/app/api/me/[...path]/route.ts`, `apps/web/src/lib/auth/verify-magic-link.ts`, `scripts/diagnose-profile-session.sh` |
+| tests | `apps/web/src/lib/fetch/transport.spec.ts`, `apps/web/src/lib/fetch/__tests__/transport-select.spec.ts`, `apps/web/src/lib/fetch/authed.spec.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
+| evidence | focused Vitest 5 files / 70 tests PASS、`bash -n scripts/diagnose-profile-session.sh` PASS、apps/api production source unchanged |
+| invariant | `/me` path / response shape / status taxonomy / D1 schema / Google Form schema unchanged。`server_fetch_failed` は `transportKind` / `baseHost` / `status` のみを追加し memberId / cookie / token / secret を出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md` |
+| user gate | staging deploy、wrangler tail 実機確認、真因別の本格修正、commit、push、PR |
+
+### admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-members-timestamp-jst-and-identity-label-clarity/` |
+| 目的 | `/admin/members` の最終更新列を JST 秒付き表記へ変更し、MemberDrawer の IDENTITY / DIAGNOSTICS を日本語ラベル主・英語キー併記へ変更する |
+| implementation targets | `apps/web/src/lib/format/datetime.ts`, `apps/web/src/features/admin/components/_members/memberSystemFieldGlossary.ts`, `MembersTable.tsx`, `MemberDrawer.tsx`, `MemberDiagnosticsPanel.tsx` |
+| evidence | focused Vitest 5 files / 41 tests PASS、local Playwright fixture 1 test PASS、local screenshots 3 PNG present |
+| invariant | apps/api / D1 migration / Google Form schema / endpoint surface / shared response schema 不変 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md` |
+| user gate | staging authenticated screenshot、staging deploy、commit、push、PR |
+
+### issue-222-search-query-parser-shared（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / refactoring / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-222-search-query-parser-shared/` |
+| Issue | #222 CLOSED（reopen / mutation は user-gated） |
+| 目的 | 公開メンバー検索 query 正規化規約の web/api 二重定義を `@ubm-hyogo/shared/public-search` へ SSOT 化し、drift を防ぐ |
+| implementation targets | `packages/shared/src/public-search/search-query-primitives.ts`, `packages/shared/src/public-search/index.ts`, `packages/shared/src/public-search/__tests__/search-query-primitives.spec.ts`, `packages/shared/package.json`, `apps/api/src/_shared/search-query-parser.ts`, `apps/web/src/lib/url/members-search.ts` |
+| invariant | `parsePublicMemberQuery` / `parseSearchParams` / `toApiQuery` の公開 shape と silent fallback は不変。API endpoint / D1 schema / Google Form / UI pixels 不変 |
+| evidence | shared public-search 12 PASS、apps/api 回帰 30 PASS、apps/web 回帰 11 PASS、shared/api/web typecheck PASS、root lint PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-222-search-query-parser-shared-artifact-inventory.md` |
+| user gate | commit、push、PR、deploy、Issue mutation |
+
+### vitest-2-to-3-major-upgrade（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| 成果物 | `docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade/` |
+| source PR | #1177 `chore(deps-dev): bump vitest from 2.1.9 to 3.2.6`（OPEN, base `dev`, head `dependabot/npm_and_yarn/vitest-3.2.6`） |
+| purpose | Vitest 2.x → 3.2.6 と `@vitest/coverage-v8` 3.2.6 の major upgrade を、version bump + lockfile + config/deprecation対応 + breaking-change test repair + CI shard green まで 1 cycle で実装する |
+| implementation targets | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`; `vitest.config.ts` / `vitest.d1.config.ts` / affected `*.spec.ts(x)` は RED 0・deprecation 0 のため変更不要 |
+| invariant | Product runtime / public API / D1 schema / Google Form / UI unchanged. `vitest` and `@vitest/coverage-v8` resolve to 3.2.6 together; D1 config keeps `pool: forks` and `singleFork: true` |
+| evidence | package bump + lockfile present; Phase 1-13 spec files present; Phase 11 NON_VISUAL evidence present; Phase 12 strict 7 present; PR #1177 checked with `gh pr view 1177` on 2026-06-10 JST |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, source PR mutation |
+
 ### admin-requests-queue-rename-and-publish-dependency（2026-06-09）
 
 | 項目 | 値 |

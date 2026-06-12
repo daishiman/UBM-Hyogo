@@ -12,6 +12,17 @@ import { schemas, fixtures } from "../packages/contracts/src/index.mjs";
 
 const PORT = Number(process.env.E2E_MOCK_API_PORT ?? 8787);
 const NOW = "2026-05-09T00:00:00.000Z";
+// 会員一覧「最終更新」列の JST 秒表記を検証する e2e
+// (admin-members-timestamp-jst-identity-labels.spec.ts) は mem_alpha の
+// UTC 正午 = JST「2026年5月9日 21:00:00」が一覧に一意で現れることを assert する。
+// auth.ts フィクスチャと同じく base 会員ごとに異なる日付を与え、mem_alpha の
+// 値が他会員・seed 会員(NOW=深夜0時)と重複しないようにする（重複すると
+// getByText が strict mode violation になる）。
+const MEMBER_LAST_SUBMITTED_AT = {
+  alpha: "2026-05-09T12:00:00.000Z", // → 2026年5月9日 21:00:00 (e2e の一意期待値)
+  beta: "2026-05-08T12:00:00.000Z", // → 2026年5月8日 21:00:00
+  gamma: "2026-05-07T12:00:00.000Z", // → 2026年5月7日 21:00:00
+};
 
 const primaryMember = fixtures.public.memberList.items[0];
 const publicPhotoUrl =
@@ -396,7 +407,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "public",
     isDeleted: false,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT.alpha,
   },
   {
     memberId: "mem_beta",
@@ -406,7 +417,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "hidden",
     isDeleted: false,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT.beta,
   },
   {
     memberId: "mem_gamma",
@@ -416,7 +427,7 @@ const adminMembersBase = [
     rulesConsent: "consented",
     publishState: "member_only",
     isDeleted: false,
-    lastSubmittedAt: NOW,
+    lastSubmittedAt: MEMBER_LAST_SUBMITTED_AT.gamma,
   },
 ];
 
@@ -440,6 +451,37 @@ const adminMembersResponse = (search) => {
   if (filter === "published") members = members.filter((m) => m.publishState === "public");
   return { total: members.length, page: 1, pageSize: 50, members };
 };
+
+// 会員ドロワーの「診断情報」パネル(MemberDiagnosticsPanel)は
+// GET /admin/diagnostics/member/:id を browser fetch する。route が無いと 404 で
+// パネルがエラー表示になり「診断情報」見出しが描画されない
+// (admin-members-timestamp-jst-identity-labels.spec.ts:99 が fail)。
+// auth.ts フィクスチャの diagnosticsMemberBody と同形状で 200 を返す。
+const adminMemberDiagnosis = (memberId) => ({
+  capturedAt: NOW,
+  memberId,
+  identityMatches: {
+    byEmail: true,
+    byExternalId: true,
+    matchedFormResponseId: `response-${memberId}`,
+  },
+  responseFieldCount: 29,
+  expectedFieldCount: 31,
+  missingFieldKeys: ["ubm_membership_type", "introduction"],
+  consent: {
+    publicConsent: true,
+    rulesConsent: true,
+  },
+  publishState: {
+    published: true,
+    visibleOnPublicDirectory: true,
+  },
+  hypothesisFlags: {
+    H2_identityMissing: false,
+    H3_hiddenByConsentOrPublish: false,
+    H4_missingFieldsNonEmpty: true,
+  },
+});
 
 const adminMemberDetail = (memberId) => ({
   identityMemberId: memberId,
@@ -808,6 +850,12 @@ const server = createServer(async (req, res) => {
         { memberId: detail[1], updatedAt: NOW },
         schemas.AdminMemberPatchResponseZ,
       );
+    }
+  }
+  {
+    const diagnosis = pathname.match(/^\/admin\/diagnostics\/member\/([^/]+)$/);
+    if (req.method === "GET" && diagnosis?.[1]) {
+      return writeJson(res, 200, adminMemberDiagnosis(decodeURIComponent(diagnosis[1])));
     }
   }
   if (req.method === "GET" && pathname === "/admin/tags/queue") {

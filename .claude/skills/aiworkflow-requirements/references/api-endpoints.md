@@ -24,6 +24,20 @@ Direct web mutation of `publicConsent` remains forbidden; Google Form resubmissi
 
 ---
 
+### require-auth-public-access-gate public API boundary
+
+`require-auth-public-access-gate`（2026-06-10）は `/public/*` を「会員セッション OR 内部サービス認証」必須へ変更した。対象は `GET /public/stats`、`GET /public/members`、`GET /public/members/:memberId`、`GET /public/form-preview`。
+
+| 経路 | 認証 | 備考 |
+| --- | --- | --- |
+| Browser / RSC | Auth.js session JWT（Cookie または `Authorization: Bearer`） | `apps/web/src/lib/fetch/public.ts` が RSC の session cookie を API へ転送 |
+| sitemap / OG Worker | `X-Internal-Auth: <INTERNAL_AUTH_SECRET>` | `apps/web/app/sitemap.ts` と `apps/og/src/member-source.ts` が内部認証ヘッダを付与 |
+| 外部未認証 | なし | 401 `{ error: "unauthorized" }` |
+
+公開フィールド可視性は従来どおり `publicConsent=consented` / `publishState=public` / `isDeleted=false` と visibility filter で制限するが、未認証ユーザーには UI/API とも返さない。
+
+---
+
 ## ドキュメント構成
 
 | カテゴリ               | ファイル                                     | 説明                                |
