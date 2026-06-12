@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-138: 「token 削除系」（英語表記除去・dead CSS 削除・ラベル和訳）タスクと「helper/テスト追加系」タスクの仕様書には、sync-merge 手順に「マーカー解消後の Before token grep 再走査」と「追加 helper/spec 名の重複宣言 grep」を逐語化する（L-DEVSYNC-138 の task-spec 版）
+- 2026-06-12 `feat/home-dashboard-japanese-localization` ← dev（sub-worktree wt-12, behind 5 / ahead 2, merge `d06f573fb`）。公開トップ日本語化 feature（eyebrow 5 削除 + topTags 補完 helper 追加）へ dev #1213（8 画面 SectionCard/ButtonLink 共通レイアウト化）を取込。conflict 6 のうち apps 2 を手動解消した後、**conflict として現れない汚染 2 種**を grep/typecheck 層で検出した。
+- How to apply（該当タスクの仕様書 Phase 5 / sync-merge 手順への逐語化）:
+  - **削除系タスクの sync 手順に Before token grep を必須記載**: 仕様書の Before→After 対応表（用語リネーム正本表）にある **Before token** で、マーカー解消後に当該ファイル + 変更対象コンポーネント群を `grep -n` し直す手順を書く。dev 側の構造再編（要素移動・コンポーネント化）が削除対象 token をコンフリクトブロック**外**の共通領域へ運び、マーカー解消だけでは削除意図が静かに巻き戻る（本件: dev の SectionCard 再編が `eyebrow` 行を body 先頭へ移動 → `>>>>>>> dev` 直後に残存 → grep で検出・削除）。
+  - **追加系タスクの sync 手順に重複宣言 grep を必須記載**: feature が追加した helper 関数名・spec 名を、Auto-merging されたファイルへ `grep -c 'function <名>'` し**宣言 1 回**を確認する手順を書く。同一意図の実装が dev に別 PR で landed すると textual conflict なしで同名関数が 2 回宣言され、typecheck（TS2393）まで素通りする（本件: `normalizePublicMemberList` が feature 版 + dev 版の 2 重定義 → prettier 整形適合側のみ残置）。同一意図テストの両側追加 conflict は union でなく **1 本化**（dev 側採用）を既定と書く。
+  - **共有 lock の待機手順**: 並列 worktree 運用の仕様書 sync 手順に「`.git/.branch-sync.lock`（common dir 共有）が age < 30 分で存在する場合は並列セッション進行中＝削除も中断もせず 15-30s ポーリングで解放待ち → 解放後は先行セッションの dev 同期結果を冪等スキップ判定から再開」を記載する（本件 約 20 分待機 → dev == origin/dev 済で fetch 後 feature マージへ直行）。
+- 検証: conflict 6（union 3 + keywords `--ours` + apps 2）→ resolver 1 パス + apps 手動解消 + 重複定義削除 + eyebrow 横断 grep 0 hit（5 ファイル）→ merge `d06f573fb` blob marker 0 → typecheck / lint exit 0（7 packages）→ focused vitest 6 files 42 tests pass。install は lock 非変化で省略（SP-DEVSYNC-134 の対照ケース踏襲）。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）。SP-DEVSYNC-129（同一要素直交 delta の手動 union・本件は同一意図重複着地の対）/ SP-DEVSYNC-133（sync 緑 ≠ CI 緑・本件は commit 前 grep/typecheck で検出可能な層）と対。
+
 ### SP-DEVSYNC-137: UI 刷新 task の仕様書には「branch 常駐 visual 赤の切り分け→baseline-update dispatch→bot push 後 action_required の空コミット re-trigger」を CI 緑化のワンセット手順として Phase 11 に逐語化する（L-DEVSYNC-137 の task-spec 版）
 - 2026-06-12 `docs/public-member-common-ui-card-unification-spec`（wt-17・5th pass sync 後の CI 緑化）。`playwright-visual-full` / `playwright-smoke` failure は sync 起因でなく本ブランチの意図的 8 画面 UI 刷新による baseline 陳腐化（push 前から全 run failure・失敗 spec＝刷新対象 8 画面と完全一致）。
 - How to apply（公開/会員/管理画面の見た目を変える task の Phase 11 検証手順への逐語化）:
