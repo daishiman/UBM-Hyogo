@@ -1,10 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "6f7788ea4588f426607be71d523db13769d8899c",
-  "captured_at": "2026-06-12T07:20:54Z",
+  "captured_at_commit_sha": "c3215f46bebac4dccc778c88b3824dd8d7249bfa",
+  "captured_at": "2026-06-12T14:49:21Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "27274941450",
     "27276848458",
     "27282985575",
     "27308537802",
@@ -13,7 +12,8 @@
     "27338498326",
     "27340194772",
     "27341009167",
-    "27400529754"
+    "27400529754",
+    "27422565625"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "公開・会員8画面を共通レイアウト層(PageShell/SectionCard/ButtonLink等)へ統一した本ブランチの意図的UI刷新により、公開/会員ルート(root/members/members-detail/register/privacy/terms/login/profile)のvisual-full・smoke visual baselineがstale化(playwright-visual-full/playwright-smoke両CIがブランチ全runでfail)。刷新後の表示で再生成する"
+  "last_refresh_reason": "home-dashboard-japanese-localization: 公開トップ / のeyebrow英語表記削除+Statsラベル日本語化+dev#1213 SectionCard再設計取込により root/home 全viewport baseline が陳腐化したため再生成"
 }
