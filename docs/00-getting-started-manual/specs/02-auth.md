@@ -87,6 +87,12 @@ https://www.googleapis.com/auth/drive.readonly
 
 登録・未同意・削除済みを別画面へ飛ばさず、ログイン導線の中で吸収する。
 
+## 認証境界（require-auth-public-access-gate・2026-06-10）
+
+`/login` を除く全ルート（`/`, `/members`, `/members/[id]`, `/register`, `/privacy`, `/terms`）は**認証必須**である。
+未認証ユーザーには `(public)/layout.tsx` の server 側 `getSession()` ゲートが「ログインが必要です」案内画面（`LoginRequiredNotice`）を返し、本来コンテンツと子ページの RSC データ取得を遮断する（fail-closed: `getSession()` throw 時も未認証扱い）。案内画面の「ログインする」ボタンは `/login?redirect=<元の pathname>` へ遷移する。
+公開 API `/public/*` も `requirePublicAccess` ガード（会員セッション or 内部サービス認証 `X-Internal-Auth`）で保護し、UI ゲートと併せた二層防御とする。詳細は [01-api-schema.md](./01-api-schema.md) の Public members API 節を参照。
+
 ## PublicHeader auth-view contract（2026-05-28）
 
 公開ヘッダは session 本文や PII を DOM に出さず、`AuthView` view model だけで auth CTA を出し分ける。

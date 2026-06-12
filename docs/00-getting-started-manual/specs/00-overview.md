@@ -131,8 +131,10 @@ apps/web (Cloudflare Workers via @opennextjs/cloudflare)
   -> メンバー詳細
 ```
 
-公開一覧・詳細は未ログインでも見られる。
-ただし表示対象は `publicConsent=consented` かつ `publishState=public` かつ `isDeleted=false` に限定する。
+公開一覧・詳細の閲覧には**ログインが必須**である（require-auth-public-access-gate）。
+`/login` を除く全ルート（`/`, `/members`, `/members/[id]`, `/register`, `/privacy`, `/terms`）は未認証時に「ログインが必要です」案内画面を表示し、本来コンテンツは描画しない。
+表示対象データは認証後も `publicConsent=consented` かつ `publishState=public` かつ `isDeleted=false` に限定する（可視性ルールは従来どおり）。
+公開 API（`/public/*`）も会員セッション または 内部サービス認証（`X-Internal-Auth`）が無ければ 401 を返す（UI ゲートと API ゲートの二層防御・fail-closed）。
 
 ### 2. 新規登録
 
@@ -175,9 +177,11 @@ apps/web (Cloudflare Workers via @opennextjs/cloudflare)
 
 ## 公開・会員・管理の境界
 
+> **認証境界（require-auth-public-access-gate 以降）**: 下表の「公開」列は**認証済みの一般会員**を指す。未認証ユーザーは `/login` 以外のいかなる画面・公開 API にもアクセスできず、UI では案内画面、API では 401 となる。
+
 | 観点 | 公開 | 会員 | 管理 |
 |------|------|------|------|
-| 画面閲覧 | 公開ページのみ | 公開 + 自分の会員画面 | 全画面 |
+| 画面閲覧 | 公開ページのみ（要ログイン） | 公開 + 自分の会員画面 | 全画面 |
 | フィールド visibility | `public` | `public` + `member` | `public` + `member` + `admin` |
 | 回答更新 | Google Form 経由のみ | Google Form 経由のみ | Google Form schema 外データ + 管理者確定プロフィール編集 |
 | 管理可能なデータ | なし | なし | 公開状態、削除、開催日、参加履歴、タグ、schema mapping、profile field override |
