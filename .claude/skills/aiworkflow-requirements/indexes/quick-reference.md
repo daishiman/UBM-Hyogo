@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, deploy, commit, push, PR |
 
+## require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| purpose | `/login` 以外の公開 UI と `/public/*` API を認証必須化し、未認証 UI は `LoginRequiredNotice`、API は 401 にする |
+| implementation | `LoginRequiredNotice.tsx`, `(public)/layout.tsx`, `fetch/public.ts`, `sitemap.ts`, `require-public-access.ts`, `public/index.ts`, `member-source.ts`, `require-admin.ts` helper |
+| evidence | focused web/api/og specs, web/api/og typecheck/lint recorded in workflow Phase 11; runtime screenshots user-gated |
+| invariant | `/login` は未認証可、`/profile` / `/admin/*` gate 不変、D1 / Google Form / response fields 不変 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy, runtime screenshots, `INTERNAL_AUTH_SECRET` secret placement, commit, push, PR |
+
 ## admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
 
 | 項目 | 値 |

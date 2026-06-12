@@ -46,6 +46,7 @@ printf 'profile_session.curl_exit=%s\n' "${curl_exit}"
 if [[ -x scripts/cf.sh ]]; then
   printf 'profile_session.cf_wrapper=present\n'
   printf 'profile_session.cf_env=%s\n' "${CF_ENV}"
+  printf 'profile_session.tail_hint=%s\n' "bash scripts/cf.sh tail web ${CF_ENV} | rg 'server_fetch_failed|transportKind|baseHost'"
 else
   printf 'profile_session.cf_wrapper=missing\n'
 fi

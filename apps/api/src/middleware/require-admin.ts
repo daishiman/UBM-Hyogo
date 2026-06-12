@@ -85,6 +85,13 @@ export const extractJwt = (request: Request | { header: (k: string) => string | 
   return null;
 };
 
+export const authSessionUserFromClaims = (claims: SessionJwtClaims): AuthSessionUser => ({
+  memberId: claims.memberId as MemberId,
+  email: claims.email,
+  isAdmin: claims.isAdmin,
+  ...(claims.name !== undefined ? { name: claims.name } : {}),
+});
+
 export const requireAuth: MiddlewareHandler<{
   Bindings: RequireAuthEnv;
   Variables: RequireAuthVariables;
@@ -101,13 +108,7 @@ export const requireAuth: MiddlewareHandler<{
   if (!claims) {
     return c.json({ error: "unauthorized" }, 401);
   }
-  const sessionUser: AuthSessionUser = {
-    memberId: claims.memberId as MemberId,
-    email: claims.email,
-    isAdmin: claims.isAdmin,
-    ...(claims.name !== undefined ? { name: claims.name } : {}),
-  };
-  c.set("authUser", sessionUser);
+  c.set("authUser", authSessionUserFromClaims(claims));
   c.set("authClaims", claims);
   await next();
   return;
@@ -135,13 +136,7 @@ export const requireAdmin: MiddlewareHandler<{
     // 不変条件 #11: admin 機能の存在を 403 として明示
     return c.json({ error: "forbidden" }, 403);
   }
-  const sessionUser: AuthSessionUser = {
-    memberId: claims.memberId as MemberId,
-    email: claims.email,
-    isAdmin: claims.isAdmin,
-    ...(claims.name !== undefined ? { name: claims.name } : {}),
-  };
-  c.set("authUser", sessionUser);
+  c.set("authUser", authSessionUserFromClaims(claims));
   c.set("authClaims", claims);
   await next();
   return;
