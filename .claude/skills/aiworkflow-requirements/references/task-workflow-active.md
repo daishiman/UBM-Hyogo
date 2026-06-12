@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
 | user gate | staging visual baseline, commit, push, PR |
 
+### require-auth-public-access-gate（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime_screenshot_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/require-auth-public-access-gate/` |
+| 目的 | `/login` を除く全公開 UI と `/public/*` API を認証必須化し、未認証ユーザーへ情報を返さない |
+| implementation targets | `apps/web/src/components/auth/LoginRequiredNotice.tsx`, `apps/web/app/(public)/layout.tsx`, `apps/web/src/lib/fetch/public.ts`, `apps/web/app/sitemap.ts`, `apps/api/src/middleware/require-public-access.ts`, `apps/api/src/routes/public/index.ts`, `apps/api/src/middleware/require-admin.ts`, `apps/og/src/member-source.ts` |
+| invariant | `/login` は未認証可。`/profile` / `/admin/*` gate、D1 schema、Google Form schema、response field shape は不変。公開 API の field visibility は従来どおりだが、未認証には返さない |
+| evidence | focused web/api/og specs、web/api/og typecheck/lint、Phase 12 strict docs present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-require-auth-public-access-gate-artifact-inventory.md` |
+| user gate | staging deploy、runtime screenshots、`INTERNAL_AUTH_SECRET` secret placement、commit、push、PR |
+
 ### profile-session-transport-observability-fail-closed（2026-06-11）
 
 | 項目 | 値 |

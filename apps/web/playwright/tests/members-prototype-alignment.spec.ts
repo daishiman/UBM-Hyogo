@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { expect, test } from "../fixtures/auth";
+import { expect, memberLogin, test } from "../fixtures/auth";
 
 const workflowRoot = join(
   process.cwd(),
@@ -18,6 +18,10 @@ const screenshotPath = (name: string) => {
 test.describe("members prototype alignment", () => {
   test.setTimeout(120_000);
 
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context());
+  });
+
   test("captures required Phase 11 screenshots and verifies public selectors", async ({
     mockApi,
     page,
@@ -25,11 +29,12 @@ test.describe("members prototype alignment", () => {
     void mockApi;
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/members", { waitUntil: "domcontentloaded" });
-    // task-c: 旧 PublicHeader topbar は SidebarShell へ統合。viewer は sidebar の user-menu から /login へ到達。
+    // task-c: 旧 PublicHeader topbar は SidebarShell へ統合。公開層は全ルート認証必須化されたため
+    // /members は会員のみ閲覧可。会員は sidebar の user-menu からプロフィール/ログアウトへ到達する。
     const userMenu = page.locator('[data-shell="sidebar"] [data-shell-block="user-menu"]');
     await expect(userMenu).toBeVisible();
     await userMenu.locator("summary").click();
-    await expect(userMenu.locator('[data-action="login"]')).toBeVisible();
+    await expect(userMenu.getByText("ログアウト")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1, name: "メンバー一覧" })).toBeVisible();
     await expect(page.getByRole("radiogroup", { name: "表示密度" })).toBeVisible();
     await expect(page.getByRole("search", { name: "メンバー絞り込み" })).toBeVisible();
@@ -77,12 +82,13 @@ test.describe("members prototype alignment", () => {
     });
 
     await page.goto("/members", { waitUntil: "domcontentloaded" });
-    // task-c: login は sidebar user-menu popover 内。開いてから focus 可能。
+    // task-c: 会員の user-menu は popover。summary を focus 可能であることを検証する
+    //（認証必須化により /members は会員のみ閲覧可で guest 用 login action は存在しない）。
     const sidebarMenu = page.locator('[data-shell="sidebar"] [data-shell-block="user-menu"]');
-    await sidebarMenu.locator("summary").click();
-    const login = sidebarMenu.locator('[data-action="login"]');
-    await login.focus();
-    await expect(login).toBeFocused();
+    const summary = sidebarMenu.locator("summary");
+    await summary.click();
+    await summary.focus();
+    await expect(summary).toBeFocused();
     await page.screenshot({
       path: screenshotPath("EV-6-header-focus.png"),
       fullPage: true,

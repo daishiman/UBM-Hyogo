@@ -23,8 +23,11 @@ const buildEnv = (overrides: Record<string, unknown> = {}) => ({
   GOOGLE_FORM_ID: "form-test",
   FORM_ID: "form-test",
   GOOGLE_FORM_RESPONDER_URL: "https://example.test/respond",
+  INTERNAL_AUTH_SECRET: "internal-secret",
   ...overrides,
 });
+
+const publicHeaders = { headers: { "X-Internal-Auth": "internal-secret" } };
 
 describe("createPublicRouter", () => {
   it("GET /form-preview は 200 と Cache-Control: public, max-age=60 を返す", async () => {
@@ -37,7 +40,7 @@ describe("createPublicRouter", () => {
         schemaFields: [buildSchemaQuestionRow()],
       }),
     });
-    const res = await app.request("/public/form-preview", {}, env);
+    const res = await app.request("/public/form-preview", publicHeaders, env);
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toBe("public, max-age=60");
   });
@@ -57,7 +60,7 @@ describe("createPublicRouter", () => {
         },
       }),
     });
-    const res = await app.request("/public/stats", {}, env);
+    const res = await app.request("/public/stats", publicHeaders, env);
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toBe("public, max-age=60");
   });
@@ -77,7 +80,7 @@ describe("createPublicRouter", () => {
         },
       }),
     });
-    const res = await app.request("/public/members?page=1&limit=24", {}, env);
+    const res = await app.request("/public/members?page=1&limit=24", publicHeaders, env);
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toBe("no-store");
   });
@@ -99,7 +102,7 @@ describe("createPublicRouter", () => {
     });
     const res = await app.request(
       "/public/members?q=%20hello%20%20world%20&zone=1_to_10&status=member&tag=ai&tag=dx&sort=name&density=dense&page=2&limit=500",
-      {},
+      publicHeaders,
       env,
     );
 
@@ -140,7 +143,7 @@ describe("createPublicRouter", () => {
         ],
       }),
     });
-    const res = await app.request("/public/members", {}, env);
+    const res = await app.request("/public/members", publicHeaders, env);
     expect(res.status).toBe(200);
     const body = (await res.json()) as { topTags: Array<{ code: string; count: number }> };
     expect(body.topTags).toEqual([
@@ -179,7 +182,7 @@ describe("createPublicRouter", () => {
       MEMBER_PHOTOS: {} as R2Bucket,
       ENVIRONMENT: "staging",
     });
-    const res = await app.request("/public/members", {}, env);
+    const res = await app.request("/public/members", publicHeaders, env);
     expect(res.status).toBe(200);
     const body = (await res.json()) as {
       items: Array<{ memberId: string; photoUrl?: string }>;
@@ -247,7 +250,7 @@ describe("createPublicRouter", () => {
         },
       }),
     });
-    const res = await app.request("/public/members?expand=tags", {}, env);
+    const res = await app.request("/public/members?expand=tags", publicHeaders, env);
     expect(res.status).toBe(200);
     const body = (await res.json()) as {
       items: Array<{ memberId: string; tags?: Array<{ code: string }> }>;
@@ -274,7 +277,7 @@ describe("createPublicRouter", () => {
         tagsByMemberId: { "m-1": [] },
       }),
     });
-    const res = await app.request("/public/members?expand=tags&q=test", {}, env);
+    const res = await app.request("/public/members?expand=tags&q=test", publicHeaders, env);
     expect(res.status).toBe(200);
     const body = (await res.json()) as { appliedQuery: Record<string, unknown> };
     expect(Object.keys(body.appliedQuery).sort()).toEqual(
@@ -313,7 +316,7 @@ describe("createPublicRouter", () => {
         },
       }),
     });
-    const res = await app.request("/public/members", {}, env);
+    const res = await app.request("/public/members", publicHeaders, env);
     expect(res.status).toBe(200);
     const body = (await res.json()) as { items: Array<Record<string, unknown>> };
     expect(body.items[0]).not.toHaveProperty("tags");
@@ -351,7 +354,7 @@ describe("createPublicRouter", () => {
     });
     const res = await app.request(
       "/public/members?expand=tags,unknown&expand=tags",
-      {},
+      publicHeaders,
       env,
     );
     expect(res.status).toBe(200);
@@ -372,7 +375,7 @@ describe("createPublicRouter", () => {
         memberStatusById: {},
       }),
     });
-    const res = await app.request("/public/members/m-missing", {}, env);
+    const res = await app.request("/public/members/m-missing", publicHeaders, env);
     expect(res.status).toBe(404);
   });
 
@@ -400,7 +403,7 @@ describe("createPublicRouter", () => {
         },
       }),
     });
-    const res = await app.request("/public/members/m-1", {}, env);
+    const res = await app.request("/public/members/m-1", publicHeaders, env);
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toBe("no-store");
     await expect(res.json()).resolves.toMatchObject({
@@ -439,7 +442,7 @@ describe("createPublicRouter", () => {
       MEMBER_PHOTOS: {} as R2Bucket,
       ENVIRONMENT: "staging",
     });
-    const res = await app.request("/public/members/m-1", {}, env);
+    const res = await app.request("/public/members/m-1", publicHeaders, env);
     expect(res.status).toBe(200);
     const body = (await res.json()) as { photoUrl?: string };
     expect(body.photoUrl).toContain(
@@ -476,7 +479,7 @@ describe("createPublicRouter", () => {
       MEMBER_PHOTOS: {} as R2Bucket,
       ENVIRONMENT: "staging",
     });
-    const res = await app.request("/public/members/m-2", {}, env);
+    const res = await app.request("/public/members/m-2", publicHeaders, env);
     expect(res.status).toBe(404);
   });
 
@@ -489,7 +492,7 @@ describe("createPublicRouter", () => {
     const env = buildEnv({
       DB: createPublicD1Mock({ latestVersion: null }),
     });
-    const res = await app.request("/public/form-preview", {}, env);
+    const res = await app.request("/public/form-preview", publicHeaders, env);
     expect(res.status).toBe(503);
     // 成功時 Cache-Control が誤って付与されていないこと（503 は no-store/未設定どちらでも可）
     expect(res.headers.get("cache-control")).not.toBe("public, max-age=60");
