@@ -20,7 +20,7 @@ export interface ListPublicMembersInput {
   readonly zone: string;
   readonly status: string;
   readonly tagCodes: readonly string[];
-  readonly sort: "recent" | "name";
+  readonly sort: "recent" | "oldest" | "name" | "name_desc";
   readonly page: number;
   readonly limit: number;
 }
@@ -100,10 +100,22 @@ export async function listPublicMembers(
 ): Promise<PublicMemberRow[]> {
   const { fromWhere, binds } = buildBaseFromWhere(input);
   const fullNameExpr = `COALESCE(json_extract(r.answers_json, '$.${STABLE_KEY.fullName}'), '')`;
-  const orderBy =
-    input.sort === "name"
-      ? `ORDER BY ${fullNameExpr} ASC, mi.member_id ASC`
-      : `ORDER BY mi.last_submitted_at DESC, ${fullNameExpr} ASC, mi.member_id ASC`;
+  let orderBy: string;
+  switch (input.sort) {
+    case "name":
+      orderBy = `ORDER BY ${fullNameExpr} ASC, mi.member_id ASC`;
+      break;
+    case "name_desc":
+      orderBy = `ORDER BY ${fullNameExpr} DESC, mi.member_id ASC`;
+      break;
+    case "oldest":
+      orderBy = `ORDER BY mi.last_submitted_at ASC, ${fullNameExpr} ASC, mi.member_id ASC`;
+      break;
+    case "recent":
+    default:
+      orderBy = `ORDER BY mi.last_submitted_at DESC, ${fullNameExpr} ASC, mi.member_id ASC`;
+      break;
+  }
   const offset = Math.max(0, (input.page - 1) * input.limit);
   // 真因B 根治: GROUP BY + 非集約カラム同梱は SQLite 上で非決定的選択になりうるため
   // SELECT DISTINCT で重複排除のみ行い、countPublicMembers の COUNT(DISTINCT mi.member_id)

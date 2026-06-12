@@ -4300,6 +4300,12 @@ node scripts/list-specs.js --topics
 | State | L25 |
 | Boundary | L31 |
 
+### references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L13 |
+
 ### references/workflow-mypage-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -9329,6 +9335,7 @@ node scripts/list-specs.js --topics
 | issue-1068-admin-tag-inline-create-ui | L4886 |
 | issue-1111-proxy-transport-util-unify | L4904 |
 | issue-1145-public-api-base-url-env-unification（2026-06-08） | L4922 |
+| members-search-clear-and-sort-ux（2026-06-11） | L4935 |
 
 ### references/task-workflow-backlog-part2.md
 

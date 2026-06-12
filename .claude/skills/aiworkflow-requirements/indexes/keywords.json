@@ -5491,6 +5491,7 @@
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md",
       "workflow-profile-server-components-render-error-artifact-inventory.md",
@@ -6438,6 +6439,7 @@
       "workflow-members-list-prototype-alignment-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-profile-loading-skeleton-oklch-artifact-inventory.md",
       "workflow-profile-session-staging-transport-recovery-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
@@ -14765,6 +14767,7 @@
       "workflow-members-list-ux-clarity-artifact-inventory.md",
       "workflow-members-not-displaying-form-sync-investigation-artifact-inventory.md",
       "workflow-members-page-prototype-alignment-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-runtime-smoke-admin-members-500-recovery-001-artifact-inventory.md"
@@ -17037,6 +17040,7 @@
       "workflow-login-ui-balance-and-runtime-fix-artifact-inventory.md",
       "workflow-member-data-source-precedence-and-profile-session-fix-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
       "workflow-staging-api-url-and-session-recovery-artifact-inventory.md",
@@ -17607,6 +17611,7 @@
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
       "workflow-sidebar-visibility-conditional-and-ux-artifact-inventory.md",
@@ -19716,6 +19721,7 @@
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
@@ -23870,8 +23876,10 @@
     ],
     "search": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "task-workflow-active.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-japanese-ime-input-composition-search-fix-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
     "検索・置換機能": [
@@ -26439,6 +26447,14 @@
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-public-member-common-ui-card-unification-artifact-inventory.md"
     ],
+    "clear": [
+      "task-workflow-active.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md"
+    ],
+    "sort": [
+      "task-workflow-active.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md"
+    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -27920,6 +27936,7 @@
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
       "workflow-member-header-admin-link-artifact-inventory.md",
       "workflow-member-publish-recovery-form-ops-and-admin-link-artifact-inventory.md",
+      "workflow-members-search-clear-and-sort-ux-artifact-inventory.md",
       "workflow-mypage-prototype-alignment-artifact-inventory.md",
       "workflow-parallel-04-shared-page-chrome-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
