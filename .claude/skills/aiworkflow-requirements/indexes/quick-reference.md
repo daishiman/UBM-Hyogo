@@ -5881,3 +5881,11 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Topic | References | Notes |
 | --- | --- | --- |
 | issue-1068-admin-tag-inline-create-ui（implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION） | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/index.md`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 admin member drawer tag inline-create UI implemented locally. Uses existing `POST /admin/tags` and member tag assignment endpoints; `apps/api` unchanged. task-A web client helper, task-B component/wiring, and task-C env-gated visual spec are complete. Staging screenshots, commit, push, PR, and Issue mutation are user-gated. |
+
+## 2026-06-11 admin-requests approval diff
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` | `/admin/requests` 承認時の公開状態 / 退会状態 before-after diff 表示 workflow | Issue #1188、admin requests approval UI、`publishState` / `desiredState` 表示差分を確認する時 |
+| `apps/web/src/components/admin/RequestQueueDetail.tsx` | `formatPublishStateLabel` / `buildPublishStateDiff` と詳細パネル diff 行の実装 | before/after label、fail-soft、`delete_request` 意味軸分離を確認する時 |
+| `apps/web/src/components/admin/RequestQueuePanel.tsx` / `RequestConfirmDialog.tsx` | 承認確認ダイアログの具体遷移文言と destructive alert 分離 | approval dialog 文言を確認する時 |

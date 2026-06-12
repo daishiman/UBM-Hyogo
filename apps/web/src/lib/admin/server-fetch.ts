@@ -122,26 +122,60 @@ export interface AdminFetchOptions {
   readonly body?: unknown;
 }
 
-const adminRequestsFixture = () => ({
-  ok: true,
-  items: ["alpha", "beta", "gamma"].map((suffix, index) => ({
-    noteId: `req_${String(index + 1).padStart(3, "0")}`,
-    memberId: `mem_${suffix}`,
-    noteType: "visibility_request",
-    requestStatus: "pending",
-    requestedAt: "2026-05-01T00:00:00.000Z",
-    requestedReason: null,
-    requestedPayload: { desiredState: "public" },
-    memberSummary: {
+const adminRequestsFixture = (path: string) => {
+  const url = new URL(path, "http://localhost");
+  const type = url.searchParams.get("type") === "delete_request" ? "delete_request" : "visibility_request";
+
+  if (type === "delete_request") {
+    return {
+      ok: true,
+      items: ["alpha", "beta", "gamma"].map((suffix, index) => ({
+        noteId: `req_${String(index + 1).padStart(3, "0")}`,
+        memberId: `mem_${suffix}`,
+        noteType: "delete_request",
+        requestStatus: "pending",
+        requestedAt: "2026-05-01T00:00:00.000Z",
+        requestedReason: null,
+        requestedPayload: {},
+        memberSummary: {
+          memberId: `mem_${suffix}`,
+          publicHandle: suffix,
+          publishState: "public",
+          isDeleted: false,
+        },
+      })),
+      nextCursor: null,
+      appliedFilters: { status: "pending", type },
+    };
+  }
+
+  const visibilityRows = [
+    { suffix: "alpha", publishState: "public", desiredState: "hidden" },
+    { suffix: "beta", publishState: "hidden", desiredState: "public" },
+    { suffix: "gamma", publishState: "member_only", desiredState: "hidden" },
+  ] as const;
+
+  return {
+    ok: true,
+    items: visibilityRows.map(({ suffix, publishState, desiredState }, index) => ({
+      noteId: `req_${String(index + 1).padStart(3, "0")}`,
       memberId: `mem_${suffix}`,
-      publicHandle: suffix,
-      publishState: "private",
-      isDeleted: false,
-    },
-  })),
-  nextCursor: null,
-  appliedFilters: { status: "pending", type: "visibility_request" },
-});
+      noteType: "visibility_request",
+      requestStatus: "pending",
+      requestedAt: "2026-05-01T00:00:00.000Z",
+      requestedReason: null,
+      requestedPayload: { desiredState },
+      memberSummary: {
+        memberId: `mem_${suffix}`,
+        publicHandle: suffix,
+        publishState,
+        isDeleted: false,
+      },
+    })),
+    nextCursor: null,
+    appliedFilters: { status: "pending", type },
+  };
+};
 
 // 2b-admin-identity-conflicts-spec: Playwright E2E 用の inline fixture。
 // browser `page.route()` で server-side fetch を捕捉できないため、
@@ -479,7 +513,7 @@ export async function fetchAdmin<T>(
     opts.method === undefined &&
     path.startsWith("/admin/requests")
   ) {
-    return adminRequestsFixture() as T;
+    return adminRequestsFixture(path) as T;
   }
 
   if (

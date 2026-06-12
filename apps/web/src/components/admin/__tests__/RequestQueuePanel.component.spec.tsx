@@ -75,6 +75,8 @@ describe("RequestQueuePanel", () => {
     fireEvent.click(screen.getByText("承認する"));
     expect(screen.getByRole("dialog")).toBeDefined();
     expect(screen.getByText("申請を承認します")).toBeDefined();
+    expect(screen.getByText("公開状態を 公開 → 非公開 に変更します。会員へ即時反映されます。")).toBeDefined();
+    expect(screen.queryByRole("alert")).toBeNull();
   });
 
   it("TC-23: delete_request 承認で破壊的操作の警告が出る", () => {
@@ -90,6 +92,7 @@ describe("RequestQueuePanel", () => {
       ],
     };
     render(<RequestQueuePanel initial={view} type="delete_request" />);
+    expect(screen.getByText("レコード状態の変更")).toBeDefined();
     fireEvent.click(screen.getByText("承認する"));
     expect(screen.getByRole("alert").textContent).toContain("論理削除");
   });
