@@ -3863,6 +3863,7 @@
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
@@ -5412,6 +5413,7 @@
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-ui-task-d-attendance-primitive-conformance-artifact-inventory.md",
@@ -6390,6 +6392,7 @@
       "workflow-admin-requests-queue-rename-and-publish-dependency-artifact-inventory.md",
       "workflow-admin-schema-terminology-clarity-artifact-inventory.md",
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
@@ -6683,6 +6686,7 @@
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-issue-1039-admin-audit-identity-action-presets-artifact-inventory.md",
       "workflow-issue-1094-identity-conflicts-optimistic-aria-live-announcement-artifact-inventory.md",
       "workflow-issue-1101-attendance-analytics-calc-correction-artifact-inventory.md",
@@ -7703,6 +7707,7 @@
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
@@ -11861,6 +11866,7 @@
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
@@ -12116,6 +12122,7 @@
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
       "workflow-admin-sidebar-public-return-link-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-task-c-pageheader-token-conformance-artifact-inventory.md",
       "workflow-admin-visual-baseline-admin-routes-task-e-artifact-inventory.md",
@@ -12411,6 +12418,7 @@
       "lessons-learned-issue-1081-bulk-tag-real-d1-runtime-smoke-2026-06.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "spec-splitting-guidelines.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
       "workflow-issue-1069-tag-code-rename-artifact-inventory.md",
       "workflow-issue-1077-bulk-tag-authenticated-staging-visual-artifact-inventory.md",
@@ -13493,6 +13501,7 @@
       "task-workflow-active.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-issue-1035-tag-master-write-endpoints-artifact-inventory.md",
       "workflow-issue-1036-bulk-member-tag-assign-artifact-inventory.md",
@@ -14548,6 +14557,7 @@
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
@@ -15917,6 +15927,7 @@
     ],
     "management": [
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md"
     ],
     "promote": [
@@ -17040,6 +17051,7 @@
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-page-prototype-alignment-and-diff-fetch-fix-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
@@ -17924,6 +17936,7 @@
       "workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md",
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
       "workflow-admin-ui-prototype-alignment-followup-002-section-error-retry-artifact-inventory.md",
@@ -26402,6 +26415,7 @@
       "workflow-admin-members-timestamp-jst-and-identity-label-clarity-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
       "workflow-admin-schema-terminology-clarity-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md"
     ],
     "toggle": [
@@ -28083,6 +28097,7 @@
       "workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md",
       "workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md",
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-apps-web-security-headers-hardening-artifact-inventory.md",
       "workflow-awshh-followup-003-csp-reporting-endpoints-artifact-inventory.md",
       "workflow-cf-token-env-contract-and-rotation-retirement-artifact-inventory.md",
@@ -28388,6 +28403,7 @@
       "workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-admin-schema-terminology-clarity-artifact-inventory.md",
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md",
       "workflow-fix-verify-design-tokens-og-route-exclude-artifact-inventory.md",
       "workflow-home-page-prototype-alignment-artifact-inventory.md",
       "workflow-issue-1016-sidebar-mobile-drawer-responsive-artifact-inventory.md",
@@ -28645,6 +28661,9 @@
     ],
     "definition": [
       "workflow-admin-tag-definition-unify-create-and-catalog-fix-artifact-inventory.md"
+    ],
+    "autogen": [
+      "workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md"
     ],
     "targets": [
       "workflow-admin-ui-prototype-alignment-followup-001-members-fetch-and-visual-artifact-inventory.md",
