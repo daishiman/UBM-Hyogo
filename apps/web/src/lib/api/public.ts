@@ -38,6 +38,13 @@ function withRevalidate(
   return { revalidate: options?.revalidate ?? fallback };
 }
 
+function normalizePublicMemberList(raw: unknown): unknown {
+  if (raw && typeof raw === "object" && !Array.isArray(raw) && !("topTags" in raw)) {
+    return { ...raw, topTags: [] };
+  }
+  return raw;
+}
+
 export async function getStats(
   options?: PublicApiOptions,
 ): Promise<PublicStatsView> {
@@ -58,7 +65,7 @@ export async function listMembers(
     path,
     withRevalidate(options, MEMBERS_REVALIDATE),
   );
-  return PublicMemberListViewZ.parse(raw);
+  return PublicMemberListViewZ.parse(normalizePublicMemberList(raw));
 }
 
 export async function listMembersRaw(
@@ -70,7 +77,7 @@ export async function listMembersRaw(
     path,
     withRevalidate(options, MEMBERS_REVALIDATE),
   );
-  return PublicMemberListViewZ.parse(raw);
+  return PublicMemberListViewZ.parse(normalizePublicMemberList(raw));
 }
 
 export async function getMemberProfile(

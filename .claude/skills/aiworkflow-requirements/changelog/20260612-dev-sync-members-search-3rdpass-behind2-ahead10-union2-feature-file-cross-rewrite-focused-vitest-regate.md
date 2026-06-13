@@ -1,0 +1,10 @@
+# dev sync 3rd-pass: 2 コミット取込（behind 2 / ahead 10・#1213 共通レイアウト層 833 files + #1233 docs 692 件削除）が feature 主編集ファイル自体を auto-merge 書換 → focused Vitest 再実行で意味的互換を機械検証（2026-06-12 feat/members-search-clear-and-sort-ux）
+
+- 日時: 2026-06-12（`feat/members-search-clear-and-sort-ux` への dev 取込 3rd-pass・sub-worktree wt-8）
+- ブランチ: `feat/members-search-clear-and-sort-ux` ← `dev`（**2 behind / 10 ahead**・ローカル dev = origin/dev `82971d195` 0/0 一致済み・独自 0・L-DEVSYNC-136-D の第 1 判定で `git merge dev` 一発・メインWT 非接触）。
+- 取込: `5b0f4360a`（#1233 completed-workflows 692 件削除 + 両 skill lessons へ L/SP-DEVSYNC-137 追記 + baseline-meta 更新）/ `82971d195`（#1213 公開・会員 8 画面を共通レイアウト層 PageShell/SectionCard/ButtonLink へ統一・計 833 files）。
+- 事象: CONFLICT **2 file** = `indexes/quick-reference.md` + `indexes/topic-map.md`（union・keywords.json/SKILL-changelog/lessons/task-workflow-active は union attribute と行域分離で Auto-merge）→ `pnpm sync:resolve` 1 パス収束 → marker 0 → add -A → commit → blob 検証 0 の原子連結 = merge `feb39dca1`。
+- **🔴新規データ点（L-DEVSYNC-138: feature 主編集ファイルとの交差書換は focused Vitest 再実行で受ける）**: #1213 が本 feature の主編集ファイル `apps/web/app/(public)/members/page.tsx` と `apps/web/src/styles/globals.css` 自体を共通レイアウト層へ改変したが行域 disjoint で auto-merge（conflict 0）。textual auto-merge は意味的互換を保証しないため、`pnpm vitest run members-search Search`（リポジトリルートから・4 files / 41 tests PASS）で Search clear・IME・sort 挙動が PageShell 化後も保持されることを機械検証した。サブディレクトリ（apps/web）からの vitest 起動は include glob（`apps/**/...`）不一致で "No test files found" になる点も確認（L-DEVSYNC-138-C）。
+- データ点: #1233 の 692 件大量削除取込も skill 層は union + sync:resolve + rebuild 冪等で自動収束（L-DEVSYNC-138-B）。lessons 番号は取込側が 137 を先取りしたため本記録は 138 を採番（同日並行 wave での番号衝突回避は「マージ後に最新番号を grep してから採番」）。
+- 検証順: fetch → dev=origin/dev 0/0 → `git merge dev --no-edit` CONFLICT 2 → `pnpm sync:resolve` exit 0 → 原子的 1-Bash（marker 0 / add -A / commit / blob 0）= `feb39dca1` → デルタ 833 files・lock 0 変更（install スキップ）・gate 入力 touch 0 → typecheck exit 0 / lint exit 0 / `verify:tokens` 91 in sync / **focused Vitest 4 files / 41 tests PASS** → rebuild 冪等 porcelain 0。
+- 反映先: 本 changelog + 両 SKILL-changelog.md 1 行 + L-DEVSYNC-138（aiworkflow lessons 正本）+ SP-DEVSYNC-138（task-spec lessons mirror）。

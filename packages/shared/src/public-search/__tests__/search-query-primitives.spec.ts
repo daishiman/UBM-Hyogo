@@ -80,7 +80,12 @@ describe("public member search query primitives", () => {
       "non_member",
       "academy",
     ]);
-    expect(PUBLIC_MEMBER_SORT_VALUES).toEqual(["recent", "name"]);
+    expect(PUBLIC_MEMBER_SORT_VALUES).toEqual([
+      "recent",
+      "oldest",
+      "name",
+      "name_desc",
+    ]);
     expect(PUBLIC_MEMBER_DENSITY_VALUES).toEqual(["comfy", "dense", "list"]);
   });
 });

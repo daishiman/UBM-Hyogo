@@ -21,6 +21,58 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
 | user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
 
+### admin-schema-terminology-clarity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-terminology-clarity/` |
+| 目的 | `/admin/schema` と波及先の「スキーマ」「stableKey」「resolve」「revision」「CURRENT REVISION」「Bulk Resolve」等を非エンジニア管理者向けの平易な日本語へ統一し、生 revisionId を隠す |
+| implementation targets | `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `SchemaDiffBulkRollbackModal.tsx`, `SchemaDiffHistoryPanel.tsx`, `SchemaPurposeExplainer.tsx`, `SchemaHistoryPurposeExplainer.tsx`, `SchemaReviewGuide.tsx`, `apps/web/src/components/shell/shell-config.ts`, dashboard KPI/alert components, `apps/web/src/lib/format/datetime.ts` |
+| evidence | focused Vitest 10 files / 84 tests PASS、web typecheck PASS、lint PASS、verify:tokens PASS、apps/api diff empty、old technical-label grep PASS |
+| invariant | `apps/api` / D1 / Google Form / endpoint surface unchanged。URL / testid / internal API field names unchanged。glossary cards only may keep technical names |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 4, commit, push, PR |
+
+### profile-session-staging-transport-recovery（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/` |
+| 目的 | staging `/profile` の `MEMBER_SESSION_FAILED` transport failure を、env field-tolerant 化と transport fallback chain で local 復旧実装する |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/fetch/transport.ts`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/me/[...path]/route.ts`, `scripts/diagnose-profile-session.sh` |
+| evidence | focused Vitest 5 files / 72 tests PASS、`bash -n scripts/diagnose-profile-session.sh` PASS、unreachable-host diagnose dry run PASS、artifacts parity `cmp -s ...` exit 0 |
+| invariant | `/me` path/shape/status、apps/api、D1 schema、Google Form、`/profile` UI 文言は不変。fallback は transport throw かつ GET/HEAD のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-staging-transport-recovery-artifact-inventory.md` |
+| user gate | staging deploy、authenticated recovery screenshot、S1-S4 final sub-cause confirmation、commit、push、PR |
+
+### public-member-common-ui-card-unification（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` |
+| 成果物 | `docs/30-workflows/completed-tasks/public-member-common-ui-card-unification/` |
+| 目的 | 公開層・会員層・login の8画面を共通レイアウトプリミティブ層へ統一し、カード・背景・ボタン・本文タイポを単一の改善起点へ集約する |
+| implementation plan | Lane A（PageShell/PageHeader/SectionCard/ContentCard/Prose/ButtonLink + layout CSS）を先行し、Lane B（公開6画面）と Lane C（profile/login）を Lane A 後に並列適用する |
+| strict evidence | Phase 12 strict 7 present under `outputs/phase-12/`; local apps/web implementation is present, visual screenshot PASS is still pending |
+| invariant | apps/api / D1 schema / Google Form / public API response surface unchanged |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-member-common-ui-card-unification-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
+### admin-meetings-card-ux-clarity（2026-06-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-meetings-card-ux-clarity/` |
+| 目的 | `/admin/meetings` の開催日カード、展開編集、出席者一覧を視覚階層が分かる構造へ改善する |
+| implementation targets | `apps/web/src/styles/globals.css`, `apps/web/src/features/admin/components/_meetings/{MeetingAttendanceDrawer,MeetingTimeline}.tsx`, focused `_meetings` specs |
+| invariant | apps/api / D1 / Google Form / endpoint surface unchanged。既存 `data-testid` / aria / role / useAdminMutation / FormField contract preserved |
+| evidence | focused Vitest 4 files / 18 tests PASS、local Playwright visual 1 test PASS / 5 PNG present、typecheck PASS、lint PASS、verify:tokens PASS、HEX grep 0、apps/api diff empty |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots、deploy、commit、push、PR |
+
 ### require-auth-public-access-gate（2026-06-10）
 
 | 項目 | 値 |
@@ -262,6 +314,20 @@
 | evidence | focused Vitest 3 files / 30 tests PASS、local Playwright Chromium screenshots 3 PNG present、apps/api diff empty |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapse-layout-fix-artifact-inventory.md` |
 | user gate | staging authenticated visual baseline、commit、push、PR |
+
+### admin-sidebar-collapsed-icon-spacing-parity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-sidebar-collapsed-icon-spacing-parity/` |
+| 目的 | collapsed sidebar の nav / public-return icon-box 高さを `h-[18px]` にし、expanded と縦ピッチを揃える |
+| implementation targets | `apps/web/src/components/shell/SidebarNavItem.tsx`, `apps/web/src/components/shell/SidebarShell.tsx` |
+| tests | `apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx`, `apps/web/src/components/shell/__tests__/SidebarShell.spec.tsx` |
+| invariant | API / D1 schema / Google Form / auth / route topology 不変。Brand/User avatar の `h-10` は意図的に維持 |
+| evidence | focused Vitest 2 files / 20 tests PASS、web typecheck PASS、web lint PASS、design-token gate 9 tests PASS、apps/api diff empty、local screenshot capture spec added but Next dev webServer timed out before PNG capture |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md` |
+| user gate | staging authenticated screenshots、commit、push、PR |
 
 ### public-home-member-card-info-and-tag-clarity（2026-06-08）
 
@@ -4891,3 +4957,16 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | contract | `NEXT_PUBLIC_API_BASE_URL` が current public API base URL の単一正本。`API_SERVICE` service binding は production/staging primary transport、HTTP fallback は local/test/Playwright のみ。`getApiBaseEnv()` / `ApiBaseEnv` は削除済み |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
 | user gate | commit、push、PR、staging/production deploy、Issue mutation |
+
+## members-search-clear-and-sort-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/members-search-clear-and-sort-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | public `/members` search clear native/custom duplicate fix + sort options expansion to `recent / oldest / name / name_desc` |
+| implementation targets | `apps/web/src/components/ui/Search.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/lib/url/members-search.ts`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/repository/publicMembers.ts`, `packages/shared/src/zod/viewmodel.ts` |
+| evidence | web focused Vitest 3 files / 27 tests PASS; api/shared focused Vitest 2 files / 28 tests PASS; D1 repository 1 file / 6 tests PASS; typecheck/lint/verify:tokens PASS |
+| invariant | no new endpoint, no D1 schema change, no Google Form schema change. Gojuon ordering requires furigana schema/backfill and is OOS-1 |
+| inventory | `references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md` |
+| user gate | Chromium screenshot, staging verification, commit, push, PR, OOS-1 Issue creation |

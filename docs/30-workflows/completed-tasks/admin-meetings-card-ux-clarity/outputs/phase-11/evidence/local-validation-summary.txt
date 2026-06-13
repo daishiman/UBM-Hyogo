@@ -1,0 +1,27 @@
+workflow_id: admin-meetings-card-ux-clarity
+status: implemented_local_evidence_captured
+date: 2026-06-10
+
+PASS mise exec -- pnpm typecheck
+PASS mise exec -- pnpm lint
+PASS mise exec -- pnpm exec vitest run apps/web/src/features/admin/components/_meetings/__tests__/MeetingAttendanceDrawer.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/MeetingTimeline.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/MeetingsClientShell.spec.tsx apps/web/src/features/admin/components/_meetings/__tests__/BulkAttendanceChecklist.spec.tsx
+  result: 4 test files passed, 18 tests passed
+PASS mise exec -- pnpm verify:tokens
+  result: design tokens in sync (91 tracked)
+PASS PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/admin-meetings-card-ux-clarity/outputs/phase-11 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test --project=desktop-chromium playwright/tests/admin-meetings-card-ux-clarity.spec.ts
+  result: 1 test passed, 5 local screenshots captured
+PASS HEX grep for bg-[# / text-[# in _meetings + globals.css
+  result: 0 matches
+PASS git diff -- apps/api
+  result: empty
+PASS data-testid contract
+  result: existing data-testid names preserved; diff movement is wrapper indentation only and focused tests assert attendee/remove testids
+
+PRESENT local Playwright visual screenshots
+  outputs/phase-11/screenshots/meetings-list-default-desktop.png
+  outputs/phase-11/screenshots/meetings-list-default-mobile.png
+  outputs/phase-11/screenshots/meetings-card-expanded-desktop.png
+  outputs/phase-11/screenshots/meetings-card-expanded-mobile.png
+  outputs/phase-11/screenshots/meetings-attendees-list-desktop.png
+PENDING staging authenticated visual screenshots (Phase 13 user-gated)
+PENDING commit / push / PR (user-gated)

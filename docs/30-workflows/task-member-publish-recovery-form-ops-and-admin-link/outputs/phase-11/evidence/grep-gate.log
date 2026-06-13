@@ -1,2 +1,0 @@
-$ rg legacy endpoint guard
-PASS: no legacy /admin/sync/run or /admin/sync/backfill references in active scope

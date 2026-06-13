@@ -14,6 +14,26 @@ const meeting: MeetingItem = {
 };
 
 describe("MeetingAttendanceDrawer", () => {
+  it("展開ドロワーを見出し付きセクションで構造化する", () => {
+    render(
+      <MeetingAttendanceDrawer
+        meeting={meeting}
+        candidates={[{ memberId: "m_1", fullName: "山田 太郎" }]}
+        attended={new Set(["m_1"])}
+        onAddAttendance={vi.fn()}
+        onBulkAddAttendance={vi.fn()}
+        onRemoveAttendance={vi.fn()}
+        onUpdateMeeting={vi.fn()}
+        onSoftDelete={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("編集")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "出席を追加" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "出席者 (1名)" })).toBeTruthy();
+    expect(screen.getByLabelText("出席追加").classList.contains("admin-detail-section")).toBe(true);
+  });
+
   it("出席者一覧で氏名を主表示し memberId を補助表示する", () => {
     render(
       <MeetingAttendanceDrawer
@@ -31,6 +51,8 @@ describe("MeetingAttendanceDrawer", () => {
     const attendee = screen.getByTestId("attendance-attendee-sess-1");
     expect(attendee.textContent).toContain("山田 太郎");
     expect(attendee.textContent).toContain("m_1");
+    expect(attendee.classList.contains("admin-attendee-row")).toBe(true);
+    expect(screen.getByTestId("remove-attendance-sess-1").getAttribute("data-member")).toBe("m_1");
   });
 
   it("候補にない出席者は memberId を表示する", () => {

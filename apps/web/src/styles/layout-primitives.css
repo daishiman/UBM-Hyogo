@@ -1,0 +1,343 @@
+/**
+ * layout-primitives.css — 共通レイアウト層プリミティブの正本スタイル。
+ *
+ * 公開層＋会員層＋login の8画面が共有する「組み立ての正本」:
+ *   .ui-page-shell / .ui-page-header / .ui-section-card / .ui-content-card / .ui-prose / a.ui-button
+ *
+ * 不変条件:
+ *   - 色・余白・radius・shadow は全て var(--ubm-*) トークン参照（HEX 直書き禁止 / I-2）
+ *   - inline style 禁止（I-3）。表現は class + data 属性のみ
+ */
+@layer components {
+  /* === PageShell === */
+  .ui-page-shell {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--ubm-space-4);
+  }
+
+  .ui-page-shell[data-max-width="narrow"] {
+    max-width: 40rem;
+  }
+
+  .ui-page-shell[data-max-width="default"] {
+    max-width: 60rem;
+  }
+
+  .ui-page-shell[data-max-width="wide"] {
+    max-width: 75rem;
+  }
+
+  .ui-page-shell[data-bg="base"] {
+    background: var(--ubm-color-surface-bg);
+  }
+
+  .ui-page-shell[data-bg="subtle"] {
+    background: var(--ubm-color-surface-bg-2);
+  }
+
+  .ui-page-shell[data-bg="bare"] {
+    background: transparent;
+  }
+
+  .ui-page-shell[data-gap="sm"] {
+    gap: var(--ubm-space-4);
+  }
+
+  .ui-page-shell[data-gap="md"] {
+    gap: var(--ubm-space-6);
+  }
+
+  .ui-page-shell[data-gap="lg"] {
+    gap: var(--ubm-space-8);
+  }
+
+  /* === PageHeader === */
+  .ui-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--ubm-space-4);
+  }
+
+  .ui-page-header__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-2);
+    min-width: 0;
+  }
+
+  .ui-page-header__eyebrow {
+    margin: 0;
+    font-family: var(--ubm-font-en);
+    font-size: var(--ubm-text-xs);
+    letter-spacing: var(--ubm-eyebrow-tracking);
+    text-transform: uppercase;
+    color: var(--ubm-color-text-muted);
+  }
+
+  .ui-page-header__title {
+    margin: 0;
+    font-family: var(--ubm-font-serif);
+    font-size: var(--ubm-text-3xl);
+    line-height: 1.2;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .ui-page-header__lead {
+    margin: 0;
+    font-size: var(--ubm-text-md);
+    line-height: 1.6;
+    color: var(--ubm-color-text-secondary);
+  }
+
+  .ui-page-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ubm-space-2);
+  }
+
+  .ui-page-header[data-align="center"] {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .ui-page-header[data-align="center"] .ui-page-header__main {
+    align-items: center;
+  }
+
+  /* === SectionCard === */
+  .ui-section-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-4);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-md);
+    background: var(--ubm-color-surface-panel);
+    box-shadow: var(--ubm-shadow-sm);
+  }
+
+  .ui-section-card[data-tone="subtle"] {
+    background: var(--ubm-color-surface-panel-2);
+    box-shadow: none;
+  }
+
+  .ui-section-card[data-tone="accent"] {
+    border-color: transparent;
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+  }
+
+  .ui-section-card[data-padding="sm"] {
+    padding: var(--ubm-space-4);
+  }
+
+  .ui-section-card[data-padding="md"] {
+    padding: var(--ubm-space-6);
+  }
+
+  .ui-section-card[data-padding="lg"] {
+    padding: var(--ubm-space-8);
+  }
+
+  .ui-section-card__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--ubm-space-3);
+  }
+
+  .ui-section-card__heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-1);
+    min-width: 0;
+  }
+
+  .ui-section-card__title {
+    margin: 0;
+    font-size: var(--ubm-text-xl);
+    line-height: 1.3;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .ui-section-card__description {
+    margin: 0;
+    font-size: var(--ubm-text-sm);
+    color: var(--ubm-color-text-secondary);
+  }
+
+  .ui-section-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ubm-space-2);
+  }
+
+  .ui-section-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-4);
+    min-width: 0;
+  }
+
+  /* === ContentCard === */
+  .ui-content-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-3);
+    border: 1px solid var(--ubm-color-border-default);
+    border-radius: var(--ubm-radius-md);
+    background: var(--ubm-color-surface-panel);
+    box-shadow: var(--ubm-shadow-xs);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ui-content-card[data-tone="subtle"] {
+    background: var(--ubm-color-surface-panel-2);
+    box-shadow: none;
+  }
+
+  .ui-content-card[data-tone="accent"] {
+    border-color: transparent;
+    background: var(--ubm-color-accent-soft);
+    color: var(--ubm-color-accent-ink);
+  }
+
+  .ui-content-card[data-padding="sm"] {
+    padding: var(--ubm-space-4);
+  }
+
+  .ui-content-card[data-padding="md"] {
+    padding: var(--ubm-space-6);
+  }
+
+  .ui-content-card[data-padding="lg"] {
+    padding: var(--ubm-space-8);
+  }
+
+  .ui-content-card[data-interactive="true"] {
+    transition:
+      box-shadow var(--ubm-dur-fast) var(--ubm-ease-standard),
+      transform var(--ubm-dur-fast) var(--ubm-ease-standard);
+  }
+
+  .ui-content-card[data-interactive="true"]:hover {
+    box-shadow: var(--ubm-shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .ui-content-card__media {
+    display: flex;
+  }
+
+  .ui-content-card__heading {
+    font-weight: 650;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .ui-content-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ubm-space-2);
+    min-width: 0;
+  }
+
+  .ui-content-card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--ubm-space-2);
+    color: var(--ubm-color-text-secondary);
+    font-size: var(--ubm-text-sm);
+  }
+
+  /* === Prose（本文タイポの正本） === */
+  .ui-prose {
+    color: var(--ubm-color-text-primary);
+    font-size: var(--ubm-text-base);
+    line-height: 1.8;
+  }
+
+  .ui-prose > :first-child {
+    margin-top: 0;
+  }
+
+  .ui-prose > :last-child {
+    margin-bottom: 0;
+  }
+
+  .ui-prose h2 {
+    margin: var(--ubm-space-8) 0 var(--ubm-space-3);
+    font-family: var(--ubm-font-serif);
+    font-size: var(--ubm-text-xl);
+    line-height: 1.3;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .ui-prose h3 {
+    margin: var(--ubm-space-6) 0 var(--ubm-space-2);
+    font-size: var(--ubm-text-md);
+    line-height: 1.4;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .ui-prose p {
+    margin: 0 0 var(--ubm-space-4);
+  }
+
+  .ui-prose ul,
+  .ui-prose ol {
+    margin: 0 0 var(--ubm-space-4);
+    padding-inline-start: var(--ubm-space-6);
+  }
+
+  .ui-prose li {
+    margin: 0 0 var(--ubm-space-2);
+  }
+
+  .ui-prose li:last-child {
+    margin-bottom: 0;
+  }
+
+  .ui-prose a {
+    color: var(--ubm-color-link-default);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .ui-prose strong {
+    font-weight: 650;
+    color: var(--ubm-color-text-primary);
+  }
+
+  .ui-prose[data-size="compact"] {
+    font-size: var(--ubm-text-sm);
+    line-height: 1.6;
+  }
+
+  .ui-prose[data-size="compact"] h2 {
+    margin: var(--ubm-space-6) 0 var(--ubm-space-2);
+    font-size: var(--ubm-text-md);
+  }
+
+  .ui-prose[data-size="compact"] p {
+    margin: 0 0 var(--ubm-space-3);
+  }
+
+  /* === ButtonLink（anchor を Button と同一見た目に） === */
+  a.ui-button {
+    text-decoration: none;
+  }
+
+  a.ui-button:hover {
+    text-decoration: none;
+  }
+}

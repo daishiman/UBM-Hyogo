@@ -1,0 +1,214 @@
+{
+  "workflow_id": "profile-session-staging-transport-recovery",
+  "feature": "profile-session-staging-transport-recovery",
+  "status": "implemented_local_runtime_pending",
+  "created": "2026-06-11T22:40:25+09:00",
+  "lastUpdated": "2026-06-11T22:40:25+09:00",
+  "metadata": {
+    "taskId": "PROFILE-SESSION-STAGING-TRANSPORT-RECOVERY",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementationCategory": "member-profile-session-transport-recovery",
+    "implementation_mode": "edit",
+    "implementation_class": "implementation_spec",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "scope": "Recover the staging /profile 'セッション情報を取得できませんでした / 通信経路でセッション確認に失敗しました' failure in one implementation cycle. The on-screen wording itself is the MEMBER_SESSION_FAILED (transport-level throw) branch introduced by PR #1194 (merged to dev 2026-06-10), so the deployed staging bundle is recent and 410/5xx/stale-bundle hypotheses are excluded by the user-provided evidence. Remaining sub-causes are S1 (transport unresolved throw), S2 (localhost fallback connection failure), S3 (service-binding fetch throw), and S4 (http fetch throw), with two cross-cutting code defects: F-A getAuthEnv all-or-nothing safeParse silently dropping INTERNAL_API_BASE_URL when any unrelated field is invalid, and F-B single-transport dependency with no fallback. The fix is defense-in-depth that recovers under any of S1-S4: T01 integrate the unmerged observability branch fix/profile-session-staging-localhost-endpoint (ApiTransportError{transportKind,baseHost}, describeTransport, environmentExplicit fail-closed, safe-fetch transport logging), T02 make getAuthEnv field-tolerant, T03 add a transport fallback chain (service-binding -> INTERNAL_API_BASE_URL -> NEXT_PUBLIC_API_BASE_URL, only on ApiTransportError and only for GET/HEAD, never on HTTP error responses), and T04 extend the read-only diagnose script (web /api/me and API direct /me probes, data-cause extraction with a user-provided cookie, deploy version check). No /me contract, apps/api, D1 schema, Google Form, or /profile UI wording change. Final sub-cause confirmation and staging recovery verification are user-gated Phase 11 steps.",
+    "canonical_root": "docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery",
+    "ssot": "docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/_shared-context.md",
+    "implementation_region_note": "implemented_local_runtime_pending: this cycle updated the Phase 1-13 workflow package and implemented the local apps/web + script changes. Focused Vitest and diagnose shell checks are local evidence; staging deploy, authenticated recovery screenshot, commit, push, and PR remain user-gated.",
+    "implementation_files": [
+      "apps/web/src/lib/env.ts",
+      "apps/web/src/lib/fetch/transport.ts",
+      "apps/web/src/lib/fetch/authed.ts",
+      "apps/web/src/lib/server-fetch/safe-fetch.ts",
+      "apps/web/src/lib/fetch/errors.ts",
+      "scripts/diagnose-profile-session.sh"
+    ],
+    "test_files": [
+      "apps/web/src/lib/__tests__/env.spec.ts",
+      "apps/web/src/lib/fetch/transport.spec.ts",
+      "apps/web/src/lib/fetch/authed.spec.ts",
+      "apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts",
+      "apps/web/app/(member)/profile/page.spec.tsx"
+    ],
+    "verify_commands": [
+      "node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery",
+      "node .claude/skills/task-specification-creator/scripts/verify-all-specs.js --workflow docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery",
+      "mise exec -- pnpm verify:phase12-compliance docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery",
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/lib/__tests__/env.spec.ts apps/web/src/lib/fetch/transport.spec.ts apps/web/src/lib/fetch/authed.spec.ts 'apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts' 'apps/web/app/(member)/profile/page.spec.tsx'",
+      "bash -n scripts/diagnose-profile-session.sh"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "confirmed_facts": [
+      {
+        "id": "F-1",
+        "summary": "Displayed wording is the session-failed (MEMBER_SESSION_FAILED) branch text in session-error-display.ts"
+      },
+      {
+        "id": "F-2",
+        "summary": "That wording shipped in PR #1194 merged 2026-06-10, so the staging bundle is recent; stale-bundle/410/5xx hypotheses excluded by the screenshot itself"
+      },
+      {
+        "id": "F-3",
+        "summary": "MEMBER_SESSION_FAILED is only produced when the /me fetch throws without an HTTP status (transport-level failure)"
+      },
+      {
+        "id": "F-4",
+        "summary": "Sidebar shows the logged-in member and CSP carries the staging API URL, so web-side Auth.js decode and middleware env reads work"
+      },
+      {
+        "id": "F-5",
+        "summary": "apps/web wrangler.toml [env.staging] already has the API_SERVICE service binding, INTERNAL_API_BASE_URL, and ENVIRONMENT=staging"
+      },
+      {
+        "id": "F-6",
+        "summary": "Observability + fail-closed work exists on unmerged branch fix/profile-session-staging-localhost-endpoint (dev-synced 2026-06-11, no PR), so staging logs lack transportKind/baseHost"
+      }
+    ],
+    "sub_cause_hypotheses": [
+      {
+        "id": "S1",
+        "summary": "resolveApiFetch throws 'API transport unresolved' (no binding and no base URL visible at runtime)"
+      },
+      {
+        "id": "S2",
+        "summary": "Environment unreadable -> treated as local -> localhost:8787 fallback fetch fails in Workers runtime"
+      },
+      {
+        "id": "S3",
+        "summary": "API_SERVICE.fetch itself throws (bound worker hard error / binding malfunction)"
+      },
+      {
+        "id": "S4",
+        "summary": "http transport fetch itself throws (API unreachable / DNS / TLS)"
+      }
+    ],
+    "cross_cutting_defects": [
+      {
+        "id": "F-A",
+        "summary": "getAuthEnv all-or-nothing safeParse drops every field (including INTERNAL_API_BASE_URL) when any single unrelated field is invalid"
+      },
+      {
+        "id": "F-B",
+        "summary": "Single-transport dependency: fetchAuthed tries exactly one transport and any transport-level throw becomes MEMBER_SESSION_FAILED"
+      }
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-11T22:40:25+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec, four CONST-005 task specs (T01-T04), strict Phase 12 outputs, artifacts parity, confirmed-fact set (F-1..F-6), sub-cause hypotheses (S1-S4), and cross-cutting defects (F-A/F-B) are present"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code implementation, focused Vitest, and local evidence belong to the follow-up implementation cycle (03.実装.md)"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: staging deploy, recovery verification, authenticated screenshot, commit, push, and PR are user-gated"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "output": "outputs/phase-1/phase-1.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "output": "outputs/phase-2/phase-2.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "output": "outputs/phase-3/phase-3.md"
+    },
+    {
+      "phase": 4,
+      "name": "I/O契約・テスト設計",
+      "status": "completed",
+      "output": "outputs/phase-4/phase-4.md"
+    },
+    {
+      "phase": 5,
+      "name": "実装手順",
+      "status": "completed",
+      "output": "outputs/phase-5/phase-5.md"
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "status": "completed",
+      "output": "outputs/phase-6/phase-6.md"
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "output": "outputs/phase-7/phase-7.md"
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "status": "completed",
+      "output": "outputs/phase-8/phase-8.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "completed",
+      "output": "outputs/phase-9/phase-9.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "output": "outputs/phase-10/phase-10.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "status": "completed",
+      "output": "outputs/phase-11/phase-11.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "output": "outputs/phase-12/phase-12.md"
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "status": "pending_user_approval",
+      "output": "outputs/phase-13/phase-13.md"
+    }
+  ]
+}

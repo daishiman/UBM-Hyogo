@@ -68,6 +68,13 @@ describe("membersSearchSchema (Phase 4 U-01〜U-06)", () => {
     expect(parsed.sort).toBe("name");
     expect(parsed.density).toBe("list");
   });
+
+  it("sort は recent / oldest / name / name_desc を受理する", () => {
+    expect(parseSearchParams({ sort: "recent" }).sort).toBe("recent");
+    expect(parseSearchParams({ sort: "oldest" }).sort).toBe("oldest");
+    expect(parseSearchParams({ sort: "name" }).sort).toBe("name");
+    expect(parseSearchParams({ sort: "name_desc" }).sort).toBe("name_desc");
+  });
 });
 
 describe("toApiQuery", () => {
@@ -121,5 +128,28 @@ describe("toApiQuery", () => {
     expect(params.has("sort")).toBe(false);
     expect(params.get("density")).toBe("list");
     expect(params.get("expand")).toBe("tags");
+  });
+
+  it("oldest / name_desc は API query に出力する", () => {
+    expect(
+      toApiQuery({
+        q: "",
+        zone: "all",
+        status: "all",
+        tag: [],
+        sort: "oldest",
+        density: "comfy",
+      }).get("sort"),
+    ).toBe("oldest");
+    expect(
+      toApiQuery({
+        q: "",
+        zone: "all",
+        status: "all",
+        tag: [],
+        sort: "name_desc",
+        density: "comfy",
+      }).get("sort"),
+    ).toBe("name_desc");
   });
 });

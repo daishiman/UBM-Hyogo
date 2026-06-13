@@ -5,10 +5,7 @@
 
 import type { BulkRowState } from "./hooks/useSchemaDiffBulkSelection";
 import { Modal } from "../ui/Modal";
-import {
-  isStableKeyValid,
-  STABLE_KEY_VALIDATION_MESSAGE,
-} from "./schemaAliasValidation";
+import { isStableKeyValid, STABLE_KEY_VALIDATION_MESSAGE } from "./schemaAliasValidation";
 
 export interface SchemaDiffBulkResolveModalProps {
   open: boolean;
@@ -48,33 +45,26 @@ export function SchemaDiffBulkResolveModal({
     onClose();
   };
   return (
-    <Modal open={open} onClose={handleClose} title="Bulk Resolve 確認">
+    <Modal open={open} onClose={handleClose} title="まとめて対応づけの確認">
       <div data-testid="bulk-resolve-modal">
-        <p>
-          選択された {rows.length} 件の stableKey 割当を一括で実行します。
-        </p>
+        <p>選択された {rows.length} 件の項目キーの割り当てをまとめて実行します。</p>
         <div>
-          <button
-            type="button"
-            onClick={onApplyAllRecommendations}
-            disabled={isSubmitting}
-          >
+          <button type="button" onClick={onApplyAllRecommendations} disabled={isSubmitting}>
             全行に推奨を適用
           </button>
         </div>
         <table>
           <thead>
             <tr>
-              <th scope="col">questionId</th>
-              <th scope="col">stableKey</th>
+              <th scope="col">設問の元ID</th>
+              <th scope="col">項目キー</th>
               <th scope="col">推奨</th>
               <th scope="col">状態</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => {
-              const isError =
-                r.submitStatus === "error" || r.submitStatus === "retryable";
+              const isError = r.submitStatus === "error" || r.submitStatus === "retryable";
               return (
                 <tr key={r.diffId} data-row-status={r.submitStatus}>
                   <td>
@@ -82,16 +72,12 @@ export function SchemaDiffBulkResolveModal({
                   </td>
                   <td>
                     <label>
-                      <span className="visually-hidden">
-                        stableKey for {r.questionId}
-                      </span>
+                      <span className="visually-hidden">{r.questionId} の項目キー</span>
                       <input
                         type="text"
                         value={r.stableKey}
-                        onChange={(e) =>
-                          onUpdateStableKey(r.diffId, e.target.value)
-                        }
-                        aria-label={`stableKey for ${r.questionId}`}
+                        onChange={(e) => onUpdateStableKey(r.diffId, e.target.value)}
+                        aria-label={`${r.questionId} の項目キー`}
                         aria-invalid={invalidDiffIds.has(r.diffId)}
                         aria-describedby={
                           invalidDiffIds.has(r.diffId)
@@ -119,14 +105,10 @@ export function SchemaDiffBulkResolveModal({
                     >
                       推奨採用
                     </button>
-                    {r.suggestedStableKey && (
-                      <code>{r.suggestedStableKey}</code>
-                    )}
+                    {r.suggestedStableKey && <code>{r.suggestedStableKey}</code>}
                   </td>
                   <td>
-                    <span data-status-badge={r.submitStatus}>
-                      {STATUS_LABEL[r.submitStatus]}
-                    </span>
+                    <span data-status-badge={r.submitStatus}>{STATUS_LABEL[r.submitStatus]}</span>
                     {isError && r.errorMessage && (
                       <p role="alert" data-row-error={r.diffId}>
                         {r.errorMessage}
@@ -144,13 +126,9 @@ export function SchemaDiffBulkResolveModal({
             onClick={onSubmit}
             disabled={isSubmitting || rows.length === 0 || invalidDiffIds.size > 0}
           >
-            {isSubmitting ? "送信中..." : "確定"}
+            {isSubmitting ? "送信中..." : "まとめて対応づけを実行"}
           </button>
-          <button
-            type="button"
-            onClick={handleClose}
-            disabled={isSubmitting}
-          >
+          <button type="button" onClick={handleClose} disabled={isSubmitting}>
             キャンセル
           </button>
         </div>
