@@ -8,8 +8,7 @@ export const SCHEMA_REVIEW_TERMS: Record<string, SchemaReviewTerm> = {
   stableKey: {
     technical: "stableKey",
     plain: "永続的な名前",
-    description:
-      "フォームの設問が文言変更されても変わらない、設問を一意に識別するための名前です。",
+    description: "フォームの設問が文言変更されても変わらない、設問を一意に識別するための名前です。",
   },
   questionId: {
     technical: "questionId",
@@ -25,14 +24,12 @@ export const SCHEMA_REVIEW_TERMS: Record<string, SchemaReviewTerm> = {
   resolve: {
     technical: "resolve",
     plain: "名前を割り当てる",
-    description:
-      "新しい設問に永続的な名前をつけて、過去の回答と新しい設問を対応づける操作です。",
+    description: "新しい設問に永続的な名前をつけて、過去の回答と新しい設問を対応づける操作です。",
   },
   unresolved: {
     technical: "unresolved",
     plain: "名前が未割当",
-    description:
-      "まだ永続的な名前がついていない設問です。割り当てると過去回答と繋がります。",
+    description: "まだ永続的な名前がついていない設問です。割り当てると過去回答と繋がります。",
   },
   added: {
     technical: "added",
@@ -57,8 +54,7 @@ export const SCHEMA_REVIEW_TERMS: Record<string, SchemaReviewTerm> = {
   backfill: {
     technical: "backfill",
     plain: "過去回答への反映",
-    description:
-      "割り当てた名前を、過去の回答データへさかのぼって反映する処理です。",
+    description: "割り当てた名前を、過去の回答データへさかのぼって反映する処理です。",
   },
   recompute: {
     technical: "recompute",
@@ -72,9 +68,13 @@ export const SCHEMA_REVIEW_TERMS: Record<string, SchemaReviewTerm> = {
   },
 };
 
-export function plainLabel(technical: string): string {
+export function plainLabel(
+  technical: string,
+  options: { readonly includeTechnical?: boolean } = {},
+): string {
   const term = SCHEMA_REVIEW_TERMS[technical];
   if (!term) return technical;
+  if (!options.includeTechnical) return term.plain;
   return `${term.plain}（技術名: ${term.technical}）`;
 }
 

@@ -8,4 +8,4 @@ export const isStableKeyValid = (value: string) =>
   STABLE_KEY_PATTERN.test(normalizeStableKey(value));
 
 export const STABLE_KEY_VALIDATION_MESSAGE =
-  "stableKey は英字で始まり、英数字と _ のみ使用できます（例: fullName）。";
+  "項目キーは英字で始まり、英数字と _ のみ使用できます（例: fullName）。";
