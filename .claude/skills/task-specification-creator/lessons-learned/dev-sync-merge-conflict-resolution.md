@@ -11,6 +11,7 @@
   - **上書き前に旧 PID を控える手順を明記**: 「lock を自分の PID で truncate 上書きする前に `cat "$LOCK"` で旧 PID を控える（生死判定に旧 PID が要る）」を逐語化する。
 - Why: 9 並列 worktree 運用ではタブ強制クローズ・クラッシュで孤児 lock が日常的に残る。lock の age は「作成時刻」であって「保持者の生存」を保証しない。PID 生死を第 1 判定にすることで、138-C（生者は待つ）と 103-C（死者の lock は置換）を age 閾値に依存せず一意に分岐でき、仕様書記載の手順から無限待機・不要中断を排除できる。
 - 検証: lock 検出（PID 41644 / age 23s）→ `ps -p` DEAD → truncate 上書き続行 → dev == origin/dev（0/0・独自 0・同期 no-op）→ `git merge dev --no-edit` CONFLICT 2（skill-index union のみ）→ `pnpm sync:resolve` exit 0 → marker 0（ut-08 装飾線は既知 false-positive）→ merge `7498f8aea` → typecheck / lint exit 0（7 packages）/ indexes:rebuild 冪等 5521 kw / CI コード修正不要。
+- 再現（仕様書 sync 手順の「恒常パターン」注記用）: 同ブランチ連続 2nd-invoke（merge `0e7a98292`・取込 #1238 esbuild bump + #1237）でも孤児 lock（PID 99078 / age 約 65s・`ps -p` DEAD）が再発。孤児 lock は branch-sync の連続 invoke で構造的に再発するため、仕様書には「lock 検出＝必ず PID 生死確認」を例外なく書く。esbuild devDep bump で `package.json` + `pnpm-lock.yaml` touch → install 必須（SP-DEVSYNC-132）を併発する点も sync 手順に併記する。
 - 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）。L-DEVSYNC-138-C（生きた共有 lock は待つ）/ L-DEVSYNC-103-C（stale lock の truncate 上書き）と対。
 
 ### SP-DEVSYNC-138: 「token 削除系」（英語表記除去・dead CSS 削除・ラベル和訳）タスクと「helper/テスト追加系」タスクの仕様書には、sync-merge 手順に「マーカー解消後の Before token grep 再走査」と「追加 helper/spec 名の重複宣言 grep」を逐語化する（L-DEVSYNC-138 の task-spec 版）
