@@ -4,6 +4,12 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: sync-merge を伴う仕様書の Phase 11 pre-flight に「`git merge` 直後の `Unable to write index` は、`git status` 空 + `MERGE_HEAD` 在なら『解消済み』でなく stale `index.lock` による merge-start half-state と判定し、`node unlinkSync(index.lock)` → `git merge --abort` → 再 merge でクリーン化してから解消に進む」を逐語化する（L-DEVSYNC-142 の task-spec 版）
+- 2026-06-13 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 1 / ahead 13・merge `e5d6b6726`）。取込 #1220（タグ自動生成 + 命名統一「タグ割当」）。最初の `git merge dev` が `error: Unable to write index.` を返し、`git status` 空なのに `MERGE_HEAD` 在の half-state（別並列 WT の 0 byte 孤児 `index.lock` mtime 13:25 が merge の index 書込みを阻害）。
+- 仕様書反映点: Phase 11 の sync-merge 検証手順に **「(1) merge 後に `Unable to write index` を見たら `git status --porcelain` + `MERGE_HEAD` 在を確認 (2) 空 + MERGE_HEAD 在なら half-state と確定し `git rev-parse --git-dir` 配下 `worktrees/<wt>/index.lock` を `node unlinkSync`（`rm` 不可）(3) `git merge --abort`（cached 差分 0 を確認後）(4) 再 merge で正常 CONFLICT へ」** をチェックリスト化。L-DEVSYNC-130（後続書込みの連続ブロック）と発生フェーズ（merge 開始）・エラー文字列（`Unable to write index` ≠ `Unable to create ...File exists`）で切り分ける。
+- textual 解消は union 3（keywords.json auto-merge）の `pnpm sync:resolve` 1 パス happy-path で、取込デルタに lock 変更なし（install 本来 skip 可）。Phase 11 検証の合否は `pnpm typecheck`/`pnpm lint` exit 0 で機械確認。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142（本 lesson の正本）, L-DEVSYNC-130 / SP-DEVSYNC-130（stale index.lock + MERGE_HEAD 復旧の原型・本件は merge-start half-state 拡張）, SP-DEVSYNC-141（同一ブランチ連続 sync の前 pass）。
+
 ### SP-DEVSYNC-141: sync-merge を伴う仕様書の Phase 11 には「実ソース conflict（取込 dev と feature が同一 component を同目的で別文言/別構造に変えた場合）は feature の設計正本（glossary SSOT + 選定文言）を採るが、`git checkout --ours` は同ファイルの auto-merge hunk を捨てるので conflict ブロックのみ手動 HEAD 解消し、focused Vitest で裏取りする」を逐語化する（L-DEVSYNC-141 の task-spec 版）
 - 2026-06-13 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 1 / ahead 10・merge `7a94df610`）。取込 #1221（/admin/schema 日本語化）が本 feature と同じ admin dashboard component（KpiGrid/SchemaAlertCard）を別文言で localize → skill-index 5 + 実ソース 3 の conflict。
 - How to apply（仕様書 Phase 11 の sync-merge 検証手順への逐語化）:
