@@ -3219,6 +3219,16 @@ node scripts/list-specs.js --topics
 | Root-Cause Notes | L16 |
 | Lessons Learned | L22 |
 
+### references/workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L13 |
+| Evidence | L22 |
+| Invariants | L29 |
+| Lessons Learned | L36 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -9366,7 +9376,8 @@ node scripts/list-specs.js --topics
 | issue-1068-admin-tag-inline-create-ui | L4926 |
 | issue-1111-proxy-transport-util-unify | L4944 |
 | issue-1145-public-api-base-url-env-unification（2026-06-08） | L4962 |
-| members-search-clear-and-sort-ux（2026-06-11） | L4975 |
+| issue-1192-admin-account-profile-dedicated-ux（2026-06-13） | L4975 |
+| members-search-clear-and-sort-ux（2026-06-11） | L4989 |
 
 ### references/task-workflow-backlog-part2.md
 

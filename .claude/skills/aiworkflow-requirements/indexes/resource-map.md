@@ -1337,3 +1337,11 @@ node scripts/search-spec.js "safeInvoke"
 | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/` | Issue #1068 admin member drawer tag inline-create UI implementation spec | drawer inline-create AC / task-A-B-C dependency / Phase 12 strict 7 を確認する時 |
 | `references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 workflow artifact inventory | 同 wave 変更棚卸し時 |
 | `references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md` | Issue #1068 lessons（L-I1068-001..008: error 分類純関数 / 多段 write 部分成功 retry / 409 権威再取得 / client validation ミラー / 共有 mock endpoint 分岐 / env-gated visual） | 2 段 write UI・tag inline-create・hook mock 設計を再利用する時 |
+
+## 2026-06-13 Additions
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/issue-1192-admin-account-profile-dedicated-ux/` | Issue #1192 管理者 `/profile` 専用 UX workflow。実装済み local evidence と user-gated staging/PR 境界を保持 | `/profile` 管理者補助導線、admin-only profile card、Issue #1192 を確認する時 |
+| `apps/web/app/(member)/profile/_components/AdminAccessNotice.tsx` | 管理者向け案内カード本体 | `/profile` 成功描画の `isAdmin` 分岐・`/admin` link を確認する時 |
+| `references/workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md` | Workflow artifact inventory | 同 wave 変更棚卸し時 |

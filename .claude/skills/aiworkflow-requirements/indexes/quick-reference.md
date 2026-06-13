@@ -6022,3 +6022,9 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Topic | References | Notes |
 | --- | --- | --- |
 | issue-1068-admin-tag-inline-create-ui（implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION） | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/index.md`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 admin member drawer tag inline-create UI implemented locally. Uses existing `POST /admin/tags` and member tag assignment endpoints; `apps/api` unchanged. task-A web client helper, task-B component/wiring, and task-C env-gated visual spec are complete. Staging screenshots, commit, push, PR, and Issue mutation are user-gated. |
+
+### Issue #1192 admin account profile UX（2026-06-13）
+
+| Topic | References | Notes |
+| --- | --- | --- |
+| issue-1192-admin-account-profile-dedicated-ux（implemented_local_evidence_captured / implementation / VISUAL） | `docs/30-workflows/completed-tasks/issue-1192-admin-account-profile-dedicated-ux/index.md`, `docs/30-workflows/completed-tasks/issue-1192-admin-account-profile-dedicated-ux/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1192-admin-account-profile-dedicated-ux/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md` | `/profile` success render now shows admin-only `AdminAccessNotice` with `/admin` CTA when `/me` `isAdmin=true`. apps/api / packages / D1 / Google Form / CSS token unchanged. Staging screenshot, commit, push, PR, and Issue mutation are user-gated. |

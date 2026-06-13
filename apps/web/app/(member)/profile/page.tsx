@@ -25,6 +25,7 @@ import { ProfilePreview } from "./_components/ProfilePreview";
 import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
+import { AdminAccessNotice } from "./_components/AdminAccessNotice";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
 import { SectionError } from "@/components/member/SectionError";
 import type { SafeResult } from "@/lib/result";
@@ -146,6 +147,7 @@ export default async function ProfilePage() {
           statusSummary={statusSummary}
           authGateState={me.authGateState}
         />
+        {me.user.isAdmin ? <AdminAccessNotice /> : null}
         <PublicConsentCallout
           publicConsent={statusSummary.publicConsent}
           editResponseUrl={editResponseUrl}

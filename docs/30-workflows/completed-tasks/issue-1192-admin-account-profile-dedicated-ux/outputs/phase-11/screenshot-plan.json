@@ -1,0 +1,47 @@
+{
+  "taskId": "issue-1192-admin-account-profile-dedicated-ux",
+  "mode": "VISUAL",
+  "status": "pending_implementation_cycle",
+  "rationale": "implemented_local_evidence_captured: AdminAccessNotice is implemented and covered by local Vitest. Staging authenticated runtime screenshots remain user-gated because /profile is an auth-required route and Claude Code does not log into staging.",
+  "viewports": [
+    "desktop(1280x800)",
+    "mobile(375x812)"
+  ],
+  "planned": [
+    {
+      "tc": "TC-11-1",
+      "screen": "/profile",
+      "variant": "admin (isAdmin=true)",
+      "viewport": "desktop(1280x800)",
+      "file": "screenshots/profile-admin-desktop.png",
+      "status": "pending",
+      "memo": "認証必須ルート。ローカル取得は Playwright storageState（管理者 session fixture）または管理者 seed account を前提とする。staging 実機は user-gated。"
+    },
+    {
+      "tc": "TC-11-1",
+      "screen": "/profile",
+      "variant": "admin (isAdmin=true)",
+      "viewport": "mobile(375x812)",
+      "file": "screenshots/profile-admin-mobile.png",
+      "status": "pending",
+      "memo": "認証必須ルート。ローカル取得は Playwright storageState（管理者 session fixture）または管理者 seed account を前提とする。staging 実機は user-gated。"
+    },
+    {
+      "tc": "TC-11-2",
+      "screen": "/profile",
+      "variant": "member (isAdmin=false)",
+      "viewport": "desktop(1280x800)",
+      "file": "screenshots/profile-member-desktop.png",
+      "status": "pending",
+      "memo": "認証必須ルート。非管理者 session fixture（admin_users 非登録 seed）を前提とする。AC-3（カード非描画・従来描画と同一）の視覚裏付け。staging 実機は user-gated。"
+    }
+  ],
+  "boundary": {
+    "jsdom_not_covered": [
+      "SectionCard accent tone の実描画色（var(--ubm-*) 解決後）",
+      "@media レスポンシブ（mobile 折返し・ボタンサイズ）",
+      "実フォントレンダリング"
+    ],
+    "staging_user_gated": "認証必須画面（/profile）の管理者アカウント runtime screenshot と /admin 遷移確認は user 明示承認後にのみ取得する（Claude Code は staging 認証ログインしない）"
+  }
+}

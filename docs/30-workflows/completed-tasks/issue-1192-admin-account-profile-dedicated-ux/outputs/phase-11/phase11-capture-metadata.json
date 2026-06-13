@@ -1,0 +1,55 @@
+{
+  "taskId": "issue-1192-admin-account-profile-dedicated-ux",
+  "mode": "VISUAL",
+  "status": "pending_implementation_cycle",
+  "captured": 0,
+  "planned": 3,
+  "note": "implemented_local_evidence_captured: local implementation and Vitest evidence are present. screenshots/ contains .gitkeep only; staging authenticated runtime screenshots are user-gated.",
+  "viewports": [
+    {
+      "id": "desktop",
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "id": "mobile",
+      "width": 375,
+      "height": 812
+    }
+  ],
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "screen": "/profile",
+      "variant": "admin (isAdmin=true)",
+      "file": "screenshots/profile-admin-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-1",
+      "screen": "/profile",
+      "variant": "admin (isAdmin=true)",
+      "file": "screenshots/profile-admin-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-2",
+      "screen": "/profile",
+      "variant": "member (isAdmin=false)",
+      "file": "screenshots/profile-member-desktop.png",
+      "status": "pending"
+    }
+  ],
+  "user_gated": [
+    {
+      "id": "staging-admin-runtime",
+      "description": "staging /profile の管理者アカウント認証 runtime screenshot（認証必須ルートのため Claude Code は取得しない。ユーザー明示承認後のみ）",
+      "status": "user_gated_pending"
+    },
+    {
+      "id": "staging-admin-navigation",
+      "description": "staging で「管理画面を開く」→ /admin 遷移の実機確認",
+      "status": "user_gated_pending"
+    }
+  ]
+}
