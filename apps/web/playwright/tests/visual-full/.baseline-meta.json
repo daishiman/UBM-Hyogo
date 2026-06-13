@@ -13,6 +13,7 @@
     "27340194772",
     "27341009167",
     "27400529754",
+    "27423389399",
     "27452557308"
   ],
   "viewport_dimensions": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "PR #1220: /admin/tags に TagManagementGuide 説明UI/相互リンク追加でページ高が desktop 800→987 / mobile 1520 / tablet 1237-1345px へ縦長化。admin-tags の visual baseline (desktop/mobile/tablet) を意図変更に追従して再生成。他16画面は不一致なし。"
+  "last_refresh_reason": "[dev取込結合] PR #1220: /admin/tags に TagManagementGuide 説明UI/相互リンク追加でページ高が desktop 800→987 / mobile 1520 / tablet 1237-1345px へ縦長化、admin-tags の visual baseline (desktop/mobile/tablet) を意図変更に追従して再生成（他16画面は不一致なし）。+ dev #1221: vitest unit spec追従漏れ2件(plainLabel/retryableメッセージ)是正後の再dispatch、admin-schema baseline再生成。"
 }

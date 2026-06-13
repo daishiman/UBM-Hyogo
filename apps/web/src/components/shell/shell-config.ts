@@ -62,11 +62,9 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
   const schemaItem: ShellNavItem = {
     id: "schema",
     href: "/admin/schema",
-    label: "スキーマ",
+    label: "フォーム項目",
     icon: "schema",
-    ...(schemaDiffCount > 0
-      ? { badge: { tone: "warn" as const, count: schemaDiffCount } }
-      : {}),
+    ...(schemaDiffCount > 0 ? { badge: { tone: "warn" as const, count: schemaDiffCount } } : {}),
   };
   return {
     id: "admin",

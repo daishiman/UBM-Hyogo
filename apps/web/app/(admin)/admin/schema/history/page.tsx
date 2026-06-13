@@ -24,12 +24,12 @@ export default async function SchemaHistoryPage({
   return (
     <section className="flex flex-col gap-4">
       <AdminPageHeader
-        eyebrow="ADMIN / SCHEMA"
+        eyebrow="管理 / フォーム項目"
         title="設問の紐付け履歴"
         description="フォーム設問の変化を管理者がどう解消したかを確認します"
         breadcrumbs={[
           { label: "管理", href: "/admin" },
-          { label: "Form schema", href: "/admin/schema" },
+          { label: "フォーム項目", href: "/admin/schema" },
           { label: "履歴" },
         ]}
       />
