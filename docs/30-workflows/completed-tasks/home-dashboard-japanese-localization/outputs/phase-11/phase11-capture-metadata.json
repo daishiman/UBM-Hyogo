@@ -1,0 +1,30 @@
+{
+  "taskId": "home-dashboard-japanese-localization",
+  "mode": "VISUAL",
+  "status": "local_visual_present_staging_pending",
+  "workflow_state": "implemented_local_evidence_captured",
+  "route": "/",
+  "reason": "Local implementation is complete. Playwright captured local homepage screenshots and DOM verification passed; staging baseline remains user-gated.",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "screenshot_count": 3,
+  "captured_screenshots": [
+    "screenshots/home-localized-full.png",
+    "screenshots/home-localized-stats.png",
+    "screenshots/home-localized-about.png"
+  ],
+  "local_dom_verification": {
+    "labels": [
+      "公開メンバー",
+      "事業フェーズ",
+      "年間の支部会",
+      "最終データ更新"
+    ],
+    "syncBadge": "自動で最新化",
+    "publicEyebrows": [],
+    "legacyEnglish": [],
+    "errorPanelText": []
+  }
+}

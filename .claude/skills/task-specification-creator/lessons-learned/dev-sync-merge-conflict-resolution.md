@@ -13,6 +13,43 @@
 - 検証: 1 回目 merge `Unable to write index`（stale lock 12:37）→ node unlink → abort（HEAD 不変）→ 再 merge で CONFLICT 4（skill-index union）→ `pnpm sync:resolve` 1 パス → add -A / commit `3d91089cf`（lefthook 全 pass）→ typecheck/lint exit 0 → indexes:rebuild 冪等（5523 kw drift 0）→ commit 準備中 lock 18:06 再発を mtime 安定確認後に再除去。install skip（lock/package.json 変更 0）。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142（本 lesson の正本）, SP-DEVSYNC-135（index.lock 競合 worst-case）, SP-DEVSYNC-138（lock 待機プロトコル）。
 
+### SP-DEVSYNC-142: 仕様書 Phase 11/13 の sync-merge 検証手順に「`Unable to write index` + `ls-files -u`=0 は孤児 index.lock のシグネチャ＝lock 物理削除→abort→再 merge」を逐語化する（L-DEVSYNC-142 の task-spec 版）
+- 2026-06-13 `feat/home-dashboard-japanese-localization` 4th-pass（wt-12・behind 1 / ahead 12・merge `28f30a060`）。取込 #1220（タグ定義コード自動生成 + タグ管理説明 UI）。最初の `git merge dev` が CONFLICT 列挙でなく `error: Unable to write index` で落ち、`git status`「All conflicts fixed but you are still merging」かつ `git ls-files -u` 0＝偽の merge-in-progress。真因は worktree 専用 git-dir `.git/worktrees/<name>/index.lock`（約 5 時間齢の孤児 lock）。
+- How to apply（仕様書 Phase 11/13 の sync-merge 検証手順への逐語化）:
+  1. **`Unable to write index` の切り分け**: merge が「CONFLICT in <file>」を出さず `error: Unable to write index` だけで落ち、`git status` が merging を指すのに `git ls-files -u` が 0 なら、衝突解消でなく **index 書込ブロック**。`WT_GITDIR="$(git rev-parse --git-dir)"; ls -la "$WT_GITDIR" | grep -i lock` で worktree 専用 git-dir（repo root `.git` ではない）の `index.lock` を確認すると手順化する。
+  2. **削除→abort の順序固定**: `git merge --abort` は index を書くため同じ lock で二次失敗（`Unable to create '...index.lock': File exists`）する。必ず lock 削除を先に行う。`rm -f` が harness で denied なら `node -e "require('fs').unlinkSync('<abs path>')"`。削除後 `git merge --abort` → 再 `git merge dev` で本来の skill-index union 衝突に到達し `pnpm sync:resolve` 1 パス。
+  3. **ライブ競合と区別（齢で判定）**: 即削除が危険なのは保持者生存中のライブ lock（SP-DEVSYNC-138 系）。mtime 齢が 30 分 stale 閾値超かつ自分の中途 merge を指すなら孤児で削除安全、短齢なら解放ポーリングへ回す、と分岐を明記。
+- Why: git worktree は index/lock を per-worktree（`.git/worktrees/<name>/`）に持つため、9 並列運用ではどれかの git クラッシュが孤児 lock を残し、その worktree の次の merge を即ブロックする。abort も index を書くので lock 除去が全前提。仕様書に「`Unable to write index` は衝突 0 でも lock 由来・削除→abort→再 merge」を書けば、実装者が衝突解消を探して空回りするのを防げる。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142 が正本。SP-DEVSYNC-138（ライブ lock 解放ポーリング・本件は孤児で即削除へ分岐）, SP-DEVSYNC-140（同ブランチ 3rd-pass baseline-meta）。
+
+### SP-DEVSYNC-140: VISUAL feature の仕様書 sync 手順には「`.baseline-meta.json` の両側衝突は dev 側 theirs 全採用 + 原子的 1-Bash 解消」を逐語化する（L-DEVSYNC-140 の task-spec 版）
+- 2026-06-13 `feat/home-dashboard-japanese-localization` 3rd-pass（wt-12・behind 1 / ahead 10・merge `bd38a6216`）。取込 #1221（/admin/schema 日本語化）で CONFLICT 3 = skill-index union 2 + **`.baseline-meta.json`（content）**。feature（home 日本語化・自前 baseline dispatch）と dev（#1221 schema・別 dispatch）の両側が `playwright-visual-baseline-update.yml` を走らせ、`captured_at_commit_sha`/`captured_at`/`captured_run_ids` 末尾が分岐した「両側 baseline 再生成」正例。
+- How to apply（VISUAL feature 仕様書の Phase 5 / Phase 11 sync 手順への逐語化）:
+  - **`.baseline-meta.json` 衝突の既定解消を書く**: 「両側が baseline-update を走らせると `.baseline-meta.json` は必ず 3-way 衝突する。`git checkout --theirs <path>` で dev 側を丸採用する（CONST_001 + baseline-update は全画面一括再生成ゆえ最新 dispatch が全画面代表）。captured_run_ids の union は不要（メタは provenance 診断専用で CI visual gate は `-linux.png` 実比較）」を明記。
+  - **原子的 1-Bash 解消手順を書く**: 「`git checkout --theirs` → `git add -A` → `git ls-files -u`=0 + staged 厳密マーカー 0 → commit → committed blob marker grep 0 を**単一 Bash で連結**（別セッションの baseline-update bot 書き戻し対策）」を逐語化。
+  - **HEAD 採用 vs theirs 採用の分岐基準を書く**: 「token 変更等で feature 側 baseline が正本なら HEAD 採用 + run_ids union（L-DEVSYNC-1057）、両側が別画面を独立更新したなら最新 dispatch の theirs 全採用。判定軸＝どちらの captured_at が新しいか × baseline-update が全画面一括か」。
+- Why: VISUAL feature は feature 側でも baseline dispatch を走らせるため、dev 取込時に `.baseline-meta.json` 衝突が構造的に起きる。仕様書に既定解消（theirs 全採用 + 原子的）を書いておけば、実装者が run_ids を手動 union しようとして過剰作業・書き戻し事故に陥るのを防げる。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140（本 lesson の正本）。L-DEVSYNC-134/135/136（条件付き衝突）/ L-DEVSYNC-137-B（全画面一括 dispatch）/ L-DEVSYNC-1057（HEAD 採用 + union の対照）と対。
+
+### SP-DEVSYNC-139: 並列 worktree 運用を伴う仕様書の sync-merge / branch-sync 手順には「lock 判定は age より先に `ps -p <PID>` で保持プロセスの生死を確認する（孤児 lock は待たず置換）」を逐語化する（L-DEVSYNC-139 の task-spec 版）
+- 2026-06-12 `feat/home-dashboard-japanese-localization` **2nd-pass** ← dev（sub-worktree wt-12, behind 1 / ahead 6, merge `7498f8aea`）。pre-flight で共有 `.branch-sync.lock`（PID 41644 / age 約 23 秒 = 30 分閾値未満）を検出。SP-DEVSYNC-138-C 系（age < 30 分は待機）の機械適用では待機に入るが、`ps -p 41644` で**プロセス死亡**＝クラッシュ残置の孤児 lock と判明。死んだ PID を待つと無限待機になるため truncate 上書き（L-DEVSYNC-103-C）で続行した。
+- How to apply（並列 worktree 運用の仕様書 Phase 5 / sync 手順への逐語化）:
+  - **lock 検出時の判定順を「PID 生死 → age」で逐語化**: 仕様書の sync/branch-sync 手順に「lock を検出したら、まず内容の PID を `cat` で読み、`ps -p <PID> > /dev/null 2>&1` で生死を確認する。**生存**なら age < 30 分でポーリング待機（138-C）/ 30 分超は最終レポート。**死亡**なら age に関係なく孤児 lock 確定で truncate 上書き（`printf "%s\n%s\n" "$$" "<ts>" > "$LOCK"`）で即続行」と書く。age（mtime / timestamp）単独判定は、クラッシュ残置の孤児を生きた並列実行と誤認させ無限待機・不要中断を招くため禁じる。
+  - **上書き前に旧 PID を控える手順を明記**: 「lock を自分の PID で truncate 上書きする前に `cat "$LOCK"` で旧 PID を控える（生死判定に旧 PID が要る）」を逐語化する。
+- Why: 9 並列 worktree 運用ではタブ強制クローズ・クラッシュで孤児 lock が日常的に残る。lock の age は「作成時刻」であって「保持者の生存」を保証しない。PID 生死を第 1 判定にすることで、138-C（生者は待つ）と 103-C（死者の lock は置換）を age 閾値に依存せず一意に分岐でき、仕様書記載の手順から無限待機・不要中断を排除できる。
+- 検証: lock 検出（PID 41644 / age 23s）→ `ps -p` DEAD → truncate 上書き続行 → dev == origin/dev（0/0・独自 0・同期 no-op）→ `git merge dev --no-edit` CONFLICT 2（skill-index union のみ）→ `pnpm sync:resolve` exit 0 → marker 0（ut-08 装飾線は既知 false-positive）→ merge `7498f8aea` → typecheck / lint exit 0（7 packages）/ indexes:rebuild 冪等 5521 kw / CI コード修正不要。
+- 再現（仕様書 sync 手順の「恒常パターン」注記用）: 同ブランチ連続 2nd-invoke（merge `0e7a98292`・取込 #1238 esbuild bump + #1237）でも孤児 lock（PID 99078 / age 約 65s・`ps -p` DEAD）が再発。孤児 lock は branch-sync の連続 invoke で構造的に再発するため、仕様書には「lock 検出＝必ず PID 生死確認」を例外なく書く。esbuild devDep bump で `package.json` + `pnpm-lock.yaml` touch → install 必須（SP-DEVSYNC-132）を併発する点も sync 手順に併記する。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）。L-DEVSYNC-138-C（生きた共有 lock は待つ）/ L-DEVSYNC-103-C（stale lock の truncate 上書き）と対。
+
+### SP-DEVSYNC-138: 「token 削除系」（英語表記除去・dead CSS 削除・ラベル和訳）タスクと「helper/テスト追加系」タスクの仕様書には、sync-merge 手順に「マーカー解消後の Before token grep 再走査」と「追加 helper/spec 名の重複宣言 grep」を逐語化する（L-DEVSYNC-138 の task-spec 版）
+- 2026-06-12 `feat/home-dashboard-japanese-localization` ← dev（sub-worktree wt-12, behind 5 / ahead 2, merge `d06f573fb`）。公開トップ日本語化 feature（eyebrow 5 削除 + topTags 補完 helper 追加）へ dev #1213（8 画面 SectionCard/ButtonLink 共通レイアウト化）を取込。conflict 6 のうち apps 2 を手動解消した後、**conflict として現れない汚染 2 種**を grep/typecheck 層で検出した。
+- How to apply（該当タスクの仕様書 Phase 5 / sync-merge 手順への逐語化）:
+  - **削除系タスクの sync 手順に Before token grep を必須記載**: 仕様書の Before→After 対応表（用語リネーム正本表）にある **Before token** で、マーカー解消後に当該ファイル + 変更対象コンポーネント群を `grep -n` し直す手順を書く。dev 側の構造再編（要素移動・コンポーネント化）が削除対象 token をコンフリクトブロック**外**の共通領域へ運び、マーカー解消だけでは削除意図が静かに巻き戻る（本件: dev の SectionCard 再編が `eyebrow` 行を body 先頭へ移動 → `>>>>>>> dev` 直後に残存 → grep で検出・削除）。
+  - **追加系タスクの sync 手順に重複宣言 grep を必須記載**: feature が追加した helper 関数名・spec 名を、Auto-merging されたファイルへ `grep -c 'function <名>'` し**宣言 1 回**を確認する手順を書く。同一意図の実装が dev に別 PR で landed すると textual conflict なしで同名関数が 2 回宣言され、typecheck（TS2393）まで素通りする（本件: `normalizePublicMemberList` が feature 版 + dev 版の 2 重定義 → prettier 整形適合側のみ残置）。同一意図テストの両側追加 conflict は union でなく **1 本化**（dev 側採用）を既定と書く。
+  - **共有 lock の待機手順**: 並列 worktree 運用の仕様書 sync 手順に「`.git/.branch-sync.lock`（common dir 共有）が age < 30 分で存在する場合は並列セッション進行中＝削除も中断もせず 15-30s ポーリングで解放待ち → 解放後は先行セッションの dev 同期結果を冪等スキップ判定から再開」を記載する（本件 約 20 分待機 → dev == origin/dev 済で fetch 後 feature マージへ直行）。
+- 検証: conflict 6（union 3 + keywords `--ours` + apps 2）→ resolver 1 パス + apps 手動解消 + 重複定義削除 + eyebrow 横断 grep 0 hit（5 ファイル）→ merge `d06f573fb` blob marker 0 → typecheck / lint exit 0（7 packages）→ focused vitest 6 files 42 tests pass。install は lock 非変化で省略（SP-DEVSYNC-134 の対照ケース踏襲）。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）。SP-DEVSYNC-129（同一要素直交 delta の手動 union・本件は同一意図重複着地の対）/ SP-DEVSYNC-133（sync 緑 ≠ CI 緑・本件は commit 前 grep/typecheck で検出可能な層）と対。
+
 ### SP-DEVSYNC-141: 仕様書 Phase 11/13 の「push 後 CI 失敗修復」手順に、視覚 baseline stale と e2e strict-mode violation の多層性を逐語化する（L-DEVSYNC-141 の task-spec 版）
 - 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen`（wt-4・PR #1220）。VISUAL タスクの sync-merge push 後に visual-full 3 viewport fail → 修復後 e2e 2 spec fail の 2 層が順に顕在化。
 - How to apply（仕様書 Phase 11/13 への逐語化）:
