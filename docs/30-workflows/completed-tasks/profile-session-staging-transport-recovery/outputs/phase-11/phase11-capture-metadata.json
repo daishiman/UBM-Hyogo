@@ -1,0 +1,15 @@
+{
+  "workflow_id": "profile-session-staging-transport-recovery",
+  "status": "pending_implementation",
+  "reason": "implemented_local_runtime_pending: focused Vitest は local PASS。staging deploy・復旧確認・runtime screenshot 取得は user-gated で未実施。screenshots/ は .gitkeep のみで PNG は存在しない。",
+  "local_tests": {
+    "status": "passed",
+    "files": 5,
+    "tests": 72,
+    "note": "env / transport / authed / safe-fetch / profile page の 5 spec を 2026-06-12 に local 実行（72 tests PASS）。safe-fetch.spec.ts の T01 取込漏れ（transportKind/baseHost ログ期待値）を spec 追従で是正済み。"
+  },
+  "runtime_capture": {
+    "status": "pending_user_gate",
+    "target": "outputs/phase-11/screenshots/profile-session-recovery-staging.png"
+  }
+}

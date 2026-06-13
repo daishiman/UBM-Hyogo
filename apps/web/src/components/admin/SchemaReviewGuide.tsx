@@ -19,7 +19,7 @@ export function SchemaReviewGuide() {
           const term = SCHEMA_REVIEW_TERMS[key]!;
           return (
             <div key={key}>
-              <dt>{plainLabel(key)}</dt>
+              <dt>{plainLabel(key, { includeTechnical: true })}</dt>
               <dd>{term.description}</dd>
             </div>
           );

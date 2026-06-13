@@ -6,9 +6,11 @@ import {
 } from "../schemaReviewTerms";
 
 describe("schemaReviewTerms", () => {
-  it("registered terms expose plain labels with technical names", () => {
-    expect(plainLabel("stableKey")).toBe("永続的な名前（技術名: stableKey）");
-    expect(plainLabel("questionId")).toBe("設問の元ID（技術名: questionId）");
+  it("registered terms expose plain labels by default and technical names on demand", () => {
+    expect(plainLabel("stableKey")).toBe("永続的な名前");
+    expect(plainLabel("questionId")).toBe("設問の元ID");
+    expect(plainLabel("stableKey", { includeTechnical: true })).toBe("永続的な名前（技術名: stableKey）");
+    expect(plainLabel("questionId", { includeTechnical: true })).toBe("設問の元ID（技術名: questionId）");
     expect(termDescription("alias")).toContain("対応関係");
   });
 

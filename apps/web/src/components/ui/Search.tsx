@@ -33,6 +33,7 @@ export function Search({
     <div>
       <input
         type="search"
+        className="ui-search__input"
         id={id}
         name={name}
         {...imeInput.inputProps}

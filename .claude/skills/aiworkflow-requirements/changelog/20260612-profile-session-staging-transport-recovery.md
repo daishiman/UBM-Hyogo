@@ -1,0 +1,5 @@
+# 2026-06-12 profile-session-staging-transport-recovery
+
+`profile-session-staging-transport-recovery` を `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` として同期。staging `/profile` の `MEMBER_SESSION_FAILED` transport failure に対し、`getAuthEnv` field-tolerant parse、`ApiTransportError` + `describeTransport`、GET/HEAD 限定 transport fallback chain、safe-fetch transport diagnostics、web `/api/me/profile` + API direct `/me` の read-only diagnose script を実装。HTTP error Response では fallback せず、POST は fallback しない。`/me` path/shape/status、apps/api、D1 schema、Google Form、`/profile` UI 文言は不変。
+
+Focused Vitest 5 files / 72 tests PASS（env / transport / authed / safe-fetch / profile page）、`bash -n scripts/diagnose-profile-session.sh` PASS、unreachable-host dry run PASS、artifacts parity `cmp -s ...` exit 0。Phase 12 strict 7、unassigned-task 必須4セクション、aiworkflow quick-reference / resource-map / task-workflow-active / artifact inventory / SKILL-changelog を same-wave sync。staging deploy、authenticated recovery screenshot、S1-S4 final sub-cause confirmation、commit、push、PR は user-gated。
