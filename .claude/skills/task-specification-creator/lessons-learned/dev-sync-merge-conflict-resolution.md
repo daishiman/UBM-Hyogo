@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-139: 並列 worktree 運用を伴う仕様書の sync-merge / branch-sync 手順には「lock 判定は age より先に `ps -p <PID>` で保持プロセスの生死を確認する（孤児 lock は待たず置換）」を逐語化する（L-DEVSYNC-139 の task-spec 版）
+- 2026-06-12 `feat/home-dashboard-japanese-localization` **2nd-pass** ← dev（sub-worktree wt-12, behind 1 / ahead 6, merge `7498f8aea`）。pre-flight で共有 `.branch-sync.lock`（PID 41644 / age 約 23 秒 = 30 分閾値未満）を検出。SP-DEVSYNC-138-C 系（age < 30 分は待機）の機械適用では待機に入るが、`ps -p 41644` で**プロセス死亡**＝クラッシュ残置の孤児 lock と判明。死んだ PID を待つと無限待機になるため truncate 上書き（L-DEVSYNC-103-C）で続行した。
+- How to apply（並列 worktree 運用の仕様書 Phase 5 / sync 手順への逐語化）:
+  - **lock 検出時の判定順を「PID 生死 → age」で逐語化**: 仕様書の sync/branch-sync 手順に「lock を検出したら、まず内容の PID を `cat` で読み、`ps -p <PID> > /dev/null 2>&1` で生死を確認する。**生存**なら age < 30 分でポーリング待機（138-C）/ 30 分超は最終レポート。**死亡**なら age に関係なく孤児 lock 確定で truncate 上書き（`printf "%s\n%s\n" "$$" "<ts>" > "$LOCK"`）で即続行」と書く。age（mtime / timestamp）単独判定は、クラッシュ残置の孤児を生きた並列実行と誤認させ無限待機・不要中断を招くため禁じる。
+  - **上書き前に旧 PID を控える手順を明記**: 「lock を自分の PID で truncate 上書きする前に `cat "$LOCK"` で旧 PID を控える（生死判定に旧 PID が要る）」を逐語化する。
+- Why: 9 並列 worktree 運用ではタブ強制クローズ・クラッシュで孤児 lock が日常的に残る。lock の age は「作成時刻」であって「保持者の生存」を保証しない。PID 生死を第 1 判定にすることで、138-C（生者は待つ）と 103-C（死者の lock は置換）を age 閾値に依存せず一意に分岐でき、仕様書記載の手順から無限待機・不要中断を排除できる。
+- 検証: lock 検出（PID 41644 / age 23s）→ `ps -p` DEAD → truncate 上書き続行 → dev == origin/dev（0/0・独自 0・同期 no-op）→ `git merge dev --no-edit` CONFLICT 2（skill-index union のみ）→ `pnpm sync:resolve` exit 0 → marker 0（ut-08 装飾線は既知 false-positive）→ merge `7498f8aea` → typecheck / lint exit 0（7 packages）/ indexes:rebuild 冪等 5521 kw / CI コード修正不要。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）。L-DEVSYNC-138-C（生きた共有 lock は待つ）/ L-DEVSYNC-103-C（stale lock の truncate 上書き）と対。
+
 ### SP-DEVSYNC-138: 「token 削除系」（英語表記除去・dead CSS 削除・ラベル和訳）タスクと「helper/テスト追加系」タスクの仕様書には、sync-merge 手順に「マーカー解消後の Before token grep 再走査」と「追加 helper/spec 名の重複宣言 grep」を逐語化する（L-DEVSYNC-138 の task-spec 版）
 - 2026-06-12 `feat/home-dashboard-japanese-localization` ← dev（sub-worktree wt-12, behind 5 / ahead 2, merge `d06f573fb`）。公開トップ日本語化 feature（eyebrow 5 削除 + topTags 補完 helper 追加）へ dev #1213（8 画面 SectionCard/ButtonLink 共通レイアウト化）を取込。conflict 6 のうち apps 2 を手動解消した後、**conflict として現れない汚染 2 種**を grep/typecheck 層で検出した。
 - How to apply（該当タスクの仕様書 Phase 5 / sync-merge 手順への逐語化）:
