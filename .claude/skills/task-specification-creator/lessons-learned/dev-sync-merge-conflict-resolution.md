@@ -1754,3 +1754,13 @@
   3. **衝突集合の非安定性を前提に書く**: 「keywords.json が衝突する」等の固定列挙でなく「resolver 対象（SKILL.md / task-workflow-active.md / indexes/*-map.md / quick-reference.md / keywords.json）内の任意の部分集合が波ごとに衝突しうる。集合によらず `pnpm sync:resolve` 1 パス → U 残 0 確認 → 原子 1-Bash commit」と手順を集合非依存で逐語化する。
 - 検証: lock 待機約 23 分 → 解放検知 → CONFLICT 4（前波の keywords.json 単独から反転）→ resolver 1 パス → merge `d01b07b9f` blob marker 0 → install skip → typecheck/lint exit 0 → rebuild 冪等 diff 0 → CI コード修正 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）, SP-DEVSYNC-136（happy-path 判定）, SP-DEVSYNC-135（index.lock 競合 worst-case・即 stale 削除を避ける根拠）。
+
+## SP-DEVSYNC-139: **仕様書 Phase 5/11 の dev sync 手順に「dev ref ff の事前安全判定」を逐語化する — sub-worktree から sync する際、dev を checkout 中のメインWT に未コミット変更があり、それが取込対象 dev コミットの変更ファイルと重複する場合、ローカル dev の `merge --ff-only` も `git update-ref` も実行してはならない（前者は uncommitted 上書きで refuse、後者はメインWT working tree を phantom-diff 破損させる）。スコープ外WT保護を優先し「dev ref は触れず origin/dev を直接 feature ブランチへマージ」を正経路として明記する（L-DEVSYNC-139 の task-spec 版）** （2026-06-14 feat/admin-requests-approval-publish-state-diff ← origin/dev, sub-worktree wt-15, behind 6 / ahead 2, merge `858c2ee01`）
+
+- 教訓: sync 仕様は「ローカル dev を origin/dev に ff 同期してから feature へ伝搬」を素朴に書きがちだが、15+ 並列 worktree 運用では dev checkout 中のメインWT に未コミット skill 編集が常駐し、取込対象 dev コミット（skill-meta を含むことが多い）と高確率で重複する。この前提で「ff の事前安全判定」と「ff 不能時の代替経路」を仕様化しないと、メインWT 破壊か phantom-diff 事故を招く。
+- 仕様書への反映（Phase 5/11）:
+  1. **ff 前の安全判定を機械手順で逐語化**: `git diff --name-only <localdev>..origin/dev` と `git -C <mainWT> status --porcelain` の積集合を取り、空なら `git -C <mainWT> merge --ff-only origin/dev`、非空なら ff を断念して 2. の代替経路へ分岐。
+  2. **ff 不能時の正経路を明記**: 「ローカル dev ref は触れず `git merge origin/dev` を feature ブランチ上で直接実行」。dev ref が behind のまま残るのは仕様上許容（統合のゴールは feature ブランチが dev 履歴を含むことであり dev ref の位置ではない）。`git update-ref refs/heads/dev origin/dev` は **禁止コマンド**として明記（checkout 中ブランチのポインタ強制移動は working tree を旧 commit に取り残し phantom-diff 破損を起こす）。
+  3. **成功基準の注記**: 「ローカル dev HEAD == origin/dev」は ff 安全時のみの基準。ff 不能時は「feature ブランチに origin/dev が merge 済み」を成功基準に読み替える、と Phase 11 検証節に注記する。
+- 検証: 積集合 3 件 → ff 断念 → `git merge origin/dev` CONFLICT 2（topic-map + task-workflow-active union）→ `pnpm sync:resolve` 1 パス → merge `858c2ee01` → install（lock 変更あり）→ typecheck/lint exit 0 → CI コード修正 0。dev ref は behind 1 で意図的残置。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）, SP-DEVSYNC-132（install 要否の正本）, SP-DEVSYNC-138（並列WT lock 待機・本件はメインWT working tree 保護への拡張）。
