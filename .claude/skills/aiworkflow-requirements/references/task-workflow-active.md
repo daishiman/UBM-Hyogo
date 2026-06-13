@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
 | user gate | authenticated staging baseline screenshots, commit, push, PR |
 
+### profile-session-staging-transport-recovery（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/` |
+| 目的 | staging `/profile` の `MEMBER_SESSION_FAILED` transport failure を、env field-tolerant 化と transport fallback chain で local 復旧実装する |
+| implementation targets | `apps/web/src/lib/env.ts`, `apps/web/src/lib/fetch/transport.ts`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/me/[...path]/route.ts`, `scripts/diagnose-profile-session.sh` |
+| evidence | focused Vitest 5 files / 72 tests PASS、`bash -n scripts/diagnose-profile-session.sh` PASS、unreachable-host diagnose dry run PASS、artifacts parity `cmp -s ...` exit 0 |
+| invariant | `/me` path/shape/status、apps/api、D1 schema、Google Form、`/profile` UI 文言は不変。fallback は transport throw かつ GET/HEAD のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-staging-transport-recovery-artifact-inventory.md` |
+| user gate | staging deploy、authenticated recovery screenshot、S1-S4 final sub-cause confirmation、commit、push、PR |
+
 ### public-member-common-ui-card-unification（2026-06-10）
 
 | 項目 | 値 |
