@@ -77,7 +77,6 @@ export default async function HomePage() {
       <PageShell>
         <Hero
           variant="card"
-          eyebrow="UBM HYOGO · CHAPTER SITE"
           title="兵庫で、事業を育てる人のつながりを可視化する。"
           subtitle="UBM兵庫支部会メンバーサイトは、Googleフォームから集めた支部会メンバーの自己紹介情報を、公開情報と会員限定情報に分けて整理・公開するサイトです。"
           primaryCta={{ label: "メンバー一覧を見る", href: "/members" }}
@@ -103,7 +102,6 @@ export default async function HomePage() {
             </ButtonLink>
           }
         >
-          <p data-role="eyebrow">FEATURED MEMBERS</p>
           {!membersResult.ok ? (
             <SectionError
               title="メンバー情報を読み込めませんでした"
