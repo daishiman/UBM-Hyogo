@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-140: VISUAL feature の仕様書 sync 手順には「`.baseline-meta.json` の両側衝突は dev 側 theirs 全採用 + 原子的 1-Bash 解消」を逐語化する（L-DEVSYNC-140 の task-spec 版）
+- 2026-06-13 `feat/home-dashboard-japanese-localization` 3rd-pass（wt-12・behind 1 / ahead 10・merge `bd38a6216`）。取込 #1221（/admin/schema 日本語化）で CONFLICT 3 = skill-index union 2 + **`.baseline-meta.json`（content）**。feature（home 日本語化・自前 baseline dispatch）と dev（#1221 schema・別 dispatch）の両側が `playwright-visual-baseline-update.yml` を走らせ、`captured_at_commit_sha`/`captured_at`/`captured_run_ids` 末尾が分岐した「両側 baseline 再生成」正例。
+- How to apply（VISUAL feature 仕様書の Phase 5 / Phase 11 sync 手順への逐語化）:
+  - **`.baseline-meta.json` 衝突の既定解消を書く**: 「両側が baseline-update を走らせると `.baseline-meta.json` は必ず 3-way 衝突する。`git checkout --theirs <path>` で dev 側を丸採用する（CONST_001 + baseline-update は全画面一括再生成ゆえ最新 dispatch が全画面代表）。captured_run_ids の union は不要（メタは provenance 診断専用で CI visual gate は `-linux.png` 実比較）」を明記。
+  - **原子的 1-Bash 解消手順を書く**: 「`git checkout --theirs` → `git add -A` → `git ls-files -u`=0 + staged 厳密マーカー 0 → commit → committed blob marker grep 0 を**単一 Bash で連結**（別セッションの baseline-update bot 書き戻し対策）」を逐語化。
+  - **HEAD 採用 vs theirs 採用の分岐基準を書く**: 「token 変更等で feature 側 baseline が正本なら HEAD 採用 + run_ids union（L-DEVSYNC-1057）、両側が別画面を独立更新したなら最新 dispatch の theirs 全採用。判定軸＝どちらの captured_at が新しいか × baseline-update が全画面一括か」。
+- Why: VISUAL feature は feature 側でも baseline dispatch を走らせるため、dev 取込時に `.baseline-meta.json` 衝突が構造的に起きる。仕様書に既定解消（theirs 全採用 + 原子的）を書いておけば、実装者が run_ids を手動 union しようとして過剰作業・書き戻し事故に陥るのを防げる。
+- 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140（本 lesson の正本）。L-DEVSYNC-134/135/136（条件付き衝突）/ L-DEVSYNC-137-B（全画面一括 dispatch）/ L-DEVSYNC-1057（HEAD 採用 + union の対照）と対。
+
 ### SP-DEVSYNC-139: 並列 worktree 運用を伴う仕様書の sync-merge / branch-sync 手順には「lock 判定は age より先に `ps -p <PID>` で保持プロセスの生死を確認する（孤児 lock は待たず置換）」を逐語化する（L-DEVSYNC-139 の task-spec 版）
 - 2026-06-12 `feat/home-dashboard-japanese-localization` **2nd-pass** ← dev（sub-worktree wt-12, behind 1 / ahead 6, merge `7498f8aea`）。pre-flight で共有 `.branch-sync.lock`（PID 41644 / age 約 23 秒 = 30 分閾値未満）を検出。SP-DEVSYNC-138-C 系（age < 30 分は待機）の機械適用では待機に入るが、`ps -p 41644` で**プロセス死亡**＝クラッシュ残置の孤児 lock と判明。死んだ PID を待つと無限待機になるため truncate 上書き（L-DEVSYNC-103-C）で続行した。
 - How to apply（並列 worktree 運用の仕様書 Phase 5 / sync 手順への逐語化）:
