@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-139: sync-merge を伴う仕様書の Phase 11 生成物 gate 検証には「gate 入力 touch を検出したら touch 主体（dev デルタ単独 / feature 両側）を切り分け、feature 非接触なら verify は確認のみで regenerate 不要」を逐語化する（L-DEVSYNC-139 の task-spec 版）
+- 2026-06-12 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 1 / ahead 6・merge `6c66f7fc9`）。取込 #1218 が gate 入力 `static-manifest.json` + 生成元 `01-api-schema.md` を両方 touch したが、本 feature（admin ダッシュボード）は gate 入力に非接触 → 両ファイル clean auto-merge → `pnpm verify:static-manifest` regenerate なしで OK（drift しない）。
+- How to apply（仕様書 Phase 11 の sync-merge 生成物 gate 検証手順への逐語化）:
+  1. `git diff HEAD...dev --name-only | grep -E 'static-manifest|01-api-schema|migrations/'` で gate 入力 touch を検出する。
+  2. touch ありなら `git diff $(git merge-base dev HEAD^1)..HEAD^1 --name-only` で feature ahead 側の touch 有無を確認し「① dev 単独 touch」「② 両側 touch」を切り分ける。
+  3. ① feature 非接触 → `pnpm verify:static-manifest` / `pnpm verify:d1-migrations` は**省略せず回すが pass 期待・regenerate しない**。② 両側 touch → SP-DEVSYNC-135（= L-DEVSYNC-135）の regenerate 経路（`pnpm regenerate:static-manifest` → 再 verify → 同 PR commit）。
+  4. 「gate 入力 touch ＝必ず regenerate」と書かず、touch 主体で分岐する判定を Phase 11 に明記する（過剰 regenerate は manifest の不要 diff と push 後 CI ノイズを生む）。
+- Why: SP-DEVSYNC-135 は「テキスト緑でも生成物 gate が赤」の正例（feature が source spec を触る 3-way drift）を逐語化したが、その負例（feature 非接触なら drift しない）を併記しないと仕様書が「touch を見たら毎回 regenerate」へ過剰一般化する。touch 主体の 1 コマンド切り分けが「verify するが触らない」を選ばせる。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139 が正本。SP-DEVSYNC-135（両側 touch の正例・本件はその発火条件明確化）, SP-DEVSYNC-138（focused Vitest 交差判定）, SP-DEVSYNC-136（pre-flight 判定順序）。
+
 ### SP-DEVSYNC-138: sync-merge を伴う仕様書の Phase 11 検証には「取込デルタ × feature 主編集ファイルの交差判定 → 交差時は focused Vitest 再実行」を逐語化する（L-DEVSYNC-138 の task-spec 版）
 - 2026-06-12 `feat/members-search-clear-and-sort-ux` 3rd-pass（wt-8・behind 2 / ahead 10・merge `feb39dca1`）。取込 #1213（公開・会員 8 画面共通レイアウト層統一・833 files）が feature 主編集ファイル `(public)/members/page.tsx` + `globals.css` 自体を改変し textual auto-merge（conflict 0）。
 - How to apply（仕様書 Phase 11 の sync-merge 検証コマンド列への逐語化）:
