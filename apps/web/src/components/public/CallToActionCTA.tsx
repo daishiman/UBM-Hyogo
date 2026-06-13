@@ -1,8 +1,12 @@
 // HomePage 末尾 "FOR MEMBERS" dark variant CTA section（prototype pages-public.jsx:136-149）
 // 不変条件 #7: 外部 link 遷移（target="_blank" + rel="noopener noreferrer"）
+// Lane B: SectionCard(tone=accent) でラップ。CTA は ButtonLink 経由へ統一。
 import type { ReactElement } from "react";
 
+import { ButtonLink } from "@/components/ui";
+
 import { Icon } from "../ui/Icon";
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface CallToActionCTAProps {
   readonly responderUrl: string;
@@ -18,24 +22,24 @@ export function CallToActionCTA({
   ctaLabel = "回答フォームを開く",
 }: CallToActionCTAProps): ReactElement {
   return (
-    <section data-component="call-to-action-cta" data-variant="dark">
+    <SectionCard as="section" data-component="call-to-action-cta" data-variant="dark">
       <div data-role="inner">
         <div data-role="copy">
           <p data-role="eyebrow">FOR MEMBERS</p>
           <h2 data-role="heading">{heading}</h2>
           <p data-role="body">{body}</p>
         </div>
-        <a
+        <ButtonLink
           href={responderUrl}
           target="_blank"
           rel="noopener noreferrer"
+          variant="accent"
           data-role="cta-button"
-          data-variant="accent"
         >
           <span>{ctaLabel}</span>
           <Icon name="external-link" size="sm" />
-        </a>
+        </ButtonLink>
       </div>
-    </section>
+    </SectionCard>
   );
 }

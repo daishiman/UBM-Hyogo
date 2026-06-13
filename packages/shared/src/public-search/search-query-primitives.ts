@@ -12,7 +12,12 @@ export const PUBLIC_MEMBER_STATUS_VALUES = [
   "non_member",
   "academy",
 ] as const;
-export const PUBLIC_MEMBER_SORT_VALUES = ["recent", "name"] as const;
+export const PUBLIC_MEMBER_SORT_VALUES = [
+  "recent",
+  "oldest",
+  "name",
+  "name_desc",
+] as const;
 export const PUBLIC_MEMBER_DENSITY_VALUES = [
   "comfy",
   "dense",

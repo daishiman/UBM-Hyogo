@@ -2,11 +2,14 @@
 // - serial-05 で配線した page skeleton に adapter + MemberDetail composing primitive を接続
 // - 既存 fetchPublicOrNotFound 経由 (不変条件 #5: web から D1 直接禁止)
 // - visibility filter は adapter の二重防御 (正本は API 側 getPublicMemberProfileUseCase)
+// Lane B: PageShell + PageHeader(lead=戻る導線) でラップ。
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { MemberDetail } from "../../../../src/components/public/MemberDetail";
 import { SectionError } from "../../../../src/components/public/SectionError";
+import { PageHeader } from "../../../../src/components/ui/layout/PageHeader";
+import { PageShell } from "../../../../src/components/ui/layout/PageShell";
 import {
   PublicMemberProfileWithUnknownKindZ,
   toMemberDetailProps,
@@ -114,24 +117,38 @@ export default async function MemberDetailPage({
   if (!profileResult.ok) {
     return (
       <main data-route="public" data-section-rhythm="comfortable">
-        <a href="/members" data-role="back" className="back-link">
-          ← メンバー一覧に戻る
-        </a>
-        <SectionError
-          title="メンバー情報を読み込めませんでした"
-          detail={profileResult.error.message}
-          retryHref={`/members/${encodeURIComponent(id)}`}
-        />
+        <PageShell>
+          <PageHeader
+            title="メンバー詳細"
+            lead={
+              <a href="/members" data-role="back" className="back-link">
+                ← メンバー一覧に戻る
+              </a>
+            }
+          />
+          <SectionError
+            title="メンバー情報を読み込めませんでした"
+            detail={profileResult.error.message}
+            retryHref={`/members/${encodeURIComponent(id)}`}
+          />
+        </PageShell>
       </main>
     );
   }
   const props = toMemberDetailProps(profileResult.data, { onUnknownKind });
   return (
     <main data-route="public" data-section-rhythm="comfortable">
-      <a href="/members" data-role="back" className="back-link">
-        ← メンバー一覧に戻る
-      </a>
-      <MemberDetail {...props} />
+      <PageShell>
+        {/* 詳細ページの h1 は ProfileHero（会員名）が正本。PageHeader で title に氏名を渡すと
+            h1 が二重化し getByRole(heading, { level: 1 }) の strict-mode 違反になるため、
+            ここは戻る導線のみを nav として置き、見出しは ProfileHero に一本化する。 */}
+        <nav aria-label="パンくず" className="ui-page-header__lead">
+          <a href="/members" data-role="back" className="back-link">
+            ← メンバー一覧に戻る
+          </a>
+        </nav>
+        <MemberDetail {...props} />
+      </PageShell>
     </main>
   );
 }

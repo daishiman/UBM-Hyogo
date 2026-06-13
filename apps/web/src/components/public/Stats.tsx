@@ -1,10 +1,13 @@
 // public-dashboard-prototype-alignment: Members / Zones / Meetings / Last sync
 // プロトタイプ pages-public.jsx LandingPage の 4 stat + sub line + badge-sync 整合。
 // data source: /public/stats (PublicStatsViewZ)。新 endpoint 追加なし。
+// Lane B: SectionCard でラップ。
 
 import type { z } from "zod";
 
 import { PublicStatsViewZ } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export type PublicStatsView = z.infer<typeof PublicStatsViewZ>;
 
@@ -35,7 +38,8 @@ function lastSyncLabel(stats: PublicStatsView): string {
 
 export function Stats({ stats }: StatsProps) {
   return (
-    <section data-component="stats" aria-labelledby="stats-heading">
+    <SectionCard as="section" data-component="stats">
+      {/* アクセシビリティ: sr-only の見出しを内部維持（I-7 aria-labelledby 互換） */}
       <h2 id="stats-heading" className="sr-only">
         サポート指標
       </h2>
@@ -66,6 +70,6 @@ export function Stats({ stats }: StatsProps) {
           </span>
         </li>
       </ul>
-    </section>
+    </SectionCard>
   );
 }

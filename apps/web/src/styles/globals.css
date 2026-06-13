@@ -2,6 +2,7 @@
 @import "./tokens.css";
 @import "./legacy-public.css";
 @import "./auth.css";
+@import "./layout-primitives.css";
 
 @source "../../app";
 @source "../components";
@@ -3264,6 +3265,13 @@
   [data-component="tag-picker"] button[aria-disabled="true"] {
     opacity: 0.45;
     cursor: not-allowed;
+  }
+
+  .ui-search__input::-webkit-search-cancel-button,
+  .ui-search__input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
   }
 
   .schema-history-purpose {

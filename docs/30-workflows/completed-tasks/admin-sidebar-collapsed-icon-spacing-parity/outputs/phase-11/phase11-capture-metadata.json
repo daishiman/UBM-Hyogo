@@ -1,0 +1,23 @@
+{
+  "taskId": "admin-sidebar-collapsed-icon-spacing-parity",
+  "status": "local_deterministic_pass_visual_capture_harness_added_runtime_blocked_staging_visual_pending",
+  "mode": "VISUAL",
+  "capturedAt": null,
+  "localCapture": {
+    "harnessRoutes": [
+      "/visual-harness/admin-sidebar-spacing-collapsed",
+      "/visual-harness/admin-sidebar-spacing-expanded"
+    ],
+    "playwrightSpec": "apps/web/playwright/tests/visual/admin-sidebar-spacing.spec.ts",
+    "command": "pnpm --dir apps/web exec playwright test --config=playwright.parallel09.config.ts apps/web/playwright/tests/visual/admin-sidebar-spacing.spec.ts",
+    "lastAttempt": "2026-06-11",
+    "lastResult": "blocked_before_test_execution",
+    "blocker": "Next dev webServer did not return /visual-harness/admin-sidebar-spacing-collapsed within 240s; manual retry also timed out while compiling instrumentation/middleware/visual-harness."
+  },
+  "screenshots": [
+    {"name": "sidebar-collapsed-before.png", "tc": "TC-V01", "captured": false, "status": "not_reproducible_after_code_change_without_reverting"},
+    {"name": "sidebar-collapsed-after.png", "tc": "TC-V02", "captured": false, "status": "capture_spec_added_runtime_blocked"},
+    {"name": "sidebar-expanded-reference.png", "tc": "TC-V03", "captured": false, "status": "capture_spec_added_runtime_blocked"},
+    {"name": "sidebar-collapsed-after-footer.png", "tc": "TC-V04", "captured": false, "status": "capture_spec_added_runtime_blocked"}
+  ]
+}

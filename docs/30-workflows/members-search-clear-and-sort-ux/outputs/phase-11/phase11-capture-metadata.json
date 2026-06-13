@@ -1,0 +1,35 @@
+{
+  "taskId": "TASK-MEMBERS-SEARCH-CLEAR-AND-SORT-UX-001",
+  "status": "captured_local_filter_ui",
+  "mode": "VISUAL",
+  "workflow_state": "implemented_local_runtime_pending",
+  "route": "/(public)/members",
+  "browser": "chromium",
+  "screenshots": [
+    {
+      "name": "members-search-single-clear.png",
+      "state": "検索入力に値あり・×1つ",
+      "verifies": [
+        "AC-1",
+        "AC-2"
+      ],
+      "captured": true
+    },
+    {
+      "name": "members-sort-four-options.png",
+      "state": "並び替えドロップダウン展開・4選択肢",
+      "verifies": [
+        "AC-3"
+      ],
+      "captured": true
+    }
+  ],
+  "localEvidence": {
+    "focusedTests": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "designTokens": "passed",
+    "chromiumScreenshots": "captured_local_filter_ui",
+    "stagingVisual": "pending_user_gate"
+  }
+}

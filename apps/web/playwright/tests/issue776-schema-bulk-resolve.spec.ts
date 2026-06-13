@@ -19,12 +19,12 @@ async function capture(page: import('@playwright/test').Page, name: string) {
 
 async function openBulkModal(page: import('@playwright/test').Page) {
   await page.goto('/admin/schema')
-  await expect(page.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
-  await page.getByRole('button', { name: 'Bulk Resolve' }).click()
+  await expect(page.getByRole('heading', { name: '項目別の変更点' })).toBeVisible()
+  await page.getByRole('button', { name: 'まとめて対応づけ' }).click()
   await page.getByLabel('全選択 未解決').click()
   await page.getByLabel('全選択 変更').click()
   await expect(page.getByTestId('bulk-selection-summary')).toContainText('30 件選択中')
-  await page.getByRole('button', { name: 'Bulk Resolve 確定' }).click()
+  await page.getByRole('button', { name: 'まとめて対応づけを実行' }).click()
   await expect(page.getByTestId('bulk-resolve-modal')).toBeVisible()
 }
 
@@ -45,18 +45,21 @@ test.describe('Issue #776 schema alias bulk resolve evidence', () => {
     })
 
     await adminPage.goto('/admin/schema')
-    await expect(adminPage.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
-    await adminPage.getByRole('button', { name: 'Bulk Resolve' }).click()
+    await expect(adminPage.getByRole('heading', { name: '項目別の変更点' })).toBeVisible()
+    await adminPage.getByRole('button', { name: 'まとめて対応づけ' }).click()
     await adminPage.getByLabel('全選択 未解決').click()
     await adminPage.getByLabel('全選択 変更').click()
     await capture(adminPage, 'bulk-select-desktop-1280.png')
 
-    await adminPage.getByRole('button', { name: 'Bulk Resolve 確定' }).click()
+    await adminPage.getByRole('button', { name: 'まとめて対応づけを実行' }).click()
     await expect(adminPage.getByTestId('bulk-resolve-modal')).toBeVisible()
     await capture(adminPage, 'bulk-modal-desktop-1280.png')
 
     const startedAt = Date.now()
-    await adminPage.getByTestId('bulk-resolve-modal').getByRole('button', { name: '確定' }).click()
+    await adminPage
+      .getByTestId('bulk-resolve-modal')
+      .getByRole('button', { name: 'まとめて対応づけを実行' })
+      .click()
     await expect(adminPage.getByTestId('bulk-resolve-modal')).toBeHidden()
     const elapsedMs = Date.now() - startedAt
     await capture(adminPage, 'bulk-success-desktop-1280.png')
@@ -118,7 +121,10 @@ test.describe('Issue #776 schema alias bulk resolve evidence', () => {
       })
     })
     await openBulkModal(adminPage)
-    await adminPage.getByTestId('bulk-resolve-modal').getByRole('button', { name: '確定' }).click()
+    await adminPage
+      .getByTestId('bulk-resolve-modal')
+      .getByRole('button', { name: 'まとめて対応づけを実行' })
+      .click()
     await expect(adminPage.getByTestId('bulk-resolve-modal').getByText('alias conflict')).toBeVisible()
     await capture(adminPage, 'bulk-partial-failure-desktop-1280.png')
   })
@@ -126,11 +132,11 @@ test.describe('Issue #776 schema alias bulk resolve evidence', () => {
   test('mobile select and modal screenshots', async ({ adminPage }) => {
     await adminPage.setViewportSize({ width: 375, height: 667 })
     await adminPage.goto('/admin/schema')
-    await expect(adminPage.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
-    await adminPage.getByRole('button', { name: 'Bulk Resolve' }).click()
+    await expect(adminPage.getByRole('heading', { name: '項目別の変更点' })).toBeVisible()
+    await adminPage.getByRole('button', { name: 'まとめて対応づけ' }).click()
     await adminPage.getByLabel('全選択 未解決').click()
     await capture(adminPage, 'bulk-select-mobile-375.png')
-    await adminPage.getByRole('button', { name: 'Bulk Resolve 確定' }).click()
+    await adminPage.getByRole('button', { name: 'まとめて対応づけを実行' }).click()
     await expect(adminPage.getByTestId('bulk-resolve-modal')).toBeVisible()
     await capture(adminPage, 'bulk-modal-mobile-375.png')
   })

@@ -14,6 +14,8 @@ const allowed = new Set([
   "profile-loading",
   "parallel-02-css-rules",
   "sidebar-user-menu",
+  "admin-sidebar-spacing-collapsed",
+  "admin-sidebar-spacing-expanded",
 ]);
 
 export default async function Parallel09VisualPage({

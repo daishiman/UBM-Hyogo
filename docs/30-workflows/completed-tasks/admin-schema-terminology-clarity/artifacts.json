@@ -1,0 +1,125 @@
+{
+  "workflow_id": "admin-schema-terminology-clarity",
+  "feature": "admin-schema-terminology-clarity",
+  "status": "implemented_local_evidence_captured",
+  "created": "2026-06-11T07:30:00+09:00",
+  "lastUpdated": "2026-06-11T16:40:11+09:00",
+  "metadata": {
+    "taskId": "TASK-ADMIN-SCHEMA-TERMINOLOGY-CLARITY-001",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "visualEvidenceStatus": "staging_visual_pending_user_gate",
+    "implementationCategory": "standard",
+    "implementation_mode": "new",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "branch": "feat/admin-schema-terminology-clarity",
+    "scope": "Rename engineer-jargon and English technical labels (schema, stableKey, resolve, revision, CURRENT REVISION, FORM SCHEMA GUIDE, DIFF ITEMS, Bulk Resolve, Bulk Rollback, ALIAS HISTORY) shown to non-engineer admins on /admin/schema and its dependent surfaces into plain Japanese, and hide the meaningless internal revisionId raw display (e.g. 000000... + active badge). Presentation layer only in apps/web. No API, D1, Google Form, or endpoint surface changes. Glossary cards keep the technical name in parentheses by user decision.",
+    "canonical_root": "docs/30-workflows/completed-tasks/admin-schema-terminology-clarity",
+    "runtime_boundary": "Local implementation and local verification are complete in this wave. Focused Vitest, web typecheck, lint, verify:tokens, apps/api non-touch check, old technical-label grep, and post-review Playwright expectation-list validation passed. Authenticated staging visual evidence, screenshots, commit, push, and PR remain user-gated.",
+    "real_cause": "apps/web presentation-layer terminology gap. The schema-diff feature and its API contract are already complete. The pain is that non-engineer admins cannot understand the screen because the navigation label, page heading, section eyebrows, action buttons, and modal headers use English technical vocabulary, and the CURRENT REVISION card prints the raw internal revisionId which is meaningless to users.",
+    "user_decisions": {
+      "new_name": "フォーム項目の対応づけ (sidebar: フォーム項目, breadcrumb: 管理 / フォーム項目, dashboard: 未対応のフォーム項目: N 件)",
+      "english_terms": "Japanese only on screen; technical name kept only inside glossary cards as 項目キー（技術名: stableKey）",
+      "revision_number": "Hide the raw revisionId; show 現在のフォーム構成 / 最新版 ●適用中 /（取得: 日本語日付）"
+    },
+    "implementation_files": [
+      "apps/web/src/lib/format/datetime.ts",
+      "apps/web/src/components/shell/shell-config.ts",
+      "apps/web/app/(admin)/admin/schema/page.tsx",
+      "apps/web/app/(admin)/admin/schema/history/page.tsx",
+      "apps/web/src/components/admin/SchemaPurposeExplainer.tsx",
+      "apps/web/src/components/admin/SchemaDiffPanel.tsx",
+      "apps/web/src/components/admin/SchemaDiffBulkResolveModal.tsx",
+      "apps/web/src/components/admin/SchemaDiffBulkRollbackModal.tsx",
+      "apps/web/src/components/admin/SchemaDiffHistoryPanel.tsx",
+      "apps/web/src/components/admin/SchemaHistoryPurposeExplainer.tsx",
+      "apps/web/src/features/admin/components/_dashboard/SchemaAlertCard.tsx",
+      "apps/web/src/features/admin/components/_dashboard/KpiGrid.tsx"
+    ],
+    "test_files": [
+      "apps/web/app/(admin)/admin/schema/page.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx",
+      "apps/web/src/components/shell/__tests__/shell-config.spec.tsx",
+      "apps/web/src/components/shell/__tests__/SidebarShell.server.spec.tsx",
+      "apps/web/playwright/page-objects/AdminSchemaPage.ts",
+      "apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts",
+      "apps/web/playwright/tests/task15-admin-screenshots.spec.ts",
+      "apps/web/playwright/tests/admin-pageheader-task-c.spec.ts",
+      "apps/web/playwright/tests/visual-staging-authenticated/admin-schema-authenticated.spec.ts"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm --filter @ubm-hyogo/web typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm exec vitest run apps/web/app/(admin)/admin/schema/page.spec.tsx apps/web/src/components/shell/__tests__/SidebarNavItem.spec.tsx",
+      "mise exec -- pnpm verify:tokens",
+      "git diff --quiet -- apps/api",
+      "rg -n 'CURRENT REVISION|FORM SCHEMA GUIDE|DIFF ITEMS|Bulk Resolve|Bulk Rollback|ALIAS HISTORY|スキーマ差分のレビュー|スキーマ未解決|Schema issues|Form schema' apps/web/src apps/web/app apps/web/playwright --glob '!evidence/**'",
+      "mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test apps/web/playwright/page-objects/AdminSchemaPage.ts apps/web/playwright/tests/issue776-schema-bulk-resolve.spec.ts apps/web/playwright/tests/task15-admin-screenshots.spec.ts apps/web/playwright/tests/admin-pageheader-task-c.spec.ts apps/web/playwright/tests/visual-staging-authenticated/admin-schema-authenticated.spec.ts --list"
+    ],
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-11T07:50:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-terminology-clarity/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation specification and strict Phase 12 outputs are present for the schema-terminology-clarity task. Presentation-layer only, API untouched."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-11T10:45:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-terminology-clarity/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web presentation-layer implementation complete. Focused Vitest 10 files / 84 tests PASS in initial wave. Post-review focused Vitest 6 files / 64 tests PASS, web typecheck PASS, lint PASS, verify:tokens PASS, apps/api diff empty, old technical-label grep returned no matches across apps/web/src apps/web/app apps/web/playwright, and Playwright --list loaded 56 tests / 6 files after expectation updates."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-schema-terminology-clarity/outputs/phase-13/phase-13.md",
+        "approver": "daishiman",
+        "notes": "external_ops: authenticated staging visual evidence, screenshots, commit, push, and PR are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "output": "outputs/phase-1/phase-1.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "output": "outputs/phase-2/phase-2.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "output": "outputs/phase-3/phase-3.md" },
+    { "phase": 4, "name": "テスト作成", "status": "completed", "output": "outputs/phase-4/phase-4.md" },
+    { "phase": 5, "name": "実装", "status": "completed", "output": "outputs/phase-5/phase-5.md" },
+    { "phase": 6, "name": "テスト拡充", "status": "completed", "output": "outputs/phase-6/phase-6.md" },
+    { "phase": 7, "name": "カバレッジ確認", "status": "completed", "output": "outputs/phase-7/phase-7.md" },
+    { "phase": 8, "name": "リファクタリング", "status": "completed", "output": "outputs/phase-8/phase-8.md" },
+    { "phase": 9, "name": "品質保証", "status": "completed", "output": "outputs/phase-9/phase-9.md" },
+    { "phase": 10, "name": "最終レビュー", "status": "completed", "output": "outputs/phase-10/phase-10.md" },
+    { "phase": 11, "name": "手動テスト", "status": "runtime_pending", "output": "outputs/phase-11/phase-11.md" },
+    { "phase": 12, "name": "ドキュメント更新", "status": "completed", "output": "outputs/phase-12/main.md" },
+    { "phase": 13, "name": "PR作成", "status": "pending_user_approval", "output": "outputs/phase-13/phase-13.md" }
+  ],
+  "dependencies": {
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}

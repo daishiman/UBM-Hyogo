@@ -16,10 +16,7 @@ import {
   type RollbackSchemaAliasResult,
   type RecomputeSchemaAliasResult,
 } from "../../lib/admin/api";
-import {
-  useSchemaDiffBulkSelection,
-  type BulkRowState,
-} from "./hooks/useSchemaDiffBulkSelection";
+import { useSchemaDiffBulkSelection, type BulkRowState } from "./hooks/useSchemaDiffBulkSelection";
 import { useSchemaDiffBulkRollbackSelection } from "./hooks/useSchemaDiffBulkRollbackSelection";
 import { SchemaDiffBulkResolveModal } from "./SchemaDiffBulkResolveModal";
 import { SchemaDiffBulkRollbackModal } from "./SchemaDiffBulkRollbackModal";
@@ -28,10 +25,7 @@ import {
   normalizeStableKey,
   STABLE_KEY_VALIDATION_MESSAGE,
 } from "./schemaAliasValidation";
-import {
-  describeDiffType,
-  describeSchemaStatus,
-} from "./schemaGlossary";
+import { describeDiffType, describeSchemaStatus } from "./schemaGlossary";
 import { FormField } from "../ui/FormField";
 import { Input } from "../ui/Input";
 import { EmptyState } from "../ui/EmptyState";
@@ -80,12 +74,7 @@ const TYPE_CHIP_TONE: Record<DiffType, "green" | "amber" | "red" | "cool"> = {
 
 const VALIDATION_FEEDBACK_ID = "schema-alias-validation-feedback";
 
-type FeedbackKind =
-  | "success"
-  | "retryable"
-  | "validation_error"
-  | "conflict_error"
-  | "error";
+type FeedbackKind = "success" | "retryable" | "validation_error" | "conflict_error" | "error";
 
 interface Feedback {
   kind: FeedbackKind;
@@ -123,12 +112,12 @@ function buildSchemaAliasErrorMessage(
   if (status === 422) {
     if (payload?.code === "stable_key_collision") {
       const ids = payload.existingQuestionIds ?? [];
-      return `stableKey は既存 questionId と衝突しています（${ids.join(", ")}）`;
+      return `項目キーは既存の設問元IDと衝突しています（${ids.join(", ")}）`;
     }
     return fallback;
   }
   if (status === 409 && payload?.existingStableKey) {
-    return `${fallback}（既存 stableKey: ${payload.existingStableKey}）`;
+    return `${fallback}（既存の項目キー: ${payload.existingStableKey}）`;
   }
   return fallback;
 }
@@ -138,7 +127,6 @@ const getSchemaAliasErrorMessage = (error: unknown): string => {
   if (error instanceof Error) return error.message;
   return "unknown error";
 };
-
 
 // Issue #778: rollback / undo に必要な型と内部 component。HistoryPane / RollbackConfirmModal /
 // UndoToast はいずれも同ファイル内に閉じ、外部 export しない（不変条件 #14）。
@@ -261,27 +249,27 @@ function RollbackConfirmModal(props: RollbackConfirmModalProps) {
       data-component="rollback-confirm-modal"
       className="rollback-modal"
     >
-      <h3 id={titleId}>resolve の取り消し</h3>
+      <h3 id={titleId}>対応づけの取り消し</h3>
       <dl>
-        <dt>alias label</dt>
+        <dt>表示名</dt>
         <dd>{props.alias.aliasLabel}</dd>
-        <dt>stableKey</dt>
-        <dd><code>{props.alias.stableKey}</code></dd>
-        <dt>resolved at</dt>
+        <dt>項目キー</dt>
+        <dd>
+          <code>{props.alias.stableKey}</code>
+        </dd>
+        <dt>対応づけ日時</dt>
         <dd>{props.alias.resolvedAt}</dd>
-        <dt>resolved by</dt>
+        <dt>対応づけた人</dt>
         <dd>{props.alias.resolvedBy}</dd>
         <dt>影響応答件数</dt>
         <dd data-role="affected-response-count">
-          {props.alias.impact
-            ? `${props.alias.impact.affectedResponseCount} 件`
-            : "未取得"}
+          {props.alias.impact ? `${props.alias.impact.affectedResponseCount} 件` : "未取得"}
         </dd>
         <dt>再集計要否</dt>
         <dd data-role="recompute-required">
           {props.alias.impact?.recomputeRequired ? "必要" : "不要または未確定"}
         </dd>
-        <dt>操作者 (you)</dt>
+        <dt>操作する人</dt>
         <dd>{props.actorEmail ?? "(unknown)"}</dd>
       </dl>
       {props.errorMessage && (
@@ -290,12 +278,7 @@ function RollbackConfirmModal(props: RollbackConfirmModalProps) {
         </p>
       )}
       <div className="rollback-modal-actions">
-        <button
-          type="button"
-          onClick={props.onCancel}
-          ref={cancelRef}
-          disabled={props.busy}
-        >
+        <button type="button" onClick={props.onCancel} ref={cancelRef} disabled={props.busy}>
           キャンセル
         </button>
         <button
@@ -327,12 +310,11 @@ interface HistoryPaneProps {
 function HistoryPane(props: HistoryPaneProps) {
   const visibleAliases = props.aliases.slice(0, 10);
   const allSelected =
-    visibleAliases.length > 0 &&
-    visibleAliases.every((alias) => props.selectedIds.has(alias.id));
+    visibleAliases.length > 0 && visibleAliases.every((alias) => props.selectedIds.has(alias.id));
   if (props.aliases.length === 0) {
     return (
       <section aria-labelledby="schema-alias-history-h">
-        <h2 id="schema-alias-history-h">resolve 履歴</h2>
+        <h2 id="schema-alias-history-h">対応づけの記録</h2>
         <p className="muted">割り当て済みの記録です。必要に応じて取り消せます。</p>
         <p>履歴はまだありません。</p>
       </section>
@@ -340,7 +322,7 @@ function HistoryPane(props: HistoryPaneProps) {
   }
   return (
     <section aria-labelledby="schema-alias-history-h">
-      <h2 id="schema-alias-history-h">resolve 履歴</h2>
+      <h2 id="schema-alias-history-h">対応づけの記録</h2>
       <p className="muted">割り当て済みの記録です。必要に応じて取り消せます。</p>
       <div>
         <button
@@ -348,7 +330,7 @@ function HistoryPane(props: HistoryPaneProps) {
           onClick={props.onToggleBulkRollbackMode}
           aria-pressed={props.bulkRollbackMode}
         >
-          {props.bulkRollbackMode ? "Bulk Rollback を終了" : "Bulk Rollback"}
+          {props.bulkRollbackMode ? "まとめて取り消しを終了" : "まとめて取り消し"}
         </button>
         {props.bulkRollbackMode && (
           <>
@@ -359,21 +341,15 @@ function HistoryPane(props: HistoryPaneProps) {
               type="button"
               onClick={props.onConfirmBulkRollback}
               disabled={props.selectedCount === 0 || props.bulkLimitExceeded}
-              aria-describedby={
-                props.bulkLimitExceeded ? "bulk-rollback-limit-warning" : undefined
-              }
+              aria-describedby={props.bulkLimitExceeded ? "bulk-rollback-limit-warning" : undefined}
             >
-              Bulk Rollback 確認
+              まとめて取り消しの確認
             </button>
           </>
         )}
       </div>
       {props.bulkRollbackMode && props.bulkLimitExceeded && (
-        <p
-          id="bulk-rollback-limit-warning"
-          role="alert"
-          data-feedback-kind="bulk_rollback_warning"
-        >
+        <p id="bulk-rollback-limit-warning" role="alert" data-feedback-kind="bulk_rollback_warning">
           一度に選択できるのは最大 {BULK_LIMIT} 件です（現在 {props.selectedCount} 件選択中）。
         </p>
       )}
@@ -383,12 +359,10 @@ function HistoryPane(props: HistoryPaneProps) {
             <label>
               <input
                 type="checkbox"
-                aria-label="resolve 履歴を全選択"
+                aria-label="対応づけの記録を全選択"
                 checked={allSelected}
                 onChange={() =>
-                  props.onSelectAllBulkRollbackAliases(
-                    visibleAliases.map((alias) => alias.id),
-                  )
+                  props.onSelectAllBulkRollbackAliases(visibleAliases.map((alias) => alias.id))
                 }
               />
               <span>表示中の履歴を全選択</span>
@@ -400,7 +374,7 @@ function HistoryPane(props: HistoryPaneProps) {
             {props.bulkRollbackMode && (
               <input
                 type="checkbox"
-                aria-label={`select alias ${a.aliasLabel}`}
+                aria-label={`${a.aliasLabel} を選択`}
                 checked={props.selectedIds.has(a.id)}
                 onChange={() => props.onToggleBulkRollbackAlias(a.id)}
               />
@@ -412,9 +386,9 @@ function HistoryPane(props: HistoryPaneProps) {
             <button
               type="button"
               onClick={() => props.onRequestRollback(a)}
-              aria-label={`alias ${a.aliasLabel} の resolve を取り消す`}
+              aria-label={`${a.aliasLabel} の対応づけを取り消す`}
             >
-              rollback
+              取り消す
             </button>
           </li>
         ))}
@@ -432,13 +406,11 @@ interface UndoToastProps {
 function UndoToast(props: UndoToastProps) {
   return (
     <div role="status" aria-live="polite" data-component="undo-toast">
-      <p>
-        alias「{props.alias.aliasLabel}」を割当てました。5 分以内であれば取消できます。
-      </p>
+      <p>「{props.alias.aliasLabel}」に項目キーを割り当てました。5 分以内なら取り消せます。</p>
       <button
         type="button"
         onClick={props.onUndo}
-        aria-label={`alias ${props.alias.aliasLabel} の割当を取消す`}
+        aria-label={`${props.alias.aliasLabel} の割り当てを取り消す`}
       >
         取消
       </button>
@@ -463,23 +435,29 @@ export function SchemaDiffPanel({
   hideInlineStats = false,
 }: SchemaDiffPanelProps) {
   const router = useRouter();
-  const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>("/api/admin/schema/aliases", "POST", {
-    refreshOnSuccess: false,
-    mutationFn: async (payload) => {
-      const r = await postSchemaAlias(payload as {
-        questionId: string;
-        stableKey: string;
-        diffId?: string;
-      });
-      if (!r.ok) {
-        const errPayload = (r.data ?? null) as SchemaAliasApplyBody | null;
-        const message = buildSchemaAliasErrorMessage(r.status, r.error, errPayload);
-        throw new FetchAuthedError(r.status, message);
-      }
-      if (isSchemaAliasRetryableContinuation(r)) return r.data as SchemaAliasApplyBody;
-      return r.data as SchemaAliasApplyBody;
+  const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>(
+    "/api/admin/schema/aliases",
+    "POST",
+    {
+      refreshOnSuccess: false,
+      mutationFn: async (payload) => {
+        const r = await postSchemaAlias(
+          payload as {
+            questionId: string;
+            stableKey: string;
+            diffId?: string;
+          },
+        );
+        if (!r.ok) {
+          const errPayload = (r.data ?? null) as SchemaAliasApplyBody | null;
+          const message = buildSchemaAliasErrorMessage(r.status, r.error, errPayload);
+          throw new FetchAuthedError(r.status, message);
+        }
+        if (isSchemaAliasRetryableContinuation(r)) return r.data as SchemaAliasApplyBody;
+        return r.data as SchemaAliasApplyBody;
+      },
     },
-  });
+  );
   const grouped = useMemo(() => {
     const acc: Record<DiffType, SchemaDiffItem[]> = {
       added: [],
@@ -511,10 +489,8 @@ export function SchemaDiffPanel({
     "POST",
     {
       refreshOnSuccess: false,
-      mutationFn: (payload) =>
-        recomputeSchemaAlias(payload as { aliasId: string }),
-      successMessage: (data) =>
-        `再集計を実行しました（処理件数: ${data.processedCount}）`,
+      mutationFn: (payload) => recomputeSchemaAlias(payload as { aliasId: string }),
+      successMessage: (data) => `再集計を実行しました（処理件数: ${data.processedCount}）`,
       onSuccess: (data) => {
         setRecomputeStatus(data.status === "completed" ? "completed" : "running");
         setRecomputeError(null);
@@ -535,9 +511,9 @@ export function SchemaDiffPanel({
     void recomputeMutation.trigger({ aliasId }).catch(() => {});
   };
   const [undoState, setUndoState] = useState<UndoState>({ kind: "hidden" });
-  const [historyAliases, setHistoryAliases] = useState<ResolvedAliasItem[]>(
-    () => [...(resolvedAliases ?? initial.resolvedAliases ?? [])],
-  );
+  const [historyAliases, setHistoryAliases] = useState<ResolvedAliasItem[]>(() => [
+    ...(resolvedAliases ?? initial.resolvedAliases ?? []),
+  ]);
   const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -554,7 +530,9 @@ export function SchemaDiffPanel({
     }, UNDO_WINDOW_MS);
   };
 
-  const performRollback = async (alias: ResolvedAliasItem): Promise<RollbackSchemaAliasResult | null> => {
+  const performRollback = async (
+    alias: ResolvedAliasItem,
+  ): Promise<RollbackSchemaAliasResult | null> => {
     setRollbackState({ kind: "calling", alias });
     try {
       const result = await rollbackSchemaAlias({
@@ -579,7 +557,7 @@ export function SchemaDiffPanel({
       }
       setFeedback({
         kind: "success",
-        label: `resolve を取消しました（影響件数: ${result.impact.affectedResponseCount}${result.impact.recomputeRequired ? " / 再集計推奨" : ""}）`,
+        label: `対応づけを取り消しました（影響件数: ${result.impact.affectedResponseCount}${result.impact.recomputeRequired ? " / 再集計推奨" : ""}）`,
       });
       router.refresh();
       return result;
@@ -639,7 +617,7 @@ export function SchemaDiffPanel({
       setHistoryAliases((prev) => prev.filter((alias) => !aliasIds.includes(alias.id)));
       setFeedback({
         kind: "success",
-        label: `resolve を ${aliasIds.length} 件取消しました`,
+        label: `対応づけを ${aliasIds.length} 件取り消しました`,
       });
       router.refresh();
     },
@@ -714,13 +692,13 @@ export function SchemaDiffPanel({
     ) {
       setFeedback({
         kind: "retryable",
-        label: "Back-fill 再試行可能（続きから処理できます）",
+        label: "過去の回答への反映は再試行できます（続きから処理できます）",
         detail: "もう一度「割当」を押すと続きから処理されます。",
       });
       return;
     }
 
-    setFeedback({ kind: "success", label: "alias を割当てました" });
+    setFeedback({ kind: "success", label: "項目キーを割り当てました" });
     // Issue #778: resolve 直後の undo toast を 5 分間表示。
     // undo は実 alias id + version が返った場合だけ有効化する。
     if (active && active.questionId && body.mode === "apply" && body.alias) {
@@ -735,7 +713,9 @@ export function SchemaDiffPanel({
         version: body.alias.version,
         impact: { affectedResponseCount: 0, recomputeRequired: false },
       };
-      setHistoryAliases((prev) => [newAlias, ...prev.filter((a) => a.id !== newAlias.id)].slice(0, 10));
+      setHistoryAliases((prev) =>
+        [newAlias, ...prev.filter((a) => a.id !== newAlias.id)].slice(0, 10),
+      );
       startUndoTimer(newAlias);
     }
     setActive(null);
@@ -769,9 +749,7 @@ export function SchemaDiffPanel({
   const bulkRollbackLimitExceeded = bulkRollback.selectedCount > BULK_LIMIT;
   const onConfirmBulkRollback = () => {
     if (bulkRollback.selectedCount === 0 || bulkRollbackLimitExceeded) return;
-    const aliases = historyAliases.filter((alias) =>
-      bulkRollback.selectedIds.has(alias.id),
-    );
+    const aliases = historyAliases.filter((alias) => bulkRollback.selectedIds.has(alias.id));
     bulkRollback.openModal(aliases);
   };
 
@@ -779,9 +757,9 @@ export function SchemaDiffPanel({
     <section aria-labelledby="schema-diff-h" className="ui-card card-pad-lg">
       <div className="row-between">
         <div>
-          <div className="eyebrow">DIFF ITEMS</div>
+          <div className="eyebrow">項目別の変更点</div>
           <h2 id="schema-diff-h" className="h-section">
-            項目別の差分
+            項目別の変更点
           </h2>
         </div>
         {!hideInlineStats && <p className="muted">{initial.total} 件</p>}
@@ -795,27 +773,23 @@ export function SchemaDiffPanel({
           }}
           aria-pressed={bulkMode}
         >
-          {bulkMode ? "Bulk Resolve を終了" : "Bulk Resolve"}
+          {bulkMode ? "まとめて対応づけを終了" : "まとめて対応づけ"}
         </button>
         {bulkMode && (
           <span data-testid="bulk-selection-summary">
-            {bulk.breakdown.total} 件選択中（unresolved {bulk.breakdown.unresolved} /
-            changed {bulk.breakdown.changed}）
+            {bulk.breakdown.total} 件選択中（unresolved {bulk.breakdown.unresolved} / changed{" "}
+            {bulk.breakdown.changed}）
           </span>
         )}
-        {bulkMode && (
-          <p className="muted">複数の設問にまとめて名前を割り当てられます。</p>
-        )}
+        {bulkMode && <p className="muted">複数の設問にまとめて名前を割り当てられます。</p>}
         {bulkMode && (
           <button
             type="button"
             onClick={onConfirmBulk}
-            disabled={
-              bulk.breakdown.total === 0 || bulkLimitExceeded
-            }
+            disabled={bulk.breakdown.total === 0 || bulkLimitExceeded}
             aria-describedby={bulkLimitExceeded ? "bulk-limit-warning" : undefined}
           >
-            Bulk Resolve 確定
+            まとめて対応づけを実行
           </button>
         )}
         {bulkWarning && (
@@ -827,11 +801,7 @@ export function SchemaDiffPanel({
       {feedback && (
         <div
           id={feedback.kind === "validation_error" ? VALIDATION_FEEDBACK_ID : undefined}
-          role={
-            feedback.kind === "success" || feedback.kind === "retryable"
-              ? "status"
-              : "alert"
-          }
+          role={feedback.kind === "success" || feedback.kind === "retryable" ? "status" : "alert"}
           data-feedback-kind={feedback.kind}
         >
           <p>{feedback.label}</p>
@@ -840,9 +810,7 @@ export function SchemaDiffPanel({
       )}
       {postRollbackRecompute && (
         <div className="recompute-action" data-role="recompute-action">
-          <p>
-            alias「{postRollbackRecompute.aliasLabel}」の rollback 後再集計
-          </p>
+          <p>「{postRollbackRecompute.aliasLabel}」の取り消し後再集計</p>
           <button
             type="button"
             data-role="recompute-trigger"
@@ -875,146 +843,151 @@ export function SchemaDiffPanel({
         {TYPES.map((t) => {
           const typeDescription = describeDiffType(t);
           const showCheckbox = bulkMode && bulkEligible(t);
-          const eligibleIds = grouped[t]
-            .filter((it) => it.questionId)
-            .map((it) => it.diffId);
+          const eligibleIds = grouped[t].filter((it) => it.questionId).map((it) => it.diffId);
           const allSelectedInCat =
-            eligibleIds.length > 0 &&
-            eligibleIds.every((id) => bulk.selectedIds.has(id));
+            eligibleIds.length > 0 && eligibleIds.every((id) => bulk.selectedIds.has(id));
           return (
-          <div key={t} aria-labelledby={`pane-${t}`}>
-            <div className="schema-diff-pane-header">
-              <h2 id={`pane-${t}`}>{typeDescription.label}</h2>
-              <p className="muted">
-                {typeDescription.description} {typeDescription.actionHint}
-              </p>
-            </div>
-            {grouped[t].length === 0 ? (
-              <EmptyState
-                title={t === "unresolved" ? "差分はありません" : "なし"}
-                {...(t === "unresolved"
-                  ? { description: "フォームとデータベースが一致した良い状態です。" }
-                  : {})}
-                role="presentation"
-              />
-            ) : (
-              <div className="stack-sm">
-                {showCheckbox && (
-                  <label className="schema-field-card">
-                    <input
-                      type="checkbox"
-                      aria-label={`全選択 ${TYPE_LABELS[t]}`}
-                      checked={allSelectedInCat}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          bulk.selectAllInCategory(
-                            t === "unresolved" ? "unresolved" : "changed",
-                            eligibleIds,
-                          );
-                        } else {
-                          for (const id of eligibleIds) {
-                            if (bulk.selectedIds.has(id)) bulk.toggle(id);
-                          }
-                        }
-                      }}
-                    />
-                    <span>全選択 {TYPE_LABELS[t]}</span>
-                  </label>
-                )}
-                {grouped[t].map((it) => (
-                  <div key={it.diffId} className={`schema-field-card diff-${it.type}`}>
-                    {showCheckbox && it.questionId && (
+            <div key={t} aria-labelledby={`pane-${t}`}>
+              <div className="schema-diff-pane-header">
+                <h2 id={`pane-${t}`}>{typeDescription.label}</h2>
+                <p className="muted">
+                  {typeDescription.description} {typeDescription.actionHint}
+                </p>
+              </div>
+              {grouped[t].length === 0 ? (
+                <EmptyState
+                  title={t === "unresolved" ? "差分はありません" : "なし"}
+                  {...(t === "unresolved"
+                    ? { description: "フォームとデータベースが一致した良い状態です。" }
+                    : {})}
+                  role="presentation"
+                />
+              ) : (
+                <div className="stack-sm">
+                  {showCheckbox && (
+                    <label className="schema-field-card">
                       <input
                         type="checkbox"
-                        aria-label={`select diff ${it.questionId}`}
-                        checked={bulk.selectedIds.has(it.diffId)}
-                        onChange={() => bulk.toggle(it.diffId)}
-                      />
-                    )}
-                    <div className="schema-field-card__body">
-                      <div>
-                        <div className="row">
-                          <span className="chip-row">
-                            <Chip tone={TYPE_CHIP_TONE[it.type]}>{TYPE_LABELS[it.type]}</Chip>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => onSelect(it)}
-                            aria-pressed={active?.diffId === it.diffId}
-                            aria-expanded={active?.diffId === it.diffId}
-                            aria-controls={
-                              it.questionId
-                                ? `schema-assign-form-${it.diffId}`
-                                : `schema-assign-unavailable-${it.diffId}`
+                        aria-label={`全選択 ${TYPE_LABELS[t]}`}
+                        checked={allSelectedInCat}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            bulk.selectAllInCategory(
+                              t === "unresolved" ? "unresolved" : "changed",
+                              eligibleIds,
+                            );
+                          } else {
+                            for (const id of eligibleIds) {
+                              if (bulk.selectedIds.has(id)) bulk.toggle(id);
                             }
-                          >
-                            {it.label}
-                          </button>
-                        </div>
-                        <p className="muted mono">
-                          {plainLabel("questionId")}: {it.questionId ?? "(no questionId)"}
-                          {it.stableKey ? ` · ${plainLabel("stableKey")}: ${it.stableKey}` : ""}
-                        </p>
-                        <p className="muted">{describeSchemaStatus(it.status)}</p>
-                      </div>
-                      {active?.diffId === it.diffId && active.questionId && (
-                        <form
-                          id={`schema-assign-form-${it.diffId}`}
-                          onSubmit={onSubmit}
-                          aria-label="stableKey alias 割当"
-                          className="schema-assign-inline-form"
-                          data-component="schema-assign-inline-form"
-                        >
-                          <h3>{active.label}</h3>
-                          <p data-role="assign-help">
-                            この設問に{plainLabel("stableKey")}をつけると、過去のフォーム回答が新しい設問に自動で対応づきます。
-                          </p>
-                          <p>
-                            {plainLabel("questionId")}: <code>{active.questionId}</code>
-                          </p>
-                          <div className="schema-assignment-outcome">
-                            <strong>対応づけると起きること</strong>
-                            <p>
-                              この設問の回答が項目キー <code>{trimmedKey || "stableKey"}</code> に結びつき、
-                              会員一覧・詳細・マイページで同じ項目として表示されます。対応づけ後は backfill が走り、
-                              必要な場合は5分以内に取消できます。
-                            </p>
+                          }
+                        }}
+                      />
+                      <span>全選択 {TYPE_LABELS[t]}</span>
+                    </label>
+                  )}
+                  {grouped[t].map((it) => (
+                    <div key={it.diffId} className={`schema-field-card diff-${it.type}`}>
+                      {showCheckbox && it.questionId && (
+                        <input
+                          type="checkbox"
+                          aria-label={`select diff ${it.questionId}`}
+                          checked={bulk.selectedIds.has(it.diffId)}
+                          onChange={() => bulk.toggle(it.diffId)}
+                        />
+                      )}
+                      <div className="schema-field-card__body">
+                        <div>
+                          <div className="row">
+                            <span className="chip-row">
+                              <Chip tone={TYPE_CHIP_TONE[it.type]}>{TYPE_LABELS[it.type]}</Chip>
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => onSelect(it)}
+                              aria-pressed={active?.diffId === it.diffId}
+                              aria-expanded={active?.diffId === it.diffId}
+                              aria-controls={
+                                it.questionId
+                                  ? `schema-assign-form-${it.diffId}`
+                                  : `schema-assign-unavailable-${it.diffId}`
+                              }
+                            >
+                              {it.label}
+                            </button>
                           </div>
-                          <FormField name="schema-stableKey" label={`新しい${plainLabel("stableKey")}`} required>
-                            <Input
-                              ref={stableKeyInputRef}
-                              type="text"
-                              value={stableKey}
-                              onChange={(e) => setStableKey(e.target.value)}
-                              required
-                              pattern="[A-Za-z][A-Za-z0-9_]*"
-                              aria-invalid={trimmedKey.length > 0 && !isValidStableKey}
-                              aria-describedby={describedBy}
-                            />
-                          </FormField>
-                          <p id="schema-alias-stableKey-hint">
-                            英字で始まり、英数字と _ のみ使用できます。
+                          <p className="muted mono">
+                            {plainLabel("questionId")}: {it.questionId ?? "(no questionId)"}
+                            {it.stableKey ? ` · ${plainLabel("stableKey")}: ${it.stableKey}` : ""}
                           </p>
-                          <button
-                            type="submit"
-                            disabled={busy || !trimmedKey || !isValidStableKey}
+                          <p className="muted">{describeSchemaStatus(it.status)}</p>
+                        </div>
+                        {active?.diffId === it.diffId && active.questionId && (
+                          <form
+                            id={`schema-assign-form-${it.diffId}`}
+                            onSubmit={onSubmit}
+                            aria-label="項目キーの割り当て"
+                            className="schema-assign-inline-form"
+                            data-component="schema-assign-inline-form"
                           >
-                            名前を割り当てる
-                          </button>
-                          <button type="button" onClick={() => setActive(null)}>閉じる</button>
-                        </form>
-                      )}
-                      {active?.diffId === it.diffId && !active.questionId && (
-                        <p id={`schema-assign-unavailable-${it.diffId}`} role="alert">
-                          この diff には questionId がないため alias 割当はできません。
-                        </p>
-                      )}
+                            <h3>{active.label}</h3>
+                            <p data-role="assign-help">
+                              この設問に{plainLabel("stableKey")}
+                              をつけると、過去のフォーム回答が新しい設問に自動で対応づきます。
+                            </p>
+                            <p>
+                              設問の元ID: <code>{active.questionId}</code>
+                            </p>
+                            <div className="schema-assignment-outcome">
+                              <strong>対応づけると起きること</strong>
+                              <p>
+                                この設問の回答が項目キー <code>{trimmedKey || "入力した値"}</code>{" "}
+                                に結びつき、
+                                会員一覧・詳細・マイページで同じ項目として表示されます。対応づけ後は過去の回答にも反映され、
+                                必要な場合は5分以内に取消できます。
+                              </p>
+                            </div>
+                            <FormField
+                              name="schema-stableKey"
+                              label={`新しい${plainLabel("stableKey")}`}
+                              required
+                            >
+                              <Input
+                                ref={stableKeyInputRef}
+                                type="text"
+                                value={stableKey}
+                                onChange={(e) => setStableKey(e.target.value)}
+                                required
+                                pattern="[A-Za-z][A-Za-z0-9_]*"
+                                aria-invalid={trimmedKey.length > 0 && !isValidStableKey}
+                                aria-describedby={describedBy}
+                              />
+                            </FormField>
+                            <p id="schema-alias-stableKey-hint">
+                              英字で始まり、英数字と _ のみ使用できます。
+                            </p>
+                            <button
+                              type="submit"
+                              disabled={busy || !trimmedKey || !isValidStableKey}
+                            >
+                              名前を割り当てる
+                            </button>
+                            <button type="button" onClick={() => setActive(null)}>
+                              閉じる
+                            </button>
+                          </form>
+                        )}
+                        {active?.diffId === it.diffId && !active.questionId && (
+                          <p id={`schema-assign-unavailable-${it.diffId}`} role="alert">
+                            この変更には設問の元IDがないため項目キーを割り当てられません。
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+                  ))}
+                </div>
+              )}
+            </div>
           );
         })}
       </div>
