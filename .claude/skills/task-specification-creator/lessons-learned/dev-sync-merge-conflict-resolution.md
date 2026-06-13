@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-139: sync-merge を伴う仕様書の Phase 11 検証には「生成物 gate（static-manifest 等）の drift 判定は取込デルタ単独でなく取込デルタ × feature 主編集の **生成元 source spec 交差**で行い、交差ありの時だけ regenerate・交差なしは verify 1 回で OK 確定」を逐語化する（L-DEVSYNC-139 の task-spec 版）
+- 2026-06-13 `feat/admin-schema-terminology-clarity`（wt-5・behind 1 / ahead 13・merge `9b321015a`）。取込 #1218（公開 `/members` 検索 clear + sort 拡張）が `static-manifest.json`（生成物）+ `01-api-schema.md`（生成元 source spec）を**両 touch**したが、本 feature（用語日本語化）は両ファイル**非接触**＝交差 0 ゆえ drift なし・`verify:static-manifest` OK・regenerate 不要。SP-DEVSYNC-135（両側 touch 時のみ drift）の対偶（片側 touch=no-drift）の実証。
+- How to apply（仕様書 Phase 5(c)/Phase 11 の sync-merge 検証コマンド列への逐語化）:
+  1. **drift 要否は両側 touch で判定する**: `comm -12 <(git diff --name-only <merge-base>..<feature-tip>|sort) <(git diff --name-only <merge-base>..<dev-tip>|sort)` の積集合に生成物（`static-manifest.json`）**またはその生成元 source spec（`01-api-schema.md` 等）**が現れたら drift 懸念あり、現れなければ片側のみ touch＝drift なしと一次判定する。「生成物が取込デルタに出た＝drift」と短絡しない。
+  2. **判定順序は verify ファースト**: 一次判定が交差なしでも auto-merge 後に `pnpm verify:static-manifest` を 1 回必ず実行（テキスト緑と生成物整合は独立）。OK なら regenerate しない。FAIL `sourceSpecHashDrift` の時だけ `pnpm regenerate:static-manifest` で追従させ同コミットに含める（SP-DEVSYNC-135 の手順）。
+  3. 仕様書には「生成物 touch を見ても即 regenerate しない・verify が判定権者・両側 source touch のときだけ regenerate」を明記し、feature 非接触の安全ケースでの不要 regenerate（無関係 diff 混入）を禁じる。
+- Why: 生成物は両側が生成元を触った時のみ古い側の hash を抱えて drift する。片側 touch なら最新 source spec と manifest が一貫したまま引き継がれ verify が通る。verify を判定権者に据えれば過剰 regenerate を封じられる。SP-DEVSYNC-135（両側 touch ケース）と本 lesson（片側 touch ケース）で生成物 gate の発生条件が網羅される。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139 が正本。SP-DEVSYNC-135（両側 touch 時の drift/手動 union・本 lesson はその対偶）, SP-DEVSYNC-138（feature 編集ファイル交差時の focused Vitest）。
+
 ### SP-DEVSYNC-138: sync-merge を伴う仕様書の Phase 11 検証には「取込デルタ × feature 主編集ファイルの交差判定 → 交差時は focused Vitest 再実行」を逐語化する（L-DEVSYNC-138 の task-spec 版）
 - 2026-06-12 `feat/members-search-clear-and-sort-ux` 3rd-pass（wt-8・behind 2 / ahead 10・merge `feb39dca1`）。取込 #1213（公開・会員 8 画面共通レイアウト層統一・833 files）が feature 主編集ファイル `(public)/members/page.tsx` + `globals.css` 自体を改変し textual auto-merge（conflict 0）。
 - How to apply（仕様書 Phase 11 の sync-merge 検証コマンド列への逐語化）:
