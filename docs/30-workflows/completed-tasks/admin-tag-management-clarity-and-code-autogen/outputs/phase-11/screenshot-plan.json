@@ -1,0 +1,28 @@
+{
+  "taskId": "admin-tag-management-clarity-and-code-autogen",
+  "workflow": "admin-tag-management-clarity-and-code-autogen",
+  "mode": "VISUAL",
+  "status": "staging_visual_pending_user_gate",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "reason": "apps/web local implementation is complete. Authenticated staging screenshot capture is user-gated and remains pending without fabricated images.",
+  "outputDir": "outputs/phase-11/screenshots",
+  "userGated": true,
+  "plan": [
+    {
+      "tc": "TC-VIS-01",
+      "name": "tag-definition-code-autogen.png",
+      "viewport": { "width": 1280, "height": 900 },
+      "url": "/admin/tag-master",
+      "assertion": "タグ定義フォームで表示名を入力するとコード欄が generateTagCode(label) の値で自動補完され、「表示名から自動生成（編集可）」ヒントと自動生成中の状態表示があり、画面冒頭に TagManagementGuide variant=\"definition\" と /admin/tags への相互リンクが表示される (AC-1 / AC-4 / AC-6)",
+      "status": "staging_visual_pending_user_gate"
+    },
+    {
+      "tc": "TC-VIS-02",
+      "name": "tag-assignment-guide-and-rename.png",
+      "viewport": { "width": 1280, "height": 900 },
+      "url": "/admin/tags",
+      "assertion": "画面冒頭に TagManagementGuide variant=\"assignment\" と /admin/tag-master への相互リンクが表示され、サイドバー label が「タグ割当」になりページ内タイトル「タグ割当」と一致する (AC-5 / AC-7)",
+      "status": "staging_visual_pending_user_gate"
+    }
+  ]
+}
