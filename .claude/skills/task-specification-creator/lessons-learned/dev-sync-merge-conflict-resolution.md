@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-141: 仕様書 Phase 11/13 の「push 後 CI 失敗修復」手順に、視覚 baseline stale と e2e strict-mode violation の多層性を逐語化する（L-DEVSYNC-141 の task-spec 版）
+- 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen`（wt-4・PR #1220）。VISUAL タスクの sync-merge push 後に visual-full 3 viewport fail → 修復後 e2e 2 spec fail の 2 層が順に顕在化。
+- How to apply（仕様書 Phase 11/13 への逐語化）:
+  1. **意図的 UI 変更の visual fail は baseline 再生成**: 失敗 screenshot が仕様書 Phase 5 の実装対象 page のみなら（本件 admin-tags だけ）コードを触らず `gh workflow run playwright-visual-baseline-update.yml --ref <branch> -f reason=...` で再生成と明記。
+  2. **bot commit は action_required → 空コミット再走**: bot baseline commit の pull_request CI は全停止。ff-only 取込後 `git commit --allow-empty` push で再走（SP-DEVSYNC-137 参照）。
+  3. **visual の次に e2e strict-mode violation を想定**: feature が新規見出し/テキストを追加した場合、既存 e2e の `getByRole('heading',{name})` 部分一致が複数ヒットで strict mode violation。`exact: true` 限定で修復。「visual 緑化後に初めて e2e が走る」多層性を Phase 11 のリスク欄に書き、CI は `gh pr checks` fail 0 まで層ごとに回す。
+  4. **baseline-meta 3-way は異画面同時再生成でも発生**: HEAD と dev が別画面の baseline を各々再生成した時も meta のみ衝突。SP-DEVSYNC-134 の手動 union（run_ids union / 新 sha / reason 結合）を適用。
+- Why: visual と e2e は別レイヤーの gate で 1 push で同時に見えず、最外層を緑化して初めて次層が顕在化する。意図的 UI 変更は baseline・既存 selector 双方の後方互換を崩すため、仕様書は「conflict 0 でも push 後 CI を層状に潰す」を DoD に含める。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-141 が正本。SP-DEVSYNC-137（visual 赤ワンセット）, SP-DEVSYNC-134（baseline-meta 3-way）, SP-DEVSYNC-140（esbuild install）。
+
 ### SP-DEVSYNC-139: sync-merge の lock 解放判定・衝突集合の波間反転・marker grep 偽陽性除外を、仕様書 Phase 11/13 の sync-merge 検証手順に逐語化する（L-DEVSYNC-139 の task-spec 版）
 - 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen` 3rd-pass（wt-4・behind 1 / ahead 10・merge `195e37165`）。取込 #1218（検索クリア二重表示解消 + ソート 4 種拡張）。CONFLICT は skill-index union 2（topic-map + quick-reference・keywords.json は auto-merge）→ `pnpm sync:resolve` 1 パス収束。
 - How to apply（仕様書 Phase 11/13 の sync-merge 検証手順への逐語化）:
