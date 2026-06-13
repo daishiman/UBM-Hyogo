@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-140: sync-merge を伴う仕様書の Phase 11 install 検証には「取込デルタに esbuild/lefthook 等 platform 専用 optional dep の bump が含まれ lockfile が変わる場合、`pnpm install --frozen-lockfile`/plain は postinstall・prepare で落ちうるので `mise exec -- pnpm install --force` を正経路とし `pnpm verify:vitest-runtime` で裏取り」を逐語化する（L-DEVSYNC-140 の task-spec 版）
+- 2026-06-13 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 2 / ahead 8・merge `7ae979a67`）。取込 #1238（esbuild 0.27.3→0.28.1 bump）+ #1237。lockfile 変化 → install 必要だが frozen install が esbuild postinstall `validateBinaryVersion` で、plain install が prepare(lefthook) wrong-arch で失敗 → `mise exec -- pnpm install --force` で復旧。
+- How to apply（仕様書 Phase 11 の sync-merge install 検証手順への逐語化）:
+  1. `git diff HEAD^1...HEAD --name-only | grep -E 'package\.json|pnpm-lock\.yaml'` で依存変化を検出し、取込デルタに platform 専用 optional dep（esbuild/lefthook/@swc 等）の version 変更があるか確認する。
+  2. ある場合は **`mise exec -- pnpm install --force`** を install コマンドとして指定する（frozen/plain は worktree で postinstall binary 検証・prepare の wrong-arch で落ちうると明記）。
+  3. install 後 `mise exec -- pnpm verify:vitest-runtime`（node-arch + worktree-isolation + `host=bin=lock`）3 点 OK を DoD に含める。pre-push `verify-esbuild` hook が同等検証で、未復旧だと push が hook 段で止まる旨を併記。
+  4. 素 shell の `node`/`uname -m`（Rosetta x64 偽値）でなく `mise exec -- node -p process.arch`（arm64）を arch 真値として使うこと、破損は LOCAL 限定で CI は無影響（ローカル赤・CI 緑）であることを明記する。
+- Why: worktree 並列運用で platform 専用 optional dep の bump は「親 WT への漏れ込み」「Rosetta x64 文脈の wrong-arch binary」を誘発し frozen/plain install の postinstall・prepare がそこで落ちる。--force の store 再解決が唯一の安定経路。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140 が正本。CLAUDE.md「Vitest / esbuild runtime トラブル時 `pnpm verify:vitest-runtime`」。SP-DEVSYNC-139（前 pass・同一指示連続 sync）。
+
 ### SP-DEVSYNC-139: sync-merge を伴う仕様書の Phase 11 生成物 gate 検証には「gate 入力 touch を検出したら touch 主体（dev デルタ単独 / feature 両側）を切り分け、feature 非接触なら verify は確認のみで regenerate 不要」を逐語化する（L-DEVSYNC-139 の task-spec 版）
 - 2026-06-12 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 1 / ahead 6・merge `6c66f7fc9`）。取込 #1218 が gate 入力 `static-manifest.json` + 生成元 `01-api-schema.md` を両方 touch したが、本 feature（admin ダッシュボード）は gate 入力に非接触 → 両ファイル clean auto-merge → `pnpm verify:static-manifest` regenerate なしで OK（drift しない）。
 - How to apply（仕様書 Phase 11 の sync-merge 生成物 gate 検証手順への逐語化）:
