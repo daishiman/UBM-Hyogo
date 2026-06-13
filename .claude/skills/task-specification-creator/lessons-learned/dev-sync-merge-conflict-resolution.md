@@ -22,6 +22,15 @@
 - 検証: conflict 6（union 3 + keywords `--ours` + apps 2）→ resolver 1 パス + apps 手動解消 + 重複定義削除 + eyebrow 横断 grep 0 hit（5 ファイル）→ merge `d06f573fb` blob marker 0 → typecheck / lint exit 0（7 packages）→ focused vitest 6 files 42 tests pass。install は lock 非変化で省略（SP-DEVSYNC-134 の対照ケース踏襲）。
 - 正本: aiworkflow [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）。SP-DEVSYNC-129（同一要素直交 delta の手動 union・本件は同一意図重複着地の対）/ SP-DEVSYNC-133（sync 緑 ≠ CI 緑・本件は commit 前 grep/typecheck で検出可能な層）と対。
 
+### SP-DEVSYNC-139: sync-merge を伴う仕様書の Phase 5(b)/Phase 11 Pre-flight 検証に「lock staleness は age より PID liveness 優先・lock パスは common-dir 解決」を逐語化する（L-DEVSYNC-139 の task-spec 版）
+- 2026-06-13 `fix/profile-session-staging-transport-recovery`（wt-3・S-SUB・behind 1 / ahead 2・merge `d487ded46`）。branch-sync Pre-flight で共通 `.git` dir の `.branch-sync.lock`（PID 46829・age 66 秒 < 30 分）が存在したが `ps -p` で DEAD ＝先行 run の孤児 lock。pure 30 分ルールなら誤って「多重実行＝中断」になる場面を PID 生存判定で回避。literal `.git/.branch-sync.lock` 読みは worktree の `.git` がファイルゆえ「no lock」と誤陰性を返した。
+- How to apply（仕様書 Pre-flight / 環境ガード Phase への逐語化）:
+  1. lock パスは必ず `COMMON=$(git rev-parse --git-common-dir); LOCK="$COMMON/.branch-sync.lock"` で解決する。`.git/.branch-sync.lock` 直書きは sub-worktree（`.git` がファイル）で存在判定に失敗するため仕様書に直書きパスを書かない。
+  2. lock 存在時の判定順序を **(1) `ps -p $(head -1 "$LOCK")` で PID 生存 → DEAD なら age を問わず孤児として削除・再取得し続行（ログ `STALE-LOCK orphaned` 記録） (2) ALIVE かつ age < 30 分なら多重実行で中断 (3) ALIVE かつ age > 30 分は警告付き削除して続行** と逐語化する。「age 30 分超のみ stale」という時間単独ルールを仕様書に書かない（孤児 lock で永続ブロックする）。
+  3. 孤児 lock 削除は破壊操作ガード（CONST_006 削除禁止 / CONST_001 破壊判断回避）に抵触しない調整用一時ファイル回収であることを明記し、「lock 存在＝即中断」と誤って書かない。
+- Why: 並列 worktree 運用の共通 lock は「経過時間」より「所有プロセス生存」が多重実行の真偽を正確に表す。先行 run が早期 exit でクリーンアップを飛ばすと新しい mtime の孤児 lock が残り、時間単独ルールは可用性を最大 30 分損なう。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139 が正本。SP-DEVSYNC-136（pre-flight 判定順序・本件は lock 判定をその前段に追加）, SP-DEVSYNC-138（取込デルタ × feature 交差判定）。
+
 ### SP-DEVSYNC-138: sync-merge を伴う仕様書の Phase 11 検証には「取込デルタ × feature 主編集ファイルの交差判定 → 交差時は focused Vitest 再実行」を逐語化する（L-DEVSYNC-138 の task-spec 版）
 - 2026-06-12 `feat/members-search-clear-and-sort-ux` 3rd-pass（wt-8・behind 2 / ahead 10・merge `feb39dca1`）。取込 #1213（公開・会員 8 画面共通レイアウト層統一・833 files）が feature 主編集ファイル `(public)/members/page.tsx` + `globals.css` 自体を改変し textual auto-merge（conflict 0）。
 - How to apply（仕様書 Phase 11 の sync-merge 検証コマンド列への逐語化）:
