@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: 仕様書 Phase 5/11 の sync 手順に「`Unable to write index` = stale index.lock による半適用マージ」の診断シグネチャと空マージ commit 回避を逐語化する（L-DEVSYNC-142 の task-spec 版・SP-DEVSYNC-135 の補完）
+- 2026-06-13 `feat/admin-identity-conflicts-clarity-and-meetings-rename`（wt-11・merge `8c3088be9`・取込 #1220・behind 1 / ahead 4）。`git merge dev` が `error: Unable to write index` で落ちたが MERGE_HEAD だけ立つ半適用状態になった。
+- SP-DEVSYNC-135 は「index.lock I/O 競合で merge/resolve/commit が**落ちる**」現象と「lock 除去 → `merge --abort` 再実行 → 原子化 commit」の復旧を既に規定済み。本 lesson はその**最も危険な分岐＝『落ちずに半分成功したように見える』ケースの診断**を補完する。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **半適用マージの診断シグネチャ**: `git merge` が `error: Unable to write index` を出した後、`git status` が「All conflicts fixed but you are still merging（commit で完了）」と表示しても、**`git diff --cached --stat` が空 かつ `git diff --diff-filter=U` も空**なら半適用（index 未書込）。正常 auto-merge は staged に取込差分が並び、正常 conflict は `--diff-filter=U` に UU が並ぶので、両方空は「壊れた中間状態」と確定診断する。
+  2. **空マージ commit の禁止**: この半適用 MERGE_HEAD を信じて `git commit` すると**取込内容ゼロの空マージ commit** ができ dev デルタが丸ごと落ちる（最も危険な誤操作）。仕様書 Phase 5/11 に「staged 空のまま merge commit してはいけない」と明記する。
+  3. **復旧手順（SP-DEVSYNC-135 と同経路）**: `LOCK="$(git rev-parse --git-dir)/index.lock"`（worktree では `.git/worktrees/<name>/index.lock` に解決）を 0 byte / 自分のマージ直前 mtime と確認の上 `node -e "require('fs').unlinkSync(process.argv[1])" "$LOCK"` で原子削除（`rm` は権限プロンプト誘発）→ `git merge --abort` で中間状態破棄 → `git merge dev` 再実行で実 CONFLICT（本件 skill-index union 5 件）が正しく顕在化 → 以降は通常の `pnpm sync:resolve` → 原子 commit 経路に合流。
+  4. **marker grep 偽陽性**: 再マージ後の最終裏取りは `<<<<<<<` / `>>>>>>>` のみで grep する（`=======` は docs 区切り線に過剰マッチ＝SP-DEVSYNC-139 系の偽陽性）。
+- 検証: `git merge dev` `Unable to write index`（staged 空 / U 空 / MERGE_HEAD あり）→ worktree-local `index.lock`（0 byte）を node fs 削除 → `merge --abort` → 再 merge CONFLICT 5（keywords.json + quick-reference + resource-map + topic-map + task-workflow-active）→ `pnpm sync:resolve` 1 パス（union 4 + keywords.json --ours + rebuild）→ commit `8c3088be9`（lefthook 全 pass）→ install スキップ（#1220 のみ・dep 変更 0）→ typecheck/lint exit 0 → indexes:rebuild 冪等 5522 kw。
+
 ### SP-DEVSYNC-141: 仕様書 Phase 11/13 の「push 後 CI 失敗修復」手順に、視覚 baseline stale と e2e strict-mode violation の多層性を逐語化する（L-DEVSYNC-141 の task-spec 版）
 - 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen`（wt-4・PR #1220）。VISUAL タスクの sync-merge push 後に visual-full 3 viewport fail → 修復後 e2e 2 spec fail の 2 層が順に顕在化。
 - How to apply（仕様書 Phase 11/13 への逐語化）:
