@@ -1,0 +1,26 @@
+{
+  "taskId": "TASK-ADMIN-SCHEMA-TERMINOLOGY-CLARITY-001",
+  "mode": "VISUAL",
+  "status": "staging_visual_pending_user_gate",
+  "viewport": { "width": 1440, "height": 900 },
+  "route": "/admin/schema",
+  "auth": "authenticated-staging (user-gated)",
+  "planned_screenshots": [
+    {
+      "name": "admin-schema-terminology-header-renamed.png",
+      "description": "サイドバー「フォーム項目」+ ページ見出し「フォーム項目の対応づけ」+ パンくず「管理 / フォーム項目」"
+    },
+    {
+      "name": "admin-schema-current-revision-hidden-id.png",
+      "description": "CURRENT REVISION カードが「現在のフォーム構成 / 最新版 ●適用中 /（取得: 日本語日付）」になり生 revisionId が非表示"
+    },
+    {
+      "name": "admin-schema-diff-panel-japanese-actions.png",
+      "description": "DIFF ITEMS→項目別の変更点 / Bulk Resolve→まとめて対応づけ / resolve 履歴→対応づけの記録 の日本語化"
+    },
+    {
+      "name": "admin-dashboard-form-item-alert.png",
+      "description": "ダッシュボードのアラート「未対応のフォーム項目: N 件」+ KPI「未対応のフォーム項目」"
+    }
+  ]
+}
