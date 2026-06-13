@@ -3411,6 +3411,7 @@
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -3880,6 +3881,7 @@
       "workflow-issue-1116-admin-tag-master-code-edit-ui-artifact-inventory.md",
       "workflow-issue-1118-admin-tag-catalog-lifecycle-ui-artifact-inventory.md",
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-801-admin-error-focus-transfer-artifact-inventory.md",
       "workflow-issue-819-admin-dashboard-runtime-screenshot-artifact-inventory.md",
       "workflow-issue-863-admin-error-alert-policy-iac-artifact-inventory.md",
@@ -5458,6 +5460,7 @@
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-224-public-members-tags-batch-fetch-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
@@ -6680,6 +6683,7 @@
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -7734,6 +7738,7 @@
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
@@ -8580,6 +8585,7 @@
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
@@ -11864,6 +11870,7 @@
       "workflow-issue-1127-authenticated-staging-visual-admin-screens-expansion-artifact-inventory.md",
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-230-lefthook-edit-guard-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -12139,6 +12146,7 @@
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-256-e2e-coverage-baseline-runbook-artifact-inventory.md",
@@ -13660,7 +13668,9 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
+      "task-workflow-active.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-770-profile-loading-skeleton-artifact-inventory.md",
       "workflow-issue-800-profile-error-focus-transfer-artifact-inventory.md",
       "workflow-login-stale-link-and-profile-me-safe-fetch-artifact-inventory.md",
@@ -17592,6 +17602,7 @@
       "workflow-admin-schema-diff-review-resolve-ux-artifact-inventory.md",
       "workflow-issue-1005-members-ux-playwright-baseline-stabilization-artifact-inventory.md",
       "workflow-issue-1006-members-selected-filters-chip-ux-hardening-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-958-h3-public-filter-ux-artifact-inventory.md",
       "workflow-members-list-ux-clarity-artifact-inventory.md",
       "workflow-public-members-tag-filter-ux-refine-artifact-inventory.md",
@@ -19607,6 +19618,7 @@
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
@@ -26424,6 +26436,15 @@
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
       "workflow-public-member-common-ui-card-unification-artifact-inventory.md"
     ],
+    "account": [
+      "task-workflow-active.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
+      "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
+    ],
+    "dedicated": [
+      "task-workflow-active.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md"
+    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -27810,6 +27831,7 @@
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1146-verify-no-localhost-bake-required-status-check-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
@@ -28085,6 +28107,7 @@
       "workflow-issue-1137-bulk-tag-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-1138-smoke-runner-common-lib-extraction-artifact-inventory.md",
       "workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-222-search-query-parser-shared-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-247-apps-web-opennext-config-regression-tests-artifact-inventory.md",
@@ -28208,6 +28231,7 @@
       "workflow-issue-1125-bulk-tag-result-staging-mutation-visual-baseline-artifact-inventory.md",
       "workflow-issue-1128-audit-batchid-index-optimization-artifact-inventory.md",
       "workflow-issue-1129-single-write-batchid-correlation-artifact-inventory.md",
+      "workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md",
       "workflow-issue-229-indexes-rebuild-fail-fast-artifact-inventory.md",
       "workflow-issue-235-sync-audit-tables-necessity-judgement-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -29602,9 +29626,6 @@
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
     ],
     "pinning": [
-      "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
-    ],
-    "account": [
       "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
     ],
     "popover": [

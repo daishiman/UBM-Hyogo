@@ -4918,3 +4918,17 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | contract | `NEXT_PUBLIC_API_BASE_URL` が current public API base URL の単一正本。`API_SERVICE` service binding は production/staging primary transport、HTTP fallback は local/test/Playwright のみ。`getApiBaseEnv()` / `ApiBaseEnv` は削除済み |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
 | user gate | commit、push、PR、staging/production deploy、Issue mutation |
+
+## issue-1192-admin-account-profile-dedicated-ux（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1192-admin-account-profile-dedicated-ux/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL` |
+| Issue | #1192 CLOSED 維持。PR 文脈は `Refs #1192` のみ |
+| purpose | 管理者が `/profile` を開いたとき、member プロフィール表示を維持したまま管理画面への補助導線を表示する |
+| implementation targets | `apps/web/app/(member)/profile/_components/AdminAccessNotice.tsx`, `apps/web/app/(member)/profile/page.tsx`, `apps/web/app/(member)/profile/_components/__tests__/AdminAccessNotice.component.spec.tsx`, `apps/web/app/(member)/profile/page.spec.tsx` |
+| evidence | targeted Vitest PASS: 2 files / 15 tests passed; `git diff --name-only -- apps/api packages` empty |
+| invariant | 新 endpoint / D1 schema / Google Form / API response shape / auth boundary / CSS token 変更なし。既存 `/me` `isAdmin` を apps/web 表現層で読むのみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1192-admin-account-profile-dedicated-ux-artifact-inventory.md` |
+| user gate | staging authenticated screenshot, commit, push, PR, Issue mutation |

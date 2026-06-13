@@ -118,6 +118,20 @@ Issue / unassigned-task が記述する「現状の挙動・契約・コード�
 - 検証で前提誤りを見つけたら、`implementation-guide.md` / `phase-1-requirements.md` に **訂正注記**として残し、次の人が再び drift と誤認しないようにする。Phase 2 以降の設計例も実コードに合わせて補正する。
 - GitHub Issue ラベルが `docs-only` でも、root cause（SSOT 違反 = dead alias / dead code 残存）の解消にコード変更が必要なら、CONST_004（ラベルより実態優先）で **実装仕様書**として分類する。昇格判断は `artifacts.json` の `spec_classification_note` に残し、後続レビューで分類根拠を追えるようにする（[phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) Applied Examples 参照）。
 
+#### 調査待ち前提のコード構造による代替確定（Issue #1192 対策）
+
+Issue / unassigned-task が「D1 read-only 確認待ち」「AC-x 結論待ち」などを blocker としていても、その前提が現行コードの到達可能性・session 発行条件・型制約で一意に確定できる場合は、外部データ確認待ちとして止めない。Phase 1 の P50 で、調査待ち主張を **データ依存の事実** と **コード構造が保証する事実** に分け、後者は現行コード anchor を根拠に採用分岐へ昇格する。
+
+Phase 1 outputs には以下を記録する:
+
+| 項目 | 内容 |
+| --- | --- |
+| original blocker | Issue / unassigned-task が主張した未確定事項（例: 管理者が member identity を持つか） |
+| structural anchor | 到達可能性や session 発行条件を保証する現行コード（例: `resolveSession` が member identity 不在時に session を発行しない） |
+| impossible branch | コード構造上到達不能になった選択肢 |
+| adopted branch | 残った実装方針と、その方針で触る最小ファイル |
+| residual user-gated item | staging runtime / production data read など、実装完了後も user-gated に残す証跡 |
+
 #### CI secret / env provisioning gap 検証（cf-token-env-contract 対策）
 
 GitHub Actions / shell / Cloudflare / staging runtime smoke など secret・env に依存する CI 障害では、Phase 1 で「workflow が消費する `secrets.*` / `vars.*`」と「provisioning 正本（`scripts/*provision*.sh` / runbook / environment inventory）」を分けて実測する。ユーザー仮説が token expiry / weekly rotation / external outage でも、現行 workflow と投入正本の name-only 差分を確認するまで真因扱いしない。
