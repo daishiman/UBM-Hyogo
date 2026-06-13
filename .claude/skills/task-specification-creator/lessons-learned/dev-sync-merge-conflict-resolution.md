@@ -7,8 +7,8 @@
 ### SP-DEVSYNC-139: sync-merge の lock 解放判定・衝突集合の波間反転・marker grep 偽陽性除外を、仕様書 Phase 11/13 の sync-merge 検証手順に逐語化する（L-DEVSYNC-139 の task-spec 版）
 - 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen` 3rd-pass（wt-4・behind 1 / ahead 10・merge `195e37165`）。取込 #1218（検索クリア二重表示解消 + ソート 4 種拡張）。CONFLICT は skill-index union 2（topic-map + quick-reference・keywords.json は auto-merge）→ `pnpm sync:resolve` 1 パス収束。
 - How to apply（仕様書 Phase 11/13 の sync-merge 検証手順への逐語化）:
-  1. **lock 解放判定**: `.git/.branch-sync.lock` の PID 欄が `released` 文字列なら正常終了センチネル（第 3 状態）として待機不要で即上書きと明記する（生存 PID / 時刻 stale の 2 状態に加える）。
-  2. **衝突集合は波ごとに非単調**: 同一ブランチの連続 sync でも union 対象は安定しない（本ブランチは前波 4 件 union → 今波 2 件 union）。仕様書には「衝突件数を事前固定しない・resolver 対象集合内なら `pnpm sync:resolve` 1 パスで吸収」と書く。
+  1. **lock 解放判定**: `.git/.branch-sync.lock` の状態空間は「生存 PID（多重実行で中断）/ 時刻 stale（30 分超で削除続行）/ `released` センチネル（正常終了・待機不要で即上書き）/ **不在**（最もクリーンに新規作成して続行）」の 4 値。`released` を生存 PID と誤読して待たないこと（4 波目で不在状態も実測・merge `92e9c5d03`）。
+  2. **衝突集合は波ごとに非単調**: 同一ブランチの連続 sync でも union 対象は安定しない（本ブランチは 2nd→3rd→4th で 4 件 union → 2 件 union → 3 件 union と反転継続・keywords.json は 3 波連続 auto-merge）。仕様書には「衝突件数を事前固定しない・resolver 対象集合内なら `pnpm sync:resolve` 1 パスで吸収」と書く。
   3. **marker grep の偽陽性除外**: 最終裏取りの `git grep -lE '^=======' ` は docs の `====...` 区切り線に過剰マッチする。ヒットが U-state か / マージで touch されたかを確認し、どちらも No なら偽陽性として除外（`<<<<<<<` / `>>>>>>>` のみで grep が安全）と手順化する。
 - Why: lock 状態空間を 2 値で捉えると正常終了センチネルを誤分類し無駄に待つ。衝突集合の波間反転は並行 wave が触れた index 行域だけで決まる確率的事象。`=======` は ASCII 区切り線と接頭辞衝突する古典的偽陽性で U-state/touch 判定で機械的に切り分く。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139 が正本。SP-DEVSYNC-138（取込デルタ × feature 編集ファイル交差判定）, SP-DEVSYNC-136（pre-flight 判定順序）。
