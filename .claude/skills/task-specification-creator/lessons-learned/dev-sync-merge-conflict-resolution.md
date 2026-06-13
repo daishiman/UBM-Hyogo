@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: 仕様書 Phase 5/11 の dev sync 手順に「stale index.lock 検知・除去サブステップ」を逐語化する（L-DEVSYNC-142 の task-spec 版）
+- 2026-06-13 `feat/admin-attendance-dashboard-jp-clarity-and-ux`（wt-7・behind 1 / ahead 8・merge `3d91089cf`）。`git merge dev` が `error: Unable to write index` + `Automatic merge failed` を出し `git status --porcelain` が空＝conflict でなく 0 バイト stale `index.lock`（別セッション中断残骸・mtime 約 5 時間前）が原因。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **merge 失敗の診断分岐を明記**: 仕様書の dev sync 手順に「`git merge dev` が `Unable to write index` を返し `git status --porcelain` が空なら conflict 解析でなく index.lock を疑う」を分岐として書く。`ls -la "$(git rev-parse --git-path index.lock)"` で 0 バイト + 古い mtime、`git rev-parse --git-path MERGE_HEAD` 存在で中途 merge 確定。
+  2. **除去コマンドは node unlink を逐語化**: `rm -f` は bypassPermissions 環境でも denied になりうる（本件発生）ため仕様書のコマンド例に `node -e "require('fs').unlinkSync('<path>')"` を書く。削除前に `stat` の mtime/size を 3 秒間隔 2 回取り不変確認（保持者書込中でない証跡）。除去後 `git merge --abort`（abort も index 書込を要するので lock 除去が先）→ HEAD 不変確認 → 再 merge で conflict 顕在化。
+  3. **add/commit 直前の再確認を Phase 11 検証に追加**: 15+ 並行 worktree 前提で「書込操作の直前に毎回 index.lock を確認」を逐語化（本件は commit 準備中に 18:06 付 lock が再発）。
+- 検証: 1 回目 merge `Unable to write index`（stale lock 12:37）→ node unlink → abort（HEAD 不変）→ 再 merge で CONFLICT 4（skill-index union）→ `pnpm sync:resolve` 1 パス → add -A / commit `3d91089cf`（lefthook 全 pass）→ typecheck/lint exit 0 → indexes:rebuild 冪等（5523 kw drift 0）→ commit 準備中 lock 18:06 再発を mtime 安定確認後に再除去。install skip（lock/package.json 変更 0）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142（本 lesson の正本）, SP-DEVSYNC-135（index.lock 競合 worst-case）, SP-DEVSYNC-138（lock 待機プロトコル）。
+
 ### SP-DEVSYNC-141: 仕様書 Phase 11/13 の「push 後 CI 失敗修復」手順に、視覚 baseline stale と e2e strict-mode violation の多層性を逐語化する（L-DEVSYNC-141 の task-spec 版）
 - 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen`（wt-4・PR #1220）。VISUAL タスクの sync-merge push 後に visual-full 3 viewport fail → 修復後 e2e 2 spec fail の 2 層が順に顕在化。
 - How to apply（仕様書 Phase 11/13 への逐語化）:
