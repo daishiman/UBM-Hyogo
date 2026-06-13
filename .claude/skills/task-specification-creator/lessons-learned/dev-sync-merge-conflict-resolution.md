@@ -1763,3 +1763,13 @@
   3. **衝突集合の非安定性を前提に書く**: 「keywords.json が衝突する」等の固定列挙でなく「resolver 対象（SKILL.md / task-workflow-active.md / indexes/*-map.md / quick-reference.md / keywords.json）内の任意の部分集合が波ごとに衝突しうる。集合によらず `pnpm sync:resolve` 1 パス → U 残 0 確認 → 原子 1-Bash commit」と手順を集合非依存で逐語化する。
 - 検証: lock 待機約 23 分 → 解放検知 → CONFLICT 4（前波の keywords.json 単独から反転）→ resolver 1 パス → merge `d01b07b9f` blob marker 0 → install skip → typecheck/lint exit 0 → rebuild 冪等 diff 0 → CI コード修正 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）, SP-DEVSYNC-136（happy-path 判定）, SP-DEVSYNC-135（index.lock 競合 worst-case・即 stale 削除を避ける根拠）。
+
+## SP-DEVSYNC-143: **仕様書の dev sync 手順に「取込規模と衝突件数は無相関（大型取込でも resolver 対象 1 件に収束しうる）」と「メイン WT(dev) dirty 時はローカル dev ff をスキップし feature へ origin/dev 直接マージ」の 2 分岐を逐語化する（L-DEVSYNC-143 の task-spec 版）** （2026-06-14 feat/admin-audit-ux-readability-refine ← origin/dev, sub-worktree wt-13, behind 1 / ahead 4）
+
+- 教訓: 仕様書が「dev sync = ローカル dev を ff 同期してから feature にマージ」と固定的に書くと、(1) メイン WT が別セッションで dirty な時に ff を強行してスコープ外 WT を破壊するリスク、(2) 「大型取込＝多数衝突」という誤った見積りで手動 union 手順を過大に書くリスク、の 2 つを生む。実測（84 files / 3480+ insertions の取込でも CONFLICT は quick-reference.md 単独）を根拠に手順を補正する。
+- 仕様書への反映（Phase 5/11 dev sync 節）:
+  1. **ローカル dev ff の前提条件を明記**: `git -C <main-wt> status --porcelain` が空（clean）の時のみローカル dev を ff 同期する。dirty の場合は ff をスキップし最終レポートに「dev ff スキップ（メイン WT dirty）」を記録。feature への取込は `git merge origin/dev` 直接マージで完遂する（マージ元 SHA はローカル dev でも origin/dev でも同一なので取込内容は等価）。スコープ外 WT への stash/commit は禁止（CONST_008）。
+  2. **install 要否判定を取込デルタで**: `git diff <merge-parent>...origin/dev --name-only | grep -E '(pnpm-lock|package\.json)'` 空 = skip 可（SP-DEVSYNC-134 の系）。取込が 84 files と大きくても lock 不変なら install 不要。
+  3. **衝突集合の非安定性 + 規模無相関を前提に書く**: 「大型取込だから手動 union を覚悟」と書かず、「resolver 対象（SKILL.md / task-workflow-active.md / indexes/*-map.md / quick-reference.md / keywords.json）内の任意部分集合が衝突しうる。集合・規模によらず `pnpm sync:resolve` 1 パス → `--diff-filter=U` 残 0 確認 → 原子 1-Bash commit（add -A → commit → `git show HEAD:<path> | grep` blob 検証）」と集合・規模非依存で逐語化する。
+- 検証: `git merge origin/dev --no-edit` CONFLICT 1（quick-reference.md）→ resolver 1 パス（union-resolved 1 + rebuild）→ marker 0 → merge `24961ca6f` blob clean → install skip（取込デルタに lock/package.json なし）→ typecheck/lint exit 0 → CI コード修正 0。ローカル dev ff はメイン WT dirty のためスキップ（feature 取込は完遂）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-143（本 lesson の正本）, SP-DEVSYNC-138（衝突集合の波間反転）, SP-DEVSYNC-134（ハンク単位衝突判定 + install 要否）, SP-DEVSYNC-135（スコープ外 WT を触ると誘発する index.lock 競合）。
