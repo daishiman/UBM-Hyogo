@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: 仕様書 Phase 11/13 の sync-merge 検証手順に「`Unable to write index` + `ls-files -u`=0 は孤児 index.lock のシグネチャ＝lock 物理削除→abort→再 merge」を逐語化する（L-DEVSYNC-142 の task-spec 版）
+- 2026-06-13 `feat/home-dashboard-japanese-localization` 4th-pass（wt-12・behind 1 / ahead 12・merge `28f30a060`）。取込 #1220（タグ定義コード自動生成 + タグ管理説明 UI）。最初の `git merge dev` が CONFLICT 列挙でなく `error: Unable to write index` で落ち、`git status`「All conflicts fixed but you are still merging」かつ `git ls-files -u` 0＝偽の merge-in-progress。真因は worktree 専用 git-dir `.git/worktrees/<name>/index.lock`（約 5 時間齢の孤児 lock）。
+- How to apply（仕様書 Phase 11/13 の sync-merge 検証手順への逐語化）:
+  1. **`Unable to write index` の切り分け**: merge が「CONFLICT in <file>」を出さず `error: Unable to write index` だけで落ち、`git status` が merging を指すのに `git ls-files -u` が 0 なら、衝突解消でなく **index 書込ブロック**。`WT_GITDIR="$(git rev-parse --git-dir)"; ls -la "$WT_GITDIR" | grep -i lock` で worktree 専用 git-dir（repo root `.git` ではない）の `index.lock` を確認すると手順化する。
+  2. **削除→abort の順序固定**: `git merge --abort` は index を書くため同じ lock で二次失敗（`Unable to create '...index.lock': File exists`）する。必ず lock 削除を先に行う。`rm -f` が harness で denied なら `node -e "require('fs').unlinkSync('<abs path>')"`。削除後 `git merge --abort` → 再 `git merge dev` で本来の skill-index union 衝突に到達し `pnpm sync:resolve` 1 パス。
+  3. **ライブ競合と区別（齢で判定）**: 即削除が危険なのは保持者生存中のライブ lock（SP-DEVSYNC-138 系）。mtime 齢が 30 分 stale 閾値超かつ自分の中途 merge を指すなら孤児で削除安全、短齢なら解放ポーリングへ回す、と分岐を明記。
+- Why: git worktree は index/lock を per-worktree（`.git/worktrees/<name>/`）に持つため、9 並列運用ではどれかの git クラッシュが孤児 lock を残し、その worktree の次の merge を即ブロックする。abort も index を書くので lock 除去が全前提。仕様書に「`Unable to write index` は衝突 0 でも lock 由来・削除→abort→再 merge」を書けば、実装者が衝突解消を探して空回りするのを防げる。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142 が正本。SP-DEVSYNC-138（ライブ lock 解放ポーリング・本件は孤児で即削除へ分岐）, SP-DEVSYNC-140（同ブランチ 3rd-pass baseline-meta）。
+
 ### SP-DEVSYNC-140: VISUAL feature の仕様書 sync 手順には「`.baseline-meta.json` の両側衝突は dev 側 theirs 全採用 + 原子的 1-Bash 解消」を逐語化する（L-DEVSYNC-140 の task-spec 版）
 - 2026-06-13 `feat/home-dashboard-japanese-localization` 3rd-pass（wt-12・behind 1 / ahead 10・merge `bd38a6216`）。取込 #1221（/admin/schema 日本語化）で CONFLICT 3 = skill-index union 2 + **`.baseline-meta.json`（content）**。feature（home 日本語化・自前 baseline dispatch）と dev（#1221 schema・別 dispatch）の両側が `playwright-visual-baseline-update.yml` を走らせ、`captured_at_commit_sha`/`captured_at`/`captured_run_ids` 末尾が分岐した「両側 baseline 再生成」正例。
 - How to apply（VISUAL feature 仕様書の Phase 5 / Phase 11 sync 手順への逐語化）:
