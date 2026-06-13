@@ -77,18 +77,13 @@ describe("CallToActionCTA", () => {
     expect(screen.getByRole("link").getAttribute("href")).toBe(url);
   });
 
-  it("eyebrow text 'FOR MEMBERS' is rendered (visual contract)", () => {
-    render(<CallToActionCTA responderUrl="https://x.example/" />);
-    expect(screen.getByText("FOR MEMBERS")).not.toBeNull();
-  });
-
-  it("uses data-role driven structure (data-role: inner/copy/eyebrow/heading/body/cta-button)", () => {
+  it("uses data-role driven structure (data-role: inner/copy/heading/body/cta-button)", () => {
     const { container } = render(<CallToActionCTA responderUrl="https://x.example/" />);
     const section = container.querySelector('[data-component="call-to-action-cta"]');
     expect(section).not.toBeNull();
     expect(section?.querySelector('[data-role="inner"]')).not.toBeNull();
     expect(section?.querySelector('[data-role="copy"]')).not.toBeNull();
-    expect(section?.querySelector('[data-role="eyebrow"]')).not.toBeNull();
+    expect(section?.querySelector('[data-role="eyebrow"]')).toBeNull();
     expect(section?.querySelector('[data-role="heading"]')).not.toBeNull();
     expect(section?.querySelector('[data-role="body"]')).not.toBeNull();
     const button = section?.querySelector('[data-role="cta-button"]');

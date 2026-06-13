@@ -22,7 +22,7 @@ export function KpiGrid({ totals }: KpiGridProps) {
         testId="admin-kpi-card-untagged"
       />
       <KpiCard
-        label="Schema issues"
+        label="未対応のフォーム項目"
         value={totals.unresolvedSchema}
         tone={totals.unresolvedSchema > 0 ? "danger" : "success"}
         testId="admin-kpi-card-schema"
