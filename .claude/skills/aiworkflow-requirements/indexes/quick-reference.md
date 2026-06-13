@@ -13,6 +13,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md` |
 | user gate | authenticated staging screenshots 2, staging deploy, commit, push, PR |
 
+## profile-session-staging-transport-recovery（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/profile` の `MEMBER_SESSION_FAILED` transport failure を local 実装で多層防御化し、staging runtime 確認だけを user-gated に残す |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/fetch/{transport,authed}.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/me/[...path]/route.ts`, `scripts/diagnose-profile-session.sh` |
+| evidence | focused Vitest 5 files / 72 tests PASS; `bash -n scripts/diagnose-profile-session.sh` PASS; unreachable-host diagnose dry run PASS; artifacts parity `cmp -s ...` exit 0 |
+| invariant | `/me` path/shape/status, apps/api, D1 schema, Google Form, `/profile` UI wording unchanged; fallback only on transport throw and only for GET/HEAD |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-staging-transport-recovery-artifact-inventory.md` |
+| user gate | staging deploy, authenticated recovery screenshot, S1-S4 final sub-cause confirmation, commit, push, PR |
+
 ## members-search-clear-and-sort-ux（2026-06-11）
 
 | 項目 | 値 |
