@@ -35,7 +35,7 @@ describe("buildNavForRole", () => {
     });
     expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
       href: "/admin/tags",
-      label: "タグキュー",
+      label: "タグ割当",
     });
   });
 
@@ -47,7 +47,7 @@ describe("buildNavForRole", () => {
     });
     expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
       href: "/admin/tags",
-      label: "タグキュー",
+      label: "タグ割当",
     });
   });
 

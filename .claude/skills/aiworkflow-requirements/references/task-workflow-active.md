@@ -21,6 +21,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
 | user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
 
+### admin-tag-management-clarity-and-code-autogen（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tag-management-clarity-and-code-autogen/` |
+| 目的 | `/admin/tag-master` と `/admin/tags` の関係を非エンジニア向けに明確化し、タグ定義コードを表示名から自動生成する |
+| implementation targets | `apps/web/src/lib/admin/{tagCodeAutogen,tagManagementGlossary}.ts`, `apps/web/src/components/admin/{TagManagementGuide,TagDefinitionCreateForm,TagQueuePanel}.tsx`, `apps/web/src/components/shell/shell-config.ts`, `apps/web/app/(admin)/admin/{tag-master,tags}/page.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `tagCodeAutogen.spec.ts`, `tagManagementGlossary.spec.ts`, `TagManagementGuide.component.spec.tsx`, `TagDefinitionCreateForm.component.spec.tsx`, `shell-config.spec.ts`, `TagQueuePanel.component.spec.tsx` |
+| evidence | focused Vitest 6 files / 39 tests PASS、web typecheck PASS、web lint PASS、verify-design-tokens PASS、apps/api diff empty |
+| invariant | Existing tag API surface only。apps/api / D1 / Google Form / shared public contract unchanged。`/admin/tags` route remains tag assignment queue; label is unified to 「タグ割当」 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 2, staging deploy, commit, push, PR |
+
 ### admin-schema-terminology-clarity（2026-06-11）
 
 | 項目 | 値 |

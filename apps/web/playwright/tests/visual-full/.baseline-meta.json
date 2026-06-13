@@ -1,7 +1,7 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "8af327a284603efe15861aebe27e3c754466888e",
-  "captured_at": "2026-06-12T15:03:16Z",
+  "captured_at_commit_sha": "4c8ec5773803f6900a0a98442b2c3dc83455fa5b",
+  "captured_at": "2026-06-13T01:43:18Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
     "27276848458",
@@ -13,7 +13,8 @@
     "27340194772",
     "27341009167",
     "27400529754",
-    "27423389399"
+    "27423389399",
+    "27452557308"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "vitest unit spec追従漏れ2件(plainLabel/retryableメッセージ)是正後の再dispatch(4回目)。web vitest全量1945 passed確認済み。admin-schema baseline再生成"
+  "last_refresh_reason": "[dev取込結合] PR #1220: /admin/tags に TagManagementGuide 説明UI/相互リンク追加でページ高が desktop 800→987 / mobile 1520 / tablet 1237-1345px へ縦長化、admin-tags の visual baseline (desktop/mobile/tablet) を意図変更に追従して再生成（他16画面は不一致なし）。+ dev #1221: vitest unit spec追従漏れ2件(plainLabel/retryableメッセージ)是正後の再dispatch、admin-schema baseline再生成。"
 }
