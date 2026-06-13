@@ -158,6 +158,43 @@ describe("safeServerFetch", () => {
     });
   });
 
+  it("omits transport descriptor when transportKind is not an allowed value", async () => {
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("weird transport"), {
+          transport: { transportKind: "websocket", baseHost: "api.example.com" },
+        });
+      },
+      { codePrefix: "MEMBER_SESSION" },
+    );
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.transport).toBeUndefined();
+  });
+
+  it("omits transport descriptor when baseHost is not a string", async () => {
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("weird transport"), {
+          transport: { transportKind: "http", baseHost: 123 },
+        });
+      },
+      { codePrefix: "MEMBER_SESSION" },
+    );
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.transport).toBeUndefined();
+  });
+
+  it("omits transport descriptor when transport is explicitly null", async () => {
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("null transport"), { transport: null });
+      },
+      { codePrefix: "MEMBER_SESSION" },
+    );
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.transport).toBeUndefined();
+  });
+
   it("does not log diagnostics unless logPath is provided", async () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 

@@ -117,6 +117,17 @@ describe("security headers", () => {
     expect(buildSentryCspReportUrl("not-a-url")).toBeUndefined();
   });
 
+  it("does not derive a report endpoint when public key or project id is missing", () => {
+    // parse は成功するが publicKey（username）が空
+    expect(
+      buildSentryCspReportUrl("https://o456.ingest.sentry.io/789"),
+    ).toBeUndefined();
+    // parse は成功するが projectId（pathname）が空
+    expect(
+      buildSentryCspReportUrl("https://abc123@o456.ingest.sentry.io/"),
+    ).toBeUndefined();
+  });
+
   it("emits Reporting-Endpoints when a report endpoint is set", () => {
     const headers = buildSecurityHeaders(reportCfg);
 

@@ -100,4 +100,99 @@ describe('persistFindings', () => {
     const event_type = rows[0]!.values[6];
     expect(event_type).toBe('org.update_member');
   });
+
+  it('GitHub 権限変更が無ければ Cloudflare token_rotate を優先する', async () => {
+    const { db, rows } = fakeDb();
+    const events = [
+      makeEvent({ source: 'cloudflare', eventType: 'login_fail' }),
+      makeEvent({ source: 'cloudflare', eventType: 'token_rotate' }),
+    ];
+    await persistFindings([finding(events, 'HIGH')], { db });
+    expect(rows[0]!.values[6]).toBe('token_rotate');
+  });
+
+  it('token_rotate も無ければ Cloudflare login_fail を優先する', async () => {
+    const { db, rows } = fakeDb();
+    const events = [
+      makeEvent({ source: 'cloudflare', eventType: 'session_create' }),
+      makeEvent({ source: 'cloudflare', eventType: 'login_fail' }),
+    ];
+    await persistFindings([finding(events, 'MEDIUM')], { db });
+    expect(rows[0]!.values[6]).toBe('login_fail');
+  });
+
+  it('優先 event が無ければ先頭 event を採用する', async () => {
+    const { db, rows } = fakeDb();
+    const events = [
+      makeEvent({ source: 'cloudflare', eventType: 'session_create' }),
+      makeEvent({ source: 'github', eventType: 'repo.access' }),
+    ];
+    await persistFindings([finding(events, 'LOW')], { db });
+    expect(rows[0]!.values[6]).toBe('session_create');
+  });
+
+  it('events が空の finding は skip し attempted には数える', async () => {
+    const { db, rows } = fakeDb();
+    const emptyFinding: CorrelatedFinding = {
+      correlationKey: { fingerprintHash: fp, fingerprintVersion: 1 },
+      events: [],
+      severity: 'LOW',
+      reason: 'r',
+    };
+    const result = await persistFindings([emptyFinding], { db });
+    expect(result).toEqual({ attempted: 1, inserted: 0 });
+    expect(rows.length).toBe(0);
+  });
+
+  it('actorDomain / ipPrefix / userAgentBucket が未指定なら NULL を bind する', async () => {
+    const { db, rows } = fakeDb();
+    const ev = makeEvent({
+      actorDomain: undefined,
+      ipPrefix: undefined,
+      userAgentBucket: undefined,
+    });
+    await persistFindings([finding([ev], 'HIGH')], { db });
+    const v = rows[0]!.values;
+    expect(v[2]).toBeNull(); // actor_domain
+    expect(v[3]).toBeNull(); // ip_prefix
+    expect(v[4]).toBeNull(); // ua_bucket
+  });
+
+  it('opts.now 未指定でも created_at に現在時刻が書かれる', async () => {
+    const { db, rows } = fakeDb();
+    const before = Date.now();
+    await persistFindings([finding([makeEvent()], 'HIGH')], { db });
+    const createdAt = rows[0]!.values[9] as number;
+    expect(typeof createdAt).toBe('number');
+    expect(createdAt).toBeGreaterThanOrEqual(before);
+  });
+
+  it('opts.now 指定時はその時刻を created_at に使う', async () => {
+    const { db, rows } = fakeDb();
+    const fixed = new Date('2026-01-02T03:04:05Z');
+    await persistFindings([finding([makeEvent()], 'HIGH')], {
+      db,
+      now: () => fixed,
+    });
+    expect(rows[0]!.values[9]).toBe(fixed.getTime());
+  });
+
+  it('D1 meta.changes が未定義なら inserted に数えない', async () => {
+    const noMetaDb = {
+      prepare() {
+        return {
+          bind() {
+            return this;
+          },
+          async run() {
+            return {}; // meta 欠落 → changes ?? 0 が 0 になる経路
+          },
+        };
+      },
+    } as unknown as D1Database;
+    const result = await persistFindings([finding([makeEvent()], 'HIGH')], {
+      db: noMetaDb,
+    });
+    expect(result).toEqual({ attempted: 1, inserted: 0 });
+  });
 });

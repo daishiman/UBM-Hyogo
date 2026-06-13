@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### vitest-3-to-4-major-upgrade（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| 成果物 | `docs/30-workflows/vitest-3-to-4-major-upgrade/` |
+| Issue | Issue #1200 CLOSED。PR 文脈は `Refs #1200` のみ。Issue reopen / mutation は user-gated |
+| 目的 | Vitest 3.2.6 → 4.1.8、`@vitest/coverage-v8` exact parity、`@vitejs/plugin-react` 5.2.0、D1 直列化の v4 等価表現を 1 cycle で実装するための実行仕様書 |
+| planned implementation targets | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`, `vitest.d1.config.ts`; RED 観測後の `*.spec.ts(x)` / snapshot / coverage gate 最小修正 |
+| registry snapshot | 2026-06-13 JST に npm registry recheck 済み。`vitest` latest `4.1.8` / beta `5.0.0-beta.4`、`@vitest/coverage-v8` peer exact `vitest: 4.1.8`。`@vitejs/plugin-react` latest は 6.0.2 だが Vite 8 専用 peer のため、本 workflow は Vite 6-8 をまたぐ 5.2.0 を正とする |
+| evidence | Phase 11 placeholder present。typecheck / lint / shard results / deprecation grep / version parity evidence は実装 cycle で採取。screenshots は NON_VISUAL のため n/a |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md` |
+| user gate | implementation execution、commit、push、PR、Issue #1200 mutation |
+
 ### admin-tag-management-clarity-and-code-autogen（2026-06-11）
 
 | 項目 | 値 |

@@ -1,10 +1,12 @@
 // serial-05-step-02: IdentityConflictRow unit tests
 // useAdminMutation hook を mock し、payload / error 保持 / a11y を focused 検証する。
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach, type Mock } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor, act } from "@testing-library/react";
 
 interface MockMutationState {
-  trigger: ReturnType<typeof vi.fn>;
+  // v4: ReturnType<typeof vi.fn> は Mock<Procedure | Constructable> となり直接呼び出せない。
+  // trigger(endpoint, payload) として呼ぶため呼び出しシグネチャを明示する。
+  trigger: Mock<(...args: unknown[]) => unknown>;
   isLoading: boolean;
   error: Error | null;
 }
@@ -27,7 +29,11 @@ vi.mock("../../../features/admin/hooks", () => ({
     lastOptionsByEndpoint.set(endpoint, options);
     let state = mutationByEndpoint.get(endpoint);
     if (!state) {
-      state = { trigger: vi.fn(), isLoading: false, error: null };
+      state = {
+        trigger: vi.fn<(...args: unknown[]) => unknown>(),
+        isLoading: false,
+        error: null,
+      };
       mutationByEndpoint.set(endpoint, state);
     }
     return {
@@ -69,6 +75,7 @@ beforeEach(() => {
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
@@ -190,16 +197,22 @@ describe("IdentityConflictRow", () => {
 
   it("prefers-reduced-motion: reduce では delay 0 の timer で DOM から除去する", async () => {
     vi.useFakeTimers();
-    vi.spyOn(window, "matchMedia").mockReturnValue({
-      matches: true,
-      media: "(prefers-reduced-motion: reduce)",
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    } as unknown as MediaQueryList);
+    // v4: jsdom は window.matchMedia 未定義。spyOn は対象が関数でないと
+    // throw する（v3 は許容）ため、stubGlobal で matchMedia 自体を差し込む。
+    // afterEach の vi.unstubAllGlobals() で復元する。
+    vi.stubGlobal(
+      "matchMedia",
+      vi.fn().mockReturnValue({
+        matches: true,
+        media: "(prefers-reduced-motion: reduce)",
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      } as unknown as MediaQueryList),
+    );
     const trigger = vi.fn(() => new Promise(() => {}));
     setMutationState(mergeEndpoint, { trigger });
 

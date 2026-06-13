@@ -250,4 +250,81 @@ describe("schemaAliasRecompute workflow", () => {
     expect(await countByKey(env, "full_name")).toBe(1);
     expect(await countByKey(env, "__extra__:q1")).toBe(0);
   });
+
+  it("T-06: 存在しない aliasId は not_found を throw する", async () => {
+    await expect(
+      schemaAliasRecompute(env.ctx, { aliasId: "nope", actor: "admin@example.com" }),
+    ).rejects.toMatchObject({
+      name: "SchemaAliasRecomputeFailure",
+      kind: "not_found",
+    });
+  });
+
+  it("T-07: reason 指定時は audit after_json に反映される", async () => {
+    await insertAlias(env, "a-7", { stableKey: "full_name", aliasQuestionId: "q1" });
+    await insertResponseField(env, "r1", "full_name");
+
+    await schemaAliasRecompute(env.ctx, {
+      aliasId: "a-7",
+      actor: "admin@example.com",
+      reason: "post-rollback recompute",
+    });
+
+    const row = await env.db
+      .prepare(
+        `SELECT after_json AS afterJson FROM audit_log
+         WHERE action = 'schema_alias.recompute' AND target_id = 'a-7'`,
+      )
+      .first<{ afterJson: string }>();
+    expect(JSON.parse(row?.afterJson ?? "{}")).toMatchObject({
+      reason: "post-rollback recompute",
+    });
+  });
+
+  it("T-08: reverseBackfill の extraKey === stableKey は no-op", async () => {
+    const res = await reverseBackfillResponseFields(
+      env.ctx,
+      "q1",
+      "__extra__:q1",
+    );
+    expect(res).toMatchObject({
+      status: "completed",
+      processed: 0,
+      updated: 0,
+      cursor: null,
+      retryable: false,
+    });
+  });
+
+  it("T-09: 対象 0 件の rollback 済 alias は completed で processed 0", async () => {
+    await insertAlias(env, "a-9", { stableKey: "full_name", aliasQuestionId: "q1" });
+
+    const res = await schemaAliasRecompute(env.ctx, {
+      aliasId: "a-9",
+      actor: "admin@example.com",
+    });
+    expect(res.status).toBe("completed");
+    expect(res.processedCount).toBe(0);
+    expect(res.updatedCount).toBe(0);
+    expect(res.affectedCount).toBe(0);
+  });
+
+  it("T-10: cursor 指定で reverseBackfill を途中から再開できる", async () => {
+    await insertResponseField(env, "r1", "full_name");
+    await insertResponseField(env, "r2", "full_name");
+    await insertResponseField(env, "r3", "full_name");
+
+    // r1 をスキップする cursor を渡す（response_id > cursor の分岐を通す）
+    const res = await reverseBackfillResponseFields(
+      env.ctx,
+      "q1",
+      "full_name",
+      "r1",
+    );
+    expect(res.status).toBe("completed");
+    expect(res.processed).toBe(2);
+    // r1 は cursor 範囲外なので full_name のまま残る
+    expect(await countByKey(env, "full_name")).toBe(1);
+    expect(await countByKey(env, "__extra__:q1")).toBe(2);
+  });
 });

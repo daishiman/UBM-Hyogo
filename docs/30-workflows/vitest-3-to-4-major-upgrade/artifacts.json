@@ -1,0 +1,170 @@
+{
+  "task_name": "vitest-3-to-4-major-upgrade",
+  "task_path": "docs/30-workflows/vitest-3-to-4-major-upgrade",
+  "wave": null,
+  "execution_mode": "implemented_local_partial",
+  "depends_on": [],
+  "blocks": [],
+  "created_at": "2026-06-12T23:00:00+09:00",
+  "status": "implementation_review_partial",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_区分": "実装仕様書",
+    "implementation_mode": "new",
+    "workflow_state": "implementation_review_partial",
+    "github_issue": 1200,
+    "github_issue_state": "CLOSED",
+    "github_issue_note": "issue は 2026-06-12 に close 済みだが、コードベースは vitest ^3.2.6 のままで課題は未解決と実測確定。ユーザー指示により closed のまま本仕様書を実行正本とする",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/vitest-2-to-3-major-upgrade-followup-001-vitest-4-major-upgrade.md",
+    "parent_workflow": "docs/30-workflows/completed-tasks/vitest-2-to-3-major-upgrade",
+    "target_versions": {
+      "vitest": "^4.1.8",
+      "@vitest/coverage-v8": "^4.1.8",
+      "@vitejs/plugin-react": "^5.2.0"
+    },
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-12T23:00:00+09:00",
+        "evidence_path": "docs/30-workflows/vitest-3-to-4-major-upgrade/phase-03-design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 実装仕様書作成完了。確定修正（C1/C5/C7）と観測修正（C2-C4）の二層設計でレビュー通過"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/vitest-3-to-4-major-upgrade/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local implementation exists; full shard green remains pending due Node arch guard (process.arch=x64, expected arm64)"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Requirements",
+      "file": "phase-01-requirements.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 2,
+      "name": "Design",
+      "file": "phase-02-design.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 3,
+      "name": "Design Review",
+      "file": "phase-03-design-review.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 4,
+      "name": "Test Creation",
+      "file": "phase-04-test-creation.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 5,
+      "name": "Implementation",
+      "file": "phase-05-implementation.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 6,
+      "name": "Test Expansion",
+      "file": "phase-06-test-expansion.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 7,
+      "name": "Coverage Check",
+      "file": "phase-07-coverage-check.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 8,
+      "name": "Refactoring",
+      "file": "phase-08-refactoring.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 9,
+      "name": "Quality Assurance",
+      "file": "phase-09-quality-assurance.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 10,
+      "name": "Final Review",
+      "file": "phase-10-final-review.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    },
+    {
+      "phase": 11,
+      "name": "Manual Test",
+      "file": "phase-11-manual-test.md",
+      "status": "implementation_review_partial",
+      "outputs": [
+        "outputs/phase-11/manual-test-result.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "Documentation",
+      "file": "phase-12-documentation.md",
+      "status": "implementation_review_partial",
+      "outputs": [
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR Creation",
+      "file": "phase-13-pr-creation.md",
+      "status": "implementation_review_partial",
+      "outputs": []
+    }
+  ],
+  "mutation_commands": {
+    "install": "mise exec -- pnpm install",
+    "typecheck": "mise exec -- pnpm typecheck",
+    "lint": "mise exec -- pnpm lint",
+    "parity_vitest": "mise exec -- pnpm why vitest",
+    "parity_coverage": "mise exec -- pnpm why @vitest/coverage-v8",
+    "parity_vite": "mise exec -- pnpm why vite",
+    "parity_plugin_react": "mise exec -- pnpm why @vitejs/plugin-react",
+    "shard_api_unit": "mise exec -- pnpm --filter @ubm-hyogo/api test:coverage:unit",
+    "shard_api_d1": "mise exec -- pnpm --filter @ubm-hyogo/api test:coverage:d1",
+    "shard_web": "mise exec -- pnpm --filter @ubm-hyogo/web test:coverage",
+    "shard_og": "mise exec -- pnpm --filter @ubm-hyogo/og test:coverage",
+    "shard_scripts": "mise exec -- pnpm test:scripts",
+    "shard_alerts": "mise exec -- pnpm test:alerts && mise exec -- pnpm test:sentry-alerts",
+    "coverage_guard": "mise exec -- pnpm coverage:guard",
+    "pr_preflight": "bash scripts/verify-pr-ready.sh",
+    "shard_packages": "mise exec -- pnpm --filter './packages/*' test:coverage"
+  },
+  "invariants": [
+    "test file は *.spec.{ts,tsx} 固定（*.test.* 禁止 / CLAUDE.md 不変条件8）",
+    "vitest と @vitest/coverage-v8 は常に同一バージョン（v4 は exact pin）",
+    "D1 テストの直列実行設計を破壊しない（v4 表現: pool forks + maxWorkers 1; isolate false omitted）",
+    "config の resolve.alias（react subpath）と optimizeDeps を破壊しない",
+    "D1 への直接アクセスは apps/api に閉じる。D1 schema 変更なし",
+    "Node 24.15.0 / pnpm 10.33.2 を mise exec -- 経由で固定実行",
+    "テストの green 基準を緩めない（skip 増加禁止・obsolete snapshot 0 件）",
+    "coverage 閾値は実測ずれの最小調整を除き既存水準を下げない"
+  ]
+}

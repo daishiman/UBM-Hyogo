@@ -159,4 +159,21 @@ describe("logger", () => {
     expect(payload.email).toBe("***");
     expect(payload.token).toBe("***");
   });
+
+  it("redacts array values element-wise", () => {
+    logger.info({ event: "arr", items: ["a@example.com", "plain"] as unknown });
+    const payload = JSON.parse(infoSpy.mock.calls[0][0] as string);
+    expect(Array.isArray(payload.items)).toBe(true);
+    expect(payload.items).toHaveLength(2);
+  });
+
+  it("caps redaction recursion with a depth limit marker", () => {
+    logger.info({
+      event: "deep",
+      nested: { a: { b: { c: { d: { e: "too-deep" } } } } } as unknown,
+    });
+    const payload = JSON.parse(infoSpy.mock.calls[0][0] as string);
+    // 5 階層目以降は "[depth-limit]" でカットされる（無限再帰防止）
+    expect(JSON.stringify(payload.nested)).toContain("[depth-limit]");
+  });
 });

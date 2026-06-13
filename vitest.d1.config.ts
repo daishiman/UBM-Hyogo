@@ -72,16 +72,22 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: false,
-    testTimeout: 30000,
-    hookTimeout: 30000,
+    testTimeout: 180000,
+    hookTimeout: 180000,
     include: D1_INCLUDE,
     exclude: ["**/node_modules/**", "**/dist/**", "**/.{idea,git,cache,output,temp}/**"],
+    // v4: tinypool 削除により poolOptions / singleFork は廃止。
+    // issue-617 の D1 直列化（port exhaustion 回避）は top-level maxWorkers: 1 で表現する。
+    // NOTE: 旧 singleFork: true は「単一 fork で全ファイルを直列実行」だが
+    // モジュール状態はファイル単位で隔離されていた（isolate 既定 true）。
+    // migration guide の等価表現とされる isolate: false を併用すると、
+    // D1 mock のモジュール状態がファイル間で汚染し `db.prepare is not a function`
+    // 等の順序依存 fail を起こすため採用しない。maxWorkers: 1 のみで
+    // Miniflare D1 インスタンスを 1 つに直列化し port exhaustion を回避する。
+    // Vitest 4 + x64 Node では初回 migration が 120s を超えることがあるため、
+    // D1 専用 shard だけ timeout を 180s に広げる。
     pool: "forks",
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    maxWorkers: 1,
     coverage: {
       ...baseCoverage,
       reportsDirectory: "apps/api/coverage/d1",

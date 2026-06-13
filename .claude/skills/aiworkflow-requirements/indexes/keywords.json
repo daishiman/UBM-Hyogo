@@ -3548,10 +3548,12 @@
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "Snapshot": [
-      "arch-state-management-skill-creator.md"
+      "arch-state-management-skill-creator.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "SDK": [
       "arch-state-management-skill-creator.md",
@@ -5114,6 +5116,7 @@
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "Live": [
@@ -5532,6 +5535,7 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "learned": [
@@ -6635,7 +6639,8 @@
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "Required": [
       "branch-protection.md",
@@ -7840,6 +7845,7 @@
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "管理者リポジトリ境界仕様": [
@@ -10694,7 +10700,8 @@
     "Purpose": [
       "gate-metadata.md",
       "workflow-shell-sidebar-tooltip-footer-header-responsive-artifact-inventory.md",
-      "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md"
+      "workflow-sidebar-footer-pinning-and-account-popover-ux-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "Entry": [
       "gate-metadata.md"
@@ -12228,6 +12235,7 @@
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "fetchPublic": [
@@ -12954,7 +12962,8 @@
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
-      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md"
+      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "の二段で担保": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -19271,7 +19280,8 @@
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md"
+      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "再発防止サマリ表": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
@@ -19866,6 +19876,7 @@
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
       "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
@@ -22530,7 +22541,8 @@
     ],
     "upgrade": [
       "lessons-learned-ut-coverage-2026-05-wave.md",
-      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md"
+      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "を別タスク化する": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
@@ -22962,7 +22974,8 @@
     ],
     "Registry": [
       "llm-ipc-types.md",
-      "plugin-development.md"
+      "plugin-development.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "SSoT": [
       "llm-ipc-types.md"
@@ -25879,7 +25892,8 @@
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "CSP": [
       "security-web-response-headers.md"
@@ -26143,7 +26157,8 @@
     ],
     "Overview": [
       "skill-ledger-overview.md",
-      "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md"
+      "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "施策の正本ガイド": [
       "skill-ledger-overview.md"
@@ -28084,6 +28099,7 @@
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
       "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
@@ -28245,6 +28261,7 @@
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "Artifacts": [
@@ -28394,7 +28411,8 @@
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "Logged": [
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
@@ -28472,6 +28490,7 @@
       "workflow-ut-07c-followup-001-attendance-csv-import-artifact-inventory.md",
       "workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md",
       "workflow-ut-dsf-07-staging-visual-runtime-evidence-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md",
       "workflow-web-worker-size-limit-fix-artifact-inventory.md"
     ],
     "reduce": [
@@ -29289,7 +29308,8 @@
       "workflow-issue-836-schema-alias-recompute-trigger-artifact-inventory.md",
       "workflow-public-dashboard-prototype-alignment-artifact-inventory.md",
       "workflow-unified-sidebar-shell-public-and-admin-artifact-inventory.md",
-      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "Up": [
       "workflow-issue-291-forms-d1-legacy-followup-cleanup-artifact-inventory.md",
@@ -30176,7 +30196,8 @@
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "major": [
-      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md"
+      "workflow-vitest-2-to-3-major-upgrade-artifact-inventory.md",
+      "workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md"
     ],
     "今回実装・更新した内容": [
       "workflow-workspace-parent-reference-sweep-guard.md",
