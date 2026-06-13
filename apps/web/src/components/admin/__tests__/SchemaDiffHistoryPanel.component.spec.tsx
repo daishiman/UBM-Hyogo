@@ -146,13 +146,13 @@ describe("SchemaDiffHistoryPanel", () => {
     expect(screen.getByRole("alert").className).toContain("schema-history-error");
   });
 
-  it("TC-C-09a: Breadcrumb landmark が admin > schema > history を含む", async () => {
+  it("TC-C-09a: Breadcrumb landmark が 管理 > フォーム項目 > 履歴 を含む", async () => {
     fetchHistoryMock.mockResolvedValue(okResp([]));
     render(<SchemaDiffHistoryPanel initialFilters={defaultFilters} />);
     const nav = screen.getByRole("navigation", { name: /breadcrumb/i });
-    expect(nav.textContent).toMatch(/admin/);
-    expect(nav.textContent).toMatch(/schema/);
-    expect(nav.textContent).toMatch(/history/);
+    expect(nav.textContent).toMatch(/管理/);
+    expect(nav.textContent).toMatch(/フォーム項目/);
+    expect(nav.textContent).toMatch(/履歴/);
   });
 
   it("TC-C-10: 目的説明パネルに流れ 3 ステップと用語集を描画する", async () => {

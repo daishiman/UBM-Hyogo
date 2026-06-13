@@ -129,16 +129,16 @@ export function SchemaDiffHistoryPanel({
   return (
     <section
       aria-labelledby={showChrome ? "schema-history-h" : undefined}
-      aria-label={showChrome ? undefined : "schema alias resolve 履歴"}
+      aria-label={showChrome ? undefined : "対応づけ履歴"}
       data-page="admin-schema-history"
     >
       {showChrome ? (
         <>
           <Breadcrumb
             items={[
-              { label: "admin", href: "/admin" },
-              { label: "schema", href: "/admin/schema" },
-              { label: "history" },
+              { label: "管理", href: "/admin" },
+              { label: "フォーム項目", href: "/admin/schema" },
+              { label: "履歴" },
             ]}
           />
           <h1 id="schema-history-h">設問の紐付け履歴</h1>
@@ -171,15 +171,13 @@ export function SchemaDiffHistoryPanel({
         </FormField>
         <FormField
           name="questionTextLike"
-          label="question 部分一致"
-          helper="現在の 50 件以内で部分一致 filter します"
+          label="設問文の部分一致"
+          helper="現在の 50 件以内で部分一致します"
         >
           <Input
             type="text"
             value={filters.questionTextLike}
-            onChange={(e) =>
-              setFilters((f) => ({ ...f, questionTextLike: e.target.value }))
-            }
+            onChange={(e) => setFilters((f) => ({ ...f, questionTextLike: e.target.value }))}
           />
         </FormField>
         <button type="submit" disabled={isPending}>
@@ -205,7 +203,7 @@ export function SchemaDiffHistoryPanel({
                   <span>{it.actorEmail ?? "操作者不明"}</span>
                 </div>
                 <p className="schema-history-card__question">{it.questionText ?? "設問文なし"}</p>
-                <dl className="schema-history-card__keys" aria-label="stableKey の変更">
+                <dl className="schema-history-card__keys" aria-label="項目キーの変更">
                   <div>
                     <dt>旧</dt>
                     <dd>{it.beforeStableKey ?? "未設定"}</dd>

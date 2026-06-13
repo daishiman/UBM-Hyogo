@@ -8,8 +8,8 @@ export class AdminSchemaPage extends BasePage {
   readonly revisionAliasHistory = this.page.locator('[data-region="schema-revision-alias-history"]')
 
   async assertPrototypeAlignedShell(): Promise<void> {
-    await expect(this.page.getByRole('heading', { name: 'スキーマ差分のレビュー' })).toBeVisible()
-    await expect(this.page.getByText('CURRENT REVISION')).toBeVisible()
+    await expect(this.page.getByRole('heading', { name: 'フォーム項目の対応づけ' })).toBeVisible()
+    await expect(this.page.getByText('現在のフォーム構成')).toBeVisible()
     await expect(this.diffPanel).toBeVisible()
     await expect(this.revisionAliasHistory).toBeVisible()
   }
