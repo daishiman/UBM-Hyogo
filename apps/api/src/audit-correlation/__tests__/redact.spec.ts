@@ -116,4 +116,121 @@ describe('redactCloudflare (TC-RED-06)', () => {
     expect(out.ipPrefix).toBe('198.51.100.0/24');
     expect(out.occurredAt).toBe(Date.parse('2026-05-07T10:00:00Z'));
   });
+
+  it('non-finite "when" → occurredAt 0', async () => {
+    const out = await redactCloudflare(
+      { ...ev, when: 'not-a-date' },
+      { salt: SALT_A },
+    );
+    expect(out.occurredAt).toBe(0);
+  });
+
+  it('missing actor email → network-only fingerprint, no actorDomain', async () => {
+    const out = await redactCloudflare(
+      {
+        action: { type: 'login_fail' },
+        actor: { email: undefined, ip: '198.51.100.7' },
+        when: '2026-05-07T10:00:00Z',
+        user_agent: undefined,
+      } as unknown as RawCloudflareAuditEvent,
+      { salt: SALT_A },
+    );
+    expect(out.actorDomain).toBeUndefined();
+    expect(out.ipPrefix).toBe('198.51.100.0/24');
+    expect(out.userAgentBucket).toBeUndefined();
+    expect(out.fingerprintHash).toMatch(/^[a-f0-9]{64}$/);
+  });
+});
+
+describe('normalizeEmail edge branches', () => {
+  it('no @ but has content → localPart only', () => {
+    expect(normalizeEmail('  PlainLogin  ')).toEqual({ localPart: 'plainlogin' });
+  });
+  it('no @ and whitespace-only → empty', () => {
+    expect(normalizeEmail('   ')).toEqual({});
+  });
+  it('local-part empty (leading @) → domain only', () => {
+    expect(normalizeEmail('@example.com')).toEqual({ domain: 'example.com' });
+  });
+  it('domain empty (trailing @) → localPart only', () => {
+    expect(normalizeEmail('user@')).toEqual({ localPart: 'user' });
+  });
+});
+
+describe('truncateIp edge branches', () => {
+  it('whitespace-only → undefined', () => {
+    expect(truncateIp('   ')).toBeUndefined();
+  });
+  it('IPv6 with empty leading head (::1) → undefined', () => {
+    expect(truncateIp(':::')).toBeUndefined();
+  });
+  it('IPv4 with wrong octet count → undefined', () => {
+    expect(truncateIp('10.0.0')).toBeUndefined();
+  });
+  it('IPv4 with non-numeric octet → undefined', () => {
+    expect(truncateIp('10.0.0.x')).toBeUndefined();
+  });
+});
+
+describe('bucketUserAgent additional labels', () => {
+  it('labels github-actions alternate token', () => {
+    expect(bucketUserAgent('github-actions/1.0')).toBe('gha-runner');
+  });
+  it('labels edge before chrome (Edg token)', () => {
+    expect(bucketUserAgent('Mozilla/5.0 Chrome/120 Edg/120.0')).toBe('edge');
+  });
+});
+
+describe('computeFingerprint network path (no email)', () => {
+  it('uses ipPrefix + uaBucket when email absent', async () => {
+    const a = await computeFingerprint(
+      { ipPrefix: '10.0.0.0/24', uaBucket: 'chrome' },
+      SALT_A,
+    );
+    const b = await computeFingerprint(
+      { ipPrefix: '10.0.0.0/24', uaBucket: 'firefox' },
+      SALT_A,
+    );
+    expect(a).toMatch(/^[a-f0-9]{64}$/);
+    expect(a).not.toBe(b);
+  });
+});
+
+describe('dual-hash rotation (previousSalt)', () => {
+  it('emits v1 + v2 hashes when previousSalt differs', async () => {
+    const out = await redactGitHub(
+      {
+        action: 'org.update_member',
+        actor: 'attacker-login',
+        actor_ip: '203.0.113.45',
+        user_agent: 'curl/8.5',
+        created_at: 1_700_000_000_000,
+        org: 'daishiman',
+        external_identity_nameid: 'Bob.Smith@example.com',
+      },
+      { salt: SALT_A, previousSalt: SALT_B },
+    );
+    expect(out.fingerprintVersion).toBe(2);
+    expect(out.fingerprintHashes?.v1).toMatch(/^[a-f0-9]{64}$/);
+    expect(out.fingerprintHashes?.v2).toMatch(/^[a-f0-9]{64}$/);
+    expect(out.fingerprintHashes?.v1).not.toBe(out.fingerprintHashes?.v2);
+    expect(out.fingerprintHash).toBe(out.fingerprintHashes?.v2);
+  });
+
+  it('previousSalt === salt → single v2 hash only', async () => {
+    const out = await redactGitHub(
+      {
+        action: 'org.update_member',
+        actor: 'attacker-login',
+        actor_ip: '203.0.113.45',
+        user_agent: 'curl/8.5',
+        created_at: 1_700_000_000_000,
+        org: 'daishiman',
+        external_identity_nameid: 'Bob.Smith@example.com',
+      },
+      { salt: SALT_A, previousSalt: SALT_A },
+    );
+    expect(out.fingerprintHashes?.v1).toBeUndefined();
+    expect(out.fingerprintHashes?.v2).toBe(out.fingerprintHash);
+  });
 });

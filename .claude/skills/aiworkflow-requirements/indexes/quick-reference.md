@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## vitest-3-to-4-major-upgrade（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/vitest-3-to-4-major-upgrade/` |
+| status | `spec_created / implementation / NON_VISUAL / implementation_pending` |
+| issue | Issue #1200 CLOSED。PR 文脈は `Refs #1200` のみ。Issue mutation / reopen は user-gated |
+| purpose | Vitest 3.2.6 → 4.1.8、`@vitest/coverage-v8` exact parity、`@vitejs/plugin-react` 5.2.0、D1 直列化の v4 等価表現を 1 cycle で実装するための実行仕様書 |
+| planned implementation | `package.json`, `apps/api/package.json`, `apps/og/package.json`, `pnpm-lock.yaml`, `vitest.d1.config.ts`; C2-C4 起因の spec/snapshot/coverage gate は RED 観測後に最小修正 |
+| registry snapshot | 2026-06-13 JST recheck: `vitest` latest `4.1.8`, beta `5.0.0-beta.4`, `@vitest/coverage-v8` peer `vitest: 4.1.8`; plugin-react latest is 6.0.2 but 5.2.0 is intentionally selected for Vite 6-8 compatibility |
+| evidence boundary | Phase 11 placeholder present; typecheck/lint/shard/deprecation/version-parity evidence pending until implementation cycle; screenshots n/a |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md` |
+| user gate | implementation execution, commit, push, PR, Issue #1200 mutation |
+
 ## public-member-common-ui-card-unification（2026-06-10）
 
 | 項目 | 値 |

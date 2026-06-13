@@ -1,6 +1,6 @@
 // step-07: RequestQueueDetail presentational tests
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import { RequestQueueDetail } from "../RequestQueueDetail";
 import type { RequestQueueItem } from "../RequestQueuePanel";
 
@@ -23,12 +23,14 @@ const baseItem: RequestQueueItem = {
 };
 
 describe("RequestQueueDetail", () => {
-  let onApprove: ReturnType<typeof vi.fn>;
-  let onReject: ReturnType<typeof vi.fn>;
+  // v4: vi.fn() の戻り型が Mock<Procedure | Constructable> となり () => void に直接代入できない。
+  // prop シグネチャ（() => void）に合わせて Mock のジェネリックを明示する。
+  let onApprove: Mock<() => void>;
+  let onReject: Mock<() => void>;
 
   beforeEach(() => {
-    onApprove = vi.fn();
-    onReject = vi.fn();
+    onApprove = vi.fn<() => void>();
+    onReject = vi.fn<() => void>();
   });
 
   it("TC-D-01: item=null で placeholder を表示", () => {

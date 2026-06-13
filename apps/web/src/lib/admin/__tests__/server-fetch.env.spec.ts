@@ -26,6 +26,10 @@ const baseEnv = {
 
 describe("fetchAdmin env resolution", () => {
   beforeEach(() => {
+    // v4: 既に spyOn 済みのメソッドを再度 spyOn すると同一 spy（呼び出し履歴保持）が
+    // 返るため、テスト間で console.warn の履歴が残り誤検知する。各テスト開始時に
+    // restore して新しい spy を張り直す。
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
     cloudflareContext.mockReset();
     cookies.mockReset();

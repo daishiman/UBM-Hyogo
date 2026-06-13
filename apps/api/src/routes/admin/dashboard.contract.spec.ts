@@ -168,4 +168,90 @@ describe("GET /admin/dashboard/attendance/* (ut-02a-followup-002)", () => {
       expect(res.status).toBe(400);
     }
   });
+
+  it("trend: admin 通過時 200", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/trend",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it("zone-distribution: admin 通過時 200 + rows 配列", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/zone-distribution",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { rows: unknown };
+    expect(Array.isArray(body.rows)).toBe(true);
+  });
+
+  it("absentees: admin 通過時 200", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/absentees?lastN=3",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it("session attendees: 存在しない sessionId は 404", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/sessions/no-such-session/attendees",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(404);
+    const body = (await res.json()) as { code: string };
+    expect(body.code).toBe("ADMIN_FETCH_404");
+  });
+
+  it("export: CSV を 200 + content-disposition attachment で返す", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/export",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    expect(res.headers.get("content-type")).toContain("text/csv");
+    expect(res.headers.get("content-disposition")).toContain("attachment");
+  });
+
+  it("by-session: limit 未指定でも 200（resolveLimit デフォルト経路）", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/by-session",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it("by-session: limit=空文字でも 200（resolveLimit 空文字経路）", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/by-session?limit=",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+  });
+
+  it("ranking: limit=5（resolveLimit 正常数値経路）で 200", async () => {
+    const app = createAdminDashboardRoute();
+    const res = await app.request(
+      "/dashboard/attendance/ranking?limit=5",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+  });
 });
