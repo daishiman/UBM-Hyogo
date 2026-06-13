@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-141: sync-merge を伴う仕様書の Phase 11 には「実ソース conflict（取込 dev と feature が同一 component を同目的で別文言/別構造に変えた場合）は feature の設計正本（glossary SSOT + 選定文言）を採るが、`git checkout --ours` は同ファイルの auto-merge hunk を捨てるので conflict ブロックのみ手動 HEAD 解消し、focused Vitest で裏取りする」を逐語化する（L-DEVSYNC-141 の task-spec 版）
+- 2026-06-13 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 1 / ahead 10・merge `7a94df610`）。取込 #1221（/admin/schema 日本語化）が本 feature と同じ admin dashboard component（KpiGrid/SchemaAlertCard）を別文言で localize → skill-index 5 + 実ソース 3 の conflict。
+- How to apply（仕様書 Phase 11 の sync-merge 検証手順への逐語化）:
+  1. `pnpm sync:resolve` が `remaining unresolved files (manual resolution required)` で残す実ソースを、feature 設計正本（本件 glossary SSOT `DASHBOARD_KPI_LABELS` + 文言「要対応のフォーム項目」）で解消する。dev のハードコード文言は incidental（dev コミット本体は別ファイルで clean 取込済み）と判定。
+  2. **`git checkout --ours <file>` を使わない**。同ファイル内の dev auto-merge hunk（本件 spec の他テストの prettier 複数行整形）を捨てるため。diff3 マーカーの HEAD セクションのみ手動で残す（perl/python `<<<<<<< HEAD\n(.*?)\n|||||||...>>>>>>> dev\n` → `$1`）。
+  3. 採用前に feature 内整合（描画ラベル＝glossary 値＝関連 component 文言が同一）を grep 確認し、解消後 `pnpm vitest run <影響 component>` で挙動裏取り（本件 2 files / 11 tests PASS）。
+  4. gate 入力 touch 判定の grep は **changelog ファイル名の偽陽性**（`...static-manifest...md`）に注意し、実 gate 入力 path（`apps/api/.../static-manifest.json` / `docs/.../01-api-schema.md`）で確認する。
+- Why: 日本語化 wave が並行すると共有 component を別タスクが別文言で触り実ソース diff3 競合が起こる。feature の glossary SSOT を正本にすれば文言一元化が保て、`--ours` 誤用回避で dev の無害な整形を巻き戻さずに済む。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-141 が正本。SP-DEVSYNC-138（focused Vitest 裏取り）, SP-DEVSYNC-140（前 pass・同一ブランチ連続 sync）。
+
 ### SP-DEVSYNC-140: sync-merge を伴う仕様書の Phase 11 install 検証には「取込デルタに esbuild/lefthook 等 platform 専用 optional dep の bump が含まれ lockfile が変わる場合、`pnpm install --frozen-lockfile`/plain は postinstall・prepare で落ちうるので `mise exec -- pnpm install --force` を正経路とし `pnpm verify:vitest-runtime` で裏取り」を逐語化する（L-DEVSYNC-140 の task-spec 版）
 - 2026-06-13 `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（wt-9・behind 2 / ahead 8・merge `7ae979a67`）。取込 #1238（esbuild 0.27.3→0.28.1 bump）+ #1237。lockfile 変化 → install 必要だが frozen install が esbuild postinstall `validateBinaryVersion` で、plain install が prepare(lefthook) wrong-arch で失敗 → `mise exec -- pnpm install --force` で復旧。
 - How to apply（仕様書 Phase 11 の sync-merge install 検証手順への逐語化）:
