@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-143: 仕様書 Phase 5/11 の dev sync 手順に「sub-worktree では local `dev` ref 前進を経路にせず `origin/dev` 直 merge を既定にする」分岐を逐語化する（L-DEVSYNC-143 の task-spec 版）
+- 2026-06-14 `feat/admin-attendance-dashboard-jp-clarity-and-ux`（wt-7・behind 1 / ahead 10・merge `99874bc9c`・5th-pass）。「リモート dev をローカル dev に取り込んでから feature へ」を素直に書いた仕様書は sub-worktree で 2 段詰む: (1) `git fetch origin dev:dev` は `dev` が main worktree に checked out 済みで `refusing to fetch into branch 'refs/heads/dev' checked out at <mainWT>` (2) `git -C <mainWT> merge --ff-only origin/dev` も main WT が dirty なら `Your local changes would be overwritten by merge ... Aborting`。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **取込経路を `origin/dev` 直 merge で書く**: 仕様書の dev sync 手順を「local `dev` を同期してから feature へ」でなく「feature ブランチ上で `git merge origin/dev --no-edit` を直接実行」と書く。`origin/dev` は追跡 ref で常に最新ゆえ local `dev` 経由と取込内容は同一。local `dev` ref 前進は **目的でなく手段**であり、塞がれていれば skip 可と明記。
+  2. **main worktree への書込を禁止と明記**: local `dev` を ff-update できない原因が main WT の dirty なら、その stash/commit は **CONST_008 スコープ外書込**＝AI は実施しない。仕様書に「main WT の作業ツリーには一切触れない」を逐語化し、`origin/dev` 直 merge で回避する分岐を置く。
+  3. **marker 残存 grep の誤検知切り分けを Phase 11 検証に追加**: 解消後の `grep -nE '^(<<<<<<<|=======|>>>>>>>)'` が log 区切り線（60 文字 `===...`）を拾いうるため、ヒット行の実長と `git status --porcelain` でのファイル変更有無の 2 点で false-positive を確定してから commit する手順を書く。
+- 検証: `git fetch origin dev:dev` FAIL → `git -C <mainWT> merge --ff-only origin/dev` FAIL（3 skill files dirty）→ `git merge origin/dev --no-edit`（feature 直接）= CONFLICT 2（quick-reference / resource-map union）→ `pnpm sync:resolve` 1 パス → manual-smoke-log の `===` 区切り線を誤検知と確定 → `git commit --no-edit`（merge `99874bc9c`）→ `pnpm typecheck` exit 0 / `pnpm lint` 全 package Done / `pnpm indexes:rebuild` 冪等（5524 kw・drift 0）→ 取込 #1228 のみで lock/package.json 変更なし install skip。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-143（本 lesson の正本）, L-DEVSYNC-142（同 wt-7 の index.lock 中途 merge・本件は後続 5th-pass の別分岐）, SP-DEVSYNC-136/138（happy-path 判定・scope 厳守）。
+
 ### SP-DEVSYNC-142: 仕様書 Phase 5/11 の dev sync 手順に「stale index.lock 検知・除去サブステップ」を逐語化する（L-DEVSYNC-142 の task-spec 版）
 - 2026-06-13 `feat/admin-attendance-dashboard-jp-clarity-and-ux`（wt-7・behind 1 / ahead 8・merge `3d91089cf`）。`git merge dev` が `error: Unable to write index` + `Automatic merge failed` を出し `git status --porcelain` が空＝conflict でなく 0 バイト stale `index.lock`（別セッション中断残骸・mtime 約 5 時間前）が原因。
 - How to apply（仕様書 Phase 5/11 への逐語化）:
