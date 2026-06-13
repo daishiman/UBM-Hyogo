@@ -2379,6 +2379,16 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L52 |
 | User-Gated | L58 |
 
+### references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Evidence | L25 |
+| Invariants | L35 |
+| Lessons Learned | L42 |
+
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
 | セクション | 行 |
@@ -9339,24 +9349,24 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4438 |
-| フェーズ構造（概要） | L4447 |
-| 品質ゲート（概要） | L4478 |
-| 出力テンプレート | L4489 |
-| 実行時のコマンド・エージェント・スキル | L4512 |
-| 昇格パターン集 | L4536 |
-| Current Active / Spec Created Tasks | L4538 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4704 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4772 |
-| issue-1007-density-toggle-help-hint-hardening | L4796 |
-| issue-1079-bulk-tag-audit-batch-filter | L4809 |
-| issue-1128-audit-batchid-index-optimization | L4822 |
-| issue-998-members-publish-state-production-rollout | L4839 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4898 |
-| issue-1068-admin-tag-inline-create-ui | L4912 |
-| issue-1111-proxy-transport-util-unify | L4930 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4948 |
-| members-search-clear-and-sort-ux（2026-06-11） | L4961 |
+| ドキュメント構成 | L4452 |
+| フェーズ構造（概要） | L4461 |
+| 品質ゲート（概要） | L4492 |
+| 出力テンプレート | L4503 |
+| 実行時のコマンド・エージェント・スキル | L4526 |
+| 昇格パターン集 | L4550 |
+| Current Active / Spec Created Tasks | L4552 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4718 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4786 |
+| issue-1007-density-toggle-help-hint-hardening | L4810 |
+| issue-1079-bulk-tag-audit-batch-filter | L4823 |
+| issue-1128-audit-batchid-index-optimization | L4836 |
+| issue-998-members-publish-state-production-rollout | L4853 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4912 |
+| issue-1068-admin-tag-inline-create-ui | L4926 |
+| issue-1111-proxy-transport-util-unify | L4944 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4962 |
+| members-search-clear-and-sort-ux（2026-06-11） | L4975 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -95,7 +95,7 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
   };
 
   return (
-    <section aria-label="タグキュー" className="tag-queue-panel">
+    <section aria-label="タグ割当" className="tag-queue-panel">
       <div role="group" aria-label="ステータス絞込" className="chip-row">
         {STATUS_OPTIONS.map((v) => (
           <button
