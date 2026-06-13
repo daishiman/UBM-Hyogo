@@ -289,6 +289,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
 | user gate | staging data-backed screenshots, commit, push, PR |
 
+### home-dashboard-japanese-localization（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/home-dashboard-japanese-localization/` |
+| 目的 | 公開トップ `/` の英語表記を非エンジニア向け日本語へ整え、重複する英語 overline を削除する。Phase 11 で検出した featured members error panel も web 境界補完で解消 |
+| implementation targets | `apps/web/app/(public)/page.tsx`, `apps/web/src/components/public/{Stats,AboutUbm,Timeline,CallToActionCTA}.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/web/src/lib/api/public.ts`, focused component/page/api specs |
+| invariant | apps/api / packages/shared / D1 schema / Google Form / endpoint surface は不変。apps/web 内のみ |
+| evidence | focused Vitest 7 files / 44 tests PASS、`pnpm typecheck` PASS、`pnpm lint` PASS、`pnpm verify:tokens` PASS、home English residual grep 0、local Playwright screenshots 3 PNG + DOM verification PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-dashboard-japanese-localization-artifact-inventory.md` |
+| user gate | staging visual baseline、commit、push、PR |
+
 
 ### admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
 
