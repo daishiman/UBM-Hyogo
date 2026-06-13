@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-140: sync-merge を伴う仕様書の Phase 5(c)/Phase 11 検証には「取込デルタの lock 変更が `esbuild`/`@esbuild/<platform>` を含む場合は `pnpm install --force` 後に `pnpm verify:vitest-runtime` で host=bin=lock 整合を確認してから push（怠ると pre-push `verify-esbuild` で reject）」を逐語化する（L-DEVSYNC-140 の task-spec 版）
+- 2026-06-13 `feat/admin-schema-terminology-clarity`（wt-5・behind 1 / ahead 15・merge `d7d0ab7be`・取込 #1238 esbuild 0.27.3→0.28.1）。`package.json` + `pnpm-lock.yaml` の devDependency bump で本 repo 特別扱いの esbuild（`ESBUILD_BINARY_PATH`・worktree node_modules 分離・pre-push `verify-esbuild` gate）の version が上がった。CONFLICT は skill-index union 3 のみで `pnpm sync:resolve` 1 パス収束。
+- How to apply（仕様書 Phase 5(c) 取込計画 / Phase 11 クローズ検証への逐語化）:
+  1. **install 要否判定に esbuild 特例を加える**: 取込デルタ（`git diff --name-only <merge-base>..<dev-tip>`）が `pnpm-lock.yaml` を変更し、その diff に `esbuild` / `@esbuild/<platform>` が現れたら SP-DEVSYNC-134（lock 変更→install）に加えて esbuild ホストバイナリ整合が要件と明記する。
+  2. **検証コマンド列に install→verify:vitest-runtime を入れる**: `pnpm install --force` → `pnpm verify:vitest-runtime`（arch / worktree-isolation / esbuild version 三者一致）→ typecheck/lint の順を Phase 11 に逐語記載。本件 `host=0.28.1 bin=0.28.1 lock=0.28.1 OK`。
+  3. **pre-push gate の独立性を明記**: typecheck/lint が緑でも esbuild 整合は別 gate（pre-push `verify-esbuild`）であり、install を省くと `host≠lock` で push が reject されると仕様書に書き、「conflict 解消＋typecheck/lint 緑」を sync の DoD に閉じない。
+- Why: 本 repo は esbuild を多重 gate（binary path 吸収・worktree 分離・version 三者一致）で守るため、esbuild lock bump はその前提（host=bin=lock）を崩す。install で実バイナリを揃え verify で裏取りするまで push してはならない。lock 変更一般（SP-DEVSYNC-134）の中でも esbuild は専用 gate がある分、検証が厚い特例。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140 が正本。SP-DEVSYNC-134（lock 変更→install 必須の一般則・本 lesson はその esbuild 特例）, SP-DEVSYNC-139（直前 sync・生成物 gate）, CLAUDE.md「Vitest / esbuild runtime トラブル時」`pnpm verify:vitest-runtime`。
+
 ### SP-DEVSYNC-139: sync-merge を伴う仕様書の Phase 11 検証には「生成物 gate（static-manifest 等）の drift 判定は取込デルタ単独でなく取込デルタ × feature 主編集の **生成元 source spec 交差**で行い、交差ありの時だけ regenerate・交差なしは verify 1 回で OK 確定」を逐語化する（L-DEVSYNC-139 の task-spec 版）
 - 2026-06-13 `feat/admin-schema-terminology-clarity`（wt-5・behind 1 / ahead 13・merge `9b321015a`）。取込 #1218（公開 `/members` 検索 clear + sort 拡張）が `static-manifest.json`（生成物）+ `01-api-schema.md`（生成元 source spec）を**両 touch**したが、本 feature（用語日本語化）は両ファイル**非接触**＝交差 0 ゆえ drift なし・`verify:static-manifest` OK・regenerate 不要。SP-DEVSYNC-135（両側 touch 時のみ drift）の対偶（片側 touch=no-drift）の実証。
 - How to apply（仕様書 Phase 5(c)/Phase 11 の sync-merge 検証コマンド列への逐語化）:
