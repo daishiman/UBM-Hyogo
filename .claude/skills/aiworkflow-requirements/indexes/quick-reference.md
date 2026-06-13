@@ -12,6 +12,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+## admin-schema-terminology-clarity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-schema-terminology-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema` と波及先の「スキーマ」「stableKey」「resolve」「revision」「CURRENT REVISION」「Bulk Resolve」等を非エンジニア管理者向けの平易な日本語へ統一し、生 revisionId を隠す |
+| implementation | `/admin/schema` page/history, `SchemaDiffPanel`, bulk resolve/rollback modals, history/purpose explainers, shell nav, dashboard KPI/alert, `formatJstDate`, glossary display helper |
+| evidence | focused Vitest 10 files / 84 tests PASS; web typecheck PASS; lint PASS; verify:tokens PASS; apps/api diff empty; old technical-label grep PASS |
+| invariant | API / D1 / Google Form / endpoint surface unchanged; URLs/test IDs/internal field names unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 4, commit, push, PR |
+
 ## profile-session-staging-transport-recovery（2026-06-12）
 
 | 項目 | 値 |

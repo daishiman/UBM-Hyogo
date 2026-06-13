@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md` |
 | user gate | authenticated staging screenshots, commit, push, PR |
 
+### admin-schema-terminology-clarity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-schema-terminology-clarity/` |
+| 目的 | `/admin/schema` と波及先の「スキーマ」「stableKey」「resolve」「revision」「CURRENT REVISION」「Bulk Resolve」等を非エンジニア管理者向けの平易な日本語へ統一し、生 revisionId を隠す |
+| implementation targets | `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/app/(admin)/admin/schema/history/page.tsx`, `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `SchemaDiffBulkResolveModal.tsx`, `SchemaDiffBulkRollbackModal.tsx`, `SchemaDiffHistoryPanel.tsx`, `SchemaPurposeExplainer.tsx`, `SchemaHistoryPurposeExplainer.tsx`, `SchemaReviewGuide.tsx`, `apps/web/src/components/shell/shell-config.ts`, dashboard KPI/alert components, `apps/web/src/lib/format/datetime.ts` |
+| evidence | focused Vitest 10 files / 84 tests PASS、web typecheck PASS、lint PASS、verify:tokens PASS、apps/api diff empty、old technical-label grep PASS |
+| invariant | `apps/api` / D1 / Google Form / endpoint surface unchanged。URL / testid / internal API field names unchanged。glossary cards only may keep technical names |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 4, commit, push, PR |
+
 ### profile-session-staging-transport-recovery（2026-06-12）
 
 | 項目 | 値 |

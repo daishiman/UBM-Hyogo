@@ -85,11 +85,15 @@ describe("AdminSchemaPage", () => {
     render(await AdminSchemaPage());
 
     expect(mockedSafeServerFetch).toHaveBeenCalledWith("/admin/schema/diff");
-    expect(screen.getByRole("heading", { name: "スキーマ差分のレビュー" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "フォーム項目の対応づけ" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "このページでできること" })).toBeTruthy();
     expect(screen.getByText("変更を検知")).toBeTruthy();
     expect(screen.getByText("会員データへ反映")).toBeTruthy();
-    expect(screen.getByText("CURRENT REVISION")).toBeTruthy();
+    expect(screen.getByText("現在のフォーム構成")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "最新版" })).toBeTruthy();
+    expect(screen.getAllByText("適用中").length).toBeGreaterThan(0);
+    expect(screen.queryByText("rev-1")).toBeNull();
+    expect(screen.queryByText(/hash:/)).toBeNull();
     expect(screen.getByText("未対応")).toBeTruthy();
     expect(screen.getByText("新規設問")).toBeTruthy();
     expect(screen.getByText("変更候補")).toBeTruthy();
@@ -100,8 +104,8 @@ describe("AdminSchemaPage", () => {
       }),
     ).toBeTruthy();
     expect(screen.getByText("永続的な名前（技術名: stableKey）")).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "項目別の差分" })).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "フォーム版数の履歴" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "項目別の変更点" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "フォーム構成の履歴" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "対応づけ履歴" })).toBeTruthy();
     expect(screen.queryByTestId("admin-schema-section")).toBeNull();
   });
@@ -114,11 +118,11 @@ describe("AdminSchemaPage", () => {
 
     render(await AdminSchemaPage());
 
-    expect(screen.getByRole("heading", { name: "スキーマ差分のレビュー" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "フォーム項目の対応づけ" })).toBeTruthy();
     expect(screen.getByRole("alert").textContent).toContain("ADMIN_FETCH_404");
     expect(screen.getByRole("heading", { name: "このページでできること" })).toBeTruthy();
     expect(screen.getByText("変更を検知")).toBeTruthy();
-    expect(screen.queryByRole("heading", { name: "項目別の差分" })).toBeNull();
+    expect(screen.queryByRole("heading", { name: "項目別の変更点" })).toBeNull();
     expect(screen.queryByTestId("admin-schema-section")).toBeNull();
   });
 });

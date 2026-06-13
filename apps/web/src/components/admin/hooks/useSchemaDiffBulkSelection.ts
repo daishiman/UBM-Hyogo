@@ -66,16 +66,13 @@ export function useSchemaDiffBulkSelection(
     });
   }, []);
 
-  const selectAllInCategory = useCallback(
-    (_category: "unresolved" | "changed", ids: string[]) => {
-      setSelectedIds((prev) => {
-        const next = new Set(prev);
-        for (const id of ids) next.add(id);
-        return next;
-      });
-    },
-    [],
-  );
+  const selectAllInCategory = useCallback((_category: "unresolved" | "changed", ids: string[]) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      for (const id of ids) next.add(id);
+      return next;
+    });
+  }, []);
 
   const clearSelection = useCallback(() => {
     setSelectedIds(new Set());
@@ -118,18 +115,14 @@ export function useSchemaDiffBulkSelection(
   const applySuggestion = useCallback((diffId: string) => {
     setRows((rs) =>
       rs.map((r) =>
-        r.diffId === diffId && r.suggestedStableKey
-          ? { ...r, stableKey: r.suggestedStableKey }
-          : r,
+        r.diffId === diffId && r.suggestedStableKey ? { ...r, stableKey: r.suggestedStableKey } : r,
       ),
     );
   }, []);
 
   const applyAllSuggestions = useCallback(() => {
     setRows((rs) =>
-      rs.map((r) =>
-        r.suggestedStableKey ? { ...r, stableKey: r.suggestedStableKey } : r,
-      ),
+      rs.map((r) => (r.suggestedStableKey ? { ...r, stableKey: r.suggestedStableKey } : r)),
     );
   }, []);
 
@@ -137,9 +130,7 @@ export function useSchemaDiffBulkSelection(
     setIsSubmitting(true);
     // snapshot of rows at submit time
     const snapshot = rows;
-    setRows((rs) =>
-      rs.map((r) => ({ ...r, submitStatus: "pending", errorMessage: undefined })),
-    );
+    setRows((rs) => rs.map((r) => ({ ...r, submitStatus: "pending", errorMessage: undefined })));
     const payload = snapshot.map((r) => ({
       diffId: r.diffId,
       questionId: r.questionId,
@@ -159,7 +150,7 @@ export function useSchemaDiffBulkSelection(
                 return {
                   ...r,
                   submitStatus: "retryable",
-                  errorMessage: "Back-fill 再試行可能（続きから処理できます）",
+                  errorMessage: "過去の回答への反映は再試行できます（続きから処理できます）",
                 };
               }
               return {
@@ -184,12 +175,8 @@ export function useSchemaDiffBulkSelection(
     } finally {
       setIsSubmitting(false);
     }
-    const succeeded = results
-      .filter((r) => r.status === "success")
-      .map((r) => r.diffId);
-    const retryable = results
-      .filter((r) => r.status === "retryable")
-      .map((r) => r.diffId);
+    const succeeded = results.filter((r) => r.status === "success").map((r) => r.diffId);
+    const retryable = results.filter((r) => r.status === "retryable").map((r) => r.diffId);
     const failed = results.filter((r) => r.status === "error");
 
     setRows((rs) =>
@@ -208,8 +195,7 @@ export function useSchemaDiffBulkSelection(
             return {
               ...r,
               submitStatus: "retryable",
-              errorMessage:
-                "Back-fill 再試行可能（続きから処理できます）",
+              errorMessage: "過去の回答への反映は再試行できます（続きから処理できます）",
             };
           }
           return r;

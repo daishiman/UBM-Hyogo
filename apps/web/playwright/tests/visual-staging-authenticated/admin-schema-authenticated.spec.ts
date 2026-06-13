@@ -22,7 +22,7 @@ const disableAnimations =
 
 test("staging /admin/schema authenticated read-only baseline", async ({ page }) => {
   await page.goto("/admin/schema", { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { name: "スキーマ差分のレビュー" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "フォーム項目の対応づけ" })).toBeVisible({
     timeout: 10_000,
   });
   await expect(page.locator('[data-page="admin-schema"]')).toBeVisible();
