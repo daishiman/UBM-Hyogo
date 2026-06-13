@@ -89,6 +89,44 @@ describe("listPublicMembersUseCase", () => {
     ]);
   });
 
+  it("propagates public sort values to repository query and appliedQuery", async () => {
+    const cases = [
+      {
+        sort: "recent" as const,
+        sql: "ORDER BY mi.last_submitted_at DESC",
+      },
+      {
+        sort: "oldest" as const,
+        sql: "ORDER BY mi.last_submitted_at ASC",
+      },
+      {
+        sort: "name" as const,
+        sql: "ASC, mi.member_id ASC",
+      },
+      {
+        sort: "name_desc" as const,
+        sql: "DESC, mi.member_id ASC",
+      },
+    ];
+
+    for (const { sort, sql } of cases) {
+      const queryLog: string[] = [];
+      const db = createPublicD1Mock({
+        queryLog,
+        publicMembers: [],
+        publicMemberCount: 0,
+      });
+
+      const result = await listPublicMembersUseCase(
+        { ...baseQuery, sort },
+        { ctx: { db: db as never } },
+      );
+
+      expect(result.appliedQuery.sort).toBe(sort);
+      expect(queryLog.some((entry) => entry.includes(sql))).toBe(true);
+    }
+  });
+
   it("projects businessOverview first line as optional businessSummary", async () => {
     const db = createPublicD1Mock({
       publicMembers: [

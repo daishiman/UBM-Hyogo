@@ -14,6 +14,69 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vitest-3-to-4-major-upgrade-artifact-inventory.md` |
 | user gate | implementation execution, commit, push, PR, Issue #1200 mutation |
 
+## home-dashboard-japanese-localization（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/home-dashboard-japanese-localization/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 公開トップ `/` の英語表記を非エンジニア向け日本語へ整える |
+| implementation | `page.tsx`, `Stats.tsx`, `AboutUbm.tsx`, `Timeline.tsx`, `CallToActionCTA.tsx`, `legacy-public.css`, `lib/api/public.ts`, focused specs |
+| evidence | focused Vitest 7 files / 44 tests PASS; typecheck/lint/verify:tokens PASS; English residual grep 0; local Playwright screenshots 3 PNG + DOM verification PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-dashboard-japanese-localization-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
+## admin-tag-management-clarity-and-code-autogen（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tag-management-clarity-and-code-autogen/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/tag-master` と `/admin/tags` の関係を非エンジニア向けに明確化し、タグ定義コードを表示名から自動生成する |
+| implementation | `tagCodeAutogen.ts`, `tagManagementGlossary.ts`, `TagManagementGuide.tsx`, `TagDefinitionCreateForm.tsx`, shell nav label, admin tag pages, TagQueue/MemberDrawer labels |
+| evidence | focused Vitest 6 files / 39 tests PASS; web typecheck PASS; web lint PASS; verify-design-tokens PASS; apps/api diff empty |
+| invariant | Existing tag API surface only; apps/api / D1 / Google Form / shared public contract unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 2, staging deploy, commit, push, PR |
+
+## admin-schema-terminology-clarity（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-schema-terminology-clarity/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/schema` と波及先の「スキーマ」「stableKey」「resolve」「revision」「CURRENT REVISION」「Bulk Resolve」等を非エンジニア管理者向けの平易な日本語へ統一し、生 revisionId を隠す |
+| implementation | `/admin/schema` page/history, `SchemaDiffPanel`, bulk resolve/rollback modals, history/purpose explainers, shell nav, dashboard KPI/alert, `formatJstDate`, glossary display helper |
+| evidence | focused Vitest 10 files / 84 tests PASS; web typecheck PASS; lint PASS; verify:tokens PASS; apps/api diff empty; old technical-label grep PASS |
+| invariant | API / D1 / Google Form / endpoint surface unchanged; URLs/test IDs/internal field names unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-schema-terminology-clarity-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 4, commit, push, PR |
+
+## profile-session-staging-transport-recovery（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-session-staging-transport-recovery/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/profile` の `MEMBER_SESSION_FAILED` transport failure を local 実装で多層防御化し、staging runtime 確認だけを user-gated に残す |
+| implementation | `apps/web/src/lib/env.ts`, `apps/web/src/lib/fetch/{transport,authed}.ts`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/app/api/me/[...path]/route.ts`, `scripts/diagnose-profile-session.sh` |
+| evidence | focused Vitest 5 files / 72 tests PASS; `bash -n scripts/diagnose-profile-session.sh` PASS; unreachable-host diagnose dry run PASS; artifacts parity `cmp -s ...` exit 0 |
+| invariant | `/me` path/shape/status, apps/api, D1 schema, Google Form, `/profile` UI wording unchanged; fallback only on transport throw and only for GET/HEAD |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-session-staging-transport-recovery-artifact-inventory.md` |
+| user gate | staging deploy, authenticated recovery screenshot, S1-S4 final sub-cause confirmation, commit, push, PR |
+
+## members-search-clear-and-sort-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/members-search-clear-and-sort-ux/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| purpose | 公開 `/members` の検索 clear 二重表示を native cancel 抑止で解消し、sort を `recent / oldest / name / name_desc` の4値へ拡張 |
+| implementation | `apps/web/src/components/ui/Search.tsx`, `apps/web/src/styles/globals.css`, `apps/web/src/lib/url/members-search.ts`, `apps/web/src/components/public/MemberFilters.client.tsx`, `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/repository/publicMembers.ts`, `packages/shared/src/zod/viewmodel.ts` |
+| evidence | focused Vitest 6 files / 61 tests PASS; typecheck PASS; lint PASS; `pnpm verify:tokens` PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md` |
+| user gate | Chromium screenshot, staging verification, commit, push, PR, OOS-1 Issue creation |
+
 ## public-member-common-ui-card-unification（2026-06-10）
 
 | 項目 | 値 |

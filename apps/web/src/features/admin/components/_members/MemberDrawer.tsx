@@ -526,7 +526,7 @@ function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
         href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
         className="mt-3 inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
       >
-        タグキューへ
+        タグ割当へ
       </Link>
     </section>
   );

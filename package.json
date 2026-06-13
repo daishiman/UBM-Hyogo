@@ -84,7 +84,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
     "@vitest/coverage-v8": "^4.1.8",
-    "esbuild": "0.27.3",
+    "esbuild": "0.28.1",
     "jsdom": "^25.0.0",
     "lefthook": "^1.7.0",
     "react": "19.2.5",
@@ -101,7 +101,7 @@
   },
   "pnpm": {
     "overrides": {
-      "esbuild": "0.27.3",
+      "esbuild": "0.28.1",
       "vite": "^7.0.0"
     }
   }

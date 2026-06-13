@@ -2313,6 +2313,16 @@ node scripts/list-specs.js --topics
 | Evidence | L32 |
 | Lessons | L42 |
 
+### references/workflow-admin-schema-terminology-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implemented Targets | L13 |
+| Evidence | L22 |
+| Contract Boundary | L33 |
+| Lessons Learned | L40 |
+
 ### references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md
 
 | セクション | 行 |
@@ -2357,6 +2367,16 @@ node scripts/list-specs.js --topics
 | Evidence | L44 |
 | Lessons Learned | L52 |
 | User-Gated | L58 |
+
+### references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Evidence | L25 |
+| Invariants | L35 |
+| Lessons Learned | L42 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -2645,6 +2665,17 @@ node scripts/list-specs.js --topics
 | 3. SKILL.md 入口導線 | L80 |
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
+
+### references/workflow-home-dashboard-japanese-localization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L14 |
+| Implementation Targets | L25 |
+| Evidence | L35 |
+| Invariants | L46 |
+| Lessons Learned | L55 |
 
 ### references/workflow-home-page-prototype-alignment-artifact-inventory.md
 
@@ -4300,6 +4331,12 @@ node scripts/list-specs.js --topics
 | State | L25 |
 | Boundary | L31 |
 
+### references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L13 |
+
 ### references/workflow-mypage-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -4429,6 +4466,17 @@ node scripts/list-specs.js --topics
 | Invariants | L31 |
 | User Gate | L37 |
 | Lessons Learned | L41 |
+
+### references/workflow-profile-session-staging-transport-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Summary | L12 |
+| Implemented Targets | L16 |
+| Evidence | L25 |
+| User-Gated Boundary | L34 |
+| Lessons Learned | L38 |
 
 ### references/workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md
 
@@ -9313,23 +9361,24 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4413 |
-| フェーズ構造（概要） | L4422 |
-| 品質ゲート（概要） | L4453 |
-| 出力テンプレート | L4464 |
-| 実行時のコマンド・エージェント・スキル | L4487 |
-| 昇格パターン集 | L4511 |
-| Current Active / Spec Created Tasks | L4513 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4679 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4747 |
-| issue-1007-density-toggle-help-hint-hardening | L4771 |
-| issue-1079-bulk-tag-audit-batch-filter | L4784 |
-| issue-1128-audit-batchid-index-optimization | L4797 |
-| issue-998-members-publish-state-production-rollout | L4814 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4873 |
-| issue-1068-admin-tag-inline-create-ui | L4887 |
-| issue-1111-proxy-transport-util-unify | L4905 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4923 |
+| ドキュメント構成 | L4466 |
+| フェーズ構造（概要） | L4475 |
+| 品質ゲート（概要） | L4506 |
+| 出力テンプレート | L4517 |
+| 実行時のコマンド・エージェント・スキル | L4540 |
+| 昇格パターン集 | L4564 |
+| Current Active / Spec Created Tasks | L4566 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4732 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4800 |
+| issue-1007-density-toggle-help-hint-hardening | L4824 |
+| issue-1079-bulk-tag-audit-batch-filter | L4837 |
+| issue-1128-audit-batchid-index-optimization | L4850 |
+| issue-998-members-publish-state-production-rollout | L4867 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4926 |
+| issue-1068-admin-tag-inline-create-ui | L4940 |
+| issue-1111-proxy-transport-util-unify | L4958 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4976 |
+| members-search-clear-and-sort-ux（2026-06-11） | L4989 |
 
 ### references/task-workflow-backlog-part2.md
 

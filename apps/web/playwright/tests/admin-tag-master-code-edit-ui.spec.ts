@@ -55,7 +55,7 @@ test.describe('issue-1116 admin tag master code edit UI Phase 11 screenshots', (
       })
     })
     await adminPage.goto('/admin/tag-master', { waitUntil: 'networkidle' })
-    await expect(adminPage.getByRole('heading', { name: 'タグ定義' })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: 'タグ定義', exact: true })).toBeVisible()
     await expect(adminPage.getByTestId('admin-tag-definition-list')).toBeVisible()
     await capture(adminPage, 'tag-master-list.png')
 
