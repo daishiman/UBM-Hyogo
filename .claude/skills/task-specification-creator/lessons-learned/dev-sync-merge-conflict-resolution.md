@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: sync-merge を伴う仕様書の Phase 5(c)/Phase 11 検証に「大型 behind-N 取込では lock 変更コミットが tip でなく中段に埋もれるため、install/`verify:vitest-runtime` 要否は tip コミットの log でなく merge commit の stat か取込レンジ全体 diff で判定する」を逐語化する（L-DEVSYNC-142 の task-spec 版）
+- 2026-06-13 `feat/admin-audit-ux-readability-refine`（wt-13・S-SUB・behind 8 / ahead 3・merge `a3c092b79`）。behind 8 の取込で tip は #1220（feature・lock 非接触）だが lock を変える #1238（esbuild 0.27.3→0.28.1）が取込列の 3 番目に埋もれていた。tip-only 判定なら install/verify を省き pre-push `verify-esbuild`（`host≠lock`）で reject に至る危険。
+- How to apply（仕様書 Phase 5(c)/Phase 11 への逐語化）:
+  1. **install/verify 要否は merge stat で判定**: sync-merge の DoD に「`git show <merge-commit> --stat | grep -E 'pnpm-lock|package.json'`（または取込レンジ `git diff <merge-base>..<dev-tip> --name-only` の grep）で取込レンジ全体の lock 変更を確認する。tip コミット 1 個の `git log`/`git show <tip>` で『feature だから lock 変更なし』と短絡しない」と明記。
+  2. **lock 変更ヒット時は SP-DEVSYNC-140 経路**: stat の lock 差分が `esbuild`/`@esbuild/<platform>` を含むなら `pnpm install --force` → `pnpm verify:vitest-runtime`（arch / worktree-isolation / `host=bin=lock`）で整合確認後 push（本件 `host=0.28.1 bin=0.28.1 lock=0.28.1 OK`）。
+  3. **union 件数は behind に非単調**: behind 8 でも union 4 件。Phase 11 のリスク欄に「conflict 件数は behind 数に比例しない・`sync:resolve` の `union-resolving N files` 実数で確認」と書き、behind が多い＝conflict 多いと先回り予測しない。
+- Why: install 要否を「取込デルタ grep」で判定する原則（SP-DEVSYNC-140 / L-DEVSYNC-134-A）は正しいが、その『デルタ』を tip コミット単体と取り違えると誤陰性になる。merge commit の stat は取込レンジ全体の集約差分なので bump コミットが何番目にあっても確実に捉える。esbuild は host=bin=lock を pre-push で gate する専用守りがあり、誤って install を省くと typecheck/lint が緑でも push 段階で必ず落ちるため、仕様書は「大型取込は merge stat で lock 変更を判定する」を Phase 5(c) 検証手順に含める。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142 が正本。SP-DEVSYNC-140（esbuild install・本件はその bump 検出を大型取込向けに精緻化）, SP-DEVSYNC-138（取込デルタ × feature 交差判定）。
+
 ### SP-DEVSYNC-141: 仕様書 Phase 11/13 の「push 後 CI 失敗修復」手順に、視覚 baseline stale と e2e strict-mode violation の多層性を逐語化する（L-DEVSYNC-141 の task-spec 版）
 - 2026-06-13 `feat/admin-tag-management-clarity-and-code-autogen`（wt-4・PR #1220）。VISUAL タスクの sync-merge push 後に visual-full 3 viewport fail → 修復後 e2e 2 spec fail の 2 層が順に顕在化。
 - How to apply（仕様書 Phase 11/13 への逐語化）:
