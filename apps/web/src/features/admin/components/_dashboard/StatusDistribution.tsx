@@ -67,11 +67,12 @@ export function StatusDistribution({ slices }: StatusDistributionProps) {
   return (
     <section className="ui-card rounded-[var(--ubm-radius-lg)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4">
       <h2 className="text-sm font-semibold text-[var(--ubm-color-text-primary)]">公開ステータス</h2>
-      <ul className="mt-3 space-y-3" role="img" aria-label={ariaLabel} data-testid="status-distribution-list">
+      {/* role="img" で分布全体を 1 画像として読み上げるため、内部は list セマンティクスを持たない div で構成する（<li> を role="img" 配下に置くと親が role="list" でなくなり axe listitem 違反になる）。 */}
+      <div className="mt-3 space-y-3" role="img" aria-label={ariaLabel} data-testid="status-distribution-list">
         {bars.map((bar) => {
           const widthPct = total > 0 ? Math.min(100, (bar.count / maxCount) * 100) : 0;
           return (
-            <li key={bar.status} data-testid="status-bar" data-status={bar.status}>
+            <div key={bar.status} data-testid="status-bar" data-status={bar.status}>
               <div className="flex items-center justify-between gap-3">
                 <span className="inline-flex items-center gap-2 text-xs text-[var(--ubm-color-text-primary)]">
                   <span
@@ -94,10 +95,10 @@ export function StatusDistribution({ slices }: StatusDistributionProps) {
                 <rect width="100" height="8" rx="4" />
                 <rect width={widthPct} height="8" rx="4" fill={bar.colorVar} />
               </svg>
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </section>
   );
 }
