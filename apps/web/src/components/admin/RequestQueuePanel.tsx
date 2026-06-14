@@ -12,7 +12,7 @@ import { EmptyState } from "../ui/EmptyState";
 import { Pagination } from "../ui/Pagination";
 import { FetchAuthedError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 import { useConfirmDialog } from "../../features/admin/hooks/useConfirmDialog";
-import { RequestQueueDetail } from "./RequestQueueDetail";
+import { buildPublishStateDiff, RequestQueueDetail } from "./RequestQueueDetail";
 import { RequestConfirmDialog, type RequestConfirmKind } from "./RequestConfirmDialog";
 
 export type RequestNoteType = "visibility_request" | "delete_request";
@@ -140,11 +140,14 @@ export function RequestQueuePanel({ initial, type, showHeading = true }: Props) 
     confirm.kind === "approve" || confirm.kind === "reject" ? confirm.kind : null;
   const dialogItem = confirm.context as RequestQueueItem | null;
   const isDestructive = dialogKind === "approve" && dialogItem?.noteType === "delete_request";
+  const dialogDiff = dialogItem ? buildPublishStateDiff(dialogItem) : null;
   const destructiveMessage =
     dialogKind === "approve" && dialogItem
       ? dialogItem.noteType === "delete_request"
         ? "退会申請を承認すると、当該会員は論理削除されます（公開ディレクトリから削除）。この操作は取り消しできません。"
-        : "公開状態を申請内容に応じて変更します。会員へ即時反映されます。"
+        : dialogDiff?.kind === "visibility"
+          ? `公開状態を ${dialogDiff.before} → ${dialogDiff.after} に変更します。会員へ即時反映されます。`
+          : "公開状態を申請内容に応じて変更します。会員へ即時反映されます。"
       : undefined;
 
   return (

@@ -1,6 +1,9 @@
+// Lane B: SectionCard でラップ（セクションごと）。
 import type { z } from "zod";
 
 import { FormPreviewViewZ } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export type FormPreviewView = z.infer<typeof FormPreviewViewZ>;
 type Field = FormPreviewView["fields"][number];
@@ -35,13 +38,17 @@ export function FormPreviewSections({ preview }: FormPreviewSectionsProps) {
   }
 
   return (
-    <section data-component="form-preview-sections">
+    <SectionCard as="section" data-component="form-preview-sections">
       <p>
         Google Form 構成を以下の {preview.sectionCount} セクションで把握できます。
       </p>
       {[...grouped.values()].map((section) => (
-        <section key={section.sectionKey} data-section-key={section.sectionKey}>
-          <h3>{section.sectionTitle}</h3>
+        <SectionCard
+          key={section.sectionKey}
+          as="section"
+          data-section-key={section.sectionKey}
+          title={section.sectionTitle}
+        >
           <ul>
             {section.fields.map((field) => (
               <li key={field.stableKey} data-stable-key={field.stableKey}>
@@ -58,8 +65,8 @@ export function FormPreviewSections({ preview }: FormPreviewSectionsProps) {
               </li>
             ))}
           </ul>
-        </section>
+        </SectionCard>
       ))}
-    </section>
+    </SectionCard>
   );
 }

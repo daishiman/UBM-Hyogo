@@ -1,7 +1,10 @@
 "use client";
 // Issue #837: schema alias bulk rollback confirmation modal.
 
-import type { BulkRollbackRowState, BulkRollbackSummary } from "./hooks/useSchemaDiffBulkRollbackSelection";
+import type {
+  BulkRollbackRowState,
+  BulkRollbackSummary,
+} from "./hooks/useSchemaDiffBulkRollbackSelection";
 import { Modal } from "../ui/Modal";
 
 export interface SchemaDiffBulkRollbackModalProps {
@@ -47,11 +50,9 @@ export function SchemaDiffBulkRollbackModal({
   };
 
   return (
-    <Modal open={open} onClose={handleClose} title="Bulk Rollback 確認">
+    <Modal open={open} onClose={handleClose} title="まとめて取り消しの確認">
       <div data-testid="bulk-rollback-modal">
-        <p>
-          選択された {rows.length} 件の schema alias resolve を一括で取り消します。
-        </p>
+        <p>選択された {rows.length} 件の対応づけをまとめて取り消します。</p>
         <dl>
           <dt>影響応答件数（既知分）</dt>
           <dd data-role="bulk-rollback-affected-total">{affectedTotal} 件</dd>
@@ -59,16 +60,20 @@ export function SchemaDiffBulkRollbackModal({
           <dd>{hasRecompute ? "必要な行あり" : "不要または未確定"}</dd>
         </dl>
         {summary && (
-          <p role="status" data-role="bulk-rollback-summary" data-summary-kind={summaryKind(summary)}>
+          <p
+            role="status"
+            data-role="bulk-rollback-summary"
+            data-summary-kind={summaryKind(summary)}
+          >
             成功 {summary.succeeded.length} 件 / 失敗 {summary.failed.length} 件
           </p>
         )}
         <table>
           <thead>
             <tr>
-              <th scope="col">alias label</th>
-              <th scope="col">stableKey</th>
-              <th scope="col">resolved at</th>
+              <th scope="col">表示名</th>
+              <th scope="col">項目キー</th>
+              <th scope="col">対応づけ日時</th>
               <th scope="col">状態</th>
             </tr>
           </thead>
@@ -100,11 +105,7 @@ export function SchemaDiffBulkRollbackModal({
           </tbody>
         </table>
         <div>
-          <button
-            type="button"
-            onClick={onSubmit}
-            disabled={isSubmitting || rows.length === 0}
-          >
+          <button type="button" onClick={onSubmit} disabled={isSubmitting || rows.length === 0}>
             {isSubmitting ? "取り消し中..." : "一括で取り消す"}
           </button>
           <button type="button" onClick={handleClose} disabled={isSubmitting}>

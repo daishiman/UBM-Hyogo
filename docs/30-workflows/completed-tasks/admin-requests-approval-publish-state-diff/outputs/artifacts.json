@@ -1,0 +1,84 @@
+{
+  "task_name": "admin-requests-approval-publish-state-diff",
+  "task_path": "docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff",
+  "execution_mode": "serial",
+  "depends_on": [],
+  "blocks": [],
+  "created_at": "2026-06-11",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visual": true,
+    "implementation_mode": "new",
+    "status": "implemented_local_runtime_pending",
+    "workflow_state": "implemented_local_runtime_pending",
+    "scope": "web_presentation_layer",
+    "owner": "web",
+    "domain": "admin-requests",
+    "related_issue": 1188,
+    "local_verification": "focused_vitest_e2e_typecheck_lint_token_phase12_passed",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-11T16:35:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored and same-cycle local implementation completed for admin/requests approval before->after publish-state diff. apps/web presentation-layer-only scope confirmed; 3-value-only contract (publishState/isDeleted/desiredState) keeps AC-7 (apps/api + packages/shared diff empty)."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-11T18:20:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web presentation-layer code implemented. Focused Vitest 3 files / 27 tests PASS, admin requests Playwright E2E 7 tests PASS, web design token gate PASS, pnpm typecheck PASS, pnpm lint PASS, pnpm verify:phase12-compliance PASS. Runtime/staging screenshots remain pending user gate."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/outputs/phase-13/pr-template.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit, push, PR, staging deploy, admin bearer mint, and staging visual baseline (3 canonical PNG: V01 public->hidden, V02 hidden->public, D01 delete) are user-gated."
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md", "outputs/phase-01/spec-extraction-map.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/main.md", "outputs/phase-02/diff-design.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/main.md", "outputs/phase-03/alternatives.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト作成", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/main.md", "outputs/phase-04/test-plan.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/main.md", "outputs/phase-05/runbook.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "テスト拡充", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/main.md", "outputs/phase-06/edge-cases.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "カバレッジ確認", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/main.md", "outputs/phase-07/ac-matrix.md"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "リファクタリング", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/main.md", "outputs/phase-08/before-after.md"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/main.md", "outputs/phase-09/token-audit.md"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/main.md", "outputs/phase-10/go-no-go.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "手動テスト", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-test-result.md", "outputs/phase-11/manual-test-checklist.md", "outputs/phase-11/screenshot-plan.json", "outputs/phase-11/phase11-capture-metadata.json", "outputs/phase-11/discovered-issues.md"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "PR作成", "file": "phase-13.md", "status": "pending", "outputs": ["outputs/phase-13/main.md", "outputs/phase-13/local-check-result.md", "outputs/phase-13/change-summary.md", "outputs/phase-13/pr-template.md"], "depends_on_phases": [12], "user_approval_required": true }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/09b-design-tokens.md",
+    "docs/00-getting-started-manual/specs/09c-primitives.md",
+    "docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md"
+  ],
+  "endpoints": [
+    "GET /admin/requests",
+    "POST /admin/requests/:noteId/resolve"
+  ],
+  "endpoints_changed": [],
+  "d1_tables": [],
+  "ui_routes": [
+    "/admin/requests"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [5],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/_shared-context.md",
+    "apps/web/src/styles/tokens.css",
+    "apps/api/src/routes/admin/requests.ts",
+    "docs/30-workflows/completed-tasks/admin-requests-queue-rename-and-publish-dependency-followup-001-approval-publish-state-diff.md"
+  ]
+}

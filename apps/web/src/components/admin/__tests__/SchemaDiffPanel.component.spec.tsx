@@ -14,9 +14,7 @@ const postSchemaAliasBulkMock = vi.fn();
 const recomputeSchemaAliasMock = vi.fn();
 vi.mock("../../../lib/admin/api", async () => {
   const actual =
-    await vi.importActual<typeof import("../../../lib/admin/api")>(
-      "../../../lib/admin/api",
-    );
+    await vi.importActual<typeof import("../../../lib/admin/api")>("../../../lib/admin/api");
   return {
     ...actual,
     postSchemaAlias: (...args: unknown[]) => postSchemaAliasMock(...args),
@@ -113,9 +111,15 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByText("unresolved-1")).toBeTruthy();
     expect(screen.getByText("4 件")).toBeTruthy();
     expect(screen.queryAllByRole("table").length).toBe(0);
-    expect(screen.getByText("added-1").closest(".schema-field-card")?.className).toContain("diff-added");
-    expect(screen.getByText("changed-1").closest(".schema-field-card")?.className).toContain("diff-changed");
-    expect(screen.getByText("removed-1").closest(".schema-field-card")?.className).toContain("diff-removed");
+    expect(screen.getByText("added-1").closest(".schema-field-card")?.className).toContain(
+      "diff-added",
+    );
+    expect(screen.getByText("changed-1").closest(".schema-field-card")?.className).toContain(
+      "diff-changed",
+    );
+    expect(screen.getByText("removed-1").closest(".schema-field-card")?.className).toContain(
+      "diff-removed",
+    );
     expect(screen.getByRole("heading", { name: "未対応の設問" })).toBeTruthy();
     expect(screen.getAllByText("対応づけ待ち").length).toBeGreaterThan(0);
     expect(screen.queryByText("queued")).toBeNull();
@@ -146,7 +150,7 @@ describe("SchemaDiffPanel", () => {
     );
 
     fireEvent.click(screen.getByRole("button", { name: /lbl-x/ }));
-    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(screen.getByRole("form", { name: "項目キーの割り当て" })).toBeTruthy();
     expect(document.querySelector('[data-component="schema-assign-inline-form"]')).toBeTruthy();
     expect(screen.getByText("対応づけると起きること")).toBeTruthy();
 
@@ -163,9 +167,9 @@ describe("SchemaDiffPanel", () => {
       });
     });
     await waitFor(() => {
-      expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
+      expect(screen.getByRole("status").textContent).toContain("項目キーを割り当てました");
       expect(refreshMock).toHaveBeenCalled();
-      expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
+      expect(screen.queryByRole("form", { name: "項目キーの割り当て" })).toBeNull();
     });
   });
 
@@ -262,10 +266,10 @@ describe("SchemaDiffPanel", () => {
       expect(screen.getByRole("alert").textContent).toContain("失敗: forbidden");
     });
     expect(refreshMock).not.toHaveBeenCalled();
-    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(screen.getByRole("form", { name: "項目キーの割り当て" })).toBeTruthy();
   });
 
-  it("UI-02 retryable continuation: status で「Back-fill 再試行可能」と補助文を表示し、form は開いたまま", async () => {
+  it("UI-02 retryable continuation: status で過去回答反映の再試行可能表示を出し、form は開いたまま", async () => {
     postSchemaAliasMock.mockResolvedValueOnce({
       ok: true,
       status: 202,
@@ -297,12 +301,12 @@ describe("SchemaDiffPanel", () => {
 
     await waitFor(() => {
       const status = screen.getByRole("status");
-      expect(status.textContent).toContain("Back-fill 再試行可能");
+      expect(status.textContent).toContain("過去の回答への反映は再試行できます");
       expect(status.textContent).toContain("続きから処理");
       expect(status.getAttribute("data-feedback-kind")).toBe("retryable");
     });
     expect(refreshMock).not.toHaveBeenCalled();
-    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(screen.getByRole("form", { name: "項目キーの割り当て" })).toBeTruthy();
     expect(
       (screen.getByRole("button", { name: "名前を割り当てる" }) as HTMLButtonElement).disabled,
     ).toBe(false);
@@ -340,7 +344,7 @@ describe("SchemaDiffPanel", () => {
       expect(alert.textContent).toContain("q-existing");
       expect(alert.getAttribute("data-feedback-kind")).toBe("validation_error");
     });
-    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(screen.getByRole("form", { name: "項目キーの割り当て" })).toBeTruthy();
   });
 
   it("UI-04 409 conflict: alert で「他の操作と競合」を含む", async () => {
@@ -419,18 +423,20 @@ describe("SchemaDiffPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("status").textContent).toContain("Back-fill 再試行可能");
+      expect(screen.getByRole("status").textContent).toContain(
+        "過去の回答への反映は再試行できます",
+      );
     });
 
     fireEvent.click(screen.getByRole("button", { name: "名前を割り当てる" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
+      expect(screen.getByRole("status").textContent).toContain("項目キーを割り当てました");
     });
     expect(refreshMock).toHaveBeenCalled();
   });
 
-  it("questionId が null の diff: alias 割当不可の alert を表示", () => {
+  it("questionId が null の diff: 項目キー割り当て不可の alert を表示", () => {
     render(
       <SchemaDiffPanel
         initial={{
@@ -447,8 +453,8 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-removed/ }));
-    expect(screen.getByRole("alert").textContent).toContain("alias 割当はできません");
-    expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
+    expect(screen.getByRole("alert").textContent).toContain("項目キーを割り当てられません");
+    expect(screen.queryByRole("form", { name: "項目キーの割り当て" })).toBeNull();
   });
 
   it("「閉じる」ボタンで form がクローズされる", () => {
@@ -461,12 +467,12 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-c/ }));
-    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(screen.getByRole("form", { name: "項目キーの割り当て" })).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "閉じる" }));
-    expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
+    expect(screen.queryByRole("form", { name: "項目キーの割り当て" })).toBeNull();
   });
 
-  it("UI-06 client-side regex validation: 不正な stableKey で submit すると postSchemaAlias を呼ばず validation_error feedback", async () => {
+  it("UI-06 client-side regex validation: 不正な項目キーで submit すると postSchemaAlias を呼ばず validation_error feedback", async () => {
     render(
       <SchemaDiffPanel
         initial={{
@@ -489,10 +495,8 @@ describe("SchemaDiffPanel", () => {
     await waitFor(() => {
       const alert = screen.getByRole("alert");
       expect(alert.getAttribute("data-feedback-kind")).toBe("validation_error");
-      expect(alert.textContent).toContain("stableKey");
-      expect(input.getAttribute("aria-describedby")).toContain(
-        "schema-alias-validation-feedback",
-      );
+      expect(alert.textContent).toContain("項目キー");
+      expect(input.getAttribute("aria-describedby")).toContain("schema-alias-validation-feedback");
     });
 
     fireEvent.change(input, { target: { value: "good_key" } });
@@ -501,13 +505,15 @@ describe("SchemaDiffPanel", () => {
   });
 
   // Issue #778: rollback / undo
-  const resolvedAlias = (over: Partial<{
-    id: string;
-    stableKey: string;
-    aliasLabel: string;
-    aliasQuestionId: string;
-    version: number;
-  }> = {}) => ({
+  const resolvedAlias = (
+    over: Partial<{
+      id: string;
+      stableKey: string;
+      aliasLabel: string;
+      aliasQuestionId: string;
+      version: number;
+    }> = {},
+  ) => ({
     id: "alias-1",
     revisionId: "rev1",
     stableKey: "full_name",
@@ -538,9 +544,7 @@ describe("SchemaDiffPanel", () => {
         actorEmail="admin@example.com"
       />,
     );
-    fireEvent.click(
-      screen.getByRole("button", { name: /alias Full name の resolve を取り消す/ }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: /Full name の対応づけを取り消す/ }));
     expect(screen.getByRole("dialog")).toBeTruthy();
     expect(screen.getByRole("dialog").textContent).toContain("未取得");
     fireEvent.click(screen.getByRole("button", { name: /^取り消す$/ }));
@@ -555,7 +559,7 @@ describe("SchemaDiffPanel", () => {
       const success = screen
         .getAllByRole("status")
         .find((node) => node.getAttribute("data-feedback-kind") === "success");
-      expect(success?.textContent).toContain("resolve を取消しました");
+      expect(success?.textContent).toContain("対応づけを取り消しました");
       expect(success?.textContent).toContain("3");
     });
     expect(refreshMock).toHaveBeenCalled();
@@ -568,9 +572,7 @@ describe("SchemaDiffPanel", () => {
         resolvedAliases={[resolvedAlias({ id: "alias-2" })]}
       />,
     );
-    fireEvent.click(
-      screen.getByRole("button", { name: /alias Full name の resolve を取り消す/ }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: /Full name の対応づけを取り消す/ }));
     expect(screen.getByRole("dialog")).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
     expect(screen.queryByRole("dialog")).toBeNull();
@@ -578,9 +580,8 @@ describe("SchemaDiffPanel", () => {
   });
 
   it("rollback 失敗 409: modal 内に error 表示し閉じない", async () => {
-    const { RollbackApiError } = await vi.importActual<
-      typeof import("../../../lib/admin/api")
-    >("../../../lib/admin/api");
+    const { RollbackApiError } =
+      await vi.importActual<typeof import("../../../lib/admin/api")>("../../../lib/admin/api");
     rollbackSchemaAliasMock.mockRejectedValueOnce(
       new RollbackApiError(409, "version_mismatch", "race detected"),
     );
@@ -590,14 +591,10 @@ describe("SchemaDiffPanel", () => {
         resolvedAliases={[resolvedAlias({ id: "alias-3" })]}
       />,
     );
-    fireEvent.click(
-      screen.getByRole("button", { name: /alias Full name の resolve を取り消す/ }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: /Full name の対応づけを取り消す/ }));
     fireEvent.click(screen.getByRole("button", { name: /^取り消す$/ }));
     await waitFor(() => {
-      const alert = screen
-        .getByRole("dialog")
-        .querySelector('[data-role="modal-error"]');
+      const alert = screen.getByRole("dialog").querySelector('[data-role="modal-error"]');
       expect(alert?.textContent).toContain("409");
       expect(alert?.textContent).toContain("race detected");
     });
@@ -650,7 +647,7 @@ describe("SchemaDiffPanel", () => {
       expect(toast?.textContent).toContain("取消");
       expect(toast?.getAttribute("role")).toBe("status");
     });
-    fireEvent.click(screen.getByRole("button", { name: /alias lbl-u の割当を取消す/ }));
+    fireEvent.click(screen.getByRole("button", { name: /lbl-u の割り当てを取り消す/ }));
     await waitFor(() => {
       expect(rollbackSchemaAliasMock).toHaveBeenCalledWith({
         aliasId: "alias-u",
@@ -708,7 +705,7 @@ describe("SchemaDiffPanel", () => {
     }
   });
 
-  it("BULK-PANEL-01 Bulk Resolve トグルで unresolved / changed 行に checkbox 描画、added/removed には出さない", () => {
+  it("BULK-PANEL-01 まとめて対応づけトグルで unresolved / changed 行に checkbox 描画、added/removed には出さない", () => {
     render(
       <SchemaDiffPanel
         initial={{
@@ -722,7 +719,7 @@ describe("SchemaDiffPanel", () => {
         }}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて対応づけ" }));
     expect(screen.getByLabelText("select diff qb")).toBeTruthy();
     expect(screen.getByLabelText("select diff qd")).toBeTruthy();
     expect(screen.queryByLabelText("select diff qa")).toBeNull();
@@ -741,26 +738,26 @@ describe("SchemaDiffPanel", () => {
         }}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて対応づけ" }));
     fireEvent.click(screen.getByLabelText("全選択 未解決"));
     expect((screen.getByLabelText("select diff qu1") as HTMLInputElement).checked).toBe(true);
     expect((screen.getByLabelText("select diff qu2") as HTMLInputElement).checked).toBe(true);
     expect(screen.getByTestId("bulk-selection-summary").textContent).toContain("2 件選択中");
   });
 
-  it("BULK-PANEL-03 0 件選択時に Bulk Resolve 確定 button が disabled", () => {
+  it("BULK-PANEL-03 0 件選択時に まとめて対応づけ実行 button が disabled", () => {
     render(
       <SchemaDiffPanel
         initial={{
           total: 1,
-          items: [
-            item({ diffId: "u1", type: "unresolved", questionId: "qu1", label: "u1" }),
-          ],
+          items: [item({ diffId: "u1", type: "unresolved", questionId: "qu1", label: "u1" })],
         }}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
-    const confirm = screen.getByRole("button", { name: "Bulk Resolve 確定" }) as HTMLButtonElement;
+    fireEvent.click(screen.getByRole("button", { name: "まとめて対応づけ" }));
+    const confirm = screen.getByRole("button", {
+      name: "まとめて対応づけを実行",
+    }) as HTMLButtonElement;
     expect(confirm.disabled).toBe(true);
   });
 
@@ -780,9 +777,11 @@ describe("SchemaDiffPanel", () => {
         }}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて対応づけ" }));
     fireEvent.click(screen.getByLabelText("全選択 未解決"));
-    const confirm = screen.getByRole("button", { name: "Bulk Resolve 確定" }) as HTMLButtonElement;
+    const confirm = screen.getByRole("button", {
+      name: "まとめて対応づけを実行",
+    }) as HTMLButtonElement;
     expect(confirm.disabled).toBe(true);
     const alert = screen.getByRole("alert");
     expect(alert.getAttribute("data-feedback-kind")).toBe("bulk_warning");
@@ -807,9 +806,11 @@ describe("SchemaDiffPanel", () => {
         }}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Resolve" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて対応づけ" }));
     fireEvent.click(screen.getByLabelText("全選択 未解決"));
-    const confirm = screen.getByRole("button", { name: "Bulk Resolve 確定" }) as HTMLButtonElement;
+    const confirm = screen.getByRole("button", {
+      name: "まとめて対応づけを実行",
+    }) as HTMLButtonElement;
     expect(confirm.disabled).toBe(false);
     expect(screen.queryByRole("alert")).toBeNull();
     fireEvent.click(confirm);
@@ -826,7 +827,7 @@ describe("SchemaDiffPanel", () => {
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-x/ }));
-    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(screen.getByRole("form", { name: "項目キーの割り当て" })).toBeTruthy();
   });
 
   it("BULK-ROLLBACK-PANEL-01 HistoryPane で複数 alias を選択し bulk rollback modal を開ける", () => {
@@ -839,13 +840,13 @@ describe("SchemaDiffPanel", () => {
         ]}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback" }));
-    fireEvent.click(screen.getByLabelText("select alias Full name"));
-    fireEvent.click(screen.getByLabelText("select alias Email"));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて取り消し" }));
+    fireEvent.click(screen.getByLabelText("Full name を選択"));
+    fireEvent.click(screen.getByLabelText("Email を選択"));
     expect(screen.getByTestId("bulk-rollback-selection-summary").textContent).toContain(
       "2 件選択中",
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback 確認" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて取り消しの確認" }));
     const modal = screen.getByTestId("bulk-rollback-modal");
     expect(modal).toBeTruthy();
     expect(modal.textContent).toContain("Full name");
@@ -869,9 +870,9 @@ describe("SchemaDiffPanel", () => {
         ]}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback" }));
-    fireEvent.click(screen.getByLabelText("select alias Full name"));
-    fireEvent.click(screen.getByRole("button", { name: "Bulk Rollback 確認" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて取り消し" }));
+    fireEvent.click(screen.getByLabelText("Full name を選択"));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて取り消しの確認" }));
     fireEvent.click(screen.getByRole("button", { name: "一括で取り消す" }));
     await waitFor(() => {
       expect(rollbackSchemaAliasMock).toHaveBeenCalledWith({
@@ -921,9 +922,7 @@ describe("SchemaDiffPanel", () => {
         actorEmail="admin@example.com"
       />,
     );
-    fireEvent.click(
-      screen.getByRole("button", { name: /alias Full name の resolve を取り消す/ }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: /Full name の対応づけを取り消す/ }));
   };
 
   const rollbackThenExposeRecompute = async (aliasId: string) => {
@@ -956,14 +955,14 @@ describe("SchemaDiffPanel", () => {
       relatedRollbackAuditId: "rb-1",
     });
     await rollbackThenExposeRecompute("alias-rc");
-    const trigger = document.querySelector(
-      '[data-role="recompute-trigger"]',
-    ) as HTMLButtonElement;
+    const trigger = document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement;
     expect(trigger).not.toBeNull();
     fireEvent.click(trigger);
     await waitFor(() => {
       expect(recomputeSchemaAliasMock).toHaveBeenCalledWith({ aliasId: "alias-rc" });
-      expect(document.querySelector('[data-role="recompute-processed-count"]')?.textContent).toContain("3");
+      expect(
+        document.querySelector('[data-role="recompute-processed-count"]')?.textContent,
+      ).toContain("3");
     });
   });
 
@@ -975,15 +974,12 @@ describe("SchemaDiffPanel", () => {
       }),
     );
     await rollbackThenExposeRecompute("alias-rc");
-    const trigger = document.querySelector(
-      '[data-role="recompute-trigger"]',
-    ) as HTMLButtonElement;
+    const trigger = document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement;
     fireEvent.click(trigger);
 
     // submitting 中は disabled
     expect(
-      (document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement)
-        .disabled,
+      (document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement).disabled,
     ).toBe(true);
 
     await act(async () => {
@@ -1004,25 +1000,20 @@ describe("SchemaDiffPanel", () => {
     await waitFor(() => {
       const status = document.querySelector('[data-role="recompute-status"]');
       expect(status?.getAttribute("data-status")).toBe("running");
-      const btn = document.querySelector(
-        '[data-role="recompute-trigger"]',
-      ) as HTMLButtonElement;
+      const btn = document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement;
       expect(btn.disabled).toBe(false);
       expect(btn.textContent).toContain("再集計を続行");
     });
   });
 
   it("T-15U: reject で failed バッジ + recompute-error 表示、旧 recompute-warning は DOM に無い", async () => {
-    const { RecomputeApiError } = await vi.importActual<
-      typeof import("../../../lib/admin/api")
-    >("../../../lib/admin/api");
+    const { RecomputeApiError } =
+      await vi.importActual<typeof import("../../../lib/admin/api")>("../../../lib/admin/api");
     recomputeSchemaAliasMock.mockRejectedValueOnce(
       new RecomputeApiError(500, "batch_failed", "reverse backfill failed"),
     );
     await rollbackThenExposeRecompute("alias-rc");
-    const trigger = document.querySelector(
-      '[data-role="recompute-trigger"]',
-    ) as HTMLButtonElement;
+    const trigger = document.querySelector('[data-role="recompute-trigger"]') as HTMLButtonElement;
     fireEvent.click(trigger);
 
     await waitFor(() => {

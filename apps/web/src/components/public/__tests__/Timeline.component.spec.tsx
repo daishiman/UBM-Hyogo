@@ -20,9 +20,7 @@ describe("Timeline", () => {
     );
     const rows = container.querySelectorAll('[data-role="tl-row"]');
     expect(rows).toHaveLength(3);
-    expect(container.querySelector('[data-role="eyebrow"]')?.textContent).toBe(
-      "RECENT MEETINGS",
-    );
+    expect(container.querySelector('[data-role="eyebrow"]')).toBeNull();
     expect(
       container.querySelector('[data-role="chip-cadence"]')?.textContent,
     ).toContain("毎月第2木曜開催");
@@ -33,7 +31,9 @@ describe("Timeline", () => {
     expect(screen.getByRole("status")).toBeTruthy();
     expect(screen.getByText("まだ支部会の記録がありません")).toBeTruthy();
     // header still rendered
-    expect(container.querySelector('[data-role="eyebrow"]')).toBeTruthy();
+    expect(
+      container.querySelector('[data-role="section-heading"]')?.textContent,
+    ).toBe("最近の支部会");
   });
 
   it("renders note and attendees when provided", () => {

@@ -1,13 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "0a9559eb9f1d74152c1da5ee39c512f8a62d233a",
-  "captured_at": "2026-06-11T10:50:02Z",
+  "captured_at_commit_sha": "4c8ec5773803f6900a0a98442b2c3dc83455fa5b",
+  "captured_at": "2026-06-13T01:43:18Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "27247391142",
-    "27253086349",
-    "27257083636",
-    "27274941450",
     "27276848458",
     "27282985575",
     "27308537802",
@@ -15,7 +11,11 @@
     "27320055437",
     "27338498326",
     "27340194772",
-    "27341009167"
+    "27341009167",
+    "27400529754",
+    "27420636323",
+    "27423389399",
+    "27452557308"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -43,5 +43,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge union: (1) feature 側=collapsed sidebar nav icon-box h-10→h-[18px] 変更により tablet viewport の admin 5画面(identity-conflicts/meetings/members/requests/tags)のサイドバー全高が約142px縮小(768x1166→768x1024)。feature 実装の正当な視覚変更で Linux baseline が stale 化したため再生成 (run 27338498326)。desktop(展開)/mobile(ドロワー)は非該当。(2) dev 取込=admin-meetings カードUI実体化(カード間スペース/枠/サブカード化)で描画高さ +20px。full-visual-admin-meetings-{desktop,mobile,tablet} baseline を再生成 (run 27341009167・PR #1217)。(3) dev 取込=require-auth-public-access-gate で公開層を全ルート認証必須化したため、公開ルートの visual baseline(visual-full/visual-chromium/sidebar-shell)を会員ログイン済みの表示で再生成 (run 27340194772・#1209)。対象スナップショット(admin tablet 群 / admin-meetings / 公開ルート群)が分離するため三者を union 統合。"
+  "last_refresh_reason": "(1) feat/admin-requests-approval-publish-state-diff: /admin/requests に公開状態 before→after diff 表示を追加したため admin-requests の visual-full baseline (desktop/mobile/tablet) 再取得 (PR #1235・run 27420636323)。(2) [dev取込結合] PR #1220: /admin/tags に TagManagementGuide 説明UI/相互リンク追加でページ高が desktop 800→987 / mobile 1520 / tablet 1237-1345px へ縦長化、admin-tags の visual baseline (desktop/mobile/tablet) を意図変更に追従して再生成（他16画面は不一致なし）。(3) dev #1221: vitest unit spec追従漏れ2件(plainLabel/retryableメッセージ)是正後の再dispatch、admin-schema baseline再生成。"
 }
