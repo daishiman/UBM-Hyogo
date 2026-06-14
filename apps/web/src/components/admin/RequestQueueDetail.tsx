@@ -19,6 +19,50 @@ const summarizePayload = (payload: unknown): string => {
   return JSON.stringify(payload ?? null);
 };
 
+export type PublishStateDiffKind = "visibility" | "delete";
+
+export interface PublishStateDiff {
+  readonly kind: PublishStateDiffKind;
+  readonly before: string;
+  readonly after: string;
+}
+
+export function formatPublishStateLabel(state: string): string {
+  switch (state) {
+    case "public":
+      return "公開";
+    case "member_only":
+      return "会員限定";
+    case "hidden":
+      return "非公開";
+    default:
+      return "不明";
+  }
+}
+
+export function buildPublishStateDiff(item: RequestQueueItem): PublishStateDiff | null {
+  if (item.noteType === "delete_request") {
+    return {
+      kind: "delete",
+      before: item.memberSummary.isDeleted ? "退会済み" : "在籍",
+      after: "退会（論理削除）",
+    };
+  }
+
+  if (item.noteType !== "visibility_request") return null;
+  if (!item.requestedPayload || typeof item.requestedPayload !== "object") return null;
+  if (Array.isArray(item.requestedPayload)) return null;
+
+  const desiredState = (item.requestedPayload as Record<string, unknown>)["desiredState"];
+  if (typeof desiredState !== "string") return null;
+
+  return {
+    kind: "visibility",
+    before: formatPublishStateLabel(item.memberSummary.publishState),
+    after: formatPublishStateLabel(desiredState),
+  };
+}
+
 export interface RequestQueueDetailProps {
   readonly item: RequestQueueItem | null;
   readonly type: RequestNoteType;
@@ -41,6 +85,7 @@ export function RequestQueueDetail({
       </aside>
     );
   }
+  const diff = buildPublishStateDiff(item);
   return (
     <aside aria-label="申請詳細" className="card card-pad-lg">
       <article aria-labelledby="admin-request-detail-h">
@@ -54,11 +99,24 @@ export function RequestQueueDetail({
           </dd>
           <dt>会員</dt>
           <dd>
-            <code>{item.memberSummary.memberId}</code>（公開状態: {item.memberSummary.publishState},
+            <code>{item.memberSummary.memberId}</code>（公開状態:{" "}
+            {formatPublishStateLabel(item.memberSummary.publishState)},
             削除済: {item.memberSummary.isDeleted ? "はい" : "いいえ"}）
           </dd>
           <dt>種別</dt>
           <dd>{NOTE_TYPE_LABEL[item.noteType]}</dd>
+          {diff && (
+            <>
+              <dt>{diff.kind === "visibility" ? "公開状態の変更" : "レコード状態の変更"}</dt>
+              <dd data-diff-kind={diff.kind}>
+                <span data-diff-side="before">{diff.before}</span>
+                <span data-diff-arrow aria-hidden="true">
+                  →
+                </span>
+                <span data-diff-side="after">{diff.after}</span>
+              </dd>
+            </>
+          )}
           <dt>提出日時</dt>
           <dd>{item.requestedAt}</dd>
           {item.requestedReason && (
