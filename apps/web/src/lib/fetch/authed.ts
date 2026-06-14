@@ -6,9 +6,9 @@ import { cookies } from "next/headers";
 
 import { getAuthEnv, getEnvironmentResolution, getTransportRuntimeIsTest } from "@/lib/env";
 import { AuthRequiredError, FetchAuthedError } from "./errors";
-import { describeTransport, fetchViaApiTransport, resolveApiFetch } from "./transport";
+import { ApiTransportError, describeTransport, fetchViaApiTransportChain, resolveApiFetchChain } from "./transport";
 
-export { AuthRequiredError, FetchAuthedError };
+export { ApiTransportError, AuthRequiredError, FetchAuthedError };
 
 const buildCookieHeader = async (): Promise<string> => {
   const store = await cookies();
@@ -29,20 +29,25 @@ export const fetchAuthed = async <T>(
   }
   const env = getAuthEnv();
   const environment = getEnvironmentResolution();
-  const transport = resolveApiFetch({
+  const transports = resolveApiFetchChain({
     API_SERVICE: env.API_SERVICE,
     baseUrl: env.INTERNAL_API_BASE_URL,
+    publicBaseUrl: env.NEXT_PUBLIC_API_BASE_URL,
     environment: environment.environment,
     environmentExplicit: environment.explicit,
     isTest: getTransportRuntimeIsTest(),
   });
-  const transportDescriptor = describeTransport(transport);
+  const [primaryTransport] = transports;
+  if (primaryTransport === undefined) {
+    throw new Error("fetchAuthed: API transport unresolved");
+  }
+  const transportDescriptor = describeTransport(primaryTransport);
   const cookieHeader = await buildCookieHeader();
   const headers = new Headers(init?.headers);
   if (cookieHeader.length > 0) headers.set("cookie", cookieHeader);
   if (!headers.has("accept")) headers.set("accept", "application/json");
 
-  const res = await fetchViaApiTransport(transport, path, {
+  const res = await fetchViaApiTransportChain(transports, path, {
     ...init,
     headers,
     cache: "no-store",

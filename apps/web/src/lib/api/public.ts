@@ -31,18 +31,23 @@ const MEMBERS_REVALIDATE = 30;
 const PROFILE_REVALIDATE = 30;
 const FORM_PREVIEW_REVALIDATE = 300;
 
+function normalizePublicMemberList(raw: unknown): unknown {
+  if (
+    raw &&
+    typeof raw === "object" &&
+    !Array.isArray(raw) &&
+    !("topTags" in raw)
+  ) {
+    return { ...raw, topTags: [] };
+  }
+  return raw;
+}
+
 function withRevalidate(
   options: PublicApiOptions | undefined,
   fallback: number,
 ): FetchPublicOptions {
   return { revalidate: options?.revalidate ?? fallback };
-}
-
-function normalizePublicMemberList(raw: unknown): unknown {
-  if (raw && typeof raw === "object" && !Array.isArray(raw) && !("topTags" in raw)) {
-    return { ...raw, topTags: [] };
-  }
-  return raw;
 }
 
 export async function getStats(

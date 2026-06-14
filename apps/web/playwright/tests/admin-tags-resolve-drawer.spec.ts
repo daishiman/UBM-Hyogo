@@ -18,7 +18,7 @@ async function capture(page: import('@playwright/test').Page, name: string) {
 test.describe('admin tags resolve drawer evidence', () => {
   test('captures the five Phase 11 drawer states', async ({ adminPage }) => {
     await adminPage.goto('/admin/tags')
-    await expect(adminPage.getByRole('heading', { name: 'タグ割当' })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: 'タグ割当', exact: true })).toBeVisible()
     await capture(adminPage, 'admin-tags-drawer-closed.png')
 
     await adminPage.getByRole('button', { name: /^mem_alpha/ }).click()

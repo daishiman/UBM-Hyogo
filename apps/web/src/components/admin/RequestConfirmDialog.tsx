@@ -89,8 +89,8 @@ export function RequestConfirmDialog({
       <h3 id={titleId}>
         {kind === "approve" ? "申請を承認します" : "申請を却下します"}
       </h3>
-      {isDestructive && destructiveMessage && (
-        <p role="alert">{destructiveMessage}</p>
+      {destructiveMessage && (
+        <p role={isDestructive ? "alert" : undefined}>{destructiveMessage}</p>
       )}
       <FormField
         name="resolutionNote"

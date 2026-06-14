@@ -30,12 +30,13 @@ describe("AboutUbm", () => {
     ]);
   });
 
-  it("renders both eyebrows ABOUT and THREE ZONES", () => {
+  it("renders section headings without English eyebrows", () => {
     const { container } = render(<AboutUbm />);
-    const eyebrows = Array.from(
-      container.querySelectorAll('[data-role="eyebrow"]'),
+    expect(container.querySelectorAll('[data-role="eyebrow"]')).toHaveLength(0);
+    const headings = Array.from(
+      container.querySelectorAll('[data-role="section-heading"]'),
     ).map((n) => n.textContent);
-    expect(eyebrows).toEqual(["ABOUT", "THREE ZONES"]);
+    expect(headings).toEqual(["事業支援コミュニティ「UBM」", "UBM区画"]);
   });
 
   it("omits zones card when showZones=false", () => {
