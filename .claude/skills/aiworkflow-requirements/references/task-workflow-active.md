@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1198-admin-audit-dead-table-css-cleanup（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/` |
+| Issue | #1198 CLOSED（reopen しない・`Refs #1198` のみ） |
+| 目的 | `/admin/audit` カード化後に未参照化した旧テーブル系 dead CSS 3 ブロックを削除する |
+| implementation targets | `apps/web/src/styles/globals.css`（`.admin-audit-filter`, `.admin-audit-table-scroll`, `.admin-audit-table` 18 行純減） |
+| evidence | `.tsx/.ts` 参照 grep 0、旧 CSS 定義 grep 0、カード系 selector 保持、`.tbl` 0 件維持、typecheck/lint/verify:tokens/focused audit Vitest PASS |
+| invariant | apps/api / D1 / Google Form / endpoint surface unchanged。commit / push / PR は user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1198-admin-audit-dead-table-css-cleanup-artifact-inventory.md` |
+
 ### admin-tag-management-clarity-and-code-autogen（2026-06-11）
 
 | 項目 | 値 |

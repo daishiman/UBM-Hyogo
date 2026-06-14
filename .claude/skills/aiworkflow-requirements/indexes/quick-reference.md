@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## issue-1198-admin-audit-dead-table-css-cleanup（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| issue | #1198 CLOSED（reopen しない・`Refs #1198` のみ） |
+| purpose | `/admin/audit` のカード化後に未参照化した旧テーブル系 CSS を `globals.css` から削除する |
+| implementation | `apps/web/src/styles/globals.css` 18 deletions: `.admin-audit-filter`, `.admin-audit-table-scroll`, `.admin-audit-table` |
+| evidence | consumer grep 0; old selector grep 0; card selectors retained; `.tbl` stale baseline 0; typecheck/lint/verify:tokens/focused audit Vitest PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1198-admin-audit-dead-table-css-cleanup-artifact-inventory.md` |
+| user gate | commit, push, PR, completed-tasks physical move |
+
 ## home-dashboard-japanese-localization（2026-06-11）
 
 | 項目 | 値 |

@@ -103,6 +103,20 @@ Issue #230 `lefthook-edit-guard` では、`.git/hooks/` 手書き追加の CI li
 
 Issue #1101 `attendance-analytics-calc-correction` では、出席回数帯の `AttendanceZone` と UBM 事業成長フェーズが同じ視覚ラベルを持っていたため、grep 範囲を `apps/api/src/repository` / `apps/api/src/lib/parse-attendance-filter.ts` / `apps/web/src/features/admin/attendance` / `packages/shared/src/zod/admin-attendance.ts` に限定し、別ドメインの `byZone.ts` などは非対象として扱った。
 
+## パターン11: CSS dead-code grep は consumer 側に限定する
+
+CSS selector の dead-code cleanup では、定義ファイル自身を「参照」と数えない。`globals.css` などの CSS 正本を含めた grep は、削除対象 selector の定義行を拾って永久に「参照あり」と誤判定する。
+
+| 観点 | ルール |
+| --- | --- |
+| 削除前参照確認 | `.tsx` / `.ts` など consumer 側だけに `--include` を限定する |
+| 定義確認 | CSS ファイル grep は「定義が存在するか」の確認にだけ使い、参照数には含めない |
+| 削除後確認 | 旧 selector は CSS 定義 grep 0 件、置換後 selector はヒット維持を確認する |
+| stale preserve 前提 | 「保持すべき汎用 selector」も現行 grep で実在確認し、0 件なら「0 件維持」を invariant にする |
+| 証跡 | Phase 1 に誤判定原因、Phase 9 に consumer grep / CSS definition grep / preserve baseline を分けて記録する |
+
+Issue #1198 `admin-audit-dead-table-css-cleanup` では、親 workflow が `admin-audit-table` の CSS 定義行を参照と誤カウントし dead CSS 削除を見送っていた。`.tsx` / `.ts` consumer grep 0 件を確認してから `.admin-audit-filter` / `.admin-audit-table-scroll` / `.admin-audit-table` を削除し、`.tbl` は現行 0 件の stale 前提として「復活させない」方針に補正した。
+
 ## 再利用チェックリスト
 
 - [ ] `quick_validate.js` と `validate_all.js` の結果を分けて記録した
@@ -112,3 +126,4 @@ Issue #1101 `attendance-analytics-calc-correction` では、出席回数帯の `
 - [ ] parent / child / archive / mirror の 4 edge を確認した
 - [ ] 観測不能 AC がある場合、目的を保った enforcement 面写像と AC→R trace を記録した
 - [ ] 同一表示ラベルが複数ドメインにある場合、grep gate を所有境界で限定し、正当残存箇所を明記した
+- [ ] CSS dead-code cleanup では consumer grep と CSS definition grep を分離し、定義行を参照数に含めていない

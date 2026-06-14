@@ -1,10 +1,17 @@
 ---
 governance_mutation_user_gate: false
-status: proto
+status: consumed
+consumed_at: 2026-06-13
+canonical_workflow: docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/
 parent_workflow: docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/
 related_issue: 1198
 created_at: 2026-06-10
 visual_category: NON_VISUAL
+recovery_note: |
+  Issue #1198 は canonical workflow root が存在しないまま CLOSED された。
+  本 unassigned-task ファイルは issue body の既存リンク整合のため保持する（削除しない）。
+  Phase 1-13 の仕様は上記 canonical_workflow へ移行済み（後付け生成・implemented_local_evidence_captured）。
+  local 実装は完了済み。commit/PR は user-gated（Refs #1198 のみ・reopen しない）。
 ---
 
 # 未タスク: 監査ログのカード化で未使用化した旧テーブル系 dead CSS の削除
@@ -35,7 +42,7 @@ visual_category: NON_VISUAL
 - 削除対象: 行 1602-1618（`.admin-audit-filter` / `.admin-audit-table-scroll` / `.admin-audit-table` の 3 ブロック）
   - **保持**: 直後の `.admin-audit-guide`（行 1620〜）以降の新規カード系 CSS（`.admin-audit-timeline` / `.admin-audit-card*` /
     `.admin-audit-glossary` / `.admin-audit-applied-filters` など）は現行 UI が使用中。**削除しない**。
-- `.tbl`（汎用ユーティリティ）は audit 専用ではなく他画面で広く使われるため **触らない**（元 Phase 8 判定 §4 と同じ）。
+- `.tbl`（汎用ユーティリティ）は audit 専用ではなく他画面で広く使われるため **触らない**（元 Phase 8 判定 §4 と同じ）。なお 2026-06-13 現行コードでは `.tbl` ヒット 0 件のため、canonical workflow では「変更しない」ではなく「復活させない」不変条件へ補正済み。
 
 ## 3. 苦戦箇所【記入必須】
 
@@ -56,7 +63,7 @@ visual_category: NON_VISUAL
 | --- | --- | --- |
 | 削除した CSS を実は他 admin 画面が参照していて視覚崩れ | 中 | 削除前に `grep -rn 'admin-audit-filter\|admin-audit-table' apps/web/src apps/web/app --include='*.tsx' --include='*.ts'` を実行し **0 件**を証跡化する |
 | `.admin-audit-guide` 以降の新規カード系 CSS まで巻き込み削除 | 高 | 削除範囲を `.admin-audit-filter`〜`.admin-audit-table`（1602-1618）に厳密限定。`.admin-audit-guide`（1620〜）以降は保持。削除後に `pnpm verify:tokens` と `/admin/audit` の視覚確認 |
-| `.tbl` 汎用クラスを誤って削除し他画面に波及 | 高 | `.tbl` は本タスク対象外。触らない |
+| `.tbl` 汎用クラス前提を誤読し stale な保護対象として扱う | 中 | 2026-06-13 現行コードでは `.tbl` ヒット 0 件。canonical workflow 側では「復活させない」不変条件として扱う |
 | OKLch トークン正本逸脱（HEX 直書き混入） | 低 | 削除のみで追加なし。`mise exec -- pnpm verify:tokens` で 0 違反を確認 |
 
 ## 5. 検証方法
@@ -113,7 +120,7 @@ mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts \
 
 ### 含まない
 
-- `.tbl` 汎用クラスの変更（audit 専用ではない → 別途要審議）
+- `.tbl` 汎用クラスの追加・復活（2026-06-13 現行コードではヒット 0 件。audit cleanup に便乗して復活させない）
 - `.admin-audit-guide` 以降の新規カード系 CSS の変更（現行 UI 使用中）
 - 監査ログ total 件数表示（→ baseline OOS-1。API が cursor pagination で total を返さない＝ apps/api 変更必要・別 Issue）
 - 監査ログ CSV/JSON エクスポート（→ baseline OOS-2。新規 endpoint または client 大規模機能・別 Issue）

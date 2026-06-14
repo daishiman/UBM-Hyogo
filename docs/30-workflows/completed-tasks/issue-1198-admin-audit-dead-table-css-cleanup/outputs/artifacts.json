@@ -1,0 +1,170 @@
+{
+  "task_id": "issue-1198-admin-audit-dead-table-css-cleanup",
+  "created_at": "2026-06-13",
+  "status": "implemented_local_evidence_captured",
+  "task_type": "implementation",
+  "visual_category": "NON_VISUAL",
+  "implementation_mode": "new",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "spec_creation_strategy": "optimize_to_current_codebase",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "dead_code_cleanup",
+    "spec_classification": "implementation_spec",
+    "spec_classification_note": "issue #1198 の既定ラベルは type:refactoring（CSS 削除）。root cause（カード化移行で未参照化した旧テーブル系 dead CSS の残置）解消にはコード変更（globals.css の 3 ブロック削除）が必須のため、CONST_004 に従い実装仕様書として作成した（ラベルより実態優先）。",
+    "issue": 1198,
+    "issue_state": "CLOSED",
+    "issue_state_note": "GitHub Issue #1198 は CLOSED（closedAt 2026-06-12T05:59:53Z）。本仕様書は CLOSED のまま現行コードへ再スコープして作成する（reopen しない・Refs #1198 のみ）。",
+    "issue_reference_mode": "refs_only",
+    "issue_state_at_recovery": "closed",
+    "canonical_workflow": "docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/",
+    "recovered_from_unassigned": "docs/30-workflows/unassigned-task/task-admin-audit-dead-table-css-cleanup.md",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-admin-audit-dead-table-css-cleanup.md",
+    "parent_workflows": [
+      "docs/30-workflows/completed-tasks/admin-audit-log-ux-clarity-and-reduce-error-fix/"
+    ],
+    "branch": "docs/issue-1198-admin-audit-dead-table-css-cleanup",
+    "issue_premise_correction": "issue 本文は削除対象を globals.css 行 1602-1618 と記すが、後続コミット（#1204 / #1210 / #1217 等）でファイルが伸長し、現行（2026-06-13 実測）では行 2023-2039 に移動している。行番号はアンカーにせず、`.admin-audit-filter` / `.admin-audit-table-scroll` / `.admin-audit-table` の 3 セレクタ名で範囲を確定する。",
+    "issue_freshness_audit": "現行コードで 3 セレクタが行 2023/2031/2035 に現存し、コンポーネント参照は `--include=*.tsx --include=*.ts` grep で 0 件だったため、同一サイクルで `apps/web/src/styles/globals.css` から 3 ブロックを削除済み。置換クラス `.admin-audit-applied-filters` / `.admin-audit-card` / `.admin-audit-timeline` は globals.css に保持。`.tbl` は現行 globals.css に存在しない stale 前提だったため、保持 grep ではなく「本タスクで変更なし」として訂正。",
+    "ssot_decision": "OKLch トークン正本（tokens.css）/ 既存 API surface 不変を維持し、apps/web 表現層 globals.css のみの dead CSS 3 ブロック削除に限定する。新規 primitive / クラスは生やさない。",
+    "scope_files": [
+      "apps/web/src/styles/globals.css"
+    ],
+    "dead_css_to_delete": [
+      ".admin-audit-filter",
+      ".admin-audit-table-scroll",
+      ".admin-audit-table"
+    ],
+    "css_kept_unchanged": [
+      ".admin-audit-guide",
+      ".admin-audit-glossary",
+      ".admin-audit-applied-filters",
+      ".admin-audit-timeline",
+      ".admin-audit-card",
+      ".tbl"
+    ],
+    "css_reference_audit": "3 セレクタとも apps/web/src・apps/web/app の .tsx/.ts で 0 参照（grep 確認済み 2026-06-13）。AuditLogPanel.tsx は `.admin-audit-applied-filters`、AuditLogCard.tsx は `.admin-audit-card`、一覧 `<ol>` は `.admin-audit-timeline` を使用。",
+    "acceptance_criteria": [
+      "AC-1 削除前に 3 セレクタの .tsx/.ts コンポーネント参照が 0 件であることを grep 証跡化した",
+      "AC-2 globals.css から `.admin-audit-filter` / `.admin-audit-table-scroll` / `.admin-audit-table` の 3 ブロックを削除した（直後の `.admin-audit-guide` 以降は保持）",
+      "AC-3 `.tbl` は現行 globals.css に存在しない stale 前提だったため、本タスクで変更なし。新規カード系 CSS は grep ヒット維持を確認",
+      "AC-4 typecheck / lint / verify:tokens すべて PASS",
+      "AC-5 監査ログ関連 focused Vitest（AuditLogPanel.component / AuditLogCard）が regression なく全 PASS",
+      "AC-6 diff は globals.css の 3 ブロック削除（18 行純減）のみ・apps/api / D1 / Google Form は無変更"
+    ],
+    "out_of_scope": [
+      "監査ログ total 件数表示（baseline OOS-1: API が cursor pagination で total 非返却 → apps/api 変更必要・別 Issue）",
+      "監査ログ CSV/JSON エクスポート（baseline OOS-2: 新規 endpoint または client 大規模機能・別 Issue）",
+      "`.tbl` 汎用クラスの変更 / apps/api / D1 / Google Form の変更"
+    ],
+    "verify_commands": [
+      "grep -rn \"admin-audit-filter\\|admin-audit-table\" apps/web/src apps/web/app --include=\"*.tsx\" --include=\"*.ts\"",
+      "grep -n \"admin-audit-filter\\|admin-audit-table-scroll\\|admin-audit-table\" apps/web/src/styles/globals.css; test $? -eq 1",
+      "grep -n \"admin-audit-guide\\|admin-audit-card\\|admin-audit-timeline\\|admin-audit-applied-filters\" apps/web/src/styles/globals.css",
+      "rg -n \"\\.tbl\\b|tbl\" apps/web/src/styles/globals.css apps/web/src apps/web/app --glob \"*.{css,tsx,ts}\"; test $? -eq 1",
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:tokens",
+      "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx apps/web/src/components/admin/__tests__/AuditLogCard.spec.tsx",
+      "git diff --stat apps/web/src/styles/globals.css"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-13T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec backbone (Phase 1-3) complete"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-13T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "Phase 4-13 specs complete; local implementation and verification reflected in Phase 11/12"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-1198-admin-audit-dead-table-css-cleanup/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "local implementation and verification completed; commit/PR remain user-gated"
+      }
+    ],
+    "local_implementation_completed_at": "2026-06-13",
+    "local_implementation_summary": "apps/web/src/styles/globals.css から未参照の旧 admin audit table CSS 3 ブロックを 18 行純減で削除。commit / push / PR は user-gated。"
+  },
+  "phases": {
+    "phase-1": {
+      "name": "要件定義",
+      "status": "completed",
+      "artifact": "phase-1-requirements.md"
+    },
+    "phase-2": {
+      "name": "設計",
+      "status": "completed",
+      "artifact": "phase-2-design.md"
+    },
+    "phase-3": {
+      "name": "設計レビュー",
+      "status": "completed",
+      "artifact": "phase-3-design-review.md"
+    },
+    "phase-4": {
+      "name": "テスト作成",
+      "status": "completed",
+      "artifact": "phase-4-test-plan.md"
+    },
+    "phase-5": {
+      "name": "実装",
+      "status": "completed",
+      "artifact": "phase-5-implementation.md"
+    },
+    "phase-6": {
+      "name": "テスト拡充",
+      "status": "completed",
+      "artifact": "phase-6-test-additions.md"
+    },
+    "phase-7": {
+      "name": "カバレッジ確認",
+      "status": "completed",
+      "artifact": "phase-7-coverage.md"
+    },
+    "phase-8": {
+      "name": "リファクタリング",
+      "status": "completed",
+      "artifact": "phase-8-refactor.md"
+    },
+    "phase-9": {
+      "name": "品質保証",
+      "status": "completed",
+      "artifact": "phase-9-qa.md"
+    },
+    "phase-10": {
+      "name": "最終レビュー",
+      "status": "completed",
+      "artifact": "phase-10-final-review.md"
+    },
+    "phase-11": {
+      "name": "手動テスト",
+      "status": "completed",
+      "artifact": "outputs/phase-11/manual-test-result.md"
+    },
+    "phase-12": {
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "artifact": "outputs/phase-12/implementation-guide.md"
+    },
+    "phase-13": {
+      "name": "PR作成",
+      "status": "blocked",
+      "artifact": "phase-13-pr.md",
+      "blocked_reason": "user-gated: commit/PR は明示承認後のみ"
+    }
+  }
+}
