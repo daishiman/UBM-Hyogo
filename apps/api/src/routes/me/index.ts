@@ -4,6 +4,8 @@
 // 不変条件 #12: 全 GET response 型に admin_member_notes 由来のキーが現れないことを zod schema (strict) で保証。
 
 import { Hono } from "hono";
+import { ApiError } from "@ubm-hyogo/shared/errors";
+import { logError } from "@ubm-hyogo/shared/logging";
 import {
   sessionGuard,
   requireRulesConsent,
@@ -62,6 +64,7 @@ import {
   resolveEditResponseUrl,
   getPendingRequestsForMember,
 } from "./services";
+import type { PendingRequests } from "./schemas";
 
 export interface MeRouteEnv extends SessionGuardEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -83,6 +86,24 @@ const RESPONDER_URL_FALLBACK =
 
 const pickResponderUrl = (env: MeRouteEnv): string =>
   env.RESPONDER_URL ?? env.GOOGLE_FORM_RESPONDER_URL ?? RESPONDER_URL_FALLBACK;
+
+type MeDatabaseErrorScope = "me-profile-builder";
+
+const toMeDatabaseError = (
+  scope: MeDatabaseErrorScope,
+  err: unknown,
+): ApiError => {
+  const log: {
+    cause: unknown;
+    context: { scope: MeDatabaseErrorScope };
+    stack?: string;
+  } = {
+    cause: err,
+    context: { scope },
+  };
+  if (err instanceof Error && err.stack !== undefined) log.stack = err.stack;
+  return new ApiError({ code: "UBM-5001", log });
+};
 
 // issue-1031: /me/profile の photoUrl fail-soft 解決（admin route の resolvePhotoUrl と同ロジック）。
 // invariant #4 整合: member_photos は admin-managed data（Google Form schema 外）であり、
@@ -172,13 +193,30 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       user.memberId,
       // issue-372: 直近 N 件 + cursor。先頭ページは default limit。
       { attendancePage: { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT } },
-    );
+    ).catch((err: unknown) => {
+      throw toMeDatabaseError("me-profile-builder", err);
+    });
     if (!profile) {
       // identity / response が見つからない (同期未完了など)
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
     }
     const editUrl = await resolveEditResponseUrl(ctx, user.memberId);
-    const pendingRequests = await getPendingRequestsForMember(providerCtx, user.memberId);
+    const pendingRequests = await getPendingRequestsForMember(
+      providerCtx,
+      user.memberId,
+    ).catch((err: unknown): PendingRequests => {
+      const log: { cause: unknown; stack?: string } = { cause: err };
+      if (err instanceof Error && err.stack !== undefined) log.stack = err.stack;
+      logError({
+        code: "UBM-5001",
+        status: 500,
+        message: "Failed to resolve /me/profile pending requests; continuing without secondary request state",
+        path: "/me/profile",
+        context: { scope: "me-pending-requests" },
+        log,
+      });
+      return {};
+    });
     // issue-1031: presign で photoUrl を fail-soft 同梱（失敗・row 無なら省略・200 維持）。
     const photoUrl = await resolveMyPhotoUrl(c.env, ctx, user.memberId).catch(
       () => undefined,

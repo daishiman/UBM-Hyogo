@@ -1,0 +1,9 @@
+mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/routes/me/index.contract.spec.ts -t issue-1190
+exit code: 0
+PASS excerpt: Tests 6 passed | 28 skipped (34)
+PASS excerpt: Test Files 1 passed (1)
+
+mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/routes/me/index.contract.spec.ts
+exit code: 0
+PASS excerpt: Tests 34 passed (34)
+PASS excerpt: Test Files 1 passed (1)
