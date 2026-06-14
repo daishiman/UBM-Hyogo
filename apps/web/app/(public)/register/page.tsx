@@ -3,6 +3,7 @@
 // task-12 で RegisterCallout primitive 接続。
 // 不変条件 #2: consent キーは publicConsent / rulesConsent
 // 不変条件 #7: 外部 link 遷移（target="_blank"）。iframe 不採用
+// Lane B: PageShell + PageHeader でラップ（page-head div を置換）。
 
 import type { Metadata } from "next";
 import type { z } from "zod";
@@ -13,6 +14,8 @@ import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 import { FormPreviewSections } from "../../../src/components/public/FormPreviewSections";
 import { RegisterCallout } from "../../../src/components/public/RegisterCallout";
+import { PageHeader } from "../../../src/components/ui/layout/PageHeader";
+import { PageShell } from "../../../src/components/ui/layout/PageShell";
 import { FORM_RESPONDER_URL } from "../../../src/lib/constants/form";
 import { fetchPublic } from "../../../src/lib/fetch/public";
 
@@ -47,24 +50,24 @@ export default async function RegisterPage() {
 
   return (
     <main data-page="register" className="stack-lg" data-route="public" data-section-rhythm="comfortable">
-      <header className="page-head">
-        <p className="eyebrow">REGISTER</p>
-        <h1>UBM 兵庫支部会への登録</h1>
-        <p className="muted">
-          登録は次の流れで進みます: Google Form 回答 → 自動同期 → ログイン → マイページ確認。
+      <PageShell>
+        <PageHeader
+          eyebrow="REGISTER"
+          title="UBM 兵庫支部会への登録"
+          lead="登録は次の流れで進みます: Google Form 回答 → 自動同期 → ログイン → マイページ確認。"
+        />
+        <RegisterCallout responderUrl={responderUrl} />
+        {previewError ? (
+          <p role="alert" data-role="preview-error">
+            {previewError}
+          </p>
+        ) : preview ? (
+          <FormPreviewSections preview={preview} />
+        ) : null}
+        <p>
+          ログイン済みの方はそのまま <a href="/login">/login</a> に進んでください。
         </p>
-      </header>
-      <RegisterCallout responderUrl={responderUrl} />
-      {previewError ? (
-        <p role="alert" data-role="preview-error">
-          {previewError}
-        </p>
-      ) : preview ? (
-        <FormPreviewSections preview={preview} />
-      ) : null}
-      <p>
-        ログイン済みの方はそのまま <a href="/login">/login</a> に進んでください。
-      </p>
+      </PageShell>
     </main>
   );
 }

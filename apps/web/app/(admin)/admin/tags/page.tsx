@@ -7,6 +7,8 @@ import { AdminSectionErrorClient } from "../../../../src/features/admin/componen
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { TagQueuePanel } from "../../../../src/components/admin/TagQueuePanel";
 import type { TagQueueStatus } from "../../../../src/components/admin/TagQueuePanel";
+import { TagManagementGuide } from "../../../../src/components/admin/TagManagementGuide";
+import { TAG_MANAGEMENT_COPY } from "../../../../src/lib/admin/tagManagementGlossary";
 
 interface QueueItem {
   queueId: string;
@@ -61,11 +63,12 @@ export default async function AdminTagsPage({
       <AdminPageHeader
         eyebrow="ADMIN / TAGS"
         title="タグ割当"
-        description="未解決のタグ提案をレビューし、メンバーに割り当てます。"
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグキュー" }]}
+        description={TAG_MANAGEMENT_COPY.assignmentHeaderDescription}
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグ割当" }]}
       />
+      <TagManagementGuide variant="assignment" />
       {counts ? (
-        <div className="chip-row" aria-label="タグキュー件数">
+        <div className="chip-row" aria-label="タグ割当件数">
           <Chip tone="amber">未解決 {counts.queued + counts.reviewing}件</Chip>
           <Chip tone="green">解決済 {counts.resolved}件</Chip>
           {counts.dlq > 0 ? <Chip tone="red">DLQ {counts.dlq}件</Chip> : null}
@@ -79,7 +82,7 @@ export default async function AdminTagsPage({
         />
       ) : (
         <AdminSectionErrorClient
-          sectionLabel="タグキュー"
+          sectionLabel="タグ割当"
           code={result.error.code}
           message={result.error.message}
         />

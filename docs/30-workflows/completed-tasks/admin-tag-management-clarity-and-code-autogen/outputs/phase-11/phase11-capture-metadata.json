@@ -1,0 +1,38 @@
+{
+  "taskId": "admin-tag-management-clarity-and-code-autogen",
+  "workflow": "admin-tag-management-clarity-and-code-autogen",
+  "mode": "VISUAL",
+  "status": "staging_visual_pending_user_gate",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "reason": "apps/web local implementation and deterministic evidence are complete. Authenticated staging screenshot capture requires user-gated deploy/auth state, so canonical screenshots remain pending without fabrication.",
+  "route": ["/admin/tag-master", "/admin/tags"],
+  "screenshotsDir": "outputs/phase-11/screenshots",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "localAuthGateScreenshots": [
+      "outputs/phase-11/screenshots/local-auth-gate-tag-master.png",
+      "outputs/phase-11/screenshots/local-auth-gate-tags.png"
+    ],
+    "localAuthGateResult": "local dev routes redirect to admin login and dev server logs Auth.js MissingSecret; canonical UI screenshots remain authenticated staging user-gated"
+  },
+  "screenshots": [
+    {
+      "tc": "TC-VIS-01",
+      "name": "tag-definition-code-autogen.png",
+      "state": "タグ定義画面: 表示名入力でコード欄が自動補完され、自動生成ヒント + 自動生成中の状態表示があり、冒頭に TagManagementGuide variant=definition と /admin/tags への相互リンクが表示される",
+      "viewport": "1280x900",
+      "url": "/admin/tag-master",
+      "captured": false,
+      "status": "staging_visual_pending_user_gate"
+    },
+    {
+      "tc": "TC-VIS-02",
+      "name": "tag-assignment-guide-and-rename.png",
+      "state": "タグ割当画面: 冒頭に TagManagementGuide variant=assignment と /admin/tag-master への相互リンクが表示され、サイドバー label が「タグ割当」でページ内タイトルと一致する",
+      "viewport": "1280x900",
+      "url": "/admin/tags",
+      "captured": false,
+      "status": "staging_visual_pending_user_gate"
+    }
+  ]
+}

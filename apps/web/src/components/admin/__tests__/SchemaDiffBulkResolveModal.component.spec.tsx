@@ -36,31 +36,29 @@ describe("SchemaDiffBulkResolveModal", () => {
     expect(screen.getAllByRole("row")).toHaveLength(3); // header + 2
   });
 
-  it("MODAL-02 各行に stableKey input / 推奨採用 button / 状態 badge", () => {
+  it("MODAL-02 各行に項目キー input / 推奨採用 button / 状態 badge", () => {
     render(<SchemaDiffBulkResolveModal {...defaultProps()} />);
-    expect(screen.getByLabelText("stableKey for q1")).toBeTruthy();
-    expect(screen.getByLabelText("stableKey for q2")).toBeTruthy();
+    expect(screen.getByLabelText("q1 の項目キー")).toBeTruthy();
+    expect(screen.getByLabelText("q2 の項目キー")).toBeTruthy();
     expect(screen.getAllByRole("button", { name: "推奨採用" })).toHaveLength(2);
   });
 
-  it("MODAL-03 確定 button click で onSubmit", () => {
+  it("MODAL-03 まとめて対応づけ実行 button click で onSubmit", () => {
     const props = defaultProps();
     render(<SchemaDiffBulkResolveModal {...props} />);
-    fireEvent.click(screen.getByRole("button", { name: "確定" }));
+    fireEvent.click(screen.getByRole("button", { name: "まとめて対応づけを実行" }));
     expect(props.onSubmit).toHaveBeenCalled();
   });
 
   it("MODAL-04 isSubmitting=true で confirm / cancel disabled", () => {
     const props = { ...defaultProps(), isSubmitting: true };
     render(<SchemaDiffBulkResolveModal {...props} />);
-    expect(
-      (screen.getByRole("button", { name: "送信中..." }) as HTMLButtonElement)
-        .disabled,
-    ).toBe(true);
-    expect(
-      (screen.getByRole("button", { name: "キャンセル" }) as HTMLButtonElement)
-        .disabled,
-    ).toBe(true);
+    expect((screen.getByRole("button", { name: "送信中..." }) as HTMLButtonElement).disabled).toBe(
+      true,
+    );
+    expect((screen.getByRole("button", { name: "キャンセル" }) as HTMLButtonElement).disabled).toBe(
+      true,
+    );
   });
 
   it("MODAL-05 partial failure 時、失敗行の errorMessage が role=alert で表示", () => {
@@ -106,15 +104,18 @@ describe("SchemaDiffBulkResolveModal", () => {
     expect(container.querySelector("[data-testid=bulk-resolve-modal]")).toBeNull();
   });
 
-  it("MODAL-10 invalid stableKey は row alert を出し確定 disabled", () => {
+  it("MODAL-10 invalid stableKey は row alert を出し実行 disabled", () => {
     const props = {
       ...defaultProps(),
       rows: [row({ diffId: "d1", questionId: "q1", stableKey: "1bad-key" })],
     };
     render(<SchemaDiffBulkResolveModal {...props} />);
-    const input = screen.getByLabelText("stableKey for q1");
+    const input = screen.getByLabelText("q1 の項目キー");
     expect(input.getAttribute("aria-invalid")).toBe("true");
-    expect(screen.getByRole("alert").textContent).toContain("stableKey");
-    expect((screen.getByRole("button", { name: "確定" }) as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.getByRole("alert").textContent).toContain("項目キー");
+    expect(
+      (screen.getByRole("button", { name: "まとめて対応づけを実行" }) as HTMLButtonElement)
+        .disabled,
+    ).toBe(true);
   });
 });

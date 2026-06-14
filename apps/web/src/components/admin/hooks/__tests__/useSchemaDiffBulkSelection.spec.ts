@@ -230,7 +230,7 @@ describe("useSchemaDiffBulkSelection", () => {
     expect(onAllSucceeded).not.toHaveBeenCalled();
     expect(result.current.modalOpen).toBe(true);
     expect(result.current.rows[0].submitStatus).toBe("retryable");
-    expect(result.current.rows[0].errorMessage).toContain("再試行可能");
+    expect(result.current.rows[0].errorMessage).toContain("再試行できます");
   });
 
   it("HOOK-10 submit helper throw 時も modal を復旧し全行 error にする", async () => {

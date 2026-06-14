@@ -34,7 +34,7 @@ describe("Stats", () => {
     expect(container.querySelector('[data-stat="sync"]')).toBeTruthy();
   });
 
-  it("renders publicMemberCount as Members value", () => {
+  it("renders publicMemberCount as public members value", () => {
     const { container } = render(<Stats stats={baseStats} />);
     expect(
       container.querySelector('[data-stat="members"] [data-role="value"]')
@@ -60,13 +60,33 @@ describe("Stats", () => {
       .toHaveLength(4);
   });
 
+  it("renders localized stat labels", () => {
+    const { container } = render(<Stats stats={baseStats} />);
+    expect(
+      container.querySelector('[data-stat="members"] [data-role="label"]')
+        ?.textContent,
+    ).toBe("公開メンバー");
+    expect(
+      container.querySelector('[data-stat="zones"] [data-role="label"]')
+        ?.textContent,
+    ).toBe("事業フェーズ");
+    expect(
+      container.querySelector('[data-stat="meetings"] [data-role="label"]')
+        ?.textContent,
+    ).toBe("年間の支部会");
+    expect(
+      container.querySelector('[data-stat="sync"] [data-role="label"]')
+        ?.textContent,
+    ).toBe("最終データ更新");
+  });
+
   it("renders badge-sync chip inside sync tile sub", () => {
     const { container } = render(<Stats stats={baseStats} />);
     const badge = container.querySelector(
       '[data-stat="sync"] [data-role="badge-sync"]',
     );
     expect(badge).toBeTruthy();
-    expect(badge?.textContent).toContain("Forms 同期中");
+    expect(badge?.textContent).toContain("自動で最新化");
   });
 
   it("falls back to '未同期' when generatedAt is invalid", () => {

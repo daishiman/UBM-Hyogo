@@ -23,6 +23,7 @@ vi.mock("@/lib/env", () => ({
 }));
 
 import {
+  ApiTransportError,
   AuthRequiredError,
   FetchAuthedError,
   fetchAuthed,
@@ -156,6 +157,46 @@ describe("fetchAuthed", () => {
     mockGetAuthEnv.mockReturnValue({ INTERNAL_API_BASE_URL: "" });
     mockGetEnvironmentResolution.mockReturnValue({ environment: "local", explicit: false });
     await expect(fetchAuthed("/x")).rejects.toThrow(/API transport unresolved/);
+  });
+
+  it("GET は service binding transport failure 時に public API base URL へ fallback する", async () => {
+    const bindingFetch = vi.fn(async () => {
+      throw new TypeError("binding down");
+    });
+    mockGetAuthEnv.mockReturnValue({
+      API_SERVICE: { fetch: bindingFetch as unknown as typeof fetch },
+      INTERNAL_API_BASE_URL: "",
+      NEXT_PUBLIC_API_BASE_URL: "https://public-api.example.com",
+    });
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "staging", explicit: true });
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const spy = mockFetchOnce({ status: 200, body: { id: 1 } });
+    try {
+      await expect(fetchAuthed<{ id: number }>("/me")).resolves.toEqual({ id: 1 });
+      expect(spy.mock.calls[0]?.[0]).toBe("https://public-api.example.com/me");
+      expect(warn).toHaveBeenCalledWith("api_transport_fallback", {
+        from: { transportKind: "service-binding", baseHost: "service-binding.local" },
+        to: { transportKind: "http", baseHost: "public-api.example.com" },
+        path: "/me",
+      });
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
+  it("POST は service binding transport failure でも fallback しない", async () => {
+    const bindingFetch = vi.fn(async () => {
+      throw new TypeError("binding down");
+    });
+    mockGetAuthEnv.mockReturnValue({
+      API_SERVICE: { fetch: bindingFetch as unknown as typeof fetch },
+      INTERNAL_API_BASE_URL: "",
+      NEXT_PUBLIC_API_BASE_URL: "https://public-api.example.com",
+    });
+    mockGetEnvironmentResolution.mockReturnValue({ environment: "staging", explicit: true });
+    await expect(fetchAuthed("/me/delete-request", { method: "POST" })).rejects.toBeInstanceOf(
+      ApiTransportError,
+    );
   });
 
   it("init.headers をマージする", async () => {

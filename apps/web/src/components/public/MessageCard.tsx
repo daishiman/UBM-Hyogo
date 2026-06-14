@@ -1,4 +1,7 @@
+// Lane B: SectionCard(tone=accent) でラップ（メッセージグループ）。
 import { STABLE_KEY } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface MessageCardProps {
   message: string;
@@ -8,18 +11,20 @@ export function MessageCard({ message }: MessageCardProps) {
   const trimmed = message.trim();
   if (!trimmed) return null;
   return (
-    <section
+    <SectionCard
+      as="section"
       data-component="member-message"
-      className="card-flat card-pad-lg stack-sm accent-soft"
+      className="stack-sm accent-soft"
+      tone="accent"
+      title="メッセージ"
     >
       <p className="eyebrow">MESSAGE</p>
-      <h2 className="h-section">メッセージ</h2>
       <blockquote
         className="serif"
         data-stable-key={STABLE_KEY.selfIntroduction}
       >
         <p>{trimmed}</p>
       </blockquote>
-    </section>
+    </SectionCard>
   );
 }

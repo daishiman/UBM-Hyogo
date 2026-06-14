@@ -1,10 +1,13 @@
-// public-dashboard-prototype-alignment: Members / Zones / Meetings / Last sync
+// public-dashboard-prototype-alignment: localized home stats labels
 // プロトタイプ pages-public.jsx LandingPage の 4 stat + sub line + badge-sync 整合。
 // data source: /public/stats (PublicStatsViewZ)。新 endpoint 追加なし。
+// Lane B: SectionCard でラップ。
 
 import type { z } from "zod";
 
 import { PublicStatsViewZ } from "@ubm-hyogo/shared";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export type PublicStatsView = z.infer<typeof PublicStatsViewZ>;
 
@@ -35,37 +38,38 @@ function lastSyncLabel(stats: PublicStatsView): string {
 
 export function Stats({ stats }: StatsProps) {
   return (
-    <section data-component="stats" aria-labelledby="stats-heading">
+    <SectionCard as="section" data-component="stats">
+      {/* アクセシビリティ: sr-only の見出しを内部維持（I-7 aria-labelledby 互換） */}
       <h2 id="stats-heading" className="sr-only">
         サポート指標
       </h2>
       <ul data-role="stat-grid">
         <li data-stat="members">
-          <span data-role="label">Members</span>
+          <span data-role="label">公開メンバー</span>
           <span data-role="value">{stats.publicMemberCount}</span>
           <span data-role="sub">公開中のメンバー</span>
         </li>
         <li data-stat="zones">
-          <span data-role="label">Zones</span>
+          <span data-role="label">事業フェーズ</span>
           <span data-role="value">{ZONE_COUNT}</span>
           <span data-role="sub">0→1 / 1→10 / 10→100</span>
         </li>
         <li data-stat="meetings">
-          <span data-role="label">Meetings / yr</span>
+          <span data-role="label">年間の支部会</span>
           <span data-role="value">{MEETINGS_PER_YEAR}</span>
           <span data-role="sub">毎月の支部会</span>
         </li>
         <li data-stat="sync">
-          <span data-role="label">Last sync</span>
+          <span data-role="label">最終データ更新</span>
           <span data-role="value">{lastSyncLabel(stats)}</span>
           <span data-role="sub">
             <span data-role="badge-sync">
               <span data-role="dot" aria-hidden="true" />
-              Forms 同期中
+              自動で最新化
             </span>
           </span>
         </li>
       </ul>
-    </section>
+    </SectionCard>
   );
 }

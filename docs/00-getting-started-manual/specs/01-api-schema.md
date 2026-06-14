@@ -365,7 +365,7 @@ UT-07C / UT-07C-FU-001 で追加した meeting attendance の管理用 endpoint 
 | `zone` | enum | `all` | `all` / `0_to_1` / `1_to_10` / `10_to_100` |
 | `status` | enum | `all` | `all` / `member` / `non_member` / `academy`。参加ステータスであり公開状態ではない |
 | `tag` | repeated string | `[]` | 重複除去、空文字除去、先頭5件。複数指定は AND |
-| `sort` | enum | `recent` | `recent` / `name` |
+| `sort` | enum | `recent` | `recent`（新しい順）/ `oldest`（古い順）/ `name`（名前順）/ `name_desc`（名前の逆順）。`name` / `name_desc` は `fullName` の Unicode 文字コード順で真の五十音順ではない（ふりがな設問追加による五十音順は OOS） |
 | `density` | enum | `comfy` | `comfy` / `dense` / `list`。UI 表示密度として `appliedQuery` に echo |
 | `page` | int | `1` | `>=1` |
 | `limit` | int | `24` | `1..100` に clamp |

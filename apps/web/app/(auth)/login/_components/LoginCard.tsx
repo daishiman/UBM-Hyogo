@@ -1,9 +1,12 @@
 // task-13 Phase 5: /login のカード型ラッパー（Server Component）。
+// Lane C: SectionCard(auth) へ移行（AC-4）。
+// I-7: data-testid="login-card" / data-component="login-card" / data-state を SectionCard spread で保持。
+// h1 は SectionCard の title prop を使わず明示的に配置（level:1 を 1 個だけ維持 / spec 保全）。
 // 不変条件 #6: HEX 直書き禁止（OKLch tokens 経由の ui-primitives のみ）。
 // 不変条件 #8: state は URL query 由来。Card root に data-state を反映する。
 
 import type { ReactNode } from "react";
-import { Card, CardContent, CardFooter } from "../../../../src/components/ui/Card";
+import { SectionCard } from "../../../../src/components/ui/layout";
 import type { LoginGateState } from "../../../../src/lib/url/login-query";
 
 export interface LoginCardProps {
@@ -22,7 +25,8 @@ export function LoginCard({
   children,
 }: LoginCardProps) {
   return (
-    <Card
+    <SectionCard
+      as="div"
       className="auth-card"
       data-testid="login-card"
       data-component="login-card"
@@ -41,8 +45,8 @@ export function LoginCard({
         <h1>{title}</h1>
         {subtitle ? <p>{subtitle}</p> : null}
       </header>
-      <CardContent>{children}</CardContent>
-      {footerSlot ? <CardFooter>{footerSlot}</CardFooter> : null}
-    </Card>
+      <div className="auth-card__content">{children}</div>
+      {footerSlot ? <footer className="auth-card__footer">{footerSlot}</footer> : null}
+    </SectionCard>
   );
 }

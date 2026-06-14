@@ -1,4 +1,5 @@
 // 06b-B: 公開停止/再公開/退会申請のトリガを束ねる panel。
+// Lane C: SectionCard へ移行（AC-4）。data-testid / aria-label は I-7 保全。
 // 不変条件 #4: 本文編集 UI は配置しない（dialog 子に閉じる）。
 // 不変条件 #11: self-service 境界 → URL/参照は /me 系のみ。
 // 紐付き TC: TC-U-01..06 / TC-U-12。
@@ -16,6 +17,7 @@ import type {
 } from "@/lib/api/me-requests.types";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { SectionCard } from "@/components/ui/layout";
 import { VisibilityRequestDialog } from "./VisibilityRequestDialog";
 import { DeleteRequestDialog } from "./DeleteRequestDialog";
 import { RequestPendingBanner } from "./RequestPendingBanner";
@@ -41,19 +43,20 @@ export function RequestActionPanel({
 
   if (rulesConsent !== "consented") {
     return (
-      <section
+      <SectionCard
         aria-label="本人申請"
         data-region="request-action-panel"
         data-testid="request-action-panel-disabled"
-        className="ui-card card-pad-lg danger-zone"
-        data-tone="danger"
+        className="danger-zone"
+        padding="lg"
+        tone="default"
+        title="公開の停止・退会"
       >
         <div className="eyebrow" data-tone="danger">DANGER ZONE</div>
-        <h2>公開の停止・退会</h2>
         <p>
           会則同意の更新が必要です。Google Form での再回答後にこのパネルを有効化します。
         </p>
-      </section>
+      </SectionCard>
     );
   }
 
@@ -80,15 +83,15 @@ export function RequestActionPanel({
     publishState === "hidden" || publishState === "member_only";
 
   return (
-    <section
+    <SectionCard
       aria-label="本人申請"
       data-region="request-action-panel"
       data-testid="request-action-panel"
-      className="ui-card card-pad-lg danger-zone"
-      data-tone="danger"
+      className="danger-zone"
+      padding="lg"
+      title="公開の停止・退会"
     >
       <div className="eyebrow" data-tone="danger">DANGER ZONE</div>
-      <h2>公開の停止・退会</h2>
       <p className="muted">
         プロフィール公開の停止や退会の申請を行います。送信後は管理者の処理を待つことになります。
       </p>
@@ -154,6 +157,6 @@ export function RequestActionPanel({
         onClose={() => setDeleteOpen(false)}
         onSubmitted={onSubmitted}
       />
-    </section>
+    </SectionCard>
   );
 }

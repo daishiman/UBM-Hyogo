@@ -12,10 +12,11 @@ export function SchemaHistoryPurposeExplainer(): ReactElement {
       aria-labelledby="schema-history-purpose-heading"
     >
       <div>
-        <p className="schema-history-purpose__eyebrow">ALIAS HISTORY</p>
+        <p className="schema-history-purpose__eyebrow">対応づけの記録</p>
         <h2 id="schema-history-purpose-heading">この画面で分かること</h2>
         <p className="schema-history-purpose__lead">
-          Google フォームの設問が変わったとき、管理者がどの設問を同じ意味として紐付けたかを確認する監査画面です。
+          Google
+          フォームの設問が変わったとき、管理者がどの設問を同じ意味として紐付けたかを確認する監査画面です。
         </p>
       </div>
 

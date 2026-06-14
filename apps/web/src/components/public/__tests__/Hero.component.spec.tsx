@@ -30,7 +30,7 @@ describe("Hero", () => {
   it("renders card variant by default with accent + serif title (card)", () => {
     const { container } = render(
       <Hero
-        eyebrow="UBM HYOGO · CHAPTER SITE"
+        eyebrow="兵庫支部会サイト"
         title="兵庫で、事業を育てる人のつながりを可視化する。"
       />,
     );
@@ -41,7 +41,7 @@ describe("Hero", () => {
       container.querySelector('[data-role="title-serif"]')?.textContent,
     ).toBe("兵庫で、事業を育てる人のつながりを可視化する。");
     expect(container.querySelector('[data-role="eyebrow"]')?.textContent).toBe(
-      "UBM HYOGO · CHAPTER SITE",
+      "兵庫支部会サイト",
     );
   });
 

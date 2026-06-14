@@ -1,7 +1,10 @@
 // public-dashboard-prototype-alignment: About + Three Zones row-list (2-card grid)
 // プロトタイプ pages-public.jsx LandingPage L4-152 整合。pure server component。
+// Lane B: SectionCard でラップ。
 
 import type { ReactNode } from "react";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface AboutUbmProps {
   /** About カードのコピーを差し替える場合に使う (デフォルトは prototype 文言) */
@@ -45,15 +48,13 @@ export function AboutUbm({
   showZones = true,
 }: AboutUbmProps = {}) {
   return (
-    <section data-component="about-ubm" data-role="grid-2">
+    <SectionCard as="section" data-component="about-ubm">
       <article data-role="about-card">
-        <p data-role="eyebrow">ABOUT</p>
         <h2 data-role="section-heading">事業支援コミュニティ「UBM」</h2>
         {aboutCopy}
       </article>
       {showZones ? (
         <article data-role="zones-card">
-          <p data-role="eyebrow">THREE ZONES</p>
           <h2 data-role="section-heading">UBM区画</h2>
           <ul data-role="zone-rows">
             {ZONES.map((z) => (
@@ -66,6 +67,6 @@ export function AboutUbm({
           </ul>
         </article>
       ) : null}
-    </section>
+    </SectionCard>
   );
 }

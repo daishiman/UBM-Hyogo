@@ -102,7 +102,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("review guide and inline assign UX canonical screenshots", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "canonical Phase 11 evidence is desktop");
     await adminPage.goto("/admin/schema");
-    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
+    await expect(adminPage.getByRole("heading", { name: "項目別の変更点" })).toBeVisible();
     await expect(
       adminPage.getByRole("heading", {
         name: "フォームの設問変更を、過去データと繋げて整理します",
@@ -127,7 +127,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   for (const pane of panes) {
     test(`pane ${pane}`, async ({ adminPage }, testInfo) => {
       await adminPage.goto("/admin/schema");
-      await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
+      await expect(adminPage.getByRole("heading", { name: "項目別の変更点" })).toBeVisible();
       const paneRegion = adminPage.locator(`[aria-labelledby="pane-${pane}"]`);
       await expect(adminPage.getByRole("heading", { name: paneHeadings[pane], exact: true })).toBeVisible();
       await expect(paneRegion).toBeVisible();
@@ -141,14 +141,14 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("resolve success feedback", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "resolve feedback is desktop evidence");
     await adminPage.goto("/admin/schema");
-    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
+    await expect(adminPage.getByRole("heading", { name: "項目別の変更点" })).toBeVisible();
     const departmentButton = adminPage.getByRole("button", { name: "所属部署" });
     await departmentButton.click();
     await expect(departmentButton).toHaveAttribute("aria-expanded", "true");
     await adminPage.getByLabel(/新しい永続的な名前/).fill("member_department_new");
     await adminPage.getByRole("button", { name: "名前を割り当てる" }).click();
     await expect(adminPage.locator('[data-feedback-kind="success"]')).toContainText(
-      "alias を割当てました",
+      "項目キーを割り当てました",
     );
     await adminPage.screenshot({
       path: path.join(evidenceDir, "admin-schema-diff-resolve-success.png"),
@@ -159,7 +159,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("resolve 409 feedback", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "resolve feedback is desktop evidence");
     await adminPage.goto("/admin/schema");
-    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
+    await expect(adminPage.getByRole("heading", { name: "項目別の変更点" })).toBeVisible();
     const displayNameButton = adminPage.getByRole("button", { name: /表示名/ });
     await displayNameButton.click();
     await expect(displayNameButton).toHaveAttribute("aria-expanded", "true");
@@ -175,7 +175,7 @@ test.describe("SchemaDiffPanel runtime evidence", () => {
   test("resolve 422 feedback", async ({ adminPage }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "resolve feedback is desktop evidence");
     await adminPage.goto("/admin/schema");
-    await expect(adminPage.getByRole("heading", { name: "項目別の差分" })).toBeVisible();
+    await expect(adminPage.getByRole("heading", { name: "項目別の変更点" })).toBeVisible();
     const departmentButton = adminPage.getByRole("button", { name: "所属部署" });
     await departmentButton.click();
     await expect(departmentButton).toHaveAttribute("aria-expanded", "true");

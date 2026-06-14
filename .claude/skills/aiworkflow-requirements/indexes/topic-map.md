@@ -2204,6 +2204,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Notes | L13 |
 
+### references/workflow-admin-meetings-card-ux-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L15 |
+
 ### references/workflow-admin-meetings-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -2258,6 +2264,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L15 |
 
+### references/workflow-admin-requests-approval-publish-state-diff-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
+
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2307,6 +2319,16 @@ node scripts/list-specs.js --topics
 | Evidence | L32 |
 | Lessons | L42 |
 
+### references/workflow-admin-schema-terminology-clarity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implemented Targets | L13 |
+| Evidence | L22 |
+| Contract Boundary | L33 |
+| Lessons Learned | L40 |
+
 ### references/workflow-admin-shell-topbar-sidebar-integration-artifact-inventory.md
 
 | セクション | 行 |
@@ -2322,6 +2344,18 @@ node scripts/list-specs.js --topics
 | Implementation | L12 |
 | Evidence | L20 |
 | Lessons Learned | L30 |
+| Follow-up relationship | L37 |
+
+### references/workflow-admin-sidebar-collapsed-icon-spacing-parity-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation | L14 |
+| Evidence | L23 |
+| Invariants | L35 |
+| Lessons Learned | L42 |
+| Follow-up relationship | L50 |
 
 ### references/workflow-admin-sidebar-public-return-link-artifact-inventory.md
 
@@ -2339,6 +2373,16 @@ node scripts/list-specs.js --topics
 | Evidence | L44 |
 | Lessons Learned | L52 |
 | User-Gated | L58 |
+
+### references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Evidence | L25 |
+| Invariants | L35 |
+| Lessons Learned | L42 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -2627,6 +2671,17 @@ node scripts/list-specs.js --topics
 | 3. SKILL.md 入口導線 | L80 |
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
+
+### references/workflow-home-dashboard-japanese-localization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L14 |
+| Implementation Targets | L25 |
+| Evidence | L35 |
+| Invariants | L46 |
+| Lessons Learned | L55 |
 
 ### references/workflow-home-page-prototype-alignment-artifact-inventory.md
 
@@ -4293,6 +4348,12 @@ node scripts/list-specs.js --topics
 | State | L25 |
 | Boundary | L31 |
 
+### references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons | L13 |
+
 ### references/workflow-mypage-prototype-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -4423,6 +4484,17 @@ node scripts/list-specs.js --topics
 | User Gate | L37 |
 | Lessons Learned | L41 |
 
+### references/workflow-profile-session-staging-transport-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Summary | L12 |
+| Implemented Targets | L16 |
+| Evidence | L25 |
+| User-Gated Boundary | L34 |
+| Lessons Learned | L38 |
+
 ### references/workflow-profile-session-transport-observability-fail-closed-artifact-inventory.md
 
 | セクション | 行 |
@@ -4451,6 +4523,17 @@ node scripts/list-specs.js --topics
 ### references/workflow-public-header-logged-in-nav-cleanup-artifact-inventory.md
 
 ### references/workflow-public-header-session-aware-auth-view-base-artifact-inventory.md
+
+### references/workflow-public-member-common-ui-card-unification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Specification Artifacts | L12 |
+| Implementation Targets | L24 |
+| Evidence Boundary | L34 |
+| Invariants | L45 |
+| Lessons Learned | L51 |
 
 ### references/workflow-public-member-detail-survey-fields-richness-artifact-inventory.md
 
@@ -9283,23 +9366,25 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4372 |
-| フェーズ構造（概要） | L4381 |
-| 品質ゲート（概要） | L4412 |
-| 出力テンプレート | L4423 |
-| 実行時のコマンド・エージェント・スキル | L4446 |
-| 昇格パターン集 | L4470 |
-| Current Active / Spec Created Tasks | L4472 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4638 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4706 |
-| issue-1007-density-toggle-help-hint-hardening | L4730 |
-| issue-1079-bulk-tag-audit-batch-filter | L4743 |
-| issue-1128-audit-batchid-index-optimization | L4756 |
-| issue-998-members-publish-state-production-rollout | L4773 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4832 |
-| issue-1068-admin-tag-inline-create-ui | L4846 |
-| issue-1111-proxy-transport-util-unify | L4864 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4882 |
+| ドキュメント構成 | L4465 |
+| フェーズ構造（概要） | L4474 |
+| 品質ゲート（概要） | L4505 |
+| 出力テンプレート | L4516 |
+| 実行時のコマンド・エージェント・スキル | L4539 |
+| 昇格パターン集 | L4563 |
+| Current Active / Spec Created Tasks | L4565 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4731 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4799 |
+| issue-1007-density-toggle-help-hint-hardening | L4823 |
+| issue-1079-bulk-tag-audit-batch-filter | L4836 |
+| issue-1128-audit-batchid-index-optimization | L4849 |
+| issue-998-members-publish-state-production-rollout | L4866 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4925 |
+| issue-1068-admin-tag-inline-create-ui | L4939 |
+| issue-1111-proxy-transport-util-unify | L4957 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4975 |
+| admin-requests-approval-publish-state-diff（2026-06-11） | L4988 |
+| members-search-clear-and-sort-ux（2026-06-11） | L5000 |
 
 ### references/task-workflow-backlog-part2.md
 
