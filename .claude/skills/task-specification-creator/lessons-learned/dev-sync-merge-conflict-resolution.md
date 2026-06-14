@@ -1764,3 +1764,13 @@
   3. **成功基準の注記**: 「ローカル dev HEAD == origin/dev」は ff 安全時のみの基準。ff 不能時は「feature ブランチに origin/dev が merge 済み」を成功基準に読み替える、と Phase 11 検証節に注記する。
 - 検証: 積集合 3 件 → ff 断念 → `git merge origin/dev` CONFLICT 2（topic-map + task-workflow-active union）→ `pnpm sync:resolve` 1 パス → merge `858c2ee01` → install（lock 変更あり）→ typecheck/lint exit 0 → CI コード修正 0。dev ref は behind 1 で意図的残置。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）, SP-DEVSYNC-132（install 要否の正本）, SP-DEVSYNC-138（並列WT lock 待機・本件はメインWT working tree 保護への拡張）。
+
+## SP-DEVSYNC-140: **仕様書 Phase 5/11 の dev sync 手順に「dev ref 完全同期時は ref 無操作で feature へ直接マージ」分岐と「install 要否は lock 変更の有無で判定（major 限定でない）」を逐語化する — ローカル dev が origin/dev と ahead/behind 0/0 かつ独自コミット 0 なら ff 判定も update-ref も不要で `git merge dev` を feature ブランチで直接実行できる。install 要否は取込デルタの pnpm-lock.yaml/package.json 変更有無で判定し、minor/patch bump でも lock が動けば `pnpm install --force` 必須と書く（L-DEVSYNC-140 の task-spec 版）** （2026-06-14 feat/responsive-mobile-tablet-ui-fixes ← dev, sub-worktree wt-2, behind 7 / ahead 2, merge `78506bcd8`）
+
+- 教訓: sync 仕様は SP-DEVSYNC-139 で「ff 不能時は origin/dev 直接マージ」を書いたが、その手前 = ローカル dev が既に最新のケースを明記しないと、不要な fetch dev:dev / ff 試行を誘発する。また install 要否を「major 昇格時」と素朴に書くと、lock を動かす minor/patch bump（本件 esbuild 0.27→0.28）を取りこぼし CI 赤になる。
+- 仕様書への反映（Phase 5/11）:
+  1. **dev ref 同期の事前判定を 2 分岐で逐語化**: `git rev-list --left-right --count dev...origin/dev` が `0 0` かつ `git rev-list --count origin/dev..dev` が `0` → dev ref 無操作で `git merge dev` を feature ブランチ実行（origin/dev 直接マージと等価）。behind あり → SP-DEVSYNC-139 の ff 安全判定（積集合チェック）へ分岐。
+  2. **install 要否判定を lock 基準で明記**: 「`git diff --name-only ORIG_HEAD...dev | grep -E 'pnpm-lock\.yaml|package\.json'` が非空なら `pnpm install --force` を typecheck/lint の前に実行」。判定を「major 昇格か」でなく「lock/manifest が動いたか」に統一し、minor/patch bump でも省略不可と注記（省くと stale node_modules で偽陰性）。
+  3. **衝突集合非依存の解消手順を再掲**: 衝突が SKILL.md / quick-reference / resource-map / topic-map / task-workflow-active の union ＋ keywords.json の任意部分集合（本件 6 件）でも `pnpm sync:resolve` 1 パス → U 残 0 → 原子 add -A → merge commit で完結。
+- 検証: `dev...origin/dev`=`0 0` → `git merge dev` CONFLICT 6 → `pnpm sync:resolve` exit 0 → merge `78506bcd8` → `pnpm install --force`（esbuild minor bump で lock 変更・57s）→ typecheck/lint exit 0 → indexes:rebuild 冪等 drift 0 → CI コード修正 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140（本 lesson の正本）, SP-DEVSYNC-132（install 要否の旧基準・本 lesson が lock 基準へ汎化）, SP-DEVSYNC-139（ff 不能時の直接マージ・本件はその happy-path 手前版）。
