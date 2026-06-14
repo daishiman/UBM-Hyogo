@@ -4972,6 +4972,18 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
 | user gate | commit、push、PR、staging/production deploy、Issue mutation |
 
+## admin-requests-approval-publish-state-diff（2026-06-11）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| Issue | `#1188`（commit / push / PR / Issue mutation は user-gated） |
+| purpose | `/admin/requests` 承認導線で `publishState` / `desiredState` / `isDeleted` の既存 3 値だけを使い、公開状態または退会レコード状態の `変更前 → 変更後` diff を日本語で表示する |
+| implementation | `RequestQueueDetail.tsx` に `formatPublishStateLabel` / `buildPublishStateDiff` と diff 行、`RequestQueuePanel.tsx` に具体遷移文言、`RequestConfirmDialog.tsx` に通常説明文 / destructive alert 分離、`globals.css` に token-only `[data-diff-side]` styles |
+| evidence | focused Vitest 3 files / 27 tests PASS、admin requests Playwright E2E 7 tests PASS、`pnpm typecheck` PASS、`pnpm lint` PASS、web design token gate PASS、`pnpm verify:phase12-compliance` PASS |
+| boundary | `apps/api` / `packages/shared` / D1 / Google Form / API projection / design token 正本は不変。staging deploy、admin bearer mint、3 canonical PNG、commit、push、PR は user-gated |
+
 ## members-search-clear-and-sort-ux（2026-06-11）
 
 | 項目 | 値 |

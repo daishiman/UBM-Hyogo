@@ -1337,3 +1337,11 @@ node scripts/search-spec.js "safeInvoke"
 | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/` | Issue #1068 admin member drawer tag inline-create UI implementation spec | drawer inline-create AC / task-A-B-C dependency / Phase 12 strict 7 を確認する時 |
 | `references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 workflow artifact inventory | 同 wave 変更棚卸し時 |
 | `references/lessons-learned-issue-1068-admin-tag-inline-create-ui-2026-06.md` | Issue #1068 lessons（L-I1068-001..008: error 分類純関数 / 多段 write 部分成功 retry / 409 権威再取得 / client validation ミラー / 共有 mock endpoint 分岐 / env-gated visual） | 2 段 write UI・tag inline-create・hook mock 設計を再利用する時 |
+
+## 2026-06-11 admin-requests approval diff
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` | `implemented_local_runtime_pending / implementation / VISUAL` workflow | Issue #1188、admin requests approval diff の Phase 11/12/13 evidence を確認する時 |
+| `apps/web/src/components/admin/RequestQueueDetail.tsx` | publish-state label / before-after diff helper と detail DOM | admin request diff 表示の正本実装を確認する時 |
+| `apps/web/src/components/admin/__tests__/RequestQueueDetail.spec.tsx`, `RequestConfirmDialog.spec.tsx`, `RequestQueuePanel.component.spec.tsx` | focused local evidence（27 tests PASS） | regression coverage を確認する時 |

@@ -2264,6 +2264,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L15 |
 
+### references/workflow-admin-requests-approval-publish-state-diff-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
+
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -9366,7 +9372,8 @@ node scripts/list-specs.js --topics
 | issue-1068-admin-tag-inline-create-ui | L4926 |
 | issue-1111-proxy-transport-util-unify | L4944 |
 | issue-1145-public-api-base-url-env-unification（2026-06-08） | L4962 |
-| members-search-clear-and-sort-ux（2026-06-11） | L4975 |
+| admin-requests-approval-publish-state-diff（2026-06-11） | L4975 |
+| members-search-clear-and-sort-ux（2026-06-11） | L4987 |
 
 ### references/task-workflow-backlog-part2.md
 
