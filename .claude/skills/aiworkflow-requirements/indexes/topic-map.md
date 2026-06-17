@@ -4416,6 +4416,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-me-404-authenticated-admin-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L13 |
+| Lessons Learned | L20 |
+
 ### references/workflow-profile-reload-session-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -9346,6 +9353,7 @@ node scripts/list-specs.js --topics
 | issue-1111-proxy-transport-util-unify | L4917 |
 | issue-1145-public-api-base-url-env-unification（2026-06-08） | L4935 |
 | members-search-clear-and-sort-ux（2026-06-11） | L4948 |
+| profile-me-404-authenticated-admin-recovery（2026-06-13） | L4960 |
 
 ### references/task-workflow-backlog-part2.md
 

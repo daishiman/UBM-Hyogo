@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## profile-me-404-authenticated-admin-recovery（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-me-404-authenticated-admin-recovery/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/profile` の authenticated admin `MEMBER_SESSION_404` を API route-miss observability + apps/api CD + web transport diagnostics + diagnosis script で復旧可能化 |
+| implementation | `apps/api/src/middleware/error-handler.ts`, `.github/workflows/api-cd.yml`, `scripts/smoke/runtime-admin-api.sh`, `scripts/diagnose-profile-session.sh`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `safe-fetch.spec.ts` |
+| evidence | API focused Vitest 5 PASS; web focused Vitest 13 PASS; diagnose/runtime-admin-api `bash -n` PASS; typecheck/lint PASS |
+| invariant | `/me` contract, D1, Google Form, `/profile` UI wording unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-me-404-authenticated-admin-recovery-artifact-inventory.md` |
+| user gate | staging deploy, authenticated `/me` 200, recovery screenshot, commit, push, PR |
+
 ## admin-schema-terminology-clarity（2026-06-11）
 
 | 項目 | 値 |

@@ -90,9 +90,22 @@ export function notFoundHandler(c: AnyContext): Response {
   } catch {
     path = c.req.url;
   }
+  // 診断: route 未マッチ時の data-cause 切り分け。secret は boolean 化のみ（値・JWT 生文字列は出さない）。
+  const hasAuthorization = c.req.header("authorization") !== undefined;
+  const sessionCookie = c.req.header("cookie") ?? "";
+  const hasSessionCookie = sessionCookie.includes("__Secure-authjs.session-token");
   const err = new ApiError({
     code: "UBM-1404",
     detail: `Route ${c.req.method} ${path} は存在しません。`,
+    log: {
+      context: {
+        reason: "route_not_matched",
+        method: c.req.method,
+        path,
+        hasAuthorization,
+        hasSessionCookie,
+      },
+    },
   });
   return errorHandler(err, c);
 }

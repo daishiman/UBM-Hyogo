@@ -1,0 +1,225 @@
+# 目的: Cloudflare Workers apps/api の dev/main デプロイ
+# 範囲: dev -> ubm-hyogo-api-staging, main -> ubm-hyogo-api-production
+name: api-cd
+
+on:
+  push:
+    branches: [dev, main]
+    paths:
+      - "apps/api/**"
+      - "packages/shared/**"
+      - ".github/workflows/api-cd.yml"
+
+concurrency:
+  group: api-cd-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-staging:
+    if: github.ref_name == 'dev'
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-project
+        with:
+          setup-strategy: mise
+
+      - name: Typecheck api
+        run: mise exec -- pnpm --filter @ubm-hyogo/api typecheck
+
+      - name: Deploy api to Cloudflare Workers (staging)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is empty. Confirm GitHub Environment 'staging' has CLOUDFLARE_API_TOKEN registered."
+            exit 1
+          fi
+          bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env staging 2>&1 | tee api-cd-staging-deploy.log
+
+      - name: Verify deploy log redaction (staging)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: bash scripts/redaction-check.sh --log api-cd-staging-deploy.log --account-id "$CLOUDFLARE_ACCOUNT_ID"
+
+  admin-api-runtime-smoke:
+    if: github.ref_name == 'dev'
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment:
+      name: staging-runtime-smoke
+    timeout-minutes: 10
+    env:
+      STAGING_API_BASE: ${{ secrets.STAGING_API_BASE }}
+      STAGING_AUTH_SECRET: ${{ secrets.STAGING_AUTH_SECRET }}
+      STAGING_ADMIN_MEMBER_ID: ${{ secrets.STAGING_ADMIN_MEMBER_ID }}
+      STAGING_ADMIN_EMAIL: ${{ secrets.STAGING_ADMIN_EMAIL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-project
+        with:
+          setup-strategy: mise
+
+      - name: check runtime smoke prerequisites
+        id: prereq
+        run: |
+          missing=()
+          for name in STAGING_API_BASE STAGING_AUTH_SECRET STAGING_ADMIN_MEMBER_ID STAGING_ADMIN_EMAIL; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf 'skip_reason=missing:%s\n' "${missing[*]}" >> "$GITHUB_OUTPUT"
+            printf '::notice::admin api runtime smoke skipped; missing staging-runtime-smoke secret names: %s\n' "${missing[*]}"
+            exit 0
+          fi
+          echo 'skip_reason=' >> "$GITHUB_OUTPUT"
+
+      - name: mint admin session cookie
+        if: steps.prereq.outputs.skip_reason == ''
+        env:
+          MINT_TTL_SECONDS: '600'
+        run: |
+          mint_out="$(mktemp)"
+          GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-session-cookie.mts
+          cookie="$(grep '^admin_session_cookie=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          rm -f "$mint_out"
+          echo "::add-mask::$cookie"
+          echo "STAGING_ADMIN_SESSION_COOKIE=$cookie" >> "$GITHUB_ENV"
+
+      - name: run admin api runtime smoke
+        if: steps.prereq.outputs.skip_reason == ''
+        run: |
+          mkdir -p ci-evidence
+          bash scripts/smoke/runtime-admin-api.sh staging --out-dir ci-evidence --ci-summary
+
+      - name: redaction grep gate
+        if: always() && steps.prereq.outputs.skip_reason == ''
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-|__Secure-authjs\.session-token=[A-Za-z0-9._~+\/=-]+' ci-evidence/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload admin api runtime smoke evidence
+        if: always() && steps.prereq.outputs.skip_reason == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-api-runtime-smoke-staging-${{ github.run_id }}
+          path: ci-evidence/
+          retention-days: 30
+
+  deploy-production:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-project
+        with:
+          setup-strategy: mise
+
+      - name: Typecheck api
+        run: mise exec -- pnpm --filter @ubm-hyogo/api typecheck
+
+      - name: Deploy api to Cloudflare Workers (production)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -o pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is empty. Confirm GitHub Environment 'production' has CLOUDFLARE_API_TOKEN registered."
+            exit 1
+          fi
+          bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production 2>&1 | tee api-cd-production-deploy.log
+
+      - name: Verify deploy log redaction (production)
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: bash scripts/redaction-check.sh --log api-cd-production-deploy.log --account-id "$CLOUDFLARE_ACCOUNT_ID"
+
+  admin-api-runtime-smoke-production:
+    if: github.ref_name == 'main'
+    needs: deploy-production
+    runs-on: ubuntu-latest
+    environment:
+      name: production-runtime-smoke
+    timeout-minutes: 10
+    env:
+      PRODUCTION_API_BASE: ${{ secrets.PRODUCTION_API_BASE }}
+      PRODUCTION_AUTH_SECRET: ${{ secrets.PRODUCTION_AUTH_SECRET }}
+      PRODUCTION_ADMIN_MEMBER_ID: ${{ secrets.PRODUCTION_ADMIN_MEMBER_ID }}
+      PRODUCTION_ADMIN_EMAIL: ${{ secrets.PRODUCTION_ADMIN_EMAIL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-project
+        with:
+          setup-strategy: mise
+
+      - name: check runtime smoke prerequisites
+        id: prereq
+        run: |
+          missing=()
+          for name in PRODUCTION_API_BASE PRODUCTION_AUTH_SECRET PRODUCTION_ADMIN_MEMBER_ID PRODUCTION_ADMIN_EMAIL; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf 'skip_reason=missing:%s\n' "${missing[*]}" >> "$GITHUB_OUTPUT"
+            printf '::notice::admin api runtime smoke skipped; missing production-runtime-smoke secret names: %s\n' "${missing[*]}"
+            exit 0
+          fi
+          echo 'skip_reason=' >> "$GITHUB_OUTPUT"
+
+      - name: mint admin session cookie
+        if: steps.prereq.outputs.skip_reason == ''
+        env:
+          MINT_TTL_SECONDS: '600'
+        run: |
+          mint_out="$(mktemp)"
+          GITHUB_OUTPUT="$mint_out" pnpm exec tsx scripts/smoke/mint-staging-session-cookie.mts production
+          cookie="$(grep '^admin_session_cookie=' "$mint_out" | tail -n1 | cut -d= -f2-)"
+          rm -f "$mint_out"
+          echo "::add-mask::$cookie"
+          echo "PRODUCTION_ADMIN_SESSION_COOKIE=$cookie" >> "$GITHUB_ENV"
+
+      - name: run admin api runtime smoke
+        if: steps.prereq.outputs.skip_reason == ''
+        run: |
+          mkdir -p ci-evidence
+          bash scripts/smoke/runtime-admin-api.sh production --out-dir ci-evidence --ci-summary
+
+      - name: redaction grep gate
+        if: always() && steps.prereq.outputs.skip_reason == ''
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-|__Secure-authjs\.session-token=[A-Za-z0-9._~+\/=-]+' ci-evidence/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload admin api runtime smoke evidence
+        if: always() && steps.prereq.outputs.skip_reason == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-api-runtime-smoke-production-${{ github.run_id }}
+          path: ci-evidence/
+          retention-days: 30
