@@ -1,11 +1,9 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "1eacd087421756b1bf9950a5eed7a339f8947e82",
-  "captured_at": "2026-06-14T01:01:29Z",
+  "captured_at_commit_sha": "41fcdc3b6e1a0e6bd595f803a5211e84bde6ae50",
+  "captured_at": "2026-06-17T11:40:03Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "27308537802",
-    "27317315197",
     "27320055437",
     "27338498326",
     "27340194772",
@@ -14,7 +12,8 @@
     "27420636323",
     "27423389399",
     "27452557308",
-    "27483969542"
+    "27483969542",
+    "27685632379"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -42,5 +41,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "[PR #1231 最新フル再生成・run 27483969542] /admin/identity-conflicts を「会員の重複確認」へ平易化＋見出し/ボタン改名による意図的UI変更で full-visual-admin-identity-conflicts-{desktop,tablet,mobile}.png baseline が陳腐化したため再生成。本ブランチの baseline は以下 dev 取込分も内包する: (1) admin-requests 公開状態 before→after diff (PR #1235・run 27420636323)。(2) PR #1220: /admin/tags TagManagementGuide 縦長化に追従した admin-tags baseline。(3) dev #1221: admin-schema baseline 再生成。"
+  "last_refresh_reason": "PR#1222 7th-pass: /admin 意図的UI再設計によるvisual baseline陳腐化の解消（最新HEAD 41fcdc3b6 基準・146-D手順で最終push完了後に起動）。fail 6=visual-full×3+sidebar-shell visual×3 全admin slug限局、機能系CI全pass、コード修正0確認済（L-DEVSYNC-145-B/C・146）"
 }
