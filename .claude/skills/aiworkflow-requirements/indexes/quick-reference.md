@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## issue-1189-deleted-member-410-guidance-and-restore（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1189-deleted-member-410-guidance-and-restore/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / local_static_visual_present_staging_visual_pending_user_gate` |
+| issue | #1189 OPEN（state / label mutation は user-gated） |
+| purpose | 退会済み会員の `/profile` 410 行き止まり UX を退会済み明示 + 公開トップ CTA へ変え、管理者が既存 restore API を MemberDrawer から実行できるようにする |
+| implementation | `apps/web/app/(member)/profile/_lib/session-error-display.ts`, `apps/web/app/(member)/profile/_lib/__tests__/session-error-display.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/features/admin/components/_members/__tests__/MemberDrawer.restore.spec.tsx` |
+| evidence | focused Vitest 3 files / 24 tests PASS; local static visual screenshots 3 PNG present; typecheck PASS; lint PASS; verify:tokens PASS; verify:phase12-compliance PASS |
+| invariant | apps/api / D1 schema / Google Form / restore endpoint contract unchanged; general member self-restore is out of scope by product decision |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1189-deleted-member-410-guidance-and-restore-artifact-inventory.md` |
+| user gate | staging D1 mutation, authenticated runtime screenshots, commit, push, PR, Issue mutation |
+
 ## admin-members-timestamp-jst-and-identity-label-clarity（2026-06-10）
 
 | 項目 | 値 |
