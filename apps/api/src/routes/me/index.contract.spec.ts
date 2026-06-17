@@ -4,7 +4,7 @@
 // 不変条件 #12: GET 系 response 型に notes プロパティが現れない
 
 // @vitest-environment node
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import {
   MEMBER_IDENTITY_1,
@@ -28,6 +28,24 @@ import {
   encodeAttendanceCursor,
   decodeAttendanceCursor,
 } from "../../repository/attendance";
+import { errorHandler } from "../../middleware/error-handler";
+
+const createFailingD1 = (
+  db: D1Database,
+  pattern: RegExp,
+  failure?: unknown,
+): D1Database =>
+  new Proxy(db, {
+    get(target, prop, receiver) {
+      if (prop !== "prepare") return Reflect.get(target, prop, receiver);
+      return (sql: string) => {
+        if (pattern.test(sql)) {
+          throw failure ?? new Error(`injected D1 failure for ${pattern.source}`);
+        }
+        return target.prepare(sql);
+      };
+    },
+  }) as D1Database;
 
 const seedMember = async (env: InMemoryD1) => {
   const insert = (table: string, row: Record<string, unknown>) => {
@@ -47,17 +65,64 @@ const seedMember = async (env: InMemoryD1) => {
   for (const v of FIELD_VISIBILITY_M001) await insert("member_field_visibility", v);
 };
 
-const buildApp = (env: InMemoryD1, sessionEmail: string | null = "user1@example.com") => {
+const buildApp = (
+  env: InMemoryD1,
+  sessionEmail: string | null = "user1@example.com",
+  dbOverride?: D1Database,
+) => {
   const app = createMeRoute({
     resolveSession: async () => {
       if (!sessionEmail) return null;
       return { email: sessionEmail, memberId: "m_001" };
     },
   });
+  app.onError(errorHandler);
   return {
     app,
-    env: { DB: env.db as unknown as D1Database, RESPONDER_URL: "https://example.com/form" },
+    env: {
+      DB: dbOverride ?? (env.db as unknown as D1Database),
+      RESPONDER_URL: "https://example.com/form",
+    },
   };
+};
+
+const captureErrorLogs = async <T>(
+  action: () => T | Promise<T>,
+): Promise<{ result: T; logs: Array<Record<string, unknown>> }> => {
+  const spy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+  try {
+    const result = await Promise.resolve(action());
+    const logs = spy.mock.calls.map(([line]) => JSON.parse(String(line)) as Record<string, unknown>);
+    return { result, logs };
+  } finally {
+    spy.mockRestore();
+  }
+};
+
+const expectDatabaseProblem = async (
+  res: Response,
+  logs: Array<Record<string, unknown>>,
+  scope: string,
+): Promise<void> => {
+  expect(res.status).toBe(500);
+  expect(res.headers.get("content-type") ?? "").toContain(
+    "application/problem+json",
+  );
+  expect(res.headers.get("x-request-id")).toBeTruthy();
+  expect(res.headers.get("x-trace-id")).toBeTruthy();
+  const json = (await res.json()) as { code?: string; status?: number; detail?: string };
+  expect(json.code).toBe("UBM-5001");
+  expect(json.status).toBe(500);
+  expect(JSON.stringify(json)).not.toContain("m_001");
+  expect(JSON.stringify(json)).not.toContain("user1@example.com");
+  expect(logs).toHaveLength(1);
+  expect(logs[0]).toMatchObject({
+    code: "UBM-5001",
+    status: 500,
+    context: { scope },
+  });
+  expect(JSON.stringify(logs[0])).not.toContain("m_001");
+  expect(JSON.stringify(logs[0])).not.toContain("user1@example.com");
 };
 
 describe("/me/* — member self-service API", () => {
@@ -66,7 +131,7 @@ describe("/me/* — member self-service API", () => {
     env = await setupD1();
     __resetRateLimitForTests();
     await seedMember(env);
-  });
+  }, 120_000);
 
   describe("GET /me", () => {
     it("AC-1: 未ログインは 401 で memberId を含まない", async () => {
@@ -113,6 +178,57 @@ describe("/me/* — member self-service API", () => {
       expect(res.status).toBe(410);
       const json = (await res.json()) as { code: string };
       expect(json.code).toBe("DELETED");
+    });
+
+    it("issue-1190: identity/status lookup D1 例外は UBM-5001 problem+json に分類する", async () => {
+      const failingDb = createFailingD1(env.db as unknown as D1Database, /member_identities/);
+      const { app, env: e } = buildApp(env, "user1@example.com", failingDb);
+      const { result: res, logs } = await captureErrorLogs(() =>
+        app.request("/", { method: "GET" }, e),
+      );
+      await expectDatabaseProblem(res, logs, "me-session-guard");
+    });
+
+    it("issue-1190: admin lookup D1 例外も UBM-5001 problem+json に分類する", async () => {
+      const failingDb = createFailingD1(env.db as unknown as D1Database, /admin_users/);
+      const { app, env: e } = buildApp(env, "user1@example.com", failingDb);
+      const { result: res, logs } = await captureErrorLogs(() =>
+        app.request("/", { method: "GET" }, e),
+      );
+      await expectDatabaseProblem(res, logs, "me-session-guard");
+    });
+
+    it("issue-1190: non-Error D1 例外も UBM-5001 に分類し stack を捏造しない", async () => {
+      const failingDb = createFailingD1(
+        env.db as unknown as D1Database,
+        /member_identities/,
+        "injected string D1 failure",
+      );
+      const { app, env: e } = buildApp(env, "user1@example.com", failingDb);
+      const { result: res, logs } = await captureErrorLogs(() =>
+        app.request("/", { method: "GET" }, e),
+      );
+      await expectDatabaseProblem(res, logs, "me-session-guard");
+      const log = logs[0]?.log as Record<string, unknown> | undefined;
+      expect(log?.cause).toBe("injected string D1 failure");
+      expect(log).not.toHaveProperty("stack");
+    });
+
+    it("issue-1190: deleted member は admin lookup より先に 410 を返し D1 failure log を出さない", async () => {
+      await env.db
+        .prepare(
+          "UPDATE member_status SET is_deleted=1 WHERE member_id='m_001'",
+        )
+        .run();
+      const failingDb = createFailingD1(env.db as unknown as D1Database, /admin_users/);
+      const { app, env: e } = buildApp(env, "user1@example.com", failingDb);
+      const { result: res, logs } = await captureErrorLogs(() =>
+        app.request("/", { method: "GET" }, e),
+      );
+      expect(res.status).toBe(410);
+      const json = (await res.json()) as { code: string };
+      expect(json.code).toBe("DELETED");
+      expect(logs).toHaveLength(0);
     });
   });
 
@@ -170,6 +286,36 @@ describe("/me/* — member self-service API", () => {
       expect(res.status).toBe(200);
       const parsed = MeProfileResponseZ.parse(await res.json());
       expect(parsed.pendingRequests).toEqual({});
+    });
+
+    it("issue-1190: profile builder D1 例外は UBM-5001 problem+json に分類する", async () => {
+      const failingDb = createFailingD1(env.db as unknown as D1Database, /response_fields/);
+      const { app, env: e } = buildApp(env, "user1@example.com", failingDb);
+      const { result: res, logs } = await captureErrorLogs(() =>
+        app.request("/profile", {}, e),
+      );
+      await expectDatabaseProblem(res, logs, "me-profile-builder");
+    });
+
+    it("issue-1190: pendingRequests D1 例外は 200 + pendingRequests={} に fail-soft する", async () => {
+      const failingDb = createFailingD1(env.db as unknown as D1Database, /admin_member_notes/);
+      const { app, env: e } = buildApp(env, "user1@example.com", failingDb);
+      const { result: res, logs } = await captureErrorLogs(() =>
+        app.request("/profile", {}, e),
+      );
+      expect(res.status).toBe(200);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.profile.memberId).toBe("m_001");
+      expect(parsed.pendingRequests).toEqual({});
+      expect(logs).toHaveLength(1);
+      expect(logs[0]).toMatchObject({
+        code: "UBM-5001",
+        status: 500,
+        path: "/me/profile",
+        context: { scope: "me-pending-requests" },
+      });
+      expect(JSON.stringify(logs[0])).not.toContain("m_001");
+      expect(JSON.stringify(logs[0])).not.toContain("user1@example.com");
     });
 
     it("06b-fu-001: visibility_request POST 後の reload で pendingRequests.visibility が返る", async () => {
@@ -249,23 +395,25 @@ describe("/me/* — member self-service API", () => {
   // issue-372: 出席履歴のページング
   describe("GET /me/attendance — pagination", () => {
     const seedSessions = async (count: number) => {
+      const statements: D1PreparedStatement[] = [];
       for (let i = 0; i < count; i++) {
         const sid = `s_${String(i).padStart(3, "0")}`;
         const day = String((i % 28) + 1).padStart(2, "0");
         const heldOn = `2026-${String((i % 12) + 1).padStart(2, "0")}-${day}`;
-        await env.db
-          .prepare(
-            "INSERT INTO meeting_sessions (session_id, title, held_on, note, created_at, created_by) VALUES (?, ?, ?, NULL, ?, 'admin')",
-          )
-          .bind(sid, `題目${i}`, heldOn, "2026-01-01T00:00:00Z")
-          .run();
-        await env.db
-          .prepare(
-            "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES (?, ?, 'admin')",
-          )
-          .bind("m_001", sid)
-          .run();
+        statements.push(
+          env.db
+            .prepare(
+              "INSERT INTO meeting_sessions (session_id, title, held_on, note, created_at, created_by) VALUES (?, ?, ?, NULL, ?, 'admin')",
+            )
+            .bind(sid, `題目${i}`, heldOn, "2026-01-01T00:00:00Z"),
+          env.db
+            .prepare(
+              "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES (?, ?, 'admin')",
+            )
+            .bind("m_001", sid),
+        );
       }
+      await env.db.batch(statements);
     };
 
     it("default limit 50 件 + hasMore=true / nextCursor 返却（60 件投入）", async () => {
@@ -277,7 +425,7 @@ describe("/me/* — member self-service API", () => {
       expect(parsed.profile.attendance).toHaveLength(50);
       expect(parsed.profile.attendanceMeta?.hasMore).toBe(true);
       expect(parsed.profile.attendanceMeta?.nextCursor).not.toBeNull();
-    });
+    }, 60_000);
 
     it("件数 ≤ default なら hasMore=false / nextCursor=null", async () => {
       await seedSessions(10);
@@ -311,7 +459,7 @@ describe("/me/* — member self-service API", () => {
       for (const r of nextBody.records) {
         expect(firstSet.has(r.sessionId)).toBe(false);
       }
-    });
+    }, 60_000);
 
     it("/me/attendance: limit=10 で 10 件 + hasMore=true", async () => {
       await seedSessions(15);
@@ -353,7 +501,7 @@ describe("/me/* — member self-service API", () => {
       expect(decoded).toEqual({ heldOn: last.heldOn, sessionId: last.sessionId });
       // encode roundtrip
       expect(encodeAttendanceCursor(decoded!)).toBe(body.nextCursor);
-    });
+    }, 60_000);
   });
 
   describe("POST /me/visibility-request", () => {

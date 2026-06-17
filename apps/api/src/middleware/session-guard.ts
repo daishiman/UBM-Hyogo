@@ -20,6 +20,7 @@ import { findIdentityByMemberId } from "../repository/identities";
 import { getStatus } from "../repository/status";
 import { findByEmail as findAdminByEmail } from "../repository/adminUsers";
 import { adminEmail as toAdminEmail } from "../repository/_shared/brand";
+import { ApiError } from "@ubm-hyogo/shared/errors";
 
 export type AuthGateState = "active" | "rules_declined" | "deleted";
 
@@ -60,6 +61,24 @@ const errorBody = (code: string, extra?: Record<string, unknown>) => ({
   ...(extra ?? {}),
 });
 
+type MeSessionGuardDatabaseScope = "me-session-guard";
+
+const toMeDatabaseError = (
+  scope: MeSessionGuardDatabaseScope,
+  err: unknown,
+): ApiError => {
+  const log: {
+    cause: unknown;
+    context: { scope: MeSessionGuardDatabaseScope };
+    stack?: string;
+  } = {
+    cause: err,
+    context: { scope },
+  };
+  if (err instanceof Error && err.stack !== undefined) log.stack = err.stack;
+  return new ApiError({ code: "UBM-5001", log });
+};
+
 /**
  * GET /me 系で利用する session 必須 middleware。
  * - session 未解決 → 401 UNAUTHENTICATED
@@ -81,10 +100,16 @@ export const sessionGuard = (
     const ctx = makeCtx({ DB: c.env.DB });
     const memberId = asMemberId(session.memberId);
 
-    const [identity, status] = await Promise.all([
-      findIdentityByMemberId(ctx, memberId),
-      getStatus(ctx, memberId),
-    ]);
+    let identity: Awaited<ReturnType<typeof findIdentityByMemberId>>;
+    let status: Awaited<ReturnType<typeof getStatus>>;
+    try {
+      [identity, status] = await Promise.all([
+        findIdentityByMemberId(ctx, memberId),
+        getStatus(ctx, memberId),
+      ]);
+    } catch (err) {
+      throw toMeDatabaseError("me-session-guard", err);
+    }
 
     if (!identity || !status) {
       // session 由来の memberId が D1 と整合しない (削除直後・同期未完了 等)
@@ -102,7 +127,12 @@ export const sessionGuard = (
     const authGateState: AuthGateState =
       status.rules_consent === "consented" ? "active" : "rules_declined";
 
-    const adminRow = await findAdminByEmail(ctx, toAdminEmail(session.email));
+    let adminRow: Awaited<ReturnType<typeof findAdminByEmail>>;
+    try {
+      adminRow = await findAdminByEmail(ctx, toAdminEmail(session.email));
+    } catch (err) {
+      throw toMeDatabaseError("me-session-guard", err);
+    }
     const isAdmin = adminRow !== null && adminRow.active;
 
     const user: SessionUser = {

@@ -1,5 +1,17 @@
 # クイックリファレンス
 
+## issue-1190-me-5xx-root-fix（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1190-me-5xx-root-fix/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| purpose | `/me` 系の二次データ D1 例外を fail-soft 化し、一次データ D1 例外を `UBM-5001` + scope で分類する |
+| targets | `apps/api/src/routes/me/index.ts`, `apps/api/src/middleware/session-guard.ts`, `apps/api/src/routes/me/index.contract.spec.ts` |
+| evidence | issue-focused D1 contract tests 6 PASS、full `/me` contract spec 34 PASS、API typecheck/lint PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1190-me-5xx-root-fix-artifact-inventory.md` |
+| user gate | commit / push / PR / Issue mutation / staging deploy / staging tail |
+
 ## admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
 
 | 項目 | 値 |

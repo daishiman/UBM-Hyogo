@@ -1,0 +1,5 @@
+API typecheck: mise exec -- pnpm --filter @ubm-hyogo/api typecheck => exit code 0
+API lint: mise exec -- pnpm --filter @ubm-hyogo/api lint => exit code 0
+apps/web diff: git diff --stat -- apps/web => empty output
+apps/api migrations diff: git diff --stat -- apps/api/migrations => empty output
+Context scope literals are limited to me-session-guard, me-profile-builder, me-pending-requests in changed API files.

@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1190-me-5xx-root-fix（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / staging_runtime_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1190-me-5xx-root-fix/` |
+| 目的 | `/me` 系の回避可能な 5xx を根治し、D1 例外を `UBM-5001` + scope で分類可能にする |
+| implementation targets | `apps/api/src/routes/me/index.ts`, `apps/api/src/middleware/session-guard.ts`, `apps/api/src/routes/me/index.contract.spec.ts` |
+| evidence | issue-focused D1 contract tests 6 PASS、full `/me` contract spec 34 PASS、API typecheck PASS、API lint PASS |
+| invariant | `/me` path / response shape / status taxonomy / D1 schema / Google Form schema / apps/web UI unchanged。memberId / email は error response / log context に出さない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1190-me-5xx-root-fix-artifact-inventory.md` |
+| user gate | commit、push、PR、Issue #1190 mutation、staging deploy、staging tail verification |
+
 ### admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
 
 | 項目 | 値 |
