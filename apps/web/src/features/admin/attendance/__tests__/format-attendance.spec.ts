@@ -17,9 +17,9 @@ describe("format-attendance", () => {
   });
 
   it("formatDelta shows arrow", () => {
-    expect(formatDelta(0.6, 0.5).startsWith("↑")).toBe(true);
-    expect(formatDelta(0.4, 0.5).startsWith("↓")).toBe(true);
-    expect(formatDelta(0.5, 0.5).startsWith("→")).toBe(true);
+    expect(formatDelta(0.6, 0.5)).toBe("↑10.0ポイント");
+    expect(formatDelta(0.4, 0.5)).toBe("↓10.0ポイント");
+    expect(formatDelta(0.5, 0.5)).toBe("→0.0ポイント");
     expect(formatDelta(0.5, null)).toBe("—");
   });
 
@@ -47,5 +47,6 @@ describe("format-attendance", () => {
       "zone_100_plus",
     ]);
     expect(ZONE_HELP).toContain("100 回以上");
+    expect(ZONE_HELP).toContain("各メンバーがこれまでに参加した合計回数");
   });
 });

@@ -21,6 +21,32 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1190-me-5xx-root-fix-artifact-inventory.md` |
 | user gate | commit、push、PR、Issue #1190 mutation、staging deploy、staging tail verification |
 
+### admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/` |
+| 目的 | `/admin/dashboard/attendance` の英語見出し・エンジニア用語（PRIMARY/TREND/DETAIL/TOP10/CSV/セッション/ユニーク/KPI/pt 等）を平易な日本語へ統一し、長い日本語ラベルでも読めるよう軽微な CSS rhythm を整える |
+| implementation targets | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/src/features/admin/attendance/components/{AttendanceAnalyticsPage,KpiPanel,AttendanceAbsenteeAlert,AttendanceDetailTabs,AttendanceFilterBar,AttendanceTrendChart,AttendanceZoneDistributionChart,SessionAttendanceTable}.tsx`, `apps/web/src/features/admin/attendance/lib/format-attendance.ts`, `apps/web/src/styles/globals.css`, focused attendance specs, `apps/web/playwright/tests/admin-attendance-dashboard-ux.spec.ts` |
+| evidence | focused Vitest `apps/web/src/features/admin/attendance/__tests__` 8 files / 23 tests PASS、local Playwright fixture screenshot 6 PNG present、`verify:tokens` PASS、Phase 12 implementation-guide validator 12/12 PASS、`apps/api` / `packages/shared` diff empty |
+| invariant | API endpoint / D1 schema / Google Form schema / shared types / design token / primitive catalog unchanged。apps/web は既存 API/BFF 経由のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
+| user gate | authenticated staging baseline screenshots, commit, push, PR |
+
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| 目的 | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation targets | `apps/web/src/components/shell/shell-config.ts`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/IdentityConflictGuide.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/features/admin/identity-conflicts/identityConflictGlossary.ts`, `apps/api/src/testing/identity-conflicts/**`, `apps/api/migrations/seed/identity-conflict-{staging-seed,cleanup}.sql`, `scripts/gen-identity-conflict-seed.mjs`, `scripts/seed-identity-conflicts.sh` |
+| evidence | focused Vitest 5 files / 42 tests PASS。seed generator drift 0、idempotent、scoped cleanup、exactly 5 conflict candidates を contract test で確認。`verify:tokens` / `typecheck` / `lint` / `verify:phase12-compliance` PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged。`matchedFields` は web glossary で表示変換。seed は local/staging 限定で production 到達不可 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
 ### admin-tag-management-clarity-and-code-autogen（2026-06-11）
 
 | 項目 | 値 |
