@@ -4,6 +4,14 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-146: 仕様書 Phase 11/13 の CI 検証手順に「visual-full fail は screenshot-stale と overflow-guard 実バグの 2 分類で扱い、baseline 再生成は overflow guard 0 が前提」を逐語化する（L-DEVSYNC-146 の task-spec 版・SP-DEVSYNC-141 の補完）
+- 2026-06-17 `feat/responsive-mobile-tablet-ui-fixes`（wt-2・PR #1236・visual 7 job fail）。dev sync push 後 visual-full が fail したが、`scrollWidth<=clientWidth` overflow guard fail（実 CSS バグ）と screenshot stale が混在し、過去の baseline-update workflow は overflow guard で abort し regenerate step が fail していた。
+- How to apply（仕様書 Phase 11/13 の CI 検証手順への逐語化）:
+  1. **fail の 2 分類診断**: 仕様書に「`gh run view --log-failed --job=<id>` で per-test error を見て、`toBe(expected)`+`Received: false` = overflow guard（実 CSS バグ）／`toHaveScreenshot`+`Expected an image WxH` = baseline stale と判別する」を明記。tablet が overflow 0 で mobile に集中するなら携帯固有レスポンシブ崩れと当たりを付ける。
+  2. **baseline 再生成の前提条件**: 「`playwright-visual-baseline-update.yml`（承認ゲート付き）は `--update-snapshots` するが、spec が screenshot より前に overflow guard を置く構成では guard fail でテストが abort し regenerate step が fail する。よって overflow guard を 0 にしてから baseline 再生成する」を CI 解消順序として逐語化（① CSS 修正 → ② baseline 再生成）。過去 run が regenerate step fail なら overflow 未解消を疑う。
+  3. **overflow 原因特定の手順**: 「visual project の testDir に一時診断 spec（全要素走査で `rect.right > clientWidth` のリーフ + 祖先チェーンの width/min-width/box-sizing/grid-template を dump）を置き既存 fixture/dev サーバ上で実走させる。確認後に診断 spec と test-results 証跡 dir を削除（`rm` 権限ブロック時は `node -e fs.rmSync`）」を仕様書 evidence 手順に書く。定番修正は overflow-x ラッパー / mobile 単カラム `minmax(0,1fr)` collapse（固定 px 下限は SectionCard 入れ子の intrinsic sizing 下で `min(px,100%)` の 100% を解決できず blowup する）。
+- 検証: `gh pr checks 1236` で visual 7 fail → log 抽出で overflow guard 5 系統確定 → 診断 spec でリーフ特定 → RecentActionsTable overflow-x-auto ラップ / admin-requests-grid mobile 単カラム / member-grid comfy・dense mobile `minmax(0,1fr)` → 全 19 ルート×3vp over=0 実測 → typecheck/lint exit 0 → commit `165cea5aa`。
+
 ### SP-DEVSYNC-145: 仕様書 Phase 5/11 の dev sync 手順に「install 要否は pnpm-lock.yaml 変更で判定（package.json scripts-only は install skip）」と「merge 後の origin/dev 取込完全性 re-check + 並列 push による再マージ」を逐語化する（L-DEVSYNC-145 の task-spec 版・SP-DEVSYNC-140 の補正）
 - 2026-06-17 `feat/responsive-mobile-tablet-ui-fixes`（wt-2・behind 1 / ahead 4 → 作業中に origin/dev 1 件先行で 2 波・merge `6ef90375a` + `68c083efe`）。取込 #1231 が root + apps/api の `package.json` を変更したが `scripts` 追加のみで `pnpm-lock.yaml` 不変。SP-DEVSYNC-140 の「install 要否は pnpm-lock.yaml / package.json 変更有無で判定」を素直に書いた仕様書は package.json scripts-only でも install を走らせる過大手順になる。さらに 1 波目 merge 後に origin/dev が #1230 で 1 件先行していた（並列セッションの dev push）。
 - How to apply（仕様書 Phase 5/11 への逐語化）:
