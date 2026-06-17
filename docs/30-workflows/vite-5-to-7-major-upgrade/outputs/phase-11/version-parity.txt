@@ -1,0 +1,12 @@
+Commands:
+pnpm why vite
+pnpm list vite @vitejs/plugin-react vitest @vitest/coverage-v8 --depth 0
+
+Date: 2026-06-13 JST
+Result: PASS
+
+Observed:
+- vite resolved to 7.3.5.
+- Found 1 version of vite.
+- root devDependencies include vite 7.3.5, @vitejs/plugin-react 4.7.0, vitest 3.2.6, and @vitest/coverage-v8 3.2.6.
+- No Vite 5 / Vite 7 duplicate resolution remains.

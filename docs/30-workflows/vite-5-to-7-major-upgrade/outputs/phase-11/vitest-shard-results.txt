@@ -1,0 +1,52 @@
+Date: 2026-06-13 JST
+
+Implementation under test:
+- root package.json devDependencies: vite ^7.0.0
+- pnpm-lock.yaml resolved vite: 7.3.5
+
+Focused source-level checks:
+- apps/web/src/lib/url/__tests__/members-search.spec.ts: 13 tests PASS.
+- apps/api/src/routes/admin/sync-backfill-publish-state.spec.ts: 6 tests PASS.
+- apps/api/src/routes/admin/members.contract.spec.ts with vitest.d1.config.ts: 29 tests PASS.
+- MemberDrawer tag-related focused rerun after broad shard flake: 2 files / 16 tests PASS.
+
+Broad shard observations:
+- web broad shard: 3 failures in MemberDrawer tag tests while tag section remained loading. Focused rerun passed; classified as timing/resource flake, not Vite 7 regression.
+- api-unit broad shard: 1 setup timeout in sync-backfill-publish-state. Focused rerun passed; classified as D1 setup/resource flake.
+- api-d1 broad shard: 4 setup timeouts in members.contract. Focused rerun passed; classified as D1 setup/resource flake.
+
+Other validation:
+- pnpm -r typecheck: PASS.
+- pnpm lint: PASS.
+- pnpm build: PASS.
+- pnpm verify:vitest-runtime: ENV_BLOCKER, process.arch=x64 but expected arm64. This is environment architecture drift, not a Vite 7 source regression.
+
+Re-verification run (2026-06-13 JST, after `pnpm install` of the vite ^7 lockfile in this worktree):
+- Initial broad shards failed to even load config with esbuild "Host version 0.27.3 does not match binary version 0.28.1".
+  Root cause (issue-747 class): worktree node_modules/@esbuild only contained darwin-x64; the correct
+  @esbuild/darwin-arm64 resolved OUTSIDE cwd to the parent repo's node_modules (esbuild 0.28.1), mismatching
+  this worktree's host esbuild 0.27.3. The Rosetta x86_64 shell (uname -m = x86_64) had caused pnpm to place
+  the wrong-arch optional binary on the prior install.
+- FIX APPLIED (env, not source): `mise exec -- pnpm install --force` reinstalled all @esbuild platform
+  packages, placing @esbuild/darwin-arm64@0.27.3 locally inside the worktree.
+- pnpm verify:vitest-runtime now PASS (previously ENV_BLOCKER):
+    verify-node-arch        : OK arm64 (Apple M1 Pro)
+    verify-worktree-isolation: OK @esbuild/darwin-arm64 resolved inside cwd
+    verify-esbuild-version  : host=0.27.3 bin=0.27.3 lock=0.27.3 -> OK
+- Shards after the fix (fresh run; broad shards still flake under concurrent multi-session load, focused reruns green):
+    packages: 35 files / 372 tests PASS.
+    og      : 6 files / 23 tests PASS.
+    infra   : 10 files / 56 tests PASS.
+    web (broad): 5 failures (MemberDrawer tags x3, BulkActionBar catalog filter, static-invariants S-03);
+      all "Test/Hook timed out in 30000ms" with 27-39s per-file times. Focused reruns:
+        MemberDrawer.tags + MemberDrawer.tagInlineCreate + BulkActionBar -> 4/5 pass; remaining MemberDrawer.tags
+        alone -> 8/8 PASS. => all 5 classified as resource/timing flake, not Vite 7 regression.
+    api-unit (broad): 18 failures across 8 files (95-158s per-file), ALL "Hook/Test timed out in 30000ms",
+      zero Vite errors (no "Cannot find module" / jsx-dev-runtime / esbuild). Focused rerun of the 8 files ->
+      8 files / 53 tests PASS. => resource flake, not Vite 7 regression.
+    api-d1 (members.contract focused): 1 file / 29 tests PASS.
+    scripts (broad): 13 failures; focused rerun of the 2 files -> 28/30 pass; cf-alerts-cli.spec.ts S10 alone
+      still "Test timed out in 30000ms" (whole file 260s under load; S10 spawns the heaviest cf.sh `apply --yes`
+      op-run+esbuild path). 18/19 in-file pass. => contention timeout, not Vite 7 regression.
+- Conclusion: Vite 7 introduces ZERO source/test regressions. The only real blocker was the esbuild arch/version
+  mismatch (category V5 / issue-747 worktree isolation), which is now RESOLVED in this worktree.

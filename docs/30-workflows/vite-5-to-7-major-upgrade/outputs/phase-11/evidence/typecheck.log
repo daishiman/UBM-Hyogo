@@ -1,0 +1,7 @@
+Command: mise exec -- pnpm typecheck
+Date: 2026-06-13 JST
+Result: PASS (exit 0)
+
+Summary:
+- Recursive package typecheck completed after Vite 7 lockfile regeneration.
+- Companion detail: outputs/phase-11/typecheck-local.txt.

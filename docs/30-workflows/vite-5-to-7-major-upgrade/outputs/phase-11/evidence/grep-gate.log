@@ -1,0 +1,14 @@
+Commands:
+- mise exec -- pnpm why vite
+- mise exec -- pnpm list vite @vitejs/plugin-react vitest @vitest/coverage-v8 --depth 0
+- mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/lib/url/__tests__/members-search.spec.ts
+- rg -i "deprecat|splitVendorChunk|legacy|CJS Node API|warn" /tmp/vite-deprecation-check.log
+
+Date: 2026-06-13 JST
+Result: PASS
+
+Summary:
+- vite resolved to a single Vite 7 line: vite@7.3.5.
+- No Vite 5 / Vite 7 duplicate resolution remains.
+- Vite deprecation / removed API warning grep returned 0 matches.
+- Companion detail: outputs/phase-11/version-parity.txt and outputs/phase-11/deprecation-grep.txt.

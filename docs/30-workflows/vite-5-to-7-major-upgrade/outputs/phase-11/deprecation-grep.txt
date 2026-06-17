@@ -1,0 +1,10 @@
+Command:
+pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/lib/url/__tests__/members-search.spec.ts
+rg -i "deprecat|splitVendorChunk|legacy|CJS Node API|warn" /tmp/vite-deprecation-check.log || true
+
+Date: 2026-06-13 JST
+Result: PASS
+
+Observed:
+- apps/web/src/lib/url/__tests__/members-search.spec.ts: 13 tests passed.
+- Vite deprecation / removed API warning grep: 0 matches.

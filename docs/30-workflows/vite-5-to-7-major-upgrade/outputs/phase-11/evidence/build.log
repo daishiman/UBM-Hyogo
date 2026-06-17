@@ -1,0 +1,8 @@
+Command: mise exec -- pnpm build
+Date: 2026-06-13 JST
+Result: PASS (exit 0)
+
+Summary:
+- apps/web production build remains the Next.js webpack/OpenNext path.
+- Vite is test-toolchain only and did not enter the deploy bundle path.
+- Existing framework warnings did not block the build.
