@@ -24,7 +24,8 @@ export function RecentActionsTable({ items }: RecentActionsTableProps) {
           直近 7 日のアクションはありません
         </p>
       ) : (
-        <table className="mt-3 w-full text-left text-sm">
+        <div className="mt-3 overflow-x-auto">
+        <table className="w-full text-left text-sm">
           <caption className="sr-only">直近 7 日に発生した管理操作</caption>
           <thead>
             <tr className="border-b border-[var(--ubm-color-border-default)] text-xs uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
@@ -57,6 +58,7 @@ export function RecentActionsTable({ items }: RecentActionsTableProps) {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </section>
   );

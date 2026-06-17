@@ -1432,12 +1432,14 @@
   [data-component="member-grid"][data-density="comfy"] {
     display: grid;
     gap: var(--ubm-space-6);
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    /* mobile(<=640px) は単カラム。minmax(0, 1fr) の 0 floor で
+       入れ子 intrinsic sizing 下でも横 overflow しない（responsive-mobile-tablet-ui-fixes）。 */
+    grid-template-columns: minmax(0, 1fr);
   }
   [data-component="member-grid"][data-density="dense"] {
     display: grid;
     gap: var(--ubm-space-3);
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
   [data-component="member-grid"][data-density="list"] {
     display: grid;

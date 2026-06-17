@@ -3155,6 +3155,7 @@
     gap: 6px;
   }
   @media (max-width: 767.98px) {
+    .admin-requests-grid,
     .tag-queue-grid {
       grid-template-columns: minmax(0, 1fr);
     }
