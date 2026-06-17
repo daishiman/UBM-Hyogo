@@ -49,6 +49,8 @@ curl_status() {
 
 read -r web_api_me_status web_api_me_curl_exit < <(curl_status "${BASE_URL%/}/api/me/profile")
 read -r api_me_status api_me_curl_exit < <(curl_status "${API_BASE_URL%/}/me")
+read -r api_me_healthz_status api_me_healthz_curl_exit < <(curl_status "${API_BASE_URL%/}/me/healthz")
+read -r api_root_status api_root_curl_exit < <(curl_status "${API_BASE_URL%/}/")
 
 profile_data_cause="skipped"
 if [[ -n "${COOKIE_FILE}" || -n "${COOKIE_HEADER}" ]]; then
@@ -72,12 +74,27 @@ fi
 
 printf 'profile_session.web_api_me_status=%s\n' "${web_api_me_status}"
 printf 'profile_session.api_me_status=%s\n' "${api_me_status}"
+printf 'profile_session.api_me_healthz_status=%s\n' "${api_me_healthz_status}"
+printf 'profile_session.api_root_status=%s\n' "${api_root_status}"
 printf 'profile_session.base_url=%s\n' "${BASE_URL%/}"
 printf 'profile_session.api_base_url=%s\n' "${API_BASE_URL%/}"
 printf 'profile_session.cookie_source=%s\n' "$(if [[ -n "${COOKIE_FILE}" ]]; then printf 'file'; elif [[ -n "${COOKIE_HEADER}" ]]; then printf 'env'; else printf 'none'; fi)"
 printf 'profile_session.web_api_me_curl_exit=%s\n' "${web_api_me_curl_exit}"
 printf 'profile_session.api_me_curl_exit=%s\n' "${api_me_curl_exit}"
+printf 'profile_session.api_me_healthz_curl_exit=%s\n' "${api_me_healthz_curl_exit}"
+printf 'profile_session.api_root_curl_exit=%s\n' "${api_root_curl_exit}"
 printf 'profile_session.profile_data_cause=%s\n' "${profile_data_cause}"
+
+# route 差分判定（healthz=200 かつ /me=404 → route 設定異常の sign / S1 強シグナル）
+case "${api_me_healthz_status}:${api_me_status}" in
+  200:404) api_route_diff="healthz_alive_me_miss" ;;   # S1 強シグナル
+  200:401) api_route_diff="both_alive" ;;              # route 健全・認証層到達
+  200:2*)  api_route_diff="both_alive" ;;
+  200:410) api_route_diff="both_alive" ;;
+  404:*|000:*) api_route_diff="healthz_miss" ;;        # api worker 自体が未到達/未デプロイ
+  *)       api_route_diff="indeterminate" ;;
+esac
+printf 'profile_session.api_route_diff=%s\n' "${api_route_diff}"
 
 if [[ -x scripts/cf.sh ]]; then
   printf 'profile_session.cf_wrapper=present\n'
@@ -100,5 +117,6 @@ case "${web_api_me_status}:${api_me_status}" in
   *) printf 'profile_session.candidate=unexpected_status_combination\n' ;;
 esac
 
-printf 'profile_session.deployments_hint=check web and api deployment versions in Cloudflare after user approval\n'
+printf 'profile_session.deployments_hint=compare latest web-cd and api-cd workflow runs for the same commit after user approval\n'
+printf 'profile_session.parity_hint=%s\n' "compare web and api worker versions: bash scripts/cf.sh deployments list --config apps/web/wrangler.toml --env ${CF_ENV} ; bash scripts/cf.sh deployments list --config apps/api/wrangler.toml --env ${CF_ENV} (run after user approval; read-only)"
 printf 'profile_session.tail_hint=bash scripts/cf.sh tail --env %s\n' "${CF_ENV}"

@@ -4474,6 +4474,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L19 |
 
+### references/workflow-profile-me-404-authenticated-admin-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L13 |
+| Lessons Learned | L20 |
+
 ### references/workflow-profile-reload-session-404-fix-artifact-inventory.md
 
 | セクション | 行 |

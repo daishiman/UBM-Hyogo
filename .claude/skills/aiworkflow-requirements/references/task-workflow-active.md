@@ -5036,3 +5036,16 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | invariant | no new endpoint, no D1 schema change, no Google Form schema change. Gojuon ordering requires furigana schema/backfill and is OOS-1 |
 | inventory | `references/workflow-members-search-clear-and-sort-ux-artifact-inventory.md` |
 | user gate | Chromium screenshot, staging verification, commit, push, PR, OOS-1 Issue creation |
+## profile-me-404-authenticated-admin-recovery（2026-06-13）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/profile-me-404-authenticated-admin-recovery/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION` |
+| purpose | staging `/profile` の authenticated admin `MEMBER_SESSION_404` を、API route-miss observability、apps/api CD、web transport diagnostics、read-only diagnosis script で復旧可能な状態へ戻す |
+| implementation | `apps/api/src/middleware/error-handler.ts`, `.github/workflows/api-cd.yml`, `scripts/smoke/runtime-admin-api.sh`, `scripts/diagnose-profile-session.sh`, `apps/web/src/lib/server-fetch/safe-fetch.ts`, `apps/web/src/lib/server-fetch/__tests__/safe-fetch.spec.ts` |
+| evidence | API focused Vitest 5 PASS（NF-1〜NF-5）; web focused Vitest 13 PASS（SF-1〜SF-4 含む）; `bash -n scripts/diagnose-profile-session.sh` PASS; `bash -n scripts/smoke/runtime-admin-api.sh` PASS; typecheck/lint PASS |
+| invariant | `/me` path/shape/status, apps/api `/me` route implementation, D1 schema, Google Form schema, `/profile` UI wording unchanged |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-me-404-authenticated-admin-recovery-artifact-inventory.md` |
+| follow-up | `docs/30-workflows/unassigned-task/profile-me-404-authenticated-admin-recovery-followup-001-diagnostic-field-spec-alignment.md`（Issue #1247・T01/T03/T04 観測性診断フィールドの Phase-5 仕様整合・未タスク作成フロー 2026-06-17 検出→同セッション内でローカル実装完了・close/commit/push/PR は user-gated） |
+| user gate | staging deploy, authenticated `/me` 200 recovery verification, `/profile` recovery screenshot, commit, push, PR, Issue #1247 close |

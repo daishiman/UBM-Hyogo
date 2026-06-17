@@ -120,6 +120,7 @@ describe("safeServerFetch", () => {
     );
 
     expect(result.ok).toBe(false);
+    // SF-2（回帰 guard）: 非 404（410）では routeNotFound キーが付かない。
     expect(errorSpy).toHaveBeenCalledWith("server_fetch_failed", {
       code: "MEMBER_SESSION_410",
       path: "/me",
@@ -127,7 +128,58 @@ describe("safeServerFetch", () => {
       transportKind: "service-binding",
       baseHost: "service-binding.local",
     });
+    expect(errorSpy.mock.calls[0]?.[1]).not.toHaveProperty("routeNotFound");
     expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("memberId");
+  });
+
+  it("SF-1: logs route 404 diagnostics with routeNotFound flag when /me is not matched by api", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("fetchAuthed failed: 404"), {
+          status: 404,
+          transport: { transportKind: "http", baseHost: "api-staging.example.test" },
+        });
+      },
+      { codePrefix: "MEMBER_SESSION", logPath: "/me" },
+    );
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error.code).toBe("MEMBER_SESSION_404");
+    expect(errorSpy).toHaveBeenCalledWith("server_fetch_failed", {
+      code: "MEMBER_SESSION_404",
+      path: "/me",
+      status: 404,
+      routeNotFound: true,
+      transportKind: "http",
+      baseHost: "api-staging.example.test",
+    });
+    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain("cookie");
+  });
+
+  it("SF-4: emits routeNotFound and service-binding transport together for binding 404", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await safeServerFetch(
+      async () => {
+        throw Object.assign(new Error("fetchAuthed failed: 404"), {
+          status: 404,
+          transport: { transportKind: "service-binding", baseHost: "service-binding.local" },
+        });
+      },
+      { codePrefix: "MEMBER_SESSION", logPath: "/me" },
+    );
+
+    expect(result.ok).toBe(false);
+    expect(errorSpy).toHaveBeenCalledWith("server_fetch_failed", {
+      code: "MEMBER_SESSION_404",
+      path: "/me",
+      status: 404,
+      routeNotFound: true,
+      transportKind: "service-binding",
+      baseHost: "service-binding.local",
+    });
   });
 
   it("logs transport diagnostics for transport failures without status", async () => {
@@ -156,6 +208,8 @@ describe("safeServerFetch", () => {
       transportKind: "http",
       baseHost: "api.example.com",
     });
+    // SF-3（回帰 guard）: status 抽出不可（FAILED）では routeNotFound キーが付かない。
+    expect(errorSpy.mock.calls[0]?.[1]).not.toHaveProperty("routeNotFound");
   });
 
   it("does not log diagnostics unless logPath is provided", async () => {

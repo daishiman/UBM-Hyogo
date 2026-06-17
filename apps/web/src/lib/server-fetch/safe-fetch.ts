@@ -73,10 +73,14 @@ function logServerFetchFailure(
   if (!opts.logPath) return;
 
   const statusMatch = error.code.match(/_(\d{3})$/);
+  const status = statusMatch ? Number(statusMatch[1]) : null;
   console.error("server_fetch_failed", {
     code: error.code,
     path: opts.logPath,
-    status: statusMatch ? Number(statusMatch[1]) : null,
+    status,
+    // route 未マッチ（404）を明示し、api notFoundHandler の UBM-1404 ログと 1:1 突合できるようにする。
+    // 404 以外はキー自体を出さず既存 payload 形状を保つ。
+    ...(status === 404 ? { routeNotFound: true } : {}),
     ...((error as { readonly transport?: ApiTransportDescriptor }).transport ?? {}),
   });
 }
