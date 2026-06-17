@@ -3838,6 +3838,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
@@ -5397,6 +5398,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
@@ -6693,6 +6695,7 @@
     "Invariants": [
       "branch-protection.md",
       "quality-e2e-testing.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
       "workflow-admin-member-detail-tag-source-500-and-drawer-resilience-artifact-inventory.md",
@@ -7707,6 +7710,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md",
@@ -10037,6 +10041,7 @@
       "lessons-learned-step-05-dashboard-chart-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
@@ -11881,6 +11886,7 @@
     ],
     "Summary": [
       "legacy-ordinal-family-register.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
@@ -12128,6 +12134,7 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
@@ -13566,6 +13573,7 @@
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut-07c-followup-001-attendance-csv-import-2026-05.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-meeting-bulk-attendance-select-artifact-inventory.md",
       "workflow-admin-meetings-attendance-404-fix-and-ux-artifact-inventory.md",
@@ -14573,6 +14581,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "observability-monitoring.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
@@ -17075,6 +17084,7 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "task-workflow-active.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
       "workflow-admin-dashboard-recovery-and-byZone-artifact-inventory.md",
@@ -17661,6 +17671,7 @@
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "spec-splitting-guidelines.md",
       "task-workflow-active.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
@@ -17961,6 +17972,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md",
@@ -25855,6 +25867,7 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-schema-history-purpose-clarity-and-filter-fix-artifact-inventory.md",
@@ -26432,6 +26445,7 @@
     ],
     "clarity": [
       "task-workflow-active.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-audit-log-ux-clarity-and-reduce-error-fix-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md",
@@ -28139,6 +28153,7 @@
     "Implementation": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -28297,6 +28312,7 @@
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
       "workflow-admin-attendance-analytics-redesign-artifact-inventory.md",
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
       "workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md",
@@ -28452,7 +28468,12 @@
     "Linked": [
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
     ],
+    "jp": [
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
+      "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md"
+    ],
     "Targets": [
+      "workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md",
       "workflow-admin-attendance-dashboard-ux-artifact-inventory.md",
       "workflow-admin-layout-sidebar-shell-migration-artifact-inventory.md",
       "workflow-admin-meetings-prototype-alignment-artifact-inventory.md",
@@ -28532,9 +28553,6 @@
     ],
     "filed": [
       "workflow-admin-audit-prototype-alignment-artifact-inventory.md"
-    ],
-    "jp": [
-      "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md"
     ],
     "Implemented": [
       "workflow-admin-dashboard-jp-clarity-and-card-ux-artifact-inventory.md",
