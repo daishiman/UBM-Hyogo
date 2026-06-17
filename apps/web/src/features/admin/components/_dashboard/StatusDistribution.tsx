@@ -1,33 +1,19 @@
 import type { StatusSlice } from "../../../../lib/admin/admin-dashboard-ui";
+import { MEMBER_STATUS_LABELS } from "../../../../lib/admin/dashboardGlossary";
 
 type Status = StatusSlice["status"];
-
-const VIEWBOX = {
-  width: 600,
-  height: 200,
-  top: 20,
-  right: 20,
-  bottom: 32,
-  left: 20,
-  gap: 24,
-} as const;
-
-const LABEL: Record<StatusSlice["status"], string> = {
-  public: "公開",
-  member_only: "会員限定",
-  hidden: "非公開",
-};
-
-const TONE: Record<StatusSlice["status"], string> = {
-  public: "bg-[var(--ubm-color-ok-soft)] text-[var(--ubm-color-ok)]",
-  member_only: "bg-[var(--ubm-color-info-soft)] text-[var(--ubm-color-info)]",
-  hidden: "bg-[var(--ubm-color-warn-soft)] text-[var(--ubm-color-warn)]",
-};
 
 const COLOR_VAR: Record<Status, string> = {
   public: "var(--ubm-color-ok)",
   member_only: "var(--ubm-color-info)",
   hidden: "var(--ubm-color-warn)",
+};
+
+// ドットの色はトークン参照の className で表現する（inline style は禁止・ZoneDistribution と同型）。
+const DOT_CLASS: Record<Status, string> = {
+  public: "bg-[var(--ubm-color-ok)]",
+  member_only: "bg-[var(--ubm-color-info)]",
+  hidden: "bg-[var(--ubm-color-warn)]",
 };
 
 const STATUS_ORDER: ReadonlyArray<Status> = ["public", "member_only", "hidden"];
@@ -37,10 +23,6 @@ interface BarLayout {
   readonly count: number;
   readonly label: string;
   readonly colorVar: string;
-  readonly x: number;
-  readonly y: number;
-  readonly width: number;
-  readonly height: number;
 }
 
 export interface StatusDistributionProps {
@@ -52,25 +34,12 @@ function computeBarLayout(slices: ReadonlyArray<StatusSlice>): ReadonlyArray<Bar
     const slice = slices.find((item) => item.status === status);
     return slice ? [{ ...slice, count: Math.max(0, slice.count) }] : [];
   });
-  const chartWidth = VIEWBOX.width - VIEWBOX.left - VIEWBOX.right;
-  const chartHeight = VIEWBOX.height - VIEWBOX.top - VIEWBOX.bottom;
-  const barWidth =
-    ordered.length > 0 ? (chartWidth - VIEWBOX.gap * Math.max(ordered.length - 1, 0)) / ordered.length : 0;
-  const maxCount = Math.max(1, ...ordered.map((slice) => slice.count));
-
-  return ordered.map((slice, index) => {
-    const height = (slice.count / maxCount) * chartHeight;
-    return {
-      status: slice.status,
-      count: slice.count,
-      label: LABEL[slice.status],
-      colorVar: COLOR_VAR[slice.status],
-      x: VIEWBOX.left + index * (barWidth + VIEWBOX.gap),
-      y: VIEWBOX.top + (chartHeight - height),
-      width: barWidth,
-      height,
-    };
-  });
+  return ordered.map((slice) => ({
+    status: slice.status,
+    count: slice.count,
+    label: MEMBER_STATUS_LABELS[slice.status],
+    colorVar: COLOR_VAR[slice.status],
+  }));
 }
 
 function buildAriaLabel(slices: ReadonlyArray<StatusSlice>): string {
@@ -92,60 +61,44 @@ export function StatusDistribution({ slices }: StatusDistributionProps) {
     );
   }
   const ariaLabel = buildAriaLabel(slices);
+  const maxCount = Math.max(1, ...bars.map((bar) => bar.count));
+  const total = bars.reduce((sum, bar) => sum + bar.count, 0);
 
   return (
     <section className="ui-card rounded-[var(--ubm-radius-lg)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel)] p-4">
       <h2 className="text-sm font-semibold text-[var(--ubm-color-text-primary)]">公開ステータス</h2>
-      <svg
-        role="img"
-        aria-label={ariaLabel}
-        viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`}
-        preserveAspectRatio="xMidYMid meet"
-        className="mt-3 h-auto w-full max-w-[600px]"
-        data-testid="status-distribution-chart"
-      >
-        {bars.map((bar) => (
-          <g key={bar.status} data-testid="status-bar" data-status={bar.status}>
-            <rect
-              x={bar.x}
-              y={bar.y}
-              width={bar.width}
-              height={bar.height}
-              fill={bar.colorVar}
-              rx="4"
-            >
-              <title>{`${bar.label}: ${bar.count}`}</title>
-            </rect>
-            <text
-              x={bar.x + bar.width / 2}
-              y={Math.max(12, bar.y - 6)}
-              textAnchor="middle"
-              className="fill-[var(--ubm-color-text-primary)] text-xs tabular-nums"
-            >
-              {bar.count}
-            </text>
-            <text
-              x={bar.x + bar.width / 2}
-              y={VIEWBOX.height - 8}
-              textAnchor="middle"
-              className="fill-[var(--ubm-color-text-muted)] text-xs"
-            >
-              {bar.label}
-            </text>
-          </g>
-        ))}
-      </svg>
-      <ul className="mt-3 flex flex-wrap gap-2">
-        {bars.map((s) => (
-          <li
-            key={s.status}
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${TONE[s.status]}`}
-          >
-            <span>{LABEL[s.status]}</span>
-            <span className="tabular-nums">{s.count}</span>
-          </li>
-        ))}
-      </ul>
+      {/* role="img" で分布全体を 1 画像として読み上げるため、内部は list セマンティクスを持たない div で構成する（<li> を role="img" 配下に置くと親が role="list" でなくなり axe listitem 違反になる）。 */}
+      <div className="mt-3 space-y-3" role="img" aria-label={ariaLabel} data-testid="status-distribution-list">
+        {bars.map((bar) => {
+          const widthPct = total > 0 ? Math.min(100, (bar.count / maxCount) * 100) : 0;
+          return (
+            <div key={bar.status} data-testid="status-bar" data-status={bar.status}>
+              <div className="flex items-center justify-between gap-3">
+                <span className="inline-flex items-center gap-2 text-xs text-[var(--ubm-color-text-primary)]">
+                  <span
+                    aria-hidden="true"
+                    className={`inline-block h-2 w-2 rounded-full ${DOT_CLASS[bar.status]}`}
+                  />
+                  {bar.label}
+                </span>
+                <span className="tabular-nums text-xs text-[var(--ubm-color-text-primary)]">
+                  {bar.count}名
+                </span>
+              </div>
+              <svg
+                className="mt-1 h-2 w-full overflow-hidden rounded fill-[var(--ubm-color-bg)]"
+                viewBox="0 0 100 8"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <title>{`${bar.label}: ${bar.count}`}</title>
+                <rect width="100" height="8" rx="4" />
+                <rect width={widthPct} height="8" rx="4" fill={bar.colorVar} />
+              </svg>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

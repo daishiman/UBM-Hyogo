@@ -1,6 +1,7 @@
-// task-15: recentActions の DataTable（JST 表示）
+// task-15: recentActions のアクティビティリスト（JST 表示・日本語化）
 import type { AdminDashboardView } from "@ubm-hyogo/shared";
 import Link from "next/link";
+import { describeAuditAction, describeTarget } from "../../../../lib/admin/dashboardGlossary";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
 
 export interface RecentActionsTableProps {
@@ -24,39 +25,27 @@ export function RecentActionsTable({ items }: RecentActionsTableProps) {
           直近 7 日のアクションはありません
         </p>
       ) : (
-        <table className="mt-3 w-full text-left text-sm">
-          <caption className="sr-only">直近 7 日に発生した管理操作</caption>
-          <thead>
-            <tr className="border-b border-[var(--ubm-color-border-default)] text-xs uppercase tracking-wide text-[var(--ubm-color-text-muted)]">
-              <th scope="col" className="py-2 pr-3">日時 (JST)</th>
-              <th scope="col" className="py-2 pr-3">実行者</th>
-              <th scope="col" className="py-2 pr-3">アクション</th>
-              <th scope="col" className="py-2">対象</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((row) => (
-              <tr
-                key={row.auditId}
-                className="border-b border-[var(--ubm-color-border-default)] last:border-b-0"
-              >
-                <td className="py-2 pr-3 text-[var(--ubm-color-text-secondary)]">
-                  {formatJstDateTime(row.createdAt)}
-                </td>
-                <td className="py-2 pr-3 text-[var(--ubm-color-text-secondary)]">
-                  {row.actorEmail ?? "—"}
-                </td>
-                <td className="py-2 pr-3 font-medium text-[var(--ubm-color-text-primary)]">
-                  {row.action}
-                </td>
-                <td className="py-2 text-[var(--ubm-color-text-secondary)]">
-                  {row.targetType}
-                  {row.targetId ? `:${row.targetId}` : ""}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ul className="mt-3 flex flex-col gap-2" data-testid="recent-actions-list">
+          {items.map((row) => (
+            <li
+              key={row.auditId}
+              data-testid="recent-action-item"
+              className="rounded-[var(--ubm-radius-md)] border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-bg)] p-3"
+            >
+              <p className="text-sm font-medium text-[var(--ubm-color-text-primary)]">
+                {describeAuditAction(row.action)}
+              </p>
+              <p className="mt-1 text-xs text-[var(--ubm-color-text-secondary)]">
+                {row.actorEmail ?? "—"}
+                <span aria-hidden="true"> · </span>
+                {formatJstDateTime(row.createdAt)}
+              </p>
+              <p className="mt-0.5 truncate text-xs text-[var(--ubm-color-text-muted)]">
+                対象: {describeTarget(row.targetType, row.targetId)}
+              </p>
+            </li>
+          ))}
+        </ul>
       )}
     </section>
   );

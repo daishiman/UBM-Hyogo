@@ -1,0 +1,12 @@
+# dev sync 2nd pass: 2 コミット取込（behind 2 / ahead 4）で **skill index CONFLICT 3（union 2 = quick-reference + task-workflow-active、keywords.json `--ours`+rebuild）・topic-map / resource-map / SKILL.md は Auto-merge へ反転**・content conflict 0・CI fail 0（2026-06-12 feat/admin-dashboard-jp-clarity-and-card-ux 2nd pass）
+
+- 日時: 2026-06-12（同ブランチ 2 回目の dev 取込・sub-worktree task-20260611-085747-wt-9）
+- ブランチ: `feat/admin-dashboard-jp-clarity-and-card-ux` ← `dev`（**2 behind / 4 ahead**・ローカル dev = origin/dev `82971d195` 0/0・独自 0 → dev 同期は冪等スキップ）
+- 起点: ユーザー指示「リモート dev → ローカル dev → 本ブランチへマージし conflict・CI fail を解消して push、解消内容を skill 反映」（1st pass と同一指示の再実行）。スコープ = 現在 WT・現在ブランチのみ（単一スコープ S-SUB 自動確定）。
+- 取込: dev 新規 2 コミット = `82971d195`(#1213 公開・会員 8 画面の共通レイアウト層 PageShell/SectionCard/ButtonLink 統一) / `5b0f4360a`(#1233 完了済みワークフロー文書群整理 + sync-merge lessons-learned 更新)。
+- 事象: `git merge dev --no-edit` で **CONFLICT 3（全 aiworkflow-requirements 配下）** = `indexes/keywords.json` + `indexes/quick-reference.md` + `references/task-workflow-active.md`。**1st pass（数時間前・union 5 + ours 1 の 6 件天井）で衝突した `SKILL.md` / `topic-map.md` / `resource-map.md` は本 pass では Auto-merge へ反転**。`apps/**` content conflict 0（#1213 は公開・会員 8 画面層、feature は /admin ダッシュボード層で touch 分離。#1233 は docs/lessons 整理で `merge=union` gitattributes が吸収）。
+- 解消: `pnpm sync:resolve` 1 回で完結（`union-resolving 2 files` + `ours: keywords.json` + rebuild・exit 0）。マーカー 0。
+- **同一ブランチ連続 pass でも union member は非単調（L-DEVSYNC-123-A の連続 pass 側データ）**: 同じ feature ブランチで数時間差の 1st pass 6 件 → 2nd pass 3 件・衝突 member も入替り（SKILL.md/topic-map/resource-map が外れ keywords が再衝突）。「前 pass で衝突した file が次も衝突する」予測は成立せず、毎回 `sync:resolve` の実出力（`union-resolving N files`）だけが正。
+- **dev 側 lessons-learned 大整理（#1233）でも conflict は index 3 件に留まる**: dev 側が `docs/30-workflows` + lessons-learned を大規模整理しても、`.gitattributes` の `merge=union`（LOGS / SKILL-changelog / lessons-learned）が自動吸収し、resolver 対象は通常の index 系のみ。文書整理系の取込で特別な手動解消は不要。
+- 検証順: stale lock（"released" 表記・6.2h 経過）上書き続行 → `git fetch --prune origin`（dev=origin/dev 0/0・独自 0）→ 2/4 確認 → merge CONFLICT 3 → `pnpm sync:resolve` → マーカー検証→`git add -A`→`git commit` 1 Bash 原子連結（L-DEVSYNC-135-C 準拠）で merge `d1e405196` → committed blob マーカー 0 → 取込デルタ lock/package.json 変更なし＝install 省略可 → `pnpm typecheck` exit 0（7 packages）/ `pnpm lint` exit 0 / `pnpm indexes:rebuild` 冪等（5519 kw・drift 0）。**CI コード修正なしで全緑**。
+- 反映先: 本 changelog（正本）+ task-specification-creator 側ミラー changelog + 両 SKILL-changelog.md 1 行。新規 lesson 番号は起こさず L-DEVSYNC-123-A（連続 pass で member 入替り）の確定データ拡張として記録。

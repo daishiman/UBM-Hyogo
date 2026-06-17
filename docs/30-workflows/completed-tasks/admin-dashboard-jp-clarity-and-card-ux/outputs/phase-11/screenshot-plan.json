@@ -1,0 +1,37 @@
+{
+  "taskId": "admin-dashboard-jp-clarity-and-card-ux",
+  "mode": "VISUAL",
+  "route": "/(admin)/admin",
+  "status": "staging_visual_pending_user_gate",
+  "runtimeBoundary": "local implementation and focused vitest are complete; authenticated staging screenshots are user-gated",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "file": "screenshots/admin-dashboard-desktop.png",
+      "viewport": "1280x800",
+      "status": "pending",
+      "intent": "KPI 日本語ラベル + 全体レイアウト（desktop）"
+    },
+    {
+      "tc": "TC-11-2",
+      "file": "screenshots/admin-dashboard-narrow-mobile.png",
+      "viewport": "390x844",
+      "status": "pending",
+      "intent": "狭幅でのカード積み上げ・はみ出し解消確認"
+    },
+    {
+      "tc": "TC-11-3",
+      "file": "screenshots/recent-actions-card-list.png",
+      "viewport": "1280x800",
+      "status": "pending",
+      "intent": "直近のアクション カード型リスト + 対象 truncation"
+    },
+    {
+      "tc": "TC-11-4",
+      "file": "screenshots/status-distribution-bars.png",
+      "viewport": "1280x800",
+      "status": "pending",
+      "intent": "公開ステータス コンパクト横バーリスト"
+    }
+  ]
+}

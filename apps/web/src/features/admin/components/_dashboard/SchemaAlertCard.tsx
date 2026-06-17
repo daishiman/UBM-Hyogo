@@ -14,10 +14,10 @@ export function SchemaAlertCard({ count }: SchemaAlertCardProps) {
     >
       <div>
         <strong className="block text-sm font-semibold text-[var(--ubm-color-warn)]">
-          未対応のフォーム項目: {count} 件
+          要対応のフォーム項目: {count} 件
         </strong>
         <p className="text-xs text-[var(--ubm-color-text-secondary)]">
-          対応づけが必要なフォーム項目があります。
+          フォームの設問と、会員データの保存先との対応づけが必要です。
         </p>
       </div>
       <Link

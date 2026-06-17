@@ -12,17 +12,22 @@ describe("RecentActionsTable", () => {
     expect(screen.getByText("直近 7 日のアクションはありません")).toBeDefined();
   });
 
-  it("TC-RAT-02: items 5 件で tbody 5 行", () => {
+  it("TC-RAT-02: items 5 件でカード型リスト 5 行", () => {
     const items = Array.from({ length: 5 }, (_, i) => ({
       auditId: `a${i}`,
       actorEmail: "admin@example.com",
-      action: "member.update",
+      action: i === 0 ? "admin.member.status_updated" : "unknown.action",
       targetType: "member",
       targetId: `m${i}`,
       createdAt: "2026-05-10T00:00:00.000Z",
     }));
     render(<RecentActionsTable items={items} />);
-    expect(document.querySelectorAll("tbody tr").length).toBe(5);
+    expect(screen.getByTestId("recent-actions-list")).toBeDefined();
+    expect(screen.getAllByTestId("recent-action-item")).toHaveLength(5);
+    expect(document.querySelector("table")).toBeNull();
+    expect(screen.getByText("会員の公開状態を変更")).toBeDefined();
+    expect(screen.getAllByText("unknown.action")).toHaveLength(4);
+    expect(screen.getAllByText(/対象: 会員 m/)).toHaveLength(5);
   });
 
   it("TC-RAT-03: 監査ログリンク", () => {

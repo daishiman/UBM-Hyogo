@@ -50,7 +50,8 @@ test.describe('issue-819 StatusDistribution runtime evidence', () => {
     ])
     await page.goto('/admin')
     const populatedSection = page.getByRole('heading', { name: '公開ステータス' }).locator('..')
-    await expect(populatedSection.getByTestId('status-distribution-chart')).toBeVisible()
+    // カード化リファクタで chart testid は status-distribution-list に統一された（StatusDistribution.tsx）。
+    await expect(populatedSection.getByTestId('status-distribution-list')).toBeVisible()
     await expect(populatedSection.locator('[data-testid="status-bar"]')).toHaveCount(3)
 
     await populatedSection.screenshot({ path: populatedTaskPath })

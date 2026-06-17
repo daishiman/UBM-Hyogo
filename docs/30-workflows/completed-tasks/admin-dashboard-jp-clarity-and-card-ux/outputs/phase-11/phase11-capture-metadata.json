@@ -1,0 +1,32 @@
+{
+  "taskId": "admin-dashboard-jp-clarity-and-card-ux",
+  "status": "staging_visual_pending_user_gate",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "visualEvidence": "VISUAL",
+    "route": "/(admin)/admin"
+  },
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "name": "admin-dashboard-desktop.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-2",
+      "name": "admin-dashboard-narrow-mobile.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-3",
+      "name": "recent-actions-card-list.png",
+      "status": "pending"
+    },
+    {
+      "tc": "TC-11-4",
+      "name": "status-distribution-bars.png",
+      "status": "pending"
+    }
+  ],
+  "note": "Local implementation and focused command evidence are complete. Authenticated staging screenshots remain user-gated because /admin redirects to /login?gate=admin_required without an admin session."
+}

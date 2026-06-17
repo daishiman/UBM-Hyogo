@@ -13,10 +13,14 @@ describe("KpiGrid", () => {
         totals={{ totalMembers: 100, publicMembers: 50, untaggedMembers: 0, unresolvedSchema: 0 }}
       />,
     );
-    expect(screen.getByText("Total members")).toBeDefined();
-    expect(screen.getByText("Public on site")).toBeDefined();
-    expect(screen.getByText("Untagged")).toBeDefined();
-    expect(screen.getByText("未対応のフォーム項目")).toBeDefined();
+    expect(screen.getByText("会員総数")).toBeDefined();
+    expect(screen.getByText("サイト公開中")).toBeDefined();
+    expect(screen.getByText("タグ未設定")).toBeDefined();
+    expect(screen.getByText("要対応のフォーム項目")).toBeDefined();
+    expect(screen.queryByText("Total members")).toBeNull();
+    expect(screen.queryByText("Public on site")).toBeNull();
+    expect(screen.queryByText("Untagged")).toBeNull();
+    expect(screen.queryByText("Schema issues")).toBeNull();
   });
 
   it("TC-KG-02: unresolvedSchema=0 で success tone", () => {

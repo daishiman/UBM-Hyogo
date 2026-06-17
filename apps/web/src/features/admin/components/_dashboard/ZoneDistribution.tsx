@@ -38,7 +38,7 @@ export function ZoneDistribution({ slices }: ZoneDistributionProps) {
         <div className="row-between flex items-start justify-between">
           <div>
             <div className="eyebrow text-xs uppercase tracking-wider text-[var(--ubm-color-text-muted)]">
-              DISTRIBUTION
+              会員分布
             </div>
             <h2 className="h-section text-sm font-semibold text-[var(--ubm-color-text-primary)]">
               UBM区画の分布
@@ -63,7 +63,7 @@ export function ZoneDistribution({ slices }: ZoneDistributionProps) {
       <div className="row-between flex items-start justify-between">
         <div>
           <div className="eyebrow text-xs uppercase tracking-wider text-[var(--ubm-color-text-muted)]">
-            DISTRIBUTION
+            会員分布
           </div>
           <h2 className="h-section text-sm font-semibold text-[var(--ubm-color-text-primary)]">
             UBM区画の分布
