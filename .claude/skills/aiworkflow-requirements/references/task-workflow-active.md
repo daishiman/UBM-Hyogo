@@ -20,6 +20,19 @@
 | invariant | API endpoint / D1 schema / Google Form / shared API contract / design token color contract 不変。新規 primitive なし |
 | user gate | authenticated admin staging screenshots、commit、push、PR |
 
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| 目的 | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation targets | `apps/web/src/components/shell/shell-config.ts`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/IdentityConflictGuide.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/features/admin/identity-conflicts/identityConflictGlossary.ts`, `apps/api/src/testing/identity-conflicts/**`, `apps/api/migrations/seed/identity-conflict-{staging-seed,cleanup}.sql`, `scripts/gen-identity-conflict-seed.mjs`, `scripts/seed-identity-conflicts.sh` |
+| evidence | focused Vitest 5 files / 42 tests PASS。seed generator drift 0、idempotent、scoped cleanup、exactly 5 conflict candidates を contract test で確認。`verify:tokens` / `typecheck` / `lint` / `verify:phase12-compliance` PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged。`matchedFields` は web glossary で表示変換。seed は local/staging 限定で production 到達不可 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
 ### admin-tag-management-clarity-and-code-autogen（2026-06-11）
 
 | 項目 | 値 |

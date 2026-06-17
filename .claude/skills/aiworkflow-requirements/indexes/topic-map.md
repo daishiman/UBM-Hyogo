@@ -2167,6 +2167,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Contract | L15 |
 
+### references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L11 |
+| Evidence | L20 |
+| Invariants | L30 |
+| Lessons Learned | L38 |
+
 ### references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -9366,25 +9375,25 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4464 |
-| フェーズ構造（概要） | L4473 |
-| 品質ゲート（概要） | L4504 |
-| 出力テンプレート | L4515 |
-| 実行時のコマンド・エージェント・スキル | L4538 |
-| 昇格パターン集 | L4562 |
-| Current Active / Spec Created Tasks | L4564 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4730 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4798 |
-| issue-1007-density-toggle-help-hint-hardening | L4822 |
-| issue-1079-bulk-tag-audit-batch-filter | L4835 |
-| issue-1128-audit-batchid-index-optimization | L4848 |
-| issue-998-members-publish-state-production-rollout | L4865 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4924 |
-| issue-1068-admin-tag-inline-create-ui | L4938 |
-| issue-1111-proxy-transport-util-unify | L4956 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4974 |
-| admin-requests-approval-publish-state-diff（2026-06-11） | L4987 |
-| members-search-clear-and-sort-ux（2026-06-11） | L4999 |
+| admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11） | L23 |
+| ドキュメント構成 | L4477 |
+| フェーズ構造（概要） | L4486 |
+| 品質ゲート（概要） | L4517 |
+| 出力テンプレート | L4528 |
+| 実行時のコマンド・エージェント・スキル | L4551 |
+| 昇格パターン集 | L4575 |
+| Current Active / Spec Created Tasks | L4577 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4743 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4811 |
+| issue-1007-density-toggle-help-hint-hardening | L4835 |
+| issue-1079-bulk-tag-audit-batch-filter | L4848 |
+| issue-1128-audit-batchid-index-optimization | L4861 |
+| issue-998-members-publish-state-production-rollout | L4878 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4937 |
+| issue-1068-admin-tag-inline-create-ui | L4951 |
+| issue-1111-proxy-transport-util-unify | L4969 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4987 |
+| admin-requests-approval-publish-state-diff（2026-06-11） | L5000 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -4,6 +4,16 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: 仕様書 Phase 5/11 の sync 手順に「`Unable to write index` = stale index.lock による半適用マージ」の診断シグネチャと空マージ commit 回避を逐語化する（L-DEVSYNC-142 の task-spec 版・SP-DEVSYNC-135 の補完）
+- 2026-06-13 `feat/admin-identity-conflicts-clarity-and-meetings-rename`（wt-11・merge `8c3088be9`・取込 #1220・behind 1 / ahead 4）。`git merge dev` が `error: Unable to write index` で落ちたが MERGE_HEAD だけ立つ半適用状態になった。
+- SP-DEVSYNC-135 は「index.lock I/O 競合で merge/resolve/commit が**落ちる**」現象と「lock 除去 → `merge --abort` 再実行 → 原子化 commit」の復旧を既に規定済み。本 lesson はその**最も危険な分岐＝『落ちずに半分成功したように見える』ケースの診断**を補完する。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **半適用マージの診断シグネチャ**: `git merge` が `error: Unable to write index` を出した後、`git status` が「All conflicts fixed but you are still merging（commit で完了）」と表示しても、**`git diff --cached --stat` が空 かつ `git diff --diff-filter=U` も空**なら半適用（index 未書込）。正常 auto-merge は staged に取込差分が並び、正常 conflict は `--diff-filter=U` に UU が並ぶので、両方空は「壊れた中間状態」と確定診断する。
+  2. **空マージ commit の禁止**: この半適用 MERGE_HEAD を信じて `git commit` すると**取込内容ゼロの空マージ commit** ができ dev デルタが丸ごと落ちる（最も危険な誤操作）。仕様書 Phase 5/11 に「staged 空のまま merge commit してはいけない」と明記する。
+  3. **復旧手順（SP-DEVSYNC-135 と同経路）**: `LOCK="$(git rev-parse --git-dir)/index.lock"`（worktree では `.git/worktrees/<name>/index.lock` に解決）を 0 byte / 自分のマージ直前 mtime と確認の上 `node -e "require('fs').unlinkSync(process.argv[1])" "$LOCK"` で原子削除（`rm` は権限プロンプト誘発）→ `git merge --abort` で中間状態破棄 → `git merge dev` 再実行で実 CONFLICT（本件 skill-index union 5 件）が正しく顕在化 → 以降は通常の `pnpm sync:resolve` → 原子 commit 経路に合流。
+  4. **marker grep 偽陽性**: 再マージ後の最終裏取りは `<<<<<<<` / `>>>>>>>` のみで grep する（`=======` は docs 区切り線に過剰マッチ＝SP-DEVSYNC-139 系の偽陽性）。
+- 検証: `git merge dev` `Unable to write index`（staged 空 / U 空 / MERGE_HEAD あり）→ worktree-local `index.lock`（0 byte）を node fs 削除 → `merge --abort` → 再 merge CONFLICT 5（keywords.json + quick-reference + resource-map + topic-map + task-workflow-active）→ `pnpm sync:resolve` 1 パス（union 4 + keywords.json --ours + rebuild）→ commit `8c3088be9`（lefthook 全 pass）→ install スキップ（#1220 のみ・dep 変更 0）→ typecheck/lint exit 0 → indexes:rebuild 冪等 5522 kw。
+
 ### SP-DEVSYNC-142: 仕様書 Phase 11/13 の sync-merge 検証手順に「`Unable to write index` + `ls-files -u`=0 は孤児 index.lock のシグネチャ＝lock 物理削除→abort→再 merge」を逐語化する（L-DEVSYNC-142 の task-spec 版）
 - 2026-06-13 `feat/home-dashboard-japanese-localization` 4th-pass（wt-12・behind 1 / ahead 12・merge `28f30a060`）。取込 #1220（タグ定義コード自動生成 + タグ管理説明 UI）。最初の `git merge dev` が CONFLICT 列挙でなく `error: Unable to write index` で落ち、`git status`「All conflicts fixed but you are still merging」かつ `git ls-files -u` 0＝偽の merge-in-progress。真因は worktree 専用 git-dir `.git/worktrees/<name>/index.lock`（約 5 時間齢の孤児 lock）。
 - How to apply（仕様書 Phase 11/13 の sync-merge 検証手順への逐語化）:
@@ -66,6 +76,7 @@
   1. **install 要否判定に esbuild 特例を加える**: 取込デルタ（`git diff --name-only <merge-base>..<dev-tip>`）が `pnpm-lock.yaml` を変更し、その diff に `esbuild` / `@esbuild/<platform>` が現れたら SP-DEVSYNC-134（lock 変更→install）に加えて esbuild ホストバイナリ整合が要件と明記する。
   2. **検証コマンド列に install→verify:vitest-runtime を入れる**: `pnpm install --force` → `pnpm verify:vitest-runtime`（arch / worktree-isolation / esbuild version 三者一致）→ typecheck/lint の順を Phase 11 に逐語記載。本件 `host=0.28.1 bin=0.28.1 lock=0.28.1 OK`。
   3. **pre-push gate の独立性を明記**: typecheck/lint が緑でも esbuild 整合は別 gate（pre-push `verify-esbuild`）であり、install を省くと `host≠lock` で push が reject されると仕様書に書き、「conflict 解消＋typecheck/lint 緑」を sync の DoD に閉じない。
+  4. **🔴install は `--force` を必須として書く（`--force` なしは別 arch バイナリ残骸で `verify-worktree-isolation` FAIL）**: 2026-06-13 `feat/admin-identity-conflicts-clarity-and-meetings-rename`（wt-11・behind 8 / ahead 2・merge `566b26a7c`・#1238 esbuild 0.28.1 が dev 経由で再到達）で、`--force` なしの通常 `pnpm install` は worktree `node_modules/@esbuild/` に過去の `darwin-x64` 残骸のみ残し `darwin-arm64` を補完せず、`verify-worktree-isolation` が「`@esbuild/darwin-arm64 resolved outside cwd`（親 node_modules フォールバック）」で FAIL した。仕様書 Phase 11 には install コマンドを**必ず `pnpm install --force`** と逐語し、isolation FAIL 時の一次切り分けに「`ls node_modules/@esbuild/` で当該 arch（`darwin-arm64`）の物理存在を確認 → 欠落なら `--force` 再 install で補完」を併記する（L-DEVSYNC-140-D の task-spec 版）。
 - Why: 本 repo は esbuild を多重 gate（binary path 吸収・worktree 分離・version 三者一致）で守るため、esbuild lock bump はその前提（host=bin=lock）を崩す。install で実バイナリを揃え verify で裏取りするまで push してはならない。lock 変更一般（SP-DEVSYNC-134）の中でも esbuild は専用 gate がある分、検証が厚い特例。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140 が正本。SP-DEVSYNC-134（lock 変更→install 必須の一般則・本 lesson はその esbuild 特例）, SP-DEVSYNC-139（直前 sync・生成物 gate）, CLAUDE.md「Vitest / esbuild runtime トラブル時」`pnpm verify:vitest-runtime`。
 
