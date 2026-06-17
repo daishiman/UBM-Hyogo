@@ -9,7 +9,7 @@ export const formatDelta = (current: number, previous: number | null): string =>
   if (previous === null || !Number.isFinite(previous)) return "—";
   const diff = current - previous;
   const sign = diff > 0 ? "↑" : diff < 0 ? "↓" : "→";
-  return `${sign}${Math.abs(diff * 100).toFixed(1)}pt`;
+  return `${sign}${Math.abs(diff * 100).toFixed(1)}ポイント`;
 };
 
 export const ZONE_LABEL: Record<AttendanceZone, string> = {
@@ -21,14 +21,14 @@ export const ZONE_LABEL: Record<AttendanceZone, string> = {
 };
 
 export const ZONE_HELP =
-  "出席回数帯は、各メンバーの累計出席回数を 0 回、1〜9 回、10〜99 回、100 回以上に分類したものです。";
+  "各メンバーがこれまでに参加した合計回数を、0 回／1〜9 回／10〜99 回／100 回以上に分けて表示しています。";
 
 export const PERIOD_PRESETS = [
   { id: "all", label: "全期間", monthsBack: null as number | null },
   { id: "1m", label: "今月", monthsBack: 1 },
-  { id: "3m", label: "3M", monthsBack: 3 },
-  { id: "6m", label: "6M", monthsBack: 6 },
-  { id: "1y", label: "1Y", monthsBack: 12 },
+  { id: "3m", label: "3か月", monthsBack: 3 },
+  { id: "6m", label: "6か月", monthsBack: 6 },
+  { id: "1y", label: "1年", monthsBack: 12 },
 ] as const;
 
 export type PeriodPresetId = (typeof PERIOD_PRESETS)[number]["id"];

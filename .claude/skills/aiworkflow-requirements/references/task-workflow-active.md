@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-japanese-clarity-and-filter-collapse-artifact-inventory.md` |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+### admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/` |
+| 目的 | `/admin/dashboard/attendance` の英語見出し・エンジニア用語（PRIMARY/TREND/DETAIL/TOP10/CSV/セッション/ユニーク/KPI/pt 等）を平易な日本語へ統一し、長い日本語ラベルでも読めるよう軽微な CSS rhythm を整える |
+| implementation targets | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/src/features/admin/attendance/components/{AttendanceAnalyticsPage,KpiPanel,AttendanceAbsenteeAlert,AttendanceDetailTabs,AttendanceFilterBar,AttendanceTrendChart,AttendanceZoneDistributionChart,SessionAttendanceTable}.tsx`, `apps/web/src/features/admin/attendance/lib/format-attendance.ts`, `apps/web/src/styles/globals.css`, focused attendance specs, `apps/web/playwright/tests/admin-attendance-dashboard-ux.spec.ts` |
+| evidence | focused Vitest `apps/web/src/features/admin/attendance/__tests__` 8 files / 23 tests PASS、local Playwright fixture screenshot 6 PNG present、`verify:tokens` PASS、Phase 12 implementation-guide validator 12/12 PASS、`apps/api` / `packages/shared` diff empty |
+| invariant | API endpoint / D1 schema / Google Form schema / shared types / design token / primitive catalog unchanged。apps/web は既存 API/BFF 経由のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
+| user gate | authenticated staging baseline screenshots, commit, push, PR |
+
 ## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
 
 | 項目 | 値 |

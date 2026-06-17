@@ -17,9 +17,9 @@ interface Props {
 }
 
 const DETAIL_OPTIONS = [
-  { value: "session", label: "セッション別" },
+  { value: "session", label: "開催回ごと" },
   { value: "member", label: "会員別" },
-  { value: "top10", label: "TOP10" },
+  { value: "top10", label: "出席が多い順" },
 ];
 
 export function AttendanceDetailTabs({ bySession, ranking }: Props) {
@@ -40,7 +40,7 @@ export function AttendanceDetailTabs({ bySession, ranking }: Props) {
             <SessionAttendanceTable rows={bySession.data} />
           ) : (
             <AdminSectionErrorClient
-              sectionLabel="セッション別出席状況"
+              sectionLabel="開催回ごとの出席状況"
               code={bySession.error.code}
               message={bySession.error.message}
             />
@@ -62,7 +62,7 @@ export function AttendanceDetailTabs({ bySession, ranking }: Props) {
             <AttendanceTop10Ranking rows={ranking.data} />
           ) : (
             <AdminSectionErrorClient
-              sectionLabel="出席ランキング TOP 10"
+              sectionLabel="出席が多い人の一覧"
               code={ranking.error.code}
               message={ranking.error.message}
             />
