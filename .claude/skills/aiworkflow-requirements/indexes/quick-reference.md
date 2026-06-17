@@ -13,6 +13,71 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-profile-me-404-authenticated-admin-recovery-artifact-inventory.md` |
 | user gate | staging deploy, authenticated `/me` 200, recovery screenshot, commit, push, PR |
 
+## issue-1189-deleted-member-410-guidance-and-restore（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-1189-deleted-member-410-guidance-and-restore/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / local_static_visual_present_staging_visual_pending_user_gate` |
+| issue | #1189 OPEN（state / label mutation は user-gated） |
+| purpose | 退会済み会員の `/profile` 410 行き止まり UX を退会済み明示 + 公開トップ CTA へ変え、管理者が既存 restore API を MemberDrawer から実行できるようにする |
+| implementation | `apps/web/app/(member)/profile/_lib/session-error-display.ts`, `apps/web/app/(member)/profile/_lib/__tests__/session-error-display.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/features/admin/components/_members/__tests__/MemberDrawer.restore.spec.tsx` |
+| evidence | focused Vitest 3 files / 24 tests PASS; local static visual screenshots 3 PNG present; typecheck PASS; lint PASS; verify:tokens PASS; verify:phase12-compliance PASS |
+| invariant | apps/api / D1 schema / Google Form / restore endpoint contract unchanged; general member self-restore is out of scope by product decision |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1189-deleted-member-410-guidance-and-restore-artifact-inventory.md` |
+| user gate | staging D1 mutation, authenticated runtime screenshots, commit, push, PR, Issue mutation |
+
+## admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/` |
+| status | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| purpose | `/admin/dashboard/attendance` の英語見出し・専門語を平易な日本語へ統一し、長い日本語ラベルの折返しを最小 CSS で補強する |
+| implementation | attendance dashboard route header、attendance components、`format-attendance.ts` label constants、`globals.css` rhythm、focused tests、Playwright assertion |
+| evidence | focused Vitest 8 files / 23 tests PASS; local Playwright fixture screenshot 6 PNG present; verify:tokens PASS; phase12 implementation-guide validator 12/12 PASS; apps/api/packages/shared diff empty |
+| invariant | no API/D1/Form/shared/design-token/primitive change; apps/web presentation layer only |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
+| user gate | authenticated staging baseline screenshots, commit, push, PR |
+
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| purpose | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation | `shell-config.ts`, `/admin/identity-conflicts/page.tsx`, `IdentityConflictRow.tsx`, `IdentityConflictGuide.tsx`, `identityConflictGlossary.ts`, identity-conflict seed catalog/builder/generated SQL/scripts |
+| evidence | focused Vitest 5 files / 42 tests PASS; seed generator drift 0; exactly 5 conflict candidates contract PASS; verify:tokens/typecheck/lint/phase12-compliance PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged; matchedFields は web glossary で表示変換; seed は local/staging 限定 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
+## home-dashboard-japanese-localization（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/home-dashboard-japanese-localization/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | 公開トップ `/` の英語表記を非エンジニア向け日本語へ整える |
+| implementation | `page.tsx`, `Stats.tsx`, `AboutUbm.tsx`, `Timeline.tsx`, `CallToActionCTA.tsx`, `legacy-public.css`, `lib/api/public.ts`, focused specs |
+| evidence | focused Vitest 7 files / 44 tests PASS; typecheck/lint/verify:tokens PASS; English residual grep 0; local Playwright screenshots 3 PNG + DOM verification PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-dashboard-japanese-localization-artifact-inventory.md` |
+| user gate | staging visual baseline, commit, push, PR |
+
+## admin-tag-management-clarity-and-code-autogen（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tag-management-clarity-and-code-autogen/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/tag-master` と `/admin/tags` の関係を非エンジニア向けに明確化し、タグ定義コードを表示名から自動生成する |
+| implementation | `tagCodeAutogen.ts`, `tagManagementGlossary.ts`, `TagManagementGuide.tsx`, `TagDefinitionCreateForm.tsx`, shell nav label, admin tag pages, TagQueue/MemberDrawer labels |
+| evidence | focused Vitest 6 files / 39 tests PASS; web typecheck PASS; web lint PASS; verify-design-tokens PASS; apps/api diff empty |
+| invariant | Existing tag API surface only; apps/api / D1 / Google Form / shared public contract unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 2, staging deploy, commit, push, PR |
+
 ## admin-schema-terminology-clarity（2026-06-11）
 
 | 項目 | 値 |
@@ -6010,3 +6075,11 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Topic | References | Notes |
 | --- | --- | --- |
 | issue-1068-admin-tag-inline-create-ui（implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION） | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/index.md`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 admin member drawer tag inline-create UI implemented locally. Uses existing `POST /admin/tags` and member tag assignment endpoints; `apps/api` unchanged. task-A web client helper, task-B component/wiring, and task-C env-gated visual spec are complete. Staging screenshots, commit, push, PR, and Issue mutation are user-gated. |
+
+## 2026-06-11 admin-requests approval diff
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` | `/admin/requests` 承認時の公開状態 / 退会状態 before-after diff 表示 workflow | Issue #1188、admin requests approval UI、`publishState` / `desiredState` 表示差分を確認する時 |
+| `apps/web/src/components/admin/RequestQueueDetail.tsx` | `formatPublishStateLabel` / `buildPublishStateDiff` と詳細パネル diff 行の実装 | before/after label、fail-soft、`delete_request` 意味軸分離を確認する時 |
+| `apps/web/src/components/admin/RequestQueuePanel.tsx` / `RequestConfirmDialog.tsx` | 承認確認ダイアログの具体遷移文言と destructive alert 分離 | approval dialog 文言を確認する時 |

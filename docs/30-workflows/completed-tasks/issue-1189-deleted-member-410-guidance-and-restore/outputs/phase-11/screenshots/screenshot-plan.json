@@ -1,0 +1,42 @@
+{
+  "mode": "VISUAL",
+  "taskId": "TASK-MEMBER-410-DELETED-GUIDANCE-AND-RESTORE-001",
+  "status": "local_static_present_staging_pending_user_gate",
+  "note": "Local static visual contract screenshots generated without staging D1 mutation. Staging authenticated runtime remains user-gated.",
+  "outputDir": "outputs/phase-11/screenshots",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "name": "profile-410-deleted-guidance.png",
+      "route": "/profile",
+      "state": "MEMBER_SESSION_410 deleted member guidance",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-2",
+      "name": "admin-member-drawer-restore-button.png",
+      "route": "/admin/members",
+      "state": "MemberDrawer deleted section restore button",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "status": "present"
+    },
+    {
+      "tc": "TC-11-3",
+      "name": "admin-member-drawer-after-restore.png",
+      "route": "/admin/members",
+      "state": "MemberDrawer after restore success",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "status": "present"
+    }
+  ]
+}

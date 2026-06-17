@@ -19,12 +19,14 @@ describe("KpiPanel", () => {
   it("renders primary rate with supporting metrics", () => {
     render(<KpiPanel overview={baseOverview} attendeeCount={120} />);
     expect(screen.getByTestId("attendance-kpi-rate").textContent).toContain("42.0%");
-    expect(screen.getByTestId("attendance-kpi-rate").textContent).toContain("60.0%");
+    expect(screen.getByTestId("attendance-kpi-rate").textContent).toContain("一度でも参加した人の割合 60.0%");
     expect(screen.getByTestId("attendance-kpi-rate").textContent).toContain("30 / 50");
     expect(screen.getByTestId("attendance-kpi-attendees").textContent).toContain("120");
-    expect(screen.getByTestId("attendance-kpi-attendees").textContent).toContain("期間内延べ出席数");
+    expect(screen.getByTestId("attendance-kpi-attendees").textContent).toContain("期間内の出席のべ人数");
     expect(screen.getByTestId("attendance-kpi-avg").textContent).toContain("12.0");
+    expect(screen.getByTestId("attendance-kpi-avg").textContent).toContain("1回の開催あたり");
     expect(screen.getByTestId("attendance-kpi-sessions").textContent).toContain("10");
+    expect(screen.getByTestId("attendance-kpi-sessions").textContent).toContain("開催回数");
   });
 
   it("shows '—' delta when previousPeriodRate is null", () => {

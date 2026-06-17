@@ -33,10 +33,11 @@ export function mapProfileSessionErrorToDisplay(
 
   if (code === "MEMBER_SESSION_410") {
     return {
-      title: "セッション情報を取得できませんでした",
+      title: "このアカウントは退会済みです",
       detail:
-        "アカウントの利用状態を確認できませんでした。管理者に確認してください。",
-      retryHref: "/profile",
+        "退会手続きが完了しているため、マイページを表示できません。誤って退会された場合や利用再開をご希望の場合は、支部会の運営（管理者）にお問い合わせください。",
+      actionHref: "/",
+      actionLabel: "公開サイトのトップへ戻る",
       dataCause: "session-410",
     };
   }

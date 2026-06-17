@@ -28,13 +28,13 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
   return (
     <div data-testid="attendance-analytics-page" className="attendance-analytics-page flex flex-col gap-4">
       <p className="attendance-page-guide">
-        期間と出席回数帯で絞り込み、出席率の推移、累計出席回数の分布、要フォロー対象を確認します。
+        期間と累計の出席回数で絞り込み、出席率の移り変わり、出席回数べつの人数、要フォロー対象を確認します。
       </p>
       <AttendanceFilterBar initial={filterState} />
 
       <section className="attendance-zone attendance-zone--primary" aria-labelledby="attendance-primary-heading">
         <div className="attendance-zone-heading">
-          <h2 id="attendance-primary-heading">PRIMARY</h2>
+          <h2 id="attendance-primary-heading">全体の状況</h2>
           <p className="attendance-section-intro">全体の健全性と、今日フォローすべき対象を最初に判断します。</p>
         </div>
         <div className="attendance-primary-grid">
@@ -42,7 +42,7 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
             <KpiPanel overview={bundle.overview.data} attendeeCount={attendeeCount} />
           ) : (
             <AdminSectionErrorClient
-              sectionLabel="出席KPI"
+              sectionLabel="出席のおもな指標"
               code={bundle.overview.error.code}
               message={bundle.overview.error.message}
             />
@@ -61,31 +61,31 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
 
       <section className="attendance-zone attendance-zone--trend" aria-labelledby="attendance-trend-heading">
         <div className="attendance-zone-heading">
-          <h2 id="attendance-trend-heading">TREND</h2>
-          <p className="attendance-section-intro">月別推移と参加回数帯から、参加の偏りを確認します。</p>
+          <h2 id="attendance-trend-heading">出席の移り変わり</h2>
+          <p className="attendance-section-intro">月ごとの移り変わりと出席回数のはばから、参加のかたよりを確認します。</p>
         </div>
         <div className="attendance-charts-grid">
           <article className="attendance-analysis-card">
-            <h3>出席トレンド</h3>
-            <p className="attendance-section-intro">月別の延べ出席数と開催セッション数の変化を確認します。</p>
+            <h3>月ごとの出席の移り変わり</h3>
+            <p className="attendance-section-intro">月ごとの延べ出席数と開催回数の変化を確認します。</p>
             {bundle.trend.ok ? (
               <AttendanceTrendChart trend={bundle.trend.data} />
             ) : (
               <AdminSectionErrorClient
-                sectionLabel="出席トレンド"
+                sectionLabel="出席の移り変わり"
                 code={bundle.trend.error.code}
                 message={bundle.trend.error.message}
               />
             )}
           </article>
           <article className="attendance-analysis-card">
-            <h3>出席回数帯別分布</h3>
-            <p className="attendance-section-intro">未出席・低頻度層の偏りを確認します。</p>
+            <h3>出席回数べつの人数</h3>
+            <p className="attendance-section-intro">未出席や参加が少ない人のかたよりを確認します。</p>
             {bundle.zoneDistribution.ok ? (
               <AttendanceZoneDistributionChart data={bundle.zoneDistribution.data} />
             ) : (
               <AdminSectionErrorClient
-                sectionLabel="区画別分布"
+                sectionLabel="出席回数べつの人数"
                 code={bundle.zoneDistribution.error.code}
                 message={bundle.zoneDistribution.error.message}
               />
@@ -96,7 +96,7 @@ export async function AttendanceAnalyticsPage({ filterState }: Props) {
 
       <section className="attendance-zone attendance-zone--detail" aria-labelledby="attendance-detail-heading">
         <div className="attendance-zone-heading">
-          <h2 id="attendance-detail-heading">DETAIL</h2>
+          <h2 id="attendance-detail-heading">くわしい一覧</h2>
           <p className="attendance-section-intro">詳細テーブルは必要な観点だけを切り替えて確認します。</p>
         </div>
         <AttendanceDetailTabs bySession={bundle.bySession} ranking={bundle.ranking} />

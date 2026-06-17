@@ -18,7 +18,7 @@ issue_number: 1188
 | 対象機能 | `/admin/requests` 会員申請キューの承認確認 UI（公開状態の遷移表示） |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/`（implemented_local_runtime_pending） |
 | GitHub Issue | [#1188](https://github.com/daishiman/UBM-Hyogo/issues/1188) |
 | 発見元 | `admin-requests-queue-rename-and-publish-dependency` Phase 12 unassigned-task-detection.md B-2 |
 | 発見日 | 2026-06-09 |

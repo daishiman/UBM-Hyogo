@@ -11,7 +11,7 @@ import { MemberFieldEditor } from "../../../../components/admin/MemberFieldEdito
 import { Drawer } from "../../../../components/ui/Drawer";
 import { KVList } from "../../../../components/ui/KVList";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
-import { useAdminMutation } from "../../hooks/useAdminMutation";
+import { FetchAuthedError, useAdminMutation } from "../../hooks/useAdminMutation";
 import {
   fetchMemberTags,
   type AdminTagRef,
@@ -114,6 +114,29 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
   const profile = detail.profile;
   const summary = profile.summary;
   const fullName = summary.fullName ?? "(名前なし)";
+  const [restoreError, setRestoreError] = useState<string | null>(null);
+  const restoreMutation = useAdminMutation<{ id: string; restoredAt: string }>(
+    `/api/admin/members/${encodeURIComponent(memberId)}/restore`,
+    "POST",
+    {
+      successMessage: "会員を復元しました",
+      refreshOnSuccess: false,
+      onSuccess: () => {
+        setRestoreError(null);
+        onUpdated({
+          status: { ...detail.status, isDeleted: false },
+          profile: { ...detail.profile, isDeleted: false },
+        });
+      },
+      onError: (error) => {
+        setRestoreError(
+          error instanceof FetchAuthedError && error.status === 409
+            ? "すでに復元済みの可能性があります。画面を再読み込みしてください。"
+            : "復元に失敗しました。時間をおいて再度お試しください。",
+        );
+      },
+    },
+  );
 
   return (
     <div className="flex flex-col gap-4 text-sm">
@@ -283,8 +306,36 @@ function MemberDrawerBody({ memberId, detail, onUpdated }: MemberDrawerBodyProps
             退会済み
           </h3>
           <p className="mt-1 text-sm text-[var(--ubm-color-text-secondary)]">
-            この会員は論理削除されています。復元する場合は管理者にお問い合わせください。
+            この会員は退会済み（論理削除）です。復元すると、公開設定やプロフィールが退会前の状態に戻ります。
           </p>
+          {restoreError ? (
+            <p role="alert" className="mt-2 text-sm text-[var(--ubm-color-danger)]">
+              {restoreError}
+            </p>
+          ) : null}
+          <div className="mt-2">
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              data-testid="member-restore-button"
+              loading={restoreMutation.isLoading}
+              onClick={() => {
+                if (restoreMutation.isLoading) return;
+                if (
+                  !globalThis.confirm(
+                    "この会員を復元しますか？復元すると退会前の状態に戻ります。",
+                  )
+                ) {
+                  return;
+                }
+                setRestoreError(null);
+                restoreMutation.trigger({}).catch(() => {});
+              }}
+            >
+              {restoreMutation.isLoading ? "復元中…" : "この会員を復元する"}
+            </Button>
+          </div>
         </section>
       ) : null}
 
@@ -526,7 +577,7 @@ function MemberTagsEditor({ memberId }: MemberTagsEditorProps) {
         href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
         className="mt-3 inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
       >
-        タグキューへ
+        タグ割当へ
       </Link>
     </section>
   );

@@ -17,8 +17,8 @@ describe("AttendanceZoneDistributionChart", () => {
 
     render(<AttendanceZoneDistributionChart data={data} />);
 
-    expect(screen.getByRole("group", { name: "出席回数帯別分布" })).toBeTruthy();
-    expect(screen.getByText(/各メンバーの累計出席回数/)).toBeTruthy();
+    expect(screen.getByRole("group", { name: "出席回数べつの人数" })).toBeTruthy();
+    expect(screen.getByText(/各メンバーがこれまでに参加した合計回数/)).toBeTruthy();
     expect(screen.getByText("0 回（未出席）")).toBeTruthy();
     expect(screen.getByText("1〜9 回")).toBeTruthy();
   });

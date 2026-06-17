@@ -55,7 +55,7 @@ const shots: Shot[] = [
   {
     name: '07-admin-identity-conflicts.png',
     route: '/admin/identity-conflicts',
-    heading: 'Identity 重複候補',
+    heading: '会員の重複確認',
     state: 'identity conflict page header',
   },
   {

@@ -46,30 +46,30 @@ export function KpiPanel({ overview, attendeeCount }: Props) {
           {formatRate(overview.overallRate)}
         </div>
         <div className="attendance-kpi-hint">
-          前期間比 {formatDelta(overview.overallRate, overview.previousPeriodRate)}
+          前の期間とくらべて {formatDelta(overview.overallRate, overview.previousPeriodRate)}
         </div>
         <div className="attendance-kpi-support">
-          <span>ユニーク出席率 {formatRate(overview.uniqueAttendanceRate)}</span>
+          <span>一度でも参加した人の割合 {formatRate(overview.uniqueAttendanceRate)}</span>
           <span>{overview.uniqueAttendeeCount} / {overview.totalMembers} 名</span>
         </div>
       </article>
-      <div className="attendance-kpi-secondary-grid" aria-label="出席KPI補助指標">
+      <div className="attendance-kpi-secondary-grid" aria-label="出席のおもな指標">
         <Metric
-          label="期間内延べ出席数"
+          label="期間内の出席のべ人数"
           value={String(attendeeCount)}
-          hint="セッション別出席者数の合計"
+          hint="開催回ごとの出席者数を合計した数"
           testId="attendance-kpi-attendees"
         />
         <Metric
           label="平均出席数"
           value={avgPerSession}
-          hint="1 セッションあたり"
+          hint="1回の開催あたり"
           testId="attendance-kpi-avg"
         />
         <Metric
-          label="セッション数"
+          label="開催回数"
           value={String(overview.totalSessions)}
-          hint="期間内の開催数"
+          hint="この期間の開催回数"
           testId="attendance-kpi-sessions"
         />
       </div>

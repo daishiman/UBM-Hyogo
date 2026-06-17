@@ -2135,6 +2135,17 @@ node scripts/list-specs.js --topics
 | Artifacts | L13 |
 | Boundary | L31 |
 
+### references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Artifacts | L7 |
+| Implementation Targets | L19 |
+| Evidence | L30 |
+| Invariants | L41 |
+| Lessons Learned | L48 |
+
 ### references/workflow-admin-attendance-dashboard-ux-artifact-inventory.md
 
 | セクション | 行 |
@@ -2166,6 +2177,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Contract | L15 |
+
+### references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation | L11 |
+| Evidence | L20 |
+| Invariants | L30 |
+| Lessons Learned | L38 |
 
 ### references/workflow-admin-identity-conflicts-prototype-alignment-and-404-fix-artifact-inventory.md
 
@@ -2263,6 +2283,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Lessons Learned | L15 |
+
+### references/workflow-admin-requests-approval-publish-state-diff-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Lessons Learned | L16 |
 
 ### references/workflow-admin-requests-prototype-alignment-and-404-fix-artifact-inventory.md
 
@@ -2367,6 +2393,16 @@ node scripts/list-specs.js --topics
 | Evidence | L44 |
 | Lessons Learned | L52 |
 | User-Gated | L58 |
+
+### references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Targets | L12 |
+| Evidence | L25 |
+| Invariants | L35 |
+| Lessons Learned | L42 |
 
 ### references/workflow-admin-tag-queue-ui-and-404-recovery-artifact-inventory.md
 
@@ -2655,6 +2691,17 @@ node scripts/list-specs.js --topics
 | 3. SKILL.md 入口導線 | L80 |
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
+
+### references/workflow-home-dashboard-japanese-localization-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Workflow Artifacts | L14 |
+| Implementation Targets | L25 |
+| Evidence | L35 |
+| Invariants | L46 |
+| Lessons Learned | L55 |
 
 ### references/workflow-home-page-prototype-alignment-artifact-inventory.md
 
@@ -3197,6 +3244,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Root-Cause Notes | L16 |
 | Lessons Learned | L22 |
+
+### references/workflow-issue-1189-deleted-member-410-guidance-and-restore-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L3 |
+| Workflow Root | L7 |
+| Implementation Files | L11 |
+| Evidence | L21 |
+| Invariants | L39 |
+| Lessons Learned | L47 |
 
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
@@ -9335,25 +9393,25 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L4425 |
-| フェーズ構造（概要） | L4434 |
-| 品質ゲート（概要） | L4465 |
-| 出力テンプレート | L4476 |
-| 実行時のコマンド・エージェント・スキル | L4499 |
-| 昇格パターン集 | L4523 |
-| Current Active / Spec Created Tasks | L4525 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4691 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4759 |
-| issue-1007-density-toggle-help-hint-hardening | L4783 |
-| issue-1079-bulk-tag-audit-batch-filter | L4796 |
-| issue-1128-audit-batchid-index-optimization | L4809 |
-| issue-998-members-publish-state-production-rollout | L4826 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4885 |
-| issue-1068-admin-tag-inline-create-ui | L4899 |
-| issue-1111-proxy-transport-util-unify | L4917 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L4935 |
-| members-search-clear-and-sort-ux（2026-06-11） | L4948 |
-| profile-me-404-authenticated-admin-recovery（2026-06-13） | L4960 |
+| admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11） | L38 |
+| ドキュメント構成 | L4492 |
+| フェーズ構造（概要） | L4501 |
+| 品質ゲート（概要） | L4532 |
+| 出力テンプレート | L4543 |
+| 実行時のコマンド・エージェント・スキル | L4566 |
+| 昇格パターン集 | L4590 |
+| Current Active / Spec Created Tasks | L4592 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4758 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4826 |
+| issue-1007-density-toggle-help-hint-hardening | L4850 |
+| issue-1079-bulk-tag-audit-batch-filter | L4863 |
+| issue-1128-audit-batchid-index-optimization | L4876 |
+| issue-998-members-publish-state-production-rollout | L4893 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4952 |
+| issue-1068-admin-tag-inline-create-ui | L4966 |
+| issue-1111-proxy-transport-util-unify | L4984 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L5002 |
+| admin-requests-approval-publish-state-diff（2026-06-11） | L5015 |
 
 ### references/task-workflow-backlog-part2.md
 

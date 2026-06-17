@@ -8,6 +8,60 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### issue-1189-deleted-member-410-guidance-and-restore（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local_static_visual_present_staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1189-deleted-member-410-guidance-and-restore/` |
+| Issue | #1189 OPEN（state / label mutation は user-gated） |
+| 目的 | 退会済み会員の `/profile` 410 行き止まり UX を明示案内へ変え、管理者が既存 restore API を MemberDrawer から実行できるようにする |
+| implementation targets | `apps/web/app/(member)/profile/_lib/session-error-display.ts`, `apps/web/app/(member)/profile/_lib/__tests__/session-error-display.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/features/admin/components/_members/__tests__/MemberDrawer.restore.spec.tsx` |
+| evidence | focused Vitest 3 files / 24 tests PASS。restore spec は実 `useAdminMutation` 経路 + fetch mock で success / cancel / 409 / 404 / network / pending 二重送信を検証。local static visual screenshots 3 PNG present |
+| invariant | apps/api / D1 schema / Google Form / restore endpoint contract unchanged。会員自己復帰 flow は実装しない（管理者復元が正式経路） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1189-deleted-member-410-guidance-and-restore-artifact-inventory.md` |
+| user gate | staging D1 mutation、authenticated runtime screenshots、commit、push、PR、Issue mutation |
+
+### admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_present_staging_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/` |
+| 目的 | `/admin/dashboard/attendance` の英語見出し・エンジニア用語（PRIMARY/TREND/DETAIL/TOP10/CSV/セッション/ユニーク/KPI/pt 等）を平易な日本語へ統一し、長い日本語ラベルでも読めるよう軽微な CSS rhythm を整える |
+| implementation targets | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`, `apps/web/src/features/admin/attendance/components/{AttendanceAnalyticsPage,KpiPanel,AttendanceAbsenteeAlert,AttendanceDetailTabs,AttendanceFilterBar,AttendanceTrendChart,AttendanceZoneDistributionChart,SessionAttendanceTable}.tsx`, `apps/web/src/features/admin/attendance/lib/format-attendance.ts`, `apps/web/src/styles/globals.css`, focused attendance specs, `apps/web/playwright/tests/admin-attendance-dashboard-ux.spec.ts` |
+| evidence | focused Vitest `apps/web/src/features/admin/attendance/__tests__` 8 files / 23 tests PASS、local Playwright fixture screenshot 6 PNG present、`verify:tokens` PASS、Phase 12 implementation-guide validator 12/12 PASS、`apps/api` / `packages/shared` diff empty |
+| invariant | API endpoint / D1 schema / Google Form schema / shared types / design token / primitive catalog unchanged。apps/web は既存 API/BFF 経由のみ |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
+| user gate | authenticated staging baseline screenshots, commit, push, PR |
+
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| 目的 | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation targets | `apps/web/src/components/shell/shell-config.ts`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/IdentityConflictGuide.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/features/admin/identity-conflicts/identityConflictGlossary.ts`, `apps/api/src/testing/identity-conflicts/**`, `apps/api/migrations/seed/identity-conflict-{staging-seed,cleanup}.sql`, `scripts/gen-identity-conflict-seed.mjs`, `scripts/seed-identity-conflicts.sh` |
+| evidence | focused Vitest 5 files / 42 tests PASS。seed generator drift 0、idempotent、scoped cleanup、exactly 5 conflict candidates を contract test で確認。`verify:tokens` / `typecheck` / `lint` / `verify:phase12-compliance` PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged。`matchedFields` は web glossary で表示変換。seed は local/staging 限定で production 到達不可 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
+### admin-tag-management-clarity-and-code-autogen（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tag-management-clarity-and-code-autogen/` |
+| 目的 | `/admin/tag-master` と `/admin/tags` の関係を非エンジニア向けに明確化し、タグ定義コードを表示名から自動生成する |
+| implementation targets | `apps/web/src/lib/admin/{tagCodeAutogen,tagManagementGlossary}.ts`, `apps/web/src/components/admin/{TagManagementGuide,TagDefinitionCreateForm,TagQueuePanel}.tsx`, `apps/web/src/components/shell/shell-config.ts`, `apps/web/app/(admin)/admin/{tag-master,tags}/page.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `tagCodeAutogen.spec.ts`, `tagManagementGlossary.spec.ts`, `TagManagementGuide.component.spec.tsx`, `TagDefinitionCreateForm.component.spec.tsx`, `shell-config.spec.ts`, `TagQueuePanel.component.spec.tsx` |
+| evidence | focused Vitest 6 files / 39 tests PASS、web typecheck PASS、web lint PASS、verify-design-tokens PASS、apps/api diff empty |
+| invariant | Existing tag API surface only。apps/api / D1 / Google Form / shared public contract unchanged。`/admin/tags` route remains tag assignment queue; label is unified to 「タグ割当」 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-tag-management-clarity-and-code-autogen-artifact-inventory.md` |
+| user gate | authenticated staging screenshots 2, staging deploy, commit, push, PR |
+
 ### admin-schema-terminology-clarity（2026-06-11）
 
 | 項目 | 値 |
@@ -274,6 +328,19 @@
 | evidence | focused Vitest 5 files / 28 tests PASS、web typecheck PASS、web lint PASS、`pnpm verify:tokens` PASS、local static visual screenshot 5 PNG present |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-public-members-tag-filter-ux-refine-artifact-inventory.md` |
 | user gate | staging data-backed screenshots, commit, push, PR |
+
+### home-dashboard-japanese-localization（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/home-dashboard-japanese-localization/` |
+| 目的 | 公開トップ `/` の英語表記を非エンジニア向け日本語へ整え、重複する英語 overline を削除する。Phase 11 で検出した featured members error panel も web 境界補完で解消 |
+| implementation targets | `apps/web/app/(public)/page.tsx`, `apps/web/src/components/public/{Stats,AboutUbm,Timeline,CallToActionCTA}.tsx`, `apps/web/src/styles/legacy-public.css`, `apps/web/src/lib/api/public.ts`, focused component/page/api specs |
+| invariant | apps/api / packages/shared / D1 schema / Google Form / endpoint surface は不変。apps/web 内のみ |
+| evidence | focused Vitest 7 files / 44 tests PASS、`pnpm typecheck` PASS、`pnpm lint` PASS、`pnpm verify:tokens` PASS、home English residual grep 0、local Playwright screenshots 3 PNG + DOM verification PASS |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-home-dashboard-japanese-localization-artifact-inventory.md` |
+| user gate | staging visual baseline、commit、push、PR |
 
 
 ### admin-member-detail-tag-source-500-and-drawer-resilience（2026-06-09）
@@ -4944,6 +5011,18 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | contract | `NEXT_PUBLIC_API_BASE_URL` が current public API base URL の単一正本。`API_SERVICE` service binding は production/staging primary transport、HTTP fallback は local/test/Playwright のみ。`getApiBaseEnv()` / `ApiBaseEnv` は削除済み |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
 | user gate | commit、push、PR、staging/production deploy、Issue mutation |
+
+## admin-requests-approval-publish-state-diff（2026-06-11）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| Issue | `#1188`（commit / push / PR / Issue mutation は user-gated） |
+| purpose | `/admin/requests` 承認導線で `publishState` / `desiredState` / `isDeleted` の既存 3 値だけを使い、公開状態または退会レコード状態の `変更前 → 変更後` diff を日本語で表示する |
+| implementation | `RequestQueueDetail.tsx` に `formatPublishStateLabel` / `buildPublishStateDiff` と diff 行、`RequestQueuePanel.tsx` に具体遷移文言、`RequestConfirmDialog.tsx` に通常説明文 / destructive alert 分離、`globals.css` に token-only `[data-diff-side]` styles |
+| evidence | focused Vitest 3 files / 27 tests PASS、admin requests Playwright E2E 7 tests PASS、`pnpm typecheck` PASS、`pnpm lint` PASS、web design token gate PASS、`pnpm verify:phase12-compliance` PASS |
+| boundary | `apps/api` / `packages/shared` / D1 / Google Form / API projection / design token 正本は不変。staging deploy、admin bearer mint、3 canonical PNG、commit、push、PR は user-gated |
 
 ## members-search-clear-and-sort-ux（2026-06-11）
 

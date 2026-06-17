@@ -95,6 +95,9 @@ the task specification, actual changed files, evidence files, and system ledgers
 > この形は「実画像捏造を避けるための runtime pending ledger」であり、local implementation target
 > （spec / runner / helper）が未作成のまま `present` 扱いする抜け道ではない。
 >
+> **VISUAL + implemented_local_evidence_captured の screenshot pending rule（2026-06-11）**:
+> UI 実コードと focused tests が同一 wave で完了しているが、authenticated runtime / staging seed apply / external SaaS などが user-gated のため screenshot だけ未取得の場合、workflow state は `implemented_local_evidence_captured` にしてよい。ただし screenshot 行は必ず `pending` にし、`Status=present` と書いて物理 PNG 存在検査を偽装してはならない。`phase11-capture-metadata.json` には canonical screenshot 名と user-gated 理由を記録し、`Runtime or user-gated boundary` で撮影 gate を分離する。
+>
 > **重要（Refs L-DEVSYNC-016 / 2026-05-19 sync-merge incident）**: spec-only / docs-only / flat-layout（`phase-{1..13}-*.md` フラット配置）の workflow root であっても `outputs/phase-12/phase12-task-spec-compliance-check.md` は CI gate `verify-phase12-compliance` の必須生成物。`artifacts.json` 不在・実装コード差分ゼロでも本ファイル単体は提供すること。Phase 11 evidence inventory は `| manual test result | outputs/phase-11/manual-test-result.md | n/a |` の 1 行 spec-only テンプレで埋める。task-specification-creator skill が flat-layout spec を生成する際は本ファイル生成を Phase 12 step に必ず含める。
 
 ## Verification Commands
@@ -121,6 +124,8 @@ For skill-promotion tasks, also verify:
 rg -n 'workflow-state-vocabulary|phase12-compliance-check-template' .claude/skills/task-specification-creator/SKILL.md
 rg -n 'workflow-state-vocabulary|phase12-compliance-check-template' .claude/skills/task-specification-creator/references/phase-12-spec.md .claude/skills/task-specification-creator/references/phase12-skill-feedback-promotion.md .claude/skills/task-specification-creator/references/phase-template-phase11.md
 ```
+
+`implemented_local_evidence_captured` / `implemented_local_runtime_pending` など、実コード差分と local evidence が揃った close-out では、aiworkflow-requirements の active guide / quick-reference / resource-map / artifact-inventory / SKILL-changelog など該当 surface を同一 wave で更新する。`close-out 後に実施` / `N/A（本サイクル）` と書いたまま、実ファイルが既に更新済みまたは更新対象である状態は矛盾として FAIL にする。未更新にできるのは、owner skill が存在しない、または新規 API/型/D1/UI 正本に影響しない no-op reason と evidence path を明記した場合だけ。
 
 ## Drift Patterns
 

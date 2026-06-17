@@ -1,0 +1,39 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260611-132150-wt-7/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[MR] clean output dir ...
+
+Running 1 test using 1 worker
+
+(node:5655) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5655) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop-chromium] › playwright/tests/admin-attendance-dashboard-ux.spec.ts:37:3 › admin-attendance-dashboard-jp-clarity-and-ux Phase 11 local screenshots › captures canonical Japanese clarity screenshots (6.9s)
+
+  1 passed (8.8s)
+[MR] generating report data ...
+[MR] generating test report ...
+[MR] UBM-Hyogo E2E
+┌─────────────┬───────────────────────┐
+│ Tests       │ 1                     │
+│ ├ Failed    │ 0 (0.0%)              │
+│ ├ Flaky     │ 0 (0.0%)              │
+│ ├ Skipped   │ 0 (0.0%)              │
+│ └ Passed    │ 1 (100.0%)            │
+│ Steps       │ 45                    │
+│ Suites      │ 1                     │
+│ ├ Projects  │ 1                     │
+│ ├ Files     │ 1                     │
+│ ├ Describes │ 1                     │
+│ └ Shards    │ 0                     │
+│ Errors      │ 0                     │
+│ Retries     │ 0                     │
+│ Logs        │ 0                     │
+│ Attachments │ 0                     │
+│ Artifacts   │ 0                     │
+│ Playwright  │ v1.59.1               │
+│ Date        │ 6/11/2026, 7:54:14 PM │
+│ Duration    │ 8.8s                  │
+└─────────────┴───────────────────────┘
+[MR] json: ../../docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/outputs/phase-11/evidence/monocart/index.json
+[MR] view report: npx monocart show-report ../../docs/30-workflows/completed-tasks/admin-attendance-dashboard-jp-clarity-and-ux/outputs/phase-11/evidence/monocart/index.html

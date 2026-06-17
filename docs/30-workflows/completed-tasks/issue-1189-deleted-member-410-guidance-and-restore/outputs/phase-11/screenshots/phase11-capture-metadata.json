@@ -1,0 +1,56 @@
+{
+  "capturedAt": "2026-06-13T03:17:31.831Z",
+  "tool": "playwright chromium",
+  "method": "static local visual contract; no staging D1 mutation",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "captures": [
+    {
+      "tc": "TC-11-1",
+      "name": "profile-410-deleted-guidance.png",
+      "route": "/profile",
+      "state": "MEMBER_SESSION_410 deleted member guidance",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "status": "present",
+      "path": "outputs/phase-11/screenshots/profile-410-deleted-guidance.png",
+      "bytes": 50072,
+      "capturedAt": "2026-06-13T03:17:31.831Z",
+      "method": "playwright-static-local-contract"
+    },
+    {
+      "tc": "TC-11-2",
+      "name": "admin-member-drawer-restore-button.png",
+      "route": "/admin/members",
+      "state": "MemberDrawer deleted section restore button",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "status": "present",
+      "path": "outputs/phase-11/screenshots/admin-member-drawer-restore-button.png",
+      "bytes": 55397,
+      "capturedAt": "2026-06-13T03:17:31.831Z",
+      "method": "playwright-static-local-contract"
+    },
+    {
+      "tc": "TC-11-3",
+      "name": "admin-member-drawer-after-restore.png",
+      "route": "/admin/members",
+      "state": "MemberDrawer after restore success",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "status": "present",
+      "path": "outputs/phase-11/screenshots/admin-member-drawer-after-restore.png",
+      "bytes": 46794,
+      "capturedAt": "2026-06-13T03:17:31.831Z",
+      "method": "playwright-static-local-contract"
+    }
+  ]
+}
