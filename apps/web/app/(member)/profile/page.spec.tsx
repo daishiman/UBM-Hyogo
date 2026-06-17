@@ -109,8 +109,12 @@ describe("ProfilePage safe fetch degrade", () => {
     render(await ProfilePage());
 
     expect(screen.getByRole("alert").textContent).toContain(
-      "アカウントの利用状態を確認できませんでした。",
+      "退会手続きが完了しているため",
     );
+    expect(
+      screen.getByRole("link", { name: "公開サイトのトップへ戻る" }).getAttribute("href"),
+    ).toBe("/");
+    expect(screen.queryByRole("link", { name: "再読み込み" })).toBeNull();
     expect(screen.getByRole("alert").getAttribute("data-cause")).toBe(
       "session-410",
     );

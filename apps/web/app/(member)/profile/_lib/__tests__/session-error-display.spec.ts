@@ -11,9 +11,11 @@ describe("mapProfileSessionErrorToDisplay", () => {
     const display = mapProfileSessionErrorToDisplay("MEMBER_SESSION_410");
 
     expect(display.dataCause).toBe("session-410");
-    expect(display.retryHref).toBe("/profile");
-    expect(display.actionHref).toBeUndefined();
-    expect(display.detail).toContain("アカウントの利用状態を確認できませんでした。");
+    expect(display.retryHref).toBeUndefined();
+    expect(display.actionHref).toBe("/");
+    expect(display.actionLabel).toBe("公開サイトのトップへ戻る");
+    expect(display.title).toBe("このアカウントは退会済みです");
+    expect(display.detail).toContain("退会手続きが完了しているため");
   });
 
   it("CC-2: MEMBER_SESSION_500（5xx 下限）を server 区別に写像する", () => {
