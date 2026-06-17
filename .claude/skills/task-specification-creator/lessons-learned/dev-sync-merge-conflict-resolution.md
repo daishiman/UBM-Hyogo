@@ -4,6 +4,14 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-145: 仕様書 Phase 5/11 の dev sync 手順に「install 要否は pnpm-lock.yaml 変更で判定（package.json scripts-only は install skip）」と「merge 後の origin/dev 取込完全性 re-check + 並列 push による再マージ」を逐語化する（L-DEVSYNC-145 の task-spec 版・SP-DEVSYNC-140 の補正）
+- 2026-06-17 `feat/responsive-mobile-tablet-ui-fixes`（wt-2・behind 1 / ahead 4 → 作業中に origin/dev 1 件先行で 2 波・merge `6ef90375a` + `68c083efe`）。取込 #1231 が root + apps/api の `package.json` を変更したが `scripts` 追加のみで `pnpm-lock.yaml` 不変。SP-DEVSYNC-140 の「install 要否は pnpm-lock.yaml / package.json 変更有無で判定」を素直に書いた仕様書は package.json scripts-only でも install を走らせる過大手順になる。さらに 1 波目 merge 後に origin/dev が #1230 で 1 件先行していた（並列セッションの dev push）。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **install 判定の二段化**: 「取込デルタに `pnpm-lock.yaml` 変更が含まれれば `pnpm install --force` 必須」を一次基準とし、「`package.json` のみ変更で `pnpm-lock.yaml` 不変の場合は `git diff <range> -- package.json` で内訳を確認 → `scripts`/`engines`/メタのみなら install skip、`dependencies`/`devDependencies`/`peer`/`optional` ブロックが動いていれば install 必須」を二次基準として仕様書に明記する。「package.json が変わったら install」と書くと scripts 追加 PR で不要な install を強制する。
+  2. **merge 後の取込完全性 re-check**: 仕様書 Phase 5/11 の sync 検証に「feature への `git merge origin/dev` commit 後、`git log --oneline HEAD..origin/dev` が空 または `git merge-base --is-ancestor origin/dev HEAD` が真であることを確認し、新規 dev コミットがあれば取込完全になるまで `git merge origin/dev` → `pnpm sync:resolve` → 原子 commit を反復する」を逐語化する。9+ 並列 worktree では初回 fetch の origin/dev が resolve/commit 中に陳腐化するため、「初回 fetch の behind 数を最終状態と決め打ちしない」と注記する。
+  3. **衝突集合の安定系**: 取込側が skill-meta + 表現層のみ（dep 非 touch・baseline 非再生成）の admin 日本語化 PR の場合、連続波でも CONFLICT は skill-index union 4（quick-reference + resource-map + topic-map + task-workflow-active）に安定し keywords.json は auto-merge に収束する系がある（SP-DEVSYNC-138 の「波ごとに反転」の対例）。集合によらず `pnpm sync:resolve` 1 パスで完結する点を不変条件として書く。
+- 検証: `git fetch` → local dev == origin/dev（0/0・dev ref 無操作）→ 1 波目 `git merge origin/dev`（#1231）CONFLICT 4 union → `pnpm sync:resolve` exit 0 → merge `6ef90375a` → package.json ×2 は scripts のみ・pnpm-lock 不変で install skip → typecheck/lint exit 0 → `HEAD..origin/dev` に #1230 残存検出 → 2 波目 `git merge origin/dev` 同型 CONFLICT 4 → `pnpm sync:resolve` exit 0 → merge `68c083efe` → `merge-base --is-ancestor` 成立で完全取込 → 再 typecheck/lint exit 0。
+
 ### SP-DEVSYNC-143: 仕様書 Phase 5/11 の dev sync 手順に「sub-worktree では local `dev` ref 前進を経路にせず `origin/dev` 直 merge を既定にする」分岐を逐語化する（L-DEVSYNC-143 の task-spec 版）
 - 2026-06-14 `feat/admin-attendance-dashboard-jp-clarity-and-ux`（wt-7・behind 1 / ahead 10・merge `99874bc9c`・5th-pass）。「リモート dev をローカル dev に取り込んでから feature へ」を素直に書いた仕様書は sub-worktree で 2 段詰む: (1) `git fetch origin dev:dev` は `dev` が main worktree に checked out 済みで `refusing to fetch into branch 'refs/heads/dev' checked out at <mainWT>` (2) `git -C <mainWT> merge --ff-only origin/dev` も main WT が dirty なら `Your local changes would be overwritten by merge ... Aborting`。
 - How to apply（仕様書 Phase 5/11 への逐語化）:
