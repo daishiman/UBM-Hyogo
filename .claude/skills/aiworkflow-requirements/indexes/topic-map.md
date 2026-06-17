@@ -3245,6 +3245,17 @@ node scripts/list-specs.js --topics
 | Root-Cause Notes | L16 |
 | Lessons Learned | L22 |
 
+### references/workflow-issue-1189-deleted-member-410-guidance-and-restore-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L3 |
+| Workflow Root | L7 |
+| Implementation Files | L11 |
+| Evidence | L21 |
+| Invariants | L39 |
+| Lessons Learned | L47 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -9386,25 +9397,25 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11） | L36 |
-| ドキュメント構成 | L4490 |
-| フェーズ構造（概要） | L4499 |
-| 品質ゲート（概要） | L4530 |
-| 出力テンプレート | L4541 |
-| 実行時のコマンド・エージェント・スキル | L4564 |
-| 昇格パターン集 | L4588 |
-| Current Active / Spec Created Tasks | L4590 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4756 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4824 |
-| issue-1007-density-toggle-help-hint-hardening | L4848 |
-| issue-1079-bulk-tag-audit-batch-filter | L4861 |
-| issue-1128-audit-batchid-index-optimization | L4874 |
-| issue-998-members-publish-state-production-rollout | L4891 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4950 |
-| issue-1068-admin-tag-inline-create-ui | L4964 |
-| issue-1111-proxy-transport-util-unify | L4982 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L5000 |
-| admin-requests-approval-publish-state-diff（2026-06-11） | L5013 |
+| admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11） | L50 |
+| ドキュメント構成 | L4504 |
+| フェーズ構造（概要） | L4513 |
+| 品質ゲート（概要） | L4544 |
+| 出力テンプレート | L4555 |
+| 実行時のコマンド・エージェント・スキル | L4578 |
+| 昇格パターン集 | L4602 |
+| Current Active / Spec Created Tasks | L4604 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4770 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4838 |
+| issue-1007-density-toggle-help-hint-hardening | L4862 |
+| issue-1079-bulk-tag-audit-batch-filter | L4875 |
+| issue-1128-audit-batchid-index-optimization | L4888 |
+| issue-998-members-publish-state-production-rollout | L4905 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4964 |
+| issue-1068-admin-tag-inline-create-ui | L4978 |
+| issue-1111-proxy-transport-util-unify | L4996 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L5014 |
+| admin-requests-approval-publish-state-diff（2026-06-11） | L5027 |
 
 ### references/task-workflow-backlog-part2.md
 
