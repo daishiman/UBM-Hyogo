@@ -24,7 +24,12 @@ export function RecentActionsTable({ items }: RecentActionsTableProps) {
           直近 7 日のアクションはありません
         </p>
       ) : (
-        <div className="mt-3 overflow-x-auto">
+        <div
+          className="mt-3 overflow-x-auto"
+          tabIndex={0}
+          role="region"
+          aria-label="直近 7 日に発生した管理操作（横スクロール可能）"
+        >
         <table className="w-full text-left text-sm">
           <caption className="sr-only">直近 7 日に発生した管理操作</caption>
           <thead>
