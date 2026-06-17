@@ -18,6 +18,8 @@
     "dev:api": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/api dev",
     "seed:test-accounts": "bash scripts/seed-test-accounts.sh",
     "seed:test-accounts:gen": "node --import tsx scripts/gen-test-accounts-seed.mjs",
+    "seed:identity-conflicts": "bash scripts/seed-identity-conflicts.sh",
+    "seed:identity-conflicts:gen": "node --import tsx scripts/gen-identity-conflict-seed.mjs",
     "lint": "node scripts/lint-boundaries.mjs && pnpm run lint:deps && node scripts/lint-stablekey-literal.mjs && node scripts/lint-stable-key-update.mjs --strict && pnpm verify:no-inline-style && pnpm -r lint",
     "lint:deps": "rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs",
     "lint:stablekey": "node scripts/lint-stablekey-literal.mjs",
@@ -84,7 +86,7 @@
     "@ubm-hyogo/shared": "workspace:*",
     "@vitejs/plugin-react": "^4.0.0",
     "@vitest/coverage-v8": "^3.2.6",
-    "esbuild": "0.27.3",
+    "esbuild": "0.28.1",
     "jsdom": "^25.0.0",
     "lefthook": "^1.7.0",
     "react": "19.2.5",
@@ -101,7 +103,7 @@
   },
   "pnpm": {
     "overrides": {
-      "esbuild": "0.27.3"
+      "esbuild": "0.28.1"
     }
   }
 }

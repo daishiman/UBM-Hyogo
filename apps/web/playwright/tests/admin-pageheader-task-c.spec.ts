@@ -37,7 +37,7 @@ const shots: Shot[] = [
   {
     name: '04-admin-schema.png',
     route: '/admin/schema',
-    heading: 'スキーマ差分のレビュー',
+    heading: 'フォーム項目の対応づけ',
     state: 'schema diff page header',
   },
   {
@@ -55,7 +55,7 @@ const shots: Shot[] = [
   {
     name: '07-admin-identity-conflicts.png',
     route: '/admin/identity-conflicts',
-    heading: 'Identity 重複候補',
+    heading: '会員の重複確認',
     state: 'identity conflict page header',
   },
   {

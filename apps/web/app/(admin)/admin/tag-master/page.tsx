@@ -2,6 +2,7 @@ import { safeServerFetch } from "../../../../src/lib/admin/safe-server-fetch";
 import { AdminPageHeader } from "../../../../src/features/admin/components/_layout/AdminPageHeader";
 import { AdminSectionErrorClient } from "../../../../src/features/admin/components/_shared";
 import { TagDefinitionPanel } from "../../../../src/components/admin/TagDefinitionPanel";
+import { TagManagementGuide } from "../../../../src/components/admin/TagManagementGuide";
 import {
   normalizeTagDefinitionList,
   type TagDefinitionListView,
@@ -22,6 +23,7 @@ export default async function AdminTagMasterPage() {
         description="タグ定義の作成、編集、有効化、停止、完全削除を1画面で管理します。"
         breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "タグ定義" }]}
       />
+      <TagManagementGuide variant="definition" />
       {result.ok ? (
         <TagDefinitionPanel initial={normalizeTagDefinitionList(result.data)} />
       ) : (

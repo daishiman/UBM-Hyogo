@@ -1,0 +1,17 @@
+{
+  "workflow_id": "profile-session-staging-transport-recovery",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "workflow_state": "implemented_local_runtime_pending",
+  "screenshots": [
+    {
+      "path": "(user-provided phenomenon screenshot, 2026-06-11 21:43 JST, referenced in manual-test-result.md)",
+      "status": "user_provided",
+      "reason": "現象 screenshot はユーザー提供済み（staging /profile・サイドバー「ishida 会員」+ MEMBER_SESSION_FAILED バナー）。文中参照のみでリポジトリには配置しない。"
+    },
+    {
+      "path": "outputs/phase-11/screenshots/profile-session-recovery-staging.png",
+      "status": "pending_user_gate",
+      "reason": "復旧後 staging runtime screenshot。認証必須ルートのため user-gated。実装 + RT-A deploy + RT-C 確認後に取得する（implemented_local_runtime_pending では未取得）。"
+    }
+  ]
+}

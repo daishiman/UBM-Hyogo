@@ -24,7 +24,7 @@ export function SchemaPurposeExplainer() {
     >
       <div className="schema-purpose-card__intro">
         <div>
-          <div className="eyebrow">FORM SCHEMA GUIDE</div>
+          <div className="eyebrow">フォーム項目の対応づけガイド</div>
           <h2 id="schema-purpose-h" className="h-section">
             このページでできること
           </h2>
