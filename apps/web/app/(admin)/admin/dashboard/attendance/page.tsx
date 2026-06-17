@@ -26,9 +26,9 @@ export default async function Page({
       className="attendance-analytics-page flex flex-col gap-4"
     >
       <AdminPageHeader
-        eyebrow="ADMIN / DASHBOARD"
+        eyebrow="管理 / ダッシュボード"
         title="出席ダッシュボード"
-        description="出席率の推移・区画分布・欠席フォロー対象を確認"
+        description="出席率の移り変わり・出席回数べつの人数・欠席フォロー対象を確認"
         breadcrumbs={[
           { label: "管理", href: "/admin" },
           { label: "ダッシュボード", href: "/admin/dashboard" },
