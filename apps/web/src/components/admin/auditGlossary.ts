@@ -51,3 +51,41 @@ export const AUDIT_TARGET_TYPE_PRESETS = [
   "admin_member_note",
   "tag",
 ] as const;
+
+export const AUDIT_ACTION_LABELS: Readonly<Record<string, string>> = {
+  "attendance.add": "出席を追加",
+  "attendance.remove": "出席を取り消し",
+  "identity.merge": "会員の名寄せ（統合）",
+  "identity.dismiss": "名寄せ候補を却下",
+  "admin.member.tag_assigned": "タグを割り当て",
+  "admin.member.tag_unassigned": "タグを解除",
+  "admin.member.status_updated": "会員ステータスを更新",
+  "admin.tag.created": "タグを作成",
+  "admin.request.approve": "申請を承認",
+  "admin.meeting.created": "開催日を作成",
+};
+
+export const AUDIT_TARGET_TYPE_LABELS: Readonly<Record<string, string>> = {
+  meeting: "開催日",
+  member: "会員",
+  admin_member_note: "管理メモ",
+  tag: "タグ",
+};
+
+export const AUDIT_FIELD_LABELS: Readonly<Record<string, string>> = {
+  action: "操作の種類",
+  actorEmail: "実行者（メール）",
+  targetType: "対象の種類",
+  targetId: "対象ID",
+  from: "期間（開始）",
+  to: "期間（終了）",
+  batchId: "一括処理ID",
+  limit: "表示件数",
+};
+
+export const describeAuditAction = (code: string): string => AUDIT_ACTION_LABELS[code] ?? code;
+
+export const describeAuditTargetType = (code: string | null): string =>
+  code == null ? "—" : (AUDIT_TARGET_TYPE_LABELS[code] ?? code);
+
+export const describeAuditField = (key: string): string => AUDIT_FIELD_LABELS[key] ?? key;

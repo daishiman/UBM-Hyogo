@@ -1,0 +1,68 @@
+{
+  "mode": "VISUAL",
+  "task": "admin-audit-log-japanese-clarity-and-filter-collapse",
+  "status": "runtime_pending_user_gate",
+  "captureRuntime": "staging-authenticated-admin (Playwright, user-gated)",
+  "screenshotsDirectory": "outputs/phase-11/screenshots",
+  "routes": [
+    {
+      "route": "/admin/audit",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "audit-page-full",
+          "output": "outputs/phase-11/screenshots/audit-page-full.png",
+          "intent": "画面全体（日本語化後・after 状態）",
+          "ac": ["AC-1", "AC-4", "AC-7"]
+        },
+        {
+          "name": "audit-filter-collapsed",
+          "output": "outputs/phase-11/screenshots/audit-filter-collapsed.png",
+          "intent": "フィルタ常時表示のみ・詳細な絞り込みが閉じた初期状態",
+          "ac": ["AC-1", "AC-2"]
+        },
+        {
+          "name": "audit-filter-expanded",
+          "output": "outputs/phase-11/screenshots/audit-filter-expanded.png",
+          "intent": "詳細な絞り込み（対象の種類 / 対象ID / 一括処理ID）を展開した状態",
+          "ac": ["AC-2"]
+        },
+        {
+          "name": "audit-timeline-cards-ja",
+          "output": "outputs/phase-11/screenshots/audit-timeline-cards-ja.png",
+          "intent": "監査ログカードの操作・対象種別が日本語ラベル表示",
+          "ac": ["AC-3", "AC-5", "AC-7"]
+        },
+        {
+          "name": "audit-applied-filters-chips",
+          "output": "outputs/phase-11/screenshots/audit-applied-filters-chips.png",
+          "intent": "現在の絞り込みチップが日本語化 + flex-wrap で整列",
+          "ac": ["AC-4", "AC-7"]
+        }
+      ]
+    },
+    {
+      "route": "/admin/audit",
+      "viewport": "mobile",
+      "states": [
+        {
+          "name": "audit-page-mobile",
+          "output": "outputs/phase-11/screenshots/audit-page-mobile.png",
+          "intent": "モバイル幅・フィルタ2層とカードが1カラムで成立",
+          "ac": ["AC-7"]
+        }
+      ]
+    }
+  ],
+  "expectedScreenshots": [
+    "outputs/phase-11/screenshots/audit-page-full.png",
+    "outputs/phase-11/screenshots/audit-filter-collapsed.png",
+    "outputs/phase-11/screenshots/audit-filter-expanded.png",
+    "outputs/phase-11/screenshots/audit-timeline-cards-ja.png",
+    "outputs/phase-11/screenshots/audit-applied-filters-chips.png",
+    "outputs/phase-11/screenshots/audit-page-mobile.png"
+  ],
+  "captureScriptContract": "try { ... } finally { browser.close(); server.close(); }  // FB-MSO-003",
+  "userGated": true,
+  "reason": "apps/web 実装と local focused test は完了。staging capture は deploy / admin bearer mint を伴うためユーザー承認後に取得する。"
+}

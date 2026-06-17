@@ -4,6 +4,15 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-142: sync-merge を伴う仕様書の Phase 5(c)/Phase 11 検証に「大型 behind-N 取込では lock 変更コミットが tip でなく中段に埋もれるため、install/`verify:vitest-runtime` 要否は tip コミットの log でなく merge commit の stat か取込レンジ全体 diff で判定する」を逐語化する（L-DEVSYNC-142 の task-spec 版）
+- 2026-06-13 `feat/admin-audit-ux-readability-refine`（wt-13・S-SUB・behind 8 / ahead 3・merge `a3c092b79`）。behind 8 の取込で tip は #1220（feature・lock 非接触）だが lock を変える #1238（esbuild 0.27.3→0.28.1）が取込列の 3 番目に埋もれていた。tip-only 判定なら install/verify を省き pre-push `verify-esbuild`（`host≠lock`）で reject に至る危険。
+- How to apply（仕様書 Phase 5(c)/Phase 11 への逐語化）:
+  1. **install/verify 要否は merge stat で判定**: sync-merge の DoD に「`git show <merge-commit> --stat | grep -E 'pnpm-lock|package.json'`（または取込レンジ `git diff <merge-base>..<dev-tip> --name-only` の grep）で取込レンジ全体の lock 変更を確認する。tip コミット 1 個の `git log`/`git show <tip>` で『feature だから lock 変更なし』と短絡しない」と明記。
+  2. **lock 変更ヒット時は SP-DEVSYNC-140 経路**: stat の lock 差分が `esbuild`/`@esbuild/<platform>` を含むなら `pnpm install --force` → `pnpm verify:vitest-runtime`（arch / worktree-isolation / `host=bin=lock`）で整合確認後 push（本件 `host=0.28.1 bin=0.28.1 lock=0.28.1 OK`）。
+  3. **union 件数は behind に非単調**: behind 8 でも union 4 件。Phase 11 のリスク欄に「conflict 件数は behind 数に比例しない・`sync:resolve` の `union-resolving N files` 実数で確認」と書き、behind が多い＝conflict 多いと先回り予測しない。
+- Why: install 要否を「取込デルタ grep」で判定する原則（SP-DEVSYNC-140 / L-DEVSYNC-134-A）は正しいが、その『デルタ』を tip コミット単体と取り違えると誤陰性になる。merge commit の stat は取込レンジ全体の集約差分なので bump コミットが何番目にあっても確実に捉える。esbuild は host=bin=lock を pre-push で gate する専用守りがあり、誤って install を省くと typecheck/lint が緑でも push 段階で必ず落ちるため、仕様書は「大型取込は merge stat で lock 変更を判定する」を Phase 5(c) 検証手順に含める。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142 が正本。SP-DEVSYNC-140（esbuild install・本件はその bump 検出を大型取込向けに精緻化）, SP-DEVSYNC-138（取込デルタ × feature 交差判定）。
+
 ### SP-DEVSYNC-143: 仕様書 Phase 5/11 の dev sync 手順に「sub-worktree では local `dev` ref 前進を経路にせず `origin/dev` 直 merge を既定にする」分岐を逐語化する（L-DEVSYNC-143 の task-spec 版）
 - 2026-06-14 `feat/admin-attendance-dashboard-jp-clarity-and-ux`（wt-7・behind 1 / ahead 10・merge `99874bc9c`・5th-pass）。「リモート dev をローカル dev に取り込んでから feature へ」を素直に書いた仕様書は sub-worktree で 2 段詰む: (1) `git fetch origin dev:dev` は `dev` が main worktree に checked out 済みで `refusing to fetch into branch 'refs/heads/dev' checked out at <mainWT>` (2) `git -C <mainWT> merge --ff-only origin/dev` も main WT が dirty なら `Your local changes would be overwritten by merge ... Aborting`。
 - How to apply（仕様書 Phase 5/11 への逐語化）:
@@ -1803,6 +1812,16 @@
 - 検証: lock 待機約 23 分 → 解放検知 → CONFLICT 4（前波の keywords.json 単独から反転）→ resolver 1 パス → merge `d01b07b9f` blob marker 0 → install skip → typecheck/lint exit 0 → rebuild 冪等 diff 0 → CI コード修正 0。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-138（本 lesson の正本）, SP-DEVSYNC-136（happy-path 判定）, SP-DEVSYNC-135（index.lock 競合 worst-case・即 stale 削除を避ける根拠）。
 
+## SP-DEVSYNC-143: **仕様書の dev sync 手順に「取込規模と衝突件数は無相関（大型取込でも resolver 対象 1 件に収束しうる）」と「メイン WT(dev) dirty 時はローカル dev ff をスキップし feature へ origin/dev 直接マージ」の 2 分岐を逐語化する（L-DEVSYNC-143 の task-spec 版）** （2026-06-14 feat/admin-audit-ux-readability-refine ← origin/dev, sub-worktree wt-13, behind 1 / ahead 4）
+
+- 教訓: 仕様書が「dev sync = ローカル dev を ff 同期してから feature にマージ」と固定的に書くと、(1) メイン WT が別セッションで dirty な時に ff を強行してスコープ外 WT を破壊するリスク、(2) 「大型取込＝多数衝突」という誤った見積りで手動 union 手順を過大に書くリスク、の 2 つを生む。実測（84 files / 3480+ insertions の取込でも CONFLICT は quick-reference.md 単独）を根拠に手順を補正する。
+- 仕様書への反映（Phase 5/11 dev sync 節）:
+  1. **ローカル dev ff の前提条件を明記**: `git -C <main-wt> status --porcelain` が空（clean）の時のみローカル dev を ff 同期する。dirty の場合は ff をスキップし最終レポートに「dev ff スキップ（メイン WT dirty）」を記録。feature への取込は `git merge origin/dev` 直接マージで完遂する（マージ元 SHA はローカル dev でも origin/dev でも同一なので取込内容は等価）。スコープ外 WT への stash/commit は禁止（CONST_008）。
+  2. **install 要否判定を取込デルタで**: `git diff <merge-parent>...origin/dev --name-only | grep -E '(pnpm-lock|package\.json)'` 空 = skip 可（SP-DEVSYNC-134 の系）。取込が 84 files と大きくても lock 不変なら install 不要。
+  3. **衝突集合の非安定性 + 規模無相関を前提に書く**: 「大型取込だから手動 union を覚悟」と書かず、「resolver 対象（SKILL.md / task-workflow-active.md / indexes/*-map.md / quick-reference.md / keywords.json）内の任意部分集合が衝突しうる。集合・規模によらず `pnpm sync:resolve` 1 パス → `--diff-filter=U` 残 0 確認 → 原子 1-Bash commit（add -A → commit → `git show HEAD:<path> | grep` blob 検証）」と集合・規模非依存で逐語化する。
+- 検証: `git merge origin/dev --no-edit` CONFLICT 1（quick-reference.md）→ resolver 1 パス（union-resolved 1 + rebuild）→ marker 0 → merge `24961ca6f` blob clean → install skip（取込デルタに lock/package.json なし）→ typecheck/lint exit 0 → CI コード修正 0。ローカル dev ff はメイン WT dirty のためスキップ（feature 取込は完遂）。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-143（本 lesson の正本）, SP-DEVSYNC-138（衝突集合の波間反転）, SP-DEVSYNC-134（ハンク単位衝突判定 + install 要否）, SP-DEVSYNC-135（スコープ外 WT を触ると誘発する index.lock 競合）。
+
 ## SP-DEVSYNC-139: **仕様書 Phase 5/11 の dev sync 手順に「dev ref ff の事前安全判定」を逐語化する — sub-worktree から sync する際、dev を checkout 中のメインWT に未コミット変更があり、それが取込対象 dev コミットの変更ファイルと重複する場合、ローカル dev の `merge --ff-only` も `git update-ref` も実行してはならない（前者は uncommitted 上書きで refuse、後者はメインWT working tree を phantom-diff 破損させる）。スコープ外WT保護を優先し「dev ref は触れず origin/dev を直接 feature ブランチへマージ」を正経路として明記する（L-DEVSYNC-139 の task-spec 版）** （2026-06-14 feat/admin-requests-approval-publish-state-diff ← origin/dev, sub-worktree wt-15, behind 6 / ahead 2, merge `858c2ee01`）
 
 - 教訓: sync 仕様は「ローカル dev を origin/dev に ff 同期してから feature へ伝搬」を素朴に書きがちだが、15+ 並列 worktree 運用では dev checkout 中のメインWT に未コミット skill 編集が常駐し、取込対象 dev コミット（skill-meta を含むことが多い）と高確率で重複する。この前提で「ff の事前安全判定」と「ff 不能時の代替経路」を仕様化しないと、メインWT 破壊か phantom-diff 事故を招く。
@@ -1812,6 +1831,16 @@
   3. **成功基準の注記**: 「ローカル dev HEAD == origin/dev」は ff 安全時のみの基準。ff 不能時は「feature ブランチに origin/dev が merge 済み」を成功基準に読み替える、と Phase 11 検証節に注記する。
 - 検証: 積集合 3 件 → ff 断念 → `git merge origin/dev` CONFLICT 2（topic-map + task-workflow-active union）→ `pnpm sync:resolve` 1 パス → merge `858c2ee01` → install（lock 変更あり）→ typecheck/lint exit 0 → CI コード修正 0。dev ref は behind 1 で意図的残置。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）, SP-DEVSYNC-132（install 要否の正本）, SP-DEVSYNC-138（並列WT lock 待機・本件はメインWT working tree 保護への拡張）。
+
+## SP-DEVSYNC-144: **仕様書の dev sync 手順で install 要否判定を逐語化する際は「決め手は `pnpm-lock.yaml` の変更有無であって `package.json` の有無ではない」を明記する（`package.json` 単独ヒットは scripts-only 変更の偽陽性がありうる）** （2026-06-17 feat/admin-audit-ux-readability-refine ← dev, sub-worktree wt-13, behind 2 / ahead 0）
+
+- 教訓: sync 仕様の install 要否節を「取込デルタに `package.json` か `pnpm-lock.yaml` があれば `pnpm install --force`」と素朴に書くと、scripts エントリ追加のような依存非接触の `package.json` 変更でも毎回数分の再インストールを強いる偽陽性を埋め込む。実測（#1231 が `seed:identity-conflicts` scripts 2 行を追加し `package.json` はヒットするが `pnpm-lock.yaml` 不変）を根拠に判定条件を精緻化する。
+- 仕様書への反映（Phase 5/11 dev sync 節）:
+  1. **install 確定の十分条件を lock に限定**: `git diff <merge-parent>...origin/dev --name-only | grep -E 'pnpm-lock\.yaml'` が非空なら install 必須。これが空で `package.json` のみヒットした場合は次の 2. へ。
+  2. **`package.json` 単独ヒットの二次判定**: `git diff --cached package.json`（取込レンジ diff）で変更箇所が `scripts`/`engines` 等の依存非接触セクション限定なら install スキップ可。`dependencies`/`devDependencies`/`pnpm.overrides`/`pnpm.patchedDependencies` に変化があれば install 必須。
+  3. **L-DEVSYNC-142 との対照を注記**: 「lock 変更コミットが取込列中段に埋もれる大型取込では `package.json` ヒット = install 必須」（SP-DEVSYNC-142）と「scripts-only 変更で lock 不変なら install スキップ」（本 lesson）は両立する。両者を分けるのは `pnpm-lock.yaml` の有無の 1 点であると Phase 11 検証節に書く。
+- 検証: `grep -E '(pnpm-lock|package\.json)'` = `package.json` 2 件 / `pnpm-lock.yaml` 0 → `git diff --cached package.json` で scripts 2 行追加のみ（dependencies 不変）→ install スキップ → CONFLICT 4（keywords ours + quick-reference/topic-map/task-workflow-active union 3）→ `pnpm sync:resolve` 1 パス → typecheck/lint exit 0 → CI コード修正 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-144（本 lesson の正本）, SP-DEVSYNC-142（大型取込は merge stat で lock 変更判定・本件はその精緻化）, SP-DEVSYNC-134（install 要否を取込デルタ grep で判定）, SP-DEVSYNC-132（install 要否の正本）。
 
 ## SP-DEVSYNC-144: **仕様書 Phase 5/11 の dev sync 手順に「直接マージ経路を ff 条件非依存の既定として書く」を逐語化する — SP-DEVSYNC-143/139 の `git merge origin/dev` を feature へ直接適用する経路は、ff-block 条件（fetch refused / main WT dirty）の成否によらず既定経路とする。ローカル dev が既に origin/dev と一致（behind/ahead 0/0）かつ main WT clean でも、ff を試さず直接マージで完結させ、dev 同期は冪等スキップ扱いと明記する。「ローカル dev を ff すべきか」を波ごとに再導出させない（L-DEVSYNC-144 の task-spec 版）** （2026-06-17 feat/admin-attendance-dashboard-jp-clarity-and-ux 6th-pass ← origin/dev, sub-worktree wt-7, behind 2 / ahead 14, merge `213891984`）
 

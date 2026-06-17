@@ -1,0 +1,221 @@
+{
+  "task_name": "admin-audit-log-japanese-clarity-and-filter-collapse",
+  "task_path": "docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse",
+  "execution_mode": "serial",
+  "depends_on": [],
+  "blocks": [],
+  "created_at": "2026-06-11",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visual": true,
+    "visualEvidence": "VISUAL",
+    "implementation_mode": "new",
+    "status": "implemented_local_evidence_captured",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "spec_classification": "implementation_spec",
+    "scope": "web_presentation_layer",
+    "owner": "web",
+    "domain": "admin-audit",
+    "related_issue": null,
+    "canonical_workflow": "docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/",
+    "scope_routes": ["/(admin)/admin/audit"],
+    "implementation_files": [
+      "apps/web/src/components/admin/auditGlossary.ts",
+      "apps/web/src/components/admin/AuditLogPanel.tsx",
+      "apps/web/src/components/admin/AuditLogCard.tsx",
+      "apps/web/src/components/admin/auditAppliedFilters.ts",
+      "apps/web/src/components/admin/AuditPurposeGuide.tsx",
+      "apps/web/src/styles/globals.css"
+    ],
+    "verify_commands": [
+      "mise exec -- pnpm typecheck",
+      "mise exec -- pnpm lint",
+      "mise exec -- pnpm verify:tokens",
+      "mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/components/admin/__tests__/auditGlossary.spec.ts apps/web/src/components/admin/__tests__/auditAppliedFilters.spec.ts apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx apps/web/src/components/admin/__tests__/AuditLogCard.spec.tsx",
+      "pnpm verify:phase12-compliance docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse",
+      "node --import tsx scripts/gate-metadata/validate.ts"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-06-11T16:40:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 implementation spec authored. apps/web presentation-layer-only scope (auditGlossary SSOT 日本語化 / filter 2-layer collapse / card alignment) confirmed. AC-9 (apps/api + packages/shared diff empty) と query param キー不変を spec で保証"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-06-11T19:07:39+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: apps/web 表現層実装 + focused Vitest 4 files / 57 tests PASS。typecheck / lint / verify:tokens / phase12-compliance / gate-metadata は PASS。staging authenticated screenshots は user-gated"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/outputs/phase-13/pr-template.md",
+        "approver": "daishiman",
+        "notes": "external_ops: commit / push / PR / staging visual baseline は user 明示承認後"
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-01/main.md", "outputs/phase-01/spec-extraction-map.md"],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-02/main.md", "outputs/phase-02/layout-blueprint.md", "outputs/phase-02/component-map.md"],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-03/main.md", "outputs/phase-03/alternatives.md"],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-04/main.md", "outputs/phase-04/test-plan.md"],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-05/main.md", "outputs/phase-05/runbook.md"],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-06/main.md", "outputs/phase-06/failure-cases.md"],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-07/main.md", "outputs/phase-07/ac-matrix.md"],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-08/main.md", "outputs/phase-08/before-after.md"],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-09/main.md", "outputs/phase-09/token-audit.md"],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-10/main.md", "outputs/phase-10/go-no-go.md"],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "file": "phase-11.md",
+      "status": "runtime_pending",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/manual-test-checklist.md",
+        "outputs/phase-11/screenshot-plan.json",
+        "outputs/phase-11/phase11-capture-metadata.json",
+        "outputs/phase-11/discovered-issues.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/09b-design-tokens.md",
+    "docs/00-getting-started-manual/specs/09c-primitives.md"
+  ],
+  "endpoints": ["GET /admin/audit"],
+  "endpoints_changed": [],
+  "d1_tables": [],
+  "ui_routes": ["/admin/audit"],
+  "secrets_introduced": [],
+  "invariants_touched": [5, 8, 9],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/_shared-context.md",
+    "apps/web/src/styles/tokens.css",
+    "apps/web/src/components/admin/auditGlossary.ts"
+  ]
+}

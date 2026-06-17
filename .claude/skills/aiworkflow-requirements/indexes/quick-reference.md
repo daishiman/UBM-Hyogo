@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-audit-log-japanese-clarity-and-filter-collapse（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-audit-log-japanese-clarity-and-filter-collapse/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / staging_visual_pending_user_gate` |
+| purpose | `/admin/audit` の英語表記・技術キー露出を日本語ラベル化し、フィルタを常時表示 + 詳細な絞り込みへ段階開示し、監査ログカードのメタ情報を整列する |
+| implementation | `auditGlossary.ts` display label SSOT、`AuditLogPanel.tsx` labels/details、`AuditLogCard.tsx` action/target labels、`auditAppliedFilters.ts` chips、`globals.css` audit grid/details styling |
+| evidence | focused Vitest 4 files / 57 tests PASS |
+| invariant | apps/api / D1 / Google Form / packages/shared unchanged; query param keys and input names remain English API contract; no new primitive/token |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-japanese-clarity-and-filter-collapse-artifact-inventory.md` |
+| user gate | staging authenticated screenshots, commit, push, PR |
+
 ## issue-1189-deleted-member-410-guidance-and-restore（2026-06-12）
 
 | 項目 | 値 |

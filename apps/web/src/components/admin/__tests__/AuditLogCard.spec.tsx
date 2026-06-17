@@ -24,7 +24,10 @@ describe("AuditLogCard", () => {
     );
 
     expect(screen.getByTestId("audit-log-card")).toBeTruthy();
-    expect(screen.getAllByText("admin.member.tag_assigned")).toHaveLength(2);
+    expect(screen.getAllByText("タグを割り当て")).toHaveLength(2);
+    expect(document.body.textContent).not.toContain("admin.member.tag_assigned");
+    expect(document.body.textContent).toContain("会員");
+    expect(document.body.textContent).toContain("ログID");
     expect(screen.getByTestId("audit-batch-id").textContent).toContain("バッチ");
     expect(screen.getByTestId("audit-batch-id").textContent).toContain("batch-1");
     expect(document.body.textContent).not.toContain("raw@example.com");
@@ -50,5 +53,27 @@ describe("AuditLogCard", () => {
 
     expect(screen.getByText("システム")).toBeTruthy();
     expect(document.body.textContent).toContain("—");
+  });
+
+  it("keeps raw fallback only for unknown audit action codes", () => {
+    render(
+      <ol>
+        <AuditLogCard
+          item={{
+            auditId: "audit-3",
+            actorEmail: null,
+            action: "admin.future.unknown_op",
+            targetType: "unknown_type",
+            targetId: null,
+            maskedBefore: null,
+            maskedAfter: null,
+            createdAt: "2026-04-30T15:00:00.000Z",
+          }}
+        />
+      </ol>,
+    );
+
+    expect(screen.getAllByText("admin.future.unknown_op")).toHaveLength(2);
+    expect(document.body.textContent).toContain("unknown_type");
   });
 });

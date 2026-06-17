@@ -1,0 +1,18 @@
+{
+  "taskId": "admin-audit-log-japanese-clarity-and-filter-collapse",
+  "mode": "VISUAL",
+  "status": "runtime_pending_user_gate",
+  "workflow_state": "implemented_local_evidence_captured",
+  "route": "/admin/audit",
+  "captureRuntime": "staging-authenticated-admin (Playwright, user-gated)",
+  "userGated": true,
+  "screenshots": [
+    { "tc": "TC-11-1", "name": "audit-page-full", "ac": ["AC-1", "AC-4", "AC-7"], "status": "pending_user_gate" },
+    { "tc": "TC-11-2", "name": "audit-filter-collapsed", "ac": ["AC-1", "AC-2"], "status": "pending_user_gate" },
+    { "tc": "TC-11-3", "name": "audit-filter-expanded", "ac": ["AC-2"], "status": "pending_user_gate" },
+    { "tc": "TC-11-4", "name": "audit-timeline-cards-ja", "ac": ["AC-3", "AC-5", "AC-7"], "status": "pending_user_gate" },
+    { "tc": "TC-11-5", "name": "audit-applied-filters-chips", "ac": ["AC-4", "AC-7"], "status": "pending_user_gate" },
+    { "tc": "TC-11-6", "name": "audit-page-mobile", "ac": ["AC-7"], "status": "pending_user_gate" }
+  ],
+  "reason": "apps/web 実装と focused Vitest は完了。実 capture は staging deploy + admin bearer mint のうえ user 承認後に取得する。"
+}

@@ -1,4 +1,5 @@
 import type { AdminAuditFilters } from "../../lib/admin/types";
+import { describeAuditAction, describeAuditField, describeAuditTargetType } from "./auditGlossary";
 
 export interface AppliedFilterChip {
   readonly key: string;
@@ -26,10 +27,10 @@ export function toAppliedFilterChips(
   const chips: AppliedFilterChip[] = [];
   if (!filters) return chips;
 
-  if (hasValue(filters.action)) chips.push({ key: "action", label: "action", value: String(filters.action) });
-  if (hasValue(filters.actorEmail)) chips.push({ key: "actorEmail", label: "actor", value: String(filters.actorEmail) });
-  if (hasValue(filters.targetType)) chips.push({ key: "targetType", label: "target type", value: String(filters.targetType) });
-  if (hasValue(filters.targetId)) chips.push({ key: "targetId", label: "target id", value: String(filters.targetId) });
+  if (hasValue(filters.action)) chips.push({ key: "action", label: describeAuditField("action"), value: describeAuditAction(String(filters.action)) });
+  if (hasValue(filters.actorEmail)) chips.push({ key: "actorEmail", label: describeAuditField("actorEmail"), value: String(filters.actorEmail) });
+  if (hasValue(filters.targetType)) chips.push({ key: "targetType", label: describeAuditField("targetType"), value: describeAuditTargetType(String(filters.targetType)) });
+  if (hasValue(filters.targetId)) chips.push({ key: "targetId", label: describeAuditField("targetId"), value: String(filters.targetId) });
 
   const from = formatDatePart(filters.from);
   const to = formatDatePart(filters.to);
@@ -37,9 +38,9 @@ export function toAppliedFilterChips(
   else if (from) chips.push({ key: "period", label: "期間", value: `${from} 以降` });
   else if (to) chips.push({ key: "period", label: "期間", value: `${to} まで` });
 
-  if (hasValue(filters.batchId)) chips.push({ key: "batchId", label: "batchId", value: String(filters.batchId) });
-  if (hasValue(filters.limit)) chips.push({ key: "limit", label: "limit", value: String(filters.limit) });
-  else if (fallbackLimit.trim()) chips.push({ key: "limit", label: "limit", value: fallbackLimit.trim() });
+  if (hasValue(filters.batchId)) chips.push({ key: "batchId", label: describeAuditField("batchId"), value: String(filters.batchId) });
+  if (hasValue(filters.limit)) chips.push({ key: "limit", label: describeAuditField("limit"), value: String(filters.limit) });
+  else if (fallbackLimit.trim()) chips.push({ key: "limit", label: describeAuditField("limit"), value: fallbackLimit.trim() });
 
   return chips;
 }

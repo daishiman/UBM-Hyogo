@@ -1,6 +1,7 @@
 import type { AdminAuditListItem } from "../../lib/admin/types";
 import { Chip } from "../ui/Chip";
 import { BatchIdCopyButton } from "./BatchIdCopyButton";
+import { describeAuditAction, describeAuditTargetType } from "./auditGlossary";
 import {
   extractBatchId,
   formatJst,
@@ -27,6 +28,7 @@ export function AuditLogCard({ item }: { readonly item: AdminAuditListItem }) {
   const afterValue = item.maskedAfter ?? item.afterJson ?? null;
   const batchId = extractBatchId(item);
   const actorLabel = maskAuditText(item.actorEmail, "actorEmail") === "system" ? "システム" : maskAuditText(item.actorEmail, "actorEmail");
+  const actionLabel = describeAuditAction(item.action);
 
   return (
     <li className="admin-audit-card" data-testid="audit-log-card">
@@ -34,9 +36,9 @@ export function AuditLogCard({ item }: { readonly item: AdminAuditListItem }) {
         <header className="admin-audit-card__head">
           <div>
             <time dateTime={item.createdAt}>{formatJst(item.createdAt)}</time>
-            <h3 id={`audit-${item.auditId}`}>{item.action}</h3>
+            <h3 id={`audit-${item.auditId}`}>{actionLabel}</h3>
           </div>
-          <Chip tone="info">{item.action}</Chip>
+          <Chip tone="info">{actionLabel}</Chip>
         </header>
         <dl className="admin-audit-card__meta">
           <div>
@@ -46,12 +48,12 @@ export function AuditLogCard({ item }: { readonly item: AdminAuditListItem }) {
           <div>
             <dt>対象</dt>
             <dd>
-              <span>{item.targetType ?? "—"}</span>
+              <span>{describeAuditTargetType(item.targetType)}</span>
               <code>{item.targetId ?? "—"}</code>
             </dd>
           </div>
           <div>
-            <dt>auditId</dt>
+            <dt>ログID</dt>
             <dd>
               <code>{item.auditId}</code>
             </dd>

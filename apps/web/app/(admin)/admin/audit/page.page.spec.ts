@@ -43,8 +43,8 @@ describe("admin audit page helpers", () => {
       }),
     );
 
-    expect((screen.getByLabelText("action") as HTMLInputElement).value).toBe("identity.dismiss");
-    expect(screen.getByLabelText("action").getAttribute("list")).toBe("audit-action-presets");
+    expect((screen.getByLabelText("操作の種類") as HTMLInputElement).value).toBe("identity.dismiss");
+    expect(screen.getByLabelText("操作の種類").getAttribute("list")).toBe("audit-action-presets");
     expect(safeServerFetch).toHaveBeenCalledWith("/admin/audit?action=identity.dismiss&limit=25");
   });
 
@@ -59,7 +59,7 @@ describe("admin audit page helpers", () => {
       }),
     );
 
-    expect((screen.getByLabelText("batchId") as HTMLInputElement).value).toBe("batch-1079");
+    expect((screen.getByLabelText("一括処理ID") as HTMLInputElement).value).toBe("batch-1079");
     expect(safeServerFetch).toHaveBeenCalledWith(
       "/admin/audit?action=admin.member.tag_assigned&batchId=batch-1079&limit=25",
     );
