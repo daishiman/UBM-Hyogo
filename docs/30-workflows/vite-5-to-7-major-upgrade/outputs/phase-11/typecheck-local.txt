@@ -1,0 +1,12 @@
+Command: pnpm -r typecheck
+Date: 2026-06-13 JST
+Result: PASS (exit 0)
+
+Summary:
+- apps/og typecheck: Done
+- packages/contracts typecheck: Done
+- packages/shared typecheck: Done
+- apps/web typecheck: Done
+- packages/integrations typecheck: Done
+- packages/integrations/google typecheck: Done
+- apps/api typecheck: Done

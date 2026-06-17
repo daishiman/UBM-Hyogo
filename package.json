@@ -76,12 +76,12 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260426.1",
-    "@ubm-hyogo/shared": "workspace:*",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "@types/node": "24.10.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "@ubm-hyogo/shared": "workspace:*",
     "@vitejs/plugin-react": "^4.0.0",
     "@vitest/coverage-v8": "^3.2.6",
     "esbuild": "0.27.3",
@@ -91,6 +91,7 @@
     "react-dom": "19.2.5",
     "tsx": "^4.19.0",
     "typescript": "6.0.3",
+    "vite": "^7.0.0",
     "vitest": "^3.2.6",
     "wrangler": "4.85.0"
   },

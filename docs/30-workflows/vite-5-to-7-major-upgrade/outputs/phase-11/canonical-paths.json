@@ -1,0 +1,52 @@
+{
+  "taskId": "vite-5-to-7-major-upgrade",
+  "workflowDir": "docs/30-workflows/vite-5-to-7-major-upgrade",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "mise exec -- pnpm typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Canonical summary. Detailed companion evidence remains in outputs/phase-11/typecheck-local.txt."
+    },
+    {
+      "id": "lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/lint.log",
+      "command": "mise exec -- pnpm lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Canonical summary. Detailed companion evidence remains in outputs/phase-11/lint-local.txt."
+    },
+    {
+      "id": "test",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/test.log",
+      "command": "mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts <shards> and focused reruns; mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/routes/admin/members.contract.spec.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Canonical shard/focused rerun summary. Detailed companion evidence remains in outputs/phase-11/vitest-shard-results.txt."
+    },
+    {
+      "id": "build",
+      "kind": "build",
+      "path": "outputs/phase-11/evidence/build.log",
+      "command": "mise exec -- pnpm build",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Canonical build summary for apps/web OpenNext sanity."
+    },
+    {
+      "id": "grep-gate",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/grep-gate.log",
+      "command": "mise exec -- pnpm why vite; mise exec -- pnpm list vite @vitejs/plugin-react vitest @vitest/coverage-v8 --depth 0; rg -i \"deprecat|splitVendorChunk|legacy|CJS Node API|warn\" /tmp/vite-deprecation-check.log",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true,
+      "notes": "Canonical version parity and Vite deprecation grep summary. Detailed companion evidence remains in outputs/phase-11/version-parity.txt and outputs/phase-11/deprecation-grep.txt."
+    }
+  ]
+}

@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## vite-5-to-7-major-upgrade（2026-06-13）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/vite-5-to-7-major-upgrade/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_mode=new` |
+| purpose | Vite を 5.4.21 から 7.x へ引き上げ、Vitest toolchain と lockfile を単一 Vite 7 解決へ移行する |
+| implementation | root `package.json` に `vite ^7.0.0` を直接 devDependency 追加、`pnpm-lock.yaml` を `vite@7.3.5` 単一解決へ再生成 |
+| evidence | `pnpm why vite` single `vite@7.3.5`; deprecation grep 0; typecheck/lint/build PASS; focused vitest reruns PASS after broad resource flakes |
+| invariant | apps runtime source / public API / D1 schema / Google Form / UI unchanged; plugin-react 4.7.0 and vitest 3.2.6 unchanged |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-vite-5-to-7-major-upgrade-artifact-inventory.md` |
+| user gate | commit, push, PR, Issue mutation |
+
 ## members-search-clear-and-sort-ux（2026-06-11）
 
 | 項目 | 値 |

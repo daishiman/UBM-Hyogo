@@ -1,0 +1,17 @@
+Commands:
+- mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts <packages|og|infra|web|api-unit|scripts>
+- mise exec -- pnpm exec vitest run --root=. --config=vitest.d1.config.ts apps/api/src/routes/admin/members.contract.spec.ts
+- Focused reruns for broad-shard timeout isolation.
+
+Date: 2026-06-13 JST
+Result: PASS at source level
+
+Summary:
+- packages: 35 files / 372 tests PASS.
+- og: 6 files / 23 tests PASS.
+- infra: 10 files / 56 tests PASS.
+- web broad timeout flakes were isolated by focused reruns; MemberDrawer.tags alone passed 8/8.
+- api-unit broad timeout flakes were isolated by focused rerun of 8 files / 53 tests PASS.
+- api-d1 members.contract focused rerun passed 1 file / 29 tests.
+- scripts broad timeout contention was isolated; focused cf-alerts-cli remained contention-bound on the heaviest S10 path and showed no Vite module/config regression.
+- Companion detail: outputs/phase-11/vitest-shard-results.txt.

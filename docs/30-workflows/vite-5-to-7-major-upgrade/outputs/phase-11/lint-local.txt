@@ -1,0 +1,7 @@
+Command: pnpm lint
+Date: 2026-06-13 JST
+Result: PASS (exit 0)
+
+Summary:
+- root lint command completed successfully after Vite 7 lockfile regeneration.
+- No lint rule or config change was required for Vite 7.
