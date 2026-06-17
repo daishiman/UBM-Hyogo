@@ -1288,6 +1288,10 @@ production env monitor secret cleanup は user-gated。
 ## 2026-06-09 member-data-source-precedence-and-profile-session-fix
 
 `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` を `implemented_local_runtime_pending / implementation / VISUAL` として同一 wave 同期。`member_field_overrides`、Sheets seed import-once、L1>L2>L3 precedence、admin override endpoint/UI、`/profile` auth fail-safe を実装し、system specs / artifact inventory / indexes / changelog を更新。remote D1 apply、staging deploy、authenticated visual capture、commit、push、PR は user-gated。
+
+## 2026-06-11 admin-requests-approval-publish-state-diff
+
+`docs/30-workflows/admin-requests-approval-publish-state-diff/` を `implemented_local_runtime_pending / implementation / VISUAL` として同一 wave 同期。`/admin/requests` 承認導線に before-after diff を追加し、`visibility_request` は公開状態遷移、`delete_request` は在籍→退会（論理削除）のレコード状態遷移として分離。apps/web 表現層のみ変更、apps/api / packages/shared / D1 / Google Form / design token 正本は不変。focused Vitest 3 files / 27 tests、typecheck、lint、web design-token gate、Phase 12 compliance PASS。staging deploy、admin bearer mint、3 canonical PNG、commit、push、PR は user-gated。
 # 2026-06-10 public-member-common-ui-card-unification
 
 - Registered `docs/30-workflows/public-member-common-ui-card-unification/` as `implemented_local_visual_pending / implementation / VISUAL / local_screenshot_pending` (promoted from `spec_created` after apps/web implementation diffs appeared).

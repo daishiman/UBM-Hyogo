@@ -151,6 +151,21 @@ describe("RequestConfirmDialog", () => {
     );
   });
 
+  it("TC-C-08b: isDestructive=false でも destructiveMessage を説明文として表示", () => {
+    render(
+      <RequestConfirmDialog
+        kind="approve"
+        open={true}
+        onClose={vi.fn()}
+        onSubmit={vi.fn()}
+        busy={false}
+        destructiveMessage="公開状態を 公開 → 非公開 に変更します。"
+      />,
+    );
+    expect(screen.getByText("公開状態を 公開 → 非公開 に変更します。")).toBeDefined();
+    expect(screen.queryByRole("alert")).toBeNull();
+  });
+
   it("TC-C-09: open=false で dialog.close を呼ぶ", () => {
     const closeSpy = vi.spyOn(HTMLDialogElement.prototype, "close");
     const { rerender } = render(

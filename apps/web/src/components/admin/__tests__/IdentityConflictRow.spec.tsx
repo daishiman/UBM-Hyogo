@@ -84,7 +84,7 @@ const setMutationState = (
   mutationByEndpoint.set(endpoint, { ...prev, ...state });
 };
 
-const getRowRoot = () => screen.getByText("conflict: c_1").closest("[data-state]");
+const getRowRoot = () => screen.getByText("照合キー: c_1").closest("[data-state]");
 
 const renderWithAnnouncer = () =>
   render(
@@ -108,20 +108,28 @@ const dismissRollbackCases: Array<[string, Error, string]> = [
 ];
 
 describe("IdentityConflictRow", () => {
-  it("idle 段階で merge / dismiss ボタンと conflict メタを表示する", () => {
+  it("idle 段階で日本語の操作ボタンと補助的な照合キーを表示する", () => {
     renderWithAnnouncer();
-    expect(screen.getByText("conflict: c_1")).toBeTruthy();
-    expect(screen.getByRole("button", { name: "merge" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "別人マーク" })).toBeTruthy();
+    expect(screen.getByText("照合キー: c_1")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "統合する" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "別人として確定" })).toBeTruthy();
+    expect(screen.getByText("新しい登録")).toBeTruthy();
+    expect(screen.getByText("まとめ先（以前の登録）")).toBeTruthy();
+    expect(screen.getByText(/メール:/)).toBeTruthy();
+    expect(screen.getByText("一致した項目: 氏名、職業")).toBeTruthy();
+    expect(screen.getAllByText("氏名")).toHaveLength(1);
+    expect(screen.getAllByText("職業")).toHaveLength(1);
+    expect(screen.queryByText("conflict: c_1")).toBeNull();
+    expect(screen.queryByText("matched: name, affiliation")).toBeNull();
   });
 
   it("merge → 確認1 → 次へ で確認2 (理由入力) に進み、空理由は実行不可", () => {
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     expect(screen.getByText(/確認 1\/2/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     expect(screen.getByText(/確認 2\/2/)).toBeTruthy();
-    const exec = screen.getByRole("button", { name: "merge 実行" });
+    const exec = screen.getByRole("button", { name: "統合を実行" });
     expect((exec as HTMLButtonElement).disabled).toBe(true);
   });
 
@@ -130,22 +138,22 @@ describe("IdentityConflictRow", () => {
     setMutationState(mergeEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
+    expect(screen.getByText("照合キー: c_1")).toBeTruthy();
+    expect(getRowRoot()?.getAttribute("data-state")).toBe("exiting");
+    expect(getRowRoot()?.className).toContain("opacity-0");
     await waitFor(() =>
       expect(trigger).toHaveBeenCalledWith(mergeEndpoint, {
         targetMemberId: "m_dst",
         reason: "本人確認済",
       }),
     );
-    expect(screen.getByText("conflict: c_1")).toBeTruthy();
-    expect(getRowRoot()?.getAttribute("data-state")).toBe("exiting");
-    expect(getRowRoot()?.className).toContain("opacity-0");
   });
 
   it("transitionend 後に row を removed 相へ移して DOM から除去する", async () => {
@@ -153,19 +161,19 @@ describe("IdentityConflictRow", () => {
     setMutationState(mergeEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
     const rowRoot = getRowRoot();
     expect(rowRoot).toBeTruthy();
     fireEvent.transitionEnd(rowRoot!, { propertyName: "opacity" });
 
-    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() => expect(screen.queryByText("照合キー: c_1")).toBeNull());
   });
 
   it("transitionend が発火しない環境でも fallback timer で DOM から除去する", async () => {
@@ -174,17 +182,17 @@ describe("IdentityConflictRow", () => {
     setMutationState(mergeEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
     await act(async () => {
       await vi.runOnlyPendingTimersAsync();
     });
-    expect(screen.queryByText("conflict: c_1")).toBeNull();
+    expect(screen.queryByText("照合キー: c_1")).toBeNull();
     vi.useRealTimers();
   });
 
@@ -204,18 +212,18 @@ describe("IdentityConflictRow", () => {
     setMutationState(mergeEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
-    expect(screen.getByText("conflict: c_1")).toBeTruthy();
+    expect(screen.getByText("照合キー: c_1")).toBeTruthy();
     await act(async () => {
       await vi.advanceTimersByTimeAsync(0);
     });
-    expect(screen.queryByText("conflict: c_1")).toBeNull();
+    expect(screen.queryByText("照合キー: c_1")).toBeNull();
     vi.useRealTimers();
   });
 
@@ -229,12 +237,12 @@ describe("IdentityConflictRow", () => {
     setMutationState(mergeEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
     await waitFor(() =>
       expect(trigger).toHaveBeenCalledWith(mergeEndpoint, {
@@ -243,7 +251,7 @@ describe("IdentityConflictRow", () => {
       }),
     );
     fireEvent.transitionEnd(getRowRoot()!, { propertyName: "opacity" });
-    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() => expect(screen.queryByText("照合キー: c_1")).toBeNull());
     await waitFor(() =>
       expect(screen.getByRole("status").textContent).toContain(
         announcementFor("merge"),
@@ -253,7 +261,7 @@ describe("IdentityConflictRow", () => {
 
   it("hook の successMessage は '✓ 統合しました'", () => {
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     expect(lastOptionsByEndpoint.get(mergeEndpoint)?.successMessage).toBe(
       "✓ 統合しました",
@@ -273,20 +281,20 @@ describe("IdentityConflictRow", () => {
     });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
-    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    await waitFor(() => expect(screen.getByText("照合キー: c_1")).toBeTruthy());
     expect(getRowRoot()?.getAttribute("data-state")).toBe("idle");
     // rollback 後も modal は閉じない: 確認2 が表示され、reason textarea が残存する
     expect(screen.getByText(/確認 2\/2/)).toBeTruthy();
     expect(
-      (screen.getByLabelText("merge 理由") as HTMLTextAreaElement).value,
+      (screen.getByLabelText("まとめる理由") as HTMLTextAreaElement).value,
     ).toBe("本人確認済");
     expect(screen.getByRole("alert").textContent).toContain("すでに統合済みです");
     expect(clearTimeoutSpy).toHaveBeenCalled();
@@ -303,12 +311,12 @@ describe("IdentityConflictRow", () => {
     });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
     expect(screen.getByRole("alert").textContent).toContain(
@@ -323,8 +331,8 @@ describe("IdentityConflictRow", () => {
     setMutationState(dismissEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+    fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
@@ -347,8 +355,8 @@ describe("IdentityConflictRow", () => {
     setMutationState(dismissEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+    fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
@@ -358,7 +366,7 @@ describe("IdentityConflictRow", () => {
         reason: "別組織で確認済",
       }),
     );
-    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() => expect(screen.queryByText("照合キー: c_1")).toBeNull());
     const status = screen.getByRole("status");
     expect(screen.getAllByRole("status")).toHaveLength(1);
     expect(status.textContent).not.toContain(announcementFor("dismiss"));
@@ -380,14 +388,14 @@ describe("IdentityConflictRow", () => {
     setMutationState(dismissEndpoint, { trigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+    fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
-    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() => expect(screen.queryByText("照合キー: c_1")).toBeNull());
   });
 
   it("dismiss 失敗 (409) で optimistic 非表示を rollback し、reason / error が残る", async () => {
@@ -400,14 +408,14 @@ describe("IdentityConflictRow", () => {
     });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+    fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalled());
-    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    await waitFor(() => expect(screen.getByText("照合キー: c_1")).toBeTruthy());
     await waitFor(() =>
       expect(screen.getByRole("alert").textContent).toContain(
         "すでに別人として確定済みです",
@@ -417,7 +425,7 @@ describe("IdentityConflictRow", () => {
       announcementFor("dismiss"),
     );
     expect(
-      (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+      (screen.getByLabelText("別人と判断した理由") as HTMLTextAreaElement).value,
     ).toBe("別組織で確認済");
     expect(screen.getByRole("alert").textContent).toContain(
       "すでに別人として確定済みです",
@@ -434,16 +442,16 @@ describe("IdentityConflictRow", () => {
       });
 
       renderWithAnnouncer();
-      fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-      fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+      fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+      fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
         target: { value: "別組織で確認済" },
       });
       fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
       await waitFor(() => expect(trigger).toHaveBeenCalled());
-      await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+      await waitFor(() => expect(screen.getByText("照合キー: c_1")).toBeTruthy());
       expect(
-        (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+        (screen.getByLabelText("別人と判断した理由") as HTMLTextAreaElement).value,
       ).toBe("別組織で確認済");
       expect(screen.getByRole("alert").textContent).toContain(expectedMessage);
     },
@@ -462,16 +470,16 @@ describe("IdentityConflictRow", () => {
     });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+    fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
     await waitFor(() => expect(trigger).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    await waitFor(() => expect(screen.getByText("照合キー: c_1")).toBeTruthy());
     expect(
-      (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+      (screen.getByLabelText("別人と判断した理由") as HTMLTextAreaElement).value,
     ).toBe("別組織で確認済");
 
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
@@ -480,7 +488,7 @@ describe("IdentityConflictRow", () => {
     expect(trigger).toHaveBeenLastCalledWith(dismissEndpoint, {
       reason: "別組織で確認済",
     });
-    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() => expect(screen.queryByText("照合キー: c_1")).toBeNull());
   });
 
   it("dismiss rollback は merge 経路に影響せず、merge optimistic hide が動作する", async () => {
@@ -495,22 +503,22 @@ describe("IdentityConflictRow", () => {
     setMutationState(mergeEndpoint, { trigger: mergeTrigger });
 
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
-    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+    fireEvent.change(screen.getByLabelText("別人と判断した理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
 
     await waitFor(() => expect(dismissTrigger).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(screen.getByText("conflict: c_1")).toBeTruthy());
+    await waitFor(() => expect(screen.getByText("照合キー: c_1")).toBeTruthy());
 
     fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "本人確認済" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合を実行" }));
 
     await waitFor(() =>
       expect(mergeTrigger).toHaveBeenCalledWith(mergeEndpoint, {
@@ -518,23 +526,23 @@ describe("IdentityConflictRow", () => {
         reason: "本人確認済",
       }),
     );
-    await waitFor(() => expect(screen.queryByText("conflict: c_1")).toBeNull());
+    await waitFor(() => expect(screen.queryByText("照合キー: c_1")).toBeNull());
   });
 
   it("merge-confirm キャンセルで idle に戻り、reason はリセットされる", () => {
     renderWithAnnouncer();
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
-    fireEvent.change(screen.getByLabelText("merge 理由"), {
+    fireEvent.change(screen.getByLabelText("まとめる理由"), {
       target: { value: "draft" },
     });
     fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
-    expect(screen.getByRole("button", { name: "merge" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "統合する" })).toBeTruthy();
     // 再度開くと textarea は空
-    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "統合する" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
     expect(
-      (screen.getByLabelText("merge 理由") as HTMLTextAreaElement).value,
+      (screen.getByLabelText("まとめる理由") as HTMLTextAreaElement).value,
     ).toBe("");
   });
 });
