@@ -14,6 +14,7 @@ import {
 } from "../../../../src/features/admin/components/_shared";
 import type { ListIdentityConflictsResponse } from "@ubm-hyogo/shared";
 import { IdentityConflictAnnouncer } from "../../../../src/components/admin/IdentityConflictAnnouncer";
+import { IdentityConflictGuide } from "../../../../src/components/admin/IdentityConflictGuide";
 import { IdentityConflictRow } from "../../../../src/components/admin/IdentityConflictRow";
 
 export const dynamic = "force-dynamic";
@@ -35,19 +36,20 @@ export default async function AdminIdentityConflictsPage({
   return (
     <section className="flex flex-col gap-4" data-route="admin" data-section-rhythm="compact">
       <AdminPageHeader
-        eyebrow="ADMIN / IDENTITY"
-        title="Identity 重複候補"
+        eyebrow="会員管理"
+        title="会員の重複確認"
         description={
           result.ok
-            ? `name + 所属が一致した候補 ${result.data.items.length} 件`
-            : "候補の読み込みに失敗"
+            ? `氏名と職業が一致する「重複の可能性がある会員」が ${result.data.items.length} 組`
+            : "重複候補の読み込みに失敗しました"
         }
-        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "Identity 重複候補" }]}
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "会員の重複確認" }]}
       />
+      <IdentityConflictGuide />
 
       {!result.ok ? (
         <AdminSectionErrorClient
-          sectionLabel="Identity 重複候補"
+          sectionLabel="会員の重複確認"
           code={result.error.code}
           message={result.error.message}
         />
@@ -66,16 +68,16 @@ export default async function AdminIdentityConflictsPage({
               <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3Z" />
             </svg>
           }
-          title="現在、merge 候補はありません。"
+          title="現在、重複の可能性がある会員は見つかっていません。"
         />
       ) : (
         <AdminSectionCard
-          title="候補一覧"
-          description="merge は二段階確認、別人確定は理由入力後に実行します。"
+          title="重複の可能性がある会員"
+          description="「統合」は2段階の確認、「別人として確定」は理由を入力してから実行します。"
           density="compact"
         >
           <IdentityConflictAnnouncer>
-            <ul className="flex flex-col gap-3" aria-label="Identity 重複候補一覧">
+            <ul className="flex flex-col gap-3" aria-label="重複の可能性がある会員の一覧">
               {result.data.items.map((item) => (
                 <li key={item.conflictId}>
                   <IdentityConflictRow item={item} />

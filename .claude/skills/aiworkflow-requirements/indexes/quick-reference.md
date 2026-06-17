@@ -1,5 +1,18 @@
 # クイックリファレンス
 
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| purpose | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation | `shell-config.ts`, `/admin/identity-conflicts/page.tsx`, `IdentityConflictRow.tsx`, `IdentityConflictGuide.tsx`, `identityConflictGlossary.ts`, identity-conflict seed catalog/builder/generated SQL/scripts |
+| evidence | focused Vitest 5 files / 42 tests PASS; seed generator drift 0; exactly 5 conflict candidates contract PASS; verify:tokens/typecheck/lint/phase12-compliance PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged; matchedFields は web glossary で表示変換; seed は local/staging 限定 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
 ## home-dashboard-japanese-localization（2026-06-11）
 
 | 項目 | 値 |
