@@ -31,9 +31,11 @@ test.describe('issue #1101 attendance analytics calculation correction evidence'
     await expect(adminPage.getByRole('heading', { level: 1, name: '出席ダッシュボード' })).toBeVisible()
     // PRIMARY/TREND/DETAIL UX リファイン(admin-attendance-dashboard-ux)で
     // 旧 attendance-kpi-unique カードはプライマリカード attendance-kpi-rate の
-    // ユニーク出席率 support 行へ統合された。issue #1101 の算出補正(ユニーク=24/80.0%)は
-    // 表示位置が変わっただけで計算意図は不変のため、新構造の同値をアサートする。
-    await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('ユニーク出席率')
+    // support 行へ統合された。さらに admin-attendance-dashboard-jp-clarity-and-ux で
+    // 当該ラベルは「ユニーク出席率」→「一度でも参加した人の割合」へ非エンジニア向けに改称。
+    // issue #1101 の算出補正(ユニーク=24/80.0%)は表示位置・表記が変わっただけで
+    // 計算意図は不変のため、新ラベル + 同値をアサートする。
+    await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('一度でも参加した人の割合')
     await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('24')
     await expect(adminPage.getByTestId('attendance-kpi-rate')).toContainText('80.0%')
     await expect(

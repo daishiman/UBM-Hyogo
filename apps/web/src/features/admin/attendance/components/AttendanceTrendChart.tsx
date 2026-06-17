@@ -9,7 +9,7 @@ export function AttendanceTrendChart({ trend }: Props) {
   if (buckets.length === 0) {
     return (
       <div className="attendance-trend-empty" data-testid="attendance-trend-empty">
-        トレンドデータがありません
+        推移データがありません
       </div>
     );
   }
@@ -28,7 +28,7 @@ export function AttendanceTrendChart({ trend }: Props) {
   return (
     <figure
       className="attendance-trend-chart"
-      aria-label="出席トレンド"
+      aria-label="出席の移り変わり"
       data-testid="attendance-trend-chart"
     >
       <svg viewBox={`0 0 ${w} ${h}`} role="img" aria-label="月別出席者数">
@@ -44,7 +44,7 @@ export function AttendanceTrendChart({ trend }: Props) {
           return (
             <g key={b.period}>
               <circle cx={x} cy={y} r={3} fill="var(--ubm-color-accent, currentColor)" />
-              <title>{`${b.period}: ${b.attendeeCount} 人 / ${b.sessionCount} セッション`}</title>
+              <title>{`${b.period}: ${b.attendeeCount} 人 / 開催 ${b.sessionCount} 回`}</title>
             </g>
           );
         })}

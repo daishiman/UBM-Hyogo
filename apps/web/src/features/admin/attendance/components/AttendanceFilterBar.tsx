@@ -39,7 +39,7 @@ export function AttendanceFilterBar({ initial }: Props) {
         ))}
       </fieldset>
       <fieldset className="attendance-zone-filter">
-        <legend>出席回数帯</legend>
+        <legend>累計の出席回数</legend>
         {SELECTABLE_ZONES.map((zone) => (
           <label key={zone} data-testid={`attendance-zone-${zone}`}>
             <input
@@ -61,7 +61,7 @@ export function AttendanceFilterBar({ initial }: Props) {
         })}
         download
       >
-        CSVエクスポート
+        表計算ファイルで書き出す
       </a>
     </div>
   );

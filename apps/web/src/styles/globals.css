@@ -1093,7 +1093,9 @@
     border-radius: var(--ubm-radius-sm);
     color: var(--ubm-color-accent-ink);
     font-size: var(--ubm-text-sm);
+    line-height: 1.4;
     text-decoration: none;
+    white-space: normal;
   }
 
   .attendance-export-link:hover {
@@ -1145,7 +1147,6 @@
     font-size: var(--ubm-text-xs);
     font-weight: 600;
     letter-spacing: var(--ubm-eyebrow-tracking);
-    text-transform: uppercase;
   }
 
   .attendance-kpi-value {
@@ -1272,6 +1273,7 @@
     letter-spacing: var(--ubm-eyebrow-tracking);
     text-align: start;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .attendance-session-table td,
@@ -1349,11 +1351,20 @@
   }
 
   .attendance-absentee-alert li {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(9rem, 1.2fr) repeat(3, minmax(6rem, auto));
+    align-items: center;
     gap: var(--ubm-space-3);
+    padding-block: var(--ubm-space-2);
+    border-block-start: 1px solid var(--ubm-color-border-default);
     color: var(--ubm-color-text-secondary);
     font-size: var(--ubm-text-sm);
+  }
+
+  .attendance-absentee-alert li > span:first-child {
+    color: var(--ubm-color-text-primary);
+    font-weight: 600;
+    overflow-wrap: anywhere;
   }
 
   .attendance-detail-tabs {

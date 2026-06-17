@@ -1,0 +1,89 @@
+{
+  "mode": "VISUAL",
+  "task": "admin-attendance-dashboard-jp-clarity-and-ux",
+  "status": "captured_local_fixture",
+  "captureRuntime": "local-playwright-admin-fixture; authenticated staging baseline remains user-gated",
+  "screenshotsDirectory": "outputs/phase-11/screenshots",
+  "routes": [
+    {
+      "route": "/admin/dashboard/attendance",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "attendance-dashboard-full-jp",
+          "output": "outputs/phase-11/screenshots/attendance-dashboard-full-jp.png",
+          "intent": "3 ゾーン全体が日本語見出しで表示される（before/after 比較・after 状態）",
+          "ac": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ]
+        },
+        {
+          "name": "attendance-overview-zone-jp",
+          "output": "outputs/phase-11/screenshots/attendance-overview-zone-jp.png",
+          "intent": "「全体の状況」ゾーンの KPI / 要フォロー対象が日本語表示",
+          "ac": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ]
+        },
+        {
+          "name": "attendance-trend-zone-jp",
+          "output": "outputs/phase-11/screenshots/attendance-trend-zone-jp.png",
+          "intent": "「出席の移り変わり」ゾーン（移り変わり + 出席回数べつの人数）が日本語表示",
+          "ac": [
+            "AC-1",
+            "AC-3"
+          ]
+        },
+        {
+          "name": "attendance-detail-tabs-jp",
+          "output": "outputs/phase-11/screenshots/attendance-detail-tabs-jp.png",
+          "intent": "「くわしい一覧」タブ（開催回ごと / 会員別 / 出席が多い順）が日本語ラベル",
+          "ac": [
+            "AC-1",
+            "AC-2"
+          ]
+        },
+        {
+          "name": "attendance-filter-bar-jp",
+          "output": "outputs/phase-11/screenshots/attendance-filter-bar-jp.png",
+          "intent": "フィルタ（3か月/6か月/1年・累計の出席回数・表計算ファイルで書き出す）が日本語表示",
+          "ac": [
+            "AC-1",
+            "AC-3"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/admin/dashboard/attendance",
+      "viewport": "mobile",
+      "states": [
+        {
+          "name": "attendance-dashboard-mobile-jp",
+          "output": "outputs/phase-11/screenshots/attendance-dashboard-mobile-jp.png",
+          "intent": "モバイル幅・3 ゾーンが 1 カラム縦積みで日本語表示が成立",
+          "ac": [
+            "AC-4"
+          ]
+        }
+      ]
+    }
+  ],
+  "expectedScreenshots": [
+    "outputs/phase-11/screenshots/attendance-dashboard-full-jp.png",
+    "outputs/phase-11/screenshots/attendance-overview-zone-jp.png",
+    "outputs/phase-11/screenshots/attendance-trend-zone-jp.png",
+    "outputs/phase-11/screenshots/attendance-detail-tabs-jp.png",
+    "outputs/phase-11/screenshots/attendance-filter-bar-jp.png",
+    "outputs/phase-11/screenshots/attendance-dashboard-mobile-jp.png"
+  ],
+  "captureScriptContract": "Playwright config targets staging (no local webServer); capture script must run against staging admin-authenticated runtime and wrap browser/server teardown in try/finally (FB-MSO-003).",
+  "userGated": false,
+  "stagingUserGated": true,
+  "reason": "apps/web 実装・focused Vitest・typecheck・lint・token gate・local Playwright fixture screenshot capture は本サイクルで完了。6 canonical PNG は outputs/phase-11/screenshots/ に present。authenticated staging baseline capture のみ user-gated。"
+}

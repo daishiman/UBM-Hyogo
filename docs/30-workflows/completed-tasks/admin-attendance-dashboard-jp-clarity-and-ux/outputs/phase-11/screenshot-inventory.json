@@ -1,0 +1,47 @@
+{
+  "taskId": "admin-attendance-dashboard-jp-clarity-and-ux",
+  "mode": "local-playwright-fixture",
+  "route": "/admin/dashboard/attendance",
+  "status": "captured_local_fixture",
+  "screenshots": [
+    {
+      "tc": "TC-V-01",
+      "file": "screenshots/attendance-dashboard-full-jp.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-V-02",
+      "file": "screenshots/attendance-overview-zone-jp.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-V-03",
+      "file": "screenshots/attendance-trend-zone-jp.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-V-04",
+      "file": "screenshots/attendance-detail-tabs-jp.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-V-05",
+      "file": "screenshots/attendance-filter-bar-jp.png",
+      "viewport": "1280x800",
+      "status": "present"
+    },
+    {
+      "tc": "TC-V-06",
+      "file": "screenshots/attendance-dashboard-mobile-jp.png",
+      "viewport": "390x844",
+      "status": "present"
+    }
+  ],
+  "runtimeBoundary": "staging authenticated screenshots remain user-gated; local fixture screenshots are committed Phase 11 visual evidence",
+  "captureState": "implemented_local_visual_present_staging_pending",
+  "stagingBaseline": "user-gated"
+}
