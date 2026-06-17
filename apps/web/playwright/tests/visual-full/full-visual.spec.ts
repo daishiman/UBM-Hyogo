@@ -20,6 +20,14 @@ for (const route of VISUAL_ROUTES) {
         content:
           '*,*::before,*::after{transition:none!important;animation:none!important;caret-color:transparent!important;}',
       })
+      await expect
+        .poll(() =>
+          page.evaluate(() => {
+            const element = document.scrollingElement ?? document.documentElement
+            return element.scrollWidth <= element.clientWidth + 1
+          }),
+        )
+        .toBe(true)
 
       const viewport = testInfo.project.name.replace('visual-full-chromium-', '')
       await expect(page).toHaveScreenshot(`full-visual-${route.slug}-${viewport}.png`, {

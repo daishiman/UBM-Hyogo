@@ -320,7 +320,7 @@
     left: calc(100% + var(--ubm-space-3));
     z-index: 30;
     min-width: max-content;
-    max-width: 240px;
+    max-width: min(240px, calc(100vw - var(--shell-bar-w-collapsed) - 1.5rem));
     padding: var(--ubm-space-1) var(--ubm-space-2);
     border: 1px solid var(--ubm-color-border-default);
     border-radius: var(--ubm-radius-sm);
@@ -337,6 +337,7 @@
       opacity var(--ubm-dur-fast) ease,
       transform var(--ubm-dur-fast) ease;
     white-space: nowrap;
+    overflow-wrap: anywhere;
   }
 
   .ubm-shell-tooltip-wrap:hover .ubm-shell-tooltip,
@@ -438,6 +439,7 @@
     z-index: 20;
     display: grid;
     min-width: 208px;
+    max-width: min(208px, calc(100vw - 2rem));
     gap: 2px;
     border: 1px solid var(--ubm-color-border-default);
     border-radius: var(--ubm-radius-sm);
@@ -768,7 +770,14 @@
     color: var(--ubm-color-text-secondary);
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
+    .schema-flow-steps,
+    .schema-glossary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767.98px) {
     .schema-flow-steps,
     .schema-glossary {
       grid-template-columns: 1fr;
@@ -1095,7 +1104,7 @@
 
   .attendance-primary-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
     gap: var(--ubm-space-4);
   }
 
@@ -1396,11 +1405,11 @@
     overflow-x: auto;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023.98px) {
     .attendance-primary-grid,
     .attendance-charts-grid,
     .attendance-kpi-secondary-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .attendance-detail-tabs__control {
@@ -1692,7 +1701,7 @@
 
   .tag-master-grid {
     display: grid;
-    grid-template-columns: minmax(18rem, 0.9fr) minmax(22rem, 1.1fr);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: var(--ubm-space-4);
     align-items: start;
   }
@@ -1784,7 +1793,7 @@
     align-items: start;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023.98px) {
     .tag-master-toolbar,
     .tag-master-grid {
       grid-template-columns: minmax(0, 1fr);
@@ -2076,12 +2085,21 @@
 
   .admin-audit-table-scroll {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-audit-table {
     width: 100%;
+    min-width: 48rem;
     border-collapse: collapse;
     font-size: 14px;
+  }
+
+  .admin-audit-table th,
+  .admin-audit-table td {
+    min-width: 7rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .admin-audit-guide {
@@ -2348,8 +2366,9 @@
   /* === profile page composition === */
   .member-header,
   main[data-route="member"] {
-    width: min(1120px, calc(100vw - var(--ubm-space-8)));
+    width: min(1120px, 100%);
     margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, var(--ubm-space-4));
   }
 
   .member-header {
@@ -2520,7 +2539,7 @@
     justify-content: flex-end;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 767.98px) {
     .member-header,
     main[data-route="member"] {
       width: min(100vw - var(--ubm-space-4), 100%);
@@ -3135,9 +3154,10 @@
     flex-direction: column;
     gap: 6px;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 767.98px) {
+    .admin-requests-grid,
     .tag-queue-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .sticky-top {
@@ -3145,7 +3165,7 @@
     }
 
     .admin-queue-panel {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -3431,10 +3451,10 @@
     font-family: var(--font-geist-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
     overflow-wrap: anywhere;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 767.98px) {
     .schema-history-purpose__steps,
     .schema-history-purpose__glossary {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -3454,7 +3474,7 @@
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 767.98px) {
     [data-route-group="admin"] [data-shell="sidebar"] {
       position: static;
       min-height: auto;

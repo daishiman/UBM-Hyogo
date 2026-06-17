@@ -1,0 +1,80 @@
+{
+  "taskId": "responsive-mobile-tablet-ui-fixes",
+  "mode": "local-playwright-fixture",
+  "status": "implemented_local_visual_present_staging_pending",
+  "generated_at": "2026-06-12T00:25:17.447Z",
+  "screenshots": [
+    {
+      "tc": "TC-11-1",
+      "file": "screenshots/TC-11-1-public-home-mobile.png",
+      "route": "/",
+      "viewport": "375x812",
+      "viewportName": "mobile-narrow",
+      "status": "present",
+      "overflowX": false,
+      "hasNextDevOverlay": false,
+      "hasVisibleNextDevOverlay": false
+    },
+    {
+      "tc": "TC-11-2",
+      "file": "screenshots/TC-11-2-public-members-mobile.png",
+      "route": "/members",
+      "viewport": "375x812",
+      "viewportName": "mobile-narrow",
+      "status": "present",
+      "overflowX": false,
+      "hasNextDevOverlay": false,
+      "hasVisibleNextDevOverlay": false
+    },
+    {
+      "tc": "TC-11-3",
+      "file": "screenshots/TC-11-3-login-mobile.png",
+      "route": "/login",
+      "viewport": "375x812",
+      "viewportName": "mobile-narrow",
+      "status": "present",
+      "overflowX": false,
+      "hasNextDevOverlay": false,
+      "hasVisibleNextDevOverlay": false
+    },
+    {
+      "tc": "TC-11-4",
+      "file": "screenshots/TC-11-4-privacy-tablet.png",
+      "route": "/privacy",
+      "viewport": "768x1024",
+      "viewportName": "tablet",
+      "status": "present",
+      "overflowX": false,
+      "hasNextDevOverlay": false,
+      "hasVisibleNextDevOverlay": false
+    },
+    {
+      "tc": "TC-11-5",
+      "file": "screenshots/TC-11-5-not-found-mobile.png",
+      "route": "/__not_found_smoke__",
+      "viewport": "375x812",
+      "viewportName": "mobile-narrow",
+      "status": "present",
+      "overflowX": false,
+      "hasNextDevOverlay": false,
+      "hasVisibleNextDevOverlay": false
+    }
+  ],
+  "pending": [
+    {
+      "tc": "TC-11-6",
+      "route": "/admin/members",
+      "viewport": "768x1024",
+      "status": "pending_authenticated_admin_baseline",
+      "reason": "requires authenticated staging session / user approval"
+    },
+    {
+      "tc": "TC-11-7",
+      "route": "/admin/schema",
+      "viewport": "768x1024",
+      "status": "pending_authenticated_admin_baseline",
+      "reason": "requires authenticated staging session / user approval"
+    }
+  ],
+  "runtimeBoundary": "Physical local PNG evidence captured for representative public/auth/common routes without DOM/style mutation. Authenticated admin staging baselines remain user-gated."
+}

@@ -4,6 +4,22 @@
 
 ## 本 skill 固有の補足
 
+### SP-DEVSYNC-146: 仕様書 Phase 11/13 の CI 検証手順に「visual-full fail は screenshot-stale と overflow-guard 実バグの 2 分類で扱い、baseline 再生成は overflow guard 0 が前提」を逐語化する（L-DEVSYNC-146 の task-spec 版・SP-DEVSYNC-141 の補完）
+- 2026-06-17 `feat/responsive-mobile-tablet-ui-fixes`（wt-2・PR #1236・visual 7 job fail）。dev sync push 後 visual-full が fail したが、`scrollWidth<=clientWidth` overflow guard fail（実 CSS バグ）と screenshot stale が混在し、過去の baseline-update workflow は overflow guard で abort し regenerate step が fail していた。
+- How to apply（仕様書 Phase 11/13 の CI 検証手順への逐語化）:
+  1. **fail の 2 分類診断**: 仕様書に「`gh run view --log-failed --job=<id>` で per-test error を見て、`toBe(expected)`+`Received: false` = overflow guard（実 CSS バグ）／`toHaveScreenshot`+`Expected an image WxH` = baseline stale と判別する」を明記。tablet が overflow 0 で mobile に集中するなら携帯固有レスポンシブ崩れと当たりを付ける。
+  2. **baseline 再生成の前提条件**: 「`playwright-visual-baseline-update.yml`（承認ゲート付き）は `--update-snapshots` するが、spec が screenshot より前に overflow guard を置く構成では guard fail でテストが abort し regenerate step が fail する。よって overflow guard を 0 にしてから baseline 再生成する」を CI 解消順序として逐語化（① CSS 修正 → ② baseline 再生成）。過去 run が regenerate step fail なら overflow 未解消を疑う。
+  3. **overflow 原因特定の手順**: 「visual project の testDir に一時診断 spec（全要素走査で `rect.right > clientWidth` のリーフ + 祖先チェーンの width/min-width/box-sizing/grid-template を dump）を置き既存 fixture/dev サーバ上で実走させる。確認後に診断 spec と test-results 証跡 dir を削除（`rm` 権限ブロック時は `node -e fs.rmSync`）」を仕様書 evidence 手順に書く。定番修正は overflow-x ラッパー / mobile 単カラム `minmax(0,1fr)` collapse（固定 px 下限は SectionCard 入れ子の intrinsic sizing 下で `min(px,100%)` の 100% を解決できず blowup する）。
+- 検証: `gh pr checks 1236` で visual 7 fail → log 抽出で overflow guard 5 系統確定 → 診断 spec でリーフ特定 → RecentActionsTable overflow-x-auto ラップ / admin-requests-grid mobile 単カラム / member-grid comfy・dense mobile `minmax(0,1fr)` → 全 19 ルート×3vp over=0 実測 → typecheck/lint exit 0 → commit `165cea5aa`。
+
+### SP-DEVSYNC-145: 仕様書 Phase 5/11 の dev sync 手順に「install 要否は pnpm-lock.yaml 変更で判定（package.json scripts-only は install skip）」と「merge 後の origin/dev 取込完全性 re-check + 並列 push による再マージ」を逐語化する（L-DEVSYNC-145 の task-spec 版・SP-DEVSYNC-140 の補正）
+- 2026-06-17 `feat/responsive-mobile-tablet-ui-fixes`（wt-2・behind 1 / ahead 4 → 作業中に origin/dev 1 件先行で 2 波・merge `6ef90375a` + `68c083efe`）。取込 #1231 が root + apps/api の `package.json` を変更したが `scripts` 追加のみで `pnpm-lock.yaml` 不変。SP-DEVSYNC-140 の「install 要否は pnpm-lock.yaml / package.json 変更有無で判定」を素直に書いた仕様書は package.json scripts-only でも install を走らせる過大手順になる。さらに 1 波目 merge 後に origin/dev が #1230 で 1 件先行していた（並列セッションの dev push）。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **install 判定の二段化**: 「取込デルタに `pnpm-lock.yaml` 変更が含まれれば `pnpm install --force` 必須」を一次基準とし、「`package.json` のみ変更で `pnpm-lock.yaml` 不変の場合は `git diff <range> -- package.json` で内訳を確認 → `scripts`/`engines`/メタのみなら install skip、`dependencies`/`devDependencies`/`peer`/`optional` ブロックが動いていれば install 必須」を二次基準として仕様書に明記する。「package.json が変わったら install」と書くと scripts 追加 PR で不要な install を強制する。
+  2. **merge 後の取込完全性 re-check**: 仕様書 Phase 5/11 の sync 検証に「feature への `git merge origin/dev` commit 後、`git log --oneline HEAD..origin/dev` が空 または `git merge-base --is-ancestor origin/dev HEAD` が真であることを確認し、新規 dev コミットがあれば取込完全になるまで `git merge origin/dev` → `pnpm sync:resolve` → 原子 commit を反復する」を逐語化する。9+ 並列 worktree では初回 fetch の origin/dev が resolve/commit 中に陳腐化するため、「初回 fetch の behind 数を最終状態と決め打ちしない」と注記する。
+  3. **衝突集合の安定系**: 取込側が skill-meta + 表現層のみ（dep 非 touch・baseline 非再生成）の admin 日本語化 PR の場合、連続波でも CONFLICT は skill-index union 4（quick-reference + resource-map + topic-map + task-workflow-active）に安定し keywords.json は auto-merge に収束する系がある（SP-DEVSYNC-138 の「波ごとに反転」の対例）。集合によらず `pnpm sync:resolve` 1 パスで完結する点を不変条件として書く。
+- 検証: `git fetch` → local dev == origin/dev（0/0・dev ref 無操作）→ 1 波目 `git merge origin/dev`（#1231）CONFLICT 4 union → `pnpm sync:resolve` exit 0 → merge `6ef90375a` → package.json ×2 は scripts のみ・pnpm-lock 不変で install skip → typecheck/lint exit 0 → `HEAD..origin/dev` に #1230 残存検出 → 2 波目 `git merge origin/dev` 同型 CONFLICT 4 → `pnpm sync:resolve` exit 0 → merge `68c083efe` → `merge-base --is-ancestor` 成立で完全取込 → 再 typecheck/lint exit 0。
+
 ### SP-DEVSYNC-143: 仕様書 Phase 5/11 の dev sync 手順に「sub-worktree では local `dev` ref 前進を経路にせず `origin/dev` 直 merge を既定にする」分岐を逐語化する（L-DEVSYNC-143 の task-spec 版）
 - 2026-06-14 `feat/admin-attendance-dashboard-jp-clarity-and-ux`（wt-7・behind 1 / ahead 10・merge `99874bc9c`・5th-pass）。「リモート dev をローカル dev に取り込んでから feature へ」を素直に書いた仕様書は sub-worktree で 2 段詰む: (1) `git fetch origin dev:dev` は `dev` が main worktree に checked out 済みで `refusing to fetch into branch 'refs/heads/dev' checked out at <mainWT>` (2) `git -C <mainWT> merge --ff-only origin/dev` も main WT が dirty なら `Your local changes would be overwritten by merge ... Aborting`。
 - How to apply（仕様書 Phase 5/11 への逐語化）:
@@ -1812,6 +1828,16 @@
   3. **成功基準の注記**: 「ローカル dev HEAD == origin/dev」は ff 安全時のみの基準。ff 不能時は「feature ブランチに origin/dev が merge 済み」を成功基準に読み替える、と Phase 11 検証節に注記する。
 - 検証: 積集合 3 件 → ff 断念 → `git merge origin/dev` CONFLICT 2（topic-map + task-workflow-active union）→ `pnpm sync:resolve` 1 パス → merge `858c2ee01` → install（lock 変更あり）→ typecheck/lint exit 0 → CI コード修正 0。dev ref は behind 1 で意図的残置。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）, SP-DEVSYNC-132（install 要否の正本）, SP-DEVSYNC-138（並列WT lock 待機・本件はメインWT working tree 保護への拡張）。
+
+## SP-DEVSYNC-140: **仕様書 Phase 5/11 の dev sync 手順に「dev ref 完全同期時は ref 無操作で feature へ直接マージ」分岐と「install 要否は lock 変更の有無で判定（major 限定でない）」を逐語化する — ローカル dev が origin/dev と ahead/behind 0/0 かつ独自コミット 0 なら ff 判定も update-ref も不要で `git merge dev` を feature ブランチで直接実行できる。install 要否は取込デルタの pnpm-lock.yaml/package.json 変更有無で判定し、minor/patch bump でも lock が動けば `pnpm install --force` 必須と書く（L-DEVSYNC-140 の task-spec 版）** （2026-06-14 feat/responsive-mobile-tablet-ui-fixes ← dev, sub-worktree wt-2, behind 7 / ahead 2, merge `78506bcd8`）
+
+- 教訓: sync 仕様は SP-DEVSYNC-139 で「ff 不能時は origin/dev 直接マージ」を書いたが、その手前 = ローカル dev が既に最新のケースを明記しないと、不要な fetch dev:dev / ff 試行を誘発する。また install 要否を「major 昇格時」と素朴に書くと、lock を動かす minor/patch bump（本件 esbuild 0.27→0.28）を取りこぼし CI 赤になる。
+- 仕様書への反映（Phase 5/11）:
+  1. **dev ref 同期の事前判定を 2 分岐で逐語化**: `git rev-list --left-right --count dev...origin/dev` が `0 0` かつ `git rev-list --count origin/dev..dev` が `0` → dev ref 無操作で `git merge dev` を feature ブランチ実行（origin/dev 直接マージと等価）。behind あり → SP-DEVSYNC-139 の ff 安全判定（積集合チェック）へ分岐。
+  2. **install 要否判定を lock 基準で明記**: 「`git diff --name-only ORIG_HEAD...dev | grep -E 'pnpm-lock\.yaml|package\.json'` が非空なら `pnpm install --force` を typecheck/lint の前に実行」。判定を「major 昇格か」でなく「lock/manifest が動いたか」に統一し、minor/patch bump でも省略不可と注記（省くと stale node_modules で偽陰性）。
+  3. **衝突集合非依存の解消手順を再掲**: 衝突が SKILL.md / quick-reference / resource-map / topic-map / task-workflow-active の union ＋ keywords.json の任意部分集合（本件 6 件）でも `pnpm sync:resolve` 1 パス → U 残 0 → 原子 add -A → merge commit で完結。
+- 検証: `dev...origin/dev`=`0 0` → `git merge dev` CONFLICT 6 → `pnpm sync:resolve` exit 0 → merge `78506bcd8` → `pnpm install --force`（esbuild minor bump で lock 変更・57s）→ typecheck/lint exit 0 → indexes:rebuild 冪等 drift 0 → CI コード修正 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140（本 lesson の正本）, SP-DEVSYNC-132（install 要否の旧基準・本 lesson が lock 基準へ汎化）, SP-DEVSYNC-139（ff 不能時の直接マージ・本件はその happy-path 手前版）。
 
 ## SP-DEVSYNC-144: **仕様書 Phase 5/11 の dev sync 手順に「直接マージ経路を ff 条件非依存の既定として書く」を逐語化する — SP-DEVSYNC-143/139 の `git merge origin/dev` を feature へ直接適用する経路は、ff-block 条件（fetch refused / main WT dirty）の成否によらず既定経路とする。ローカル dev が既に origin/dev と一致（behind/ahead 0/0）かつ main WT clean でも、ff を試さず直接マージで完結させ、dev 同期は冪等スキップ扱いと明記する。「ローカル dev を ff すべきか」を波ごとに再導出させない（L-DEVSYNC-144 の task-spec 版）** （2026-06-17 feat/admin-attendance-dashboard-jp-clarity-and-ux 6th-pass ← origin/dev, sub-worktree wt-7, behind 2 / ahead 14, merge `213891984`）
 

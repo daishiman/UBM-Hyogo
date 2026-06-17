@@ -1,8 +1,8 @@
 @layer components {
   main {
-    width: min(1120px, calc(100% - 40px));
+    width: min(1120px, 100%);
     margin: 0 auto;
-    padding: var(--ubm-space-12) 0 72px;
+    padding: var(--ubm-space-12) clamp(1rem, 4vw, 1.25rem) 72px;
   }
 
   h1 {
@@ -750,12 +750,12 @@
     margin: 0;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023.98px) {
     [data-component="stats"] [data-role="stat-grid"] {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     [data-component="zone-intro"] [data-role="zone-list"] {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
@@ -1083,9 +1083,9 @@
     white-space: nowrap;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1023.98px) {
     [data-component="about-ubm"] {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
     [data-component="hero"][data-variant="card"] [data-role="title-serif"] {
       font-size: 36px;
@@ -1432,12 +1432,14 @@
   [data-component="member-grid"][data-density="comfy"] {
     display: grid;
     gap: var(--ubm-space-6);
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    /* mobile(<=640px) は単カラム。minmax(0, 1fr) の 0 floor で
+       入れ子 intrinsic sizing 下でも横 overflow しない（responsive-mobile-tablet-ui-fixes）。 */
+    grid-template-columns: minmax(0, 1fr);
   }
   [data-component="member-grid"][data-density="dense"] {
     display: grid;
     gap: var(--ubm-space-3);
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
   [data-component="member-grid"][data-density="list"] {
     display: grid;
@@ -1673,7 +1675,7 @@
   }
 
   /* === responsive === */
-  @media (max-width: 900px) {
+  @media (max-width: 1023.98px) {
     [data-component="public-header"] {
       padding: var(--ubm-space-3) var(--ubm-space-4);
     }

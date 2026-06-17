@@ -60,7 +60,7 @@ export function SidebarDrawer({ open, onClose, children }: SidebarDrawerProps) {
         aria-modal="true"
         aria-label="サイドバーメニュー"
         data-shell-block="drawer-panel"
-        className="absolute inset-y-0 left-0 flex w-[17rem] max-w-[85vw] flex-col gap-3 overflow-y-auto border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 shadow-xl"
+        className="absolute inset-y-0 left-0 flex w-[min(17rem,88vw)] flex-col gap-3 overflow-y-auto border-r border-[var(--shell-bar-border)] bg-[var(--shell-bar-bg)] p-3 shadow-xl"
       >
         {children}
       </div>

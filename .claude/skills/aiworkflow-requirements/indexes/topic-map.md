@@ -4598,6 +4598,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Lessons Learned | L15 |
 
+### references/workflow-responsive-mobile-tablet-ui-fixes-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L26 |
+| Evidence | L39 |
+| Boundaries | L50 |
+| Lessons Learned | L56 |
+
 ### references/workflow-runtime-smoke-staging-mint-recurrence-fix-artifact-inventory.md
 
 ### references/workflow-sentry-extension-noise-filter-spec-artifact-inventory.md
@@ -9386,25 +9397,25 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11） | L38 |
-| ドキュメント構成 | L4492 |
-| フェーズ構造（概要） | L4501 |
-| 品質ゲート（概要） | L4532 |
-| 出力テンプレート | L4543 |
-| 実行時のコマンド・エージェント・スキル | L4566 |
-| 昇格パターン集 | L4590 |
-| Current Active / Spec Created Tasks | L4592 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L4758 |
-| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4826 |
-| issue-1007-density-toggle-help-hint-hardening | L4850 |
-| issue-1079-bulk-tag-audit-batch-filter | L4863 |
-| issue-1128-audit-batchid-index-optimization | L4876 |
-| issue-998-members-publish-state-production-rollout | L4893 |
-| issue-1078-bulk-tag-picker-large-catalog-ux | L4952 |
-| issue-1068-admin-tag-inline-create-ui | L4966 |
-| issue-1111-proxy-transport-util-unify | L4984 |
-| issue-1145-public-api-base-url-env-unification（2026-06-08） | L5002 |
-| admin-requests-approval-publish-state-diff（2026-06-11） | L5015 |
+| admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11） | L50 |
+| ドキュメント構成 | L4504 |
+| フェーズ構造（概要） | L4513 |
+| 品質ゲート（概要） | L4544 |
+| 出力テンプレート | L4555 |
+| 実行時のコマンド・エージェント・スキル | L4578 |
+| 昇格パターン集 | L4602 |
+| Current Active / Spec Created Tasks | L4604 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L4770 |
+| issue-1077-bulk-tag-authenticated-staging-visual（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / 2026-06-03） | L4838 |
+| issue-1007-density-toggle-help-hint-hardening | L4862 |
+| issue-1079-bulk-tag-audit-batch-filter | L4875 |
+| issue-1128-audit-batchid-index-optimization | L4888 |
+| issue-998-members-publish-state-production-rollout | L4905 |
+| issue-1078-bulk-tag-picker-large-catalog-ux | L4964 |
+| issue-1068-admin-tag-inline-create-ui | L4978 |
+| issue-1111-proxy-transport-util-unify | L4996 |
+| issue-1145-public-api-base-url-env-unification（2026-06-08） | L5014 |
+| admin-requests-approval-publish-state-diff（2026-06-11） | L5027 |
 
 ### references/task-workflow-backlog-part2.md
 
