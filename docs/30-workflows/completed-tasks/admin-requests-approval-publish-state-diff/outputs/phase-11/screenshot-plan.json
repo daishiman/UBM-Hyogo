@@ -1,0 +1,53 @@
+{
+  "mode": "VISUAL",
+  "task": "admin-requests-approval-publish-state-diff",
+  "status": "implemented_local_runtime_pending",
+  "captureRuntime": "staging-authenticated-admin (Playwright, user-gated)",
+  "screenshotsDirectory": "outputs/phase-11/screenshots",
+  "routes": [
+    {
+      "route": "/admin/requests?type=visibility_request",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "request-approve-visibility-public-to-hidden",
+          "tc": "TC-V-01",
+          "output": "outputs/phase-11/screenshots/request-approve-visibility-public-to-hidden.png",
+          "fixture": "TEST-NOTE-V01",
+          "intent": "visibility_request 詳細パネル: 公開 → 非公開 の diff 行（before=中立 / after=accent トーン）",
+          "ac": ["AC-1", "AC-3", "AC-9"]
+        },
+        {
+          "name": "request-approve-visibility-hidden-to-public",
+          "tc": "TC-V-02",
+          "output": "outputs/phase-11/screenshots/request-approve-visibility-hidden-to-public.png",
+          "fixture": "TEST-NOTE-V02",
+          "intent": "visibility_request 詳細パネル: 非公開 → 公開 の diff 行 + 承認確認ダイアログの具体遷移文言",
+          "ac": ["AC-1", "AC-8"]
+        }
+      ]
+    },
+    {
+      "route": "/admin/requests?type=delete_request",
+      "viewport": "desktop",
+      "states": [
+        {
+          "name": "request-approve-delete-enroll-to-withdraw",
+          "tc": "TC-V-03",
+          "output": "outputs/phase-11/screenshots/request-approve-delete-enroll-to-withdraw.png",
+          "fixture": "TEST-NOTE-D01",
+          "intent": "delete_request 詳細パネル: 在籍 → 退会（論理削除）のレコード状態遷移（公開状態 diff と区別）",
+          "ac": ["AC-2", "AC-3"]
+        }
+      ]
+    }
+  ],
+  "expectedScreenshots": [
+    "outputs/phase-11/screenshots/request-approve-visibility-public-to-hidden.png",
+    "outputs/phase-11/screenshots/request-approve-visibility-hidden-to-public.png",
+    "outputs/phase-11/screenshots/request-approve-delete-enroll-to-withdraw.png"
+  ],
+  "captureScriptContract": "try { ... } finally { browser.close(); server.close(); }  // FB-MSO-003",
+  "userGated": true,
+  "reason": "ローカル実装・focused tests・typecheck・lint・token gate は完了。screenshot は staging deploy + admin bearer mint が user-gated のため未取得（PNG 0 件・擬似生成しない）。"
+}

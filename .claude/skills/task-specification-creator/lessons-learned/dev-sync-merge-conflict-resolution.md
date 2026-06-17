@@ -13,6 +13,16 @@
 - Why: install 要否を「取込デルタ grep」で判定する原則（SP-DEVSYNC-140 / L-DEVSYNC-134-A）は正しいが、その『デルタ』を tip コミット単体と取り違えると誤陰性になる。merge commit の stat は取込レンジ全体の集約差分なので bump コミットが何番目にあっても確実に捉える。esbuild は host=bin=lock を pre-push で gate する専用守りがあり、誤って install を省くと typecheck/lint が緑でも push 段階で必ず落ちるため、仕様書は「大型取込は merge stat で lock 変更を判定する」を Phase 5(c) 検証手順に含める。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-142 が正本。SP-DEVSYNC-140（esbuild install・本件はその bump 検出を大型取込向けに精緻化）, SP-DEVSYNC-138（取込デルタ × feature 交差判定）。
 
+### SP-DEVSYNC-142: 仕様書 Phase 5/11 の sync 手順に「`Unable to write index` = stale index.lock による半適用マージ」の診断シグネチャと空マージ commit 回避を逐語化する（L-DEVSYNC-142 の task-spec 版・SP-DEVSYNC-135 の補完）
+- 2026-06-13 `feat/admin-identity-conflicts-clarity-and-meetings-rename`（wt-11・merge `8c3088be9`・取込 #1220・behind 1 / ahead 4）。`git merge dev` が `error: Unable to write index` で落ちたが MERGE_HEAD だけ立つ半適用状態になった。
+- SP-DEVSYNC-135 は「index.lock I/O 競合で merge/resolve/commit が**落ちる**」現象と「lock 除去 → `merge --abort` 再実行 → 原子化 commit」の復旧を既に規定済み。本 lesson はその**最も危険な分岐＝『落ちずに半分成功したように見える』ケースの診断**を補完する。
+- How to apply（仕様書 Phase 5/11 への逐語化）:
+  1. **半適用マージの診断シグネチャ**: `git merge` が `error: Unable to write index` を出した後、`git status` が「All conflicts fixed but you are still merging（commit で完了）」と表示しても、**`git diff --cached --stat` が空 かつ `git diff --diff-filter=U` も空**なら半適用（index 未書込）。正常 auto-merge は staged に取込差分が並び、正常 conflict は `--diff-filter=U` に UU が並ぶので、両方空は「壊れた中間状態」と確定診断する。
+  2. **空マージ commit の禁止**: この半適用 MERGE_HEAD を信じて `git commit` すると**取込内容ゼロの空マージ commit** ができ dev デルタが丸ごと落ちる（最も危険な誤操作）。仕様書 Phase 5/11 に「staged 空のまま merge commit してはいけない」と明記する。
+  3. **復旧手順（SP-DEVSYNC-135 と同経路）**: `LOCK="$(git rev-parse --git-dir)/index.lock"`（worktree では `.git/worktrees/<name>/index.lock` に解決）を 0 byte / 自分のマージ直前 mtime と確認の上 `node -e "require('fs').unlinkSync(process.argv[1])" "$LOCK"` で原子削除（`rm` は権限プロンプト誘発）→ `git merge --abort` で中間状態破棄 → `git merge dev` 再実行で実 CONFLICT（本件 skill-index union 5 件）が正しく顕在化 → 以降は通常の `pnpm sync:resolve` → 原子 commit 経路に合流。
+  4. **marker grep 偽陽性**: 再マージ後の最終裏取りは `<<<<<<<` / `>>>>>>>` のみで grep する（`=======` は docs 区切り線に過剰マッチ＝SP-DEVSYNC-139 系の偽陽性）。
+- 検証: `git merge dev` `Unable to write index`（staged 空 / U 空 / MERGE_HEAD あり）→ worktree-local `index.lock`（0 byte）を node fs 削除 → `merge --abort` → 再 merge CONFLICT 5（keywords.json + quick-reference + resource-map + topic-map + task-workflow-active）→ `pnpm sync:resolve` 1 パス（union 4 + keywords.json --ours + rebuild）→ commit `8c3088be9`（lefthook 全 pass）→ install スキップ（#1220 のみ・dep 変更 0）→ typecheck/lint exit 0 → indexes:rebuild 冪等 5522 kw。
+
 ### SP-DEVSYNC-142: 仕様書 Phase 11/13 の sync-merge 検証手順に「`Unable to write index` + `ls-files -u`=0 は孤児 index.lock のシグネチャ＝lock 物理削除→abort→再 merge」を逐語化する（L-DEVSYNC-142 の task-spec 版）
 - 2026-06-13 `feat/home-dashboard-japanese-localization` 4th-pass（wt-12・behind 1 / ahead 12・merge `28f30a060`）。取込 #1220（タグ定義コード自動生成 + タグ管理説明 UI）。最初の `git merge dev` が CONFLICT 列挙でなく `error: Unable to write index` で落ち、`git status`「All conflicts fixed but you are still merging」かつ `git ls-files -u` 0＝偽の merge-in-progress。真因は worktree 専用 git-dir `.git/worktrees/<name>/index.lock`（約 5 時間齢の孤児 lock）。
 - How to apply（仕様書 Phase 11/13 の sync-merge 検証手順への逐語化）:
@@ -75,6 +85,7 @@
   1. **install 要否判定に esbuild 特例を加える**: 取込デルタ（`git diff --name-only <merge-base>..<dev-tip>`）が `pnpm-lock.yaml` を変更し、その diff に `esbuild` / `@esbuild/<platform>` が現れたら SP-DEVSYNC-134（lock 変更→install）に加えて esbuild ホストバイナリ整合が要件と明記する。
   2. **検証コマンド列に install→verify:vitest-runtime を入れる**: `pnpm install --force` → `pnpm verify:vitest-runtime`（arch / worktree-isolation / esbuild version 三者一致）→ typecheck/lint の順を Phase 11 に逐語記載。本件 `host=0.28.1 bin=0.28.1 lock=0.28.1 OK`。
   3. **pre-push gate の独立性を明記**: typecheck/lint が緑でも esbuild 整合は別 gate（pre-push `verify-esbuild`）であり、install を省くと `host≠lock` で push が reject されると仕様書に書き、「conflict 解消＋typecheck/lint 緑」を sync の DoD に閉じない。
+  4. **🔴install は `--force` を必須として書く（`--force` なしは別 arch バイナリ残骸で `verify-worktree-isolation` FAIL）**: 2026-06-13 `feat/admin-identity-conflicts-clarity-and-meetings-rename`（wt-11・behind 8 / ahead 2・merge `566b26a7c`・#1238 esbuild 0.28.1 が dev 経由で再到達）で、`--force` なしの通常 `pnpm install` は worktree `node_modules/@esbuild/` に過去の `darwin-x64` 残骸のみ残し `darwin-arm64` を補完せず、`verify-worktree-isolation` が「`@esbuild/darwin-arm64 resolved outside cwd`（親 node_modules フォールバック）」で FAIL した。仕様書 Phase 11 には install コマンドを**必ず `pnpm install --force`** と逐語し、isolation FAIL 時の一次切り分けに「`ls node_modules/@esbuild/` で当該 arch（`darwin-arm64`）の物理存在を確認 → 欠落なら `--force` 再 install で補完」を併記する（L-DEVSYNC-140-D の task-spec 版）。
 - Why: 本 repo は esbuild を多重 gate（binary path 吸収・worktree 分離・version 三者一致）で守るため、esbuild lock bump はその前提（host=bin=lock）を崩す。install で実バイナリを揃え verify で裏取りするまで push してはならない。lock 変更一般（SP-DEVSYNC-134）の中でも esbuild は専用 gate がある分、検証が厚い特例。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-140 が正本。SP-DEVSYNC-134（lock 変更→install 必須の一般則・本 lesson はその esbuild 特例）, SP-DEVSYNC-139（直前 sync・生成物 gate）, CLAUDE.md「Vitest / esbuild runtime トラブル時」`pnpm verify:vitest-runtime`。
 
@@ -1773,3 +1784,23 @@
   3. **衝突集合の非安定性 + 規模無相関を前提に書く**: 「大型取込だから手動 union を覚悟」と書かず、「resolver 対象（SKILL.md / task-workflow-active.md / indexes/*-map.md / quick-reference.md / keywords.json）内の任意部分集合が衝突しうる。集合・規模によらず `pnpm sync:resolve` 1 パス → `--diff-filter=U` 残 0 確認 → 原子 1-Bash commit（add -A → commit → `git show HEAD:<path> | grep` blob 検証）」と集合・規模非依存で逐語化する。
 - 検証: `git merge origin/dev --no-edit` CONFLICT 1（quick-reference.md）→ resolver 1 パス（union-resolved 1 + rebuild）→ marker 0 → merge `24961ca6f` blob clean → install skip（取込デルタに lock/package.json なし）→ typecheck/lint exit 0 → CI コード修正 0。ローカル dev ff はメイン WT dirty のためスキップ（feature 取込は完遂）。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-143（本 lesson の正本）, SP-DEVSYNC-138（衝突集合の波間反転）, SP-DEVSYNC-134（ハンク単位衝突判定 + install 要否）, SP-DEVSYNC-135（スコープ外 WT を触ると誘発する index.lock 競合）。
+
+## SP-DEVSYNC-139: **仕様書 Phase 5/11 の dev sync 手順に「dev ref ff の事前安全判定」を逐語化する — sub-worktree から sync する際、dev を checkout 中のメインWT に未コミット変更があり、それが取込対象 dev コミットの変更ファイルと重複する場合、ローカル dev の `merge --ff-only` も `git update-ref` も実行してはならない（前者は uncommitted 上書きで refuse、後者はメインWT working tree を phantom-diff 破損させる）。スコープ外WT保護を優先し「dev ref は触れず origin/dev を直接 feature ブランチへマージ」を正経路として明記する（L-DEVSYNC-139 の task-spec 版）** （2026-06-14 feat/admin-requests-approval-publish-state-diff ← origin/dev, sub-worktree wt-15, behind 6 / ahead 2, merge `858c2ee01`）
+
+- 教訓: sync 仕様は「ローカル dev を origin/dev に ff 同期してから feature へ伝搬」を素朴に書きがちだが、15+ 並列 worktree 運用では dev checkout 中のメインWT に未コミット skill 編集が常駐し、取込対象 dev コミット（skill-meta を含むことが多い）と高確率で重複する。この前提で「ff の事前安全判定」と「ff 不能時の代替経路」を仕様化しないと、メインWT 破壊か phantom-diff 事故を招く。
+- 仕様書への反映（Phase 5/11）:
+  1. **ff 前の安全判定を機械手順で逐語化**: `git diff --name-only <localdev>..origin/dev` と `git -C <mainWT> status --porcelain` の積集合を取り、空なら `git -C <mainWT> merge --ff-only origin/dev`、非空なら ff を断念して 2. の代替経路へ分岐。
+  2. **ff 不能時の正経路を明記**: 「ローカル dev ref は触れず `git merge origin/dev` を feature ブランチ上で直接実行」。dev ref が behind のまま残るのは仕様上許容（統合のゴールは feature ブランチが dev 履歴を含むことであり dev ref の位置ではない）。`git update-ref refs/heads/dev origin/dev` は **禁止コマンド**として明記（checkout 中ブランチのポインタ強制移動は working tree を旧 commit に取り残し phantom-diff 破損を起こす）。
+  3. **成功基準の注記**: 「ローカル dev HEAD == origin/dev」は ff 安全時のみの基準。ff 不能時は「feature ブランチに origin/dev が merge 済み」を成功基準に読み替える、と Phase 11 検証節に注記する。
+- 検証: 積集合 3 件 → ff 断念 → `git merge origin/dev` CONFLICT 2（topic-map + task-workflow-active union）→ `pnpm sync:resolve` 1 パス → merge `858c2ee01` → install（lock 変更あり）→ typecheck/lint exit 0 → CI コード修正 0。dev ref は behind 1 で意図的残置。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）, SP-DEVSYNC-132（install 要否の正本）, SP-DEVSYNC-138（並列WT lock 待機・本件はメインWT working tree 保護への拡張）。
+
+## SP-DEVSYNC-144: **仕様書の dev sync 手順で install 要否判定を逐語化する際は「決め手は `pnpm-lock.yaml` の変更有無であって `package.json` の有無ではない」を明記する（`package.json` 単独ヒットは scripts-only 変更の偽陽性がありうる）** （2026-06-17 feat/admin-audit-ux-readability-refine ← dev, sub-worktree wt-13, behind 2 / ahead 0）
+
+- 教訓: sync 仕様の install 要否節を「取込デルタに `package.json` か `pnpm-lock.yaml` があれば `pnpm install --force`」と素朴に書くと、scripts エントリ追加のような依存非接触の `package.json` 変更でも毎回数分の再インストールを強いる偽陽性を埋め込む。実測（#1231 が `seed:identity-conflicts` scripts 2 行を追加し `package.json` はヒットするが `pnpm-lock.yaml` 不変）を根拠に判定条件を精緻化する。
+- 仕様書への反映（Phase 5/11 dev sync 節）:
+  1. **install 確定の十分条件を lock に限定**: `git diff <merge-parent>...origin/dev --name-only | grep -E 'pnpm-lock\.yaml'` が非空なら install 必須。これが空で `package.json` のみヒットした場合は次の 2. へ。
+  2. **`package.json` 単独ヒットの二次判定**: `git diff --cached package.json`（取込レンジ diff）で変更箇所が `scripts`/`engines` 等の依存非接触セクション限定なら install スキップ可。`dependencies`/`devDependencies`/`pnpm.overrides`/`pnpm.patchedDependencies` に変化があれば install 必須。
+  3. **L-DEVSYNC-142 との対照を注記**: 「lock 変更コミットが取込列中段に埋もれる大型取込では `package.json` ヒット = install 必須」（SP-DEVSYNC-142）と「scripts-only 変更で lock 不変なら install スキップ」（本 lesson）は両立する。両者を分けるのは `pnpm-lock.yaml` の有無の 1 点であると Phase 11 検証節に書く。
+- 検証: `grep -E '(pnpm-lock|package\.json)'` = `package.json` 2 件 / `pnpm-lock.yaml` 0 → `git diff --cached package.json` で scripts 2 行追加のみ（dependencies 不変）→ install スキップ → CONFLICT 4（keywords ours + quick-reference/topic-map/task-workflow-active union 3）→ `pnpm sync:resolve` 1 パス → typecheck/lint exit 0 → CI コード修正 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-144（本 lesson の正本）, SP-DEVSYNC-142（大型取込は merge stat で lock 変更判定・本件はその精緻化）, SP-DEVSYNC-134（install 要否を取込デルタ grep で判定）, SP-DEVSYNC-132（install 要否の正本）。
