@@ -1287,6 +1287,11 @@ production env monitor secret cleanup は user-gated。
 ## 2026-06-09 member-data-source-precedence-and-profile-session-fix
 
 `docs/30-workflows/completed-tasks/member-data-source-precedence-and-profile-session-fix/` を `implemented_local_runtime_pending / implementation / VISUAL` として同一 wave 同期。`member_field_overrides`、Sheets seed import-once、L1>L2>L3 precedence、admin override endpoint/UI、`/profile` auth fail-safe を実装し、system specs / artifact inventory / indexes / changelog を更新。remote D1 apply、staging deploy、authenticated visual capture、commit、push、PR は user-gated。
+## 2026-06-12 issue-1189 deleted member 410 guidance and restore
+
+- Synced `issue-1189-deleted-member-410-guidance-and-restore` as `implemented_local_evidence_captured / implementation / VISUAL`.
+- Evidence: focused Vitest 3 files / 24 tests PASS.
+- Boundary: staging visual, D1 mutation, commit, push, PR, and Issue mutation remain user-gated.
 
 ## 2026-06-11 admin-requests-approval-publish-state-diff
 

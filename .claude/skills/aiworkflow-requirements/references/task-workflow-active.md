@@ -21,6 +21,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-audit-log-japanese-clarity-and-filter-collapse-artifact-inventory.md` |
 | user gate | staging authenticated screenshots, commit, push, PR |
 
+### issue-1189-deleted-member-410-guidance-and-restore（2026-06-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local_static_visual_present_staging_visual_pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-1189-deleted-member-410-guidance-and-restore/` |
+| Issue | #1189 OPEN（state / label mutation は user-gated） |
+| 目的 | 退会済み会員の `/profile` 410 行き止まり UX を明示案内へ変え、管理者が既存 restore API を MemberDrawer から実行できるようにする |
+| implementation targets | `apps/web/app/(member)/profile/_lib/session-error-display.ts`, `apps/web/app/(member)/profile/_lib/__tests__/session-error-display.spec.ts`, `apps/web/app/(member)/profile/page.spec.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`, `apps/web/src/features/admin/components/_members/__tests__/MemberDrawer.restore.spec.tsx` |
+| evidence | focused Vitest 3 files / 24 tests PASS。restore spec は実 `useAdminMutation` 経路 + fetch mock で success / cancel / 409 / 404 / network / pending 二重送信を検証。local static visual screenshots 3 PNG present |
+| invariant | apps/api / D1 schema / Google Form / restore endpoint contract unchanged。会員自己復帰 flow は実装しない（管理者復元が正式経路） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1189-deleted-member-410-guidance-and-restore-artifact-inventory.md` |
+| user gate | staging D1 mutation、authenticated runtime screenshots、commit、push、PR、Issue mutation |
+
 ### admin-attendance-dashboard-jp-clarity-and-ux（2026-06-11）
 
 | 項目 | 値 |
