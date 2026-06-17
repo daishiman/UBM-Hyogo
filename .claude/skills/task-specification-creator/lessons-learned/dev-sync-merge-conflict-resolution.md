@@ -1812,3 +1812,13 @@
   3. **成功基準の注記**: 「ローカル dev HEAD == origin/dev」は ff 安全時のみの基準。ff 不能時は「feature ブランチに origin/dev が merge 済み」を成功基準に読み替える、と Phase 11 検証節に注記する。
 - 検証: 積集合 3 件 → ff 断念 → `git merge origin/dev` CONFLICT 2（topic-map + task-workflow-active union）→ `pnpm sync:resolve` 1 パス → merge `858c2ee01` → install（lock 変更あり）→ typecheck/lint exit 0 → CI コード修正 0。dev ref は behind 1 で意図的残置。
 - 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-139（本 lesson の正本）, SP-DEVSYNC-132（install 要否の正本）, SP-DEVSYNC-138（並列WT lock 待機・本件はメインWT working tree 保護への拡張）。
+
+## SP-DEVSYNC-144: **仕様書 Phase 5/11 の dev sync 手順に「直接マージ経路を ff 条件非依存の既定として書く」を逐語化する — SP-DEVSYNC-143/139 の `git merge origin/dev` を feature へ直接適用する経路は、ff-block 条件（fetch refused / main WT dirty）の成否によらず既定経路とする。ローカル dev が既に origin/dev と一致（behind/ahead 0/0）かつ main WT clean でも、ff を試さず直接マージで完結させ、dev 同期は冪等スキップ扱いと明記する。「ローカル dev を ff すべきか」を波ごとに再導出させない（L-DEVSYNC-144 の task-spec 版）** （2026-06-17 feat/admin-attendance-dashboard-jp-clarity-and-ux 6th-pass ← origin/dev, sub-worktree wt-7, behind 2 / ahead 14, merge `213891984`）
+
+- 教訓: sync 仕様は「ローカル dev を ff 同期 → feature へ伝搬」を素朴に書きがちだが、SP-DEVSYNC-143（ff 不能）/ SP-DEVSYNC-139（main WT dirty 重複）/ 本件（ff 可能だが不要）の 3 ケースは全て「`git merge origin/dev` を feature へ直接」で完結する。ff の成否を毎回判定して経路を分岐させると、再導出コストと ff 試行が誘発する main WT 破壊リスク（SP-DEVSYNC-139）を抱える。直接マージを単一の既定経路に集約するのが正。
+- 仕様書への反映（Phase 5/11）:
+  1. **dev 同期の冪等スキップ判定を先頭に置く**: `git rev-list --left-right --count dev...origin/dev` が `0 0` ならローカル dev = origin/dev と確定し、fetch/merge を打たず「dev 同期 = 冪等スキップ（CONST_004）」と記録。`git -C <mainWT> log -1 dev` == `git log -1 origin/dev` の HEAD 一致併記で確実化。
+  2. **直接マージを既定経路として明記**: ff 可否・main WT dirty/clean を分岐させず `git merge origin/dev` を feature 上で直接実行する。dev ref の前進は統合のゴールでなく cosmetic（SP-DEVSYNC-139-A の系）であり、ff 可能条件でも直接マージで結果は同一。
+  3. **偽陽性マーカーの除外手順**: `git grep -lE '^(<<<<<<<|>>>>>>>|=======)'` のヒットは `git status --porcelain -- <path>` が空なら merge 非関与（60 文字 `=====` 区切り線等の既知偽陽性）と確定し、conflict 残存と誤判定しない。
+- 検証: behind 2/ahead 14・dev 0/0 冪等スキップ・main WT clean → `git merge origin/dev` CONFLICT 5（keywords.json ours + *-map/quick-reference/task-workflow-active union 4）→ `pnpm sync:resolve` 1 パス → marker 0（manual-smoke-log 偽陽性のみ）→ merge `213891984` → install skip（lock/package.json 変更なし）→ typecheck/lint exit 0 → CI コード修正 0。
+- 参照: aiworkflow-requirements [[lessons-learned-dev-sync-merge-conflict-resolution-2026-05]] L-DEVSYNC-144（本 lesson の正本）, SP-DEVSYNC-143（ff-block 回避の直接マージ・本件はその条件非依存化）, SP-DEVSYNC-139（dev ref 同期はスコープ外WT保護に劣後・直接マージ経路の正本）, SP-DEVSYNC-136（happy-path 判定 + sync:resolve 1 パス）。
