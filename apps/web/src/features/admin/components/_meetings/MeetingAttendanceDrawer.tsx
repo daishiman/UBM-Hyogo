@@ -49,10 +49,10 @@ export function MeetingAttendanceDrawer({
   );
 
   return (
-    <div className="admin-meeting-drawer flex flex-col gap-3" role="region" aria-label="出席編集">
-      <details>
-        <summary>編集</summary>
-        <div className="flex flex-col gap-2">
+    <div className="admin-meeting-drawer" role="region" aria-label="出席編集">
+      <details className="admin-detail-section">
+        <summary className="admin-detail-section__title">編集</summary>
+        <div className="admin-detail-section__body">
           <FormField name={`meeting-edit-title-${meeting.sessionId}`} label="タイトル">
             <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
           </FormField>
@@ -86,38 +86,43 @@ export function MeetingAttendanceDrawer({
           </div>
         </div>
       </details>
-      <div role="group" aria-label="出席追加" className="flex flex-wrap items-end gap-2">
-        <label className="flex flex-col gap-1 text-sm">
-          会員を選択
-          <select
-            data-testid={`attendance-select-${meeting.sessionId}`}
-            value={picked}
-            onChange={(e) => setPicked(e.target.value)}
-            className="ui-input"
-          >
-            <option value="">— 選択 —</option>
-            {candidates.map((c) => (
-              <option key={c.memberId} value={c.memberId} disabled={attended.has(c.memberId)}>
-                {c.fullName} ({c.memberId})
-                {attended.has(c.memberId) ? " — 出席済" : ""}
-              </option>
-            ))}
-          </select>
-        </label>
-        <Button
-          type="button"
-          variant="primary"
-          onClick={async () => {
-            if (!picked) return;
-            await onAddAttendance(picked);
-            setPicked("");
-          }}
-          disabled={!picked || pickedAlreadyAttended}
-          data-testid={`add-attendance-${meeting.sessionId}`}
-        >
-          出席を追加
-        </Button>
-      </div>
+      <section role="group" aria-label="出席追加" className="admin-detail-section">
+        <h4 className="admin-detail-section__title">出席を追加</h4>
+        <div className="admin-detail-section__body">
+          <div className="flex flex-wrap items-end gap-2">
+            <label className="flex flex-col gap-1 text-sm">
+              会員を選択
+              <select
+                data-testid={`attendance-select-${meeting.sessionId}`}
+                value={picked}
+                onChange={(e) => setPicked(e.target.value)}
+                className="ui-input"
+              >
+                <option value="">— 選択 —</option>
+                {candidates.map((c) => (
+                  <option key={c.memberId} value={c.memberId} disabled={attended.has(c.memberId)}>
+                    {c.fullName} ({c.memberId})
+                    {attended.has(c.memberId) ? " — 出席済" : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={async () => {
+                if (!picked) return;
+                await onAddAttendance(picked);
+                setPicked("");
+              }}
+              disabled={!picked || pickedAlreadyAttended}
+              data-testid={`add-attendance-${meeting.sessionId}`}
+            >
+              出席を追加
+            </Button>
+          </div>
+        </div>
+      </section>
       <BulkAttendanceChecklist
         sessionId={meeting.sessionId}
         candidates={candidates}
@@ -134,37 +139,37 @@ export function MeetingAttendanceDrawer({
         onBulkAddAttendance={onBulkAddAttendance}
       />
       {attended.size > 0 && (
-        <div>
-          <h4 className="text-sm font-semibold">出席者</h4>
-          <ul className="flex flex-col gap-1">
+        <section className="admin-detail-section">
+          <h4 className="admin-detail-section__title">出席者 ({attended.size}名)</h4>
+          <ul className="admin-attendee-list">
             {[...attended].sort().map((mid) => {
               const fullName = candidateNameById.get(mid);
               return (
-              <li
-                key={mid}
-                data-testid={`attendance-attendee-${meeting.sessionId}`}
-                data-member={mid}
-                className="flex items-center gap-2"
-              >
-                <span>
-                  {fullName ?? mid}
-                  {fullName ? <span className="text-xs text-muted"> ({mid})</span> : null}
-                </span>
-                <Button
-                  type="button"
-                  variant="danger"
-                  size="sm"
-                  data-testid={`remove-attendance-${meeting.sessionId}`}
+                <li
+                  key={mid}
+                  data-testid={`attendance-attendee-${meeting.sessionId}`}
                   data-member={mid}
-                  onClick={() => onRemoveAttendance(mid)}
+                  className="admin-attendee-row"
                 >
-                  削除
-                </Button>
-              </li>
+                  <span className="admin-attendee-row__name">
+                    {fullName ?? mid}
+                    {fullName ? <span className="text-xs text-muted">({mid})</span> : null}
+                  </span>
+                  <Button
+                    type="button"
+                    variant="danger"
+                    size="sm"
+                    data-testid={`remove-attendance-${meeting.sessionId}`}
+                    data-member={mid}
+                    onClick={() => onRemoveAttendance(mid)}
+                  >
+                    削除
+                  </Button>
+                </li>
               );
             })}
           </ul>
-        </div>
+        </section>
       )}
     </div>
   );

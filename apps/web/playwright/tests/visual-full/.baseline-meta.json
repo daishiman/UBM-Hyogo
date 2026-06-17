@@ -1,19 +1,20 @@
 {
   "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
-  "captured_at_commit_sha": "b67f28607633e4bc5c6bc7b8f3971330f365169a",
-  "captured_at": "2026-06-11T02:48:15Z",
+  "captured_at_commit_sha": "1eacd087421756b1bf9950a5eed7a339f8947e82",
+  "captured_at": "2026-06-14T01:01:29Z",
   "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
   "captured_run_ids": [
-    "27204350643",
-    "27247391142",
-    "27253086349",
-    "27257083636",
-    "27274941450",
-    "27276848458",
-    "27282985575",
     "27308537802",
     "27317315197",
-    "27320055437"
+    "27320055437",
+    "27338498326",
+    "27340194772",
+    "27341009167",
+    "27400529754",
+    "27420636323",
+    "27423389399",
+    "27452557308",
+    "27483969542"
   ],
   "viewport_dimensions": {
     "desktop": {
@@ -41,5 +42,5 @@
   "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
   "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
   "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
-  "last_refresh_reason": "dev sync merge union: (1) feature 側=/admin/requests 命名平易化（会員からの申請）+ 見出し/説明文追加 + 申請中バッジ + インラインリンク常時下線化(a11y link-in-text-block 修正) による意図的な視覚変更で admin-requests の desktop/tablet/mobile baseline を再生成（run 27320055437・PR #1193）。(2) 取込 dev 側=/admin/audit をカード型タイムライン化し画面高さ増加（mobile 1186→2211px 等）で admin-audit baseline 再生成（run 27317315197）+ 会員管理(/admin/members)を640px以下で単一table DOMのままscoped CSSでカード表示化し admin-members(mobile) baseline 更新（run 27308537802）+ /admin/schema 統合後描画へ admin-schema baseline 再生成（run 27282985575）。対象スナップショット（admin-requests / admin-audit / admin-members mobile / admin-schema）が分離するため双方を union 統合。"
+  "last_refresh_reason": "[PR #1231 最新フル再生成・run 27483969542] /admin/identity-conflicts を「会員の重複確認」へ平易化＋見出し/ボタン改名による意図的UI変更で full-visual-admin-identity-conflicts-{desktop,tablet,mobile}.png baseline が陳腐化したため再生成。本ブランチの baseline は以下 dev 取込分も内包する: (1) admin-requests 公開状態 before→after diff (PR #1235・run 27420636323)。(2) PR #1220: /admin/tags TagManagementGuide 縦長化に追従した admin-tags baseline。(3) dev #1221: admin-schema baseline 再生成。"
 }

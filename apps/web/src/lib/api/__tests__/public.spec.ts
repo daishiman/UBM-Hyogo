@@ -110,6 +110,15 @@ describe("public api wrapper", () => {
     expect(url).toContain("tag=kobe");
   });
 
+  it("listMembers: topTags 省略レスポンスは空配列へ補完する", async () => {
+    const body = baseListResponse();
+    Reflect.deleteProperty(body, "topTags");
+    mockFetchOnce({ body, status: 200 });
+    const search = membersSearchSchema.parse({});
+    const result = await listMembers(search);
+    expect(result.topTags).toEqual([]);
+  });
+
   it("getMemberProfile: 404 を FetchPublicNotFoundError に変換する", async () => {
     mockFetchOnce({ body: { error: "not found" }, status: 404 });
     await expect(getMemberProfile("missing")).rejects.toBeInstanceOf(

@@ -62,11 +62,9 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
   const schemaItem: ShellNavItem = {
     id: "schema",
     href: "/admin/schema",
-    label: "スキーマ",
+    label: "フォーム項目",
     icon: "schema",
-    ...(schemaDiffCount > 0
-      ? { badge: { tone: "warn" as const, count: schemaDiffCount } }
-      : {}),
+    ...(schemaDiffCount > 0 ? { badge: { tone: "warn" as const, count: schemaDiffCount } } : {}),
   };
   return {
     id: "admin",
@@ -81,14 +79,14 @@ function buildAdminGroup(schemaDiffCount: number): ShellNavGroup {
       },
       { id: "members", href: "/admin/members", label: "会員管理", icon: "members" },
       { id: "tag-master", href: "/admin/tag-master", label: "タグ定義", icon: "tag-master" },
-      { id: "tag-queue", href: "/admin/tags", label: "タグキュー", icon: "tag-queue" },
+      { id: "tag-queue", href: "/admin/tags", label: "タグ割当", icon: "tag-queue" },
       schemaItem,
-      { id: "meeting", href: "/admin/meetings", label: "開催日", icon: "meeting" },
+      { id: "meeting", href: "/admin/meetings", label: "開催・出席管理", icon: "meeting" },
       { id: "requests", href: "/admin/requests", label: "会員からの申請", icon: "requests" },
       {
         id: "identity",
         href: "/admin/identity-conflicts",
-        label: "Identity重複",
+        label: "会員の重複確認",
         icon: "identity",
       },
       { id: "audit", href: "/admin/audit", label: "監査ログ", icon: "audit" },

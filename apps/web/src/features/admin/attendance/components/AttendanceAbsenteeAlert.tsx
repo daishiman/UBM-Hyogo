@@ -18,7 +18,7 @@ export function AttendanceAbsenteeAlert({ data }: Props) {
       >
         <div className="attendance-kpi-label">要フォロー対象</div>
         <div className="attendance-absentee-count">0 名</div>
-        <p>直近 {data.lastN} セッション連続欠席のメンバーはいません</p>
+        <p>直近 {data.lastN} 回つづけて欠席している人はいません</p>
       </div>
     );
   }
@@ -32,7 +32,7 @@ export function AttendanceAbsenteeAlert({ data }: Props) {
       <summary>
         <span className="attendance-kpi-label">要フォロー対象</span>
         <span className="attendance-absentee-count">{data.rows.length} 名</span>
-        <span className="attendance-absentee-period">直近 {data.lastN} セッション連続欠席</span>
+        <span className="attendance-absentee-period">直近 {data.lastN} 回つづけて欠席</span>
       </summary>
       <ul>
         {data.rows.slice(0, 50).map((row) => (

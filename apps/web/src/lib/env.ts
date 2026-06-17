@@ -44,6 +44,7 @@ const AuthEnvSchema = EnvSchema.pick({
   ENVIRONMENT: true,
   AUTH_SECRET: true,
   AUTH_URL: true,
+  NEXT_PUBLIC_API_BASE_URL: true,
   GOOGLE_CLIENT_ID: true,
   GOOGLE_CLIENT_SECRET: true,
   AUTH_GOOGLE_ID: true,
@@ -60,6 +61,7 @@ export type AuthEnv = z.infer<typeof AuthEnvSchema> & {
 export interface PublicFetchEnv {
   API_SERVICE?: ServiceBinding;
   NEXT_PUBLIC_API_BASE_URL?: string;
+  INTERNAL_AUTH_SECRET?: string;
   NODE_ENV?: string;
   PLAYWRIGHT_TEST?: string;
 }
@@ -129,8 +131,21 @@ export function getSecurityHeaderEnv(
 }
 
 export function getAuthEnv(rawEnv: RawEnv = readRawEnv()): AuthEnv {
-  const parsed = AuthEnvSchema.safeParse(rawEnv);
-  const base = parsed.success ? parsed.data : {};
+  const droppedKeys: string[] = [];
+  const base = Object.fromEntries(
+    Object.entries(AuthEnvSchema.shape).flatMap(([key, schema]) => {
+      const value = rawEnv[key];
+      if (value === undefined) return [];
+      const parsed = schema.safeParse(value);
+      if (!parsed.success) {
+        droppedKeys.push(key);
+      }
+      return parsed.success ? [[key, parsed.data]] : [];
+    }),
+  ) as z.infer<typeof AuthEnvSchema>;
+  if (droppedKeys.length > 0) {
+    console.warn("auth_env_field_dropped", { keys: droppedKeys });
+  }
   const binding = rawEnv["API_SERVICE"];
   if (binding === undefined) return base;
   return { ...base, API_SERVICE: binding as ServiceBinding };
@@ -180,9 +195,14 @@ export function getPublicFetchEnv(rawEnv: RawEnv = readRawEnv()): PublicFetchEnv
         ? rawEnv["NEXT_PUBLIC_API_BASE_URL"]
         : undefined;
   const binding = rawEnv["API_SERVICE"];
+  const internalAuthSecret =
+    typeof rawEnv["INTERNAL_AUTH_SECRET"] === "string"
+      ? rawEnv["INTERNAL_AUTH_SECRET"]
+      : undefined;
   return {
     ...(binding === undefined ? {} : { API_SERVICE: binding as ServiceBinding }),
     ...(nextPublicBaseUrl === undefined ? {} : { NEXT_PUBLIC_API_BASE_URL: nextPublicBaseUrl }),
+    ...(internalAuthSecret === undefined ? {} : { INTERNAL_AUTH_SECRET: internalAuthSecret }),
     ...(typeof processEnv["NODE_ENV"] === "string" ? { NODE_ENV: processEnv["NODE_ENV"] } : {}),
     ...(typeof processEnv["PLAYWRIGHT_TEST"] === "string"
       ? { PLAYWRIGHT_TEST: processEnv["PLAYWRIGHT_TEST"] }

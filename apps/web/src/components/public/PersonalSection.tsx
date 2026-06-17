@@ -1,4 +1,7 @@
+// Lane B: SectionCard でラップ（パーソナル情報グループ）。
 import type { NormalizedField } from "@/lib/adapters/member-detail";
+
+import { SectionCard } from "../ui/layout/SectionCard";
 
 export interface PersonalSectionProps {
   rows: ReadonlyArray<NormalizedField>;
@@ -12,12 +15,13 @@ function renderValue(value: NormalizedField["value"]): string {
 
 export function PersonalSection({ rows }: PersonalSectionProps) {
   return (
-    <section
+    <SectionCard
+      as="section"
       data-component="personal-section"
-      className="card-flat card-pad-lg stack-sm"
+      className="stack-sm"
+      title="パーソナル"
     >
       <p className="eyebrow">PERSONAL</p>
-      <h2 className="h-section">パーソナル</h2>
       <dl className="kv-list">
         {rows.map((row) => (
           <div
@@ -30,6 +34,6 @@ export function PersonalSection({ rows }: PersonalSectionProps) {
           </div>
         ))}
       </dl>
-    </section>
+    </SectionCard>
   );
 }

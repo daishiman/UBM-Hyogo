@@ -1,0 +1,85 @@
+{
+  "taskId": "public-member-common-ui-card-unification",
+  "mode": "VISUAL",
+  "status": "pending_local_screenshot_capture",
+  "rationale": "apps/web implementation exists locally. Cardization, button unification, and layout primitive visual effects must be captured as 8 routes x 2 viewports before visual PASS can be claimed.",
+  "viewports": [
+    "desktop(1280x800)",
+    "mobile(390x844)"
+  ],
+  "planned": [
+    {
+      "tc": "TC-11-1",
+      "screen": "/",
+      "states": [
+        "home-desktop",
+        "home-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-2",
+      "screen": "/members",
+      "states": [
+        "members-desktop",
+        "members-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-3",
+      "screen": "/members/[id]",
+      "states": [
+        "member-detail-desktop",
+        "member-detail-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-4",
+      "screen": "/register",
+      "states": [
+        "register-desktop",
+        "register-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-5",
+      "screen": "/privacy",
+      "states": [
+        "privacy-desktop",
+        "privacy-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-6",
+      "screen": "/terms",
+      "states": [
+        "terms-desktop",
+        "terms-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-7",
+      "screen": "/profile",
+      "states": [
+        "profile-desktop",
+        "profile-mobile"
+      ]
+    },
+    {
+      "tc": "TC-11-8",
+      "screen": "/login",
+      "states": [
+        "login-desktop",
+        "login-mobile"
+      ]
+    }
+  ],
+  "boundary": {
+    "jsdom_not_covered": [
+      "@media レスポンシブ",
+      "hover/interactive 演出",
+      "gradient 背景",
+      "実フォント serif レンダリング"
+    ],
+    "staging_user_gated": "認証必須画面（/profile）と staging 実データでの visual baseline は user 承認後に取得"
+  }
+}

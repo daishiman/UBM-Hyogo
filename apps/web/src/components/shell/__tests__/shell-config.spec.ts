@@ -35,7 +35,7 @@ describe("buildNavForRole", () => {
     });
     expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
       href: "/admin/tags",
-      label: "タグキュー",
+      label: "タグ割当",
     });
   });
 
@@ -47,7 +47,25 @@ describe("buildNavForRole", () => {
     });
     expect(admin?.items.find((i) => i.id === "tag-queue")).toMatchObject({
       href: "/admin/tags",
-      label: "タグキュー",
+      label: "タグ割当",
+    });
+  });
+
+  it("admin の meeting nav は開催・出席管理ラベルで id/href/icon は不変", () => {
+    const admin = buildNavForRole("admin").find((g) => g.id === "admin");
+    expect(admin?.items.find((i) => i.id === "meeting")).toMatchObject({
+      href: "/admin/meetings",
+      label: "開催・出席管理",
+      icon: "meeting",
+    });
+  });
+
+  it("admin の identity nav は会員の重複確認ラベルで id/href/icon は不変", () => {
+    const admin = buildNavForRole("admin").find((g) => g.id === "admin");
+    expect(admin?.items.find((i) => i.id === "identity")).toMatchObject({
+      href: "/admin/identity-conflicts",
+      label: "会員の重複確認",
+      icon: "identity",
     });
   });
 

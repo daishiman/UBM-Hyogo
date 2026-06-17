@@ -1,0 +1,28 @@
+{
+  "mode": "VISUAL",
+  "taskId": "home-dashboard-japanese-localization",
+  "workflow_state": "implemented_local_evidence_captured",
+  "capture_status": "local_fullpage_present_staging_pending",
+  "route": "/",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "screenshots": [
+    {
+      "name": "home-localized-full.png",
+      "description": "ホーム画面全体（英語表記の日本語化・eyebrow 削除後）",
+      "state": "present-local"
+    },
+    {
+      "name": "home-localized-stats.png",
+      "description": "統計カード4枚（公開メンバー/事業フェーズ/年間の支部会/最終データ更新 + 自動で最新化バッジ）",
+      "state": "present-local"
+    },
+    {
+      "name": "home-localized-about.png",
+      "description": "About/UBM区画カード（ABOUT/THREE ZONES overline 削除後の見出し上端余白確認）",
+      "state": "present-local"
+    }
+  ]
+}

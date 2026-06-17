@@ -2,6 +2,7 @@
 // プロトタイプ pages-public.jsx LandingPage L4-152 整合。
 // 不変条件 #5 (D1 直接アクセス禁止): 全データは /public API 経由。
 // 6 セクション: Hero / Stats / AboutUbm / FeaturedMembers / Timeline / CallToActionCTA。
+// Lane B: PageShell でページ全体をラップ。featured-members セクションを SectionCard に移行。
 
 import type { Metadata } from "next";
 import { connection } from "next/server";
@@ -16,6 +17,9 @@ import { MemberGrid } from "../../src/components/public/MemberGrid";
 import { SectionError } from "../../src/components/public/SectionError";
 import { Stats } from "../../src/components/public/Stats";
 import { Timeline } from "../../src/components/public/Timeline";
+import { ButtonLink } from "../../src/components/ui";
+import { PageShell } from "../../src/components/ui/layout/PageShell";
+import { SectionCard } from "../../src/components/ui/layout/SectionCard";
 import {
   PUBLIC_API_REVALIDATE,
   getStats,
@@ -70,9 +74,9 @@ export default async function HomePage() {
 
   return (
     <main data-page="home" data-route="public" data-section-rhythm="comfortable">
+      <PageShell>
         <Hero
           variant="card"
-          eyebrow="UBM HYOGO · CHAPTER SITE"
           title="兵庫で、事業を育てる人のつながりを可視化する。"
           subtitle="UBM兵庫支部会メンバーサイトは、Googleフォームから集めた支部会メンバーの自己紹介情報を、公開情報と会員限定情報に分けて整理・公開するサイトです。"
           primaryCta={{ label: "メンバー一覧を見る", href: "/members" }}
@@ -88,16 +92,16 @@ export default async function HomePage() {
           />
         )}
         <AboutUbm />
-        <section data-component="featured-members">
-          <header data-role="header">
-            <div>
-              <p data-role="eyebrow">FEATURED MEMBERS</p>
-              <h2 data-role="section-heading">参加している事業者たち</h2>
-            </div>
-            <a href="/members" data-role="cta-link">
+        <SectionCard
+          as="section"
+          data-component="featured-members"
+          title="参加している事業者たち"
+          actions={
+            <ButtonLink href="/members" variant="ghost" data-role="cta-link">
               全員見る →
-            </a>
-          </header>
+            </ButtonLink>
+          }
+        >
           {!membersResult.ok ? (
             <SectionError
               title="メンバー情報を読み込めませんでした"
@@ -112,9 +116,10 @@ export default async function HomePage() {
               description="Google Form 回答後、自動で反映されます。"
             />
           )}
-        </section>
+        </SectionCard>
         <Timeline entries={stats.recentMeetings} />
         <CallToActionCTA responderUrl={FORM_RESPONDER_URL} />
+      </PageShell>
     </main>
   );
 }

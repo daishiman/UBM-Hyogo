@@ -7,6 +7,10 @@ import type {
 } from "@ubm-hyogo/shared";
 import { useAdminMutation } from "../../features/admin/hooks";
 import { FetchAuthedError } from "../../lib/fetch/errors";
+import {
+  matchedFieldLabel,
+  RECORD_ROLE_LABELS,
+} from "../../features/admin/identity-conflicts/identityConflictGlossary";
 import { browserWindow } from "../../lib/is-browser";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
@@ -161,30 +165,31 @@ export function IdentityConflictRow({ item }: { item: Row }) {
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="text-sm">
-          <div className="font-mono text-xs text-[var(--ubm-color-text-muted)]">
-            conflict: {item.conflictId}
-          </div>
+          <details className="text-xs text-[var(--ubm-color-text-muted)]">
+            <summary className="cursor-pointer">技術情報</summary>
+            <span className="font-mono">照合キー: {item.conflictId}</span>
+          </details>
           <div className="mt-1 flex flex-wrap items-center gap-2">
             <Badge tone="info" outline>
-              source
+              {RECORD_ROLE_LABELS.source}
             </Badge>
             <span className="font-mono">{item.sourceMemberId}</span>
             <span aria-hidden="true" className="text-[var(--ubm-color-text-muted)]">
               →
             </span>
             <Badge tone="accent" outline>
-              target
+              {RECORD_ROLE_LABELS.target}
             </Badge>
             <span className="font-mono">{item.candidateTargetMemberId}</span>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-2 text-[var(--ubm-color-text-muted)]">
             <span>
-              email: <span className="font-mono">{item.responseEmailMasked}</span>
+              メール: <span className="font-mono">{item.responseEmailMasked}</span>
             </span>
-            <span>matched: {item.matchedFields.join(", ")}</span>
+            <span>一致した項目: {item.matchedFields.map(matchedFieldLabel).join("、")}</span>
             {item.matchedFields.map((field) => (
               <Badge key={field} tone="default">
-                {field}
+                {matchedFieldLabel(field)}
               </Badge>
             ))}
           </div>
@@ -193,10 +198,10 @@ export function IdentityConflictRow({ item }: { item: Row }) {
           {stage === "idle" && (
             <>
               <Button variant="ghost" size="sm" onClick={() => setStage("dismiss")}>
-                別人マーク
+                別人として確定
               </Button>
               <Button variant="primary" size="sm" onClick={() => setStage("merge-confirm")}>
-                merge
+                統合する
               </Button>
             </>
           )}
@@ -206,8 +211,8 @@ export function IdentityConflictRow({ item }: { item: Row }) {
       {stage === "merge-confirm" && (
         <div className="rounded border border-[var(--ubm-color-warn)] bg-[var(--ubm-color-warn-soft)] p-3 text-sm">
           <p className="mb-2">
-            <strong>確認 1/2:</strong> {item.sourceMemberId} を {item.candidateTargetMemberId} に統合します。
-            実体本文は移動せず、canonical 解決テーブルのみ更新します。
+            <strong>確認 1/2：</strong>
+            この2件を「同じ1人の会員」としてまとめます。登録内容そのものは消えず、表示上のつながりだけを更新します。
           </p>
           <div className="flex justify-end gap-2">
             <Button variant="ghost" size="sm" onClick={cancelMerge}>
@@ -223,13 +228,14 @@ export function IdentityConflictRow({ item }: { item: Row }) {
       {stage === "merge-final" && (
         <div className="rounded border border-[var(--ubm-color-danger)] bg-[var(--ubm-color-danger-soft)] p-3 text-sm">
           <p className="mb-2">
-            <strong>確認 2/2:</strong> merge 理由を記録します（PII は redaction されます）。
+            <strong>確認 2/2：</strong>
+            まとめる理由を記録します（個人情報は自動で伏せられます）。
           </p>
           <label
             htmlFor={mergeReasonId}
             className="mb-1 block text-xs font-medium text-[var(--ubm-color-text-secondary)]"
           >
-            merge 理由
+            まとめる理由
           </label>
           <Textarea
             id={mergeReasonId}
@@ -238,7 +244,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
             aria-invalid={mergeError ? "true" : undefined}
             {...(mergeError ? { describedBy: mergeErrorId } : {})}
             className="mb-2 w-full rounded border p-2 text-sm"
-            placeholder="例: 本人確認済 / 同一人物として統合"
+            placeholder="例：本人確認済み／同じ人として統合"
             rows={2}
             maxLength={500}
             disabled={mergeMutation.isLoading}
@@ -264,7 +270,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
               loading={mergeMutation.isLoading}
               disabled={mergeMutation.isLoading || mergeReason.trim().length === 0}
             >
-              merge 実行
+              統合を実行
             </Button>
           </div>
         </div>
@@ -272,12 +278,12 @@ export function IdentityConflictRow({ item }: { item: Row }) {
 
       {stage === "dismiss" && (
         <div className="rounded border border-[var(--ubm-color-border-default)] bg-[var(--ubm-color-surface-panel-2)] p-3 text-sm">
-          <p className="mb-2">別人として確定します。再検出を抑止します。理由を記載してください。</p>
+          <p className="mb-2">別人として確定します。今後この組み合わせは重複候補に出ません。理由を記載してください。</p>
           <label
             htmlFor={dismissReasonId}
             className="mb-1 block text-xs font-medium text-[var(--ubm-color-text-secondary)]"
           >
-            別人マーク理由
+            別人と判断した理由
           </label>
           <Textarea
             id={dismissReasonId}
@@ -286,7 +292,7 @@ export function IdentityConflictRow({ item }: { item: Row }) {
             aria-invalid={dismissError ? "true" : undefined}
             {...(dismissError ? { describedBy: dismissErrorId } : {})}
             className="mb-2 w-full rounded border p-2 text-sm"
-            placeholder="例: 同姓同名 / 別組織所属で確認済"
+            placeholder="例：同姓同名で別人／別組織と確認済み"
             rows={2}
             maxLength={500}
             disabled={dismissMutation.isLoading}

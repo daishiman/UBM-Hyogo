@@ -56,7 +56,7 @@ test.describe('task-17 admin schema/conflicts/audit screenshots', () => {
     })
 
     await adminPage.goto('/admin/schema')
-    await expect(adminPage.getByRole('heading', { name: '項目別の差分' })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: '項目別の変更点' })).toBeVisible()
     await capture(adminPage, {
       tc: 'TC-01',
       name: 'admin-schema-default.png',
@@ -94,7 +94,7 @@ test.describe('task-17 admin schema/conflicts/audit screenshots', () => {
 
   test('identity conflict states', async ({ adminPage }) => {
     await adminPage.goto('/admin/identity-conflicts')
-    await expect(adminPage.getByRole('heading', { name: /Identity 重複候補/ })).toBeVisible()
+    await expect(adminPage.getByRole('heading', { name: /会員の重複確認/ })).toBeVisible()
     await capture(adminPage, {
       tc: 'TC-05',
       name: 'admin-identity-conflicts-default.png',

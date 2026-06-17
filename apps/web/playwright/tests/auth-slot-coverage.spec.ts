@@ -1,9 +1,11 @@
 import type { Page } from '@playwright/test'
 import { signSessionJwt, type MemberId } from '@ubm-hyogo/shared'
-import { test, expect } from '../fixtures/auth'
+import { memberLogin, test, expect } from '../fixtures/auth'
 
 type State = 'guest' | 'member' | 'admin'
-type Expectation = State | 'redirect'
+// 公開層は全ルート認証必須化（require-auth-public-access-gate）。未認証(guest)で公開ルートへ
+// アクセスすると shell ではなく LoginRequiredNotice が描画される状態を 'gated' で表す。
+type Expectation = State | 'redirect' | 'gated'
 
 interface Route {
   readonly path: string
@@ -11,11 +13,11 @@ interface Route {
 }
 
 const ROUTES: readonly Route[] = [
-  { path: '/', expect: { guest: 'guest', member: 'member', admin: 'admin' } },
-  { path: '/members', expect: { guest: 'guest', member: 'member', admin: 'admin' } },
-  { path: '/register', expect: { guest: 'guest', member: 'member', admin: 'admin' } },
-  { path: '/privacy', expect: { guest: 'guest', member: 'member', admin: 'admin' } },
-  { path: '/terms', expect: { guest: 'guest', member: 'member', admin: 'admin' } },
+  { path: '/', expect: { guest: 'gated', member: 'member', admin: 'admin' } },
+  { path: '/members', expect: { guest: 'gated', member: 'member', admin: 'admin' } },
+  { path: '/register', expect: { guest: 'gated', member: 'member', admin: 'admin' } },
+  { path: '/privacy', expect: { guest: 'gated', member: 'member', admin: 'admin' } },
+  { path: '/terms', expect: { guest: 'gated', member: 'member', admin: 'admin' } },
   { path: '/profile', expect: { guest: 'redirect', member: 'member', admin: 'admin' } },
   { path: '/admin', expect: { guest: 'redirect', member: 'redirect', admin: 'admin' } },
 ] as const
@@ -62,6 +64,12 @@ for (const state of ['guest', 'member', 'admin'] as const) {
           expect(page.url()).toMatch(/\/login(\?|$)/)
           return
         }
+        if (expected === 'gated') {
+          // 未認証は in-place で LoginRequiredNotice（リダイレクトはしない）。shell は描画されない。
+          await expect(page.locator('[data-testid="login-required-notice"]')).toBeVisible()
+          await expect(page.locator('[data-shell-root="true"]')).toHaveCount(0)
+          return
+        }
         await assertRender(page, expected)
         if (state === 'admin' && route.path === '/admin') {
           await expect(page.locator('[data-role="public-return"]').first()).toBeVisible()
@@ -74,16 +82,19 @@ for (const state of ['guest', 'member', 'admin'] as const) {
 test.describe('auth-slot regression', () => {
   test.use({ storageState: 'playwright/.auth/guest.json' })
 
-  test('header data-auth-state literal is one of guest/member/admin', async ({ page, mockApi }) => {
+  test('header data-auth-state literal is one of guest/member/admin', async ({ page, context, mockApi }) => {
     await mockApi.reset()
+    // 認証必須化により shell（data-auth-state 保持）は認証済みでのみ描画される。
+    await memberLogin(context)
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     const value = await page.locator(HEADER_LOCATOR).first().getAttribute('data-auth-state')
     expect(value).toMatch(/^(guest|member|admin)$/)
   })
 
-  test('public-return does not exist on public guest route', async ({ page, mockApi }) => {
+  test('public guest route is gated to LoginRequiredNotice (no public-return)', async ({ page, mockApi }) => {
     await mockApi.reset()
     await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await expect(page.locator('[data-testid="login-required-notice"]')).toBeVisible()
     await expect(page.locator('[data-role="public-return"]')).toHaveCount(0)
   })
 

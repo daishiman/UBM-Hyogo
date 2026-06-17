@@ -155,7 +155,7 @@ export const PublicMemberListViewZ = z
       zone: z.string(),
       status: z.string(),
       tags: z.array(z.string()),
-      sort: z.enum(["recent", "name"]),
+      sort: z.enum(["recent", "oldest", "name", "name_desc"]),
       density: z.enum(["comfy", "dense", "list"]),
     }),
     topTags: z

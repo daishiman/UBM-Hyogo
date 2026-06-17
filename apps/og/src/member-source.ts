@@ -5,6 +5,7 @@ export interface ServiceBinding {
 export interface OgEnv {
   API_SERVICE?: ServiceBinding;
   NEXT_PUBLIC_API_BASE_URL?: string;
+  INTERNAL_AUTH_SECRET?: string;
 }
 
 export interface MemberSummary {
@@ -54,7 +55,9 @@ function buildApiUrl(memberId: string, baseUrl: string): string {
 async function fetchViaBinding(memberId: string, env: OgEnv): Promise<Response | null> {
   if (!env.API_SERVICE) return null;
   return env.API_SERVICE.fetch(
-    new Request(`https://api.service.local/public/members/${encodeURIComponent(memberId)}`),
+    new Request(`https://api.service.local/public/members/${encodeURIComponent(memberId)}`, {
+      headers: { "X-Internal-Auth": env.INTERNAL_AUTH_SECRET ?? "" },
+    }),
   );
 }
 
@@ -66,6 +69,7 @@ async function fetchViaBaseUrl(
   const baseUrl = env.NEXT_PUBLIC_API_BASE_URL?.trim();
   if (!baseUrl) return null;
   return fetchImpl(buildApiUrl(memberId, baseUrl), {
+    headers: { "X-Internal-Auth": env.INTERNAL_AUTH_SECRET ?? "" },
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
 }

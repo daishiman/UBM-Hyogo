@@ -3,7 +3,7 @@
 import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { expect, test } from '../fixtures/auth'
+import { expect, memberLogin, test } from '../fixtures/auth'
 
 const evidenceRoot = join(
   process.cwd(),
@@ -17,6 +17,11 @@ const screenshotPath = (name: string) => {
 }
 
 test.describe('issue-276 members FilterBar tag picker', () => {
+  // 公開層は全ルート認証必須化されたため /members 訪問前に会員認証する。
+  test.beforeEach(async ({ page }) => {
+    await memberLogin(page.context())
+  })
+
   test('mobile collapsed / expanded / limit and desktop selected states', async ({
     page,
     mockApi,
