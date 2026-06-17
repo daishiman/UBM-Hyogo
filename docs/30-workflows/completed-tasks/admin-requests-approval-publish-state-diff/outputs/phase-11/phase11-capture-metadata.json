@@ -1,0 +1,31 @@
+{
+  "taskId": "admin-requests-approval-publish-state-diff",
+  "mode": "VISUAL",
+  "status": "implemented_local_runtime_pending",
+  "captureState": "staging_visual_pending_user_gate",
+  "visualEvidence": "VISUAL",
+  "reason": "ローカル実装・focused tests・typecheck・lint・token gate は完了。screenshot は staging deploy + admin bearer mint 後、user 承認のもと取得する。staging runtime artifact / PNG を擬似生成しない。",
+  "screenshots": [
+    {
+      "name": "request-approve-visibility-public-to-hidden",
+      "tc": "TC-V-01",
+      "route": "/admin/requests?type=visibility_request",
+      "viewport": "desktop",
+      "state": "visibility_request 詳細パネル（fixture TEST-NOTE-V01）: 公開 → 非公開 の diff 行（before=中立 / after=accent トーン）"
+    },
+    {
+      "name": "request-approve-visibility-hidden-to-public",
+      "tc": "TC-V-02",
+      "route": "/admin/requests?type=visibility_request",
+      "viewport": "desktop",
+      "state": "visibility_request 詳細パネル（fixture TEST-NOTE-V02）: 非公開 → 公開 の diff 行 + 承認確認ダイアログの具体遷移文言"
+    },
+    {
+      "name": "request-approve-delete-enroll-to-withdraw",
+      "tc": "TC-V-03",
+      "route": "/admin/requests?type=delete_request",
+      "viewport": "desktop",
+      "state": "delete_request 詳細パネル（fixture TEST-NOTE-D01）: 在籍 → 退会（論理削除）のレコード状態遷移（公開状態 diff と区別）"
+    }
+  ]
+}

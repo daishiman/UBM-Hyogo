@@ -1,0 +1,13 @@
+{
+  "taskId": "admin-identity-conflicts-clarity-and-meetings-rename",
+  "mode": "VISUAL",
+  "status": "pending_implementation",
+  "reason": "implemented_local_evidence_captured: local code and focused tests are complete; screenshots are user-gated and captured on staging/local runtime after approval.",
+  "screenshots": [
+    { "name": "sidebar-meetings-label-renamed.png", "state": "pending" },
+    { "name": "identity-conflicts-empty-jp.png", "state": "pending" },
+    { "name": "identity-conflicts-list-jp.png", "state": "pending" },
+    { "name": "identity-conflicts-merge-confirm-jp.png", "state": "pending" },
+    { "name": "identity-conflicts-dismiss-jp.png", "state": "pending" }
+  ]
+}

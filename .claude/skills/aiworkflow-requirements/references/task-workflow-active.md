@@ -21,6 +21,19 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
 | user gate | authenticated staging baseline screenshots, commit, push, PR |
 
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| 目的 | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation targets | `apps/web/src/components/shell/shell-config.ts`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/IdentityConflictGuide.tsx`, `apps/web/src/components/admin/identityConflictAnnouncements.ts`, `apps/web/src/features/admin/identity-conflicts/identityConflictGlossary.ts`, `apps/api/src/testing/identity-conflicts/**`, `apps/api/migrations/seed/identity-conflict-{staging-seed,cleanup}.sql`, `scripts/gen-identity-conflict-seed.mjs`, `scripts/seed-identity-conflicts.sh` |
+| evidence | focused Vitest 5 files / 42 tests PASS。seed generator drift 0、idempotent、scoped cleanup、exactly 5 conflict candidates を contract test で確認。`verify:tokens` / `typecheck` / `lint` / `verify:phase12-compliance` PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged。`matchedFields` は web glossary で表示変換。seed は local/staging 限定で production 到達不可 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
 ### admin-tag-management-clarity-and-code-autogen（2026-06-11）
 
 | 項目 | 値 |
@@ -4984,6 +4997,18 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | contract | `NEXT_PUBLIC_API_BASE_URL` が current public API base URL の単一正本。`API_SERVICE` service binding は production/staging primary transport、HTTP fallback は local/test/Playwright のみ。`getApiBaseEnv()` / `ApiBaseEnv` は削除済み |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-1145-public-api-base-url-env-unification-artifact-inventory.md` |
 | user gate | commit、push、PR、staging/production deploy、Issue mutation |
+
+## admin-requests-approval-publish-state-diff（2026-06-11）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` |
+| status | `implemented_local_runtime_pending / implementation / VISUAL` |
+| Issue | `#1188`（commit / push / PR / Issue mutation は user-gated） |
+| purpose | `/admin/requests` 承認導線で `publishState` / `desiredState` / `isDeleted` の既存 3 値だけを使い、公開状態または退会レコード状態の `変更前 → 変更後` diff を日本語で表示する |
+| implementation | `RequestQueueDetail.tsx` に `formatPublishStateLabel` / `buildPublishStateDiff` と diff 行、`RequestQueuePanel.tsx` に具体遷移文言、`RequestConfirmDialog.tsx` に通常説明文 / destructive alert 分離、`globals.css` に token-only `[data-diff-side]` styles |
+| evidence | focused Vitest 3 files / 27 tests PASS、admin requests Playwright E2E 7 tests PASS、`pnpm typecheck` PASS、`pnpm lint` PASS、web design token gate PASS、`pnpm verify:phase12-compliance` PASS |
+| boundary | `apps/api` / `packages/shared` / D1 / Google Form / API projection / design token 正本は不変。staging deploy、admin bearer mint、3 canonical PNG、commit、push、PR は user-gated |
 
 ## members-search-clear-and-sort-ux（2026-06-11）
 

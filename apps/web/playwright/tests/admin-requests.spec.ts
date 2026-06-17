@@ -21,16 +21,25 @@ test.describe("/admin/requests × admin mutation flow", () => {
       const list = adminPage.getByRole("list", { name: /申請一覧/ });
       await expect(list.getByRole("listitem")).toHaveCount(3);
       await expect(adminPage.getByText("pending")).toBeVisible();
+      const detail = adminPage.getByRole("complementary", { name: "申請詳細" });
+      await expect(detail.getByText("公開状態の変更")).toBeVisible();
+      await expect(detail.locator('[data-diff-kind="visibility"] [data-diff-side="before"]')).toHaveText(
+        "公開",
+      );
+      await expect(detail.locator('[data-diff-kind="visibility"] [data-diff-side="after"]')).toHaveText(
+        "非公開",
+      );
     });
 
     test("視覚証跡: prototype primitives aligned shell", async ({ adminPage }) => {
       mkdirSync(SCREENSHOT_DIR, { recursive: true });
       await adminPage.goto("/admin/requests?type=visibility_request");
-      await expect(adminPage.locator(".page-enter.stack-lg")).toBeVisible();
-      await expect(adminPage.locator(".page-head")).toContainText("会員からの申請");
-      await expect(adminPage.locator(".card.card-pad")).toBeVisible();
-      await expect(adminPage.locator(".card.card-pad-lg").first()).toBeVisible();
-      await expect(adminPage.locator(".h-card").first()).toContainText("申請一覧");
+      await expect(adminPage.getByRole("heading", { level: 1, name: "会員からの申請" })).toBeVisible();
+      await expect(adminPage.getByRole("region", { name: "依頼種別" })).toBeVisible();
+      const detail = adminPage.getByRole("complementary", { name: "申請詳細" });
+      await expect(detail).toBeVisible();
+      await expect(adminPage.getByRole("heading", { level: 3, name: "申請一覧" })).toBeVisible();
+      await expect(detail.locator('[data-diff-kind="visibility"]')).toBeVisible();
       await adminPage.addStyleTag({
         content:
           "*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }",
@@ -127,10 +136,10 @@ test.describe("/admin/requests × admin mutation flow", () => {
   });
 
   test.describe("authorization boundary", () => {
-    test("認可: member は /login?gate=admin_required redirect", async ({ memberPage }) => {
+    test("認可: member は /profile redirect", async ({ memberPage }) => {
       await memberPage.goto("/admin/requests").catch(() => {});
       await expect(memberPage.locator("body")).toBeVisible();
-      await expect(memberPage).toHaveURL(/\/login/);
+      await expect(memberPage).toHaveURL(/\/profile/);
       await expect(memberPage.getByRole("button", { name: /承認する/ })).toHaveCount(0);
       await expect(memberPage.getByRole("button", { name: /却下する/ })).toHaveCount(0);
     });

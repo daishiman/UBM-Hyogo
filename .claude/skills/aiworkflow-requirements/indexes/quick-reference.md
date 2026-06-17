@@ -13,6 +13,19 @@
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-attendance-dashboard-jp-clarity-and-ux-artifact-inventory.md` |
 | user gate | authenticated staging baseline screenshots, commit, push, PR |
 
+## admin-identity-conflicts-clarity-and-meetings-rename（2026-06-11）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-identity-conflicts-clarity-and-meetings-rename/` |
+| status | `implemented_local_evidence_captured / implementation / VISUAL / runtime screenshots pending_user_gate` |
+| purpose | `/admin/identity-conflicts` を非エンジニア向けに平易化し、サイドバー `開催日`→`開催・出席管理`、`Identity重複`→`会員の重複確認` へ改名し、重複候補 5 組の専用 local/staging seed を追加する |
+| implementation | `shell-config.ts`, `/admin/identity-conflicts/page.tsx`, `IdentityConflictRow.tsx`, `IdentityConflictGuide.tsx`, `identityConflictGlossary.ts`, identity-conflict seed catalog/builder/generated SQL/scripts |
+| evidence | focused Vitest 5 files / 42 tests PASS; seed generator drift 0; exactly 5 conflict candidates contract PASS; verify:tokens/typecheck/lint/phase12-compliance PASS |
+| invariant | API endpoint / shared identity-conflict schemas / D1 schema unchanged; matchedFields は web glossary で表示変換; seed は local/staging 限定 |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-admin-identity-conflicts-clarity-and-meetings-rename-artifact-inventory.md` |
+| user gate | runtime screenshots, staging seed apply/cleanup, commit, push, PR |
+
 ## home-dashboard-japanese-localization（2026-06-11）
 
 | 項目 | 値 |
@@ -6035,3 +6048,11 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | Topic | References | Notes |
 | --- | --- | --- |
 | issue-1068-admin-tag-inline-create-ui（implemented_local_visual_pending / implementation / VISUAL_ON_EXECUTION） | `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/index.md`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/artifacts.json`, `docs/30-workflows/completed-tasks/issue-1068-admin-tag-inline-create-ui/outputs/phase-12/phase12-task-spec-compliance-check.md`, `.claude/skills/aiworkflow-requirements/references/workflow-issue-1068-admin-tag-inline-create-ui-artifact-inventory.md` | Issue #1068 admin member drawer tag inline-create UI implemented locally. Uses existing `POST /admin/tags` and member tag assignment endpoints; `apps/api` unchanged. task-A web client helper, task-B component/wiring, and task-C env-gated visual spec are complete. Staging screenshots, commit, push, PR, and Issue mutation are user-gated. |
+
+## 2026-06-11 admin-requests approval diff
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/admin-requests-approval-publish-state-diff/` | `/admin/requests` 承認時の公開状態 / 退会状態 before-after diff 表示 workflow | Issue #1188、admin requests approval UI、`publishState` / `desiredState` 表示差分を確認する時 |
+| `apps/web/src/components/admin/RequestQueueDetail.tsx` | `formatPublishStateLabel` / `buildPublishStateDiff` と詳細パネル diff 行の実装 | before/after label、fail-soft、`delete_request` 意味軸分離を確認する時 |
+| `apps/web/src/components/admin/RequestQueuePanel.tsx` / `RequestConfirmDialog.tsx` | 承認確認ダイアログの具体遷移文言と destructive alert 分離 | approval dialog 文言を確認する時 |

@@ -22,7 +22,7 @@ const disableAnimations =
 
 test("staging /admin/identity-conflicts authenticated read-only baseline", async ({ page }) => {
   await page.goto("/admin/identity-conflicts", { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { name: "Identity 重複候補" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "会員の重複確認" })).toBeVisible({
     timeout: 10_000,
   });
   await expect(page.locator('section[data-route="admin"]')).toBeVisible();
